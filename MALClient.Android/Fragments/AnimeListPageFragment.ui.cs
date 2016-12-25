@@ -51,6 +51,11 @@ namespace MALClient.Android.Fragments
                 this.SetBinding(() => ViewModel.AppbarBtnPinTileVisibility,
                     () => AnimeListPageSeasonMenu.Visibility).ConvertSourceToTarget(Converters.BoolToVisibility));
 
+            Bindings.Add(AnimeListPageSortMenu.Id, new List<Binding>());
+            Bindings[AnimeListPageSortMenu.Id].Add(
+                this.SetBinding(() => ViewModel.AppBtnSortingVisibility,
+                    () => AnimeListPageSortMenu.Visibility).ConvertSourceToTarget(Converters.BoolToVisibility));
+
             ViewModel.PropertyChanged += AnimeListOnPropertyChanged;
             AnimeListPageReloadButton.SetCommand("Click",ViewModel.RefreshCommand);
             AnimeListPageFilterMenu.SetCommand("Click",new RelayCommand(ShowFilterMenu));
@@ -94,7 +99,7 @@ namespace MALClient.Android.Fragments
 
         private void SelectSeason(int season)
         {
-            ViewModel.CurrentSeason = ViewModel.SeasonSelection[season];
+            ViewModel.SeasonalUrlsSelectedIndex = season;
         }
 
         private void ShowSortMenu()

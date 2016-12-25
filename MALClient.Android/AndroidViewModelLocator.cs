@@ -30,7 +30,9 @@ namespace MALClient.Android
             ViewModelLocator.RegisterBase();
 
             SimpleIoc.Default.Register<MainViewModel>();
+            SimpleIoc.Default.Register<SettingsViewModel>();
             SimpleIoc.Default.Register<MainViewModelBase>(() => SimpleIoc.Default.GetInstance<MainViewModel>());
+            SimpleIoc.Default.Register<SettingsViewModelBase>(() => SimpleIoc.Default.GetInstance<SettingsViewModel>());
             SimpleIoc.Default.Register<IHamburgerViewModel,HamburgerControlViewModel>();
             SimpleIoc.Default.Register<INavMgr,NavMgr>();
 
@@ -43,8 +45,9 @@ namespace MALClient.Android
             SimpleIoc.Default.Register<IImageDownloaderService, ImageDownloaderService>();
             SimpleIoc.Default.Register<ITelemetryProvider, TelemetryProvider>();
             SimpleIoc.Default.Register<INotificationsTaskManager, NotificationTaskManagerAdapter>();
+
         }
 
-        public static INavigationService NavigationService => ServiceLocator.Current.GetInstance<INavigationService>();
+        public static SettingsViewModel Settings => ServiceLocator.Current.GetInstance<SettingsViewModel>();
     }
 }

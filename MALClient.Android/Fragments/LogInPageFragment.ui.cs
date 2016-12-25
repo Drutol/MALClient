@@ -37,26 +37,26 @@ namespace MALClient.Android.Fragments
                         .ConvertSourceToTarget(Converters.BoolToVisibility)}
                 },
             };
-            LoginPageButtonHum.Click += LoginPageButtonOnClick;
-            LoginPageButtonMal.Click += LoginPageButtonOnClick;
+           // LoginPageButtonHum.Click += LoginPageButtonOnClick;
+           // LoginPageButtonMal.Click += LoginPageButtonOnClick;
             SignInButton.SetCommand(ViewModel.LogInCommand);
         }
 
-        private void LoginPageButtonOnClick(object sender, EventArgs eventArgs)
-        {
-            var btn = sender as ToggleButton;
-            switch (btn.Id)
-            {
-                case Resource.Id.LoginPageButtonMal:
-                    LoginPageButtonHum.Checked = false;
-                    ViewModel.FocusMalCommand.Execute(null);
-                    break;
-                case Resource.Id.LoginPageButtonHum:
-                    LoginPageButtonMal.Checked = false;
-                    ViewModel.FocusHumCommand.Execute(null);
-                    break;
-            }
-        }
+        //private void LoginPageButtonOnClick(object sender, EventArgs eventArgs)
+        //{
+        //    var btn = sender as ToggleButton;
+        //    switch (btn.Id)
+        //    {
+        //        case Resource.Id.LoginPageButtonMal:
+        //            LoginPageButtonHum.Checked = false;
+        //            ViewModel.FocusMalCommand.Execute(null);
+        //            break;
+        //        case Resource.Id.LoginPageButtonHum:
+        //            LoginPageButtonMal.Checked = false;
+        //            ViewModel.FocusHumCommand.Execute(null);
+        //            break;
+        //    }
+        //}
 
         private ToggleButton _loginPageButtonMal;
         private ToggleButton _loginPageButtonHum;
@@ -64,10 +64,6 @@ namespace MALClient.Android.Fragments
         private EditText _passwordInput;
         private Button _signInButton;
         private ProgressBar _loadingSpinner;
-
-        public ToggleButton LoginPageButtonMal => _loginPageButtonMal ?? (_loginPageButtonMal = FindViewById<ToggleButton>(Resource.Id.LoginPageButtonMal));
-
-        public ToggleButton LoginPageButtonHum => _loginPageButtonHum ?? (_loginPageButtonHum = FindViewById<ToggleButton>(Resource.Id.LoginPageButtonHum));
 
         public EditText UsernameInput => _usernameInput ?? (_usernameInput = FindViewById<EditText>(Resource.Id.UsernameInput));
 

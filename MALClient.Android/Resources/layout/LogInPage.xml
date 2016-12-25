@@ -1,92 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:background="?BrushDeepBackground">
+  <ImageView android:layout_width="match_parent" android:layout_height="match_parent"
+             android:src="@drawable/LogInBG" android:scaleType="centerCrop"/>
   <LinearLayout
-          android:orientation="vertical"
-          android:layout_width="fill_parent"
-          android:layout_height="fill_parent">
-    <LinearLayout
-            android:layout_width="match_parent"
-            android:weightSum="2"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-      <ToggleButton
-              android:layout_width="0dp"
-              android:layout_weight="1"
-              android:id="@+id/LoginPageButtonMal"
-              android:layout_height="wrap_content"
-              android:textOn="MyAnimeList"
-              android:textOff="MyAnimeList"
-              android:background="?BrushPinTileDialogBackground"
-              android:foregroundTint="?AccentColour"/>
-      <ToggleButton
-              android:layout_width="0dp"
-              android:layout_weight="1"
-              android:id="@+id/LoginPageButtonHum"
-              android:layout_height="wrap_content"
-              android:textOn="Hummingbird"
-              android:textOff="Hummingbird"
-              android:background="?BrushPinTileDialogBackground"
-              android:foregroundTint="?AccentColour"/>
-    </LinearLayout>
+      android:orientation="vertical"
+      android:layout_width="fill_parent"
+      android:layout_height="fill_parent">
     <RelativeLayout
-            android:layout_margin="20dp"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/tab1">
+        android:layout_margin="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/tab1">
       <LinearLayout
-              android:layout_width="match_parent"
-              android:layout_centerInParent="true"
-              android:layout_height="wrap_content"
-              android:orientation="vertical"
-              android:padding="20dp"
-              android:background="?BrushAnimeItemBackground">
-        <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Username"
-                android:textColor="?BrushText" />
+          android:layout_width="300dp"
+          android:layout_centerInParent="true"
+          android:layout_height="wrap_content"
+          android:orientation="vertical"
+          android:padding="20dp"
+          android:background="@color/BrushOpaqueTextView">
+        <ImageView android:layout_width="match_parent" android:layout_height="130dp"  android:src="@drawable/wideLogo"/>
+        <TextView android:layout_marginTop="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Username"
+            android:textColor="?BrushText" />
         <EditText
-                android:inputType="text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/UsernameInput"
-                android:textColor="?BrushText"
-                android:backgroundTint="?AccentColour"/>
+            android:inputType="text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/UsernameInput"
+            android:textColor="?BrushText"
+            android:backgroundTint="?AccentColour"/>
         <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Password"
-                android:textColor="?BrushText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Password"
+            android:textColor="?BrushText"
                         />
         <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textPassword"
-                android:ems="10"
-                android:id="@+id/PasswordInput"
-                android:textColor="?BrushText"
-                android:backgroundTint="?AccentColour"/>
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:ems="10"
+            android:id="@+id/PasswordInput"
+            android:textColor="?BrushText"
+            android:backgroundTint="?AccentColour"/>
         <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_gravity="center">
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center">
           <Button
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:text="Sign In"
-                  android:id="@+id/SignInButton" />
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="Sign In"
+              android:id="@+id/SignInButton" />
           <ProgressBar
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:indeterminate="true"
-                  android:visibility="gone"
-                  android:id="@+id/LoadingSpinner" />
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:indeterminate="true"
+              android:visibility="gone"
+              android:id="@+id/LoadingSpinner" />
         </LinearLayout>
       </LinearLayout>
     </RelativeLayout>
   </LinearLayout>
-</LinearLayout>
+</RelativeLayout>

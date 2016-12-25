@@ -126,8 +126,8 @@ namespace MALClient.Android.ViewModels
                         MainNavigationRequested?.Invoke(AnimeDetailsPageFragment.BuildInstance(args));
                     break;
                 case PageIndex.PageSettings:
-                    //HideSearchStuff();
-                    //MainNavigationRequested?.Invoke(typeof(SettingsPage));
+                    HideSearchStuff();
+                    MainNavigationRequested?.Invoke(new SettingsPageFragment());
                     break;
                 case PageIndex.PageSearch:
                 case PageIndex.PageMangaSearch:

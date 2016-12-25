@@ -177,7 +177,7 @@ namespace MALClient.Android.ViewModels
                     break;
                 case PageIndex.PageRecomendations:
                     HideSearchStuff();
-                    MainNavigationRequested?.Invoke(RecommendationsPageFragment.Instance);
+                    MainNavigationRequested?.Invoke(new RecommendationsPageFragment(args as RecommendationPageNavigationArgs));
                     break;
                 case PageIndex.PageCalendar:
                     HideSearchStuff();

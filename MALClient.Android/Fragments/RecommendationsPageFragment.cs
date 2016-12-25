@@ -13,6 +13,8 @@ using Android.Widget;
 using Com.Astuetz;
 using GalaSoft.MvvmLight.Helpers;
 using MALClient.Android.Adapters.PagerAdapters;
+using MALClient.Android.BindingConverters;
+using MALClient.XShared.NavArgs;
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Main;
 
@@ -20,17 +22,20 @@ namespace MALClient.Android.Fragments
 {
     public class RecommendationsPageFragment : MalFragmentBase
     {
+        private readonly RecommendationPageNavigationArgs _args;
         private RecommendationsViewModel ViewModel;
 
-        private RecommendationsPageFragment()
+        public RecommendationsPageFragment(RecommendationPageNavigationArgs args)
         {
-            
+            _args = args;
         }
 
         protected override void Init(Bundle savedInstanceState)
         {
             ViewModel = ViewModelLocator.Recommendations;
             ViewModel.PopulateData();
+            if(_args != null)
+                ViewModel.PivotItemIndex = _args.Index;
         }
 
         protected override void InitBindings()
@@ -39,9 +44,20 @@ namespace MALClient.Android.Fragments
             Bindings[RecommendationsPagePivot.Id].Add(
                 this.SetBinding(() => ViewModel.RecommendationItems).WhenSourceChanges(() =>
                 {
-                    RecommendationsPagePivot.Adapter = new RecommandtionsPagerAdapter(FragmentManager,ViewModel.RecommendationItems.Select(item => item.Content as RecommendationItemViewModel));
-                    RecommendationsPageTabStrip.SetViewPager(RecommendationsPagePivot);
+                    if (ViewModel.RecommendationItems.Any())
+                    {
+                        RecommendationsPagePivot.Adapter = new RecommandtionsPagerAdapter(FragmentManager,
+                            ViewModel.RecommendationItems.Select(item => item.Content as RecommendationItemViewModel));
+                        RecommendationsPageTabStrip.SetViewPager(RecommendationsPagePivot);
+                        RecommendationsPagePivot.SetCurrentItem(ViewModel.PivotItemIndex, false);
+                    }
                 }));
+
+
+            Bindings.Add(RecommendationsPageLoading.Id, new List<Binding>());
+            Bindings[RecommendationsPageLoading.Id].Add(
+                this.SetBinding(() => ViewModel.Loading,
+                    () => RecommendationsPageLoading.Visibility).ConvertSourceToTarget(Converters.BoolToVisibility));
         }
 
         public override int LayoutResourceId => Resource.Layout.RecommendationsPage;
@@ -51,6 +67,7 @@ namespace MALClient.Android.Fragments
         private ImageButton _recommendationsPageTypeChangeButton;
         private PagerSlidingTabStrip _recommendationsPageTabStrip;
         private ViewPager _recommendationsPagePivot;
+        private RelativeLayout _recommendationsPageLoading;
 
         public ImageButton RecommendationsPageTypeChangeButton => _recommendationsPageTypeChangeButton ?? (_recommendationsPageTypeChangeButton = FindViewById<ImageButton>(Resource.Id.RecommendationsPageTypeChangeButton));
 
@@ -58,8 +75,11 @@ namespace MALClient.Android.Fragments
 
         public ViewPager RecommendationsPagePivot => _recommendationsPagePivot ?? (_recommendationsPagePivot = FindViewById<ViewPager>(Resource.Id.RecommendationsPagePivot));
 
+        public RelativeLayout RecommendationsPageLoading => _recommendationsPageLoading ?? (_recommendationsPageLoading = FindViewById<RelativeLayout>(Resource.Id.RecommendationsPageLoading));
+
+
+
         #endregion
 
-        public static RecommendationsPageFragment Instance => new RecommendationsPageFragment();
     }
 }

@@ -14,4 +14,5 @@
   <dimen name="ShowImageHeightMedium">175dp</dimen>
   <dimen name="IncrementDecrementButtonWidth">30dp</dimen>
   <dimen name="HamburgerMenuItemSpacing">10dp</dimen>
+  <dimen name="ProgressRingSize">50dp</dimen>
 </resources>

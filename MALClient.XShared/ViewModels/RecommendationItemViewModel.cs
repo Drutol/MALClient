@@ -4,12 +4,16 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Command;
 using MALClient.Models.Enums;
 using MALClient.Models.Models.AnimeScrapped;
 using MALClient.Models.Models.Library;
 using MALClient.XShared.Comm.Anime;
 using MALClient.XShared.Delegates;
+using MALClient.XShared.NavArgs;
+using MALClient.XShared.Utils.Enums;
 
 namespace MALClient.XShared.ViewModels
 {
@@ -127,6 +131,38 @@ namespace MALClient.XShared.ViewModels
                     ? (myRecItem.EndDate != AnimeItemViewModel.InvalidStartEndDate ? myRecItem.EndDate : "Not set")
                     : ""));
             LoadingSpinnerVisibility = false;
+        }
+
+        private ICommand _navigateDepDetailsCommand;
+        public ICommand NavigateDepDetails
+            => _navigateDepDetailsCommand ?? (_navigateDepDetailsCommand = new RelayCommand(NavigateDepDatails));
+
+        private ICommand _navigateRecDetailsCommand;
+        public ICommand NavigateRecDetails
+            => _navigateRecDetailsCommand ?? (_navigateRecDetailsCommand = new RelayCommand(NavigateRecDatails));
+
+        private void NavigateDepDatails()
+        {
+            if (ViewModelLocator.AnimeDetails.Id == Data.RecommendationId)
+                return;
+            ViewModelLocator.GeneralMain
+                .Navigate(PageIndex.PageAnimeDetails,
+                    new AnimeDetailsPageNavigationArgs(Data.RecommendationId, Data.RecommendationTitle,
+                       Data.AnimeRecommendationData, null,
+                        new RecommendationPageNavigationArgs { Index = Index })
+                    { Source = PageIndex.PageRecomendations, AnimeMode = Data.IsAnime });
+        }
+
+        private void NavigateRecDatails()
+        {
+            if (ViewModelLocator.AnimeDetails.Id == Data.DependentId)
+                return;
+            ViewModelLocator.GeneralMain
+                .Navigate(PageIndex.PageAnimeDetails,
+                    new AnimeDetailsPageNavigationArgs(Data.DependentId, Data.DependentTitle,
+                        Data.AnimeDependentData, null,
+                        new RecommendationPageNavigationArgs { Index = Index })
+                    { Source = PageIndex.PageRecomendations, AnimeMode = Data.IsAnime });
         }
     }
 }

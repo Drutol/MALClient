@@ -63,24 +63,12 @@ namespace MALClient.Shared.Items
      
         private void ButtonRecomDetails_OnClick(object sender, RoutedEventArgs e)
         {
-            if(ViewModelLocator.AnimeDetails.Id == ViewModel.Data.RecommendationId)
-                return;
-            ViewModelLocator.GeneralMain
-                .Navigate(PageIndex.PageAnimeDetails,
-                    new AnimeDetailsPageNavigationArgs(ViewModel.Data.RecommendationId, ViewModel.Data.RecommendationTitle,
-                       ViewModel.Data.AnimeRecommendationData, null,
-                        new RecommendationPageNavigationArgs {Index = Index}) {Source = PageIndex.PageRecomendations, AnimeMode = ViewModel.Data.IsAnime});
+            ViewModel.NavigateRecDetails.Execute(null);
         }
 
         private void ButtonDependentDetails_OnClick(object sender, RoutedEventArgs e)
         {
-            if (ViewModelLocator.AnimeDetails.Id == ViewModel.Data.DependentId)
-                return;
-            ViewModelLocator.GeneralMain
-                .Navigate(PageIndex.PageAnimeDetails,
-                    new AnimeDetailsPageNavigationArgs(ViewModel.Data.DependentId, ViewModel.Data.DependentTitle,
-                        ViewModel.Data.AnimeDependentData, null,
-                        new RecommendationPageNavigationArgs {Index = Index}) {Source = PageIndex.PageRecomendations, AnimeMode = ViewModel.Data.IsAnime });
+            ViewModel.NavigateDepDetails.Execute(null);
         }
     }
 }

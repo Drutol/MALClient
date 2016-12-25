@@ -22,7 +22,16 @@ namespace MALClient.XShared.ViewModels.Main
         private int _pivotItemIndex;
         private bool _animeMode = true;
 
-        public ObservableCollection<XPivotItem> RecommendationItems { get; } = new ObservableCollection<XPivotItem>();
+        private List<XPivotItem> _recommendationItems = new List<XPivotItem>();
+        public List<XPivotItem> RecommendationItems
+        {
+            get { return _recommendationItems; }
+            set
+            {
+                _recommendationItems = value;
+                RaisePropertyChanged(() => RecommendationItems);
+            }
+        }
 
         public bool Loading
         {
@@ -64,6 +73,7 @@ namespace MALClient.XShared.ViewModels.Main
 
         private bool? _prevLoaded;
 
+
         public async void PopulateData()
         {
             ViewModelLocator.GeneralMain.CurrentStatus = AnimeMode ? "Anime Recommendations" : "Manga Recommendations";
@@ -82,7 +92,7 @@ namespace MALClient.XShared.ViewModels.Main
                 return;
             }
 
-            RecommendationItems.Clear();
+            var items = new List<XPivotItem>();
             var i = 0;
             foreach (var item in data)
             {
@@ -91,8 +101,9 @@ namespace MALClient.XShared.ViewModels.Main
                     Header = item.DependentTitle + "\n" + item.RecommendationTitle,
                     Content = new RecommendationItemViewModel(item, i++)
                 };
-                RecommendationItems.Add(pivot);
+                items.Add(pivot);
             }
+            RecommendationItems = items;
             Loading = false;
             RaisePropertyChanged(() => PivotItemIndex);
         }

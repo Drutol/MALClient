@@ -11,6 +11,7 @@ using Android.Views;
 using Android.Widget;
 using FFImageLoading;
 using FFImageLoading.Views;
+using GalaSoft.MvvmLight.Helpers;
 using MALClient.Android.Adapters.CollectionAdapters;
 using MALClient.XShared.ViewModels;
 
@@ -48,13 +49,35 @@ namespace MALClient.Android.Fragments.RecommendationsFragments
 
         protected override void InitBindings()
         {
-            RecommendationItemDetailsContainer.SetAdapter(new RecommendationsFragmentDetailsAdapter(Activity,
-                Resource.Layout.RecommendationItemDetailItem,ViewModel.DetailItems,true));
-            RecommendationItemDescription.Text = ViewModel.Data.Description;
-            RecommendationItemDepTitle.Text = ViewModel.Data.DependentTitle;
-            RecommendationItemRecTitle.Text = ViewModel.Data.RecommendationTitle;
-           // ImageService.Instance.LoadUrl(ViewModel.Data.AnimeDependentData.ImgUrl).Into(RecommendationItemDepImage);
-           // ImageService.Instance.LoadUrl(ViewModel.Data.AnimeRecommendationData.ImgUrl).Into(RecommendationItemRecImage);
+            Bindings.Add(RecommendationItemDepImage.Id, new List<Binding>());
+            Bindings[RecommendationItemDepImage.Id].Add(
+                this.SetBinding(() => ViewModel.LoadingSpinnerVisibility).WhenSourceChanges(() =>
+                {
+                    if (ViewModel.LoadingSpinnerVisibility)
+                    {
+                        RecommendationItemLoading.Visibility = ViewStates.Visible;
+                        return;
+                    }
+                    RecommendationItemLoading.Visibility = ViewStates.Gone;
+
+                    if(ViewModel.DetailItems.Count == 0 || RecommendationItemDetailsContainer.ChildCount > 0)
+                        return;
+
+                    RecommendationItemDetailsContainer.SetAdapter(new RecommendationsFragmentDetailsAdapter(Activity,
+                        Resource.Layout.RecommendationItemDetailItem, ViewModel.DetailItems, true));
+                    RecommendationItemDescription.Text = ViewModel.Data.Description;
+                    RecommendationItemDepTitle.Text = ViewModel.Data.DependentTitle;
+                    RecommendationItemRecTitle.Text = ViewModel.Data.RecommendationTitle;
+                    if(ViewModel.Data.AnimeDependentData.ImgUrl != null)
+                        ImageService.Instance.LoadUrl(ViewModel.Data.AnimeDependentData.ImgUrl).Into(RecommendationItemDepImage);
+                    if(ViewModel.Data.AnimeRecommendationData.ImgUrl != null)
+                        ImageService.Instance.LoadUrl(ViewModel.Data.AnimeRecommendationData.ImgUrl).Into(RecommendationItemRecImage);
+                }));
+
+            RecommendationItemRecImageButton.SetCommand("Click",ViewModel.NavigateDepDetails);
+            RecommendationItemDepImageButton.SetCommand("Click",ViewModel.NavigateRecDetails);
+
+
         }
 
         public override int LayoutResourceId => Resource.Layout.RecommendationItem;
@@ -63,23 +86,33 @@ namespace MALClient.Android.Fragments.RecommendationsFragments
         #region Views
 
         private ImageViewAsync _recommendationItemDepImage;
+        private FrameLayout _recommendationItemDepImageButton;
         private TextView _recommendationItemDepTitle;
         private ImageViewAsync _recommendationItemRecImage;
+        private FrameLayout _recommendationItemRecImageButton;
         private TextView _recommendationItemRecTitle;
         private TextView _recommendationItemDescription;
         private LinearLayout _recommendationItemDetailsContainer;
+        private RelativeLayout _recommendationItemLoading;
 
         public ImageViewAsync RecommendationItemDepImage => _recommendationItemDepImage ?? (_recommendationItemDepImage = FindViewById<ImageViewAsync>(Resource.Id.RecommendationItemDepImage));
+
+        public FrameLayout RecommendationItemDepImageButton => _recommendationItemDepImageButton ?? (_recommendationItemDepImageButton = FindViewById<FrameLayout>(Resource.Id.RecommendationItemDepImageButton));
 
         public TextView RecommendationItemDepTitle => _recommendationItemDepTitle ?? (_recommendationItemDepTitle = FindViewById<TextView>(Resource.Id.RecommendationItemDepTitle));
 
         public ImageViewAsync RecommendationItemRecImage => _recommendationItemRecImage ?? (_recommendationItemRecImage = FindViewById<ImageViewAsync>(Resource.Id.RecommendationItemRecImage));
+
+        public FrameLayout RecommendationItemRecImageButton => _recommendationItemRecImageButton ?? (_recommendationItemRecImageButton = FindViewById<FrameLayout>(Resource.Id.RecommendationItemRecImageButton));
 
         public TextView RecommendationItemRecTitle => _recommendationItemRecTitle ?? (_recommendationItemRecTitle = FindViewById<TextView>(Resource.Id.RecommendationItemRecTitle));
 
         public TextView RecommendationItemDescription => _recommendationItemDescription ?? (_recommendationItemDescription = FindViewById<TextView>(Resource.Id.RecommendationItemDescription));
 
         public LinearLayout RecommendationItemDetailsContainer => _recommendationItemDetailsContainer ?? (_recommendationItemDetailsContainer = FindViewById<LinearLayout>(Resource.Id.RecommendationItemDetailsContainer));
+
+        public RelativeLayout RecommendationItemLoading => _recommendationItemLoading ?? (_recommendationItemLoading = FindViewById<RelativeLayout>(Resource.Id.RecommendationItemLoading));
+
 
 
 

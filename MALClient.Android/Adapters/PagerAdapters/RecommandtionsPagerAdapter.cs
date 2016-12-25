@@ -47,13 +47,13 @@ namespace MALClient.Android.Adapters.PagerAdapters
         {
             var holder = new LinearLayout(p0.Context);
             holder.Orientation = Orientation.Vertical;
+            holder.SetGravity(GravityFlags.Center);
 
             var txt = new TextView(p0.Context);
             txt.SetTextColor(new Color(ResourceExtension.BrushText));
             txt.Text = _items[p1].Data.DependentTitle;
 
             var txt1 = new TextView(p0.Context);
-            txt.SetTextColor(new Color(ResourceExtension.BrushText));
             txt1.Text = _items[p1].Data.RecommendationTitle;
 
             holder.AddView(txt);
@@ -68,14 +68,13 @@ namespace MALClient.Android.Adapters.PagerAdapters
         {
             var layout = p0 as LinearLayout;
             layout.Alpha = 1f;
-
             _items[(int)p0.Tag].PopulateData();
         }
 
         public void TabUnselected(View p0)
         {
             var layout = p0 as LinearLayout;
-            layout.Alpha = .7f;
+            layout.Alpha = .5f;
         }
     }
 }

@@ -32,11 +32,14 @@ namespace MALClient.Android.Fragments
                     new List<Binding> { this.SetBinding(() => ViewModel.PasswordInput, () => PasswordInput.Text, BindingMode.TwoWay)}
                 },
                 {
-                    LoadingSpinner.Id,
-                    new List<Binding> { this.SetBinding(() => ViewModel.Authenticating, () => LoadingSpinner.Visibility, BindingMode.OneWay)
+                    LoginPageLoadingSpinner.Id,
+                    new List<Binding> { this.SetBinding(() => ViewModel.Authenticating, () => LoginPageLoadingSpinner.Visibility, BindingMode.OneWay)
                         .ConvertSourceToTarget(Converters.BoolToVisibility)}
                 },
             };
+
+            LoginPageProblemsButton.SetCommand(ViewModel.NavigateRegister);
+            LoginPageProblemsButton.SetCommand(ViewModel.ProblemsCommand);
            // LoginPageButtonHum.Click += LoginPageButtonOnClick;
            // LoginPageButtonMal.Click += LoginPageButtonOnClick;
             SignInButton.SetCommand(ViewModel.LogInCommand);
@@ -58,12 +61,13 @@ namespace MALClient.Android.Fragments
         //    }
         //}
 
-        private ToggleButton _loginPageButtonMal;
-        private ToggleButton _loginPageButtonHum;
         private EditText _usernameInput;
         private EditText _passwordInput;
         private Button _signInButton;
-        private ProgressBar _loadingSpinner;
+        private ProgressBar _loginPageLoadingSpinner;
+        private RelativeLayout _tab1;
+        private Button _loginPageRegisterButton;
+        private Button _loginPageProblemsButton;
 
         public EditText UsernameInput => _usernameInput ?? (_usernameInput = FindViewById<EditText>(Resource.Id.UsernameInput));
 
@@ -71,7 +75,14 @@ namespace MALClient.Android.Fragments
 
         public Button SignInButton => _signInButton ?? (_signInButton = FindViewById<Button>(Resource.Id.SignInButton));
 
-        public ProgressBar LoadingSpinner => _loadingSpinner ?? (_loadingSpinner = FindViewById<ProgressBar>(Resource.Id.LoadingSpinner));
+        public ProgressBar LoginPageLoadingSpinner => _loginPageLoadingSpinner ?? (_loginPageLoadingSpinner = FindViewById<ProgressBar>(Resource.Id.LoginPageLoadingSpinner));
+
+        public RelativeLayout Tab1 => _tab1 ?? (_tab1 = FindViewById<RelativeLayout>(Resource.Id.tab1));
+
+        public Button LoginPageRegisterButton => _loginPageRegisterButton ?? (_loginPageRegisterButton = FindViewById<Button>(Resource.Id.LoginPageRegisterButton));
+
+        public Button LoginPageProblemsButton => _loginPageProblemsButton ?? (_loginPageProblemsButton = FindViewById<Button>(Resource.Id.LoginPageProblemsButton));
+
 
 
 

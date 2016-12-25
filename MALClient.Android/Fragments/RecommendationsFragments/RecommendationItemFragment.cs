@@ -13,6 +13,7 @@ using FFImageLoading;
 using FFImageLoading.Views;
 using GalaSoft.MvvmLight.Helpers;
 using MALClient.Android.Adapters.CollectionAdapters;
+using MALClient.Models.Enums;
 using MALClient.XShared.ViewModels;
 
 namespace MALClient.Android.Fragments.RecommendationsFragments
@@ -81,6 +82,7 @@ namespace MALClient.Android.Fragments.RecommendationsFragments
         }
 
         public override int LayoutResourceId => Resource.Layout.RecommendationItem;
+
 
 
         #region Views

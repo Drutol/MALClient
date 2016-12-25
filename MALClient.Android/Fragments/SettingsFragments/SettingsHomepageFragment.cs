@@ -12,6 +12,7 @@ using Android.Widget;
 using GalaSoft.MvvmLight.Helpers;
 using MALClient.Android.Listeners;
 using MALClient.Android.ViewModels;
+using MALClient.Models.Enums;
 using MALClient.XShared.ViewModels;
 
 namespace MALClient.Android.Fragments.SettingsFragments
@@ -42,6 +43,8 @@ namespace MALClient.Android.Fragments.SettingsFragments
 
             view.FindViewById<TextView>(Resource.Id.SettingsPageItemHeader).Text = settingsPageEntry.Header;
             view.FindViewById<TextView>(Resource.Id.SettingsPageItemSubtitle).Text = settingsPageEntry.Subtitle;
+            view.FindViewById<ImageView>(Resource.Id.SettingsPageItemIcon).SetImageResource(GetIcon(settingsPageEntry.Symbol));
+            
 
             return view;
         }
@@ -50,6 +53,35 @@ namespace MALClient.Android.Fragments.SettingsFragments
         {
             var entry = view.Tag.Unwrap<SettingsPageEntry>();
             ViewModel.RequestNavigationCommand.Execute(entry.PageType);
+        }
+
+        private int GetIcon(SettingsSymbolsEnum symbol)
+        {
+            switch (symbol)
+            {
+                case SettingsSymbolsEnum.Setting:
+                    return Resource.Drawable.icon_settings;
+                case SettingsSymbolsEnum.SaveLocal:
+                    return Resource.Drawable.icon_save_local;
+                case SettingsSymbolsEnum.CalendarWeek:
+                    return Resource.Drawable.icon_calendar;
+                case SettingsSymbolsEnum.PreviewLink:
+                    return Resource.Drawable.icon_newspaper;
+                case SettingsSymbolsEnum.PostUpdate:
+                    return Resource.Drawable.icon_newspaper;
+                case SettingsSymbolsEnum.Manage:
+                    return Resource.Drawable.icon_info;
+                case SettingsSymbolsEnum.Contact:
+                    return Resource.Drawable.icon_account;
+                case SettingsSymbolsEnum.Placeholder:
+                    return Resource.Drawable.icon_placeholder;
+                case SettingsSymbolsEnum.Important:
+                    return Resource.Drawable.icon_notification;
+                case SettingsSymbolsEnum.SwitchApps:
+                    return Resource.Drawable.icon_ads;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(symbol), symbol, null);
+            }
         }
 
         public override int LayoutResourceId => Resource.Layout.SettingsPageHomepage;

@@ -54,11 +54,11 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="FFImageLoading, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Xamarin.FFImageLoading.2.2.5\lib\MonoAndroid10\FFImageLoading.dll</HintPath>
+      <HintPath>..\packages\Xamarin.FFImageLoading.2.2.6-pre-258\lib\MonoAndroid10\FFImageLoading.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="FFImageLoading.Platform, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Xamarin.FFImageLoading.2.2.5\lib\MonoAndroid10\FFImageLoading.Platform.dll</HintPath>
+      <HintPath>..\packages\Xamarin.FFImageLoading.2.2.6-pre-258\lib\MonoAndroid10\FFImageLoading.Platform.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="FFImageLoading.Transformations, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -135,6 +135,7 @@
     <Compile Include="Adapters\DialogAdapters\ScoreDialogAdapter.cs" />
     <Compile Include="Adapters\DialogAdapters\WatchedDialogAdapter.cs" />
     <Compile Include="Adapters\PagerAdapters\AnimeDetailsPagerAdapter.cs" />
+    <Compile Include="Adapters\PagerAdapters\ArticlesPagePagerAdapter.cs" />
     <Compile Include="Adapters\PagerAdapters\CalendarPagerAdapter.cs" />
     <Compile Include="Adapters\PagerAdapters\RecommandtionsPagerAdapter.cs" />
     <Compile Include="Adapters\PagerAdapters\SearchPagePagerAdapter.cs" />
@@ -173,6 +174,8 @@
     <Compile Include="Fragments\AnimeListPageFragment.ui.cs">
       <DependentUpon>AnimeListPageFragment.cs</DependentUpon>
     </Compile>
+    <Compile Include="Fragments\ArticlesPageFragment.cs" />
+    <Compile Include="Fragments\ArticlesPageFragments\ArticlesPageTabFragment.cs" />
     <Compile Include="Fragments\CalendarFragments\CalendarPageFragment.cs" />
     <Compile Include="Fragments\CalendarFragments\CalendarPageFragment.ui.cs">
       <SubType>Code</SubType>
@@ -572,6 +575,15 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\icon_notification.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\ArticlesPage.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\ArticlesPageTabItem.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\ArtclesPageItem.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Android.Support.Vector.Drawable.23.4.0.1\build\Xamarin.Android.Support.Vector.Drawable.targets" Condition="Exists('..\packages\Xamarin.Android.Support.Vector.Drawable.23.4.0.1\build\Xamarin.Android.Support.Vector.Drawable.targets')" />

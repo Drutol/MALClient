@@ -188,13 +188,13 @@ namespace MALClient.Android.ViewModels
                     break;
                 case PageIndex.PageArticles:
                 case PageIndex.PageNews:
-                    //HideSearchStuff();
-                    //RefreshButtonVisibility = true;
-                    //RefreshDataCommand = new RelayCommand(() => ViewModelLocator.MalArticles.Init(null));
-                    //if (CurrentMainPage == PageIndex.PageArticles)
-                    //    ViewModelLocator.MalArticles.Init(args as MalArticlesPageNavigationArgs);
-                    //else
-                    //    MainNavigationRequested?.Invoke(typeof(MalArticlesPage), args);
+                    HideSearchStuff();
+                    RefreshButtonVisibility = true;
+                    RefreshDataCommand = new RelayCommand(() => ViewModelLocator.MalArticles.Init(null));
+                    if (CurrentMainPage == PageIndex.PageArticles)
+                        ViewModelLocator.MalArticles.Init(args as MalArticlesPageNavigationArgs);
+                    else
+                        MainNavigationRequested?.Invoke(new ArticlesPageFragment());
                     break;
                 case PageIndex.PageMessanging:
                     //HideSearchStuff();

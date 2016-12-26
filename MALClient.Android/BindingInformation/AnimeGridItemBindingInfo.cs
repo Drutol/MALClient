@@ -275,7 +275,7 @@ namespace MALClient.Android.BindingInformation
 
 
             var img = Container.FindViewById<ImageViewAsync>(Resource.Id.AnimeGridItemImage);
-            ImageService.Instance.LoadUrl(ViewModel.ImgUrl,TimeSpan.Zero).FadeAnimation(true,true).Into(img);
+            ImageService.Instance.LoadUrl(ViewModel.ImgUrl).FadeAnimation(true,true,300).BitmapOptimizations(false).Into(img);
 
             if(AllowSwipeInGivenContext && ViewModel.Auth)
                 InitializeSwipeLayout();

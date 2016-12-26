@@ -111,11 +111,7 @@ namespace MALClient.Android.Adapters.PagerAdapters
             _currentFragment?.ReattachBindings();
         }
 
-        public void TabUnselected(View p0)
-        {
-            var txt = p0 as TextView;
-            txt.Alpha = .7f;
-        }
+
 
         public override Fragment GetItem(int p1)
         {
@@ -135,6 +131,11 @@ namespace MALClient.Android.Adapters.PagerAdapters
             throw new ArgumentException();
         }
 
+        public void TabUnselected(View p0)
+        {
+            var txt = p0 as TextView;
+            txt.Alpha = .7f;
+        }
 
         public View GetCustomTabView(ViewGroup p0, int p1)
         {

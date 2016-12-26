@@ -122,15 +122,15 @@ namespace MALClient.Android.Activities
             mangaListButton.WithIdentifier((int)PageIndex.PageMangaList);
             mangaListButton.WithIcon(Resource.Drawable.icon_books);
 
-            var mangaSearchButton = GetBaseSecondaryItem();
-            mangaSearchButton.WithName("Manga search");
-            mangaSearchButton.WithIdentifier((int)PageIndex.PageMangaSearch);
-            mangaSearchButton.WithIcon(Resource.Drawable.icon_search);
-
             var topMangaButton = GetBaseSecondaryItem();
             topMangaButton.WithName("Top manga");
             topMangaButton.WithIdentifier((int)PageIndex.PageTopManga);
             topMangaButton.WithIcon(Resource.Drawable.icon_fav_outline);
+
+            var articlesButton = GetBaseSecondaryItem();
+            articlesButton.WithName("Articles & News");
+            articlesButton.WithIdentifier((int) PageIndex.PageArticles);
+            articlesButton.WithIcon(Resource.Drawable.icon_newspaper);
 
             //
 
@@ -172,6 +172,13 @@ namespace MALClient.Android.Activities
             mangaSubHeader.WithDivider(true);
             mangaSubHeader.WithTextColorRes(ResourceExtension.BrushTextRes);
 
+
+            var othersSubHeader = new SectionDrawerItem();
+            mangaSubHeader.WithName("Other");
+            mangaSubHeader.WithDivider(true);
+            mangaSubHeader.WithTextColorRes(ResourceExtension.BrushTextRes);
+
+
             builder.WithDrawerItems(new List<IDrawerItem>()
             {
                 animeButton,
@@ -182,8 +189,10 @@ namespace MALClient.Android.Activities
                 calendarButton,
                 mangaSubHeader,//
                 mangaListButton,
-                mangaSearchButton,
                 topMangaButton,
+                othersSubHeader,//
+                articlesButton
+
             });
 
             _drawer = builder.Build();

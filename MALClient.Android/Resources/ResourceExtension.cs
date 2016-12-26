@@ -61,6 +61,15 @@ namespace MALClient.Android.Resources
             ? Resource.Color.DarkBrushHamburgerBackground
             : Resource.Color.LightBrushHamburgerBackground;
 
+        public static string AccentColourHex =
+            MainActivity.CurrentContext.Resources.GetString(Resource.Color.AccentColour);
+
+        public static string AccentColourLightHex =
+            MainActivity.CurrentContext.Resources.GetString(Resource.Color.AccentColourLight);
+
+        public static string AccentColourDarkHex =
+            MainActivity.CurrentContext.Resources.GetString(Resource.Color.AccentColourDark);
+
         private static int? _selectableItemBackground;
 
         public static int SelectableItemBackground

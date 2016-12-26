@@ -1,19 +1,23 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:background="?BrushDeepBackground">
-  <com.astuetz.PagerSlidingTabStrip
-      android:id="@+id/ArticlesPageTabStrip"
-      android:layout_width="match_parent"
-      xmlns:app="http://schemas.android.com/apk/res-auto"
-      app:pstsPaddingMiddle="true"
-      android:layout_height="25dp"
-      android:textColorPrimary="?AccentColour"
-      android:background="?BrushPivotHeaderBackground"/>
-  <android.support.v4.view.ViewPager
-      android:id="@+id/ArticlesPagePivot"
-      android:layout_width="match_parent"
-      android:layout_height="match_parent"/>
-</LinearLayout>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+              android:background="?BrushDeepBackground">
+  <LinearLayout android:layout_width="match_parent" android:orientation="vertical" android:layout_height="match_parent">
+    <com.astuetz.PagerSlidingTabStrip
+        android:id="@+id/ArticlesPageTabStrip"
+        android:layout_width="match_parent"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        app:pstsPaddingMiddle="true"
+        android:layout_height="25dp"
+        android:textColorPrimary="?AccentColour"
+        android:background="?BrushPivotHeaderBackground"/>
+    <android.support.v4.view.ViewPager
+        android:id="@+id/ArticlesPagePivot"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+  </LinearLayout>
+  <WebView android:id="@+id/ArticlesPageWebView" android:layout_width="match_parent" android:layout_height="match_parent"/>
+  <ProgressBar android:id="@+id/ArticlesPageLoadingSpinner" android:layout_width="wrap_content" android:indeterminateTint="?AccentColour" android:indeterminateTintMode="src_in" android:layout_height="wrap_content" android:indeterminate="true" android:layout_centerInParent="true"/>
+</RelativeLayout>

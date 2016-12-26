@@ -174,9 +174,9 @@ namespace MALClient.Android.Activities
 
 
             var othersSubHeader = new SectionDrawerItem();
-            mangaSubHeader.WithName("Other");
-            mangaSubHeader.WithDivider(true);
-            mangaSubHeader.WithTextColorRes(ResourceExtension.BrushTextRes);
+            othersSubHeader.WithName("Other");
+            othersSubHeader.WithDivider(true);
+            othersSubHeader.WithTextColorRes(ResourceExtension.BrushTextRes);
 
 
             builder.WithDrawerItems(new List<IDrawerItem>()

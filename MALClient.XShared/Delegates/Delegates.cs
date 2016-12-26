@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using MALClient.Models.Enums;
 using MALClient.XShared.Utils.Enums;
 using MALClient.XShared.ViewModels;
@@ -32,4 +33,6 @@ namespace MALClient.XShared.Delegates
     public delegate void SettingsNavigationRequest(SettingsPageIndex page);
 
     public delegate void BackgroundTaskCall(BgTasks task);
+
+    public delegate Task<string> NavigationInterceptPossible(string targetUrl);
 }

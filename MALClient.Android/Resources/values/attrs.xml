@@ -35,6 +35,7 @@
     <attr name="BrushSelectedDialogItem" format="reference"/>
     <attr name="AccentColour" format="reference"/>
     <attr name="AccentColourDark" format="reference"/>
+    <attr name="AccentColourLight" format="reference"/>
     <attr name="OpaqueAccentColour" format="reference"/>
   </declare-styleable>
 </resources>

@@ -26,9 +26,10 @@
   </style>
 
   <style name="Theme.MALClient.Dark" parent="Theme.AppCompat.NoActionBar">
-    <item name="AccentColour" format="reference">@color/AccentColour</item>
-    <item name="AccentColourDark" format="reference">@color/AccentColourDark</item>
-    <item name="OpaqueAccentColour" format="reference">@color/OpaqueAccentColour</item>
+    <item name="AccentColour">@color/AccentColour</item>
+    <item name="AccentColourDark">@color/AccentColourDark</item>
+    <item name="AccentColourLight">@color/AccentColourLight</item>
+    <item name="OpaqueAccentColour">@color/OpaqueAccentColour</item>
 
     <item name="android:colorEdgeEffect">#e6e6e6</item>
 
@@ -68,6 +69,7 @@
   <style name="Theme.MALClient.Light" parent="Theme.AppCompat.Light.NoActionBar">
     <item name="AccentColour" format="reference">@color/AccentColour</item>
     <item name="AccentColourDark" format="reference">@color/AccentColourDark</item>
+    <item name="AccentColourLight">@color/AccentColourLight</item>
     <item name="OpaqueAccentColour" format="reference">@color/OpaqueAccentColour</item>
 
     <item name="android:colorEdgeEffect">#2d2d2d</item>

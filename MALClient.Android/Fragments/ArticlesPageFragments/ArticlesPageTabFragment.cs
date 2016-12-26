@@ -12,6 +12,7 @@ using Android.Widget;
 using FFImageLoading;
 using FFImageLoading.Views;
 using GalaSoft.MvvmLight.Helpers;
+using MALClient.Android.BindingConverters;
 using MALClient.Android.Listeners;
 using MALClient.Models.Models.MalSpecific;
 using MALClient.XShared.ViewModels;
@@ -41,6 +42,12 @@ namespace MALClient.Android.Fragments.ArticlesPageFragments
                 {
                     ArticlesPageTabItemList.Adapter = ViewModel.Articles.GetAdapter(GetTemplateDelegate);
                 }));
+
+            Bindings[ArticlesPageTabItemList.Id].Add(
+                this.SetBinding(() => ViewModel.ArticleIndexVisibility,
+                    () => ArticlesPageTabItemList.Visibility).ConvertSourceToTarget(Converters.BoolToVisibility));
+
+            
         }
 
         private View GetTemplateDelegate(int i, MalNewsUnitModel malNewsUnitModel, View convertView)

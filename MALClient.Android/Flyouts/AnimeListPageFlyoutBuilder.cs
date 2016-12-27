@@ -81,7 +81,11 @@ namespace MALClient.Android.Flyouts
             background = background ?? ResourceExtension.BrushFlyoutBackground;
             foreground = foreground ?? ResourceExtension.BrushText;
 
+            if(ParamRelativeLayout == null)
+                ParamRelativeLayout = new ViewGroup.LayoutParams(300, 70);
+
             var top = new FrameLayout(context);
+
 
             top.SetBackgroundColor(new Color(background.Value));
             var holder = new RelativeLayout(context) { LayoutParameters = ParamRelativeLayout };

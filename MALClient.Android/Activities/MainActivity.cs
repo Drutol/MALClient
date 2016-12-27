@@ -33,6 +33,7 @@ namespace MALClient.Android.Activities
     public partial class MainActivity : AppCompatActivity , IDimensionsProvider
     {
         public static Activity CurrentContext { get; private set; }
+        public static int CurrentTheme { get; private set; }
 
         private static bool _addedNavHandlers;
 
@@ -50,6 +51,7 @@ namespace MALClient.Android.Activities
             Settings.SelectedTheme = 0;
             SetTheme(Resource.Style.Theme_MALClient_Light);
             RequestWindowFeature(WindowFeatures.NoTitle);
+            CurrentTheme = Settings.SelectedTheme;
             base.OnCreate(bundle);
             
             if (!_addedNavHandlers)

@@ -1,0 +1,143 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+using Android.App;
+using Android.Content;
+using Android.OS;
+using Android.Runtime;
+using Android.Views;
+using Android.Widget;
+
+namespace MALClient.Android.Fragments.SettingsFragments
+{
+    public partial class SettingsGeneralFragment
+    {
+        private RadioButton _settingsPageGeneralRadioAnimeList;
+        private RadioButton _settingsPageGeneralRadioMangaList;
+        private RadioGroup _settingsPageGeneralStartPageRadioGroup;
+        private RadioButton _settingsPageGeneralRadioDarkTheme;
+        private RadioButton _settingsPageGeneralRadioLightTheme;
+        private RadioGroup _settingsPageGeneralThemeRadioGroup;
+        private TextView _settingsPageGeneralThemeChangeNotice;
+        private Switch _settingsPageGeneralPullHigherSwitch;
+        private Switch _settingsPageGeneralSeasonSwitch;
+        private Switch _settingsPageGeneralAutoSortSwitch;
+        private Switch _settingsPageGeneralVolsImportantSwitch;
+        private Switch _settingsPageGeneralRandomSelectedSwitch;
+        private RadioButton _settingsPageGeneralAnimeSortTitleRadioBtn;
+        private RadioButton _settingsPageGeneralAnimeScoreTitleRadioBtn;
+        private RadioButton _settingsPageGeneralAnimeWatchedTitleRadioBtn;
+        private RadioButton _settingsPageGeneralAnimeSoonAiringTitleRadioBtn;
+        private RadioButton _settingsPageGeneralAnimeLastWatchTitleRadioBtn;
+        private RadioButton _settingsPageGeneralAnimeSortNoneRadioBtn;
+        private RadioGroup _settingsPageGeneralAnimeSortRadioGroup;
+        private Switch _settingsPageGeneralAnimeSortDescendingSwitch;
+        private RadioButton _settingsPageGeneralMangaSortTitleRadioBtn;
+        private RadioButton _settingsPageGeneralMangaSortScoreRadioBtn;
+        private RadioButton _settingsPageGeneralMangaSortReadRadioBtn;
+        private RadioButton _settingsPageGeneralMangaSortNoneRadioBtn;
+        private RadioGroup _settingsPageGeneralMangaSortRadioGroup;
+        private Switch _settingsPageGeneralMangaSortDescendingSwitch;
+        private Spinner _settingsPageGeneralWatchingViewModeSpinner;
+        private Spinner _settingsPageGeneralCompletedViewModeSpinner;
+        private Spinner _settingsPageGeneralOnHoldViewModeSpinner;
+        private Spinner _settingsPageGeneralDroppedViewModeSpinner;
+        private Spinner _settingsPageGeneralPtwViewModeSpinner;
+        private Spinner _settingsPageGeneralAllViewModeSpinner;
+        private Spinner _settingsPageGeneralAnimeFilterSpinner;
+        private Spinner _settingsPageGeneralMangaFilerSpinner;
+        private CheckBox _settingsPageGeneralStartDateWhenAddCheckBox;
+        private CheckBox _settingsPageGeneralStartDateWhenWatchCheckBox;
+        private CheckBox _settingsPageGeneralEndDateWhenCompleted;
+        private CheckBox _settingsPageGeneralEndDateWhenDropCheckBox;
+        private CheckBox _settingsPageGeneralAllowDateOverrideCheckBox;
+        private TextView _settingsPageGeneralAirDayOffsetTextView;
+        private SeekBar _settingsPageGeneralAirDayOffsetSlider;
+
+        public RadioButton SettingsPageGeneralRadioAnimeList => _settingsPageGeneralRadioAnimeList ?? (_settingsPageGeneralRadioAnimeList = FindViewById<RadioButton>(Resource.Id.SettingsPageGeneralRadioAnimeList));
+
+        public RadioButton SettingsPageGeneralRadioMangaList => _settingsPageGeneralRadioMangaList ?? (_settingsPageGeneralRadioMangaList = FindViewById<RadioButton>(Resource.Id.SettingsPageGeneralRadioMangaList));
+
+        public RadioGroup SettingsPageGeneralStartPageRadioGroup => _settingsPageGeneralStartPageRadioGroup ?? (_settingsPageGeneralStartPageRadioGroup = FindViewById<RadioGroup>(Resource.Id.SettingsPageGeneralStartPageRadioGroup));
+
+        public RadioButton SettingsPageGeneralRadioDarkTheme => _settingsPageGeneralRadioDarkTheme ?? (_settingsPageGeneralRadioDarkTheme = FindViewById<RadioButton>(Resource.Id.SettingsPageGeneralRadioDarkTheme));
+
+        public RadioButton SettingsPageGeneralRadioLightTheme => _settingsPageGeneralRadioLightTheme ?? (_settingsPageGeneralRadioLightTheme = FindViewById<RadioButton>(Resource.Id.SettingsPageGeneralRadioLightTheme));
+
+        public RadioGroup SettingsPageGeneralThemeRadioGroup => _settingsPageGeneralThemeRadioGroup ?? (_settingsPageGeneralThemeRadioGroup = FindViewById<RadioGroup>(Resource.Id.SettingsPageGeneralThemeRadioGroup));
+
+        public TextView SettingsPageGeneralThemeChangeNotice => _settingsPageGeneralThemeChangeNotice ?? (_settingsPageGeneralThemeChangeNotice = FindViewById<TextView>(Resource.Id.SettingsPageGeneralThemeChangeNotice));
+
+        public Switch SettingsPageGeneralPullHigherSwitch => _settingsPageGeneralPullHigherSwitch ?? (_settingsPageGeneralPullHigherSwitch = FindViewById<Switch>(Resource.Id.SettingsPageGeneralPullHigherSwitch));
+
+        public Switch SettingsPageGeneralSeasonSwitch => _settingsPageGeneralSeasonSwitch ?? (_settingsPageGeneralSeasonSwitch = FindViewById<Switch>(Resource.Id.SettingsPageGeneralSeasonSwitch));
+
+        public Switch SettingsPageGeneralAutoSortSwitch => _settingsPageGeneralAutoSortSwitch ?? (_settingsPageGeneralAutoSortSwitch = FindViewById<Switch>(Resource.Id.SettingsPageGeneralAutoSortSwitch));
+
+        public Switch SettingsPageGeneralVolsImportantSwitch => _settingsPageGeneralVolsImportantSwitch ?? (_settingsPageGeneralVolsImportantSwitch = FindViewById<Switch>(Resource.Id.SettingsPageGeneralVolsImportantSwitch));
+
+        public Switch SettingsPageGeneralRandomSelectedSwitch => _settingsPageGeneralRandomSelectedSwitch ?? (_settingsPageGeneralRandomSelectedSwitch = FindViewById<Switch>(Resource.Id.SettingsPageGeneralRandomSelectedSwitch));
+
+        public RadioButton SettingsPageGeneralAnimeSortTitleRadioBtn => _settingsPageGeneralAnimeSortTitleRadioBtn ?? (_settingsPageGeneralAnimeSortTitleRadioBtn = FindViewById<RadioButton>(Resource.Id.SettingsPageGeneralAnimeSortTitleRadioBtn));
+
+        public RadioButton SettingsPageGeneralAnimeScoreTitleRadioBtn => _settingsPageGeneralAnimeScoreTitleRadioBtn ?? (_settingsPageGeneralAnimeScoreTitleRadioBtn = FindViewById<RadioButton>(Resource.Id.SettingsPageGeneralAnimeScoreTitleRadioBtn));
+
+        public RadioButton SettingsPageGeneralAnimeWatchedTitleRadioBtn => _settingsPageGeneralAnimeWatchedTitleRadioBtn ?? (_settingsPageGeneralAnimeWatchedTitleRadioBtn = FindViewById<RadioButton>(Resource.Id.SettingsPageGeneralAnimeWatchedTitleRadioBtn));
+
+        public RadioButton SettingsPageGeneralAnimeSoonAiringTitleRadioBtn => _settingsPageGeneralAnimeSoonAiringTitleRadioBtn ?? (_settingsPageGeneralAnimeSoonAiringTitleRadioBtn = FindViewById<RadioButton>(Resource.Id.SettingsPageGeneralAnimeSoonAiringTitleRadioBtn));
+
+        public RadioButton SettingsPageGeneralAnimeLastWatchTitleRadioBtn => _settingsPageGeneralAnimeLastWatchTitleRadioBtn ?? (_settingsPageGeneralAnimeLastWatchTitleRadioBtn = FindViewById<RadioButton>(Resource.Id.SettingsPageGeneralAnimeLastWatchTitleRadioBtn));
+
+        public RadioButton SettingsPageGeneralAnimeSortNoneRadioBtn => _settingsPageGeneralAnimeSortNoneRadioBtn ?? (_settingsPageGeneralAnimeSortNoneRadioBtn = FindViewById<RadioButton>(Resource.Id.SettingsPageGeneralAnimeSortNoneRadioBtn));
+
+        public RadioGroup SettingsPageGeneralAnimeSortRadioGroup => _settingsPageGeneralAnimeSortRadioGroup ?? (_settingsPageGeneralAnimeSortRadioGroup = FindViewById<RadioGroup>(Resource.Id.SettingsPageGeneralAnimeSortRadioGroup));
+
+        public Switch SettingsPageGeneralAnimeSortDescendingSwitch => _settingsPageGeneralAnimeSortDescendingSwitch ?? (_settingsPageGeneralAnimeSortDescendingSwitch = FindViewById<Switch>(Resource.Id.SettingsPageGeneralAnimeSortDescendingSwitch));
+
+        public RadioButton SettingsPageGeneralMangaSortTitleRadioBtn => _settingsPageGeneralMangaSortTitleRadioBtn ?? (_settingsPageGeneralMangaSortTitleRadioBtn = FindViewById<RadioButton>(Resource.Id.SettingsPageGeneralMangaSortTitleRadioBtn));
+
+        public RadioButton SettingsPageGeneralMangaSortScoreRadioBtn => _settingsPageGeneralMangaSortScoreRadioBtn ?? (_settingsPageGeneralMangaSortScoreRadioBtn = FindViewById<RadioButton>(Resource.Id.SettingsPageGeneralMangaSortScoreRadioBtn));
+
+        public RadioButton SettingsPageGeneralMangaSortReadRadioBtn => _settingsPageGeneralMangaSortReadRadioBtn ?? (_settingsPageGeneralMangaSortReadRadioBtn = FindViewById<RadioButton>(Resource.Id.SettingsPageGeneralMangaSortReadRadioBtn));
+
+        public RadioButton SettingsPageGeneralMangaSortNoneRadioBtn => _settingsPageGeneralMangaSortNoneRadioBtn ?? (_settingsPageGeneralMangaSortNoneRadioBtn = FindViewById<RadioButton>(Resource.Id.SettingsPageGeneralMangaSortNoneRadioBtn));
+
+        public RadioGroup SettingsPageGeneralMangaSortRadioGroup => _settingsPageGeneralMangaSortRadioGroup ?? (_settingsPageGeneralMangaSortRadioGroup = FindViewById<RadioGroup>(Resource.Id.SettingsPageGeneralMangaSortRadioGroup));
+
+        public Switch SettingsPageGeneralMangaSortDescendingSwitch => _settingsPageGeneralMangaSortDescendingSwitch ?? (_settingsPageGeneralMangaSortDescendingSwitch = FindViewById<Switch>(Resource.Id.SettingsPageGeneralMangaSortDescendingSwitch));
+
+        public Spinner SettingsPageGeneralWatchingViewModeSpinner => _settingsPageGeneralWatchingViewModeSpinner ?? (_settingsPageGeneralWatchingViewModeSpinner = FindViewById<Spinner>(Resource.Id.SettingsPageGeneralWatchingViewModeSpinner));
+
+        public Spinner SettingsPageGeneralCompletedViewModeSpinner => _settingsPageGeneralCompletedViewModeSpinner ?? (_settingsPageGeneralCompletedViewModeSpinner = FindViewById<Spinner>(Resource.Id.SettingsPageGeneralCompletedViewModeSpinner));
+
+        public Spinner SettingsPageGeneralOnHoldViewModeSpinner => _settingsPageGeneralOnHoldViewModeSpinner ?? (_settingsPageGeneralOnHoldViewModeSpinner = FindViewById<Spinner>(Resource.Id.SettingsPageGeneralOnHoldViewModeSpinner));
+
+        public Spinner SettingsPageGeneralDroppedViewModeSpinner => _settingsPageGeneralDroppedViewModeSpinner ?? (_settingsPageGeneralDroppedViewModeSpinner = FindViewById<Spinner>(Resource.Id.SettingsPageGeneralDroppedViewModeSpinner));
+
+        public Spinner SettingsPageGeneralPtwViewModeSpinner => _settingsPageGeneralPtwViewModeSpinner ?? (_settingsPageGeneralPtwViewModeSpinner = FindViewById<Spinner>(Resource.Id.SettingsPageGeneralPtwViewModeSpinner));
+
+        public Spinner SettingsPageGeneralAllViewModeSpinner => _settingsPageGeneralAllViewModeSpinner ?? (_settingsPageGeneralAllViewModeSpinner = FindViewById<Spinner>(Resource.Id.SettingsPageGeneralAllViewModeSpinner));
+
+        public Spinner SettingsPageGeneralAnimeFilterSpinner => _settingsPageGeneralAnimeFilterSpinner ?? (_settingsPageGeneralAnimeFilterSpinner = FindViewById<Spinner>(Resource.Id.SettingsPageGeneralAnimeFilterSpinner));
+
+        public Spinner SettingsPageGeneralMangaFilerSpinner => _settingsPageGeneralMangaFilerSpinner ?? (_settingsPageGeneralMangaFilerSpinner = FindViewById<Spinner>(Resource.Id.SettingsPageGeneralMangaFilerSpinner));
+
+        public CheckBox SettingsPageGeneralStartDateWhenAddCheckBox => _settingsPageGeneralStartDateWhenAddCheckBox ?? (_settingsPageGeneralStartDateWhenAddCheckBox = FindViewById<CheckBox>(Resource.Id.SettingsPageGeneralStartDateWhenAddCheckBox));
+
+        public CheckBox SettingsPageGeneralStartDateWhenWatchCheckBox => _settingsPageGeneralStartDateWhenWatchCheckBox ?? (_settingsPageGeneralStartDateWhenWatchCheckBox = FindViewById<CheckBox>(Resource.Id.SettingsPageGeneralStartDateWhenWatchCheckBox));
+
+        public CheckBox SettingsPageGeneralEndDateWhenCompleted => _settingsPageGeneralEndDateWhenCompleted ?? (_settingsPageGeneralEndDateWhenCompleted = FindViewById<CheckBox>(Resource.Id.SettingsPageGeneralEndDateWhenCompleted));
+
+        public CheckBox SettingsPageGeneralEndDateWhenDropCheckBox => _settingsPageGeneralEndDateWhenDropCheckBox ?? (_settingsPageGeneralEndDateWhenDropCheckBox = FindViewById<CheckBox>(Resource.Id.SettingsPageGeneralEndDateWhenDropCheckBox));
+
+        public CheckBox SettingsPageGeneralAllowDateOverrideCheckBox => _settingsPageGeneralAllowDateOverrideCheckBox ?? (_settingsPageGeneralAllowDateOverrideCheckBox = FindViewById<CheckBox>(Resource.Id.SettingsPageGeneralAllowDateOverrideCheckBox));
+
+        public TextView SettingsPageGeneralAirDayOffsetTextView => _settingsPageGeneralAirDayOffsetTextView ?? (_settingsPageGeneralAirDayOffsetTextView = FindViewById<TextView>(Resource.Id.SettingsPageGeneralAirDayOffsetTextView));
+
+        public SeekBar SettingsPageGeneralAirDayOffsetSlider => _settingsPageGeneralAirDayOffsetSlider ?? (_settingsPageGeneralAirDayOffsetSlider = FindViewById<SeekBar>(Resource.Id.SettingsPageGeneralAirDayOffsetSlider));
+
+
+    }
+}

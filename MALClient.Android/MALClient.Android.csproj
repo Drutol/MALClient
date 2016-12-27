@@ -196,11 +196,11 @@
     <Compile Include="Fragments\SearchFragments\AnimeTypeSearchFragment.cs" />
     <Compile Include="Fragments\SearchFragments\SearchPageFragment.cs" />
     <Compile Include="Fragments\SettingsFragments\SettingsGeneralFragment.cs" />
-    <Compile Include="Fragments\SettingsFragments\SettingsHomepageFragment.cs" />
-    <Compile Include="Fragments\SettingsFragments\SettingsPageGenerall.ui.cs">
+    <Compile Include="Fragments\SettingsFragments\SettingsGeneralFragment.ui.cs">
       <SubType>Code</SubType>
       <DependentUpon>SettingsGeneralFragment.cs</DependentUpon>
     </Compile>
+    <Compile Include="Fragments\SettingsFragments\SettingsHomepageFragment.cs" />
     <Compile Include="Fragments\SettingsPageFragment.cs" />
     <Compile Include="Listeners\DialogListeners\DialogDismissedListener.cs" />
     <Compile Include="Listeners\DialogListeners\EnumDialogListener.cs" />
@@ -208,6 +208,7 @@
     <Compile Include="Listeners\DroppyMenuListener.cs" />
     <Compile Include="Listeners\HamburgerItemClickListener.cs" />
     <Compile Include="Listeners\MenuFlyoutSelectionListener.cs" />
+    <Compile Include="Listeners\OnCheckedListener.cs" />
     <Compile Include="Listeners\OnClickListener.cs" />
     <Compile Include="Listeners\SwipeLayoutListener.cs" />
     <Compile Include="Managers\ImageCache.cs" />

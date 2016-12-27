@@ -31,6 +31,7 @@ namespace MALClient.Android.Fragments
             switch (page)
             {
                 case SettingsPageIndex.General:
+                    fragment = new SettingsGeneralFragment();
                     break;
                 case SettingsPageIndex.Caching:
                     break;

@@ -33,6 +33,11 @@
 
     <item name="android:colorEdgeEffect">#e6e6e6</item>
 
+    <!--   your app branding color for the app bar -->
+    <item name="android:colorPrimary">@color/AccentColour</item>
+    <item name="android:colorPrimaryDark">@color/AccentColourDark</item>
+    <item name="android:colorAccent">@color/AccentColourLight</item>
+
     <item name="BrushText">@color/DarkBrushText</item>
     <item name="BrushTextInverted">@color/DarkBrushTextInverted </item>
     <item name="BrushDeepBackground">@color/DarkBrushDeepBackground </item>
@@ -74,6 +79,9 @@
 
     <item name="android:colorEdgeEffect">#2d2d2d</item>
 
+    <item name="android:colorPrimary">@color/AccentColour</item>
+    <item name="android:colorPrimaryDark">@color/AccentColourDark</item>
+    <item name="android:colorAccent">@color/AccentColourLight</item>
 
     <item name="BrushText">@color/LightBrushText</item>
     <item name="BrushTextInverted">@color/LightBrushTextInverted</item>

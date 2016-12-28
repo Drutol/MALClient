@@ -13,6 +13,8 @@ using Android.Widget;
 using Com.Astuetz;
 using MALClient.Android.Adapters.PagerAdapters;
 using MALClient.XShared.NavArgs;
+using MALClient.XShared.Utils.Enums;
+using MALClient.XShared.ViewModels;
 
 namespace MALClient.Android.Fragments.SearchFragments
 {
@@ -36,7 +38,8 @@ namespace MALClient.Android.Fragments.SearchFragments
 
         protected override void Init(Bundle savedInstanceState)
         {
-            
+            ViewModelLocator.NavMgr.DeregisterBackNav();
+            ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageAnimeList, null);
         }
 
 

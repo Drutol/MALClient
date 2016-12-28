@@ -174,7 +174,7 @@
     <Compile Include="Fragments\AnimeListPageFragment.ui.cs">
       <DependentUpon>AnimeListPageFragment.cs</DependentUpon>
     </Compile>
-    <Compile Include="Fragments\ArticlesPageFragment.cs" />
+    <Compile Include="Fragments\ArticlesPageFragments\ArticlesPageFragment.cs" />
     <Compile Include="Fragments\ArticlesPageFragments\ArticlesPageTabFragment.cs" />
     <Compile Include="Fragments\CalendarFragments\CalendarPageFragment.cs" />
     <Compile Include="Fragments\CalendarFragments\CalendarPageFragment.ui.cs">
@@ -183,12 +183,12 @@
     </Compile>
     <Compile Include="Fragments\CalendarFragments\CalendarPageSummaryTabFragment.cs" />
     <Compile Include="Fragments\CalendarFragments\CalendarPageTabFragment.cs" />
-    <Compile Include="Fragments\CharacterSearchPageFragment.cs" />
+    <Compile Include="Fragments\SearchFragments\CharacterSearchPageFragment.cs" />
     <Compile Include="Fragments\LogInPageFragment.ui.cs">
       <DependentUpon>LogInPageFragment.cs</DependentUpon>
     </Compile>
     <Compile Include="Fragments\RecommendationsFragments\RecommendationItemFragment.cs" />
-    <Compile Include="Fragments\RecommendationsPageFragment.cs" />
+    <Compile Include="Fragments\RecommendationsFragments\RecommendationsPageFragment.cs" />
     <Compile Include="Fragments\SearchFragments\AnimeSearchPageFragment.cs" />
     <Compile Include="Fragments\LogInPageFragment.cs" />
     <Compile Include="Activities\MainActivity.cs" />
@@ -201,7 +201,7 @@
       <DependentUpon>SettingsGeneralFragment.cs</DependentUpon>
     </Compile>
     <Compile Include="Fragments\SettingsFragments\SettingsHomepageFragment.cs" />
-    <Compile Include="Fragments\SettingsPageFragment.cs" />
+    <Compile Include="Fragments\SettingsFragments\SettingsPageFragment.cs" />
     <Compile Include="Listeners\DialogListeners\DialogDismissedListener.cs" />
     <Compile Include="Listeners\DialogListeners\EnumDialogListener.cs" />
     <Compile Include="Listeners\DialogListeners\IntegerDialogListener.cs" />

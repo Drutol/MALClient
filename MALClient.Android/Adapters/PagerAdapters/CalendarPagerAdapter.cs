@@ -5,6 +5,7 @@ using System.Text;
 
 using Android.App;
 using Android.Content;
+using Android.Content.Res;
 using Android.Graphics;
 using Android.OS;
 using Android.Runtime;
@@ -16,6 +17,7 @@ using Com.Astuetz;
 using MALClient.Android.Fragments.CalendarFragments;
 using MALClient.Android.Resources;
 using MALClient.XShared.ViewModels.Main;
+using Orientation = Android.Widget.Orientation;
 
 namespace MALClient.Android.Adapters.PagerAdapters
 {
@@ -61,8 +63,9 @@ namespace MALClient.Android.Adapters.PagerAdapters
             if (model is CalendarSummaryPivotPage)
             {
                 var img = new ImageView(p0.Context) {LayoutParameters = new LinearLayout.LayoutParams(-2,-2) {Gravity = GravityFlags.Center} };
-                img.ScaleX = .7f;
-                img.ScaleY = .7f;
+                //img.ScaleX = .7f;
+                //img.ScaleY = .7f;
+                img.ImageTintList = ColorStateList.ValueOf(new Color(ResourceExtension.AccentColour));
                 img.SetImageDrawable(p0.Context.Resources.GetDrawable(Resource.Drawable.icon_list));
                 viewUpper = img;
                 viewBottom.Text = "Summary";

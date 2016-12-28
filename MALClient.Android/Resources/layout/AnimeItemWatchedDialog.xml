@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent" android:layout_height="300dp" android:orientation="vertical">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical">
   <TextView android:id="@+id/AnimeItemWatchedDialogTitleTextView" android:layout_width="wrap_content" android:layout_height="wrap_content" style="@style/TextViewHeaderStyle" android:text="Watched eps" android:layout_gravity="center_horizontal"/>
   <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
     <EditText android:id="@+id/AnimeItemWatchedDialogTextInput" android:layout_width="match_parent" android:backgroundTint="?AccentColour" android:backgroundTintMode="add" android:layout_height="wrap_content" android:inputType="numberDecimal" android:layout_weight="1"/>

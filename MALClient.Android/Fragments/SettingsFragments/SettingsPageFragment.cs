@@ -12,6 +12,8 @@ using Android.Widget;
 using MALClient.Android.Fragments.SettingsFragments;
 using MALClient.Android.ViewModels;
 using MALClient.Models.Enums;
+using MALClient.XShared.Utils.Enums;
+using MALClient.XShared.ViewModels;
 
 namespace MALClient.Android.Fragments
 {
@@ -23,6 +25,8 @@ namespace MALClient.Android.Fragments
         {
             ViewModel = AndroidViewModelLocator.Settings;
             ViewModel.NavigationRequest += ViewModelOnNavigationRequest;
+            ViewModelLocator.NavMgr.DeregisterBackNav();
+            ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageAnimeList, null);
         }
 
         private void ViewModelOnNavigationRequest(SettingsPageIndex page)
@@ -69,6 +73,12 @@ namespace MALClient.Android.Fragments
                 Resource.Animator.animation_fade_out);
             trans.Replace(Resource.Id.SearchPageContentFrame, fragment);
             trans.Commit();
+        }
+
+        protected override void Cleanup()
+        {
+            ViewModelLocator.NavMgr.ResetMainBackNav();
+            base.Cleanup();
         }
 
         protected override void InitBindings()

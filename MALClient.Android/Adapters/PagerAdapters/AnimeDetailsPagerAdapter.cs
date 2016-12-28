@@ -61,6 +61,7 @@ namespace MALClient.Android.Adapters.PagerAdapters
             var txt = new TextView(p0.Context);
             txt.SetTextColor(new Color(ResourceExtension.BrushText));
             txt.Tag = p1;
+            txt.SetPadding(0,(int)DimensionsHelper.PxToDp(8),0,0);
             switch (p1)
             {
                 case 0:

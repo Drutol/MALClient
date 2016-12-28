@@ -22,7 +22,6 @@ namespace MALClient.Android.Fragments.AnimeDetailsPageTabs
     {
         private AnimeDetailsPageViewModel ViewModel;
         private ListView _list;
-        private ObservableAdapter<RelatedAnimeData> _adapter;
 
         private AnimeDetailsPageRelatedTabFragment()
         {
@@ -37,8 +36,7 @@ namespace MALClient.Android.Fragments.AnimeDetailsPageTabs
         protected override void InitBindings()
         {
             _list = FindViewById<ListView>(Resource.Id.AnimeDetailsPageRelatedTabsList);
-            _adapter = ViewModel.RelatedAnime.GetAdapter(RelatedItemTemplateDelegate);
-            _list.Adapter = _adapter;
+            _list.Adapter = ViewModel.RelatedAnime.GetAdapter(RelatedItemTemplateDelegate);
             _list.ItemClick += ListOnItemClick;
 
             Bindings.Add(LoadingOverlay.Id, new List<Binding>());
@@ -65,13 +63,6 @@ namespace MALClient.Android.Fragments.AnimeDetailsPageTabs
             return view;
         }
 
-        protected override void Cleanup()
-        {
-            _list.Adapter = null;
-            _adapter.Dispose();
-            _list.ItemClick -= ListOnItemClick;
-            base.Cleanup();
-        }
 
         public static AnimeDetailsPageRelatedTabFragment Instance  => new AnimeDetailsPageRelatedTabFragment();
 

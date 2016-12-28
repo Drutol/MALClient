@@ -20,6 +20,8 @@ using MALClient.Android.Activities;
 using MALClient.Android.BindingConverters;
 using MALClient.Android.Dialogs;
 using MALClient.Android.Flyouts;
+using MALClient.Android.Listeners;
+using Org.Apache.Http.Conn;
 
 namespace MALClient.Android.BindingInformation
 {
@@ -80,18 +82,16 @@ namespace MALClient.Android.BindingInformation
 
 
 
-            AnimeListItemMoreButton.Click += AnimeListItemMoreButtonOnClick;
+            AnimeListItemMoreButton.SetOnClickListener(new OnClickListener(view => AnimeListItemMoreButtonOnClick()));
             AnimeListItemWatchedButton.SetCommand("Click",new RelayCommand(ShowWatchedDialog));
             AnimeListItemStatusButton.SetCommand("Click",new RelayCommand(ShowStatusDialog));
             AnimeListItemScoreButton.SetCommand("Click",new RelayCommand(ShowRatingDialog));
 
             AnimeListItemIncButton.SetCommand("Click",ViewModel.IncrementWatchedCommand);
             AnimeListItemDecButton.SetCommand("Click",ViewModel.DecrementWatchedCommand);
-
-            Container.Click += ContainerOnClick;
         }
 
-        private void ContainerOnClick(object sender, EventArgs eventArgs)
+        private void ContainerOnClick()
         {
             if (OnItemClickAction != null)
                 OnItemClickAction.Invoke(ViewModel);
@@ -100,7 +100,7 @@ namespace MALClient.Android.BindingInformation
         }
 
 
-        private void AnimeListItemMoreButtonOnClick(object sender, EventArgs eventArgs)
+        private void AnimeListItemMoreButtonOnClick()
         {
             _menu = AnimeItemFlyoutBuilder.BuildForAnimeItem(MainActivity.CurrentContext, AnimeListItemMoreButton, null,
                 OnMoreFlyoutSelection, true);
@@ -139,6 +139,8 @@ namespace MALClient.Android.BindingInformation
         {
             AnimeListItemTitle.Text = ViewModel.Title;
 
+            Container.SetOnClickListener(new OnClickListener(view => ContainerOnClick()));
+
             ImageService.Instance.LoadUrl(ViewModel.ImgUrl).FadeAnimation(true, true).Into(AnimeListItemImage);
         }
 
@@ -146,8 +148,7 @@ namespace MALClient.Android.BindingInformation
         {
             if (Bindings.Any())
             {
-                _animeListItemMoreButton.Click -= AnimeListItemMoreButtonOnClick;
-                Container.Click -= ContainerOnClick;
+                Container.SetOnClickListener(null);
             }
         }
 

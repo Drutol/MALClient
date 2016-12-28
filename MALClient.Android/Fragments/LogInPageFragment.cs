@@ -10,6 +10,8 @@ using Android.Runtime;
 using Android.Util;
 using Android.Views;
 using Android.Widget;
+using MALClient.XShared.Utils;
+using MALClient.XShared.Utils.Enums;
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Main;
 
@@ -25,6 +27,11 @@ namespace MALClient.Android.Fragments
         {
             ViewModel = ViewModelLocator.LogIn;
             ViewModel.Init();
+            if (Credentials.Authenticated)
+            {
+                ViewModelLocator.NavMgr.ResetMainBackNav();
+                ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageAnimeList, null);
+            }
         }
 
         public static LogInPageFragment Instance => new LogInPageFragment();

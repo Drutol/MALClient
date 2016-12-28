@@ -83,6 +83,7 @@ namespace MALClient.Android.Activities
             var builder = new DrawerBuilder().WithActivity(this);
             builder.WithSliderBackgroundColorRes(ResourceExtension.BrushHamburgerBackgroundRes);
             builder.WithStickyFooterShadow(true);
+            builder.WithDisplayBelowStatusBar(true);
 
 
             var animeButton = GetBasePrimaryItem();

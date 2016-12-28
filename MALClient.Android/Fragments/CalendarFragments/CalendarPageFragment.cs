@@ -12,6 +12,7 @@ using Android.Widget;
 using GalaSoft.MvvmLight.Helpers;
 using MALClient.Android.Adapters.PagerAdapters;
 using MALClient.Android.BindingConverters;
+using MALClient.XShared.Utils.Enums;
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Main;
 
@@ -29,6 +30,8 @@ namespace MALClient.Android.Fragments
 
         protected override void Init(Bundle savedInstanceState)
         {
+            ViewModelLocator.NavMgr.DeregisterBackNav();
+            ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageAnimeList, null);
             ViewModel = ViewModelLocator.CalendarPage;
             ViewModel.Init();
         }

@@ -46,14 +46,14 @@ namespace MALClient.Android.Fragments.CalendarFragments
             {
                 view = MainActivity.CurrentContext.LayoutInflater.Inflate(
                     Resource.Layout.CalendarPageSummaryTabContent, null);
-                _gridViewColumnHelper.RegisterGrid(view.FindViewById<GridView>(Resource.Id.CalendarPageSummaryTabContentList));
+
             }
 
             view.FindViewById<TextView>(Resource.Id.CalendarPageSummaryTabContentHeader).Text = tuple.Item1;
             var grid = view.FindViewById<GridView>(Resource.Id.CalendarPageSummaryTabContentList);
             grid.Adapter = new AnimeListItemsAdapter(MainActivity.CurrentContext,
                 Resource.Layout.AnimeGridItem,tuple.Item2,(model, view1) => new AnimeGridItemBindingInfo(view1,model,false));
-
+            _gridViewColumnHelper.RegisterGrid(grid);
 
             return view;
         }

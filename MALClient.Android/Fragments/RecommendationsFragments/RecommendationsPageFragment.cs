@@ -18,6 +18,7 @@ using MALClient.Android.Adapters.PagerAdapters;
 using MALClient.Android.BindingConverters;
 using MALClient.Android.Flyouts;
 using MALClient.XShared.NavArgs;
+using MALClient.XShared.Utils.Enums;
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Main;
 
@@ -40,6 +41,8 @@ namespace MALClient.Android.Fragments
             ViewModel.PopulateData();
             if(_args != null)
                 ViewModel.PivotItemIndex = _args.Index;
+            ViewModelLocator.NavMgr.DeregisterBackNav();
+            ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageAnimeList, null);
         }
 
         protected override void InitBindings()

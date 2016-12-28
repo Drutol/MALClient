@@ -14,11 +14,11 @@
                 android:background="@drawable/anime_list_item_background" android:paddingStart="5dp">
     <RelativeLayout android:layout_width="wrap_content" android:layout_height="wrap_content">
       <FFImageLoading.Views.ImageViewAsync
-          android:layout_width="wrap_content"
+          android:layout_width="100dp"
           android:layout_height="wrap_content"
           android:id="@+id/AnimeListItemImage"
           android:adjustViewBounds="true"
-          android:scaleType="fitStart" />
+          android:scaleType="fitXY" />
       <ImageButton android:layout_width="35dp"
                    android:layout_height="35dp"
                    android:layout_alignParentBottom="true"

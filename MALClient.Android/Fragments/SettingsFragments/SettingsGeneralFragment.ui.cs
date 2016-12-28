@@ -46,6 +46,7 @@ namespace MALClient.Android.Fragments.SettingsFragments
         private Spinner _settingsPageGeneralDroppedViewModeSpinner;
         private Spinner _settingsPageGeneralPtwViewModeSpinner;
         private Spinner _settingsPageGeneralAllViewModeSpinner;
+        private Switch _settingsGeneralPageLockDisplayModeSwitch;
         private Spinner _settingsPageGeneralAnimeFilterSpinner;
         private Spinner _settingsPageGeneralMangaFilerSpinner;
         private CheckBox _settingsPageGeneralStartDateWhenAddCheckBox;
@@ -120,6 +121,8 @@ namespace MALClient.Android.Fragments.SettingsFragments
 
         public Spinner SettingsPageGeneralAllViewModeSpinner => _settingsPageGeneralAllViewModeSpinner ?? (_settingsPageGeneralAllViewModeSpinner = FindViewById<Spinner>(Resource.Id.SettingsPageGeneralAllViewModeSpinner));
 
+        public Switch SettingsGeneralPageLockDisplayModeSwitch => _settingsGeneralPageLockDisplayModeSwitch ?? (_settingsGeneralPageLockDisplayModeSwitch = FindViewById<Switch>(Resource.Id.SettingsGeneralPageLockDisplayModeSwitch));
+
         public Spinner SettingsPageGeneralAnimeFilterSpinner => _settingsPageGeneralAnimeFilterSpinner ?? (_settingsPageGeneralAnimeFilterSpinner = FindViewById<Spinner>(Resource.Id.SettingsPageGeneralAnimeFilterSpinner));
 
         public Spinner SettingsPageGeneralMangaFilerSpinner => _settingsPageGeneralMangaFilerSpinner ?? (_settingsPageGeneralMangaFilerSpinner = FindViewById<Spinner>(Resource.Id.SettingsPageGeneralMangaFilerSpinner));
@@ -137,6 +140,8 @@ namespace MALClient.Android.Fragments.SettingsFragments
         public TextView SettingsPageGeneralAirDayOffsetTextView => _settingsPageGeneralAirDayOffsetTextView ?? (_settingsPageGeneralAirDayOffsetTextView = FindViewById<TextView>(Resource.Id.SettingsPageGeneralAirDayOffsetTextView));
 
         public SeekBar SettingsPageGeneralAirDayOffsetSlider => _settingsPageGeneralAirDayOffsetSlider ?? (_settingsPageGeneralAirDayOffsetSlider = FindViewById<SeekBar>(Resource.Id.SettingsPageGeneralAirDayOffsetSlider));
+
+
 
 
     }

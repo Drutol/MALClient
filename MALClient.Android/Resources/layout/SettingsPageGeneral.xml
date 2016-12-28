@@ -33,27 +33,27 @@
 
             <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="5dp" android:layout_marginTop="15dp">
                   <TextView android:text="Try to display higher quality images in relevant places." android:layout_width="0dp" android:layout_height="wrap_content" android:layout_gravity="center_vertical" android:textSize="@dimen/FontSizeMedium" android:textColor="?BrushText" android:layout_weight="1"/>
-                  <Switch android:thumbTint="?AccentColour" android:id="@+id/SettingsPageGeneralPullHigherSwitch" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center_vertical"/>
+                  <Switch  android:id="@+id/SettingsPageGeneralPullHigherSwitch" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center_vertical"/>
             </LinearLayout>
 
             <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="5dp" android:layout_marginTop="15dp">
                   <TextView android:text="Display show's season next to its type." android:layout_width="0dp" android:layout_height="wrap_content" android:layout_gravity="center_vertical" android:textSize="@dimen/FontSizeMedium" android:textColor="?BrushText" android:layout_weight="1"/>
-                  <Switch android:thumbTint="?AccentColour" android:id="@+id/SettingsPageGeneralSeasonSwitch" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center_vertical"/>
+                  <Switch  android:id="@+id/SettingsPageGeneralSeasonSwitch" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center_vertical"/>
             </LinearLayout>
 
             <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="5dp" android:layout_marginTop="15dp">
                   <TextView android:text="Switch sorting order automatically (ascending/descending)" android:layout_width="0dp" android:layout_height="wrap_content" android:textSize="@dimen/FontSizeMedium"  android:layout_gravity="center_vertical" android:textColor="?BrushText" android:layout_weight="1"/>
-                  <Switch android:thumbTint="?AccentColour"  android:id="@+id/SettingsPageGeneralAutoSortSwitch" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center_vertical"/>
+                  <Switch   android:id="@+id/SettingsPageGeneralAutoSortSwitch" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center_vertical"/>
             </LinearLayout>
 
             <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="5dp" android:layout_marginTop="15dp">
                   <TextView android:text="Make manga volumes more important than chapters." android:layout_width="0dp" android:layout_height="wrap_content" android:textSize="@dimen/FontSizeMedium" android:layout_gravity="center_vertical" android:textColor="?BrushText" android:layout_weight="1"/>
-                  <Switch android:thumbTint="?AccentColour"  android:id="@+id/SettingsPageGeneralVolsImportantSwitch" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center_vertical"/>
+                  <Switch   android:id="@+id/SettingsPageGeneralVolsImportantSwitch" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center_vertical"/>
             </LinearLayout>
 
             <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="5dp" android:layout_marginTop="15dp">
                   <TextView android:text="When choosing at random ensure winner to be selected." android:layout_width="0dp" android:layout_height="wrap_content" android:textSize="@dimen/FontSizeMedium" android:layout_gravity="center_vertical" android:textColor="?BrushText" android:layout_weight="1"/>
-                  <Switch android:thumbTint="?AccentColour"  android:id="@+id/SettingsPageGeneralRandomSelectedSwitch" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center_vertical"/>
+                  <Switch   android:id="@+id/SettingsPageGeneralRandomSelectedSwitch" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center_vertical"/>
             </LinearLayout>
 
             <View style="@style/Divider" android:layout_marginTop="10dp"/>
@@ -70,7 +70,7 @@
                               <RadioButton android:id="@+id/SettingsPageGeneralAnimeSortNoneRadioBtn" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="None"/>
                         </RadioGroup>
                         <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="5dp" android:layout_marginTop="10dp">
-                              <Switch android:thumbTint="?AccentColour" android:id="@+id/SettingsPageGeneralAnimeSortDescendingSwitch" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center_vertical"/>
+                              <Switch  android:id="@+id/SettingsPageGeneralAnimeSortDescendingSwitch" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center_vertical"/>
                               <TextView android:text="Descending" android:layout_width="0dp" android:layout_height="wrap_content" android:textSize="@dimen/FontSizeMedium" android:layout_gravity="center_vertical" android:textColor="?BrushText" android:layout_weight="1"/>
                         </LinearLayout>
                   </LinearLayout>
@@ -83,7 +83,7 @@
                               <RadioButton android:id="@+id/SettingsPageGeneralMangaSortNoneRadioBtn" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="None"/>
                         </RadioGroup>
                         <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="5dp" android:layout_marginTop="10dp">
-                              <Switch android:thumbTint="?AccentColour" android:id="@+id/SettingsPageGeneralMangaSortDescendingSwitch" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center_vertical"/>
+                              <Switch  android:id="@+id/SettingsPageGeneralMangaSortDescendingSwitch" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center_vertical"/>
                               <TextView android:text="Descending" android:layout_width="0dp" android:layout_height="wrap_content" android:textSize="@dimen/FontSizeMedium" android:layout_gravity="center_vertical" android:textColor="?BrushText" android:layout_weight="1"/>
                         </LinearLayout>
                   </LinearLayout>
@@ -131,7 +131,7 @@
                   </LinearLayout>
                   <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="5dp" android:layout_marginTop="10dp">
                         <TextView android:text="Lock display mode when changing it manually" android:layout_width="0dp" android:layout_height="wrap_content" android:textSize="@dimen/FontSizeMedium" android:layout_gravity="center_vertical" android:textColor="?BrushText" android:layout_weight="1"/>
-                        <Switch android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center_vertical"/>
+                        <Switch android:id="@+id/SettingsGeneralPageLockDisplayModeSwitch" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center_vertical"/>
                   </LinearLayout>
             </LinearLayout>
 
@@ -178,7 +178,7 @@
                         <TextView  android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center_horizontal" android:text="Air day offset:" android:textColor="?BrushText" android:textSize="@dimen/FontSizeMedium" android:gravity="center_horizontal"/>
                         <TextView android:id="@+id/SettingsPageGeneralAirDayOffsetTextView" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center_horizontal" android:layout_marginStart="5dp" android:text="0" android:textColor="?AccentColour" android:textSize="@dimen/FontSizeMedium" android:gravity="center_horizontal"/>
                   </LinearLayout>
-                  <SeekBar android:id="@+id/SettingsPageGeneralAirDayOffsetSlider" android:layout_width="match_parent" android:max="3" android:layout_marginTop="5dp" android:layout_height="wrap_content"/>
+                  <SeekBar android:id="@+id/SettingsPageGeneralAirDayOffsetSlider" android:layout_width="match_parent" android:max="6" android:layout_marginTop="5dp" android:layout_height="wrap_content"/>
                   <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Depending on your timezone or level of pulled data's inaccuracy in general, you can adjust global offset for anime air days." android:textColor="?BrushText" android:fontFamily="@string/font_family_light" android:gravity="center_horizontal" android:layout_marginTop="5dp"/>
             </LinearLayout>
 

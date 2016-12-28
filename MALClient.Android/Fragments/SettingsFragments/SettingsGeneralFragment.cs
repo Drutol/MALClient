@@ -18,6 +18,7 @@ using MALClient.Android.Resources;
 using MALClient.Android.ViewModels;
 using MALClient.Models.Enums;
 using MALClient.XShared.Utils;
+using MALClient.XShared.Utils.Enums;
 using MALClient.XShared.ViewModels;
 
 namespace MALClient.Android.Fragments.SettingsFragments
@@ -132,15 +133,115 @@ namespace MALClient.Android.Fragments.SettingsFragments
                 ViewModel.SelectedDefaultViewForAll = (sender as Spinner).SelectedView.Tag.Unwrap<Tuple<AnimeListDisplayModes, string>>();
             };
 
+            Bindings.Add(SettingsGeneralPageLockDisplayModeSwitch.Id, new List<Binding>());
+            Bindings[SettingsGeneralPageLockDisplayModeSwitch.Id].Add(
+                this.SetBinding(() => ViewModel.LockDisplayMode,
+                    () => SettingsGeneralPageLockDisplayModeSwitch.Checked,BindingMode.TwoWay));
+            //
+            var filters = Enum.GetValues(typeof(AnimeStatus)).Cast<int>().ToList();
+            SettingsPageGeneralMangaFilerSpinner.Adapter = filters.GetAdapter(GetMangaTemplateDelegate);
+            SettingsPageGeneralMangaFilerSpinner.SetSelection(filters.IndexOf(Settings.DefaultMangaFilter));
+            SettingsPageGeneralMangaFilerSpinner.ItemSelected += (sender, args) =>
+            {
+                Settings.DefaultMangaFilter = (int) SettingsPageGeneralMangaFilerSpinner.SelectedView.Tag;
+            };
+
+            SettingsPageGeneralAnimeFilterSpinner.Adapter = filters.GetAdapter(GetAnimeTemplateDelegate);
+            SettingsPageGeneralAnimeFilterSpinner.SetSelection(filters.IndexOf(Settings.DefaultAnimeFilter));
+            SettingsPageGeneralAnimeFilterSpinner.ItemSelected += (sender, args) =>
+            {
+                Settings.DefaultAnimeFilter = (int)SettingsPageGeneralAnimeFilterSpinner.SelectedView.Tag;
+            };
+            //
+
+            Bindings.Add(SettingsPageGeneralAllowDateOverrideCheckBox.Id, new List<Binding>());
+            Bindings[SettingsPageGeneralAllowDateOverrideCheckBox.Id].Add(
+                this.SetBinding(() => ViewModel.SetStartDateOnListAdd,
+                    () => SettingsPageGeneralStartDateWhenAddCheckBox.Checked,BindingMode.TwoWay));
+            Bindings[SettingsPageGeneralAllowDateOverrideCheckBox.Id].Add(
+                this.SetBinding(() => ViewModel.SetStartDateOnWatching,
+                    () => SettingsPageGeneralStartDateWhenWatchCheckBox.Checked,BindingMode.TwoWay));
+            Bindings[SettingsPageGeneralAllowDateOverrideCheckBox.Id].Add(
+                this.SetBinding(() => ViewModel.SetEndDateOnCompleted,
+                    () => SettingsPageGeneralEndDateWhenCompleted.Checked,BindingMode.TwoWay));
+            Bindings[SettingsPageGeneralAllowDateOverrideCheckBox.Id].Add(
+                this.SetBinding(() => ViewModel.SetEndDateOnDropped,
+                    () => SettingsPageGeneralEndDateWhenDropCheckBox.Checked,BindingMode.TwoWay));
+            Bindings[SettingsPageGeneralAllowDateOverrideCheckBox.Id].Add(
+                this.SetBinding(() => ViewModel.OverrideValidStartEndDate,
+                    () => SettingsPageGeneralAllowDateOverrideCheckBox.Checked,BindingMode.TwoWay));
+            //
+            SettingsPageGeneralAirDayOffsetSlider.Progress = Settings.AirDayOffset + 3;
+            SettingsPageGeneralAirDayOffsetSlider.ProgressChanged += (sender, args) =>
+            {
+                Settings.AirDayOffset = SettingsPageGeneralAirDayOffsetSlider.Progress - 3;
+                SettingsPageGeneralAirDayOffsetTextView.Text =
+                    (SettingsPageGeneralAirDayOffsetSlider.Progress - 3).ToString();
+            };
+
+        }
+
+        #region TemplateDelegates
+
+        private View GetMangaTemplateDelegate(int i, int animeStatus, View arg3)
+        {
+            var view = arg3;
+            if (view == null)
+            {
+                view = AnimeListPageFlyoutBuilder.BuildBaseItem(Activity, Utilities.StatusToString(animeStatus, true),
+                    ResourceExtension.BrushAnimeItemInnerBackground, null, false);
+            }
+            else
+            {
+                view.FindViewById<TextView>(AnimeListPageFlyoutBuilder.TextViewTag).Text = Utilities.StatusToString(animeStatus);
+            }
+
+            view.Tag = animeStatus;
+
+            return view;
+        }
+
+        private View GetAnimeTemplateDelegate(int i, int animeStatus, View arg3)
+        {
+            var view = arg3;
+            if (view == null)
+            {
+                view = AnimeListPageFlyoutBuilder.BuildBaseItem(Activity, Utilities.StatusToString(animeStatus),
+                    ResourceExtension.BrushAnimeItemInnerBackground, null, false);
+            }
+            else
+            {
+                view.FindViewById<TextView>(AnimeListPageFlyoutBuilder.TextViewTag).Text = Utilities.StatusToString(animeStatus);
+            }
+
+            view.Tag = animeStatus;
+
+            return view;
         }
 
         private View GetTemplateDelegate(int i, Tuple<AnimeListDisplayModes, string> tuple, View arg3)
         {
-            var view = arg3 ?? AnimeListPageFlyoutBuilder.BuildBaseItem(Activity, tuple.Item2, ResourceExtension.BrushAnimeItemInnerBackground, null, false);
+            var view = arg3;
+            if (view == null)
+            {
+                view = AnimeListPageFlyoutBuilder.BuildBaseItem(Activity, tuple.Item2,
+                    ResourceExtension.BrushAnimeItemInnerBackground, null, false);
+            }
+            else
+            {
+                view.FindViewById<TextView>(AnimeListPageFlyoutBuilder.TextViewTag).Text = tuple.Item2;
+            }
+
+
             view.Tag = tuple.Wrap();
+
+
 
             return view;
         }
+
+        #endregion
+
 
         #region SortingViewMapping
 

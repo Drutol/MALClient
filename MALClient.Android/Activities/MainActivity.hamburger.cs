@@ -59,7 +59,7 @@ namespace MALClient.Android.Activities
             var btn = new PrimaryDrawerItem();
             btn.WithIconTintingEnabled(true);
             btn.WithTextColorRes(ResourceExtension.BrushTextRes);
-            btn.WithIconColorRes(ResourceExtension.BrushNoSearchResultsRes);
+            btn.WithIconColorRes(ResourceExtension.BrushTextRes);
             btn.WithSelectedColorRes(ResourceExtension.BrushAnimeItemBackgroundRes);
             btn.WithSelectedTextColorRes(Resource.Color.AccentColour);
             btn.WithSelectedIconColorRes(Resource.Color.AccentColourDark);
@@ -71,7 +71,7 @@ namespace MALClient.Android.Activities
             var btn = new SecondaryDrawerItem();
             btn.WithIconTintingEnabled(true);
             btn.WithTextColorRes(ResourceExtension.BrushTextRes);
-            btn.WithIconColorRes(ResourceExtension.BrushNoSearchResultsRes);
+            btn.WithIconColorRes(ResourceExtension.BrushTextRes);
             btn.WithSelectedColorRes(ResourceExtension.BrushAnimeItemBackgroundRes);
             btn.WithSelectedTextColorRes(Resource.Color.AccentColour);
             btn.WithSelectedIconColorRes(Resource.Color.AccentColourDark);

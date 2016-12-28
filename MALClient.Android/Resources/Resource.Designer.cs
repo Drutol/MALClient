@@ -4034,17 +4034,17 @@ namespace MALClient.Android
 			// aapt resource value: 0x7f0700b4
 			public const int AnimeGridItemMoreButton = 2131165364;
 			
-			// aapt resource value: 0x7f070198
-			public const int AnimeGridItemMoreFlyoutCopyLink = 2131165592;
-			
 			// aapt resource value: 0x7f070199
-			public const int AnimeGridItemMoreFlyoutOpenBrowser = 2131165593;
-			
-			// aapt resource value: 0x7f07019b
-			public const int AnimeGridItemMoreFlyoutSetScore = 2131165595;
+			public const int AnimeGridItemMoreFlyoutCopyLink = 2131165593;
 			
 			// aapt resource value: 0x7f07019a
-			public const int AnimeGridItemMoreFlyoutSetStatus = 2131165594;
+			public const int AnimeGridItemMoreFlyoutOpenBrowser = 2131165594;
+			
+			// aapt resource value: 0x7f07019c
+			public const int AnimeGridItemMoreFlyoutSetScore = 2131165596;
+			
+			// aapt resource value: 0x7f07019b
+			public const int AnimeGridItemMoreFlyoutSetStatus = 2131165595;
 			
 			// aapt resource value: 0x7f0700b2
 			public const int AnimeGridItemScore = 2131165362;
@@ -4319,26 +4319,26 @@ namespace MALClient.Android
 			// aapt resource value: 0x7f07011a
 			public const int GenreItemTextView = 2131165466;
 			
-			// aapt resource value: 0x7f07019d
-			public const int HamburgerMenuAnimeListButton = 2131165597;
-			
 			// aapt resource value: 0x7f07019e
-			public const int HamburgerMenuAnimeSearchButton = 2131165598;
-			
-			// aapt resource value: 0x7f0701a2
-			public const int HamburgerMenuCalendarButton = 2131165602;
-			
-			// aapt resource value: 0x7f0701a0
-			public const int HamburgerMenuRecomsButton = 2131165600;
+			public const int HamburgerMenuAnimeListButton = 2131165598;
 			
 			// aapt resource value: 0x7f07019f
-			public const int HamburgerMenuSeasonalAnimeButton = 2131165599;
+			public const int HamburgerMenuAnimeSearchButton = 2131165599;
+			
+			// aapt resource value: 0x7f0701a3
+			public const int HamburgerMenuCalendarButton = 2131165603;
 			
 			// aapt resource value: 0x7f0701a1
-			public const int HamburgerMenuTopAnimeButton = 2131165601;
+			public const int HamburgerMenuRecomsButton = 2131165601;
 			
-			// aapt resource value: 0x7f07019c
-			public const int HamburgerMenuUpperSection = 2131165596;
+			// aapt resource value: 0x7f0701a0
+			public const int HamburgerMenuSeasonalAnimeButton = 2131165600;
+			
+			// aapt resource value: 0x7f0701a2
+			public const int HamburgerMenuTopAnimeButton = 2131165602;
+			
+			// aapt resource value: 0x7f07019d
+			public const int HamburgerMenuUpperSection = 2131165597;
 			
 			// aapt resource value: 0x7f07011f
 			public const int LoginPageLoadingSpinner = 2131165471;
@@ -4442,20 +4442,23 @@ namespace MALClient.Android
 			// aapt resource value: 0x7f070165
 			public const int SeasonSelectionPopupYearComboBox = 2131165541;
 			
-			// aapt resource value: 0x7f070190
-			public const int SettingsPageGeneralAirDayOffsetSlider = 2131165584;
+			// aapt resource value: 0x7f070188
+			public const int SettingsGeneralPageLockDisplayModeSwitch = 2131165576;
 			
-			// aapt resource value: 0x7f07018f
-			public const int SettingsPageGeneralAirDayOffsetTextView = 2131165583;
+			// aapt resource value: 0x7f070191
+			public const int SettingsPageGeneralAirDayOffsetSlider = 2131165585;
+			
+			// aapt resource value: 0x7f070190
+			public const int SettingsPageGeneralAirDayOffsetTextView = 2131165584;
 			
 			// aapt resource value: 0x7f070187
 			public const int SettingsPageGeneralAllViewModeSpinner = 2131165575;
 			
-			// aapt resource value: 0x7f07018e
-			public const int SettingsPageGeneralAllowDateOverrideCheckBox = 2131165582;
+			// aapt resource value: 0x7f07018f
+			public const int SettingsPageGeneralAllowDateOverrideCheckBox = 2131165583;
 			
-			// aapt resource value: 0x7f070188
-			public const int SettingsPageGeneralAnimeFilterSpinner = 2131165576;
+			// aapt resource value: 0x7f070189
+			public const int SettingsPageGeneralAnimeFilterSpinner = 2131165577;
 			
 			// aapt resource value: 0x7f070179
 			public const int SettingsPageGeneralAnimeLastWatchTitleRadioBtn = 2131165561;
@@ -4490,14 +4493,14 @@ namespace MALClient.Android
 			// aapt resource value: 0x7f070185
 			public const int SettingsPageGeneralDroppedViewModeSpinner = 2131165573;
 			
-			// aapt resource value: 0x7f07018c
-			public const int SettingsPageGeneralEndDateWhenCompleted = 2131165580;
-			
 			// aapt resource value: 0x7f07018d
-			public const int SettingsPageGeneralEndDateWhenDropCheckBox = 2131165581;
+			public const int SettingsPageGeneralEndDateWhenCompleted = 2131165581;
 			
-			// aapt resource value: 0x7f070189
-			public const int SettingsPageGeneralMangaFilerSpinner = 2131165577;
+			// aapt resource value: 0x7f07018e
+			public const int SettingsPageGeneralEndDateWhenDropCheckBox = 2131165582;
+			
+			// aapt resource value: 0x7f07018a
+			public const int SettingsPageGeneralMangaFilerSpinner = 2131165578;
 			
 			// aapt resource value: 0x7f070181
 			public const int SettingsPageGeneralMangaSortDescendingSwitch = 2131165569;
@@ -4544,11 +4547,11 @@ namespace MALClient.Android
 			// aapt resource value: 0x7f070170
 			public const int SettingsPageGeneralSeasonSwitch = 2131165552;
 			
-			// aapt resource value: 0x7f07018a
-			public const int SettingsPageGeneralStartDateWhenAddCheckBox = 2131165578;
-			
 			// aapt resource value: 0x7f07018b
-			public const int SettingsPageGeneralStartDateWhenWatchCheckBox = 2131165579;
+			public const int SettingsPageGeneralStartDateWhenAddCheckBox = 2131165579;
+			
+			// aapt resource value: 0x7f07018c
+			public const int SettingsPageGeneralStartDateWhenWatchCheckBox = 2131165580;
 			
 			// aapt resource value: 0x7f070168
 			public const int SettingsPageGeneralStartPageRadioGroup = 2131165544;
@@ -4565,26 +4568,26 @@ namespace MALClient.Android
 			// aapt resource value: 0x7f070182
 			public const int SettingsPageGeneralWatchingViewModeSpinner = 2131165570;
 			
-			// aapt resource value: 0x7f070191
-			public const int SettingsPageHomepageList = 2131165585;
-			
-			// aapt resource value: 0x7f070193
-			public const int SettingsPageItemHeader = 2131165587;
-			
 			// aapt resource value: 0x7f070192
-			public const int SettingsPageItemIcon = 2131165586;
+			public const int SettingsPageHomepageList = 2131165586;
 			
 			// aapt resource value: 0x7f070194
-			public const int SettingsPageItemSubtitle = 2131165588;
+			public const int SettingsPageItemHeader = 2131165588;
+			
+			// aapt resource value: 0x7f070193
+			public const int SettingsPageItemIcon = 2131165587;
+			
+			// aapt resource value: 0x7f070195
+			public const int SettingsPageItemSubtitle = 2131165589;
 			
 			// aapt resource value: 0x7f07011e
 			public const int SignInButton = 2131165470;
 			
-			// aapt resource value: 0x7f070195
-			public const int StatusDialogItemTextView = 2131165589;
-			
 			// aapt resource value: 0x7f070196
-			public const int SuggestionItemTextView = 2131165590;
+			public const int StatusDialogItemTextView = 2131165590;
+			
+			// aapt resource value: 0x7f070197
+			public const int SuggestionItemTextView = 2131165591;
 			
 			// aapt resource value: 0x7f07011c
 			public const int UsernameInput = 2131165468;
@@ -5126,8 +5129,8 @@ namespace MALClient.Android
 			// aapt resource value: 0x7f070062
 			public const int title_template = 2131165282;
 			
-			// aapt resource value: 0x7f070197
-			public const int toolbar = 2131165591;
+			// aapt resource value: 0x7f070198
+			public const int toolbar = 2131165592;
 			
 			// aapt resource value: 0x7f070048
 			public const int top = 2131165256;

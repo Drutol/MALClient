@@ -57,7 +57,11 @@ namespace MALClient.Android.Fragments
                 default:
                     throw new ArgumentOutOfRangeException(nameof(page), page, null);
             }
-
+            if (fragment == null)
+            {
+                Toast.MakeText(Activity, "Not implemented yet, traveller!", ToastLength.Short);
+                return;
+            }
             var trans = FragmentManager.BeginTransaction();
             trans.SetCustomAnimations(Resource.Animator.animation_slide_btm,
                 Resource.Animator.animation_fade_out,

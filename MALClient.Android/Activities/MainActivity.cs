@@ -48,8 +48,9 @@ namespace MALClient.Android.Activities
 
         protected override void OnCreate(Bundle bundle)
         {
-            Settings.SelectedTheme = 0;
-            SetTheme(Resource.Style.Theme_MALClient_Light);
+            SetTheme(Settings.SelectedTheme == 1
+                ? Resource.Style.Theme_MALClient_Dark
+                : Resource.Style.Theme_MALClient_Light);
             RequestWindowFeature(WindowFeatures.NoTitle);
             CurrentTheme = Settings.SelectedTheme;
             base.OnCreate(bundle);

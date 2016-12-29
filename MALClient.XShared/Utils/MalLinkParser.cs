@@ -52,12 +52,19 @@ namespace MALClient.XShared.Utils
             }
             else if(Regex.IsMatch(uri, @"https:\/\/myanimelist\.net\/forum\/message\/\d+\?goto=topic"))
             {
-                //
+                
             }
-            else if(Regex.IsMatch(uri, @"https:\/\/myanimelist.net\/forum\/\?topicid=\d+"))
+            else if(Regex.IsMatch(uri, @"https:\/\/myanimelist.net\/forum\/\?topicid=\d+.*"))
             {
+                bool lastpost = false;
+                if (uri.Contains("&goto=lastpost"))
+                {
+                    lastpost = true;
+                    uri = uri.Replace("&goto=lastpost", "");
+                }
                 var id = uri.Split('=').Last();
-                return new Tuple<PageIndex, object>(PageIndex.PageForumIndex, new ForumsTopicNavigationArgs(id, ForumBoards.Creative));
+
+                return new Tuple<PageIndex, object>(PageIndex.PageForumIndex, new ForumsTopicNavigationArgs(id, ForumBoards.Creative) {Lastpost = true});
             }
             else if (uri == "https://myanimelist.net/forum/")
             {

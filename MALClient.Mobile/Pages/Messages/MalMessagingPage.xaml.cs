@@ -47,5 +47,10 @@ namespace MALClient.Pages.Messages
             var msg = new MessageDialog("These messages are obatained directly from html, I cannot build sophisticated system on top of this foundation... that's why it's that simplistic.","Disclaimer");
             await msg.ShowAsync();
         }
+
+        private void OnMessageClick(object sender, ItemClickEventArgs e)
+        {
+            ViewModel.NavigateMessageCommand.Execute(e.ClickedItem);
+        }
     }
 }

@@ -24,7 +24,11 @@ namespace MALClient.Pages.Messages
         public MalMessageDetailsPage()
         {
             InitializeComponent();
-            Loaded += (sender, args) => ViewModel.Init(_lastArgs);
+            Loaded += (sender, args) =>
+            {
+                ViewModel.Init(_lastArgs);
+                ListView.ScrollToBottom();
+            };
             ViewModelLocator.MalMessageDetails.PropertyChanged += MalMessageDetailsOnPropertyChanged;
         }
 

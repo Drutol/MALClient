@@ -195,7 +195,8 @@ namespace MALClient.XShared.ViewModels.Main
             }
         }
 
-        public int CurrentPage { get; set; }
+        public int CurrentPage { get;
+            set; }
 
         private AnimeItemDisplayContext _animeItemsDisplayContext;
 

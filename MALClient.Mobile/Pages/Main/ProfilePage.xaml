@@ -334,7 +334,7 @@
                                        TextWrapping="WrapWholeWords" TextAlignment="Center" Foreground="#FFB9B9B9"
                                        Margin="5" />
                             <GridView ItemsSource="{Binding FavouriteCharacters}"
-                                      HorizontalAlignment="Center" Margin="0,4,0,0">
+                                      HorizontalAlignment="Center" Margin="0,4,0,0" IsItemClickEnabled="True" ItemClick="FavCharacterOnClick">
                                 <GridView.ItemContainerStyle>
                                     <Style TargetType="GridViewItem">
                                         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
@@ -348,7 +348,7 @@
                                 </GridView.ItemsPanel>
                                 <GridView.ItemTemplate>
                                     <DataTemplate>
-                                        <items:CharacterItem DataContext="{Binding}" Tapped="FavCharacter_OnClick" IsRightTapEnabled="True" RightTapped="FavCharacter_OnRightClick"/>
+                                        <items:CharacterItem DataContext="{Binding}" IsRightTapEnabled="True" RightTapped="FavCharacter_OnRightClick"/>
                                     </DataTemplate>
                                 </GridView.ItemTemplate>
                             </GridView>
@@ -367,7 +367,7 @@
                                        TextWrapping="WrapWholeWords" TextAlignment="Center" Foreground="#FFB9B9B9"
                                        Margin="5" />
                             <GridView ItemsSource="{Binding FavouriteStaff}"
-                                      HorizontalAlignment="Center" Margin="0,4,0,0">
+                                      HorizontalAlignment="Center" Margin="0,4,0,0"  IsItemClickEnabled="True" ItemClick="FavPersonOnClick">
                                 <GridView.ItemContainerStyle>
                                     <Style TargetType="GridViewItem">
                                         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
@@ -381,7 +381,7 @@
                                 </GridView.ItemsPanel>
                                 <GridView.ItemTemplate>
                                     <DataTemplate>
-                                        <items:StaffItem DataContext="{Binding}" Tapped="FavPerson_OnClick" IsRightTapEnabled="True" RightTapped="FavCharacter_OnRightClick"/>
+                                        <items:StaffItem DataContext="{Binding}" IsRightTapEnabled="True" RightTapped="FavCharacter_OnRightClick"/>
                                     </DataTemplate>
                                 </GridView.ItemTemplate>
                             </GridView>

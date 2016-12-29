@@ -307,7 +307,7 @@
                     </Grid>
                     <Grid>
                         <Grid Padding="10" Background="{ThemeResource BrushAnimeItemInnerBackground}" CornerRadius="10"
-                          Margin="10" HorizontalAlignment="Stretch" RelativePanel.Below="FavAnime"
+                          Margin="10" HorizontalAlignment="Stretch" RelativePanel.Below="FavAnime" 
                           Visibility="{Binding EmptyFavCharactersNoticeVisibility,Converter={StaticResource BoolToVisibilityInvertedConverter}}">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />
@@ -321,7 +321,7 @@
                                    TextWrapping="WrapWholeWords" TextAlignment="Center" Foreground="#FFB9B9B9"
                                    Margin="5" />
                             <GridView Grid.Row="1" ItemsSource="{Binding FavouriteCharacters}"
-                                  HorizontalAlignment="Center" Margin="0,7,0,0">
+                                  HorizontalAlignment="Center" Margin="0,7,0,0" ItemClick="FavCharacterOnClick" IsItemClickEnabled="True">
                                 <GridView.ItemContainerStyle>
                                     <Style TargetType="GridViewItem">
                                         <Setter Property="Padding" Value="5,5" />
@@ -332,7 +332,7 @@
                                 </GridView.ItemContainerStyle>
                                 <GridView.ItemTemplate>
                                     <DataTemplate>
-                                        <items1:CharacterItem DataContext="{Binding}" Tapped="FavCharacter_OnClick" IsRightTapEnabled="True" RightTapped="FavCharacter_OnRightClick"/>
+                                        <items1:CharacterItem DataContext="{Binding}" IsRightTapEnabled="True" RightTapped="FavCharacter_OnRightClick"/>
                                     </DataTemplate>
                                 </GridView.ItemTemplate>
                             </GridView>
@@ -353,7 +353,7 @@
                                    TextWrapping="WrapWholeWords" TextAlignment="Center" Foreground="#FFB9B9B9"
                                    Margin="5" />
                             <GridView Grid.Row="1" ItemsSource="{Binding FavouriteStaff}"
-                                  HorizontalAlignment="Center" Margin="0,7,0,0">
+                                  HorizontalAlignment="Center" Margin="0,7,0,0" ItemClick="FavPersonOnClick" IsItemClickEnabled="True">
                                 <GridView.ItemContainerStyle>
                                     <Style TargetType="GridViewItem">
                                         <Setter Property="Padding" Value="5,5" />
@@ -364,7 +364,7 @@
                                 </GridView.ItemContainerStyle>
                                 <GridView.ItemTemplate>
                                     <DataTemplate>
-                                        <items1:StaffItem DataContext="{Binding}" Tapped="FavPerson_OnClick" IsRightTapEnabled="True" RightTapped="FavCharacter_OnRightClick" />
+                                        <items1:StaffItem DataContext="{Binding}" IsRightTapEnabled="True" RightTapped="FavCharacter_OnRightClick" />
                                     </DataTemplate>
                                 </GridView.ItemTemplate>
                             </GridView>

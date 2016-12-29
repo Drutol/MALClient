@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
@@ -99,6 +100,7 @@ namespace MALClient.XShared.ViewModels.Main
                     _newMessage = true;
                     MessageSet.Clear();
                     NewMessageFieldsVisibility = true;
+                    ViewModelLocator.GeneralMain.OffRefreshButtonVisibility = false;
                     return;
                 }
                 NewMessageFieldsVisibility = false;
@@ -174,10 +176,11 @@ namespace MALClient.XShared.ViewModels.Main
                         {
                             try
                             {
+                                await Task.Delay(500); //let mal process the thing
                                 var message = new MalMessageModel();
                                 var id = await new MalMessagesQuery().GetFirstSentMessageId();
                                 message.Id = id;
-                                message = await new MalMessageDetailsQuery().GetMessageDetails(message);
+                                message = await new MalMessageDetailsQuery().GetMessageDetails(message,true);
                                 message.Target = MessageTarget;
                                 message.Sender = Credentials.UserName;
                                 message.IsRead = true;

@@ -109,5 +109,17 @@ namespace MALClient.Pages.Main
             var sv = InnerPivot.GetFirstDescendantOfType<ItemsPresenter>();
             sv.RenderTransform = null;
         }
+
+        private void FavCharacterOnClick(object sender, ItemClickEventArgs e)
+        {
+            ViewModelLocator.ProfilePage.NavigateCharacterDetailsCommand.Execute(
+                         (e.ClickedItem as FavouriteViewModel).Data);
+        }
+
+        private void FavPersonOnClick(object sender, ItemClickEventArgs e)
+        {
+            ViewModelLocator.ProfilePage.NavigateStaffDetailsCommand.Execute(
+                         (e.ClickedItem as FavouriteViewModel).Data);
+        }
     }
 }

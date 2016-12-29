@@ -75,7 +75,7 @@ namespace MALClient.Models.Models.Notifications
                     Type = MalNotificationsTypes.ForumQuoute;
                     Header = "New forum quoute!";
                     Content = $"{notification.quoteUserName} has quouted your post in the \"{notification.topicTitle}\" thread.";
-                    LaunchArgs = notification.topicUrl;
+                    LaunchArgs = notification.topicUrl + "&goto=lastpost";
                     IsSupported = true;
                     break;
                 case "blog_comment":
@@ -87,7 +87,7 @@ namespace MALClient.Models.Models.Notifications
                     Type = MalNotificationsTypes.WatchedTopics;
                     Header = "New reply on your watched topic!";
                     Content = $"{notification.postedUserName} has posted on your watched topic: \"{notification.topicTitle}\"";
-                    LaunchArgs = notification.topicUrl;
+                    LaunchArgs = notification.topicUrl + "&goto=lastpost";
                     IsSupported = true;
                     break;
                 case "club_mass_message_in_forum":

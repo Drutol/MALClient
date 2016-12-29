@@ -111,10 +111,17 @@ namespace MALClient.Pages.Main
                 ((sender as FrameworkElement).DataContext as FavouriteViewModel).Data);
         }
 
-        private void FavPerson_OnClick(object sender, TappedRoutedEventArgs e)
+
+        private void FavCharacterOnClick(object sender, ItemClickEventArgs e)
+        {
+            ViewModelLocator.ProfilePage.NavigateCharacterDetailsCommand.Execute(
+                         (e.ClickedItem as FavouriteViewModel).Data);
+        }
+
+        private void FavPersonOnClick(object sender, ItemClickEventArgs e)
         {
             ViewModelLocator.ProfilePage.NavigateStaffDetailsCommand.Execute(
-                ((sender as FrameworkElement).DataContext as FavouriteViewModel).Data);
+                         (e.ClickedItem as FavouriteViewModel).Data);
         }
 
 

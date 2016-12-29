@@ -25,10 +25,10 @@ namespace MALClient.XShared.ViewModels.Main
         private ICommand _loadMoreCommand;
 
         private bool _loadMorePagesVisibility = false;
-        private int _selectedMessageIndex = -1;
 
         private bool _skipLoading;
         private bool _loadedSomething;
+        private ICommand _navigateMessageCommand;
 
         public SmartObservableCollection<MalMessageModel> MessageIndex { get; } =
             new SmartObservableCollection<MalMessageModel>();
@@ -36,21 +36,16 @@ namespace MALClient.XShared.ViewModels.Main
         public List<MalMessageModel> Outbox { get; set; } = new List<MalMessageModel>();
         public List<MalMessageModel> Inbox { get; set; } = new List<MalMessageModel>();
 
-        public int SelectedMessageIndex
-        {
-            get { return _selectedMessageIndex; }
-            set
-            {
-                if(value < 0)
-                    return;
-                if (MessageIndex[value].IsMine)
-                    return;
-                _selectedMessageIndex = value;
-                ViewModelLocator.GeneralMain.Navigate(PageIndex.PageMessageDetails,
-                    new MalMessageDetailsNavArgs {WorkMode = MessageDetailsWorkMode.Message, Arg = MessageIndex[value]});
-                RaisePropertyChanged(() => SelectedMessageIndex);
-            }
-        }
+
+        public ICommand NavigateMessageCommand
+            => _navigateMessageCommand ?? (_navigateMessageCommand = new RelayCommand<MalMessageModel>(
+                   model =>
+                   {
+                       ViewModelLocator.GeneralMain.Navigate(PageIndex.PageMessageDetails,
+                           new MalMessageDetailsNavArgs {WorkMode = MessageDetailsWorkMode.Message, Arg = model});
+                   }));
+
+
 
         public bool DisplaySentMessages
         {

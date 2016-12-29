@@ -11,12 +11,12 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Messages
 {
     public class MalMessageDetailsQuery
     {
-        public async Task<MalMessageModel> GetMessageDetails(MalMessageModel msg)
+        public async Task<MalMessageModel> GetMessageDetails(MalMessageModel msg,bool sentMessage)
         {
             try
             {
                 var client = await MalHttpContextProvider.GetHttpContextAsync();
-                var response = await client.GetAsync($"/mymessages.php?go=read&id={msg.Id}");
+                var response = await client.GetAsync($"/mymessages.php?go=read&id={msg.Id}{(sentMessage ? "&f=1" : "")}");
                 var raw = await response.Content.ReadAsStringAsync();
 
                 var doc = new HtmlDocument();

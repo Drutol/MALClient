@@ -27,7 +27,7 @@
     <Grid>
         <ListView Margin="3" ItemsSource="{Binding MessageIndex}"
                   SelectionChanged="Selector_OnSelectionChanged"
-                  SelectedIndex="{Binding SelectedMessageIndex,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                  ItemClick="OnMessageClick" IsItemClickEnabled="True">
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
                     <Setter Property="HorizontalContentAlignment" Value="Stretch" />

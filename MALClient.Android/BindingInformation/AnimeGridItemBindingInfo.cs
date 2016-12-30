@@ -125,7 +125,7 @@ namespace MALClient.Android.BindingInformation
                 () => ViewModel.AddToListVisibility,
                 addButon,
                 () => addButon.Visibility).ConvertSourceToTarget(Converters.BoolToVisibility));
-            addButon.SetCommand("Click",ViewModel.AddAnimeCommand);
+            addButon.SetOnClickListener(new OnClickListener(view => ViewModel.AddAnimeCommand.Execute(null)));
 
             var tagButton = Container.FindViewById<ImageButton>(Resource.Id.AnimeGridItemTagsButton);
             Bindings.Add(tagButton.Id, new List<Binding>());

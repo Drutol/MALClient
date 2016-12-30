@@ -48,7 +48,7 @@ namespace MALClient.Android.Adapters.DialogAdapters
             view.SetBackgroundColor(position == _currentScore
                 ? new Color(ResourceExtension.BrushSelectedDialogItem)
                 : Color.Transparent);        
-            view.LayoutParameters = new ViewGroup.LayoutParams(-1, (int)DimensionsHelper.PxToDp(160));
+            view.LayoutParameters = new ViewGroup.LayoutParams(-1, DimensionsHelper.DpToPx(40));
             view.Tag = position;
             return view;
         }

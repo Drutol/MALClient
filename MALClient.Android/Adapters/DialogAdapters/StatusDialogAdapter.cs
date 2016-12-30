@@ -40,7 +40,7 @@ namespace MALClient.Android.Adapters.DialogAdapters
             view.SetBackgroundColor(Items[position] == _currentStatus
                 ? new Color(ResourceExtension.BrushSelectedDialogItem)
                 : Color.Transparent);
-            view.LayoutParameters = new ViewGroup.LayoutParams(-1,80);
+            view.LayoutParameters = new ViewGroup.LayoutParams(-1, DimensionsHelper.DpToPx(40));
             return view;
         }
 

@@ -20,7 +20,7 @@ namespace MALClient.Android.Flyouts
     {
         public static DroppyMenuPopup BuildForRecommendationsPage(Context context, View parent, RecommendationsViewModel viewModel,Action<int> callback)
         {
-            AnimeListPageFlyoutBuilder.ParamRelativeLayout = new ViewGroup.LayoutParams(400, 75);
+            AnimeListPageFlyoutBuilder.ParamRelativeLayout = new ViewGroup.LayoutParams(DimensionsHelper.DpToPx(200), DimensionsHelper.DpToPx(38));
 
             var droppyBuilder = new DroppyMenuPopup.Builder(context, parent);
             AnimeListPageFlyoutBuilder.InjectAnimation(droppyBuilder);

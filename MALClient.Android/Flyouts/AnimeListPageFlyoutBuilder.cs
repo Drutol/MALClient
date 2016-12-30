@@ -83,7 +83,7 @@ namespace MALClient.Android.Flyouts
             foreground = foreground ?? ResourceExtension.BrushText;
 
             if(ParamRelativeLayout == null)
-                ParamRelativeLayout = new ViewGroup.LayoutParams((int)DimensionsHelper.PxToDp(600), (int)DimensionsHelper.PxToDp(140));
+                ParamRelativeLayout = new ViewGroup.LayoutParams(DimensionsHelper.DpToPx(150), DimensionsHelper.DpToPx(38));
 
             var top = new FrameLayout(context);
 
@@ -115,7 +115,7 @@ namespace MALClient.Android.Flyouts
         public static DroppyMenuPopup BuildForAnimeStatusSelection(Context context, View parent,
             Action<AnimeStatus> callback,AnimeStatus currentStatus,bool manga)
         {
-            ParamRelativeLayout = new ViewGroup.LayoutParams((int)DimensionsHelper.PxToDp(600), (int)DimensionsHelper.PxToDp(140));
+            ParamRelativeLayout = new ViewGroup.LayoutParams(DimensionsHelper.DpToPx(150), DimensionsHelper.DpToPx(38));
 
             var droppyBuilder = new DroppyMenuPopup.Builder(context, parent);
             InjectAnimation(droppyBuilder);
@@ -139,7 +139,7 @@ namespace MALClient.Android.Flyouts
         public static DroppyMenuPopup BuildForAnimeSortingSelection(Context context, View parent,
             Action<SortOptions> callback,SortOptions currentOption)
         {
-            ParamRelativeLayout = new ViewGroup.LayoutParams((int)DimensionsHelper.PxToDp(600), (int)DimensionsHelper.PxToDp(140));
+            ParamRelativeLayout = new ViewGroup.LayoutParams(DimensionsHelper.DpToPx(150), DimensionsHelper.DpToPx(38));
 
             var droppyBuilder = new DroppyMenuPopup.Builder(context, parent);
             InjectAnimation(droppyBuilder);
@@ -164,7 +164,7 @@ namespace MALClient.Android.Flyouts
         public static DroppyMenuPopup BuildForAnimeListDisplayModeSelection(Context context, View parent,IEnumerable<Tuple<AnimeListDisplayModes,string>> items,
             Action<AnimeListDisplayModes> callback, AnimeListDisplayModes currentMode)
         {
-            ParamRelativeLayout = new ViewGroup.LayoutParams((int)DimensionsHelper.PxToDp(600), (int)DimensionsHelper.PxToDp(140));
+            ParamRelativeLayout = new ViewGroup.LayoutParams(DimensionsHelper.DpToPx(150), DimensionsHelper.DpToPx(38));
 
             var droppyBuilder = new DroppyMenuPopup.Builder(context, parent);
             InjectAnimation(droppyBuilder);
@@ -189,7 +189,7 @@ namespace MALClient.Android.Flyouts
         public static DroppyMenuPopup BuildForAnimeSeasonSelection(Context context, View parent,Action<int> callback,
             AnimeListViewModel viewModel)
         {
-            ParamRelativeLayout = new ViewGroup.LayoutParams((int)DimensionsHelper.PxToDp(600), (int)DimensionsHelper.PxToDp(140));
+            ParamRelativeLayout = new ViewGroup.LayoutParams(DimensionsHelper.DpToPx(150), DimensionsHelper.DpToPx(38));
 
             var droppyBuilder = new DroppyMenuPopup.Builder(context, parent);
             InjectAnimation(droppyBuilder);

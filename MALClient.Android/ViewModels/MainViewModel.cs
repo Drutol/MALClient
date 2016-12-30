@@ -62,6 +62,7 @@ namespace MALClient.Android.ViewModels
             ResourceLocator.TelemetryProvider.TelemetryTrackEvent(TelemetryTrackedEvents.Navigated, index.ToString());
             ScrollToTopButtonVisibility = false;
             RefreshButtonVisibility = false;
+            ViewModelLocator.AnimeDetails.Id = -1;
 
             if (index == PageIndex.PageMangaList && args == null) // navigating from startup
                 args = AnimeListPageNavigationArgs.Manga;

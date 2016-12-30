@@ -106,6 +106,10 @@ namespace MALClient.Android.Fragments
                 this.SetBinding(() => ViewModel.AddAnimeVisibility,
                     () => AnimeDetailsPageIncDecSection.Visibility).ConvertSourceToTarget(Converters.BoolToVisibilityInverted));
 
+            Bindings.Add(AnimeDetailsPagePivot.Id, new List<Binding>());
+            Bindings[AnimeDetailsPagePivot.Id].Add(
+                this.SetBinding(() => ViewModel.DetailsPivotSelectedIndex).WhenSourceChanges(() => AnimeDetailsPagePivot.SetCurrentItem(ViewModel.DetailsPivotSelectedIndex,true)));
+
             AnimeDetailsPageIncrementButton.SetCommand("Click",ViewModel.IncrementEpsCommand);
             AnimeDetailsPageDecrementButton.SetCommand("Click",ViewModel.DecrementEpsCommand);
             AnimeDetailsPageMoreButton.Click +=
@@ -116,10 +120,12 @@ namespace MALClient.Android.Fragments
                    _menu.Show();
                 };
             AnimeDetailsPageAddButton.SetCommand("Click",ViewModel.AddAnimeCommand);
+
             
             //OneTime
 
             AnimeDetailsPageWatchedLabel.Text = ViewModel.WatchedEpsLabel;
+            
 
 
             //

@@ -43,6 +43,7 @@ namespace MALClient.Android.BindingInformation
         private bool _clickHandlerAdded;
 
         private DroppyMenuPopup _menu;
+        private DroppyMenuPopup _tagsMenu;
         private SwipeLayoutListener _swipeListener;
 
         public bool AllowSwipeInGivenContext { get; set; }
@@ -134,6 +135,14 @@ namespace MALClient.Android.BindingInformation
                 () => ViewModel.TagsControlVisibility,
                 tagButton,
                 () => tagButton.Visibility).ConvertSourceToTarget(Converters.BoolToVisibility));
+            tagButton.SetOnClickListener(new OnClickListener(OnTagsButtonClick));
+        }
+
+        private void OnTagsButtonClick(View view)
+        {
+            _tagsMenu = AnimeItemFlyoutBuilder.BuildForAnimeItemTags(Container.Context, view, ViewModel,
+                () => _tagsMenu.Dismiss(true));
+            _tagsMenu.Show();
         }
 
         private void ContainerOnClick()

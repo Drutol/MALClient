@@ -12,6 +12,7 @@ using Android.Widget;
 using GalaSoft.MvvmLight.Helpers;
 using MALClient.Android.Activities;
 using MALClient.Android.BindingConverters;
+using MALClient.Android.Listeners;
 using MALClient.Models.Models.AnimeScrapped;
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Details;
@@ -37,7 +38,7 @@ namespace MALClient.Android.Fragments.AnimeDetailsPageTabs
         {
             _list = FindViewById<ListView>(Resource.Id.AnimeDetailsPageRelatedTabsList);
             _list.Adapter = ViewModel.RelatedAnime.GetAdapter(RelatedItemTemplateDelegate);
-            _list.ItemClick += ListOnItemClick;
+            _list.OnItemClickListener = new OnItemClickListener<RelatedAnimeData>(data => ViewModel.NavigateDetailsCommand.Execute(data));
 
             Bindings.Add(LoadingOverlay.Id, new List<Binding>());
             Bindings[LoadingOverlay.Id].Add(
@@ -45,11 +46,6 @@ namespace MALClient.Android.Fragments.AnimeDetailsPageTabs
                     () => LoadingOverlay.Visibility).ConvertSourceToTarget(Converters.BoolToVisibility));
         }
 
-        private void ListOnItemClick(object sender, AdapterView.ItemClickEventArgs itemClickEventArgs)
-        {
-            var data = itemClickEventArgs.View.Tag.Unwrap<RelatedAnimeData>();
-            ViewModel.NavigateDetailsCommand.Execute(data);
-        }
 
         private View RelatedItemTemplateDelegate(int i, RelatedAnimeData relatedAnimeData, View convertView)
         {

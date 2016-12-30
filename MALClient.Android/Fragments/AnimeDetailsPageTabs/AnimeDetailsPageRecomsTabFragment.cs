@@ -17,6 +17,7 @@ using GalaSoft.MvvmLight.Helpers;
 using MALClient.Android.Activities;
 using MALClient.Android;
 using MALClient.Android.BindingConverters;
+using MALClient.Android.Listeners;
 using MALClient.Android.Resources;
 using MALClient.Models.Models.AnimeScrapped;
 using MALClient.XShared.ViewModels;
@@ -52,18 +53,12 @@ namespace MALClient.Android.Fragments.AnimeDetailsPageTabs
             _adapter = ViewModel.Recommendations.GetAdapter(RecomItemDelegate);
             _list = FindViewById<ListView>(Resource.Id.AnimeDetailsPageRecomTabsList);
             _list.Adapter = _adapter;
-            _list.ItemClick += ListOnItemClick;
+            _list.OnItemClickListener = new OnItemClickListener<DirectRecommendationData>(data => ViewModel.NavigateDetailsCommand.Execute(data));
 
             Bindings.Add(LoadingOverlay.Id, new List<Binding>());
             Bindings[LoadingOverlay.Id].Add(
                 this.SetBinding(() => ViewModel.LoadingRecommendations,
                     () => LoadingOverlay.Visibility).ConvertSourceToTarget(Converters.BoolToVisibility));
-        }
-
-        private void ListOnItemClick(object sender, AdapterView.ItemClickEventArgs itemClickEventArgs)
-        {
-            var data = itemClickEventArgs.View.Tag.Unwrap<DirectRecommendationData>();
-            ViewModel.NavigateDetailsCommand.Execute(data);
         }
 
         private View RecomItemDelegate(int i, DirectRecommendationData animeReviewData, View convertView)
@@ -89,18 +84,8 @@ namespace MALClient.Android.Fragments.AnimeDetailsPageTabs
 
             var img = view.FindViewById<ImageViewAsync>(Resource.Id.AnimeRecomItemImage);
             ImageService.Instance.LoadUrl(animeReviewData.ImageUrl).FadeAnimation(true, true).Into(img);
-
-            
-
+       
             return view;
-        }
-
-        protected override void Cleanup()
-        {
-            _list.Adapter = null;
-            _adapter.Dispose();
-            _list.ItemClick -= ListOnItemClick;
-            base.Cleanup();
         }
 
         public static AnimeDetailsPageRecomsTabFragment Instance => new AnimeDetailsPageRecomsTabFragment();

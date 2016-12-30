@@ -210,6 +210,7 @@
     <Compile Include="Listeners\MenuFlyoutSelectionListener.cs" />
     <Compile Include="Listeners\OnCheckedListener.cs" />
     <Compile Include="Listeners\OnClickListener.cs" />
+    <Compile Include="Listeners\OnItemClickListener.cs" />
     <Compile Include="Listeners\SwipeLayoutListener.cs" />
     <Compile Include="Managers\ImageCache.cs" />
     <Compile Include="Managers\NavMgr.cs" />

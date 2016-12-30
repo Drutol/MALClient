@@ -57,9 +57,9 @@ namespace MALClient.Android.Flyouts
             builder.SetYOffset(5);
         }
 
-        public static View BuildItem(Context context,string text,Action<int> callback,int id,int? background = null,int? foreground = null)
+        public static View BuildItem(Context context,string text,Action<int> callback,int id,int? background = null,int? foreground = null,bool clickable = true,GravityFlags? gravity = null)
         {
-            var holder = BuildBaseItem(context, text,background,foreground);
+            var holder = BuildBaseItem(context, text,background,foreground,clickable,gravity);
 
             holder.Click += (sender, args) =>
             {
@@ -77,7 +77,7 @@ namespace MALClient.Android.Flyouts
             return holder;
         }
 
-        public static View BuildBaseItem(Context context, string text,int? background = null, int? foreground = null, bool clickable = true)
+        public static View BuildBaseItem(Context context, string text,int? background = null, int? foreground = null, bool clickable = true,GravityFlags ? gravity = null)
         {
             background = background ?? ResourceExtension.BrushFlyoutBackground;
             foreground = foreground ?? ResourceExtension.BrushText;
@@ -101,6 +101,10 @@ namespace MALClient.Android.Flyouts
 
 
             var txt = new TextView(context) { LayoutParameters = ParamTextView };
+            if (gravity != null)
+            {
+                txt.Gravity = gravity.Value;
+            }
             txt.SetTextColor(new Color(foreground.Value));
             txt.Text = text;
             txt.Id = TextViewTag;
@@ -132,7 +136,7 @@ namespace MALClient.Android.Flyouts
                     droppyBuilder.AddMenuItem(
                         new DroppyMenuCustomItem(BuildItem(context, Utilities.StatusToString((int)value), listener, (int) value)));
             }
-
+            droppyBuilder.SetYOffset(DimensionsHelper.DpToPx(30));
             return droppyBuilder.Build();
         }
 
@@ -157,7 +161,7 @@ namespace MALClient.Android.Flyouts
                     droppyBuilder.AddMenuItem(
                         new DroppyMenuCustomItem(BuildItem(context, value.GetDescription(), listener, (int) value)));
             }
-
+            droppyBuilder.SetYOffset(DimensionsHelper.DpToPx(30));
             return droppyBuilder.Build();
         }
 
@@ -182,6 +186,8 @@ namespace MALClient.Android.Flyouts
                     droppyBuilder.AddMenuItem(
                         new DroppyMenuCustomItem(BuildItem(context, item.Item2, listener, (int)item.Item1)));
             }
+
+            droppyBuilder.SetYOffset(DimensionsHelper.DpToPx(30));
 
             return droppyBuilder.Build();
         }

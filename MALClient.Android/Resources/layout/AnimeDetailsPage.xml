@@ -1,13 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent" android:layout_height="match_parent">
   <LinearLayout
-      xmlns:app="http://schemas.android.com/apk/res-auto"
       android:orientation="vertical"
       android:layout_width="match_parent"
       android:layout_height="match_parent">
-    <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content">
+    <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:elevation="5dp">
       <LinearLayout android:layout_width="match_parent"
-          android:elevation="5dp"
           android:layout_height="wrap_content"
           android:background="?BrushDetailsUpperBackground"
           android:orientation="horizontal">
@@ -39,10 +37,10 @@
                 android:id="@+id/AnimeDetailsPageWatchedLabel"
                 android:minHeight="25dp"
                 android:maxWidth="60dp"
-                android:textAlignment="textStart"
                 android:layout_marginTop="5dp"
                 android:text="Watched episodes"
-                android:textColor="?BrushText" android:gravity="center"/>
+                android:textColor="?BrushText"
+                android:gravity="left"/>
             <TextView  android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/AnimeDetailsPageReadVolumesLabel"
@@ -173,7 +171,6 @@
         android:id="@+id/AnimeDetailsPageTabStrip"
         android:layout_width="match_parent"
         android:layout_height="25dp"
-        android:elevation="-10dp"
         android:textColorPrimary="?AccentColour"
         android:background="?BrushPivotHeaderBackground"/>
     <android.support.v4.view.ViewPager

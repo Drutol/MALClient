@@ -36,11 +36,22 @@ namespace MALClient.Android.Fragments.AnimeDetailsPageTabs
 
         private void CreateDetailsAdapters()
         {
+            AnimeDetailsPageDetailsTabLeftGenresList.RemoveAllViews();
             AnimeDetailsPageDetailsTabLeftGenresList.SetAdapter(new GenresAdapter(_activity, ViewModel.LeftGenres, true));
+
+            AnimeDetailsPageDetailsTabRightGenresList.RemoveAllViews();
             AnimeDetailsPageDetailsTabRightGenresList.SetAdapter(new GenresAdapter(_activity , ViewModel.RightGenres, true));
+
+            AnimeDetailsPageDetailsTabInformationList.RemoveAllViews();
             AnimeDetailsPageDetailsTabInformationList.SetAdapter(new DetailsAdapter(_activity, ViewModel.Information, true));
+
+            AnimeDetailsPageDetailsTabStatsList.RemoveAllViews();
             AnimeDetailsPageDetailsTabStatsList.SetAdapter(new DetailsAdapter(_activity, ViewModel.Stats, true));
+
+            AnimeDetailsPageDetailsTabOPsList.RemoveAllViews();
             AnimeDetailsPageDetailsTabOPsList.SetAdapter(new GenresAdapter(_activity, ViewModel.OPs, true));
+
+            AnimeDetailsPageDetailsTabEDsList.RemoveAllViews();
             AnimeDetailsPageDetailsTabEDsList.SetAdapter(new GenresAdapter(_activity, ViewModel.EDs, true));
         }
 

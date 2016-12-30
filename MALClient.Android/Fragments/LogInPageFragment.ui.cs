@@ -40,9 +40,18 @@ namespace MALClient.Android.Fragments
 
             LoginPageProblemsButton.SetCommand(ViewModel.NavigateRegister);
             LoginPageProblemsButton.SetCommand(ViewModel.ProblemsCommand);
+
+            UsernameInput.FocusChange += UsernameInputOnFocusChange;
+            PasswordInput.FocusChange += UsernameInputOnFocusChange;
+
            // LoginPageButtonHum.Click += LoginPageButtonOnClick;
            // LoginPageButtonMal.Click += LoginPageButtonOnClick;
             SignInButton.SetCommand(ViewModel.LogInCommand);
+        }
+
+        private void UsernameInputOnFocusChange(object sender, View.FocusChangeEventArgs focusChangeEventArgs)
+        {
+            BottomButtonsSection.Visibility = focusChangeEventArgs.HasFocus ? ViewStates.Gone : ViewStates.Visible;
         }
 
         //private void LoginPageButtonOnClick(object sender, EventArgs eventArgs)
@@ -60,14 +69,13 @@ namespace MALClient.Android.Fragments
         //            break;
         //    }
         //}
-
         private EditText _usernameInput;
         private EditText _passwordInput;
         private Button _signInButton;
         private ProgressBar _loginPageLoadingSpinner;
-        private RelativeLayout _tab1;
         private Button _loginPageRegisterButton;
         private Button _loginPageProblemsButton;
+        private RelativeLayout _bottomButtonsSection;
 
         public EditText UsernameInput => _usernameInput ?? (_usernameInput = FindViewById<EditText>(Resource.Id.UsernameInput));
 
@@ -77,12 +85,11 @@ namespace MALClient.Android.Fragments
 
         public ProgressBar LoginPageLoadingSpinner => _loginPageLoadingSpinner ?? (_loginPageLoadingSpinner = FindViewById<ProgressBar>(Resource.Id.LoginPageLoadingSpinner));
 
-        public RelativeLayout Tab1 => _tab1 ?? (_tab1 = FindViewById<RelativeLayout>(Resource.Id.tab1));
-
         public Button LoginPageRegisterButton => _loginPageRegisterButton ?? (_loginPageRegisterButton = FindViewById<Button>(Resource.Id.LoginPageRegisterButton));
 
         public Button LoginPageProblemsButton => _loginPageProblemsButton ?? (_loginPageProblemsButton = FindViewById<Button>(Resource.Id.LoginPageProblemsButton));
 
+        public RelativeLayout BottomButtonsSection => _bottomButtonsSection ?? (_bottomButtonsSection = FindViewById<RelativeLayout>(Resource.Id.BottomButtonsSection));
 
 
 

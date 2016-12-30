@@ -1,79 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="?BrushDeepBackground">
-  <ImageView android:layout_width="match_parent" android:layout_height="match_parent"
-             android:src="@drawable/LogInBG" android:scaleType="centerCrop"/>
-  <RelativeLayout
-      android:orientation="vertical"
-      android:layout_width="fill_parent"
-      android:layout_height="fill_parent">
-    <RelativeLayout
-        android:layout_margin="20dp"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/tab1">
-      <LinearLayout
-          android:layout_width="300dp"
-          android:layout_centerInParent="true"
-          android:layout_height="wrap_content"
-          android:orientation="vertical"
-          android:padding="20dp"
-          android:background="@color/BrushOpaqueTextView">
-        <ImageView android:layout_width="match_parent" android:layout_height="130dp"  android:src="@drawable/wideLogo"/>
-        <TextView android:layout_marginTop="10dp"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:text="Username"
-                  android:textColor="#fff" android:layout_gravity="center_horizontal" android:textSize="@dimen/FontSizeMedium"/>
-        <EditText
-            android:inputType="text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/UsernameInput"
-            android:textColor="?BrushText"
-            android:backgroundTint="?AccentColour" android:backgroundTintMode="src_in"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Password" android:layout_marginTop="5dp"
-            android:textColor="#fff" android:layout_gravity="center_horizontal" android:textSize="@dimen/FontSizeMedium"/>
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textPassword"
-            android:ems="10"
-            android:id="@+id/PasswordInput"
-            android:textColor="?BrushText" android:backgroundTintMode="src_in"
-            android:backgroundTint="?AccentColour"/>
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_gravity="center">
-          <Button
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:text="Sign In"
-              android:id="@+id/SignInButton" />
-          <ProgressBar
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:indeterminate="true"
-              android:visibility="gone"
-              android:id="@+id/LoginPageLoadingSpinner" />
-        </LinearLayout>
-      </LinearLayout>
-    </RelativeLayout>
-    <RelativeLayout android:layout_width="match_parent" android:layout_alignParentBottom="true"  android:layout_height="wrap_content" android:paddingBottom="5dp">
-      <Button android:layout_width="wrap_content" android:id="@+id/LoginPageRegisterButton" android:foreground="?android:selectableItemBackground"
-                                                 android:layout_height="30dp"
-                                                 android:text="Register!" android:textColor="?AccentColour" android:background="@color/Transparent" android:textAllCaps="false"/>
-      <Button android:layout_width="70dp" android:layout_height="30dp"  android:text="Log out" android:foreground="?android:selectableItemBackground" android:textAllCaps="false" android:background="@drawable/inc_dec_btn_backgroud" android:layout_centerHorizontal="true" />
-      <Button android:layout_width="wrap_content" android:id="@+id/LoginPageProblemsButton"
-                                                 android:layout_height="30dp" android:layout_alignParentEnd="true" android:foreground="?android:selectableItemBackground"
-                                                 android:text="Problems?" android:textColor="?AccentColour" android:background="@color/Transparent" android:textAllCaps="false"/>
-    </RelativeLayout>
-  </RelativeLayout>
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?BrushDeepBackground">
+      <ImageView android:layout_width="match_parent" android:layout_height="match_parent"
+          android:src="@drawable/LogInBG" android:scaleType="centerCrop"/>
+
+      <ScrollView
+          android:layout_width="match_parent"
+          android:layout_height="match_parent">
+
+            <RelativeLayout
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
+
+
+                  <LinearLayout
+                      android:layout_width="300dp"
+                      android:layout_height="wrap_content"
+                      android:orientation="vertical"
+                      android:padding="20dp" android:layout_marginTop="20dp"
+                      android:background="@color/BrushOpaqueTextView"
+                      android:layout_alignParentTop="true"
+                      android:layout_centerHorizontal="true">
+                        <ImageView android:layout_width="match_parent" android:layout_height="100dp"  android:src="@drawable/wideLogo"/>
+
+                        <TextView android:layout_marginTop="10dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Username" android:labelFor="@+id/UsernameInput"
+                            android:textColor="#fff" android:layout_gravity="center_horizontal" android:textSize="@dimen/FontSizeMedium"/>
+
+                        <EditText
+                            android:inputType="text"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            xmlns:app="http://schemas.android.com/apk/res-auto"
+                            android:id="@+id/UsernameInput" app:backgroundTint="?AccentColour" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" android:labelFor="@+id/PasswordInput"
+                            android:text="Password" android:layout_marginTop="5dp"
+                            android:textColor="#fff" android:layout_gravity="center_horizontal" android:textSize="@dimen/FontSizeMedium"/>
+
+                        <EditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textPassword"
+                            android:ems="10"
+                            android:id="@+id/PasswordInput"
+                            android:textColor="?BrushText"
+                            android:backgroundTint="?AccentColour"/>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_gravity="center">
+                              <Button
+                                  android:layout_width="wrap_content"
+                                  android:layout_height="wrap_content"
+                                  android:text="Sign In"
+                                  android:id="@+id/SignInButton" />
+                              <ProgressBar
+                                  android:layout_width="wrap_content"
+                                  android:layout_height="wrap_content"
+                                  android:indeterminate="true"
+                                  android:visibility="gone"
+                                  android:id="@+id/LoginPageLoadingSpinner" />
+                        </LinearLayout>
+                  </LinearLayout>
+            </RelativeLayout>
+      </ScrollView>
+
+      <RelativeLayout android:id="@+id/BottomButtonsSection" android:layout_width="match_parent" android:layout_alignParentBottom="true"  android:layout_height="wrap_content" android:paddingBottom="5dp">
+            <Button android:layout_width="wrap_content" android:id="@+id/LoginPageRegisterButton" android:foreground="?android:selectableItemBackground"
+                android:layout_height="30dp"
+                android:text="Register!" android:textColor="?AccentColour" android:background="@color/Transparent" android:textAllCaps="false"/>
+            <Button android:layout_width="70dp" android:layout_height="30dp"  android:text="Log out" android:foreground="?android:selectableItemBackground" android:textAllCaps="false" android:background="@drawable/inc_dec_btn_backgroud" android:layout_centerHorizontal="true" />
+            <Button android:layout_width="wrap_content" android:id="@+id/LoginPageProblemsButton"
+                android:layout_height="30dp" android:layout_alignParentEnd="true" android:foreground="?android:selectableItemBackground"
+                android:text="Problems?" android:textColor="?AccentColour" android:background="@color/Transparent" android:textAllCaps="false"/>
+      </RelativeLayout>
+
 </RelativeLayout>

@@ -112,9 +112,11 @@ namespace MALClient.Android.BindingInformation
             switch (animeGridItemMoreFlyoutButtons)
             {
                 case AnimeGridItemMoreFlyoutButtons.CopyLink:
+                    ViewModel.CopyLinkToClipboardCommand.Execute(null);
                     break;
                 case AnimeGridItemMoreFlyoutButtons.OpenInBrowser:
-                    break;           
+                    ViewModel.OpenInMALCommand.Execute(null);
+                    break;
             }
             _menu.Dismiss(true);
         }

@@ -1,4 +1,6 @@
 ﻿using System;
+using Android.App;
+using Android.Content;
 using MALClient.Adapters;
 
 namespace MALClient.Android.Adapters
@@ -7,7 +9,11 @@ namespace MALClient.Android.Adapters
     {
         public async void LaunchUri(Uri uri)
         {
-           // await Launcher.LaunchUriAsync(uri);
+            String url = "http://www.example.com";
+            Intent i = new Intent(Intent.ActionView);
+            i = i.AddFlags(ActivityFlags.NewTask);
+            i = i.SetData(global::Android.Net.Uri.Parse(uri.ToString()));
+            Application.Context.StartActivity(i);
         }
     }
 }

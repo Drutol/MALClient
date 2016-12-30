@@ -4268,6 +4268,9 @@ namespace MALClient.Android
 			// aapt resource value: 0x7f0700f8
 			public const int ArticlesPageWebView = 2131165432;
 			
+			// aapt resource value: 0x7f07011f
+			public const int BottomButtonsSection = 2131165471;
+			
 			// aapt resource value: 0x7f0700fe
 			public const int CalendarPageContentGrid = 2131165438;
 			
@@ -4340,8 +4343,8 @@ namespace MALClient.Android
 			// aapt resource value: 0x7f07019d
 			public const int HamburgerMenuUpperSection = 2131165597;
 			
-			// aapt resource value: 0x7f07011f
-			public const int LoginPageLoadingSpinner = 2131165471;
+			// aapt resource value: 0x7f07011e
+			public const int LoginPageLoadingSpinner = 2131165470;
 			
 			// aapt resource value: 0x7f070121
 			public const int LoginPageProblemsButton = 2131165473;
@@ -4367,8 +4370,8 @@ namespace MALClient.Android
 			// aapt resource value: 0x7f070125
 			public const int MainPageSearchView = 2131165477;
 			
-			// aapt resource value: 0x7f07011d
-			public const int PasswordInput = 2131165469;
+			// aapt resource value: 0x7f07011c
+			public const int PasswordInput = 2131165468;
 			
 			// aapt resource value: 0x7f070151
 			public const int RecommendationItemDepImage = 2131165521;
@@ -4580,8 +4583,8 @@ namespace MALClient.Android
 			// aapt resource value: 0x7f070195
 			public const int SettingsPageItemSubtitle = 2131165589;
 			
-			// aapt resource value: 0x7f07011e
-			public const int SignInButton = 2131165470;
+			// aapt resource value: 0x7f07011d
+			public const int SignInButton = 2131165469;
 			
 			// aapt resource value: 0x7f070196
 			public const int StatusDialogItemTextView = 2131165590;
@@ -4589,8 +4592,8 @@ namespace MALClient.Android
 			// aapt resource value: 0x7f070197
 			public const int SuggestionItemTextView = 2131165591;
 			
-			// aapt resource value: 0x7f07011c
-			public const int UsernameInput = 2131165468;
+			// aapt resource value: 0x7f07011b
+			public const int UsernameInput = 2131165467;
 			
 			// aapt resource value: 0x7f070142
 			public const int action0 = 2131165506;
@@ -5104,9 +5107,6 @@ namespace MALClient.Android
 			
 			// aapt resource value: 0x7f07007f
 			public const int submit_area = 2131165311;
-			
-			// aapt resource value: 0x7f07011b
-			public const int tab1 = 2131165467;
 			
 			// aapt resource value: 0x7f070023
 			public const int tabMode = 2131165219;

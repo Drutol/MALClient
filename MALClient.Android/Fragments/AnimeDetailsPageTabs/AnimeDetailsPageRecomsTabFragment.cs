@@ -83,7 +83,7 @@ namespace MALClient.Android.Fragments.AnimeDetailsPageTabs
             
 
             var img = view.FindViewById<ImageViewAsync>(Resource.Id.AnimeRecomItemImage);
-            ImageService.Instance.LoadUrl(animeReviewData.ImageUrl).FadeAnimation(true, true).Into(img);
+            ImageService.Instance.LoadUrl(animeReviewData.ImageUrl).FadeAnimation(false).Success(() => img.AnimateFadeIn()).Into(img);
        
             return view;
         }

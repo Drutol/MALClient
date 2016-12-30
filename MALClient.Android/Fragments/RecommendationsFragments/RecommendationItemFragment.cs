@@ -70,9 +70,9 @@ namespace MALClient.Android.Fragments.RecommendationsFragments
                     RecommendationItemDepTitle.Text = ViewModel.Data.DependentTitle;
                     RecommendationItemRecTitle.Text = ViewModel.Data.RecommendationTitle;
                     if(ViewModel.Data.AnimeDependentData.ImgUrl != null)
-                        ImageService.Instance.LoadUrl(ViewModel.Data.AnimeDependentData.ImgUrl).Into(RecommendationItemDepImage);
+                        ImageService.Instance.LoadUrl(ViewModel.Data.AnimeDependentData.ImgUrl).FadeAnimation(false).Success(() => RecommendationItemDepImage.AnimateFadeIn()).Into(RecommendationItemDepImage);
                     if(ViewModel.Data.AnimeRecommendationData.ImgUrl != null)
-                        ImageService.Instance.LoadUrl(ViewModel.Data.AnimeRecommendationData.ImgUrl).Into(RecommendationItemRecImage);
+                        ImageService.Instance.LoadUrl(ViewModel.Data.AnimeRecommendationData.ImgUrl).FadeAnimation(false).Success(() => RecommendationItemRecImage.AnimateFadeIn()).Into(RecommendationItemRecImage);
                 }));
 
             RecommendationItemRecImageButton.SetCommand("Click",ViewModel.NavigateDepDetails);

@@ -30,7 +30,7 @@ namespace MALClient.Android.BindingInformation.StaticBindings
             target.FindViewById<TextView>(Resource.Id.CharacterItemName).Text = model.Data.Name;
             target.FindViewById<TextView>(Resource.Id.CharacterItemNotes).Text = model.Data.Notes;
             var img = target.FindViewById<ImageViewAsync>(Resource.Id.CharacterItemImage);
-            ImageService.Instance.LoadUrl(model.Data.ImgUrl).Into(img);
+            ImageService.Instance.LoadUrl(model.Data.ImgUrl).FadeAnimation(false).Success(() => img.AnimateFadeIn()).Into(img);
         }
     }
 }

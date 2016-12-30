@@ -75,7 +75,7 @@ namespace MALClient.Android.Fragments.AnimeDetailsPageTabs
 
             var img = view.FindViewById<ImageViewAsync>(Resource.Id.AnimeReviewItemLayoutAvatarImage);
             ImageService.Instance.LoadUrl(animeReviewData.AuthorAvatar, TimeSpan.FromDays(1))
-                .FadeAnimation(true, true, 500)
+                .FadeAnimation(false).Success(() => img.AnimateFadeIn())
                 .Into(img);
             view.FindViewById<TextView>(Resource.Id.AnimeReviewItemLayoutAuthor).Text = animeReviewData.Author;
             view.FindViewById<TextView>(Resource.Id.AnimeReviewItemLayoutDate).Text = animeReviewData.Date;

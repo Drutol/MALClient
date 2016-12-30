@@ -44,7 +44,7 @@ namespace MALClient.Android.Fragments
             {
                 if (AnimeDetailsPageShowCoverImage != null)
                     ImageService.Instance.LoadUrl(ViewModel.DetailImage, TimeSpan.FromDays(7))
-                        .FadeAnimation(true, true)
+                        .FadeAnimation(false).Success(() => AnimeDetailsPageShowCoverImage.AnimateFadeIn())
                         .Into(AnimeDetailsPageShowCoverImage);
             }
         }

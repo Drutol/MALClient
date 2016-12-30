@@ -10,6 +10,7 @@ using Android.Hardware.Display;
 using Android.OS;
 using Android.Runtime;
 using Android.Views;
+using Android.Views.Animations;
 using Android.Widget;
 using MALClient.Android;
 
@@ -66,6 +67,15 @@ namespace MALClient.Android
                 if(!RegisteredActions[viewModel].Item1.Any())
                     viewModel.PropertyChanged -= data.Item2;
             }
+        }
+
+        public static void AnimateFadeIn(this View view)
+        {
+            Animation fadeIn = new AlphaAnimation(0, 1);
+            fadeIn.Interpolator = new DecelerateInterpolator(); //add this
+            fadeIn.Duration = 300;
+
+            view.StartAnimation(fadeIn);
         }
 
         public static void SetAdapter(this LinearLayout layout, BaseAdapter adapter)

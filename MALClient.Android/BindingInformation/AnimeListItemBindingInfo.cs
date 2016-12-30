@@ -143,7 +143,7 @@ namespace MALClient.Android.BindingInformation
 
             Container.SetOnClickListener(new OnClickListener(view => ContainerOnClick()));
 
-            ImageService.Instance.LoadUrl(ViewModel.ImgUrl).FadeAnimation(true, true).Into(AnimeListItemImage);
+            ImageService.Instance.LoadUrl(ViewModel.ImgUrl).FadeAnimation(false).Success(() => AnimeListItemImage.AnimateFadeIn()).Into(AnimeListItemImage);
         }
 
         protected override void DetachInnerBindings()

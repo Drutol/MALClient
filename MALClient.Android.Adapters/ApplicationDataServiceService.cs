@@ -23,23 +23,26 @@ namespace MALClient.Android.Adapters
             {
                 
                 var editor =  PreferenceManager.Edit();
-                switch (Type.GetTypeCode(value.GetType()))
-                {
-                    case TypeCode.Boolean:
-                        editor.PutBoolean(key, (bool) value);
-                        break;
-                    case TypeCode.String:
-                        editor.PutString(key, (string) value);
-                        break;
-                    case TypeCode.Int32:
-                        editor.PutInt(key, (int) value);
-                        break;
-                    case TypeCode.Int64:
-                        editor.PutLong(key, (long) value);
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException();
-                }
+                if (value != null)
+                    switch (Type.GetTypeCode(value.GetType()))
+                    {
+                        case TypeCode.Boolean:
+                            editor.PutBoolean(key, (bool) value);
+                            break;
+                        case TypeCode.String:
+                            editor.PutString(key, (string) value);
+                            break;
+                        case TypeCode.Int32:
+                            editor.PutInt(key, (int) value);
+                            break;
+                        case TypeCode.Int64:
+                            editor.PutLong(key, (long) value);
+                            break;
+                        default:
+                            throw new ArgumentOutOfRangeException();
+                    }
+                else
+                    editor.Remove(key);
                 editor.Apply();
             }
         }

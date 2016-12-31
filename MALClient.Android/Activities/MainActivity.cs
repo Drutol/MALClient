@@ -49,6 +49,7 @@ namespace MALClient.Android.Activities
         public MainActivity()
         {
             CurrentContext = this;
+            SimpleIoc.Default.Register<Activity>(() => this);
         }
 
         protected override void OnCreate(Bundle bundle)
@@ -68,7 +69,10 @@ namespace MALClient.Android.Activities
                 ViewModel.MainNavigationRequested += ViewModelOnMainNavigationRequested;
 
                 ViewModelLocator.AnimeList.DimensionsProvider = this;
-                ViewModel.Navigate(PageIndex.PageAnimeList);
+
+                ViewModel.Navigate(Credentials.Authenticated
+                    ? (Settings.DefaultMenuTab == "anime" ? PageIndex.PageAnimeList : PageIndex.PageMangaList)
+                    : PageIndex.PageLogIn);
             }
     
         }

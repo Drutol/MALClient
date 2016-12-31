@@ -63,10 +63,11 @@ namespace MALClient.Android.Adapters.PagerAdapters
             if (model is CalendarSummaryPivotPage)
             {
                 var img = new ImageView(p0.Context) {LayoutParameters = new LinearLayout.LayoutParams(-2,-2) {Gravity = GravityFlags.Center} };
-                //img.ScaleX = .7f;
-                //img.ScaleY = .7f;
-                img.ImageTintList = ColorStateList.ValueOf(new Color(ResourceExtension.AccentColour));
-                img.SetImageDrawable(p0.Context.Resources.GetDrawable(Resource.Drawable.icon_list));
+                img.ScaleX = .7f;
+                img.ScaleY = .7f;
+                img.SetScaleType(ImageView.ScaleType.CenterInside);
+                img.ImageTintList = ColorStateList.ValueOf(new Color(ResourceExtension.BrushTextRes));
+                img.SetImageResource(Resource.Drawable.icon_list);
                 viewUpper = img;
                 viewBottom.Text = "Summary";
                 (viewBottom.LayoutParameters as LinearLayout.LayoutParams).SetMargins(0,4,0,0);

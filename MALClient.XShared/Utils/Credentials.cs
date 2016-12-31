@@ -35,7 +35,8 @@ namespace MALClient.XShared.Utils
         public static int Id { get; private set; }
 
 
-        public static bool Authenticated { get; private set; }
+        public static bool Authenticated { get;
+            private set; }
 
         internal static ICredentials GetHttpCreditentials()
         {

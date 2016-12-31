@@ -64,7 +64,7 @@ namespace MALClient.Android.BindingInformation
 
             _bindingsInitialized = true;
 
-            ViewModel.AnimeItemDisplayContext = AnimeItemDisplayContext.AirDay;
+            
 
             var typeView = Container.FindViewById<TextView>(Resource.Id.AnimeGridItemType);
             Bindings.Add(Resource.Id.AnimeGridItemType,new List<Binding>());
@@ -284,9 +284,9 @@ namespace MALClient.Android.BindingInformation
                 return;
             _oneTimeBindingsInitialized = true;
 
+            ViewModel.AnimeItemDisplayContext = ViewModelLocator.AnimeList.AnimeItemsDisplayContext;
 
-            var img = Container.FindViewById<ImageViewAsync>(Resource.Id.AnimeGridItemImage);
-            ImageService.Instance.LoadUrl(ViewModel.ImgUrl).FadeAnimation(false).Success(() => img.AnimateFadeIn()).Into(img);
+            ImageService.Instance.LoadUrl(ViewModel.ImgUrl).FadeAnimation(false).Success(() => Container.FindViewById<ImageViewAsync>(Resource.Id.AnimeGridItemImage).AnimateFadeIn()).Into(Container.FindViewById<ImageViewAsync>(Resource.Id.AnimeGridItemImage));
 
             if(AllowSwipeInGivenContext && ViewModel.Auth)
                 InitializeSwipeLayout();

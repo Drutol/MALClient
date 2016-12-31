@@ -1,67 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- The main content view -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-  <LinearLayout
-      android:layout_width="match_parent"
-      android:layout_height="@dimen/AppBarHeight"
-      android:orientation="horizontal"
-      android:elevation="5dp"
-      android:background="?BrushAppBarUpper">
-    <ImageButton
-        android:src="@drawable/icon_hamburger"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:id="@+id/MainPageHamburgerButton"
-        android:background="?android:selectableItemBackground" />
-    <LinearLayout android:layout_width="0dp"
-                  android:layout_height="match_parent"
-                  android:layout_weight="1"
-                  android:orientation="horizontal">
-      <TextView
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:textStyle="normal"
-          android:textSize="15sp"
-          android:text="MALClientTestAcc - Watching"
-          android:textColor="?BrushAppBarText"
-          android:layout_gravity="center_vertical"
-          android:id="@+id/MainPageCurrentStatus"
-          android:layout_margin="5dp" />
-      <TextView
-          android:id="@+id/MainPageCurrentSatusSubtitle"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:textStyle="normal"
-          android:textSize="13sp"
-          android:text="Score"
-          android:textColor="?BrushSettingsSubtitle"
-          android:layout_gravity="center_vertical"
-          android:layout_margin="5dp" />
-    </LinearLayout>
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="@dimen/AppBarHeight"
+          android:orientation="horizontal"
+          android:elevation="5dp"
+          android:background="?BrushAppBarUpper">
+            <ImageButton
+                android:src="@drawable/icon_hamburger"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:id="@+id/MainPageHamburgerButton"
+                android:background="?android:selectableItemBackground" />
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+                  <TextView
+                      android:layout_width="match_parent"
+                      android:layout_height="match_parent" android:textColor="#ff0000" android:text="Super highschool level alpha build" />
+            <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent">
+                  <TextView
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:textStyle="normal"
+                      android:textSize="15sp"
+                      android:text="MALClientTestAcc - Watching"
+                      android:textColor="?BrushAppBarText"
+                      android:layout_gravity="center_vertical"
+                      android:id="@+id/MainPageCurrentStatus"
+                      android:layout_margin="5dp" />
+                  <TextView
+                      android:id="@+id/MainPageCurrentSatusSubtitle"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:textStyle="normal"
+                      android:textSize="13sp"
+                      android:text="Score"
+                      android:textColor="?BrushSettingsSubtitle"
+                      android:layout_gravity="center_vertical"
+                      android:layout_margin="5dp" />
+            </LinearLayout>
+            </RelativeLayout>
 
-    <android.support.v7.widget.SearchView android:id="@+id/MainPageSearchView"
-                                          android:layout_width="wrap_content"
-                                          android:layout_height="match_parent"
-                                          android:layout_weight="1"
-                                          android:layout_gravity="end"
-                                          xmlns:app="http://schemas.android.com/apk/res-auto"
-                                          app:showAsAction="collapseActionView|always"
-                                          android:minWidth="@dimen/AppBarBtnWidth"
-                                          android:iconifiedByDefault="false"
-                                          android:searchIcon="@null"/>
-    <ImageButton android:id="@+id/MainPageRefreshButton"
-                 android:layout_width="50dp"
-                 android:layout_height="match_parent"
-                 android:background="?android:selectableItemBackground"
-                 android:src="@drawable/icon_reload"/>
-  </LinearLayout>
-  <FrameLayout
-      android:id="@+id/MainContentFrame"
-      android:layout_width="match_parent"
-      android:layout_height="match_parent" />
+            <android.support.v7.widget.SearchView android:id="@+id/MainPageSearchView"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_gravity="end"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                app:showAsAction="collapseActionView|always"
+                android:minWidth="@dimen/AppBarBtnWidth"
+                android:iconifiedByDefault="false"
+                android:searchIcon="@null"/>
+            <ImageButton android:id="@+id/MainPageRefreshButton"
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
+                android:background="?android:selectableItemBackground"
+                android:src="@drawable/icon_reload"/>
+      </LinearLayout>
+      <FrameLayout
+          android:id="@+id/MainContentFrame"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent" />
 </LinearLayout>

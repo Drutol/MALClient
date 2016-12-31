@@ -73,9 +73,16 @@ namespace MALClient.Android
         {
             Animation fadeIn = new AlphaAnimation(0, 1);
             fadeIn.Interpolator = new DecelerateInterpolator(); //add this
-            fadeIn.Duration = 300;
+            fadeIn.Duration = 400;
+            try
+            {
+                view.StartAnimation(fadeIn);
+            }
+            catch (Exception e)
+            {
 
-            view.StartAnimation(fadeIn);
+            }
+
         }
 
         public static void SetAdapter(this LinearLayout layout, BaseAdapter adapter)

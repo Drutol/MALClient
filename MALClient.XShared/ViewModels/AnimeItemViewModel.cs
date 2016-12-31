@@ -337,6 +337,9 @@ namespace MALClient.XShared.ViewModels
             get { return _animeItemDisplayContext; }
             set
             {
+                if(value == _animeItemDisplayContext)
+                    return;
+
                 _animeItemDisplayContext = value;
                 RaisePropertyChanged(() => TopLeftInfoBind);
             }

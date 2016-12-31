@@ -38,7 +38,7 @@ namespace MALClient.Android.Fragments
                 },
             };
 
-            LoginPageProblemsButton.SetCommand(ViewModel.NavigateRegister);
+            LoginPageRegisterButton.SetCommand(ViewModel.NavigateRegister);
             LoginPageProblemsButton.SetCommand(ViewModel.ProblemsCommand);
 
             UsernameInput.FocusChange += UsernameInputOnFocusChange;

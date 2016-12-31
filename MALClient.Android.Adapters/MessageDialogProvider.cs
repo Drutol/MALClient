@@ -20,17 +20,15 @@ namespace MALClient.Android.Adapters
             dialog.Show();
         }
 
-        public async void ShowMessageDialogWithInput(string content, string title,string trueCommand,string falseCommand, Action callbackOnTrue,Action callBackOnFalse = null)
+        public void ShowMessageDialogWithInput(string content, string title,string trueCommand,string falseCommand, Action callbackOnTrue,Action callBackOnFalse = null)
         {
-            //bool response = false;
-            //var msg = new MessageDialog(content,title);
-            //msg.Commands.Add(new UICommand(trueCommand,command => response = true));
-            //msg.Commands.Add(new UICommand(falseCommand));
-            //await msg.ShowAsync();
-            //if(response)
-            //    callbackOnTrue.Invoke();
-            //else
-            //    callBackOnFalse?.Invoke();
+            var dialog = new AlertDialog.Builder(SimpleIoc.Default.GetInstance<Activity>());
+            dialog.SetNeutralButton(trueCommand, (sender, args) => callbackOnTrue.Invoke());
+            dialog.SetNegativeButton(falseCommand, (sender, args) => callBackOnFalse?.Invoke());
+            dialog.SetTitle(title);
+            dialog.SetMessage(content);
+            dialog.SetCancelable(false);
+            dialog.Show();
         }
     }
 }

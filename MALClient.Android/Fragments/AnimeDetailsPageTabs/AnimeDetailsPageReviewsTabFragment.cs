@@ -89,7 +89,7 @@ namespace MALClient.Android.Fragments.AnimeDetailsPageTabs
             foreach (var score in animeReviewData.Score)
             {
                 var txt = new TextView(view.Context);
-                txt.Text = $"{score.Field} {score.Score}";
+                txt.Text = $"{score.Field} - {score.Score}";
                 txt.Typeface = Typeface.Create(ResourceExtension.FontSizeLight,TypefaceStyle.Normal);
                 txt.SetTextColor(new Color(ResourceExtension.BrushText));
                 scores.AddView(txt);

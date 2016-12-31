@@ -22,11 +22,13 @@ using Com.Mikepenz.Materialdrawer;
 using Com.Mikepenz.Materialdrawer.Holder;
 using Com.Mikepenz.Materialdrawer.Model;
 using Com.Mikepenz.Materialdrawer.Model.Interfaces;
+using Com.Shehabic.Droppy;
 using FFImageLoading;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Helpers;
 using Java.Lang;
 using MALClient.Android.BindingConverters;
+using MALClient.Android.Flyouts;
 using MALClient.Android.Listeners;
 using MALClient.Android.Resources;
 using MALClient.XShared.Comm.Anime;
@@ -43,6 +45,7 @@ namespace MALClient.Android.Activities
 {
     public partial class MainActivity
     {
+        private DroppyMenuPopup _upperFilterMenu;
         private SimpleCursorAdapter _searchSuggestionAdapter;
         private View _searchFrame;
         private Drawer _drawer;
@@ -125,6 +128,18 @@ namespace MALClient.Android.Activities
                     Resource.Id.SuggestionItemTextView
                 });
 
+            //
+            MainPageCurrentStatus.Clickable = true;
+            MainPageCurrentStatus.SetOnClickListener(new OnClickListener(view =>
+            {
+                if (ViewModel.CurrentMainPage == PageIndex.PageAnimeList)
+                {
+                    _upperFilterMenu = AnimeListPageFlyoutBuilder.BuildForAnimeStatusSelection(this, MainPageCurrentStatus,
+                        OnUpperFlyoutStatusChanged, (AnimeStatus) ViewModelLocator.AnimeList.CurrentStatus,
+                        ViewModelLocator.AnimeList.IsMangaWorkMode);
+                    _upperFilterMenu.Show();
+                }
+            }));
 
             MainPageSearchView.SuggestionsAdapter = _searchSuggestionAdapter;
             MainPageSearchView.QueryTextChange += MainPageSearchViewOnQueryTextChange;
@@ -138,6 +153,14 @@ namespace MALClient.Android.Activities
             ViewModel.PropertyChanged += ViewModelOnPropertyChanged;
             BuildDrawer();     
             _drawer.OnDrawerItemClickListener = new HamburgerItemClickListener(OnHamburgerItemClick); 
+        }
+
+        private void OnUpperFlyoutStatusChanged(AnimeStatus animeStatus)
+        {
+            ViewModelLocator.AnimeList.CurrentStatus = (int)animeStatus;
+            ViewModelLocator.AnimeList.RefreshList();
+            _upperFilterMenu.Dismiss(true);
+            _upperFilterMenu = null;
         }
 
         private void MainPageSearchViewOnSuggestionClick(object sender, SearchView.SuggestionClickEventArgs suggestionClickEventArgs)

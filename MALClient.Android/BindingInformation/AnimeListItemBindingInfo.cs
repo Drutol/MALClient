@@ -38,6 +38,7 @@ namespace MALClient.Android.BindingInformation
 
         protected override void InitBindings()
         {
+
             Bindings.Add(AnimeListItemWatchedButton.Id, new List<Binding>());
             Bindings[AnimeListItemWatchedButton.Id].Add(new Binding<string, string>(
                 ViewModel,
@@ -143,6 +144,7 @@ namespace MALClient.Android.BindingInformation
 
             Container.SetOnClickListener(new OnClickListener(view => ContainerOnClick()));
 
+            ViewModel.AnimeItemDisplayContext = ViewModelLocator.AnimeList.AnimeItemsDisplayContext;
             ImageService.Instance.LoadUrl(ViewModel.ImgUrl).FadeAnimation(false).Success(() => AnimeListItemImage.AnimateFadeIn()).Into(AnimeListItemImage);
         }
 

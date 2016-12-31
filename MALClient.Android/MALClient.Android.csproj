@@ -202,6 +202,7 @@
     </Compile>
     <Compile Include="Fragments\SettingsFragments\SettingsHomepageFragment.cs" />
     <Compile Include="Fragments\SettingsFragments\SettingsPageFragment.cs" />
+    <Compile Include="Listeners\DateSetListener.cs" />
     <Compile Include="Listeners\DialogListeners\DialogDismissedListener.cs" />
     <Compile Include="Listeners\DialogListeners\EnumDialogListener.cs" />
     <Compile Include="Listeners\DialogListeners\IntegerDialogListener.cs" />
@@ -306,23 +307,7 @@
     <AndroidResource Include="Resources\drawable\icon_hamburger.xml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Resources\drawable\icon\" />
     <Folder Include="UserControls\" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\mipmap-xxxhdpi\malclient_logo_wide.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\mipmap-xxhdpi\malclient_logo_wide.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\mipmap-hdpi\malclient_logo_wide.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\mipmap-xhdpi\malclient_logo_wide.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\mipmap-mdpi\malclient_logo_wide.png" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\colors.xml" />
@@ -358,7 +343,9 @@
     <AndroidResource Include="Resources\values\styles.xml" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\layout\AnimeDetailsPage.xml" />
+    <AndroidResource Include="Resources\layout\AnimeDetailsPage.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\border_accent_underline.xml" />

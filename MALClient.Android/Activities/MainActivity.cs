@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using Android.App;
@@ -20,8 +21,12 @@ using GalaSoft.MvvmLight.Ioc;
 using MALClient.Android.Adapters.PagerAdapters;
 using MALClient.Android.Fragments;
 using MALClient.Android.ViewModels;
+using MALClient.Models.Enums;
+using MALClient.XShared.Comm.Anime;
+using MALClient.XShared.Comm.Manga;
 using MALClient.XShared.Utils;
 using MALClient.XShared.Utils.Enums;
+using MALClient.XShared.Utils.Managers;
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Interfaces;
 
@@ -90,22 +95,27 @@ namespace MALClient.Android.Activities
             trans.Commit();
         }
 
-        //private void NavViewOnNavigationItemSelected(object sender, NavigationView.NavigationItemSelectedEventArgs e)
-        //{
-        //    e.MenuItem.SetChecked(true);
-        //    ViewModelLocator.NavMgr.ResetMainBackNav();
-        //    switch (e.MenuItem.ItemId)
-        //    {
-        //        case Resource.Id.MainHamburgerBtnLogIn:
-        //            ViewModelLocator.GeneralMain.Navigate(PageIndex.PageLogIn);
-        //            break;
-        //        case Resource.Id.MainHamburgerBtnAnimeList:
-        //            ViewModel.Navigate(PageIndex.PageAnimeList,null);
-        //            break;
-        //    }
-
-        //    DrawerLayout.CloseDrawers();
-        //}
+        protected override void OnPause()
+        {
+#pragma warning disable 4014
+            if (Settings.IsCachingEnabled)
+            {
+                if (AnimeUpdateQuery.UpdatedSomething)                  
+                        DataCache.SaveDataForUser(Credentials.UserName,
+                            ViewModelLocator.AnimeList.AllLoadedAnimeItemAbstractions.Select(
+                                abstraction => abstraction.EntryData), AnimeListWorkModes.Anime);
+                if (MangaUpdateQuery.UpdatedSomething)                
+                        DataCache.SaveDataForUser(Credentials.UserName,
+                            ViewModelLocator.AnimeList.AllLoadedMangaItemAbstractions.Select(
+                                abstraction => abstraction.EntryData), AnimeListWorkModes.Manga);
+            }
+            DataCache.SaveVolatileData();
+            DataCache.SaveHumMalIdDictionary();
+            ViewModelLocator.ForumsMain.SavePinnedTopics();
+            FavouritesManager.SaveData();
+#pragma warning restore 4014
+            base.OnPause();
+        }
 
         public double ActualWidth => -1;
         public double ActualHeight => -1;

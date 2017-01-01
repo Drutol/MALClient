@@ -28,7 +28,7 @@ namespace MALClient.Pages.Main
         private async void ButtonBase_OnClick(object sender, RoutedEventArgs e)
         {
             if (ViewModel.CurrentData.website != null)
-                await Launcher.LaunchUriAsync(new Uri(ViewModel.CurrentData.website as string));
+                ResourceLocator.SystemControlsLauncherService.LaunchUri(new Uri(ViewModel.CurrentData.website as string));
         }
 
         private void NavDetailsFeed(object sender, TappedRoutedEventArgs e)

@@ -12,7 +12,7 @@ namespace MALClient.UWP.Adapters
     {
         public async void LaunchUri(Uri uri)
         {
-            await Launcher.LaunchUriAsync(uri);
+            await Launcher.LaunchUriAsync(uri,new LauncherOptions {IgnoreAppUriHandlers = true});
         }
     }
 }

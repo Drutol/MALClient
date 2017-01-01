@@ -77,7 +77,7 @@ namespace MALClient.Pages.Forums
 
         private async void BetaForumsFeedback(object sender, RoutedEventArgs e)
         {
-            await Launcher.LaunchUriAsync(new Uri("https://github.com/Mordonus/MALClient/issues/44"));
+            ResourceLocator.SystemControlsLauncherService.LaunchUri(new Uri("https://github.com/Mordonus/MALClient/issues/44"));
         }
 
         private void PinnedTopicListView_OnItemClick(object sender, ItemClickEventArgs e)

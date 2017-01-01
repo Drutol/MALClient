@@ -15,9 +15,9 @@ namespace MALClient.XShared.Utils
 {
     public static class MalLinkParser
     {
-        public static async Task<Tuple<PageIndex, object>> GetNavigationParametersForUrl(string url)
+        public static async Task<Tuple<PageIndex, object>> GetNavigationParametersForUrl(string uri)
         {
-            var uri = url;
+            uri = uri.Replace("http://", "https://");
             if (Regex.IsMatch(uri, @"https:\/\/myanimelist.net\/forum\/\?subboard=\d+"))
             {
                 var id = uri.Split('=').Last();  

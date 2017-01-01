@@ -250,7 +250,7 @@ namespace MALClient
         {
             try
             {
-                await Launcher.LaunchUriAsync(new Uri(url));
+                ResourceLocator.SystemControlsLauncherService.LaunchUri(new Uri(url));
             }
             catch (Exception)
             {

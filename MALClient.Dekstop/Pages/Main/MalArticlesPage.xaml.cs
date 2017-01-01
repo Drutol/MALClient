@@ -111,7 +111,7 @@ namespace MALClient.Pages.Main
                         {
                             if (Settings.ArticlesLaunchExternalLinks)
                             {
-                                await Launcher.LaunchUriAsync(args.Uri);
+                                ResourceLocator.SystemControlsLauncherService.LaunchUri(args.Uri);
                             }
                             return;
                         }
@@ -132,7 +132,7 @@ namespace MALClient.Pages.Main
                     }
                     else if (Settings.ArticlesLaunchExternalLinks)
                     {
-                        await Launcher.LaunchUriAsync(args.Uri);
+                        ResourceLocator.SystemControlsLauncherService.LaunchUri(args.Uri);
                     }
                 }
             }

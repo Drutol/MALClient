@@ -233,7 +233,7 @@ namespace MALClient.Pages.Forums
                     }
                     else if (Settings.ArticlesLaunchExternalLinks)
                     {
-                        await Launcher.LaunchUriAsync(args.Uri);
+                        ResourceLocator.SystemControlsLauncherService.LaunchUri(args.Uri);
                     }
                 }
             }

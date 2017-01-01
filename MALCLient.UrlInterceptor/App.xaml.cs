@@ -63,6 +63,7 @@ namespace MALCLient.UrlInterceptor
             if (arg != null)
             {
                 var uri = arg.Uri.ToString();
+                uri = uri.Replace("http://","https://");
                 if (Regex.IsMatch(uri, @"https:\/\/myanimelist.net\/forum\/\?subboard=\d+")
                     || Regex.IsMatch(uri, @"https:\/\/myanimelist.net\/forum\/\?board=\d+")
                     || Regex.IsMatch(uri, @"https:\/\/myanimelist.net\/forum\/\?animeid=\d+")

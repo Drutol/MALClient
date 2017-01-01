@@ -59,9 +59,9 @@ namespace MALClient.Pages.Main
         private async void ButtonRegister_OnClick(object sender, RoutedEventArgs e)
         {
             if (ViewModelLocator.LogIn.CurrentApiType == ApiType.Mal)
-                await Launcher.LaunchUriAsync(new Uri("https://hummingbird.me/sign-up"));
+                ResourceLocator.SystemControlsLauncherService.LaunchUri(new Uri("https://hummingbird.me/sign-up"));
             else
-                await Launcher.LaunchUriAsync(new Uri("https://myanimelist.net/register.php"));
+                ResourceLocator.SystemControlsLauncherService.LaunchUri(new Uri("https://myanimelist.net/register.php"));
         }
 
         private async void ButtonProblems_OnClick(object sender, RoutedEventArgs e)

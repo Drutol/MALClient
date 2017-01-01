@@ -176,7 +176,7 @@ namespace MALClient.Pages.Main
             if(args.Uri == null)
                 return;
             args.Cancel = true;
-            await Launcher.LaunchUriAsync(args.Uri);
+            ResourceLocator.SystemControlsLauncherService.LaunchUri(args.Uri);
         }
 
     }

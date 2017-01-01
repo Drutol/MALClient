@@ -43,12 +43,12 @@ namespace MALClient.Pages.Off.SettingsPages
 
         private async void LaunchIssues(object sender, RoutedEventArgs e)
         {
-            await Launcher.LaunchUriAsync(new Uri("https://github.com/Drutol/MALClient/issues"));
+            ResourceLocator.SystemControlsLauncherService.LaunchUri(new Uri("https://github.com/Drutol/MALClient/issues"));
         }
 
         private async void LaunchRepo(object sender, RoutedEventArgs e)
         {
-            await Launcher.LaunchUriAsync(new Uri("https://github.com/Drutol/MALClient"));
+            ResourceLocator.SystemControlsLauncherService.LaunchUri(new Uri("https://github.com/Drutol/MALClient"));
         }
 
         private void ShowChangelogButtonOnClick(object sender, RoutedEventArgs e)

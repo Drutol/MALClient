@@ -1,6 +1,7 @@
 ﻿using GalaSoft.MvvmLight;
 using MALClient.XShared.Delegates;
 using MALClient.XShared.NavArgs;
+using MALClient.XShared.Utils.Enums;
 
 namespace MALClient.XShared.ViewModels.Forums
 {
@@ -10,9 +11,18 @@ namespace MALClient.XShared.ViewModels.Forums
         public event WebViewNavigationRequest WebViewNewTopicNavigationRequested;
         public event WebViewNavigationRequest WebViewNewAnimeMangaTopicNavigationRequested;
 
+        public ForumBoards? CurrentBoard { get; set; }
+
+        public bool IsMangaBoard
+            =>
+                CurrentBoard == null || CurrentBoard.Value == ForumBoards.MangaDisc ||
+                CurrentBoard.Value == ForumBoards.MangaSeriesDisc;
+
+
         public void Init(ForumsTopicNavigationArgs args)
         {
             LoadingTopic = true;
+            
             if (args.CreateNewTopic)
             {
                 if (args.CreateNewAnimeTopic == null)
@@ -23,6 +33,7 @@ namespace MALClient.XShared.ViewModels.Forums
             }
             else
             {
+                CurrentBoard = args.SourceBoard;
                 WebViewTopicNavigationRequested?.Invoke(args.TopicId, args.Lastpost);
             }
 

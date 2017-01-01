@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation;
 using Windows.System;
 using Windows.UI;
@@ -57,6 +58,7 @@ namespace MALClient.Pages.Forums
             ViewModel.WebViewNewAnimeMangaTopicNavigationRequested += ViewModelOnWebViewNewAnimeMangaTopicNavigationRequested;
             Loaded -= OnLoaded;
             ViewModel.Init(_args);
+            
         }
 
         private void ViewModelOnWebViewNewAnimeMangaTopicNavigationRequested(string content, bool b)
@@ -87,13 +89,30 @@ namespace MALClient.Pages.Forums
         {
             _args = e.Parameter as ForumsTopicNavigationArgs;
             base.OnNavigatedTo(e);
+            if(Settings.ForumsSearchOnCopy)
+                Clipboard.ContentChanged += ClipboardOnContentChanged;
         }
 
-        private void TopicWebView_OnLoadCompleted(object sender, NavigationEventArgs e)
+        private async void ClipboardOnContentChanged(object sender, object o)
         {
-
+            DataPackageView dataPackageView = Clipboard.GetContent();
+            if (dataPackageView.Contains(StandardDataFormats.Text))
+            {
+                string text = await dataPackageView.GetTextAsync();
+                ViewModelLocator.GeneralMain.Navigate(PageIndex.PageSearch, new SearchPageNavigationArgs
+                {
+                    Anime = !ViewModel.IsMangaBoard,
+                    Query = text.Trim(),
+                    ForceQuery = true,
+                });
+            }
         }
 
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            if (Settings.ForumsSearchOnCopy)
+                Clipboard.ContentChanged -= ClipboardOnContentChanged;
+        }
 
         private async void TopicWebView_OnDOMContentLoaded(WebView sender, WebViewDOMContentLoadedEventArgs args)
         {

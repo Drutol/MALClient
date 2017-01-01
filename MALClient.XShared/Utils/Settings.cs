@@ -562,6 +562,12 @@ namespace MALClient.XShared.Utils
             set { ApplicationDataService[nameof(PullPeekPostsOnStartup)] = value; }
         }
 
+        public static bool ForumsSearchOnCopy
+        {
+            get { return (bool) (ApplicationDataService[nameof(ForumsSearchOnCopy)] ?? true); }
+            set { ApplicationDataService[nameof(ForumsSearchOnCopy)] = value; }
+        }
+
 
 
         #endregion

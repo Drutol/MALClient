@@ -80,10 +80,15 @@ namespace MALClient.XShared.ViewModels.Main
                 DirectQueryInputVisibility = false;
             }
 
-            if (!string.IsNullOrWhiteSpace(args.Query) && args.DisplayMode == SearchPageDisplayModes.Main)
+            if (!string.IsNullOrWhiteSpace(args.Query) && (args.DisplayMode == SearchPageDisplayModes.Main || args.ForceQuery))
             {
                 ViewModelLocator.GeneralMain.PopulateSearchFilters(_filters);
                 SubmitQuery(args.Query);
+                if (args.ForceQuery)
+                {
+                    ViewModelLocator.GeneralMain.CurrentSearchQuery = args.Query;
+                    InternalQuery = args.Query;
+                }
             }
             else
             {
@@ -108,6 +113,7 @@ namespace MALClient.XShared.ViewModels.Main
                 EmptyNoticeVisibility = false;
                 return;
             }
+            
             IsFirstVisitGridVisible = false;
             PrevQuery = query;
             Loading = true;
@@ -223,6 +229,7 @@ namespace MALClient.XShared.ViewModels.Main
         private bool _emptyNoticeVisibility = false;
         private bool _genreSelectionGridVisibility;
         private List<Enum> _availableSelectionChoices;
+        private string _internalQuery;
 
         public bool EmptyNoticeVisibility
         {
@@ -271,6 +278,17 @@ namespace MALClient.XShared.ViewModels.Main
             {
                 _availableSelectionChoices = value;
                 RaisePropertyChanged(() => AvailableSelectionChoices);
+            }
+        }
+
+        //used to update searchbox in desktop earch page in off pane --- one way
+        public string InternalQuery
+        {
+            get { return _internalQuery; }
+            set
+            {
+                _internalQuery = value;
+                RaisePropertyChanged(() => InternalQuery);
             }
         }
 

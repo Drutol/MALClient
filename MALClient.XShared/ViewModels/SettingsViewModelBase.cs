@@ -448,6 +448,18 @@ namespace MALClient.XShared.ViewModels
             set { Settings.PullPeekPostsOnStartup = value; }
         }
 
+        public  bool ForumsSearchOnCopy
+        {
+            get { return Settings.ForumsSearchOnCopy; }
+            set { Settings.ForumsSearchOnCopy = value; }
+        }
+
+        public  bool ForceSearchIntoOffPage
+        {
+            get { return Settings.ForceSearchIntoOffPage; }
+            set { Settings.ForceSearchIntoOffPage = value; }
+        }
+
         public  bool WatchedEpsPromptEnable
         {
             get { return Settings.WatchedEpsPromptEnable; }

@@ -57,7 +57,7 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
-            <AutoSuggestBox x:Name="DirectInput"  VerticalAlignment="Center" QueryIcon="Find" HorizontalAlignment="Stretch" Margin="10,5" PlaceholderText="Search..." QuerySubmitted="DirectInputOnQuerySubmitted"/>
+            <AutoSuggestBox x:Name="DirectInput" Text="{Binding InternalQuery}" VerticalAlignment="Center" QueryIcon="Find" HorizontalAlignment="Stretch" Margin="10,5" PlaceholderText="Search..." QuerySubmitted="DirectInputOnQuerySubmitted"/>
             <Button Margin="5,0" IsTabStop="False" Grid.Column="1" Background="Transparent" Height="48" Width="45" DataContext="{Binding Source={StaticResource Locator},Path=GeneralMain}">
                 <Button.Flyout>
                     <Flyout>

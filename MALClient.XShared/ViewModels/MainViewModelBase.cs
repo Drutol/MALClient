@@ -265,6 +265,7 @@ namespace MALClient.XShared.ViewModels
             {
                 _currentSearchQuery = value;
                 RaisePropertyChanged(() => CurrentSearchQuery);
+
                 SetSearchHints();
                 if (SearchToggleLock) return;
 

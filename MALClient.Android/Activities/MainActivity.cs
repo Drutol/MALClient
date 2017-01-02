@@ -17,6 +17,7 @@ using Android.Widget;
 using Com.Daimajia.Swipe;
 using Com.Daimajia.Swipe.Implments;
 using Com.Mikepenz.Materialdrawer;
+using Com.Shehabic.Droppy;
 using GalaSoft.MvvmLight.Ioc;
 using MALClient.Android.Adapters.PagerAdapters;
 using MALClient.Android.Fragments;
@@ -73,6 +74,8 @@ namespace MALClient.Android.Activities
                 ViewModel.Navigate(Credentials.Authenticated
                     ? (Settings.DefaultMenuTab == "anime" ? PageIndex.PageAnimeList : PageIndex.PageMangaList)
                     : PageIndex.PageLogIn);
+
+                DroppyMenuPopup.RequestedElevation = DimensionsHelper.DpToPx(10);
             }
     
         }

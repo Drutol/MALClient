@@ -102,6 +102,7 @@ namespace MALClient.Android.BindingInformation
                     () => ViewModel.MyEpisodesBindShort,
                     watchedView,
                     () => watchedView.Text));
+            Container.FindViewById(Resource.Id.AnimeGridItemWatchedStatusButton).SetOnClickListener(new OnClickListener(view => ShowWatchedDialog()));
 
             var scoreView = Container.FindViewById<TextView>(Resource.Id.AnimeGridItemScore);
             Bindings.Add(Resource.Id.AnimeGridItemScore, new List<Binding>());
@@ -313,9 +314,9 @@ namespace MALClient.Android.BindingInformation
             _swipeLayoutInitialized = false;
         }
 
-        private ImageButton _animeGridItemMoreButton;
 
-        public ImageButton AnimeGridItemMoreButton => _animeGridItemMoreButton ?? (_animeGridItemMoreButton = Container.FindViewById<ImageButton>(Resource.Id.AnimeGridItemMoreButton));
+
+        public FrameLayout AnimeGridItemMoreButton =>  Container.FindViewById<FrameLayout>(Resource.Id.AnimeGridItemMoreButton);
 
         
 

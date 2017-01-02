@@ -11,6 +11,7 @@ using Android.Content;
 using Android.Graphics;
 using Android.OS;
 using Android.Runtime;
+using Android.Support.V4.Widget;
 using Android.Views;
 using Android.Widget;
 using Com.Shehabic.Droppy;
@@ -24,6 +25,7 @@ using MALClient.Android.CollectionAdapters;
 using MALClient.Android.Flyouts;
 using MALClient.Android.Listeners;
 using MALClient.Android.Resources;
+using MALClient.Android.UserControls;
 using MALClient.Models.Enums;
 using MALClient.XShared.Utils.Enums;
 using MALClient.XShared.ViewModels;
@@ -41,6 +43,8 @@ namespace MALClient.Android.Fragments
 
         protected override void InitBindings()
         {
+            var swipeRefresh = RootView as SwipeRefreshLayout;
+
             Bindings.Add(Resource.Id.AnimeListPageLoadingSpinner, new List<Binding>());
             Bindings[Resource.Id.AnimeListPageLoadingSpinner].Add(
                 this.SetBinding(() => ViewModel.Loading,
@@ -57,11 +61,19 @@ namespace MALClient.Android.Fragments
                     () => AnimeListPageSortMenu.Visibility).ConvertSourceToTarget(Converters.BoolToVisibility));
 
             ViewModel.PropertyChanged += AnimeListOnPropertyChanged;
-            AnimeListPageReloadButton.SetCommand("Click",ViewModel.RefreshCommand);
+           
             AnimeListPageFilterMenu.SetCommand("Click",new RelayCommand(ShowFilterMenu));
             AnimeListPageSortMenu.SetCommand("Click", new RelayCommand(ShowSortMenu));
             AnimeListPageDisplayMenu.SetCommand("Click", new RelayCommand(ShowDisplayMenu));
             AnimeListPageSeasonMenu.SetCommand("Click",new RelayCommand(ShowSeasonMenu));
+
+            swipeRefresh.NestedScrollingEnabled = true;
+            swipeRefresh.Refresh += (sender, args) =>
+            {
+                swipeRefresh.Refreshing = false;
+
+                ViewModel.RefreshCommand.Execute(null);
+            };
         }
 
         private void ShowSeasonMenu()
@@ -172,6 +184,9 @@ namespace MALClient.Android.Fragments
                         AnimeListPageGridView.RequestFocus();
                         _prevArgs = null;
                     }
+
+                    SwipeRefreshLayout.ScrollingView = AnimeListPageGridView;
+
                     AnimeListPageListView.Adapter = null;
                     AnimeListPageCompactListView.Adapter = null;
                 }
@@ -191,6 +206,9 @@ namespace MALClient.Android.Fragments
                         AnimeListPageListView.SmoothScrollToPosition(_prevArgs.SelectedItemIndex);
                         _prevArgs = null;
                     }
+
+                    SwipeRefreshLayout.ScrollingView = AnimeListPageListView;
+
                     AnimeListPageGridView.Adapter = null;
                     AnimeListPageCompactListView.Adapter = null;
                 }
@@ -201,6 +219,8 @@ namespace MALClient.Android.Fragments
                 {
                     //AnimeListPageCompactListView.Adapter = new AnimeListItemsAdapter(Context as Activity,
                     //    Resource.Layout.AnimeGridItem, ViewModelLocator.AnimeList.AnimeCompactItems);
+
+                    SwipeRefreshLayout.ScrollingView = AnimeListPageCompactListView;
 
                     AnimeListPageListView.Adapter = null;
                     AnimeListPageGridView.Adapter = null;
@@ -232,25 +252,24 @@ namespace MALClient.Android.Fragments
             }
         }
 
+        public ScrollableSwipeToRefreshLayout SwipeRefreshLayout => RootView as ScrollableSwipeToRefreshLayout;
+
+        #region Views
+
         private GridView _animeListPageGridView;
         private ListView _animeListPageListView;
         private ListView _animeListPageCompactListView;
-        private ProgressBar _animeListPageLoadingSpinner;
-        private ImageButton _animeListPageReloadButton;
         private ImageButton _animeListPageDisplayMenu;
         private ImageButton _animeListPageSeasonMenu;
         private ImageButton _animeListPageFilterMenu;
         private ImageButton _animeListPageSortMenu;
+        private RelativeLayout _animeListPageLoadingSpinner;
 
         public GridView AnimeListPageGridView => _animeListPageGridView ?? (_animeListPageGridView = FindViewById<GridView>(Resource.Id.AnimeListPageGridView));
 
         public ListView AnimeListPageListView => _animeListPageListView ?? (_animeListPageListView = FindViewById<ListView>(Resource.Id.AnimeListPageListView));
 
         public ListView AnimeListPageCompactListView => _animeListPageCompactListView ?? (_animeListPageCompactListView = FindViewById<ListView>(Resource.Id.AnimeListPageCompactListView));
-
-        public ProgressBar AnimeListPageLoadingSpinner => _animeListPageLoadingSpinner ?? (_animeListPageLoadingSpinner = FindViewById<ProgressBar>(Resource.Id.AnimeListPageLoadingSpinner));
-
-        public ImageButton AnimeListPageReloadButton => _animeListPageReloadButton ?? (_animeListPageReloadButton = FindViewById<ImageButton>(Resource.Id.AnimeListPageReloadButton));
 
         public ImageButton AnimeListPageDisplayMenu => _animeListPageDisplayMenu ?? (_animeListPageDisplayMenu = FindViewById<ImageButton>(Resource.Id.AnimeListPageDisplayMenu));
 
@@ -259,5 +278,15 @@ namespace MALClient.Android.Fragments
         public ImageButton AnimeListPageFilterMenu => _animeListPageFilterMenu ?? (_animeListPageFilterMenu = FindViewById<ImageButton>(Resource.Id.AnimeListPageFilterMenu));
 
         public ImageButton AnimeListPageSortMenu => _animeListPageSortMenu ?? (_animeListPageSortMenu = FindViewById<ImageButton>(Resource.Id.AnimeListPageSortMenu));
+
+        public RelativeLayout AnimeListPageLoadingSpinner => _animeListPageLoadingSpinner ?? (_animeListPageLoadingSpinner = FindViewById<RelativeLayout>(Resource.Id.AnimeListPageLoadingSpinner));
+
+
+        #endregion
+
+
+
+
+
     }
 }

@@ -50,7 +50,8 @@ namespace MALClient.Android.Adapters.DialogAdapters
                 txt = new TextView(_context);       
                 txt.SetTextColor(new Color(ResourceExtension.BrushText));        
                 txt.Elevation = 2f;
-                txt.LayoutParameters = new ViewGroup.LayoutParams(80,80);          
+                var size = DimensionsHelper.DpToPx(40);
+                txt.LayoutParameters = new ViewGroup.LayoutParams(size,size);          
                 txt.TextAlignment = TextAlignment.Center;
                 txt.Gravity = GravityFlags.Center;
                 view = txt;

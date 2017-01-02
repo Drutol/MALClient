@@ -13,6 +13,7 @@ using Android.Views;
 using Android.Views.Animations;
 using Android.Widget;
 using MALClient.Android;
+using MALClient.Android.Activities;
 
 namespace MALClient.Android
 {
@@ -76,7 +77,7 @@ namespace MALClient.Android
             fadeIn.Duration = 400;
             try
             {
-                view.StartAnimation(fadeIn);
+                MainActivity.CurrentContext.RunOnUiThread(() => view.StartAnimation(fadeIn));
             }
             catch (Exception e)
             {

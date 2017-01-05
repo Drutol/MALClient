@@ -13,8 +13,7 @@
         <xamlConverters:VisiblityInverterConverter x:Key="VisiblityInverterConverter" />
         <xamlConverters:DummyFontAwesomeToRealFontAwesomeConverter x:Key="DummyFontAwesomeToRealFontAwesomeConverter" />
         <DataTemplate x:Key="PostListDataTemplate">
-            <Grid Background="{ThemeResource BrushAnimeItemBackground}" MaxWidth="350" MinHeight="90" Padding="5"
-                  HorizontalAlignment="Stretch">
+            <Grid Margin="-10,0" MinHeight="90" HorizontalAlignment="Stretch">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
@@ -31,7 +30,7 @@
                 </Image>
                 <TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding Title}" Margin="3,0" FontWeight="Medium"
                            TextWrapping="WrapWholeWords" TextTrimming="CharacterEllipsis" />
-                <StackPanel VerticalAlignment="Bottom" Grid.Column="1" Grid.Row="1" Orientation="Horizontal">
+                <StackPanel VerticalAlignment="Bottom" Grid.Column="1" Grid.Row="1" Margin="0,0,0,5" Orientation="Horizontal">
                     <TextBlock Text="{Binding Created}" FontSize="15" FontWeight="SemiLight"
                                Foreground="{ThemeResource BrushSettingsSubtitle}" />
                     <TextBlock Text="{Binding Op}" Margin="5,0" FontSize="15" />
@@ -178,9 +177,13 @@
                                         <Style TargetType="ListViewItem">
                                             <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                                             <Setter Property="Margin" Value="0,5" />
+                                            <Setter Property="Background" Value="{ThemeResource BrushAnimeItemBackground}"/>
+                                            <Setter Property="BorderBrush" Value="{StaticResource SystemControlBackgroundAccentBrush}"/>
+                                            <Setter Property="BorderThickness" Value="2,0,0,0"/>
                                         </Style>
                                     </Setter.Value>
                                 </Setter>
+                                <Setter Property="Margin" Value="10,0"/>
                             </Style>
                         </ItemsControl.Resources>
                         <ItemsControl.ItemsPanel>

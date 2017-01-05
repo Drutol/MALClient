@@ -37,7 +37,7 @@ namespace MALClient.Shared.UserControls
                 new PropertyMetadata(
                     new List<int>(), PropertyChangedCallback));
 
-        private readonly int _lineThickness = 30;
+        private readonly int _lineThickness = 40;
 
         private bool _loaded;
 
@@ -79,25 +79,24 @@ namespace MALClient.Shared.UserControls
             var maxWidth = ChartCanvas.ActualWidth - _lineThickness*3/4*nonZeroValuesCount - margin*2;
             var height = 0; //(ChartCanvas.ActualHeight / 2) ;
             var all = values.Aggregate(0.0f, (current, value) => current + value);
-            double currX = _lineThickness/2 + margin/2, offset;
+            double currX = _lineThickness/2 + margin/2;
             var currColor = 0;
             var labels = new Dictionary<double, float>();
             float totalPercentage = 0;
-            float percentage;
 
-            ChartCanvas.Children.Add(new Line
-            {
-                X1 = currX,
-                X2 = ChartCanvas.ActualWidth - margin*2,
-                Y1 = height,
-                Y2 = height,
-                Stroke = B2,
-                Fill = B2,
-                StrokeThickness = 40,
-                StrokeDashCap = PenLineCap.Round,
-                StrokeStartLineCap = PenLineCap.Round,
-                StrokeEndLineCap = PenLineCap.Round
-            });
+            //ChartCanvas.Children.Add(new Line
+            //{
+            //    X1 = currX,
+            //    X2 = ChartCanvas.ActualWidth - margin*2,
+            //    Y1 = height,
+            //    Y2 = height,
+            //    Stroke = B2,
+            //    Fill = B2,
+            //    StrokeThickness = 40,
+            //    StrokeDashCap = PenLineCap.Square,
+            //    StrokeStartLineCap = PenLineCap.Square,
+            //    StrokeEndLineCap = PenLineCap.Square
+            //});
 
             foreach (var value in values)
             {
@@ -106,9 +105,9 @@ namespace MALClient.Shared.UserControls
                     currColor++;
                     continue;
                 }
-                percentage = value*100/all;
+                var percentage = value*100/all;
                 totalPercentage += percentage;
-                offset = percentage*maxWidth/100;
+                var offset = percentage*maxWidth/100;
                 labels.Add(currX + offset, totalPercentage);
                 var line = new Line
                 {
@@ -117,14 +116,11 @@ namespace MALClient.Shared.UserControls
                     Y1 = height,
                     Y2 = height,
                     Stroke = new SolidColorBrush(ColorsOrder[currColor]),
-                    Fill = B2,
                     StrokeThickness = _lineThickness,
-                    StrokeDashCap = PenLineCap.Round,
-                    StrokeStartLineCap = PenLineCap.Round,
-                    StrokeEndLineCap = PenLineCap.Round
+                    StrokeDashCap = PenLineCap.Square,
+                    StrokeStartLineCap = PenLineCap.Square,
+                    StrokeEndLineCap = PenLineCap.Square
                 };
-                line.PointerEntered += LineOnPointerEntered;
-                line.PointerExited += LineOnPointerExited;
                 ChartCanvas.Children.Add(line);
                 currX += offset + _lineThickness*3/4;
                 currColor++;
@@ -151,17 +147,16 @@ namespace MALClient.Shared.UserControls
                 ChartCanvas.Children.Add(txt);
             }
         }
+        //private void LineOnPointerExited(object sender, PointerRoutedEventArgs pointerRoutedEventArgs)
+        //{
+        //    var line = sender as Line;
+        //    line.StrokeThickness = _lineThickness;
+        //}
 
-        private void LineOnPointerExited(object sender, PointerRoutedEventArgs pointerRoutedEventArgs)
-        {
-            var line = sender as Line;
-            line.StrokeThickness = _lineThickness;
-        }
-
-        private void LineOnPointerEntered(object sender, PointerRoutedEventArgs pointerRoutedEventArgs)
-        {
-            var line = sender as Line;
-            line.StrokeThickness = _lineThickness + 5;
-        }
+        //private void LineOnPointerEntered(object sender, PointerRoutedEventArgs pointerRoutedEventArgs)
+        //{
+        //    var line = sender as Line;
+        //    line.StrokeThickness = _lineThickness + 5;
+        //}
     }
 }

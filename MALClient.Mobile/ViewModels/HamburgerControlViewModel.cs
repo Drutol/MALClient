@@ -73,7 +73,7 @@ namespace MALClient.ViewModels
         public string LogInLabel => Credentials.Authenticated ? "Account" : "Log In";
         public Visibility LogInButtonVisibility => Credentials.Authenticated ? Visibility.Collapsed : Visibility.Visible;
 
-        public Visibility FeedbackHubButtonVisibility => Feedback.IsSupported ? Visibility.Visible : Visibility.Collapsed;
+        public Visibility FeedbackHubButtonVisibility => StoreServicesFeedbackLauncher.IsSupported() ? Visibility.Visible : Visibility.Collapsed;
 
         public Dictionary<string, Brush> TxtForegroundBrushes { get; } = new Dictionary<string, Brush>();
 

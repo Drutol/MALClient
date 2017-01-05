@@ -114,5 +114,10 @@ namespace MALClient.Pages.Forums
 
             FlyoutSearch.Hide();
         }
+
+        private void SearchTextBox_OnQuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+        {
+            ViewModel.SearchCommand.Execute(null);
+        }
     }
 }

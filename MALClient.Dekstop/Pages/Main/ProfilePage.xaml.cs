@@ -124,36 +124,13 @@ namespace MALClient.Pages.Main
                          (e.ClickedItem as FavouriteViewModel).Data);
         }
 
-
         private void FavCharacter_OnRightClick(object sender, RightTappedRoutedEventArgs e)
         {
             var grid = sender as IItemWithFlyout;
             grid?.ShowFlyout();
         }
 
-        private void ButtonGotoProfileOnClick(object sender, RoutedEventArgs e)
-        {
-            if(string.IsNullOrEmpty(GotoUserName.Text))
-                return;
-            GotoFlyout.Hide();
-            ViewModelLocator.NavMgr.RegisterBackNav(DesktopViewModelLocator.ProfilePage.PrevArgs);
-            ViewModelLocator.GeneralMain.Navigate(PageIndex.PageProfile, new ProfilePageNavigationArgs { TargetUser = GotoUserName.Text });
-            GotoUserName.Text = "";
-        }
 
-        private void GotoUserName_OnKeyDown(object sender, KeyRoutedEventArgs e)
-        {
-            if (e.Key == VirtualKey.Enter)
-            {
-                if (string.IsNullOrEmpty(GotoUserName.Text))
-                    return;
-                GotoFlyout.Hide();
-                ViewModelLocator.NavMgr.RegisterBackNav(DesktopViewModelLocator.ProfilePage.PrevArgs);
-                ViewModelLocator.GeneralMain.Navigate(PageIndex.PageProfile, new ProfilePageNavigationArgs { TargetUser = GotoUserName.Text });
-                GotoUserName.Text = "";
-                e.Handled = true;
-            }
-        }
 
         private void OnAnimeItemClick(object sender, ItemClickEventArgs e)
         {
@@ -179,5 +156,28 @@ namespace MALClient.Pages.Main
             ResourceLocator.SystemControlsLauncherService.LaunchUri(args.Uri);
         }
 
+        private void SearchBox_OnQuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+        {
+            if (string.IsNullOrEmpty(GoToInputBox.Text))
+                return;
+            GotoFlyout.Hide();
+            ViewModelLocator.NavMgr.RegisterBackNav(DesktopViewModelLocator.ProfilePage.PrevArgs);
+            ViewModelLocator.GeneralMain.Navigate(PageIndex.PageProfile, new ProfilePageNavigationArgs { TargetUser = GoToInputBox.Text });
+            GoToInputBox.Text = "";
+        }
+
+        private void GoToInputBox_OnKeyDown(object sender, KeyRoutedEventArgs e)
+        {
+            if (e.Key == VirtualKey.Enter)
+            {
+                if (string.IsNullOrEmpty(GoToInputBox.Text))
+                    return;
+                GotoFlyout.Hide();
+                ViewModelLocator.NavMgr.RegisterBackNav(DesktopViewModelLocator.ProfilePage.PrevArgs);
+                ViewModelLocator.GeneralMain.Navigate(PageIndex.PageProfile, new ProfilePageNavigationArgs { TargetUser = GoToInputBox.Text });
+                GoToInputBox.Text = "";
+                e.Handled = true;
+            }
+        }
     }
 }

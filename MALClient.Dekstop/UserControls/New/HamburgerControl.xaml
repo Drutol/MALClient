@@ -814,7 +814,7 @@
                                            Grid.Column="1" VerticalAlignment="Center" TextAlignment="Center" />
                     </Grid>
                 </Button>
-                <Button HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch"
+                <!--<Button HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch"
                                 Background="Transparent"
                                 BorderThickness="0"
                                 PointerEntered="Button_PointerEntered"
@@ -827,11 +827,9 @@
                         <Image x:Name="FeedbackImage" Stretch="UniformToFill" Width="30" Height="30" Margin="0,0,0,4" />
                         <TextBlock Text="Feedback" HorizontalAlignment="Left"
                                            Grid.Column="1" VerticalAlignment="Center" TextAlignment="Center" />
-                        <Button Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" 
-                                        FontFamily="Segoe MDL2 Assets" FontSize="24" Width="40" Height="35" Background="Transparent" Content="&#xE939;"  Click="FeedbackButton_OnClick"
-                                        Visibility="{Binding FeedbackHubButtonVisibility}"/>
+
                     </Grid>
-                </Button>
+                </Button>-->
                 <Button HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch"
                                 Background="Transparent"
                                 BorderThickness="0"
@@ -888,18 +886,18 @@
                             </Grid>
                         </Flyout>
                     </FlyoutBase.AttachedFlyout>
-                    <Grid Height="37">
+                    <Grid Height="74">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="60" />
                             <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="120" />
+                            <ColumnDefinition Width="80" />
                         </Grid.ColumnDefinitions>
                         <Border Grid.Column="0"
                                         BorderThickness="{Binding TxtBorderBrushThicknesses[Profile]}"
                                         BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" />
                         <Ellipse Grid.Column="0"
-                                       Width="33"
-                                       Height="33" Margin="1,1,0,1"
+                                       Width="40"
+                                       Height="40" Margin="4,1,0,1"
                                        Visibility="{Binding UsrImgPlaceholderVisibility,Converter={StaticResource VisiblityInverterConverter}}" >
                             <Ellipse.Fill>
                                 <ImageBrush Stretch="UniformToFill" ImageSource="{Binding UserImage}"/>
@@ -907,36 +905,54 @@
                         </Ellipse>
                         <SymbolIcon Margin="0,0,2,0" Grid.Column="0" Width="33" Height="33" Symbol="WebCam"
                                             Visibility="{Binding UsrImgPlaceholderVisibility}" />
-                        <TextBlock Text="Profile" HorizontalAlignment="Left" Margin="0,0,-120,0"
+                        <TextBlock Text="Profile" HorizontalAlignment="Left" Margin="0,0,-80,0"
                                            Foreground="{Binding Path=TxtForegroundBrushes[Profile]}"
                                            Grid.Column="1" VerticalAlignment="Center" TextAlignment="Center" />
                         <StackPanel Background="{ThemeResource BrushHamburgerInnerBackground}" Grid.Column="2" Orientation="Horizontal" Margin="0,0,-1,0" VerticalAlignment="Center" HorizontalAlignment="Center">
-                            <Button Command="{Binding Source={StaticResource Locator},Path=ForumsMain.NavigateRecentTopicsCommand}" Visibility="{Binding MalApiSpecificButtonsVisibility}" Background="Transparent"
+                            <StackPanel>
+                                <Button Command="{Binding Source={StaticResource Locator},Path=ForumsMain.NavigateRecentTopicsCommand}" Visibility="{Binding MalApiSpecificButtonsVisibility}" Background="Transparent"
                                         Width="40" Height="37">
-                                <ToolTipService.ToolTip>
-                                    <ToolTip Content="My recent topics"/>
-                                </ToolTipService.ToolTip>
-                                <SymbolIcon HorizontalAlignment="Center" VerticalAlignment="Center" Symbol="Comment"
-                                                Margin="0,0,1,0" />
-                            </Button>
-                            <Button Command="{Binding ButtonNavigationCommand}" Visibility="{Binding MalApiSpecificButtonsVisibility}"
+                                    <ToolTipService.ToolTip>
+                                        <ToolTip Content="My recent topics"/>
+                                    </ToolTipService.ToolTip>
+                                    <SymbolIcon HorizontalAlignment="Center" VerticalAlignment="Center" Symbol="Comment"/>
+                                </Button>
+                                <Button Command="{Binding ButtonNavigationCommand}" Visibility="{Binding MalApiSpecificButtonsVisibility}"
                                         CommandParameter="19" Background="Transparent"
                                         Width="40" Height="37">
-                                <ToolTipService.ToolTip>
-                                    <ToolTip Content="History"/>
-                                </ToolTipService.ToolTip>
-                                <SymbolIcon HorizontalAlignment="Center" VerticalAlignment="Center" Symbol="Clock"
-                                                Margin="0,0,1,0" />
-                            </Button>
-                            <Button Command="{Binding ButtonNavigationCommand}" Visibility="{Binding MalApiSpecificButtonsVisibility}"
+                                    <ToolTipService.ToolTip>
+                                        <ToolTip Content="History"/>
+                                    </ToolTipService.ToolTip>
+                                    <SymbolIcon HorizontalAlignment="Center" VerticalAlignment="Center" Symbol="Clock"
+                                                Margin="0,0,0,2" />
+                                </Button>
+                            </StackPanel>
+                            <StackPanel>
+                                <Button Command="{Binding ButtonNavigationCommand}" Visibility="{Binding MalApiSpecificButtonsVisibility}"
                                         CommandParameter="16" Background="Transparent"
                                         Width="40" Height="37" >
-                                <ToolTipService.ToolTip>
-                                    <ToolTip Content="Messaging"/>
-                                </ToolTipService.ToolTip>
-                                <SymbolIcon HorizontalAlignment="Center" VerticalAlignment="Center" Symbol="Mail"
-                                                Margin="0,0,1,0" />
-                            </Button>
+                                    <ToolTipService.ToolTip>
+                                        <ToolTip Content="Messaging"/>
+                                    </ToolTipService.ToolTip>
+                                    <SymbolIcon HorizontalAlignment="Center" VerticalAlignment="Center" Symbol="Mail"
+                                                Margin="0,0,0,2" />
+                                </Button>
+                                <Button HorizontalAlignment="Right" VerticalAlignment="Center" 
+                                        FontFamily="Segoe MDL2 Assets" FontSize="22" Width="40" Height="35" Background="Transparent" Content="&#xE939;"
+                                        Visibility="{Binding FeedbackHubButtonVisibility}">
+                                    <ToolTipService.ToolTip>
+                                        <ToolTip Content="Submit feedback!"/>
+                                    </ToolTipService.ToolTip>
+                                    <Button.Flyout>
+                                        <MenuFlyout>
+                                            <MenuFlyoutItem Text="Github" Click="OpenRepo"/>
+                                            <MenuFlyoutItem Text="Feedback hub" Click="FeedbackButton_OnClick"/>
+                                            <MenuFlyoutItem Text="Email" Click="BtnFeedbackEmailOnClick"/>
+                                        </MenuFlyout>
+                                    </Button.Flyout>
+                                </Button>
+                            </StackPanel>
+
                         </StackPanel>
                     </Grid>
                 </Button>

@@ -22,18 +22,21 @@ namespace MALClient.XShared.ViewModels.Main
 {
     public sealed class ProfilePageViewModel : ViewModelBase
     {
-        public event WebViewNavigationRequest OnWebViewNavigationRequest;
-        public event EmptyEventHander OnInitialized;
-
         //anime -<>- manga
-        private readonly Dictionary<string, Tuple<List<AnimeItemAbstraction>, List<AnimeItemAbstraction>>>
-            _othersAbstractions =
-                new Dictionary<string, Tuple<List<AnimeItemAbstraction>, List<AnimeItemAbstraction>>>();
 
-        public Dictionary<string, Tuple<List<AnimeItemAbstraction>, List<AnimeItemAbstraction>>> OthersAbstractions
-            => _othersAbstractions;
+        private List<int> _animeChartValues = new List<int>();
+
+        private string _currUser;
+
+        private List<FavouriteViewModel> _favouriteCharacters;
+
+        private List<FavouriteViewModel> _favouriteStaff;
 
         private ObservableCollection<MalComment> _malComments = new ObservableCollection<MalComment>();
+        public ProfilePageNavigationArgs PrevArgs;
+
+        public Dictionary<string, Tuple<List<AnimeItemAbstraction>, List<AnimeItemAbstraction>>> OthersAbstractions {
+            get; } = new Dictionary<string, Tuple<List<AnimeItemAbstraction>, List<AnimeItemAbstraction>>>();
 
         public ObservableCollection<MalComment> MalComments
         {
@@ -45,8 +48,6 @@ namespace MALClient.XShared.ViewModels.Main
             }
         }
 
-        public List<FavouriteViewModel> _favouriteCharacters;
-
         public List<FavouriteViewModel> FavouriteCharacters
         {
             get { return _favouriteCharacters; }
@@ -56,8 +57,6 @@ namespace MALClient.XShared.ViewModels.Main
                 RaisePropertyChanged(() => FavouriteCharacters);
             }
         }
-
-        public List<FavouriteViewModel> _favouriteStaff;
 
         public List<FavouriteViewModel> FavouriteStaff
         {
@@ -69,10 +68,8 @@ namespace MALClient.XShared.ViewModels.Main
             }
         }
 
-        private List<int> _animeChartValues = new List<int>();
-
-        private string _currUser;
-        public ProfilePageNavigationArgs PrevArgs;
+        public event WebViewNavigationRequest OnWebViewNavigationRequest;
+        public event EmptyEventHander OnInitialized;
 
         public async void LoadProfileData(ProfilePageNavigationArgs args, bool force = false)
         {
@@ -87,8 +84,8 @@ namespace MALClient.XShared.ViewModels.Main
             if (args.TargetUser == Credentials.UserName)
             {
                 ViewModelLocator.NavMgr.ResetMainBackNav();
-                if(ViewModelLocator.Mobile)
-                    ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageAnimeList,null);
+                if (ViewModelLocator.Mobile)
+                    ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageAnimeList, null);
             }
 
             if (_currUser == null || _currUser != args.TargetUser || force)
@@ -105,16 +102,19 @@ namespace MALClient.XShared.ViewModels.Main
             RecentManga = new List<AnimeItemViewModel>();
             RecentAnime = new List<AnimeItemViewModel>();
             ViewModelLocator.GeneralMain.CurrentStatus = $"{_currUser} - Profile";
-            var authenticatedUser = args.TargetUser.Equals(Credentials.UserName,StringComparison.CurrentCultureIgnoreCase);
+            var authenticatedUser = args.TargetUser.Equals(Credentials.UserName,
+                StringComparison.CurrentCultureIgnoreCase);
             RaisePropertyChanged(() => CurrentData);
             LoadingVisibility = false;
             RaisePropertyChanged(() => IsPinned);
             RaisePropertyChanged(() => PinProfileVisibility);
             MalComments = new ObservableCollection<MalComment>(CurrentData.Comments);
-            FavouriteCharacters = new List<FavouriteViewModel>(CurrentData.FavouriteCharacters.Select(character => new FavouriteViewModel(character)));
-            FavouriteStaff = new List<FavouriteViewModel>(CurrentData.FavouritePeople.Select(staff => new FavouriteViewModel(staff)));
+            FavouriteCharacters =
+                new List<FavouriteViewModel>(
+                    CurrentData.FavouriteCharacters.Select(character => new FavouriteViewModel(character)));
+            FavouriteStaff =
+                new List<FavouriteViewModel>(CurrentData.FavouritePeople.Select(staff => new FavouriteViewModel(staff)));
             CommentInputBoxVisibility = !string.IsNullOrEmpty(CurrentData.ProfileMemId); //posting restricted
-            LoadAboutMeButtonVisibility = true;
             LoadingAboutMeVisibility = AboutMeWebViewVisibility = false;
             if (authenticatedUser)
             {
@@ -125,9 +125,7 @@ namespace MALClient.XShared.ViewModels.Main
                     var data = await ViewModelLocator.AnimeList.TryRetrieveAuthenticatedAnimeItem(id);
 
                     if (data != null)
-                    {
                         list.Add((data as AnimeItemViewModel).ParentAbstraction.ViewModel);
-                    }
                 }
                 FavAnime = list;
                 list = new List<AnimeItemViewModel>();
@@ -135,9 +133,7 @@ namespace MALClient.XShared.ViewModels.Main
                 {
                     var data = await ViewModelLocator.AnimeList.TryRetrieveAuthenticatedAnimeItem(id, false);
                     if (data != null)
-                    {
                         list.Add((data as AnimeItemViewModel).ParentAbstraction.ViewModel);
-                    }
                 }
                 FavManga = list;
                 list = new List<AnimeItemViewModel>();
@@ -145,9 +141,7 @@ namespace MALClient.XShared.ViewModels.Main
                 {
                     var data = await ViewModelLocator.AnimeList.TryRetrieveAuthenticatedAnimeItem(id);
                     if (data != null)
-                    {
                         list.Add((data as AnimeItemViewModel).ParentAbstraction.ViewModel);
-                    }
                 }
                 RecentAnime = list;
                 list = new List<AnimeItemViewModel>();
@@ -155,15 +149,13 @@ namespace MALClient.XShared.ViewModels.Main
                 {
                     var data = await ViewModelLocator.AnimeList.TryRetrieveAuthenticatedAnimeItem(id, false);
                     if (data != null)
-                    {
                         list.Add((data as AnimeItemViewModel).ParentAbstraction.ViewModel);
-                    }
                 }
                 RecentManga = list;
             }
             else
             {
-                if (!_othersAbstractions.ContainsKey(args.TargetUser ?? ""))
+                if (!OthersAbstractions.ContainsKey(args.TargetUser ?? ""))
                 {
                     LoadingOhersLibrariesProgressVisiblity = true;
                     var data = new List<ILibraryData>();
@@ -190,10 +182,10 @@ namespace MALClient.XShared.ViewModels.Main
                         var libraryData in data)
                         mangaAbstractions.Add(new AnimeItemAbstraction(false, libraryData as MangaLibraryItemData));
 
-                    lock (_othersAbstractions)
+                    lock (OthersAbstractions)
                     {
-                        if (!_othersAbstractions.ContainsKey(args.TargetUser))
-                            _othersAbstractions.Add(args.TargetUser,
+                        if (!OthersAbstractions.ContainsKey(args.TargetUser))
+                            OthersAbstractions.Add(args.TargetUser,
                                 new Tuple<List<AnimeItemAbstraction>, List<AnimeItemAbstraction>>(abstractions,
                                     mangaAbstractions));
                     }
@@ -201,16 +193,14 @@ namespace MALClient.XShared.ViewModels.Main
                     LoadingOhersLibrariesProgressVisiblity = false;
                 }
 
-                var source = _othersAbstractions[args.TargetUser];
+                var source = OthersAbstractions[args.TargetUser];
                 var list = new List<AnimeItemViewModel>();
                 foreach (var id in CurrentData.FavouriteAnime)
                 {
                     var data = source.Item1.FirstOrDefault(abs => abs.Id == id);
 
                     if (data != null)
-                    {
                         list.Add(data.ViewModel);
-                    }
                 }
                 FavAnime = list;
                 list = new List<AnimeItemViewModel>();
@@ -219,9 +209,7 @@ namespace MALClient.XShared.ViewModels.Main
                     var data = source.Item2.FirstOrDefault(abs => abs.Id == id);
 
                     if (data != null)
-                    {
                         list.Add(data.ViewModel);
-                    }
                 }
                 FavManga = list;
                 list = new List<AnimeItemViewModel>();
@@ -230,9 +218,7 @@ namespace MALClient.XShared.ViewModels.Main
                     var data = source.Item1.FirstOrDefault(abs => abs.Id == id);
 
                     if (data != null)
-                    {
                         list.Add(data.ViewModel);
-                    }
                 }
                 RecentAnime = list;
                 list = new List<AnimeItemViewModel>();
@@ -241,9 +227,7 @@ namespace MALClient.XShared.ViewModels.Main
                     var data = source.Item2.FirstOrDefault(abs => abs.Id == id);
 
                     if (data != null)
-                    {
                         list.Add(data.ViewModel);
-                    }
                 }
                 RecentManga = list;
             }
@@ -287,34 +271,36 @@ namespace MALClient.XShared.ViewModels.Main
 
         private async void NavigateCharacterWebPage(AnimeCharacter character)
         {
-            ResourceLocator.SystemControlsLauncherService.LaunchUri(new Uri($"https://myanimelist.net/character/{character.Id}"));
+            ResourceLocator.SystemControlsLauncherService.LaunchUri(
+                new Uri($"https://myanimelist.net/character/{character.Id}"));
         }
 
         private async void NavigatePersonWebPage(AnimeStaffPerson person)
         {
-            ResourceLocator.SystemControlsLauncherService.LaunchUri(new Uri($"https://myanimelist.net/people/{person.Id}"));
+            ResourceLocator.SystemControlsLauncherService.LaunchUri(
+                new Uri($"https://myanimelist.net/people/{person.Id}"));
         }
 
         #region Props
 
-        private bool _emptyFavAnimeNoticeVisibility = false;
+        private bool _emptyFavAnimeNoticeVisibility;
 
-        private bool _emptyFavCharactersNoticeVisibility = false;
+        private bool _emptyFavCharactersNoticeVisibility;
 
-        private bool _emptyFavMangaNoticeVisibility = false;
+        private bool _emptyFavMangaNoticeVisibility;
 
-        private bool _emptyFavPeopleNoticeVisibility = false;
+        private bool _emptyFavPeopleNoticeVisibility;
 
-        private bool _emptyRecentAnimeNoticeVisibility = false;
+        private bool _emptyRecentAnimeNoticeVisibility;
 
-        private bool _emptyRecentMangaNoticeVisibility = false;
+        private bool _emptyRecentMangaNoticeVisibility;
         private List<AnimeItemViewModel> _favAnime;
         private List<AnimeItemViewModel> _favManga;
 
         private bool _initialized;
 
 
-        private bool _loadingVisibility = false;
+        private bool _loadingVisibility;
 
         private List<int> _mangaChartValues = new List<int>();
 
@@ -337,7 +323,6 @@ namespace MALClient.XShared.ViewModels.Main
                     new RelayCommand(
                         () =>
                         {
-
                             ViewModelLocator.GeneralMain.Navigate(PageIndex.PageHistory,
                                 new HistoryNavigationArgs {Source = CurrentData.User.Name});
                             ViewModelLocator.NavMgr.RegisterOneTimeMainOverride(
@@ -347,14 +332,13 @@ namespace MALClient.XShared.ViewModels.Main
                                         ViewModelLocator.GeneralMain.Navigate(PageIndex.PageProfile,
                                             new ProfilePageNavigationArgs {TargetUser = CurrentData.User.Name});
                                     }));
-
                         }));
 
         private ICommand _sendCommentCommand;
 
         public ICommand SendCommentCommand => _sendCommentCommand ?? (_sendCommentCommand = new RelayCommand(async () =>
         {
-            if(string.IsNullOrEmpty(CommentText))
+            if (string.IsNullOrEmpty(CommentText))
                 return;
             IsSendCommentButtonEnabled = false;
             if (await
@@ -371,39 +355,42 @@ namespace MALClient.XShared.ViewModels.Main
 
         private ICommand _deleteCommentCommand;
 
-        public ICommand DeleteCommentCommand => _deleteCommentCommand ?? (_deleteCommentCommand = new RelayCommand<MalComment>(async comment =>
-        {
-            if (await ProfileCommentQueries.DeleteComment(comment.Id))
+        public ICommand DeleteCommentCommand
+            => _deleteCommentCommand ?? (_deleteCommentCommand = new RelayCommand<MalComment>(async comment =>
             {
-                MalComments.Remove(comment);
-                var data = CurrentData;
-                data.Comments = MalComments.ToList();
-                DataCache.SaveProfileData(_currUser, data);
-            }
-        }));
+                if (await ProfileCommentQueries.DeleteComment(comment.Id))
+                {
+                    MalComments.Remove(comment);
+                    var data = CurrentData;
+                    data.Comments = MalComments.ToList();
+                    DataCache.SaveProfileData(_currUser, data);
+                }
+            }));
 
         private ICommand _navigateConversationCommand;
 
-        public ICommand NavigateConversationCommand => _navigateConversationCommand ?? (_navigateConversationCommand = new RelayCommand<MalComment>(comment =>
-        {
-            ViewModelLocator.GeneralMain.Navigate(PageIndex.PageMessageDetails,
-                new MalMessageDetailsNavArgs {WorkMode = MessageDetailsWorkMode.ProfileComments, Arg = comment});
-        }));
+        public ICommand NavigateConversationCommand
+            => _navigateConversationCommand ?? (_navigateConversationCommand = new RelayCommand<MalComment>(comment =>
+            {
+                ViewModelLocator.GeneralMain.Navigate(PageIndex.PageMessageDetails,
+                    new MalMessageDetailsNavArgs {WorkMode = MessageDetailsWorkMode.ProfileComments, Arg = comment});
+            }));
 
         private bool _refreshingComments;
         private ICommand _refreshCommentsCommand;
 
-        public ICommand RefreshCommentsCommand => _refreshCommentsCommand ?? (_refreshCommentsCommand = new RelayCommand(async () =>
-        {
-            if(_refreshingComments)
-                return;
-            LoadingCommentsVisiblity = true;
-            _refreshingComments = true;
-            await CurrentData.UpdateComments();
-            MalComments = new ObservableCollection<MalComment>(CurrentData.Comments);
-            _refreshingComments = false;
-            LoadingCommentsVisiblity = false;
-        }));
+        public ICommand RefreshCommentsCommand
+            => _refreshCommentsCommand ?? (_refreshCommentsCommand = new RelayCommand(async () =>
+            {
+                if (_refreshingComments)
+                    return;
+                LoadingCommentsVisiblity = true;
+                _refreshingComments = true;
+                await CurrentData.UpdateComments();
+                MalComments = new ObservableCollection<MalComment>(CurrentData.Comments);
+                _refreshingComments = false;
+                LoadingCommentsVisiblity = false;
+            }));
 
         private List<AnimeItemViewModel> _recentAnime;
         private List<AnimeItemViewModel> _recentManga;
@@ -521,12 +508,14 @@ namespace MALClient.XShared.ViewModels.Main
             set
             {
                 if (value)
+                {
                     Settings.PinnedProfiles += ";" + CurrentData.User.Name;
+                }
                 else
                 {
                     var pinned = Settings.PinnedProfiles.Split(';').ToList();
                     pinned.Remove(CurrentData.User.Name);
-                    Settings.PinnedProfiles = string.Join(";",pinned);
+                    Settings.PinnedProfiles = string.Join(";", pinned);
                 }
                 ViewModelLocator.GeneralHamburger.UpdatePinnedProfiles();
                 RaisePropertyChanged(() => IsPinned);
@@ -558,10 +547,14 @@ namespace MALClient.XShared.ViewModels.Main
                             () =>
                             {
                                 ViewModelLocator.GeneralMain.Navigate(PageIndex.PageProfile,
-                                    new ProfilePageNavigationArgs{TargetUser = CurrentData.User.Name});
+                                    new ProfilePageNavigationArgs {TargetUser = CurrentData.User.Name});
                             }));
                     ViewModelLocator.GeneralMain.Navigate(PageIndex.PageAnimeList,
-                        new AnimeListPageNavigationArgs(0, AnimeListWorkModes.Anime) {ListSource = _currUser, ResetBackNav = false });
+                        new AnimeListPageNavigationArgs(0, AnimeListWorkModes.Anime)
+                        {
+                            ListSource = _currUser,
+                            ResetBackNav = false
+                        });
                 }));
 
         public ICommand NavigateMangaListCommand
@@ -585,22 +578,12 @@ namespace MALClient.XShared.ViewModels.Main
                                     ResetBackNav = false
                                 });
                         }))
-            ;
-
-        public ICommand LoadAboutMeCommand => _loadAboutMeCommand ?? (_loadAboutMeCommand = new RelayCommand(() =>
-        {
-            LoadAboutMeButtonVisibility = false;           
-            if (!string.IsNullOrEmpty(CurrentData.HtmlContent))
-            {
-                LoadingAboutMeVisibility = true;
-                OnWebViewNavigationRequest?.Invoke(CurrentData.HtmlContent, false);
-            }
-            
-        }));
+        ;
 
 
         public bool PinProfileVisibility
-            => CurrentData.User.Name == null || Credentials.UserName.Equals(CurrentData.User.Name,StringComparison.CurrentCultureIgnoreCase) ? false : true;
+            =>
+                CurrentData.User.Name != null && !Credentials.UserName.Equals(CurrentData.User.Name, StringComparison.CurrentCultureIgnoreCase);
 
 
         public bool EmptyFavAnimeNoticeVisibility
@@ -673,7 +656,7 @@ namespace MALClient.XShared.ViewModels.Main
             }
         }
 
-        private bool _loadingOhersLibrariesProgressVisiblity = false;
+        private bool _loadingOhersLibrariesProgressVisiblity;
 
         public bool LoadingOhersLibrariesProgressVisiblity
         {
@@ -685,7 +668,7 @@ namespace MALClient.XShared.ViewModels.Main
             }
         }
 
-        private bool _loadingCommentsVisiblity = false;
+        private bool _loadingCommentsVisiblity;
 
         public bool LoadingCommentsVisiblity
         {
@@ -697,19 +680,7 @@ namespace MALClient.XShared.ViewModels.Main
             }
         }
 
-        private bool _loadAboutMeButtonVisibility = true;
-
-        public bool LoadAboutMeButtonVisibility
-        {
-            get { return _loadAboutMeButtonVisibility; }
-            set
-            {
-                _loadAboutMeButtonVisibility = value;
-                RaisePropertyChanged(() => LoadAboutMeButtonVisibility);
-            }
-        }
-
-        private bool _loadingAboutMeVisibility = false;
+        private bool _loadingAboutMeVisibility;
 
         public bool LoadingAboutMeVisibility
         {
@@ -721,7 +692,7 @@ namespace MALClient.XShared.ViewModels.Main
             }
         }
 
-        private bool _aboutMeWebViewVisibility = false;
+        private bool _aboutMeWebViewVisibility;
 
         public bool AboutMeWebViewVisibility
         {
@@ -747,11 +718,12 @@ namespace MALClient.XShared.ViewModels.Main
 
         private bool _isSendCommentButtonEnabled = true;
 
-        private ICommand _loadAboutMeCommand;
         private ICommand _navigateCharacterDetailsCommand;
         private ICommand _navigateStaffDetailsCommand;
-        private ICommand _toggleAboutMeWebViewVisibilityCommand;
         private bool _emptyCommentsNoticeVisibility;
+        private bool _areFavsExpanded;
+        private ICommand _toggleFavsCommand;
+        private ICommand _toggleAboutCommand;
 
         public bool IsSendCommentButtonEnabled
         {
@@ -772,13 +744,11 @@ namespace MALClient.XShared.ViewModels.Main
                         {
                             if (ViewModelLocator.Mobile)
                                 ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageProfile, PrevArgs);
-                            else if (ViewModelLocator.GeneralMain.OffContentVisibility == true)
-                            {
+                            else if (ViewModelLocator.GeneralMain.OffContentVisibility)
                                 if (ViewModelLocator.GeneralMain.CurrentOffPage == PageIndex.PageStaffDetails)
                                     ViewModelLocator.StaffDetails.RegisterSelfBackNav(int.Parse(entry.Id));
                                 else if (ViewModelLocator.GeneralMain.CurrentOffPage == PageIndex.PageCharacterDetails)
                                     ViewModelLocator.CharacterDetails.RegisterSelfBackNav(int.Parse(entry.Id));
-                            }
                             ViewModelLocator.GeneralMain.Navigate(PageIndex.PageCharacterDetails,
                                 new CharacterDetailsNavigationArgs {Id = int.Parse(entry.Id)});
                         }));
@@ -792,26 +762,35 @@ namespace MALClient.XShared.ViewModels.Main
                         {
                             if (ViewModelLocator.Mobile)
                                 ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageProfile, PrevArgs);
-                            else if (ViewModelLocator.GeneralMain.OffContentVisibility == true)
-                            {
+                            else if (ViewModelLocator.GeneralMain.OffContentVisibility)
                                 if (ViewModelLocator.GeneralMain.CurrentOffPage == PageIndex.PageStaffDetails)
                                     ViewModelLocator.StaffDetails.RegisterSelfBackNav(int.Parse(entry.Id));
                                 else if (ViewModelLocator.GeneralMain.CurrentOffPage == PageIndex.PageCharacterDetails)
                                     ViewModelLocator.CharacterDetails.RegisterSelfBackNav(int.Parse(entry.Id));
-                            }
                             ViewModelLocator.GeneralMain.Navigate(PageIndex.PageStaffDetails,
                                 new StaffDetailsNaviagtionArgs {Id = int.Parse(entry.Id)});
                         }));
 
-        public ICommand ToggleAboutMeWebViewVisibilityCommand
-            =>
-                _toggleAboutMeWebViewVisibilityCommand ??
-                (_toggleAboutMeWebViewVisibilityCommand =
-                    new RelayCommand<FavouriteBase>(
-                        entry =>
-                        {
-                            AboutMeWebViewVisibility = !AboutMeWebViewVisibility;
-                        }));
+        public ICommand ToggleFavsCommand
+            => _toggleFavsCommand ?? (_toggleFavsCommand = new RelayCommand(() => AreFavsExpanded = !AreFavsExpanded));
+
+        public ICommand ToggleAboutCommand
+            => _toggleAboutCommand ?? (_toggleAboutCommand = new RelayCommand(() =>
+            {
+                AboutMeWebViewVisibility = !AboutMeWebViewVisibility;
+                if(AboutMeWebViewVisibility)
+                        OnWebViewNavigationRequest?.Invoke(CurrentData.HtmlContent, false);
+            }));
+
+        public bool AreFavsExpanded
+        {
+            get { return _areFavsExpanded; }
+            set
+            {
+                _areFavsExpanded = value;
+                RaisePropertyChanged(() => AreFavsExpanded);
+            }
+        }
 
         #endregion
     }

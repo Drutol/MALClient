@@ -84,7 +84,7 @@ namespace MALClient.UserControls
 
         private async void FeedbackButton_OnClick(object sender, RoutedEventArgs e)
         {
-            await Feedback.LaunchFeedbackAsync();
+            await StoreServicesFeedbackLauncher.GetDefault().LaunchAsync();
         }
     }
 }

@@ -166,7 +166,7 @@ namespace MALClient.XShared.ViewModels.Forums
         public ICommand SearchCommand => _searchCommand ?? (_searchCommand = new RelayCommand(
             () =>
             {
-                if (SearchQuery.Length <= 2)
+                if (SearchQuery?.Length <= 2)
                     return;
                 ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageForumIndex, PrevArgs);
                 ViewModelLocator.GeneralMain.Navigate(PageIndex.PageForumIndex,

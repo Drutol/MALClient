@@ -90,15 +90,7 @@
                 BorderThickness="2" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}">
                 <Button.Flyout>
                     <Flyout x:Name="FlyoutSearch">
-                        <StackPanel>
-                            <TextBlock Text="Search query" HorizontalAlignment="Center"/>
-                            <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
-                                <TextBox x:Name="SearchTextBox" Text="{Binding SearchQuery,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" KeyDown="SearchQueryOnKeyDown" Margin="5,0"/>
-                                <Button Command="{Binding SearchCommand}" Click="SearchQueryButtonOnClick">
-                                    <SymbolIcon Symbol="Accept"/>
-                                </Button>
-                            </StackPanel>
-                        </StackPanel>
+                        <AutoSuggestBox x:Name="SearchTextBox" Header="Search query" MinWidth="150" KeyDown="SearchQueryOnKeyDown"  Text="{Binding SearchQuery,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" QueryIcon="Find" QuerySubmitted="SearchTextBox_OnQuerySubmitted"></AutoSuggestBox>
                     </Flyout>
                 </Button.Flyout>
             </Button>

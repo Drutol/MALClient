@@ -44,6 +44,7 @@
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
@@ -57,13 +58,7 @@
                             Margin="0,4,0,0">
                         <Button.Flyout>
                             <Flyout x:Name="GotoFlyout">
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBox x:Name="GotoUserName" PlaceholderText="Username..."
-                                             KeyDown="GotoUserName_OnKeyDown" Margin="5,0,0,0" />
-                                    <Button Margin="5,0" Click="ButtonGotoProfileOnClick">
-                                        <SymbolIcon Symbol="Accept" />
-                                    </Button>
-                                </StackPanel>
+                                <AutoSuggestBox MinWidth="150" x:Name="GoToInputBox" PlaceholderText="Username..." KeyDown="GoToInputBox_OnKeyDown" QuerySubmitted="SearchBox_OnQuerySubmitted" QueryIcon="Find"/>
                             </Flyout>
                         </Button.Flyout>
                         <StackPanel>
@@ -76,27 +71,21 @@
                         <TextBlock Text="General" FontWeight="SemiLight" />
                     </StackPanel>
                 </Grid>
-                <Grid Grid.Column="0" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Top"
-                      Background="{ThemeResource BrushPivotInnerHeaderBarBackground}">
-                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <SymbolIcon Symbol="Help" />
-                        <TextBlock Text="About" FontWeight="SemiLight" />
-                    </StackPanel>
-                </Grid>                
-                <Grid Grid.Column="0" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                      Background="{ThemeResource BrushPivotInnerHeaderBarBackground}" Visibility="{Binding LoadAboutMeButtonVisibility,Converter={StaticResource BoolToVisibilityInvertedConverter}}">
-                    <Button HorizontalAlignment="Stretch" Height="50" Background="Transparent" Padding="0" Command="{Binding ToggleAboutMeWebViewVisibilityCommand}">
+                <Grid Grid.Column="0" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{ThemeResource BrushPivotInnerHeaderBarBackground}"/>
+                <Grid Grid.Column="0" Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{ThemeResource BrushPivotInnerHeaderBarBackground}" >
+                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding AboutMeWebViewVisibility,Converter={StaticResource BoolToVisibilityConverter}}">
                         <SymbolIcon Symbol="View"/>
-                    </Button>
+                        <TextBlock Text="About" FontWeight="SemiLight"  />
+                    </StackPanel>
                 </Grid>
-                <Grid Grid.Column="0" Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                <Grid Grid.Column="0" Grid.Row="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                       Background="{ThemeResource BrushPivotInnerHeaderBarBackground}">
-                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,5" Visibility="{Binding AreFavsExpanded,Converter={StaticResource BoolToVisibilityConverter}}">
                         <SymbolIcon Symbol="Favorite" />
                         <TextBlock Text="Favs" FontWeight="SemiLight" />
                     </StackPanel>
                 </Grid>
-                <Grid Grid.Row="3" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                <Grid Grid.Column="0"  Grid.Row="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                       Background="{ThemeResource BrushPivotInnerHeaderBarBackground}">
                     <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                         <SymbolIcon Symbol="Clock" />
@@ -107,22 +96,21 @@
                         </TextBlock>
                     </StackPanel>
                 </Grid>
-                <Grid Grid.Row="4" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                <Grid Grid.Column="0" Grid.Row="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                       Background="{ThemeResource BrushPivotInnerHeaderBarBackground}">
                     <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                         <SymbolIcon Symbol="AllApps" />
                         <TextBlock FontWeight="SemiLight" TextAlignment="Center" Text="Stats" />
                     </StackPanel>
                 </Grid>
-                <Grid Grid.Row="5" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                <Grid  Grid.Column="0" Grid.Row="6" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                       Background="{ThemeResource BrushPivotInnerHeaderBarBackground}">
                     <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                         <SymbolIcon Symbol="Comment" />
                     </StackPanel>
                 </Grid>
                 <Grid Grid.Column="1" Grid.Row="0" HorizontalAlignment="Stretch">
-                    <Grid Padding="10" Background="{ThemeResource BrushAnimeItemInnerBackground}" CornerRadius="10"
-                          Margin="10">
+                    <Grid Padding="10" Background="{ThemeResource BrushAnimeItemInnerBackground}" Margin="10">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="Auto" />
@@ -131,7 +119,7 @@
                         <Grid Width="150" Height="150" Margin="5"
                               Background="{ThemeResource BrushHamburgerInnerBackground}">
                             <SymbolIcon Symbol="Help" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
-                            <Image Stretch="UniformToFill">
+                            <Image Stretch="Uniform">
                                 <Image.Source>
                                     <BitmapImage UriSource="{Binding CurrentData.User.ImgUrl}"
                                                  DecodePixelType="Logical"
@@ -209,169 +197,184 @@
                         </Grid>
                     </Grid>
                 </Grid>
-                <Grid Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                    <Button Content="Load about me" Margin="5,0" HorizontalAlignment="Center"
-                            Command="{Binding LoadAboutMeCommand}" Foreground="White"
-                            Visibility="{Binding LoadAboutMeButtonVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
-                            Background="{StaticResource SystemControlBackgroundAccentBrush}" />
-                    <ProgressRing Width="50" Height="50" IsActive="True"
+                <Grid Grid.Column="1" Grid.Row="1" Background="{ThemeResource BrushPivotHeaderBackground}" HorizontalAlignment="Stretch" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" BorderThickness="2,0">
+                    <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                        <ToggleButton Padding="10" Background="Transparent"  HorizontalAlignment="Center"  IsChecked="{Binding AreFavsExpanded,Mode=TwoWay}">
+                            <StackPanel>
+                                <SymbolIcon Symbol="Favorite"/>
+                                <TextBlock Text="Show favourites" Margin="0,10,0,0"/>
+                            </StackPanel>
+                        </ToggleButton>
+                        <ToggleButton Margin="10,0,0,0" Padding="10" Background="Transparent"  HorizontalAlignment="Center" Command="{Binding ToggleAboutCommand}" IsChecked="{Binding AboutMeWebViewVisibility}">
+                            <StackPanel>
+                                <SymbolIcon Symbol="View"/>
+                                <TextBlock Text="Load about me" Margin="0,10,0,0"/>
+                            </StackPanel>
+                        </ToggleButton>
+                    </StackPanel>
+                </Grid>
+                <Grid Grid.Column="1" Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10" Visibility="{Binding AboutMeWebViewVisibility,Converter={StaticResource BoolToVisibilityConverter}}">
+                    <ProgressRing Width="50" Height="50" IsActive="True" 
                                   Visibility="{Binding LoadingAboutMeVisibility,Converter={StaticResource BoolToVisibilityConverter}}" />
-                    <ScrollViewer VerticalAlignment="Stretch" Visibility="{Binding AboutMeWebViewVisibility,Converter={StaticResource BoolToVisibilityConverter}}">
+                    <ScrollViewer VerticalAlignment="Stretch" >
                         <WebView x:Name="AboutMeWebView"
                              DOMContentLoaded="AboutMeWebView_OnDOMContentLoaded"
                              NavigationStarting="AboutMeWebView_OnNavigationStarting"/>
                     </ScrollViewer>
                 </Grid>
-                <ItemsControl x:Name="FavsItemsControl" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Stretch">
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <derived:TrueVariableWarpGrid SqeezeChildren="True"/>
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                    <Grid>
-                        <Grid Padding="10" Background="{ThemeResource BrushAnimeItemInnerBackground}" CornerRadius="10"
-                          Margin="10" x:Name="FavAnime" HorizontalAlignment="Stretch"
+                <Grid  Grid.Column="1" Grid.Row="3">
+                    <ItemsControl x:Name="FavsItemsControl" HorizontalAlignment="Stretch" Visibility="{Binding AreFavsExpanded,Converter={StaticResource BoolToVisibilityConverter}}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <derived:TrueVariableWarpGrid SqeezeChildren="True"/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <Grid>
+                            <Grid Padding="10" Background="{ThemeResource BrushAnimeItemInnerBackground}"
+                                Margin="10" x:Name="FavAnime" HorizontalAlignment="Stretch"
                           Visibility="{Binding EmptyFavAnimeNoticeVisibility,Converter={StaticResource BoolToVisibilityInvertedConverter}}">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="*" />
-                            </Grid.RowDefinitions>
-                            <TextBlock Text="Anime" HorizontalAlignment="Center" FontWeight="SemiLight" FontSize="26"
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+                                <TextBlock Text="Anime" HorizontalAlignment="Center" FontWeight="SemiLight" FontSize="26"
                                    Foreground="{StaticResource SystemControlBackgroundAccentBrush}" />
-                            <TextBlock Grid.Row="1"
+                                <TextBlock Grid.Row="1"
                                    Visibility="Collapsed"
                                    Text="No favourite anime added yet..."
                                    TextWrapping="WrapWholeWords" TextAlignment="Center" Foreground="#FFB9B9B9"
                                    Margin="5" />
-                            <ProgressBar Grid.Row="1" IsIndeterminate="True" HorizontalAlignment="Stretch"
+                                <ProgressBar Grid.Row="1" IsIndeterminate="True" HorizontalAlignment="Stretch"
                                      VerticalAlignment="Center"
                                      Visibility="{Binding LoadingOhersLibrariesProgressVisiblity,Converter={StaticResource BoolToVisibilityConverter}}" />
-                            <GridView Grid.Row="1" RightTapped="AnimesGridIndefinite_OnRightTapped"
+                                <GridView Grid.Row="1" RightTapped="AnimesGridIndefinite_OnRightTapped"
                                   ItemsSource="{Binding FavAnime}" HorizontalAlignment="Center"
                                   IsItemClickEnabled="True" ItemClick="OnAnimeItemClick">
-                                <GridView.ItemContainerStyle>
-                                    <Style TargetType="GridViewItem">
-                                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                                        <Setter Property="VerticalAlignment" Value="Stretch" />
-                                        <Setter Property="Padding" Value="5,5" />
-                                        <Setter Property="Margin" Value="0,5" />
-                                        <Setter Property="Width" Value="200" />
-                                        <Setter Property="Height" Value="350" />
-                                    </Style>
-                                </GridView.ItemContainerStyle>
-                                <GridView.ItemTemplate>
-                                    <DataTemplate>
-                                        <items1:AnimeGridItem DataContext="{Binding}" />
-                                    </DataTemplate>
-                                </GridView.ItemTemplate>
-                            </GridView>
+                                    <GridView.ItemContainerStyle>
+                                        <Style TargetType="GridViewItem">
+                                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                            <Setter Property="VerticalAlignment" Value="Stretch" />
+                                            <Setter Property="Padding" Value="5,5" />
+                                            <Setter Property="Margin" Value="0,5" />
+                                            <Setter Property="Width" Value="200" />
+                                            <Setter Property="Height" Value="350" />
+                                        </Style>
+                                    </GridView.ItemContainerStyle>
+                                    <GridView.ItemTemplate>
+                                        <DataTemplate>
+                                            <items1:AnimeGridItem DataContext="{Binding}" />
+                                        </DataTemplate>
+                                    </GridView.ItemTemplate>
+                                </GridView>
+                            </Grid>
                         </Grid>
-                    </Grid>
-                    <Grid>
-                        <Grid Padding="10" Background="{ThemeResource BrushAnimeItemInnerBackground}" CornerRadius="10"
+                        <Grid>
+                            <Grid Padding="10" Background="{ThemeResource BrushAnimeItemInnerBackground}"
                           Margin="10" x:Name="FavManga" HorizontalAlignment="Stretch"
                           Visibility="{Binding EmptyFavMangaNoticeVisibility,Converter={StaticResource BoolToVisibilityInvertedConverter}}">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="*" />
-                            </Grid.RowDefinitions>
-                            <TextBlock Text="Manga" HorizontalAlignment="Center" FontWeight="SemiLight" FontSize="26"
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+                                <TextBlock Text="Manga" HorizontalAlignment="Center" FontWeight="SemiLight" FontSize="26"
                                    Foreground="{StaticResource SystemControlBackgroundAccentBrush}" />
-                            <TextBlock Grid.Row="1" Visibility="Collapsed"
+                                <TextBlock Grid.Row="1" Visibility="Collapsed"
                                    Text="No favourite manga added yet..."
                                    TextWrapping="WrapWholeWords" TextAlignment="Center" Foreground="#FFB9B9B9"
                                    Margin="5" />
-                            <ProgressBar Grid.Row="1" IsIndeterminate="True" HorizontalAlignment="Stretch"
+                                <ProgressBar Grid.Row="1" IsIndeterminate="True" HorizontalAlignment="Stretch"
                                      VerticalAlignment="Center"
                                      Visibility="{Binding LoadingOhersLibrariesProgressVisiblity,Converter={StaticResource BoolToVisibilityConverter}}" />
-                            <GridView Grid.Row="1" RightTapped="AnimesGridIndefinite_OnRightTapped"
+                                <GridView Grid.Row="1" RightTapped="AnimesGridIndefinite_OnRightTapped"
                                   ItemsSource="{Binding FavManga}" HorizontalAlignment="Center"
                                   IsItemClickEnabled="True" ItemClick="OnAnimeItemClick">
-                                <GridView.ItemContainerStyle>
-                                    <Style TargetType="GridViewItem">
-                                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                                        <Setter Property="VerticalAlignment" Value="Stretch" />
-                                        <Setter Property="Padding" Value="5,5" />
-                                        <Setter Property="Margin" Value="0,5" />
-                                        <Setter Property="Width" Value="200" />
-                                        <Setter Property="Height" Value="350" />
-                                    </Style>
-                                </GridView.ItemContainerStyle>
-                                <GridView.ItemTemplate>
-                                    <DataTemplate>
-                                        <items1:AnimeGridItem DataContext="{Binding}" />
-                                    </DataTemplate>
-                                </GridView.ItemTemplate>
-                            </GridView>
+                                    <GridView.ItemContainerStyle>
+                                        <Style TargetType="GridViewItem">
+                                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                            <Setter Property="VerticalAlignment" Value="Stretch" />
+                                            <Setter Property="Padding" Value="5,5" />
+                                            <Setter Property="Margin" Value="0,5" />
+                                            <Setter Property="Width" Value="200" />
+                                            <Setter Property="Height" Value="350" />
+                                        </Style>
+                                    </GridView.ItemContainerStyle>
+                                    <GridView.ItemTemplate>
+                                        <DataTemplate>
+                                            <items1:AnimeGridItem DataContext="{Binding}" />
+                                        </DataTemplate>
+                                    </GridView.ItemTemplate>
+                                </GridView>
+                            </Grid>
                         </Grid>
-                    </Grid>
-                    <Grid>
-                        <Grid Padding="10" Background="{ThemeResource BrushAnimeItemInnerBackground}" CornerRadius="10"
+                        <Grid>
+                            <Grid Padding="10" Background="{ThemeResource BrushAnimeItemInnerBackground}" 
                           Margin="10" HorizontalAlignment="Stretch" RelativePanel.Below="FavAnime" 
                           Visibility="{Binding EmptyFavCharactersNoticeVisibility,Converter={StaticResource BoolToVisibilityInvertedConverter}}">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="*" />
-                            </Grid.RowDefinitions>
-                            <TextBlock Text="Characters" HorizontalAlignment="Center" FontWeight="SemiLight"
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+                                <TextBlock Text="Characters" HorizontalAlignment="Center" FontWeight="SemiLight"
                                    FontSize="26"
                                    Foreground="{StaticResource SystemControlBackgroundAccentBrush}" />
-                            <TextBlock Grid.Row="1" Visibility="Collapsed"
+                                <TextBlock Grid.Row="1" Visibility="Collapsed"
                                    Text="No favourite characters added yet..."
                                    TextWrapping="WrapWholeWords" TextAlignment="Center" Foreground="#FFB9B9B9"
                                    Margin="5" />
-                            <GridView Grid.Row="1" ItemsSource="{Binding FavouriteCharacters}"
+                                <GridView Grid.Row="1" ItemsSource="{Binding FavouriteCharacters}"
                                   HorizontalAlignment="Center" Margin="0,7,0,0" ItemClick="FavCharacterOnClick" IsItemClickEnabled="True">
-                                <GridView.ItemContainerStyle>
-                                    <Style TargetType="GridViewItem">
-                                        <Setter Property="Padding" Value="5,5" />
-                                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                                        <Setter Property="Margin" Value="0,5" />
-                                        <Setter Property="Width" Value="200" />
-                                    </Style>
-                                </GridView.ItemContainerStyle>
-                                <GridView.ItemTemplate>
-                                    <DataTemplate>
-                                        <items1:CharacterItem DataContext="{Binding}" IsRightTapEnabled="True" RightTapped="FavCharacter_OnRightClick"/>
-                                    </DataTemplate>
-                                </GridView.ItemTemplate>
-                            </GridView>
+                                    <GridView.ItemContainerStyle>
+                                        <Style TargetType="GridViewItem">
+                                            <Setter Property="Padding" Value="5,5" />
+                                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                            <Setter Property="Margin" Value="0,5" />
+                                            <Setter Property="Width" Value="200" />
+                                        </Style>
+                                    </GridView.ItemContainerStyle>
+                                    <GridView.ItemTemplate>
+                                        <DataTemplate>
+                                            <items1:CharacterItem DataContext="{Binding}" IsRightTapEnabled="True" RightTapped="FavCharacter_OnRightClick"/>
+                                        </DataTemplate>
+                                    </GridView.ItemTemplate>
+                                </GridView>
+                            </Grid>
                         </Grid>
-                    </Grid>
-                    <Grid>
-                        <Grid Padding="10" Background="{ThemeResource BrushAnimeItemInnerBackground}" CornerRadius="10"
+                        <Grid>
+                            <Grid Padding="10" Background="{ThemeResource BrushAnimeItemInnerBackground}"
                           HorizontalAlignment="Stretch" Margin="10"
                           Visibility="{Binding EmptyFavPeopleNoticeVisibility,Converter={StaticResource BoolToVisibilityInvertedConverter}}">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="*" />
-                            </Grid.RowDefinitions>
-                            <TextBlock Text="People" HorizontalAlignment="Center" FontWeight="SemiLight" FontSize="26"
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+                                <TextBlock Text="People" HorizontalAlignment="Center" FontWeight="SemiLight" FontSize="26"
                                    Foreground="{StaticResource SystemControlBackgroundAccentBrush}" />
-                            <TextBlock Grid.Row="1" Visibility="Collapsed"
+                                <TextBlock Grid.Row="1" Visibility="Collapsed"
                                    Text="No favourite people added yet..."
                                    TextWrapping="WrapWholeWords" TextAlignment="Center" Foreground="#FFB9B9B9"
                                    Margin="5" />
-                            <GridView Grid.Row="1" ItemsSource="{Binding FavouriteStaff}"
+                                <GridView Grid.Row="1" ItemsSource="{Binding FavouriteStaff}"
                                   HorizontalAlignment="Center" Margin="0,7,0,0" ItemClick="FavPersonOnClick" IsItemClickEnabled="True">
-                                <GridView.ItemContainerStyle>
-                                    <Style TargetType="GridViewItem">
-                                        <Setter Property="Padding" Value="5,5" />
-                                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                                        <Setter Property="Margin" Value="0,5" />
-                                        <Setter Property="Width" Value="200" />
-                                    </Style>
-                                </GridView.ItemContainerStyle>
-                                <GridView.ItemTemplate>
-                                    <DataTemplate>
-                                        <items1:StaffItem DataContext="{Binding}" IsRightTapEnabled="True" RightTapped="FavCharacter_OnRightClick" />
-                                    </DataTemplate>
-                                </GridView.ItemTemplate>
-                            </GridView>
+                                    <GridView.ItemContainerStyle>
+                                        <Style TargetType="GridViewItem">
+                                            <Setter Property="Padding" Value="5,5" />
+                                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                            <Setter Property="Margin" Value="0,5" />
+                                            <Setter Property="Width" Value="200" />
+                                        </Style>
+                                    </GridView.ItemContainerStyle>
+                                    <GridView.ItemTemplate>
+                                        <DataTemplate>
+                                            <items1:StaffItem DataContext="{Binding}" IsRightTapEnabled="True" RightTapped="FavCharacter_OnRightClick" />
+                                        </DataTemplate>
+                                    </GridView.ItemTemplate>
+                                </GridView>
+                            </Grid>
                         </Grid>
-                    </Grid>
-                </ItemsControl>
-                <Grid Grid.Row="3" Grid.Column="1" HorizontalAlignment="Stretch">
+                    </ItemsControl>
+                </Grid>
+
+                <Grid Grid.Row="4" Grid.Column="1" HorizontalAlignment="Stretch">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width=".5*" />
                         <ColumnDefinition Width=".5*" />
@@ -388,8 +391,8 @@
                             </Setter>
                         </Style>
                     </Grid.Resources>
-                    <Grid Padding="10" Background="{ThemeResource BrushAnimeItemInnerBackground}" CornerRadius="10"
-                          x:Name="RecentAnime" Margin="10" HorizontalAlignment="Stretch" VerticalAlignment="Top">
+                    <Grid Padding="10" Background="{ThemeResource BrushAnimeItemInnerBackground}" 
+                          x:Name="RecentAnime" Margin="10" HorizontalAlignment="Stretch" VerticalAlignment="Top" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" BorderThickness="0,0,0,1">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="*" />
@@ -417,7 +420,7 @@
                     </Grid>
                     <Grid Grid.Column="1" Margin="10" Padding="10"
                           Background="{ThemeResource BrushAnimeItemInnerBackground}"
-                          CornerRadius="10" x:Name="RecentManga" HorizontalAlignment="Stretch" VerticalAlignment="Top">
+                          x:Name="RecentManga" HorizontalAlignment="Stretch" VerticalAlignment="Top" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" BorderThickness="0,0,0,1">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="*" />
@@ -442,13 +445,12 @@
                         </GridView>
                     </Grid>
                 </Grid>
-                <Grid Grid.Column="1" Grid.Row="4">
+                <Grid Grid.Column="1" Grid.Row="5">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width=".5*" />
                         <ColumnDefinition Width=".5*" />
                     </Grid.ColumnDefinitions>
-                    <Grid Margin="10" Padding="10" Background="{ThemeResource BrushAnimeItemInnerBackground}"
-                          CornerRadius="10">
+                    <Grid Margin="10" Padding="10" Background="{ThemeResource BrushAnimeItemInnerBackground}" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" BorderThickness="0,0,0,1">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="40" />
                             <RowDefinition Height="140" />
@@ -608,7 +610,7 @@
                         </Grid>
                     </Grid>
                     <Grid Grid.Column="1" Margin="10" Padding="10"
-                          Background="{ThemeResource BrushAnimeItemInnerBackground}" CornerRadius="10">
+                          Background="{ThemeResource BrushAnimeItemInnerBackground}" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" BorderThickness="0,0,0,1">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="40" />
                             <RowDefinition Height="140" />
@@ -786,8 +788,8 @@
                         </Grid>
                     </Grid>
                 </Grid>
-                <Grid Grid.Column="1" Grid.Row="5" Padding="10"
-                      Background="{ThemeResource BrushAnimeItemInnerBackground}" CornerRadius="10" Margin="10">
+                <Grid Grid.Column="1" Grid.Row="6" Padding="10"
+                      Background="{ThemeResource BrushAnimeItemInnerBackground}"  Margin="10">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
@@ -799,7 +801,7 @@
                     </Button>
                     <StackPanel Grid.Row="0">
                         <TextBlock Text="Comments" HorizontalAlignment="Center" FontWeight="SemiLight"
-                               FontSize="26"
+                               FontSize="26" Margin="0,5,0,10"
                                Foreground="{StaticResource SystemControlBackgroundAccentBrush}" />
                         <TextBlock Visibility="{Binding EmptyCommentsNoticeVisibility}"
                                 Text="No comments..."

@@ -137,7 +137,7 @@ namespace MALClient.ViewModels
         public Visibility LogInButtonVisibility => Credentials.Authenticated ? Visibility.Collapsed : Visibility.Visible;
 
 
-        public Visibility FeedbackHubButtonVisibility => Feedback.IsSupported ? Visibility.Visible : Visibility.Collapsed;
+        public Visibility FeedbackHubButtonVisibility => StoreServicesFeedbackLauncher.IsSupported() ? Visibility.Visible : Visibility.Collapsed;
 
         public BitmapImage UserImage
         {

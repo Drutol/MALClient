@@ -119,5 +119,10 @@ namespace MALClient.Pages.Forums
         {
             ViewModel.SearchCommand.Execute(null);
         }
+
+        private void GotoPageTextBox_OnQuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+        {
+            ViewModel.LoadGotoPageCommand.Execute(null);
+        }
     }
 }

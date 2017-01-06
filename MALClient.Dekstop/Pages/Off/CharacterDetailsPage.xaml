@@ -36,18 +36,18 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Grid Grid.Row="0" Background="{ThemeResource BrushDetailsUpperBackground}" Padding="0,0,0,5">
+        <Grid Grid.Row="0" Background="{ThemeResource BrushDetailsUpperBackground}" Padding="0,0,0,5" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" BorderThickness="0,0,0,1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Grid Background="{ThemeResource BrushAnimeItemInnerBackground}">
+            <Grid Background="{ThemeResource BrushAnimeItemInnerBackground}" VerticalAlignment="Top">
                 <SymbolIcon Symbol="Help" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                <Image Stretch="Uniform" VerticalAlignment="Center" Height="300" Width="175" attachedProperties:AnimeImageExtensions.MalBaseImageSource="{Binding Data.ImgUrl}" >
-                    <!--<Image.Source>
-                        <BitmapImage DecodePixelWidth="175" DecodePixelHeight="300" DecodePixelType="Logical" UriSource="{Binding Data.ImgUrl}"/>
-                    </Image.Source>-->
-                </Image>
+                <Image Stretch="Uniform" VerticalAlignment="Top" Width="175" attachedProperties:AnimeImageExtensions.MalBaseImageSource="{Binding Data.ImgUrl}" />
+                <Grid Grid.Column="0" VerticalAlignment="Bottom" HorizontalAlignment="Right" Background="{ThemeResource BrushFavouriteStarBackground}" Visibility="{Binding Source={StaticResource Locator},Path=AnimeDetails.MalApiSpecificControlsVisibility}">
+                    <new:FavButton DataContext="{Binding FavouriteViewModel}"/>
+                </Grid>
+
             </Grid>
             <Grid Grid.Column="1">
                 <Grid.RowDefinitions>
@@ -79,11 +79,8 @@
                 </StackPanel>
 
             </Grid>
-            <Grid Grid.Column="0" VerticalAlignment="Bottom" HorizontalAlignment="Right" Background="{ThemeResource BrushFavouriteStarBackground}" Visibility="{Binding Source={StaticResource Locator},Path=AnimeDetails.MalApiSpecificControlsVisibility}">
-                <new:FavButton DataContext="{Binding FavouriteViewModel}"/>
-            </Grid>
         </Grid>
-        <ScrollViewer Grid.Row="1" VerticalAlignment="Top" Background="{ThemeResource BrushDetailsBackground}">
+        <ScrollViewer Grid.Row="1" VerticalAlignment="Top" Background="{ThemeResource BrushDeepBackground}">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -96,11 +93,11 @@
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
                     <TextBlock Text="Voice Actors" Foreground="{StaticResource SystemControlBackgroundAccentBrush}" FontSize="26" Margin="0,5" HorizontalAlignment="Center"/>
-                    <GridView Grid.Row="1" ItemsSource="{Binding VoiceActors}" 
+                    <GridView Grid.Row="1" ItemsSource="{Binding VoiceActors}" HorizontalAlignment="Center"
                           IsItemClickEnabled="True" ItemClick="ListViewBase_OnItemClickStaff" ScrollViewer.VerticalScrollMode="Disabled">
                         <GridView.ItemTemplate>
                             <DataTemplate>
-                                <items:StaffItem Width="200" DataContext="{Binding}"/>
+                                <items:StaffItem Width="200" Margin="5,2" DataContext="{Binding}"/>
                             </DataTemplate>
                         </GridView.ItemTemplate>
                     </GridView>

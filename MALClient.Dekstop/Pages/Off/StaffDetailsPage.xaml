@@ -20,7 +20,7 @@
         </ResourceDictionary>
     </Page.Resources>
 
-    <Grid Background="{ThemeResource BrushDetailsBackground}">
+    <Grid Background="{ThemeResource BrushDeepBackground}">
         <Grid.RowDefinitions>
             <RowDefinition Height="200"/>
             <RowDefinition Height="*"/>
@@ -121,7 +121,7 @@
                                                 <Grid DataContext="{Binding AnimeCharacter}" HorizontalAlignment="Stretch">
                                                     <Grid.RowDefinitions>
                                                         <RowDefinition Height="210"/>
-                                                        <RowDefinition Height="60"/>
+                                                        <RowDefinition Height="62"/>
                                                     </Grid.RowDefinitions>
                                                     <SymbolIcon Symbol="Help" HorizontalAlignment="Center"
                                                                         VerticalAlignment="Center" />
@@ -137,7 +137,7 @@
                                                             <RowDefinition Height="Auto"/>
                                                         </Grid.RowDefinitions>
                                                         <TextBlock Text="{Binding Name}" TextTrimming="CharacterEllipsis" FontWeight="Medium"/>
-                                                        <TextBlock Grid.Row="1" Text="{Binding Notes}" TextWrapping="WrapWholeWords" TextTrimming="CharacterEllipsis"/>
+                                                        <TextBlock Grid.Row="1" Text="{Binding Notes}" TextWrapping="WrapWholeWords" TextTrimming="CharacterEllipsis" Margin="0,0,0,2"/>
                                                     </Grid>
                                                 </Grid>
                                             </Button>
@@ -190,8 +190,8 @@
                                                         <RowDefinition Height="Auto"/>
                                                         <RowDefinition Height="Auto"/>
                                                     </Grid.RowDefinitions>
-                                                    <TextBlock Text="{Binding Title}" TextTrimming="CharacterEllipsis" FontWeight="Medium"/>
-                                                    <TextBlock Grid.Row="1" Text="{Binding Notes}" TextTrimming="CharacterEllipsis"/>
+                                                    <TextBlock Text="{Binding Title}" TextTrimming="CharacterEllipsis" FontWeight="Medium" Margin="0,0,5,0"/>
+                                                    <TextBlock Grid.Row="1" Text="{Binding Notes}" TextTrimming="CharacterEllipsis" Margin="0,0,5,0"/>
                                                 </Grid>
                                             </Grid>
                                         </Button>

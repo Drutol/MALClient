@@ -131,7 +131,7 @@
                                                     </Image>
                                                     <Grid Grid.Row="1" MinHeight="40" BorderThickness="0,1,0,0"
                                                           BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"
-                                                          Background="{StaticResource ApplicationPageBackgroundThemeBrush}">
+                                                          Background="{StaticResource BrushDeepBackground}">
                                                         <TextBlock Text="{Binding Name}" HorizontalAlignment="Left"
                                                                    VerticalAlignment="Center" Margin="5,10"
                                                                    TextWrapping="WrapWholeWords" />

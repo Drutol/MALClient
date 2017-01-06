@@ -60,20 +60,16 @@
                 <Button.Flyout>
                     <Flyout x:Name="GotoPageFlyout">
                         <StackPanel>
-                            <TextBlock Text="Go to page" HorizontalAlignment="Center"/>
                             <StackPanel Orientation="Horizontal" Margin="0,4">
-                                <TextBox x:Name="GotoPageTextBox" Text="{Binding GotoPageTextBind,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" KeyDown="GotoInputOnKeyDown"/>
-                                <Button Margin="5,0" Click="GotoAcceptButtonOnClick" Command="{Binding LoadGotoPageCommand}">
-                                    <SymbolIcon Symbol="Accept"/>
-                                </Button>
+                                <AutoSuggestBox x:Name="GotoPageTextBox" Header="Go to page" MinWidth="150" KeyDown="GotoInputOnKeyDown"  Text="{Binding GotoPageTextBind,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" QueryIcon="Go" QuerySubmitted="GotoPageTextBox_OnQuerySubmitted"/>
                             </StackPanel>
-                            <Grid Margin="0,4" HorizontalAlignment="Center">
+                            <Grid Margin="0,4" HorizontalAlignment="Stretch">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition/>
                                     <ColumnDefinition/>
                                 </Grid.ColumnDefinitions>
-                                <Button Content="First" Margin="0,0,5,0" Command="{Binding GotoFirstPageCommand}"/>
-                                <Button Grid.Column="1" Content="Last" Command="{Binding GotoLastPageCommand}"/>
+                                <Button Content="First" Margin="0,0,5,0" HorizontalAlignment="Stretch" Command="{Binding GotoFirstPageCommand}"/>
+                                <Button Grid.Column="1" Content="Last" HorizontalAlignment="Stretch" Command="{Binding GotoLastPageCommand}"/>
                             </Grid>
                         </StackPanel>
                     </Flyout>
@@ -90,7 +86,7 @@
                 BorderThickness="2" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}">
                 <Button.Flyout>
                     <Flyout x:Name="FlyoutSearch">
-                        <AutoSuggestBox x:Name="SearchTextBox" Header="Search query" MinWidth="150" KeyDown="SearchQueryOnKeyDown"  Text="{Binding SearchQuery,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" QueryIcon="Find" QuerySubmitted="SearchTextBox_OnQuerySubmitted"></AutoSuggestBox>
+                        <AutoSuggestBox x:Name="SearchTextBox" Header="Search query" MinWidth="150" KeyDown="SearchQueryOnKeyDown"  Text="{Binding SearchQuery,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" QueryIcon="Find" QuerySubmitted="SearchTextBox_OnQuerySubmitted"/>
                     </Flyout>
                 </Button.Flyout>
             </Button>

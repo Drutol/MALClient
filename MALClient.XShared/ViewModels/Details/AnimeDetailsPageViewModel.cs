@@ -19,6 +19,7 @@ using MALClient.XShared.Comm.Anime;
 using MALClient.XShared.Comm.MagicalRawQueries;
 using MALClient.XShared.Comm.Manga;
 using MALClient.XShared.Delegates;
+using MALClient.XShared.Interfaces;
 using MALClient.XShared.NavArgs;
 using MALClient.XShared.Utils;
 using MALClient.XShared.Utils.Enums;
@@ -31,6 +32,7 @@ namespace MALClient.XShared.ViewModels.Details
     {
         private readonly IClipboardProvider _clipboardProvider;
         private readonly ISystemControlsLauncherService _systemControlsLauncherService;
+        private readonly IAnimeLibraryDataStorage _animeLibraryDataStorage;
         //additional fields
         private int _allEpisodes;
         private int _allVolumes;
@@ -75,10 +77,11 @@ namespace MALClient.XShared.ViewModels.Details
         private bool _animeMode;
 
         public AnimeDetailsPageViewModel(IClipboardProvider clipboardProvider,
-            ISystemControlsLauncherService systemControlsLauncherService)
+            ISystemControlsLauncherService systemControlsLauncherService, IAnimeLibraryDataStorage animeLibraryDataStorage)
         {
             _clipboardProvider = clipboardProvider;
             _systemControlsLauncherService = systemControlsLauncherService;
+            _animeLibraryDataStorage = animeLibraryDataStorage;
             UpdateScoreFlyoutChoices();
         }
 
@@ -824,7 +827,7 @@ namespace MALClient.XShared.ViewModels.Details
             RaisePropertyChanged(() => GlobalScore); //trigger setter of anime item
             if (string.Equals(Status, "Currently Airing", StringComparison.CurrentCultureIgnoreCase))
                 (_animeItemReference as AnimeItemViewModel).Airing = true;
-            ViewModelLocator.AnimeList.AddAnimeEntry(animeItem);
+            ResourceLocator.AnimeLibraryDataStorage.AddAnimeEntry(animeItem);
             MyDetailsVisibility = true;
             PopulateStartEndDates();
             RaisePropertyChanged(() => StartDateTimeOffset);
@@ -864,7 +867,7 @@ namespace MALClient.XShared.ViewModels.Details
                     LoadingUpdate = false;
                     IsRemoveAnimeButtonEnabled = true;
 
-                    ViewModelLocator.AnimeList.RemoveAnimeEntry(
+                   _animeLibraryDataStorage.RemoveAnimeEntry(
                         (_animeItemReference as AnimeItemViewModel).ParentAbstraction);
 
                     (_animeItemReference as AnimeItemViewModel).SetAuthStatus(false, true);

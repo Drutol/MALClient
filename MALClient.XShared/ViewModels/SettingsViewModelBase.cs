@@ -490,7 +490,7 @@ namespace MALClient.XShared.ViewModels
             set
             {
                 Settings.MangaFocusVolumes = value;
-                foreach (var item in ViewModelLocator.AnimeList.AllLoadedMangaItemAbstractions)
+                foreach (var item in ResourceLocator.AnimeLibraryDataStorage.AllLoadedMangaItemAbstractions)
                 {
                     if (item.LoadedModel)
                         item.ViewModel.MangaFocusChanged(value);

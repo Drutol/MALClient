@@ -29,6 +29,11 @@ namespace MALClient.XShared.ViewModels
 
     public class AnimeItemViewModel : ViewModelBase, IAnimeData, IAnimeListItem
     {
+        static AnimeItemViewModel()
+        {
+            UpdateScoreFlyoutChoices();
+        }
+
         public const string InvalidStartEndDate = "0000-00-00";
         public static double MaxWidth { get; set; }
         public static List<string> ScoreFlyoutChoices { get; set; }
@@ -36,148 +41,11 @@ namespace MALClient.XShared.ViewModels
         public AnimeItemAbstraction ParentAbstraction { get; }
         private bool _seasonalState;
 
-        static AnimeItemViewModel()
-        {
-            UpdateScoreFlyoutChoices();
-        }
-
         public int Id { get; private set; }
         public string ImgUrl { get; private set; }
 
         public bool AllowDetailsNavigation { private get; set; } = true; //Disabled when draggig grid item
-
-        public async void NavigateDetails(PageIndex? sourceOverride = null, object argsOverride = null)
-        {
-            if (!AllowDetailsNavigation || (Settings.SelectedApiType == ApiType.Hummingbird && !ParentAbstraction.RepresentsAnime) || ViewModelLocator.AnimeDetails.Id == Id)
-                return;
-            var id = Id;
-            if (_seasonalState && Settings.SelectedApiType == ApiType.Hummingbird) //id switch
-            {
-                id = await new AnimeDetailsHummingbirdQuery(id).GetHummingbirdId();
-            }
-            var navArgs = new AnimeDetailsPageNavigationArgs(id, Title, null, this,
-                argsOverride ?? ViewModelLocator.GeneralMain.GetCurrentListOrderParams())
-            {
-                Source =
-                    sourceOverride ??
-                    (ParentAbstraction.RepresentsAnime ? PageIndex.PageAnimeList : PageIndex.PageMangaList),
-                AnimeMode = ParentAbstraction.RepresentsAnime
-            };
-            if (sourceOverride != null)
-                navArgs.Source = sourceOverride.Value;
-            ViewModelLocator.GeneralMain.Navigate(PageIndex.PageAnimeDetails,navArgs);
-        }
-
-        public void UpdateWithSeasonData(SeasonalAnimeData data, bool updateScore)
-        {
-            if(updateScore)
-                GlobalScore = data.Score;
-            Airing = data.AirDay >= 0;
-            if (!Auth)
-            {
-                UpdateButtonsVisibility = false;
-                _seasonalState = true;
-            }
-            RaisePropertyChanged(() => MyEpisodesBind);
-        }
-
-        private async void AddThisToMyList()
-        {
-            LoadingUpdate = true;
-            var response =
-                ParentAbstraction.RepresentsAnime
-                    ? await new AnimeAddQuery(Id.ToString()).GetRequestResponse()
-                    : await new MangaAddQuery(Id.ToString()).GetRequestResponse();
-            LoadingUpdate = false;
-            if (Settings.SelectedApiType == ApiType.Mal && !response.Contains("Created"))
-                return;
-            var startDate = "0000-00-00";
-            if (Settings.SetStartDateOnListAdd)
-                startDate = DateTimeOffset.Now.ToString("yyyy-MM-dd");
-            var animeItem = ParentAbstraction.RepresentsAnime
-               ? new AnimeLibraryItemData
-               {
-                   Title = Title,
-                   ImgUrl = ImgUrl,
-                   Type = ParentAbstraction.Type,
-                   Id = Id,
-                   AllEpisodes = AllEpisodes,
-                   MalId = ParentAbstraction.MalId,
-                   MyStatus = AnimeStatus.PlanToWatch,
-                   MyEpisodes = 0,
-                   MyScore = 0,
-                   MyStartDate = startDate,
-                   MyEndDate = AnimeItemViewModel.InvalidStartEndDate
-               }
-               : new MangaLibraryItemData
-               {
-                   Title = Title,
-                   ImgUrl = ImgUrl,
-                   Type = ParentAbstraction.Type,
-                   Id = Id,
-                   AllEpisodes = AllEpisodes,
-                   MalId = ParentAbstraction.MalId,
-                   MyStatus = AnimeStatus.PlanToWatch,
-                   MyEpisodes = 0,
-                   MyScore = 0,
-                   MyStartDate = startDate,
-                   MyEndDate = AnimeItemViewModel.InvalidStartEndDate,
-                   AllVolumes = AllVolumes,
-                   MyVolumes = MyVolumes
-               };
-            ParentAbstraction.EntryData = animeItem;
-            _seasonalState = false;
-            SetAuthStatus(true);
-            MyScore = 0;
-            MyStatus = AnimeStatus.PlanToWatch;
-            MyEpisodes = 0;
-            if (Settings.SetStartDateOnListAdd)
-                ParentAbstraction.MyStartDate = DateTimeOffset.Now.ToString("yyyy-MM-dd");
-            if (ParentAbstraction.RepresentsAnime)
-                MyVolumes = 0;
-
-            AllowItemManipulation = true;
-            AddToListVisibility = false;
-            ViewModelLocator.AnimeList.AddAnimeEntry(ParentAbstraction);
-            await Task.Delay(10);
-            RaisePropertyChanged(() => MyStatusBindShort);
-            RaisePropertyChanged(() => MyStatusBind);
-
-            if (ViewModelLocator.AnimeDetails.Id == Id)
-                ViewModelLocator.AnimeDetails.CurrentAnimeHasBeenAddedToList(this);
-        }
-
-        public static void UpdateScoreFlyoutChoices()
-        {
-            ScoreFlyoutChoices = Settings.SelectedApiType == ApiType.Mal
-                ? new List<string>
-                {
-                    "10 - Masterpiece",
-                    "9 - Great",
-                    "8 - Very Good",
-                    "7 - Good",
-                    "6 - Fine",
-                    "5 - Average",
-                    "4 - Bad",
-                    "3 - Very Bad",
-                    "2 - Horrible",
-                    "1 - Appaling"
-                }
-                : new List<string>
-                {
-                    "5 - Masterpiece",
-                    "4.5 - Great",
-                    "4 - Very Good",
-                    "3.5 - Good",
-                    "3 - Fine",
-                    "2.5 - Average",
-                    "2 - Bad",
-                    "1.5 - Very Bad",
-                    "1 - Horrible",
-                    "0.5 - Appaling"
-                };
-        }
-
+        
         #region Constructors
 
         private AnimeItemViewModel(string img, int id, AnimeItemAbstraction parent)
@@ -957,6 +825,28 @@ namespace MALClient.XShared.ViewModels
             RaisePropertyChanged(() => PureType);
         }
 
+        public async void NavigateDetails(PageIndex? sourceOverride = null, object argsOverride = null)
+        {
+            if (!AllowDetailsNavigation || (Settings.SelectedApiType == ApiType.Hummingbird && !ParentAbstraction.RepresentsAnime) || ViewModelLocator.AnimeDetails.Id == Id)
+                return;
+            var id = Id;
+            if (_seasonalState && Settings.SelectedApiType == ApiType.Hummingbird) //id switch
+            {
+                id = await new AnimeDetailsHummingbirdQuery(id).GetHummingbirdId();
+            }
+            var navArgs = new AnimeDetailsPageNavigationArgs(id, Title, null, this,
+                argsOverride ?? ViewModelLocator.GeneralMain.GetCurrentListOrderParams())
+            {
+                Source =
+                    sourceOverride ??
+                    (ParentAbstraction.RepresentsAnime ? PageIndex.PageAnimeList : PageIndex.PageMangaList),
+                AnimeMode = ParentAbstraction.RepresentsAnime
+            };
+            if (sourceOverride != null)
+                navArgs.Source = sourceOverride.Value;
+            ViewModelLocator.GeneralMain.Navigate(PageIndex.PageAnimeDetails, navArgs);
+        }
+
         #endregion
 
         #region AnimeUpdate
@@ -1124,24 +1014,85 @@ namespace MALClient.XShared.ViewModels
             LoadingUpdate = false;
         }
 
-        #endregion
-
-        public void MangaFocusChanged(bool focusManga)
+        private async void AddThisToMyList()
         {
-            if (focusManga)
+            LoadingUpdate = true;
+            var response =
+                ParentAbstraction.RepresentsAnime
+                    ? await new AnimeAddQuery(Id.ToString()).GetRequestResponse()
+                    : await new MangaAddQuery(Id.ToString()).GetRequestResponse();
+            LoadingUpdate = false;
+            if (Settings.SelectedApiType == ApiType.Mal && !response.Contains("Created"))
+                return;
+            var startDate = "0000-00-00";
+            if (Settings.SetStartDateOnListAdd)
+                startDate = DateTimeOffset.Now.ToString("yyyy-MM-dd");
+            var animeItem = ParentAbstraction.RepresentsAnime
+               ? new AnimeLibraryItemData
+               {
+                   Title = Title,
+                   ImgUrl = ImgUrl,
+                   Type = ParentAbstraction.Type,
+                   Id = Id,
+                   AllEpisodes = AllEpisodes,
+                   MalId = ParentAbstraction.MalId,
+                   MyStatus = AnimeStatus.PlanToWatch,
+                   MyEpisodes = 0,
+                   MyScore = 0,
+                   MyStartDate = startDate,
+                   MyEndDate = AnimeItemViewModel.InvalidStartEndDate
+               }
+               : new MangaLibraryItemData
+               {
+                   Title = Title,
+                   ImgUrl = ImgUrl,
+                   Type = ParentAbstraction.Type,
+                   Id = Id,
+                   AllEpisodes = AllEpisodes,
+                   MalId = ParentAbstraction.MalId,
+                   MyStatus = AnimeStatus.PlanToWatch,
+                   MyEpisodes = 0,
+                   MyScore = 0,
+                   MyStartDate = startDate,
+                   MyEndDate = AnimeItemViewModel.InvalidStartEndDate,
+                   AllVolumes = AllVolumes,
+                   MyVolumes = MyVolumes
+               };
+            ParentAbstraction.EntryData = animeItem;
+            _seasonalState = false;
+            SetAuthStatus(true);
+            MyScore = 0;
+            MyStatus = AnimeStatus.PlanToWatch;
+            MyEpisodes = 0;
+            if (Settings.SetStartDateOnListAdd)
+                ParentAbstraction.MyStartDate = DateTimeOffset.Now.ToString("yyyy-MM-dd");
+            if (ParentAbstraction.RepresentsAnime)
+                MyVolumes = 0;
+
+            AllowItemManipulation = true;
+            AddToListVisibility = false;
+            ResourceLocator.AnimeLibraryDataStorage.AddAnimeEntry(ParentAbstraction);
+            await Task.Delay(10);
+            RaisePropertyChanged(() => MyStatusBindShort);
+            RaisePropertyChanged(() => MyStatusBind);
+
+            if (ViewModelLocator.AnimeDetails.Id == Id)
+                ViewModelLocator.AnimeDetails.CurrentAnimeHasBeenAddedToList(this);
+        }
+
+        public void UpdateWithSeasonData(SeasonalAnimeData data, bool updateScore)
+        {
+            if (updateScore)
+                GlobalScore = data.Score;
+            Airing = data.AirDay >= 0;
+            if (!Auth)
             {
-                _allEpisodes = ParentAbstraction.AllVolumes; //invert this
-                _allVolumes = ParentAbstraction.AllEpisodes;
-            }
-            else
-            {
-                _allEpisodes = ParentAbstraction.AllEpisodes; //else standard
-                _allVolumes = ParentAbstraction.AllVolumes;
+                UpdateButtonsVisibility = false;
+                _seasonalState = true;
             }
             RaisePropertyChanged(() => MyEpisodesBind);
-            RaisePropertyChanged(() => MyEpisodesBindShort);
-            UpdateEpsUpperLabel = focusManga ? "Read volumes" : "Read chapters";
         }
+        #endregion
 
         #region Prompts
 
@@ -1206,6 +1157,53 @@ namespace MALClient.XShared.ViewModels
 
         #endregion
 
+        public void MangaFocusChanged(bool focusManga)
+        {
+            if (focusManga)
+            {
+                _allEpisodes = ParentAbstraction.AllVolumes; //invert this
+                _allVolumes = ParentAbstraction.AllEpisodes;
+            }
+            else
+            {
+                _allEpisodes = ParentAbstraction.AllEpisodes; //else standard
+                _allVolumes = ParentAbstraction.AllVolumes;
+            }
+            RaisePropertyChanged(() => MyEpisodesBind);
+            RaisePropertyChanged(() => MyEpisodesBindShort);
+            UpdateEpsUpperLabel = focusManga ? "Read volumes" : "Read chapters";
+        }
+
+        public static void UpdateScoreFlyoutChoices()
+        {
+            ScoreFlyoutChoices = Settings.SelectedApiType == ApiType.Mal
+                ? new List<string>
+                {
+                    "10 - Masterpiece",
+                    "9 - Great",
+                    "8 - Very Good",
+                    "7 - Good",
+                    "6 - Fine",
+                    "5 - Average",
+                    "4 - Bad",
+                    "3 - Very Bad",
+                    "2 - Horrible",
+                    "1 - Appaling"
+                }
+                : new List<string>
+                {
+                    "5 - Masterpiece",
+                    "4.5 - Great",
+                    "4 - Very Good",
+                    "3.5 - Good",
+                    "3 - Fine",
+                    "2.5 - Average",
+                    "2 - Bad",
+                    "1.5 - Very Bad",
+                    "1 - Horrible",
+                    "0.5 - Appaling"
+                };
+        }
 
     }
 }

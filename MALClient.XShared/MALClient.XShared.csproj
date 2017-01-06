@@ -34,6 +34,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="BL\AnimeLibraryDataStorage.cs" />
     <Compile Include="Comm\Anime\AnimeAddQuery.cs" />
     <Compile Include="Comm\Anime\AnimeCharactersStaffQuery.cs" />
     <Compile Include="Comm\Anime\AnimeDetailsAnnQuery.cs" />
@@ -82,6 +83,7 @@
     <Compile Include="Comm\Query.cs" />
     <Compile Include="Comm\Search\CharactersSearchQuery.cs" />
     <Compile Include="Delegates\Delegates.cs" />
+    <Compile Include="Interfaces\IAnimeLibraryDataStorage.cs" />
     <Compile Include="NavArgs\AnimeDetailsPageNavigationArgs.cs" />
     <Compile Include="NavArgs\AnimeListPageNavigationArgs.cs" />
     <Compile Include="NavArgs\CharacterDetailsNavigationArgs.cs" />
@@ -170,7 +172,6 @@
   <ItemGroup>
     <Content Include="Comm\HtmlClassesDefinitions.json" />
     <None Include="app.config" />
-    <None Include="ClassDiagram1.cd" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using GalaSoft.MvvmLight.Ioc;
 using MALClient.Adapters;
 using MALClient.Adapters.Credentails;
+using MALClient.XShared.BL;
+using MALClient.XShared.Interfaces;
 
 namespace MALClient.XShared.ViewModels
 {
@@ -33,6 +35,16 @@ namespace MALClient.XShared.ViewModels
         public static INotificationsTaskManager  NotificationsTaskManager  => SimpleIoc.Default.GetInstance<INotificationsTaskManager>();
 
         public static IChangeLogProvider  ChangelogProvider  => SimpleIoc.Default.GetInstance<IChangeLogProvider>();
+
+
+        // Purely shared interfaces
+
+        public static IAnimeLibraryDataStorage AnimeLibraryDataStorage  => SimpleIoc.Default.GetInstance<IAnimeLibraryDataStorage>();
+
+        public static void RegisterBase()
+        {
+            SimpleIoc.Default.Register<IAnimeLibraryDataStorage,AnimeLibraryDataStorage>();
+        }
 
         #region UsedByBackgroundTask
 

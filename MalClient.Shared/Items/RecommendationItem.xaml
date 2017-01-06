@@ -135,7 +135,7 @@
 
             <!--MidTop-->
             <SymbolIcon Grid.Column="1" Grid.Row="0" RenderTransformOrigin="0.5,0.5" Symbol="Switch"
-                        Foreground="LightGray" VerticalAlignment="Top" Margin="0,85,0,0" HorizontalAlignment="Center">
+                        Foreground="LightGray" VerticalAlignment="Center" HorizontalAlignment="Center">
                 <SymbolIcon.RenderTransform>
                     <ScaleTransform ScaleY="3" ScaleX="3" />
                 </SymbolIcon.RenderTransform>

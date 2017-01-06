@@ -14,6 +14,7 @@ using MALClient.XShared.Comm;
 using MALClient.XShared.Comm.MagicalRawQueries.Profile;
 using MALClient.XShared.Comm.Profile;
 using MALClient.XShared.Delegates;
+using MALClient.XShared.Interfaces;
 using MALClient.XShared.NavArgs;
 using MALClient.XShared.Utils;
 using MALClient.XShared.Utils.Enums;
@@ -22,6 +23,7 @@ namespace MALClient.XShared.ViewModels.Main
 {
     public sealed class ProfilePageViewModel : ViewModelBase
     {
+        private readonly IAnimeLibraryDataStorage _animeLibraryDataStorage;
         //anime -<>- manga
 
         private List<int> _animeChartValues = new List<int>();
@@ -34,9 +36,6 @@ namespace MALClient.XShared.ViewModels.Main
 
         private ObservableCollection<MalComment> _malComments = new ObservableCollection<MalComment>();
         public ProfilePageNavigationArgs PrevArgs;
-
-        public Dictionary<string, Tuple<List<AnimeItemAbstraction>, List<AnimeItemAbstraction>>> OthersAbstractions {
-            get; } = new Dictionary<string, Tuple<List<AnimeItemAbstraction>, List<AnimeItemAbstraction>>>();
 
         public ObservableCollection<MalComment> MalComments
         {
@@ -155,7 +154,7 @@ namespace MALClient.XShared.ViewModels.Main
             }
             else
             {
-                if (!OthersAbstractions.ContainsKey(args.TargetUser ?? ""))
+                if (!_animeLibraryDataStorage.OthersAbstractions.ContainsKey(args.TargetUser ?? ""))
                 {
                     LoadingOhersLibrariesProgressVisiblity = true;
                     var data = new List<ILibraryData>();
@@ -182,10 +181,10 @@ namespace MALClient.XShared.ViewModels.Main
                         var libraryData in data)
                         mangaAbstractions.Add(new AnimeItemAbstraction(false, libraryData as MangaLibraryItemData));
 
-                    lock (OthersAbstractions)
+                    lock (_animeLibraryDataStorage.OthersAbstractions)
                     {
-                        if (!OthersAbstractions.ContainsKey(args.TargetUser))
-                            OthersAbstractions.Add(args.TargetUser,
+                        if (!_animeLibraryDataStorage.OthersAbstractions.ContainsKey(args.TargetUser))
+                            _animeLibraryDataStorage.OthersAbstractions.Add(args.TargetUser,
                                 new Tuple<List<AnimeItemAbstraction>, List<AnimeItemAbstraction>>(abstractions,
                                     mangaAbstractions));
                     }
@@ -193,7 +192,7 @@ namespace MALClient.XShared.ViewModels.Main
                     LoadingOhersLibrariesProgressVisiblity = false;
                 }
 
-                var source = OthersAbstractions[args.TargetUser];
+                var source = _animeLibraryDataStorage.OthersAbstractions[args.TargetUser];
                 var list = new List<AnimeItemViewModel>();
                 foreach (var id in CurrentData.FavouriteAnime)
                 {
@@ -395,8 +394,9 @@ namespace MALClient.XShared.ViewModels.Main
         private List<AnimeItemViewModel> _recentAnime;
         private List<AnimeItemViewModel> _recentManga;
 
-        public ProfilePageViewModel()
+        public ProfilePageViewModel(IAnimeLibraryDataStorage animeLibraryDataStorage)
         {
+            _animeLibraryDataStorage = animeLibraryDataStorage;
             MaxWidth = AnimeItemViewModel.MaxWidth;
         }
 

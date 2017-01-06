@@ -12,6 +12,7 @@ using MALClient.Models.Enums;
 using MALClient.XShared.Comm;
 using MALClient.XShared.Comm.Anime;
 using MALClient.XShared.Delegates;
+using MALClient.XShared.Interfaces;
 using MALClient.XShared.Utils;
 using MALClient.XShared.Utils.Enums;
 
@@ -38,6 +39,7 @@ namespace MALClient.XShared.ViewModels.Main
 
     public class CalendarPageViewModel : ViewModelBase
     {
+        private readonly IAnimeLibraryDataStorage _animeLibraryDataStorage;
         public event EmptyEventHander PivotSelectedIndexChange;
 
         public ObservableCollection<CalendarPivotPage> CalendarData { get; set; } =
@@ -144,8 +146,9 @@ namespace MALClient.XShared.ViewModels.Main
             };
         }
 
-        public CalendarPageViewModel()
+        public CalendarPageViewModel(IAnimeLibraryDataStorage animeLibraryDataStorage)
         {
+            _animeLibraryDataStorage = animeLibraryDataStorage;
             ItemWidth = AnimeItemViewModel.MaxWidth - 8;
         }
 
@@ -166,7 +169,7 @@ namespace MALClient.XShared.ViewModels.Main
 
             foreach (
                 var abstraction in
-                ViewModelLocator.AnimeList.AllLoadedAnimeItemAbstractions.Where(
+                _animeLibraryDataStorage.AllLoadedAnimeItemAbstractions.Where(
                     abstraction => abstraction.Type == (int)AnimeType.TV &&(
                         (Settings.CalendarIncludePlanned && abstraction.MyStatus ==  AnimeStatus.PlanToWatch) ||
                         (Settings.CalendarIncludeWatching && abstraction.MyStatus == AnimeStatus.Watching))))

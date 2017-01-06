@@ -16,6 +16,7 @@ using MALClient.Models.Models.Library;
 using MALClient.XShared.Comm;
 using MALClient.XShared.Comm.Anime;
 using MALClient.XShared.Delegates;
+using MALClient.XShared.Interfaces;
 using MALClient.XShared.NavArgs;
 using MALClient.XShared.Utils;
 using MALClient.XShared.Utils.Enums;
@@ -25,13 +26,9 @@ namespace MALClient.XShared.ViewModels.Main
 {
     public partial class AnimeListViewModel : ViewModelBase
     {
+        private readonly IAnimeLibraryDataStorage _animeLibraryDataStorage;
         private const int ItemPrefferedWidth = 385;
-        private const int LastIndexPositionOnRefresh = -10;
-
-        private List<AnimeItemAbstraction> _allLoadedAuthAnimeItems = new List<AnimeItemAbstraction>();
-        private List<AnimeItemAbstraction> _allLoadedAuthMangaItems = new List<AnimeItemAbstraction>();
-        private List<AnimeItemAbstraction> _allLoadedSeasonalAnimeItems = new List<AnimeItemAbstraction>();
-        private List<AnimeItemAbstraction> _allLoadedSeasonalMangaItems = new List<AnimeItemAbstraction>();
+        private const int LastIndexPositionOnRefresh = -10; //just a constant
 
         private SmartObservableCollection<AnimeItemViewModel> _animeItems =
             new SmartObservableCollection<AnimeItemViewModel>();
@@ -55,7 +52,6 @@ namespace MALClient.XShared.ViewModels.Main
         private AnimeListWorkModes _prevWorkMode = AnimeListWorkModes.Anime;
         private bool _scrollHandlerAdded;
 
-
         private bool _wasPreviousQuery;
 
         public bool CanAddScrollHandler;
@@ -76,12 +72,6 @@ namespace MALClient.XShared.ViewModels.Main
                     Initialized?.Invoke();
             }
         }
-
-        public List<AnimeItemAbstraction> AllLoadedAnimeItemAbstractions { get; private set; } =
-            new List<AnimeItemAbstraction>();
-
-        public List<AnimeItemAbstraction> AllLoadedMangaItemAbstractions { get; private set; } =
-            new List<AnimeItemAbstraction>();
 
         public SmartObservableCollection<AnimeItemViewModel> AnimeItems
         {
@@ -127,9 +117,13 @@ namespace MALClient.XShared.ViewModels.Main
             }
         }
 
-        public AnimeListViewModel()
+        public AnimeListViewModel(IAnimeLibraryDataStorage animeLibraryDataStorage)
         {
-            for (int i = 2000; i < 2018; i++)
+            _animeLibraryDataStorage = animeLibraryDataStorage;
+
+            _animeLibraryDataStorage.AnimeRemoved += OnAnimeEntryRemoved;
+
+            for (int i = 2000; i < DateTime.Now.Year + 2; i++)
             {
                 SeasonYears.Add(i.ToString());
             }
@@ -394,19 +388,19 @@ namespace MALClient.XShared.ViewModels.Main
                 switch (WorkMode)
                 {
                     case AnimeListWorkModes.Anime:
-                        items = AllLoadedAnimeItemAbstractions;
+                        items = _animeLibraryDataStorage.AllLoadedAnimeItemAbstractions;
                         break;
                     case AnimeListWorkModes.SeasonalAnime:
                     case AnimeListWorkModes.TopAnime:
                     case AnimeListWorkModes.AnimeByGenre:
                     case AnimeListWorkModes.AnimeByStudio:
-                        items = _allLoadedSeasonalAnimeItems;
+                        items = _animeLibraryDataStorage.AllLoadedSeasonalAnimeItems;
                         break;
                     case AnimeListWorkModes.Manga:
-                        items = AllLoadedMangaItemAbstractions;
+                        items = _animeLibraryDataStorage.AllLoadedMangaItemAbstractions;
                         break;
                     case AnimeListWorkModes.TopManga:
-                        items = _allLoadedSeasonalMangaItems;
+                        items = _animeLibraryDataStorage.AllLoadedSeasonalMangaItems;
                         break;
                     default:
                         throw new ArgumentOutOfRangeException();
@@ -741,36 +735,10 @@ namespace MALClient.XShared.ViewModels.Main
 
         #region CacheManip
 
-        public void AddAnimeEntry(AnimeItemAbstraction parentAbstraction)
+        public void OnAnimeEntryRemoved(AnimeItemAbstraction parentAbstraction)
         {
-            if (_allLoadedAuthAnimeItems.Count > 0)
-            {
-                if (parentAbstraction.RepresentsAnime)
-                    _allLoadedAuthAnimeItems.Add(parentAbstraction);
-                else
-                    _allLoadedAuthMangaItems.Add(parentAbstraction);
-            }
-        }
-
-        public void RemoveAnimeEntry(AnimeItemAbstraction parentAbstraction)
-        {
-            try
-            {
+            if (AnimeItems.Contains(parentAbstraction.ViewModel))
                 AnimeItems.Remove(parentAbstraction.ViewModel);
-            }
-            catch (Exception)
-            {
-                //
-            }
-
-
-            if (_allLoadedAuthAnimeItems.Count > 0)
-            {
-                if (parentAbstraction.RepresentsAnime)
-                    _allLoadedAuthAnimeItems.Remove(parentAbstraction);
-                else
-                    _allLoadedAuthMangaItems.Remove(parentAbstraction);
-            }
         }
 
         #endregion
@@ -826,7 +794,7 @@ namespace MALClient.XShared.ViewModels.Main
         /// <summary>
         ///     Adds handler to scroll viewer provided by view.
         /// </summary>
-        private async void AddScrollHandler()
+        private void AddScrollHandler()
         {
             if (!CanAddScrollHandler || _scrollHandlerAdded)
                 return;
@@ -932,25 +900,25 @@ namespace MALClient.XShared.ViewModels.Main
             if (WorkMode == AnimeListWorkModes.TopManga)
             {
                 //We have to load base mnga item first if not loaded before.
-                if (AllLoadedMangaItemAbstractions.Count == 0 && !_attemptedMangaFetch)
+                if (_animeLibraryDataStorage.AllLoadedMangaItemAbstractions.Count == 0 && !_attemptedMangaFetch)
                     await FetchData(false, AnimeListWorkModes.Manga);
 
-                target = _allLoadedSeasonalMangaItems = new List<AnimeItemAbstraction>();
-                source = _allLoadedAuthMangaItems.Count > 0 ? _allLoadedAuthMangaItems : new List<AnimeItemAbstraction>();
+                target = _animeLibraryDataStorage.AllLoadedSeasonalMangaItems = new List<AnimeItemAbstraction>();
+                source = _animeLibraryDataStorage.AllLoadedAuthMangaItems.Count > 0 ? _animeLibraryDataStorage.AllLoadedAuthMangaItems : new List<AnimeItemAbstraction>();
             }
             else
             {
-                if (AllLoadedAnimeItemAbstractions.Count == 0 && !_attemptedAnimeFetch)
+                if (_animeLibraryDataStorage.AllLoadedAnimeItemAbstractions.Count == 0 && !_attemptedAnimeFetch)
                     await FetchData(false, AnimeListWorkModes.Anime);
                 if ((WorkMode == AnimeListWorkModes.AnimeByGenre || WorkMode == AnimeListWorkModes.AnimeByStudio) && page > 1)
                 {
-                    target = _allLoadedSeasonalAnimeItems;
+                    target = _animeLibraryDataStorage.AllLoadedSeasonalAnimeItems;
                 }
                 else
                 {
-                    target = _allLoadedSeasonalAnimeItems = new List<AnimeItemAbstraction>();                   
+                    target = _animeLibraryDataStorage.AllLoadedSeasonalAnimeItems = new List<AnimeItemAbstraction>();                   
                 }
-                source = _allLoadedAuthAnimeItems.Count > 0 ? _allLoadedAuthAnimeItems : new List<AnimeItemAbstraction>();
+                source = _animeLibraryDataStorage.AllLoadedAuthAnimeItems.Count > 0 ? _animeLibraryDataStorage.AllLoadedAuthAnimeItems : new List<AnimeItemAbstraction>();
 
             }
 
@@ -1087,26 +1055,26 @@ namespace MALClient.XShared.ViewModels.Main
             {
                 case AnimeListWorkModes.Anime:
                     _attemptedAnimeFetch = true;
-                    AllLoadedAnimeItemAbstractions = new List<AnimeItemAbstraction>();
+                    _animeLibraryDataStorage.AllLoadedAnimeItemAbstractions = new List<AnimeItemAbstraction>();
                     if (force)
-                        _allLoadedAuthAnimeItems = new List<AnimeItemAbstraction>();
-                    else if (_allLoadedAuthAnimeItems.Count > 0 && string.Equals(ListSource, Credentials.UserName, StringComparison.CurrentCultureIgnoreCase))
-                        AllLoadedAnimeItemAbstractions = _allLoadedAuthAnimeItems;
+                        _animeLibraryDataStorage.AllLoadedAuthAnimeItems = new List<AnimeItemAbstraction>();
+                    else if (_animeLibraryDataStorage.AllLoadedAuthAnimeItems.Count > 0 && string.Equals(ListSource, Credentials.UserName, StringComparison.CurrentCultureIgnoreCase))
+                        _animeLibraryDataStorage.AllLoadedAnimeItemAbstractions = _animeLibraryDataStorage.AllLoadedAuthAnimeItems;
                     break;
                 case AnimeListWorkModes.Manga:
                     _attemptedMangaFetch = true;
-                    AllLoadedMangaItemAbstractions = new List<AnimeItemAbstraction>();
+                    _animeLibraryDataStorage.AllLoadedMangaItemAbstractions = new List<AnimeItemAbstraction>();
                     if (force)
-                        _allLoadedAuthMangaItems = new List<AnimeItemAbstraction>();
-                    else if (_allLoadedAuthMangaItems.Count > 0 && string.Equals(ListSource, Credentials.UserName, StringComparison.CurrentCultureIgnoreCase))
-                        AllLoadedMangaItemAbstractions = _allLoadedAuthMangaItems;
+                        _animeLibraryDataStorage.AllLoadedAuthMangaItems = new List<AnimeItemAbstraction>();
+                    else if (_animeLibraryDataStorage.AllLoadedAuthMangaItems.Count > 0 && string.Equals(ListSource, Credentials.UserName, StringComparison.CurrentCultureIgnoreCase))
+                        _animeLibraryDataStorage.AllLoadedMangaItemAbstractions = _animeLibraryDataStorage.AllLoadedAuthMangaItems;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
 
 
-            if (requestedMode == AnimeListWorkModes.Anime ? AllLoadedAnimeItemAbstractions.Count == 0 : AllLoadedMangaItemAbstractions.Count == 0)
+            if (requestedMode == AnimeListWorkModes.Anime ? _animeLibraryDataStorage.AllLoadedAnimeItemAbstractions.Count == 0 : _animeLibraryDataStorage.AllLoadedMangaItemAbstractions.Count == 0)
             {
                 List<ILibraryData> data = null;
                 await Task.Run(async () => data = await new LibraryListQuery(ListSource, requestedMode).GetLibrary(force));
@@ -1124,17 +1092,17 @@ namespace MALClient.XShared.ViewModels.Main
                     case AnimeListWorkModes.Anime:
 
                         foreach (var item in data)
-                            AllLoadedAnimeItemAbstractions.Add(new AnimeItemAbstraction(auth, item as AnimeLibraryItemData));
+                            _animeLibraryDataStorage.AllLoadedAnimeItemAbstractions.Add(new AnimeItemAbstraction(auth, item as AnimeLibraryItemData));
 
                         if (string.Equals(ListSource, Credentials.UserName, StringComparison.CurrentCultureIgnoreCase))
-                            _allLoadedAuthAnimeItems = AllLoadedAnimeItemAbstractions;
+                            _animeLibraryDataStorage.AllLoadedAuthAnimeItems = _animeLibraryDataStorage.AllLoadedAnimeItemAbstractions;
                         break;
                     case AnimeListWorkModes.Manga:
                         foreach (var item in data)
-                            AllLoadedMangaItemAbstractions.Add(new AnimeItemAbstraction(auth && Settings.SelectedApiType == ApiType.Mal, item as MangaLibraryItemData)); //read only manga for hummingbird
+                            _animeLibraryDataStorage.AllLoadedMangaItemAbstractions.Add(new AnimeItemAbstraction(auth && Settings.SelectedApiType == ApiType.Mal, item as MangaLibraryItemData)); //read only manga for hummingbird
 
                         if (string.Equals(ListSource, Credentials.UserName, StringComparison.CurrentCultureIgnoreCase))
-                            _allLoadedAuthMangaItems = AllLoadedMangaItemAbstractions;
+                            _animeLibraryDataStorage.AllLoadedAuthMangaItems = _animeLibraryDataStorage.AllLoadedMangaItemAbstractions;
                         break;
                     default:
                         throw new ArgumentOutOfRangeException();
@@ -1147,7 +1115,7 @@ namespace MALClient.XShared.ViewModels.Main
 
             AppBtnGoBackToMyListVisibility = Credentials.Authenticated && !string.Equals(ListSource, Credentials.UserName, StringComparison.CurrentCultureIgnoreCase) ? true : false;
             //load tags
-            ViewModelLocator.GeneralMain.SearchHints = _allLoadedAuthAnimeItems.Concat(_allLoadedAuthMangaItems).SelectMany(abs => abs.Tags).Distinct().ToList();
+            ViewModelLocator.GeneralMain.SearchHints = _animeLibraryDataStorage.AllLoadedAuthAnimeItems.Concat(_animeLibraryDataStorage.AllLoadedAuthMangaItems).SelectMany(abs => abs.Tags).Distinct().ToList();
             RefreshList();
         }
 
@@ -1165,13 +1133,13 @@ namespace MALClient.XShared.ViewModels.Main
             {
                 if (anime)
                 {
-                    if (AllLoadedAnimeItemAbstractions.Count == 0 && !_attemptedAnimeFetch)
+                    if (_animeLibraryDataStorage.AllLoadedAnimeItemAbstractions.Count == 0 && !_attemptedAnimeFetch)
                         await FetchData(false, AnimeListWorkModes.Anime);
                 }
-                else if (AllLoadedMangaItemAbstractions.Count == 0 && !_attemptedMangaFetch)
+                else if (_animeLibraryDataStorage.AllLoadedMangaItemAbstractions.Count == 0 && !_attemptedMangaFetch)
                     await FetchData(false, AnimeListWorkModes.Manga);
 
-                return anime ? _allLoadedAuthAnimeItems.First(abstraction => forceMal ? abstraction.MalId == id : abstraction.Id == id).ViewModel : _allLoadedAuthMangaItems.First(abstraction => forceMal ? abstraction.MalId == id : abstraction.Id == id).ViewModel;
+                return anime ? _animeLibraryDataStorage.AllLoadedAuthAnimeItems.First(abstraction => forceMal ? abstraction.MalId == id : abstraction.Id == id).ViewModel : _animeLibraryDataStorage.AllLoadedAuthMangaItems.First(abstraction => forceMal ? abstraction.MalId == id : abstraction.Id == id).ViewModel;
             }
             catch (Exception)
             {
@@ -1272,40 +1240,6 @@ namespace MALClient.XShared.ViewModels.Main
             _initializing = true;
             StatusSelectorSelectedIndex = (int) value;
             _initializing = false;
-        }
-
-        #endregion
-
-        #region LogInOut
-
-        //TODO : Refactor
-        public void LogOut()
-        {
-            _animeItemsSet.Clear();
-            AnimeItems = new SmartObservableCollection<AnimeItemViewModel>();
-            RaisePropertyChanged(() => AnimeItems);
-            AllLoadedAnimeItemAbstractions = new List<AnimeItemAbstraction>();
-            _allLoadedAuthAnimeItems = new List<AnimeItemAbstraction>();
-            AllLoadedMangaItemAbstractions = new List<AnimeItemAbstraction>();
-            _allLoadedAuthMangaItems = new List<AnimeItemAbstraction>();
-            _allLoadedSeasonalAnimeItems = new List<AnimeItemAbstraction>();
-
-            ListSource = string.Empty;
-            _prevListSource = "";
-        }
-
-        public void LogIn()
-        {
-            _animeItemsSet.Clear();
-            AnimeItems = new SmartObservableCollection<AnimeItemViewModel>();
-            RaisePropertyChanged(() => AnimeItems);
-            AllLoadedAnimeItemAbstractions = new List<AnimeItemAbstraction>();
-            _allLoadedAuthAnimeItems = new List<AnimeItemAbstraction>();
-            AllLoadedMangaItemAbstractions = new List<AnimeItemAbstraction>();
-            _allLoadedAuthMangaItems = new List<AnimeItemAbstraction>();
-            _allLoadedSeasonalAnimeItems = new List<AnimeItemAbstraction>();
-            ListSource = Credentials.UserName;
-            _prevListSource = "";
         }
 
         #endregion

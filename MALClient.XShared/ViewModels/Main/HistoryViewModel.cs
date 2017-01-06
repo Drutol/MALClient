@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using GalaSoft.MvvmLight;
 using MALClient.Models.Models.MalSpecific;
 using MALClient.XShared.Comm.Profile;
+using MALClient.XShared.Interfaces;
 using MALClient.XShared.NavArgs;
 using MALClient.XShared.Utils;
 
@@ -12,7 +13,14 @@ namespace MALClient.XShared.ViewModels.Main
 {
     public class HistoryViewModel : ViewModelBase
     {
-        public Dictionary<string, List<Tuple<AnimeItemViewModel, List<MalProfileHistoryEntry>>>> _history;
+        private readonly IAnimeLibraryDataStorage _animeLibraryDataStorage;
+
+        public HistoryViewModel(IAnimeLibraryDataStorage animeLibraryDataStorage)
+        {
+            _animeLibraryDataStorage = animeLibraryDataStorage;
+        }
+
+        private Dictionary<string, List<Tuple<AnimeItemViewModel, List<MalProfileHistoryEntry>>>> _history;
 
         public Dictionary<string, List<Tuple<AnimeItemViewModel, List<MalProfileHistoryEntry>>>> History
         {
@@ -101,7 +109,7 @@ namespace MALClient.XShared.ViewModels.Main
                 {
                     try
                     {
-                        var others = ViewModelLocator.ProfilePage.OthersAbstractions[args.Source];
+                        var others = _animeLibraryDataStorage.OthersAbstractions[args.Source];
                         foreach (var key in history.Keys)
                         {
                             List<Tuple<AnimeItemViewModel, List<MalProfileHistoryEntry>>> entries =

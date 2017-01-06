@@ -34,5 +34,7 @@ namespace MALClient.XShared.Delegates
 
     public delegate void BackgroundTaskCall(BgTasks task);
 
+    public delegate void AnimeAbstractionTransaction(AnimeItemAbstraction abstraction);
+
     public delegate Task<string> NavigationInterceptPossible(string targetUrl);
 }

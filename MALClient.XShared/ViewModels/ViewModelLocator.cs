@@ -75,6 +75,7 @@ namespace MALClient.XShared.ViewModels
             SimpleIoc.Default.Register<WallpapersViewModel>();
             SimpleIoc.Default.Register<PopularVideosViewModel>();
 
+            ResourceLocator.RegisterBase();
         }
 
         public static bool Mobile { get; set; }

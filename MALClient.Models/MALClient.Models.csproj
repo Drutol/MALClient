@@ -57,6 +57,7 @@
     <Compile Include="Enums\SettingsSymbolsEnum.cs" />
     <Compile Include="Enums\TelemetryEventsEnum.cs" />
     <Compile Include="Enums\WallpaperSources.cs" />
+    <Compile Include="Interfaces\IAnimeLibraryDataStorage.cs" />
     <Compile Include="Interfaces\IAnimeListItem.cs" />
     <Compile Include="Interfaces\IDetailsPageArgs.cs" />
     <Compile Include="Models\AnimeScrapped\AnimeCharacterStaffModel.cs" />

@@ -188,6 +188,7 @@ namespace MALClient
             HtmlClassMgr.Init();
             LiveTilesManager.LoadTileCache();
             FavouritesManager.LoadData();
+            AnimeImageQuery.Init();
             Window.Current.Activate();
             RateReminderPopUp.ProcessRatePopUp();
             RateReminderPopUp.ProcessDonatePopUp();
@@ -308,7 +309,7 @@ namespace MALClient
             }
             await ViewModelLocator.ForumsMain.SavePinnedTopics();
             await FavouritesManager.SaveData();
-
+            await AnimeImageQuery.SaveData();
             deferral.Complete();
         }
     }

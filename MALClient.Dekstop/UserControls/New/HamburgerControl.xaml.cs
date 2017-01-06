@@ -166,6 +166,8 @@ namespace MALClient.UserControls.New
                 ButtonNews.SetValue(Grid.ColumnProperty, 1);
                 ButtonNews.SetValue(Grid.ColumnSpanProperty, 1);
                 ButtonArticles.SetValue(Grid.ColumnSpanProperty, 1);
+
+                SubProfileSection.Visibility = Visibility.Visible;
             }
             else //closed
             {
@@ -201,6 +203,8 @@ namespace MALClient.UserControls.New
                 ButtonNews.SetValue(Grid.ColumnProperty, 0);
                 ButtonNews.SetValue(Grid.ColumnSpanProperty, 2);
                 ButtonArticles.SetValue(Grid.ColumnSpanProperty, 2);
+
+                SubProfileSection.Visibility = Visibility.Collapsed;
             }
         }
 
@@ -223,12 +227,6 @@ namespace MALClient.UserControls.New
         {
             ResourceLocator.TelemetryProvider.TelemetryTrackEvent(TelemetryTrackedEvents.LaunchedFeedback);
             ResourceLocator.SystemControlsLauncherService.LaunchUri(new Uri("https://github.com/Drutol/MALClient/issues"));
-        }
-
-        private void BtnProfile_OnClick(object sender, RoutedEventArgs e)
-        {
-            if(ViewModel.PinnedProfiles.Count > 0)
-                FlyoutBase.GetAttachedFlyout(BtnProfile).ShowAt(BtnProfile);
         }
 
         private void PinnedProfilesOnClick(object sender, ItemClickEventArgs e)

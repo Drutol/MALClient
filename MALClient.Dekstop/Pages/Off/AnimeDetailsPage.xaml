@@ -756,7 +756,7 @@
                                         Margin="5,10"
                                         BorderThickness="2"
                                         BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" />
-                                <ProgressRing IsActive="True"
+                                <ProgressRing IsActive="True" Width="40" Height="40" Margin="0,5"
                                               Visibility="{Binding LoadingCharactersVisibility,Converter={StaticResource BoolToVisibilityConverter}}" />
                                 <Grid HorizontalAlignment="Center"
                                       Visibility="{Binding CharactersGridVisibility,Converter={StaticResource BoolToVisibilityConverter}}">

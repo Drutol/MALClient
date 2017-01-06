@@ -22,6 +22,7 @@
         History,
         CharacterSearch,
         Wallpapers,
-        PopularVideos
+        PopularVideos,
+        Feeds
     }
 }

@@ -87,6 +87,7 @@
     <Compile Include="Models\Library\IAnimeData.cs" />
     <Compile Include="Models\Library\ILibraryData.cs" />
     <Compile Include="Models\Library\MangaLibraryItemData.cs" />
+    <Compile Include="Models\MalSpecific\UserFeedEntryModel.cs" />
     <Compile Include="Models\MalSpecific\MalMessageModel.cs" />
     <Compile Include="Models\MalSpecific\MalNewsUnitModel.cs" />
     <Compile Include="Models\MalSpecific\MalProfileHistoryEntry.cs" />

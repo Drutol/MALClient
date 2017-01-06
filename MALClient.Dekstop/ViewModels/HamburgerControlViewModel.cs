@@ -403,9 +403,12 @@ namespace MALClient.ViewModels
                 ResetTopCategoryButtons();
                 RaisePropertyChanged(() => TopCategoriesForegorundBrushes);
             }
-            TxtForegroundBrushes[val.ToString()] =
-                Application.Current.Resources["SystemControlBackgroundAccentBrush"] as Brush;
-            TxtBorderBrushThicknesses[val.ToString()] = new Thickness(4, 0, 0, 0);
+            if (TxtForegroundBrushes.ContainsKey(val.ToString()))
+            {
+                TxtForegroundBrushes[val.ToString()] =
+                    Application.Current.Resources["SystemControlBackgroundAccentBrush"] as Brush;
+                TxtBorderBrushThicknesses[val.ToString()] = new Thickness(4, 0, 0, 0);
+            }
             RaisePropertyChanged(() => TxtForegroundBrushes);
             RaisePropertyChanged(() => TxtBorderBrushThicknesses);
         }

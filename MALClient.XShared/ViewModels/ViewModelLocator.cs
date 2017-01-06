@@ -74,6 +74,7 @@ namespace MALClient.XShared.ViewModels
             SimpleIoc.Default.Register<LogInViewModel>();
             SimpleIoc.Default.Register<WallpapersViewModel>();
             SimpleIoc.Default.Register<PopularVideosViewModel>();
+            SimpleIoc.Default.Register<FriendsFeedsViewModel>();
 
             ResourceLocator.RegisterBase();
         }
@@ -135,6 +136,9 @@ namespace MALClient.XShared.ViewModels
 
         public static PopularVideosViewModel PopularVideos
             => ServiceLocator.Current.GetInstance<PopularVideosViewModel>();
+
+        public static FriendsFeedsViewModel FriendsFeeds
+            => ServiceLocator.Current.GetInstance<FriendsFeedsViewModel>();
 
         //Forums
 

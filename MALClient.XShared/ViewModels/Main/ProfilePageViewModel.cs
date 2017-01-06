@@ -31,11 +31,19 @@ namespace MALClient.XShared.ViewModels.Main
         private string _currUser;
 
         private List<FavouriteViewModel> _favouriteCharacters;
-
         private List<FavouriteViewModel> _favouriteStaff;
-
         private ObservableCollection<MalComment> _malComments = new ObservableCollection<MalComment>();
         public ProfilePageNavigationArgs PrevArgs;
+        public List<MalUser> MyFriends { get; set; }
+
+        public event WebViewNavigationRequest OnWebViewNavigationRequest;
+        public event EmptyEventHander OnInitialized;
+
+        public ProfilePageViewModel(IAnimeLibraryDataStorage animeLibraryDataStorage)
+        {
+            _animeLibraryDataStorage = animeLibraryDataStorage;
+            MaxWidth = AnimeItemViewModel.MaxWidth;
+        }
 
         public ObservableCollection<MalComment> MalComments
         {
@@ -67,10 +75,8 @@ namespace MALClient.XShared.ViewModels.Main
             }
         }
 
-        public event WebViewNavigationRequest OnWebViewNavigationRequest;
-        public event EmptyEventHander OnInitialized;
 
-        public async void LoadProfileData(ProfilePageNavigationArgs args, bool force = false)
+        public async Task LoadProfileData(ProfilePageNavigationArgs args, bool force = false)
         {
             if (args == null)
                 args = PrevArgs;
@@ -151,6 +157,7 @@ namespace MALClient.XShared.ViewModels.Main
                         list.Add((data as AnimeItemViewModel).ParentAbstraction.ViewModel);
                 }
                 RecentManga = list;
+                MyFriends = CurrentData.Friends;
             }
             else
             {
@@ -393,12 +400,6 @@ namespace MALClient.XShared.ViewModels.Main
 
         private List<AnimeItemViewModel> _recentAnime;
         private List<AnimeItemViewModel> _recentManga;
-
-        public ProfilePageViewModel(IAnimeLibraryDataStorage animeLibraryDataStorage)
-        {
-            _animeLibraryDataStorage = animeLibraryDataStorage;
-            MaxWidth = AnimeItemViewModel.MaxWidth;
-        }
 
         public ProfileData CurrentData { get; set; } = new ProfileData();
 

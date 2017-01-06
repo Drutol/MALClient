@@ -199,6 +199,8 @@ namespace MALClient.XShared.ViewModels
             }
         }
 
+        public bool LockCurrentStatus { get; set; }
+
         private string _currentStatus;
 
         public string CurrentStatus
@@ -206,7 +208,7 @@ namespace MALClient.XShared.ViewModels
             get { return _currentStatus; }
             set
             {
-                if (_currentStatus == value)
+                if (LockCurrentStatus || _currentStatus == value)
                     return;
                 _currentStatus = value;
                 CurrentStatusStoryboardBegin();

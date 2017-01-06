@@ -26,6 +26,7 @@
         PageStaffDetails,
         PageCharacterSearch,
         PageWallpapers,
-        PagePopularVideos
+        PagePopularVideos,
+        PageFeeds
     }
 }

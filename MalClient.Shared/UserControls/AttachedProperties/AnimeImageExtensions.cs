@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.Graphics.Imaging;
@@ -9,7 +10,9 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Imaging;
 using MALClient.Models.Enums;
 using MALClient.Shared.Managers;
+using MALClient.XShared.Comm.Anime;
 using MALClient.XShared.Utils;
+using MALClient.XShared.ViewModels;
 
 namespace MALClient.Shared.UserControls.AttachedProperties
 {
@@ -73,6 +76,60 @@ namespace MALClient.Shared.UserControls.AttachedProperties
         public static string GetMalBaseImageSource(UIElement element)
         {
             return (string)element.GetValue(MalBaseImageSourceProperty);
+        }
+
+        /// <summary>
+        /// In order by most freqent prefix
+        /// </summary>
+        private static readonly List<string> ProbablePrefixes = new List<string>
+        {
+            "9",
+            "10",
+            "6",
+            "7",
+            "11",
+            "13",
+            "2",
+            "5",
+            "4",
+            "12",
+            "3",
+            "8",
+            "1",
+            "4",
+            "14",
+            "15",
+            "16",
+        };
+
+        public static readonly DependencyProperty GuessedImageSourceProperty = DependencyProperty.RegisterAttached(
+            "GuessedImageSource", typeof(int), typeof(AnimeImageExtensions), new PropertyMetadata(default(int),GuessedSourcePropertyChangedCallback));
+
+        private static async void GuessedSourcePropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var id = (int)e.NewValue;
+
+            var foundAbstraction =
+                ResourceLocator.AnimeLibraryDataStorage.AllLoadedAnimeItemAbstractions.FirstOrDefault(
+                    abstraction => abstraction.Id == id);
+            if (foundAbstraction != null)
+            {
+                d.SetValue(AnimeImageExtensions.MalBaseImageSourceProperty, foundAbstraction.ImgUrl);
+            }
+            else
+            {
+                d.SetValue(AnimeImageExtensions.MalBaseImageSourceProperty, await AnimeImageQuery.GetImageUrl(id, true));
+            }
+        }
+
+        public static void SetGuessedImageSource(DependencyObject element, int value)
+        {
+            element.SetValue(GuessedImageSourceProperty, value);
+        }
+
+        public static int GetGuessedImageSource(DependencyObject element)
+        {
+            return (int) element.GetValue(GuessedImageSourceProperty);
         }
     }
 }

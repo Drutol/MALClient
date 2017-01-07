@@ -36,6 +36,7 @@ namespace MALClient.Pages.Forums
         private Uri _baseUri;
         private bool _navigatingRoot;
         private bool _lastpost;
+        private bool _addedCopyHandler;
 
 
         public ForumTopicViewModel ViewModel => ViewModelLocator.ForumsTopic;
@@ -89,8 +90,11 @@ namespace MALClient.Pages.Forums
         {
             _args = e.Parameter as ForumsTopicNavigationArgs;
             base.OnNavigatedTo(e);
-            if(Settings.ForumsSearchOnCopy)
+            if (Settings.ForumsSearchOnCopy)
+            {
+                _addedCopyHandler = true;
                 Clipboard.ContentChanged += ClipboardOnContentChanged;
+            }
         }
 
         private async void ClipboardOnContentChanged(object sender, object o)
@@ -110,7 +114,7 @@ namespace MALClient.Pages.Forums
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
-            if (Settings.ForumsSearchOnCopy)
+            if (_addedCopyHandler)
                 Clipboard.ContentChanged -= ClipboardOnContentChanged;
         }
 

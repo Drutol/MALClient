@@ -141,7 +141,7 @@ namespace MALClient.XShared.ViewModels
         public ICommand NavigateRecDetails
             => _navigateRecDetailsCommand ?? (_navigateRecDetailsCommand = new RelayCommand(NavigateRecDatails));
 
-        private void NavigateDepDatails()
+        private void NavigateRecDatails()
         {
             if (ViewModelLocator.AnimeDetails.Id == Data.RecommendationId)
                 return;
@@ -153,7 +153,7 @@ namespace MALClient.XShared.ViewModels
                     { Source = PageIndex.PageRecomendations, AnimeMode = Data.IsAnime });
         }
 
-        private void NavigateRecDatails()
+        private void NavigateDepDatails()
         {
             if (ViewModelLocator.AnimeDetails.Id == Data.DependentId)
                 return;

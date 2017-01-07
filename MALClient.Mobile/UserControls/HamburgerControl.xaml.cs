@@ -45,9 +45,9 @@ namespace MALClient.UserControls
                 ? (Settings.DefaultMenuTab == "anime" ? HamburgerButtons.AnimeList : HamburgerButtons.MangaList)
                 : HamburgerButtons.LogIn);
 
-            FeedbackImage.Source = Settings.SelectedTheme == (int)ApplicationTheme.Dark
-                ? new BitmapImage(new Uri("ms-appx:///Assets/GitHub-Mark-Light-120px-plus.png"))
-                : new BitmapImage(new Uri("ms-appx:///Assets/GitHub-Mark-120px-plus.png"));
+            //FeedbackImage.Source = Settings.SelectedTheme == (int)ApplicationTheme.Dark
+            //    ? new BitmapImage(new Uri("ms-appx:///Assets/GitHub-Mark-Light-120px-plus.png"))
+            //    : new BitmapImage(new Uri("ms-appx:///Assets/GitHub-Mark-120px-plus.png"));
         }
     
         private async void Donate(object sender, RoutedEventArgs e)
@@ -85,6 +85,15 @@ namespace MALClient.UserControls
         private async void FeedbackButton_OnClick(object sender, RoutedEventArgs e)
         {
             await StoreServicesFeedbackLauncher.GetDefault().LaunchAsync();
+        }
+
+        private async void BtnFeedbackEmailOnClick(object sender, RoutedEventArgs e)
+        {
+            var emailMessage = new Windows.ApplicationModel.Email.EmailMessage();
+            var emailRecipient = new Windows.ApplicationModel.Email.EmailRecipient("malclient@poczta.fm");
+            emailMessage.Subject = "[MALClient] - ";
+            emailMessage.To.Add(emailRecipient);
+            await Windows.ApplicationModel.Email.EmailManager.ShowComposeNewEmailAsync(emailMessage);
         }
     }
 }

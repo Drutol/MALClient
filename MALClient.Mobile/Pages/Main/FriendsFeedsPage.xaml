@@ -19,7 +19,7 @@
             <GridView.ItemsPanel>
                 <ItemsPanelTemplate>
                     <ItemsWrapGrid Margin="0,0,16,0" Orientation="Horizontal" HorizontalAlignment="Stretch"
-                                   ItemWidth="200" ItemHeight="325" />
+                                   ItemWidth="{Binding ItemWidth}" ItemHeight="325" />
                 </ItemsPanelTemplate>
             </GridView.ItemsPanel>
             <GridView.ItemContainerStyle>
@@ -41,7 +41,7 @@
                     <Grid VerticalAlignment="Stretch">
                         <Image attachedProperties:AnimeImageExtensions.GuessedImageSource="{Binding Id}" Stretch="Fill"  Opacity=".45"/>
                         <StackPanel VerticalAlignment="Top">
-                            <Ellipse Width="70" Height="70" PointerEntered="UIElement_OnPointerEntered" PointerExited="UIElement_OnPointerExited" Tapped="UIElement_OnPointerPressed" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,10,0,5">
+                            <Ellipse Width="70" Height="70" Tapped="UIElement_OnTapped" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,10,0,5">
                                 <Ellipse.Fill>
                                     <ImageBrush ImageSource="{Binding User.ImgUrl}"/>
                                 </Ellipse.Fill>

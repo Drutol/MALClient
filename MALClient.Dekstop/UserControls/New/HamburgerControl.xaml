@@ -725,10 +725,10 @@
                                             VerticalAlignment="Center"
                                             Foreground="{Binding ElementName=TxtPromo , Path=Foreground}" >
                                     <ToolTipService.ToolTip>
-                                        <ToolTip Content="Popular videos"/>
+                                        <ToolTip Content="Promotional videos"/>
                                     </ToolTipService.ToolTip>
                                 </SymbolIcon>
-                                <TextBlock x:Name="TxtPromo" Text="Popular Videos"
+                                <TextBlock x:Name="TxtPromo" Text="Promotional Videos"
                                            FontWeight="Medium"
                                            Foreground="{Binding Path=TxtForegroundBrushes[PopularVideos]}"
                                            HorizontalAlignment="Left" Grid.Column="1"
@@ -885,8 +885,8 @@
                     </Grid>
                 </Button>
                 <Grid Background="{ThemeResource BrushHamburgerInnerBackground}" Visibility="{Binding ProfileButtonVisibility,Converter={StaticResource BoolToVisibilityConverter}}"  Margin="0,0,-1,0" VerticalAlignment="Center" HorizontalAlignment="Stretch">
-                    <StackPanel x:Name="SubProfileSection" Orientation="Horizontal" HorizontalAlignment="Right">
-                        <Button Command="{Binding Source={StaticResource Locator},Path=ForumsMain.NavigateRecentTopicsCommand}" Visibility="{Binding MalApiSpecificButtonsVisibility}" Background="Transparent"
+                    <StackPanel x:Name="SubProfileSection" Orientation="Horizontal" HorizontalAlignment="Center">
+                        <Button Visibility="{Binding MalApiSpecificButtonsVisibility}" Background="Transparent"
                                         Width="40" Height="37">
                             <ToolTipService.ToolTip>
                                 <ToolTip Content="Pinned profiles"/>

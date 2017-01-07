@@ -19,6 +19,8 @@ namespace MALClient.XShared.ViewModels.Main
         private ICommand _navigateProfileCommand;
         private bool _loading;
 
+        public double ItemWidth => AnimeItemViewModel.MaxWidth;
+
         public List<UserFeedEntryModel> Feeds
         {
             get { return _feeds; }

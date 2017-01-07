@@ -12,19 +12,19 @@ namespace MALClient.UWP.Adapters
     {
         public static bool NewChangelog { get; set; }
 
-        public string DateWithVersion =>  $"v{UWPUtilities.GetAppVersion()} - 24.12.2016";
+        public string DateWithVersion =>  $"v{UWPUtilities.GetAppVersion()} - 06.12.2016";
 
         public List<string> Changelog => new List<string>
         {
-            "Articles are now fetching 4 newest articles.",
-            "Anime list by genre/studio can now load more pages.",
-            "Fixed rewatching status change bug.",
-            "Movies are now present in seasonal list.",
-            "Tweaked anime reviews a bit.",
-            "Removed hummingbird from login page, hummingbird is dead :(",
-            "Fix K-ON! genre bug...",
-            "Did you know? You can swipe/drag grid items in order to increment or decrement watched episodes. Many people seem to have missed this :)",
-            "Oh and very Merry Christmas!",
+            "Added friends feeds!",
+            "Added support for \"Apps for Websites\"*. (More info on github)",
+            "Profile page got refreshed look.",
+            "Tweaked hamburger with new bar under account button.",
+            "Added search on copy in forums.",
+            "Added email option to feedback menu.",
+            "Fixed various messaging bugs.",
+            "Forum notifications should now target last post of the topic.",
+            "Various UI improvements.",
         };
 
     }

@@ -119,13 +119,7 @@
                         <Grid Width="150" Height="150" Margin="5"
                               Background="{ThemeResource BrushHamburgerInnerBackground}">
                             <SymbolIcon Symbol="Help" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
-                            <Image Stretch="Uniform">
-                                <Image.Source>
-                                    <BitmapImage UriSource="{Binding CurrentData.User.ImgUrl}"
-                                                 DecodePixelType="Logical"
-                                                 DecodePixelHeight="150" DecodePixelWidth="150" />
-                                </Image.Source>
-                            </Image>
+                            <Image Stretch="Uniform" Source="{Binding CurrentData.User.ImgUrl}"/>
                         </Grid>
                         <Grid Grid.Column="1" VerticalAlignment="Center" Margin="10,0">
                             <Grid.RowDefinitions>

@@ -374,7 +374,10 @@ namespace MALClient.XShared.Comm.Profile
                     {
                         foreach (var htmlNode in sideInfo)
                         {
-                            current.Details.Add(new Tuple<string, string>(htmlNode.FirstChild.InnerText, htmlNode.LastChild.InnerText));
+                            var left = WebUtility.HtmlDecode(htmlNode.FirstChild.InnerText);
+                            if (left == "Supporter")
+                                continue;
+                            current.Details.Add(new Tuple<string, string>(left, WebUtility.HtmlDecode(htmlNode.LastChild.InnerText)));
                         }
                         //current.LastOnline = sideInfo[0].LastChild.InnerText;
                         //current.Gender = sideInfo[1].LastChild.InnerText;

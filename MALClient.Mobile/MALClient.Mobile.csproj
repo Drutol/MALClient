@@ -113,6 +113,9 @@
     <Compile Include="Pages\Main\CalendarPage.xaml.cs">
       <DependentUpon>CalendarPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\Main\FriendsFeedsPage.xaml.cs">
+      <DependentUpon>FriendsFeedsPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\Main\MalArticlesPage.xaml.cs">
       <DependentUpon>MalArticlesPage.xaml</DependentUpon>
     </Compile>
@@ -263,6 +266,10 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Page Include="MainPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\Main\FriendsFeedsPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

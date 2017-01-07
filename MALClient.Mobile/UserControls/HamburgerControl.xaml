@@ -55,7 +55,7 @@
                             <RowDefinition Height="*" MinHeight="20" />
                             <RowDefinition Height="Auto" MinHeight="120" />
                         </Grid.RowDefinitions>
-                        <Pivot Width="240" IsTabStop="False" SelectedIndex="{Binding MenuPivotSelectedIndex}">
+                        <Pivot Width="270" IsTabStop="False" SelectedIndex="{Binding MenuPivotSelectedIndex}">
                             <Pivot.Resources>
                                 <Style TargetType="PivotHeaderItem"
                                        BasedOn="{StaticResource PivotHeaderItemHamburgerStyle}">
@@ -81,7 +81,7 @@
                                                     BorderThickness="0"
                                                     Command="{Binding ButtonNavigationCommand}"
                                                     CommandParameter="0">
-                                            <Grid Width="240" Height="45">
+                                            <Grid Width="270" Height="45">
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="40" />
                                                     <ColumnDefinition Width="*" />
@@ -126,7 +126,7 @@
                                                     BorderThickness="0"
                                                     Command="{Binding ButtonNavigationCommand}"
                                                     CommandParameter="3">
-                                            <Grid Width="240" Height="45">
+                                            <Grid Width="270" Height="45">
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="40" />
                                                     <ColumnDefinition Width="*" />
@@ -151,7 +151,7 @@
                                                     BorderThickness="0"
                                                     Command="{Binding ButtonNavigationCommand}"
                                                     CommandParameter="8">
-                                            <Grid Width="240" Height="45">
+                                            <Grid Width="270" Height="45">
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="40" />
                                                     <ColumnDefinition Width="*" />
@@ -178,7 +178,7 @@
                                                     Command="{Binding ButtonNavigationCommand}"
                                                     CommandParameter="7"
                                                     Visibility="{Binding MalApiSpecificButtonsVisibility}">
-                                            <Grid Width="240" Height="45">
+                                            <Grid Width="270" Height="45">
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="40" />
                                                     <ColumnDefinition Width="*" />
@@ -204,7 +204,7 @@
                                                     BorderThickness="0"
                                                     Command="{Binding ButtonNavigationCommand}"
                                                     CommandParameter="11">
-                                            <Grid Width="240" Height="45">
+                                            <Grid Width="270" Height="45">
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="40" />
                                                     <ColumnDefinition Width="*" />
@@ -253,7 +253,7 @@
                                                     BorderThickness="0"
                                                     Command="{Binding ButtonNavigationCommand}"
                                                     CommandParameter="13">
-                                            <Grid Width="240" Height="45">
+                                            <Grid Width="270" Height="45">
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="40" />
                                                     <ColumnDefinition Width="*" />
@@ -281,7 +281,7 @@
                                                     BorderThickness="0"
                                                     Command="{Binding ButtonNavigationCommand}"
                                                     CommandParameter="9">
-                                            <Grid Width="240" Height="45">
+                                            <Grid Width="270" Height="45">
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="40" />
                                                     <ColumnDefinition Width="*" />
@@ -327,7 +327,7 @@
                                                     Command="{Binding ButtonNavigationCommand}"
                                                     CommandParameter="10"
                                                     Visibility="{Binding MalApiSpecificButtonsVisibility}">
-                                            <Grid Width="240" Height="45">
+                                            <Grid Width="270" Height="45">
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="40" />
                                                     <ColumnDefinition Width="*" />
@@ -353,7 +353,7 @@
                                                     BorderThickness="0"
                                                     Command="{Binding ButtonNavigationCommand}"
                                                     CommandParameter="12">
-                                            <Grid Width="240" Height="45">
+                                            <Grid Width="270" Height="45">
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="40" />
                                                     <ColumnDefinition Width="*" />
@@ -383,7 +383,7 @@
                                                     BorderThickness="0"
                                                     Command="{Binding ButtonNavigationCommand}"
                                                     CommandParameter="14">
-                                            <Grid Width="240" Height="40">
+                                            <Grid Width="270" Height="40">
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="40" />
                                                     <ColumnDefinition Width="*" />
@@ -408,7 +408,7 @@
                                                     BorderThickness="0" 
                                                     Command="{Binding ButtonNavigationCommand}"
                                                     CommandParameter="15">
-                                            <Grid Width="240" Height="40">
+                                            <Grid Width="270" Height="40">
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="40" />
                                                     <ColumnDefinition Width="*" />
@@ -435,7 +435,7 @@
                                                     BorderThickness="0" 
                                                     Command="{Binding ButtonNavigationCommand}"
                                                     CommandParameter="18">
-                                            <Grid Width="240" Height="40">
+                                            <Grid Width="270" Height="40">
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="40" />
                                                     <ColumnDefinition Width="*" />
@@ -461,7 +461,7 @@
                                                     BorderThickness="0" 
                                                     Command="{Binding ButtonNavigationCommand}"
                                                     CommandParameter="22">
-                                            <Grid Width="240" Height="40">
+                                            <Grid Width="270" Height="40">
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="40" />
                                                     <ColumnDefinition Width="*" />
@@ -486,7 +486,7 @@
                                                     BorderThickness="0" 
                                                     Command="{Binding ButtonNavigationCommand}"
                                                     CommandParameter="23">
-                                            <Grid Width="240" Height="40">
+                                            <Grid Width="270" Height="40">
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="40" />
                                                     <ColumnDefinition Width="*" />
@@ -511,7 +511,7 @@
                                                     BorderThickness="0" 
                                                     Command="{Binding ButtonNavigationCommand}"
                                                     CommandParameter="24">
-                                            <Grid Width="240" Height="40">
+                                            <Grid Width="270" Height="40">
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="40" />
                                                     <ColumnDefinition Width="*" />
@@ -524,7 +524,7 @@
                                                                 Grid.Column="0"
                                                                 VerticalAlignment="Center"
                                                                 Foreground="{Binding ElementName=TxtPopVid , Path=Foreground}" />
-                                                <TextBlock x:Name="TxtPopVid" Text="Popular Videos"
+                                                <TextBlock x:Name="TxtPopVid" Text="Promotional Videos"
                                                                Foreground="{Binding Path=TxtForegroundBrushes[PopularVideos]}"
                                                                HorizontalAlignment="Left" Margin="25,0,0,0"
                                                                Grid.Column="1"
@@ -548,7 +548,7 @@
                                         <MenuFlyoutItem Text="Donate $3.99" Tag="Donate4" Click="Donate"/>
                                     </MenuFlyout>
                                 </Button.Flyout>
-                                <Grid Width="240" Height="35">
+                                <Grid Width="270" Height="35">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="40" />
                                         <ColumnDefinition Width="*" />
@@ -570,29 +570,27 @@
                                     <TextBlock Text="Support me!" HorizontalAlignment="Left" Margin="10,0,0,0"
                                                TextWrapping="WrapWholeWords" FontSize="15" FontWeight="SemiLight"
                                                Grid.Column="1" VerticalAlignment="Center" TextAlignment="Center" />
-                                </Grid>
-                            </Button>
-                            <Button VerticalContentAlignment="Center" Background="Transparent"
-                                BorderThickness="0" Visibility="Visible"
-                                Click="OpenRepo">
-                                <Grid Height="35" Width="240">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="40" />
-                                        <ColumnDefinition Width="*" />
-                                    </Grid.ColumnDefinitions>
-                                    <Image x:Name="FeedbackImage" HorizontalAlignment="Center" VerticalAlignment="Center" Stretch="UniformToFill" Width="25" Height="25"/>
-                                    <TextBlock Text="Feedback" HorizontalAlignment="Left" Margin="10,0,0,0"                            
-                                           Grid.Column="1" VerticalAlignment="Center" TextAlignment="Center" />
-                                    <Button Grid.Column="1" HorizontalAlignment="Right" FontSize="22" Margin="5,0" Background="Transparent" VerticalAlignment="Center" 
-                                        FontFamily="Segoe MDL2 Assets" Content="&#xE939;"  Click="FeedbackButton_OnClick"
-                                        Visibility="{Binding FeedbackHubButtonVisibility}"/>
+                                    <Button Grid.Column="1" Margin="0,0,5,0" HorizontalAlignment="Right" VerticalAlignment="Center" 
+                                        FontFamily="Segoe MDL2 Assets" FontSize="22" Width="47" Height="47" Background="Transparent" Content="&#xE939;"
+                                        Visibility="{Binding FeedbackHubButtonVisibility}">
+                                        <ToolTipService.ToolTip>
+                                            <ToolTip Content="Submit feedback!"/>
+                                        </ToolTipService.ToolTip>
+                                        <Button.Flyout>
+                                            <MenuFlyout>
+                                                <MenuFlyoutItem Text="Github" Click="OpenRepo"/>
+                                                <MenuFlyoutItem Text="Feedback hub" Click="FeedbackButton_OnClick"/>
+                                                <MenuFlyoutItem Text="Email" Click="BtnFeedbackEmailOnClick"/>
+                                            </MenuFlyout>
+                                        </Button.Flyout>
+                                    </Button>
                                 </Grid>
                             </Button>
                             <Button VerticalContentAlignment="Center" Background="Transparent"
                                     BorderThickness="0"
                                     Command="{Binding ButtonNavigationCommand}"
                                     CommandParameter="4" Visibility="{x:Bind ViewModel.LogInButtonVisibility,Mode=OneWay}">
-                                <Grid Width="240" Height="35">
+                                <Grid Width="270" Height="40">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="40" />
                                         <ColumnDefinition Width="*" />
@@ -614,32 +612,7 @@
                                     BorderThickness="0" RightTapped="BtnProfile_OnClick" IsRightTapEnabled="True" Holding="BtnProfile_OnClick"
                                     Command="{Binding ButtonNavigationCommand}"
                                     CommandParameter="5">
-                                <FlyoutBase.AttachedFlyout>
-                                    <Flyout>
-                                        <Grid>
-                                            <Grid.Resources>
-                                                <ResourceDictionary>
-                                                    <ResourceDictionary.MergedDictionaries>
-                                                        <ResourceDictionary Source="/XamlResources/FancyListFlyoutStyle.xaml"/>
-                                                    </ResourceDictionary.MergedDictionaries>
-                                                </ResourceDictionary>
-                                            </Grid.Resources>
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="Auto"/>
-                                                <RowDefinition Height="*"/>
-                                            </Grid.RowDefinitions>
-                                            <TextBlock Text="Pinned profiles" Margin="0,0,0,5" HorizontalAlignment="Center"/>
-                                            <ListView Grid.Row="1"  Style="{StaticResource FancyListFlyoutStyle}" ItemsSource="{Binding PinnedProfiles}" ItemClick="PinnedProfilesOnClick">
-                                                <ListView.ItemTemplate>
-                                                    <DataTemplate>
-                                                        <TextBlock HorizontalAlignment="Center" Text="{Binding}"></TextBlock>
-                                                    </DataTemplate>
-                                                </ListView.ItemTemplate>
-                                            </ListView>
-                                        </Grid>
-                                    </Flyout>
-                                </FlyoutBase.AttachedFlyout>
-                                <Grid Width="240" Height="35">
+                                <Grid Width="270" Height="47">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="40" />
                                         <ColumnDefinition Width="*" />
@@ -660,33 +633,81 @@
                                     <TextBlock Text="Profile" HorizontalAlignment="Left" Margin="10,0,0,0"
                                                Foreground="{Binding Path=TxtForegroundBrushes[Profile]}"
                                                Grid.Column="1" VerticalAlignment="Center" TextAlignment="Center" />
-                                    <StackPanel Background="{ThemeResource BrushHamburgerInnerBackground}" Grid.Column="1" Orientation="Horizontal" Margin="0,0,4,0" VerticalAlignment="Center" HorizontalAlignment="Right">
-                                        <Button Command="{Binding ButtonNavigationCommand}" Visibility="{Binding MalApiSpecificButtonsVisibility}"
+                                </Grid>
+                            </Button>
+                            <Grid Background="{ThemeResource BrushHamburgerInnerBackground}" Visibility="{Binding ProfileButtonVisibility,Converter={StaticResource BoolToVisibilityConverter}}"  Margin="0,0,-1,0" VerticalAlignment="Center" HorizontalAlignment="Stretch">
+                                <StackPanel x:Name="SubProfileSection" Orientation="Horizontal" HorizontalAlignment="Center">
+                                    <Button Visibility="{Binding MalApiSpecificButtonsVisibility}" Background="Transparent"
+                                        Width="47" Height="47">
+                                            <ToolTipService.ToolTip>
+                                                <ToolTip Content="Pinned profiles"/>
+                                            </ToolTipService.ToolTip>
+                                            <Button.Flyout>
+                                                <Flyout>
+                                                    <Grid>
+                                                        <Grid.Resources>
+                                                            <ResourceDictionary>
+                                                                <ResourceDictionary.MergedDictionaries>
+                                                                    <ResourceDictionary Source="/XamlResources/FancyListFlyoutStyle.xaml"/>
+                                                                </ResourceDictionary.MergedDictionaries>
+                                                            </ResourceDictionary>
+                                                        </Grid.Resources>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="Auto"/>
+                                                            <RowDefinition Height="*"/>
+                                                        </Grid.RowDefinitions>
+                                                        <TextBlock Text="Pinned profiles" Margin="0,0,0,5" HorizontalAlignment="Center"/>
+                                                        <ListView Grid.Row="1" Style="{StaticResource FancyListFlyoutStyle}" ItemsSource="{Binding PinnedProfiles}" IsItemClickEnabled="True" ItemClick="PinnedProfilesOnClick">
+                                                            <ListView.ItemTemplate>
+                                                                <DataTemplate>
+                                                                    <TextBlock HorizontalAlignment="Center" Text="{Binding}"/>
+                                                                </DataTemplate>
+                                                            </ListView.ItemTemplate>
+                                                        </ListView>
+                                                    </Grid>
+                                                </Flyout>
+                                            </Button.Flyout>
+                                            <SymbolIcon HorizontalAlignment="Center" Margin="0,0,2,0" VerticalAlignment="Center" Symbol="People"/>
+                                        </Button>
+                                        <Button Command="{Binding ButtonNavigationCommand}" CommandParameter="25" Visibility="{Binding MalApiSpecificButtonsVisibility}" Background="Transparent"
+                                        Width="47" Height="47">
+                                            <ToolTipService.ToolTip>
+                                                <ToolTip Content="My friends feed"/>
+                                            </ToolTipService.ToolTip>
+                                            <SymbolIcon HorizontalAlignment="Center" Margin="0,0,2,0" VerticalAlignment="Center" Symbol="ContactInfo"/>
+                                        </Button>
+                                    <Button Command="{Binding Source={StaticResource Locator},Path=ForumsMain.NavigateRecentTopicsCommand}" Visibility="{Binding MalApiSpecificButtonsVisibility}" Background="Transparent"
+                                        Width="47" Height="47">
+                                        <ToolTipService.ToolTip>
+                                            <ToolTip Content="My recent topics"/>
+                                        </ToolTipService.ToolTip>
+                                        <SymbolIcon HorizontalAlignment="Center" Margin="0,0,2,0" VerticalAlignment="Center" Symbol="Comment"/>
+                                    </Button>
+                                    <Button Command="{Binding ButtonNavigationCommand}" Visibility="{Binding MalApiSpecificButtonsVisibility}"
                                         CommandParameter="19" Background="Transparent"
-                                        Width="40" Height="35">
+                                        Width="47" Height="47">
                                             <ToolTipService.ToolTip>
                                                 <ToolTip Content="History"/>
                                             </ToolTipService.ToolTip>
                                             <SymbolIcon HorizontalAlignment="Center" VerticalAlignment="Center" Symbol="Clock"
-                                                Margin="0,0,1,0" />
+                                                Margin="0,0,0,2" />
                                         </Button>
-                                        <Button Command="{Binding ButtonNavigationCommand}" Visibility="{Binding MalApiSpecificButtonsVisibility}"
+                                    <Button Command="{Binding ButtonNavigationCommand}" Visibility="{Binding MalApiSpecificButtonsVisibility}"
                                         CommandParameter="16" Background="Transparent"
-                                        Width="40" Height="35" >
-                                            <ToolTipService.ToolTip>
-                                                <ToolTip Content="Messaging"/>
-                                            </ToolTipService.ToolTip>
-                                            <SymbolIcon HorizontalAlignment="Center" VerticalAlignment="Center" Symbol="Mail"
-                                                Margin="0,0,1,0" />
-                                        </Button>
-                                    </StackPanel>
-                                </Grid>
-                            </Button>
+                                        Width="47" Height="47" >
+                                        <ToolTipService.ToolTip>
+                                            <ToolTip Content="Messaging"/>
+                                        </ToolTipService.ToolTip>
+                                        <SymbolIcon HorizontalAlignment="Center" VerticalAlignment="Center" Symbol="Mail"
+                                                Margin="0,0,0,2" />
+                                    </Button>
+                                </StackPanel>
+                            </Grid>
                             <Button VerticalContentAlignment="Center" Background="Transparent"
                                     BorderThickness="0"
                                     Command="{Binding ButtonNavigationCommand}"
                                     CommandParameter="2">
-                                <Grid Width="240" Height="35">
+                                <Grid Width="270" Height="47">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="40" />
                                         <ColumnDefinition Width="*" />

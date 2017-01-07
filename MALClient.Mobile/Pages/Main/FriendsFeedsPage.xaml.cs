@@ -39,19 +39,9 @@ namespace MALClient.Pages.Main
             ViewModelLocator.FriendsFeeds.NavigateDeitalsCommand.Execute(e.ClickedItem);
         }
 
-        private void UIElement_OnPointerPressed(object sender, TappedRoutedEventArgs e)
+        private void UIElement_OnTapped(object sender, TappedRoutedEventArgs e)
         {
             ViewModelLocator.FriendsFeeds.NavigateProfileCommand.Execute(((sender as FrameworkElement).DataContext as UserFeedEntryModel).User);
-        }
-
-        private void UIElement_OnPointerEntered(object sender, PointerRoutedEventArgs e)
-        {
-            (sender as FrameworkElement).Opacity = .7;
-        }
-
-        private void UIElement_OnPointerExited(object sender, PointerRoutedEventArgs e)
-        {
-            (sender as FrameworkElement).Opacity = 1;
         }
     }
 }

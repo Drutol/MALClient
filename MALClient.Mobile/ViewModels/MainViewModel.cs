@@ -295,6 +295,13 @@ namespace MALClient.ViewModels
                     CurrentStatus = "Popular Videos";
                     MainNavigationRequested?.Invoke(typeof(PopularVideosPage), args);
                     break;
+                case PageIndex.PageFeeds:
+                    HideSearchStuff();
+                    RefreshButtonVisibility = true;
+                    RefreshDataCommand = new RelayCommand(() => ViewModelLocator.FriendsFeeds.Init(true));
+                    CurrentStatus = "Friends Feeds";
+                    MainNavigationRequested?.Invoke(typeof(FriendsFeedsPage), args);
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(index), index, null);
             }

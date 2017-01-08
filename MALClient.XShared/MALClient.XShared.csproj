@@ -44,6 +44,7 @@
     <Compile Include="Comm\Anime\AnimeGeneralDetailsQuery.cs" />
     <Compile Include="Comm\Anime\AnimeGenreStudioQuery.cs" />
     <Compile Include="Comm\Anime\AnimeImageQuery.cs" />
+    <Compile Include="Comm\Anime\AnimePersonalizedRecommendationsQuery.cs" />
     <Compile Include="Comm\Anime\AnimeWallpapersQuery.cs" />
     <Compile Include="Comm\Anime\AnimeRecomendationsQuery.cs" />
     <Compile Include="Comm\Anime\AnimeRelatedQuery.cs" />

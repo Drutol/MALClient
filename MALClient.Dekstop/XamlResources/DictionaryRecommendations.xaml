@@ -408,7 +408,8 @@
                                             HorizontalAlignment="Stretch"
                                             Height="60"
                                             VerticalAlignment="Stretch" />
-                                        <ContentControl Margin="40,0,0,0"
+                                        <!--Change here to move upper bar-->
+                                        <ContentControl
                                             x:Name="HeaderClipper"
                                             Height="60"
                                             Grid.Column="1"

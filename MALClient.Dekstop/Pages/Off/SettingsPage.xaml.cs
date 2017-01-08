@@ -18,7 +18,6 @@ namespace MALClient.Pages.Off
     /// </summary>
     public sealed partial class SettingsPage : Page
     {
-        private bool _initialized;
 
         public SettingsPage()
         {
@@ -26,7 +25,6 @@ namespace MALClient.Pages.Off
             ViewModel.NavigationRequest += ViewModelOnNavigationRequest;
             SettingsNavFrame.Navigate(typeof(SettingsHomePage), null);
             ViewModelLocator.GeneralMain.CurrentOffStatus = $"Settings - {UWPUtilities.GetAppVersion()}";
-            _initialized = true;
         }
 
         public SettingsViewModelBase ViewModel => DataContext as SettingsViewModelBase;

@@ -19,8 +19,6 @@ namespace MALClient.Pages.Main
 {
     public sealed partial class LogInPage : Page
     {
-        private bool _authenticating;
-
         public LogInPage()
         {
             InitializeComponent();

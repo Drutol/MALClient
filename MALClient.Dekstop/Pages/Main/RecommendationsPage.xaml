@@ -7,15 +7,52 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:xamlConverters="using:MALClient.Shared.XamlConverters"
     xmlns:items="using:MALClient.Shared.Items"
+    xmlns:main="using:MALClient.XShared.ViewModels.Main"
+    xmlns:viewModels="using:MALClient.XShared.ViewModels"
     mc:Ignorable="d"
     DataContext="{Binding Recommendations, Source={StaticResource Locator}}">
 
     <Page.Resources>
-        <xamlConverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/XamlResources/DictionaryProfilePage.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <xamlConverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+            <main:RecommendationsPageWorkMode x:Key="AnimeMode">Anime</main:RecommendationsPageWorkMode>
+            <main:RecommendationsPageWorkMode x:Key="MangaMode">Manga</main:RecommendationsPageWorkMode>
+            <main:RecommendationsPageWorkMode x:Key="AnimeSuggestions">PersonalizedAnime</main:RecommendationsPageWorkMode>
+            <main:RecommendationsPageWorkMode x:Key="MangaSuggestions">PersonalizedManga</main:RecommendationsPageWorkMode>
+        </ResourceDictionary>
     </Page.Resources>
 
 
     <Grid Background="{StaticResource BrushDeepBackground}">
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="VisualStateGroup">
+                <VisualState x:Name="Narrow">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="InnerPivot.Margin" Value="0,0,0,-60"/>
+                        <Setter Target="MenuButton.Visibility" Value="Visible"/>
+                        <Setter Target="AnimeGrid.Margin" Value="0,60,0,0"/>
+                        <Setter Target="MangaGrid.Margin" Value="0,60,0,0"/>
+                    </VisualState.Setters>
+                </VisualState>                
+                <VisualState x:Name="Wide">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="1120"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="InnerPivot.Margin" Value="0,0,0,0"/>
+                        <Setter Target="MenuButton.Visibility" Value="Collapsed"/>
+                        <Setter Target="AnimeGrid.Margin" Value="0,0,0,0"/>
+                        <Setter Target="MangaGrid.Margin" Value="0,0,0,0"/>
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
         <Grid.Resources>
             <ResourceDictionary>
                 <ResourceDictionary.MergedDictionaries>
@@ -24,39 +61,158 @@
             </ResourceDictionary>
         </Grid.Resources>
 
-        <Pivot x:Name="Pivot" Style="{StaticResource PivotStyleRecomm}" ItemsSource="{Binding RecommendationItems}"
-               SelectedIndex="{Binding PivotItemIndex}" PivotItemLoading="Pivot_OnPivotItemLoading" Padding="0" Margin="0">
+        <Pivot Style="{StaticResource PivotStyleInnerProfilePageBottomTabs}" x:Name="InnerPivot"
+               Loaded="InnerPivot_OnLoaded" PivotItemLoading="InnerPivot_OnPivotItemLoading">
             <Pivot.Resources>
-                <Style TargetType="PivotHeaderItem" BasedOn="{StaticResource PivotHeaderItemRecommStyle}" />
-                <Style TargetType="PivotItem">
-                    <Setter Property="Margin" Value="0" />
-                    <Setter Property="Padding" Value="0" />
+                <Style TargetType="PivotHeaderItem" BasedOn="{StaticResource PivotHeaderInnerProfilePage}">
+                    <Setter Property="Height" Value="60" />
+                </Style>
+                <Style TargetType="GridView">
+                    <Setter Property="ItemContainerStyle">
+                        <Setter.Value>
+                            <Style TargetType="GridViewItem">
+                                <Setter Property="Margin" Value="6,5" />
+                                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                <Setter Property="VerticalContentAlignment" Value="Stretch" />
+                            </Style>
+                        </Setter.Value>
+                    </Setter>
+                    <Setter Property="ItemContainerTransitions">
+                        <Setter.Value>
+                            <TransitionCollection>
+                            <PopupThemeTransition FromVerticalOffset="100" />
+                            <AddDeleteThemeTransition />
+                            <ReorderThemeTransition />
+                        </TransitionCollection>
+                        </Setter.Value>
+                    </Setter>
+                    <Setter Property="ItemsPanel">
+                        <Setter.Value>
+                            <ItemsPanelTemplate>
+                                <ItemsWrapGrid Margin="0,0,16,0" Orientation="Horizontal" HorizontalAlignment="Stretch"
+                                   ItemWidth="200" ItemHeight="350" />
+                            </ItemsPanelTemplate>
+                        </Setter.Value>
+                    </Setter>
                 </Style>
             </Pivot.Resources>
-            <Pivot.HeaderTemplate>
-                <DataTemplate>
-                    <Grid VerticalAlignment="Center" Height="60" Margin="0,0,0,-10" Padding="0,5,0,0">
-                        <TextBlock Text="{Binding Header}" FontSize="18" FontWeight="SemiLight" Height="70" />
-                    </Grid>
-                </DataTemplate>
-            </Pivot.HeaderTemplate>
-            <Pivot.ItemTemplate>
-                <DataTemplate>
-                    <items:RecommendationItem DataContext="{Binding Content}"/>
-                </DataTemplate>
-            </Pivot.ItemTemplate>
+            <PivotItem Padding="0" Margin="0" Tag="{StaticResource AnimeMode}">
+                <PivotItem.Header>
+                    <StackPanel Margin="5,0" Padding="3" VerticalAlignment="Center" Height="40">
+                        <TextBlock Margin="0,5,0,0" Text="Anime Recommendations" FontSize="18"
+                                   HorizontalAlignment="Center"
+                                   FontWeight="SemiLight" />
+                    </StackPanel>
+                </PivotItem.Header>
+                <Grid>
+                    <Pivot x:Name="InnerPivotAnime" Style="{StaticResource PivotStyleRecomm}" ItemsSource="{Binding RecommendationAnimeItems}"
+                           SelectedIndex="{Binding PivotItemIndex}" PivotItemLoading="Pivot_OnPivotItemLoading">
+                        <Pivot.Resources>
+                            <Style TargetType="PivotHeaderItem" BasedOn="{StaticResource PivotHeaderItemRecommStyle}" />
+                            <Style TargetType="PivotItem">
+                                <Setter Property="Margin" Value="0" />
+                                <Setter Property="Padding" Value="0" />
+                            </Style>
+                        </Pivot.Resources>
+                        <Pivot.HeaderTemplate>
+                            <DataTemplate>
+                                <Grid VerticalAlignment="Center" Height="60" Margin="0,0,0,-10" Padding="0,5,0,0">
+                                    <TextBlock Text="{Binding Header}" FontSize="18" FontWeight="SemiLight" Height="70" />
+                                </Grid>
+                            </DataTemplate>
+                        </Pivot.HeaderTemplate>
+                        <Pivot.ItemTemplate>
+                            <DataTemplate>
+                                <items:RecommendationItem DataContext="{Binding Content}" />
+                            </DataTemplate>
+                        </Pivot.ItemTemplate>
+                    </Pivot>
+                </Grid>
+            </PivotItem>
+            <PivotItem Padding="0" Margin="0" Tag="{StaticResource MangaMode}">
+                <PivotItem.Header>
+                    <StackPanel Margin="5,0" Padding="3" VerticalAlignment="Center" Height="40">
+                        <TextBlock Margin="0,5,0,0" Text="Manga Recommendations" FontSize="18"
+                                   HorizontalAlignment="Center"
+                                   FontWeight="SemiLight" />
+                    </StackPanel>
+                </PivotItem.Header>
+                <Grid>
+                    <Pivot x:Name="InnerPivotManga" Style="{StaticResource PivotStyleRecomm}" ItemsSource="{Binding RecommendationMangaItems}"
+                           SelectedIndex="{Binding PivotItemIndex}" PivotItemLoading="Pivot_OnPivotItemLoading">
+                        <Pivot.Resources>
+                            <Style TargetType="PivotHeaderItem" BasedOn="{StaticResource PivotHeaderItemRecommStyle}" />
+                            <Style TargetType="PivotItem">
+                                <Setter Property="Margin" Value="0" />
+                                <Setter Property="Padding" Value="0" />
+                            </Style>
+                        </Pivot.Resources>
+                        <Pivot.HeaderTemplate>
+                            <DataTemplate>
+                                <Grid VerticalAlignment="Center" Height="60" Margin="0,0,0,-10" Padding="0,5,0,0">
+                                    <TextBlock Text="{Binding Header}" FontSize="18" FontWeight="SemiLight" Height="70" />
+                                </Grid>
+                            </DataTemplate>
+                        </Pivot.HeaderTemplate>
+                        <Pivot.ItemTemplate>
+                            <DataTemplate>
+                                <items:RecommendationItem DataContext="{Binding Content}" />
+                            </DataTemplate>
+                        </Pivot.ItemTemplate>
+                    </Pivot>
+                </Grid>
+            </PivotItem>
+            <PivotItem Padding="0" Margin="0" Tag="{StaticResource AnimeSuggestions}">
+                <PivotItem.Header>
+                    <StackPanel Margin="5,0" Padding="3" VerticalAlignment="Center" Height="40">
+                        <TextBlock Margin="0,5,0,0" Text="Anime Suggestions" FontSize="18"
+                                   HorizontalAlignment="Center" FontWeight="SemiLight" />
+                    </StackPanel>
+                </PivotItem.Header>
+                <Grid>
+                    <GridView x:Name="AnimeGrid" ItemsSource="{Binding PersonalizedAnimeItems}" HorizontalAlignment="Center">
+                        <GridView.ItemTemplate>
+                            <DataTemplate x:DataType="viewModels:AnimeItemViewModel">
+                                <items:AnimeGridItem DataContext="{x:Bind}" DisplayContext="AirDay" />
+                            </DataTemplate>
+                        </GridView.ItemTemplate>
+                    </GridView>
+                </Grid>
+            </PivotItem>
+            <PivotItem Padding="0" Margin="0" Tag="{StaticResource MangaSuggestions}">
+                <PivotItem.Header>
+                    <StackPanel Margin="5,0" Padding="3" VerticalAlignment="Center" Height="40">
+                        <TextBlock Margin="0,5,0,0" Text="Manga Suggestions" FontSize="18" HorizontalAlignment="Center"
+                                   FontWeight="SemiLight" />
+                    </StackPanel>
+                </PivotItem.Header>
+                <Grid>
+                    <GridView x:Name="MangaGrid" ItemsSource="{Binding PersonalizedMangaItems}" HorizontalAlignment="Center">
+                        <GridView.ItemTemplate>
+                            <DataTemplate x:DataType="viewModels:AnimeItemViewModel">
+                                <items:AnimeGridItem DataContext="{x:Bind}" DisplayContext="AirDay" />
+                            </DataTemplate>
+                        </GridView.ItemTemplate>
+                    </GridView>
+                </Grid>
+            </PivotItem>
         </Pivot>
-        <Button Height="60" Width="40" Background="{ThemeResource BrushAnimeItemInnerBackground}" VerticalAlignment="Top">
+
+        <Button x:Name="MenuButton" Height="60" HorizontalAlignment="Stretch" Background="{ThemeResource BrushAnimeItemInnerBackground}" VerticalAlignment="Top">
             <Button.Flyout>
                 <MenuFlyout>
-                    <MenuFlyoutItem Text="Anime recommendations" Command="{Binding SwitchToAnimeCommand}"/>
-                    <MenuFlyoutItem Text="Manga recommendations" Command="{Binding SwitchToMangaCommand}"/>
+                    <MenuFlyoutItem Text="Anime recommendations" Command="{Binding SwitchWorkModeCommand}" CommandParameter="{StaticResource AnimeMode}"/>
+                    <MenuFlyoutItem Text="Manga recommendations" Command="{Binding SwitchWorkModeCommand}" CommandParameter="{StaticResource MangaMode}"/>
+                    <MenuFlyoutItem Text="Anime suggestions" Command="{Binding SwitchWorkModeCommand}" CommandParameter="{StaticResource AnimeSuggestions}"/>
+                    <MenuFlyoutItem Text="Manga suggestions" Command="{Binding SwitchWorkModeCommand}" CommandParameter="{StaticResource MangaSuggestions}"/>
                 </MenuFlyout>
             </Button.Flyout>
             <SymbolIcon Symbol="ReShare" VerticalAlignment="Center"/>
         </Button>
+        
         <ProgressRing HorizontalAlignment="Center" VerticalAlignment="Center" Width="75" Height="75"
                       IsActive="True"
                       Visibility="{Binding Loading,Converter={StaticResource BoolToVisibilityConverter}}" />
+        
     </Grid>
 </Page>

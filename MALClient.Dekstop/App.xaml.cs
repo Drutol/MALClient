@@ -60,7 +60,7 @@ namespace MALClient
         }
 
 
-        protected override async void OnActivated(IActivatedEventArgs args)
+        protected override void OnActivated(IActivatedEventArgs args)
         {
             OnLaunchedOrActivated(args);
         }

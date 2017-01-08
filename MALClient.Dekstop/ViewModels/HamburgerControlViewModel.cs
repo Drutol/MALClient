@@ -132,8 +132,6 @@ namespace MALClient.ViewModels
             }
         }
 
-        public string LogInLabel => Credentials.Authenticated ? "Account" : "Log In";
-
         public Visibility LogInButtonVisibility => Credentials.Authenticated ? Visibility.Collapsed : Visibility.Visible;
 
 
@@ -420,7 +418,7 @@ namespace MALClient.ViewModels
 
         public void UpdateLogInLabel()
         {
-            RaisePropertyChanged(() => LogInLabel);
+            ProfileButtonVisibility = Credentials.Authenticated;
             RaisePropertyChanged(() => LogInButtonVisibility);
         }
 

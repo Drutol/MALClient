@@ -601,7 +601,7 @@
                                     <SymbolIcon Symbol="Contact" HorizontalAlignment="Center" Grid.Column="0"
                                                 VerticalAlignment="Center"
                                                 Foreground="{Binding ElementName=TxtLogin , Path=Foreground}" />
-                                    <TextBlock x:Name="TxtLogin" Text="{Binding LogInLabel}"
+                                    <TextBlock x:Name="TxtLogin" Text="Sign In"
                                                HorizontalAlignment="Left" Margin="10,0,0,0"
                                                Foreground="{Binding Path=TxtForegroundBrushes[LogIn]}"
                                                Grid.Column="1" VerticalAlignment="Center" TextAlignment="Center" />

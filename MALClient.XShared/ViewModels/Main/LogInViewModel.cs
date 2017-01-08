@@ -76,6 +76,7 @@ namespace MALClient.XShared.ViewModels.Main
                                          {
                                              Credentials.Reset();
                                              ViewModelLocator.GeneralMain.CurrentOffStatus = "Log In";
+                                             ViewModelLocator.GeneralHamburger.UpdateLogInLabel();
                                              LogOutButtonVisibility = false;
                                          }));
 

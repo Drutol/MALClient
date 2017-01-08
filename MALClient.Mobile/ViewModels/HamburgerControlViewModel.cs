@@ -70,7 +70,6 @@ namespace MALClient.ViewModels
         private Color RequestedFontColor
             => Application.Current.RequestedTheme == ApplicationTheme.Dark ? Colors.FloralWhite : Colors.Black;
 
-        public string LogInLabel => Credentials.Authenticated ? "Account" : "Log In";
         public Visibility LogInButtonVisibility => Credentials.Authenticated ? Visibility.Collapsed : Visibility.Visible;
 
         public Visibility FeedbackHubButtonVisibility => StoreServicesFeedbackLauncher.IsSupported() ? Visibility.Visible : Visibility.Collapsed;
@@ -315,7 +314,7 @@ namespace MALClient.ViewModels
 
         public void UpdateLogInLabel()
         {
-            RaisePropertyChanged(() => LogInLabel);
+            ProfileButtonVisibility = Credentials.Authenticated;
             RaisePropertyChanged(() => LogInButtonVisibility);
         }
 

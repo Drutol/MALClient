@@ -202,7 +202,7 @@
                         <ToggleButton Margin="10,0,0,0" Padding="10" Background="Transparent"  HorizontalAlignment="Center" Command="{Binding ToggleAboutCommand}" IsChecked="{Binding AboutMeWebViewVisibility}">
                             <StackPanel>
                                 <SymbolIcon Symbol="View"/>
-                                <TextBlock Text="Load about me" Margin="0,10,0,0"/>
+                                <TextBlock Text="Show about me" Margin="0,10,0,0"/>
                             </StackPanel>
                         </ToggleButton>
                     </StackPanel>
@@ -393,7 +393,7 @@
                         </Grid.RowDefinitions>
                         <TextBlock Text="Anime" HorizontalAlignment="Center" FontWeight="SemiLight" FontSize="26"
                                    Foreground="{StaticResource SystemControlBackgroundAccentBrush}" />
-                        <Grid Grid.Row="1">
+                        <Grid Grid.Row="1" Margin="0,5,0,0">
                             <TextBlock Visibility="{Binding EmptyRecentAnimeNoticeVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
                                        Text="None updated recently..." TextAlignment="Center" Foreground="#FFB9B9B9"
                                        Margin="5" />
@@ -428,7 +428,7 @@
                         <ProgressBar Grid.Row="1" IsIndeterminate="True" HorizontalAlignment="Stretch"
                                      VerticalAlignment="Center"
                                      Visibility="{Binding LoadingOhersLibrariesProgressVisiblity,Converter={StaticResource BoolToVisibilityConverter}}" />
-                        <GridView Grid.Row="1" RightTapped="AnimesGridIndefinite_OnRightTapped"
+                        <GridView Margin="0,5,0,0" Grid.Row="1" RightTapped="AnimesGridIndefinite_OnRightTapped"
                                   ItemsSource="{Binding RecentManga}" HorizontalAlignment="Center"
                                   IsItemClickEnabled="True" ItemClick="OnAnimeItemClick">
                             <GridView.ItemTemplate>

@@ -489,14 +489,13 @@ namespace MALClient.XShared.ViewModels
             }
         }
 
-        public bool TagsControlVisibility
-             => string.IsNullOrEmpty(Notes) ? false : true;
+        public bool TagsControlVisibility => !string.IsNullOrEmpty(Notes);
 
         private bool _addToListVisibility;
 
         public bool AddToListVisibility
         {
-            get { return Settings.SelectedApiType == ApiType.Mal ? _addToListVisibility : false; }
+            get { return Settings.SelectedApiType == ApiType.Mal && _addToListVisibility; }
             set
             {
                 _addToListVisibility = value;

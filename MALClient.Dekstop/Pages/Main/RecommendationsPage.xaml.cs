@@ -4,6 +4,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using MALClient.Shared.Items;
+using MALClient.XShared.Utils.Enums;
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Main;
 using Microsoft.Toolkit.Uwp.UI;
@@ -113,6 +114,11 @@ namespace MALClient.Pages.Main
         private void InnerPivot_OnPivotItemLoading(Pivot sender, PivotItemEventArgs args)
         {
             ViewModelLocator.Recommendations.CurrentWorkMode = (RecommendationsPageWorkMode)args.Item.Tag;
+        }
+
+        private void ItemsGrid_OnItemClick(object sender, ItemClickEventArgs e)
+        {
+            (e.ClickedItem as AnimeItemViewModel).NavigateDetails(PageIndex.PageRecomendations,null);
         }
     }
 }

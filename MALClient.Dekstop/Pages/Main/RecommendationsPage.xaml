@@ -170,7 +170,7 @@
                     </StackPanel>
                 </PivotItem.Header>
                 <Grid>
-                    <GridView x:Name="AnimeGrid" ItemsSource="{Binding PersonalizedAnimeItems}" HorizontalAlignment="Center">
+                    <GridView IsItemClickEnabled="True" ItemClick="ItemsGrid_OnItemClick" x:Name="AnimeGrid" ItemsSource="{Binding PersonalizedAnimeItems}" HorizontalAlignment="Center">
                         <GridView.ItemTemplate>
                             <DataTemplate x:DataType="viewModels:AnimeItemViewModel">
                                 <items:AnimeGridItem DataContext="{x:Bind}" DisplayContext="AirDay" />
@@ -187,7 +187,7 @@
                     </StackPanel>
                 </PivotItem.Header>
                 <Grid>
-                    <GridView x:Name="MangaGrid" ItemsSource="{Binding PersonalizedMangaItems}" HorizontalAlignment="Center">
+                    <GridView IsItemClickEnabled="True" ItemClick="ItemsGrid_OnItemClick" x:Name="MangaGrid" ItemsSource="{Binding PersonalizedMangaItems}" HorizontalAlignment="Center">
                         <GridView.ItemTemplate>
                             <DataTemplate x:DataType="viewModels:AnimeItemViewModel">
                                 <items:AnimeGridItem DataContext="{x:Bind}" DisplayContext="AirDay" />

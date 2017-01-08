@@ -377,7 +377,15 @@ namespace MALClient.XShared.ViewModels.Details
                     }
                     break;
                 case PageIndex.PageRecomendations:
-                    ExtractData(param.AnimeElement);
+                    if (param.AnimeElement != null)
+                    {
+                        ExtractData(param.AnimeElement);
+                    }
+                    else
+                    {
+                        await FetchData();
+                    }
+
                     if (PrevArgs != null)
                         ViewModelLocator.NavMgr.RegisterBackNav(PrevArgs);
                     ViewModelLocator.NavMgr.RegisterBackNav(param.Source, param.PrevPageSetup);

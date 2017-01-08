@@ -6,12 +6,18 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:xamlConverters="using:MALClient.Shared.XamlConverters"
     xmlns:items="using:MALClient.Shared.Items"
+    xmlns:main="using:MALClient.XShared.ViewModels.Main"
+    xmlns:viewModels="using:MALClient.XShared.ViewModels"
     mc:Ignorable="d"
     DataContext="{Binding Recommendations, Source={StaticResource Locator}}">
 
     <Page.Resources>
         <ResourceDictionary>
             <xamlConverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+            <main:RecommendationsPageWorkMode x:Key="AnimeMode">Anime</main:RecommendationsPageWorkMode>
+            <main:RecommendationsPageWorkMode x:Key="MangaMode">Manga</main:RecommendationsPageWorkMode>
+            <main:RecommendationsPageWorkMode x:Key="AnimeSuggestions">PersonalizedAnime</main:RecommendationsPageWorkMode>
+            <main:RecommendationsPageWorkMode x:Key="MangaSuggestions">PersonalizedManga</main:RecommendationsPageWorkMode>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/XamlResources/DictionaryRecommendations.xaml" />
             </ResourceDictionary.MergedDictionaries>
@@ -20,7 +26,7 @@
 
 
     <Grid>
-        <Pivot Background="{StaticResource BrushDetailsBackground}" x:Name="Pivot" Style="{StaticResource PivotStyleRecomm}" ItemsSource="{Binding RecommendationItems}"
+        <Pivot Background="{StaticResource BrushDetailsBackground}" x:Name="InnerPivot" Style="{StaticResource PivotStyleRecomm}" ItemsSource="{Binding RecommendationItems}"
                SelectedIndex="{Binding PivotItemIndex}" PivotItemLoading="Pivot_OnPivotItemLoading">
             <Pivot.Resources>
                 <Style TargetType="PivotHeaderItem" BasedOn="{StaticResource PivotHeaderItemRecommStyle}" />
@@ -41,15 +47,45 @@
                 </DataTemplate>
             </Pivot.ItemTemplate>
         </Pivot>
-        <Button Height="60" Width="40" Background="{ThemeResource BrushAnimeItemInnerBackground}" VerticalAlignment="Top">
-            <Button.Flyout>
-                <MenuFlyout>
-                    <MenuFlyoutItem Text="Anime recommendations" Command="{Binding SwitchToAnimeCommand}"/>
-                    <MenuFlyoutItem Text="Manga recommendations" Command="{Binding SwitchToMangaCommand}"/>
-                </MenuFlyout>
-            </Button.Flyout>
-            <SymbolIcon Symbol="ReShare" VerticalAlignment="Center"/>
-        </Button>
+        <GridView IsItemClickEnabled="True" ItemClick="ItemsGrid_OnItemClick" x:Name="ItemsGrid" ItemsSource="{Binding PersonalizedAnimeItems}" HorizontalAlignment="Center">
+            <GridView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <ItemsWrapGrid Orientation="Horizontal" ItemHeight="320" ItemWidth="{Binding MaxWidth}"/>
+                </ItemsPanelTemplate>
+            </GridView.ItemsPanel>
+            <GridView.ItemContainerTransitions>
+                <TransitionCollection>
+                    <PopupThemeTransition FromVerticalOffset="100"/>
+                    <AddDeleteThemeTransition/>
+                    <ReorderThemeTransition/>
+                </TransitionCollection>
+            </GridView.ItemContainerTransitions>
+            <GridView.ItemContainerStyle>
+                <Style TargetType="GridViewItem">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                    <Setter Property="VerticalAlignment" Value="Stretch" />
+                </Style>
+            </GridView.ItemContainerStyle>
+            <GridView.ItemTemplate>
+                <DataTemplate x:DataType="viewModels:AnimeItemViewModel">
+                    <items:AnimeGridItem DataContext="{x:Bind}" DisplayContext="AirDay" />
+                </DataTemplate>
+            </GridView.ItemTemplate>
+        </GridView>
+        <Grid Background="{ThemeResource BrushAnimeItemInnerBackground}" HorizontalAlignment="Left" VerticalAlignment="Top">
+            <Button Height="60" Width="40" Background="{ThemeResource BrushAnimeItemInnerBackground}" VerticalAlignment="Top">
+                <Button.Flyout>
+                    <MenuFlyout>
+                        <MenuFlyoutItem Text="Anime recommendations" Command="{Binding SwitchWorkModeCommand}" CommandParameter="{StaticResource AnimeMode}"/>
+                        <MenuFlyoutItem Text="Manga recommendations" Command="{Binding SwitchWorkModeCommand}" CommandParameter="{StaticResource MangaMode}"/>
+                        <MenuFlyoutItem Text="Anime suggestions" Command="{Binding SwitchWorkModeCommand}" CommandParameter="{StaticResource AnimeSuggestions}"/>
+                        <MenuFlyoutItem Text="Manga suggestions" Command="{Binding SwitchWorkModeCommand}" CommandParameter="{StaticResource MangaSuggestions}"/>
+                    </MenuFlyout>
+                </Button.Flyout>
+                <SymbolIcon Symbol="ReShare" VerticalAlignment="Center"/>
+            </Button>
+        </Grid>
+
         <ProgressRing HorizontalAlignment="Center" VerticalAlignment="Center" Width="75" Height="75"
                       IsActive="True"
                       Visibility="{Binding Loading,Converter={StaticResource BoolToVisibilityConverter}}" />

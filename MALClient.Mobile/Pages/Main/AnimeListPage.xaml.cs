@@ -156,7 +156,7 @@ namespace MALClient.Pages.Main
                 try
                 {
                     await Task.Delay(100);
-                    VisualStateManager.GoToState(this, ActualHeight > 700 ? "TallItems" : "ShortItems", false);
+                    VisualStateManager.GoToState(this, ActualHeight > 650 ? "TallItems" : "ShortItems", false);
                     //force update on startup
                 }
                 catch (Exception)

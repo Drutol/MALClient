@@ -10,6 +10,7 @@ using MALClient.Models.Enums.Enums;
 using MALClient.Models.Models.AnimeScrapped;
 using MALClient.Models.Models.Library;
 using MALClient.XShared.Comm.Anime;
+using MALClient.XShared.Utils;
 
 namespace MALClient.XShared.ViewModels.Main
 {
@@ -122,6 +123,7 @@ namespace MALClient.XShared.ViewModels.Main
                                                      new RelayCommand<RecommendationsPageWorkMode>(
                                                          mode => CurrentWorkMode = mode));
 
+        public double MaxWidth => AnimeItemViewModel.MaxWidth;
 
         public async void PopulateData(bool force = false)
         {
@@ -203,8 +205,12 @@ namespace MALClient.XShared.ViewModels.Main
                         {
                             Title = recommendationData.Title,
                             Id = recommendationData.Id,
-                            ImgUrl = recommendationData.ImgUrl,
+                            ImgUrl = recommendationData.ImgUrl
                         }).ViewModel).ToList();
+                    PersonalizedAnimeItems.ForEach(model =>
+                    {
+                        model.UpdateButtonsVisibility = false;
+                    });
                 }
                 else
                 {
@@ -213,8 +219,12 @@ namespace MALClient.XShared.ViewModels.Main
                         {
                             Title = recommendationData.Title,
                             Id = recommendationData.Id,
-                            ImgUrl = recommendationData.ImgUrl,
+                            ImgUrl = recommendationData.ImgUrl
                         }).ViewModel).ToList();
+                    PersonalizedMangaItems.ForEach(model =>
+                    {
+                        model.UpdateButtonsVisibility = false;
+                    });
                 }
             }
 

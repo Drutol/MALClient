@@ -58,8 +58,13 @@ namespace MALClient.XShared.Comm.Anime
             }
         }
 
-        public async Task<List<AnimePersonalizedRecommendationData>> GetPersonalizedRecommendations()
+        public async Task<List<AnimePersonalizedRecommendationData>> GetPersonalizedRecommendations(bool force = false)
         {
+            var possibleData = force ? null : await 
+                DataCache.RetrieveData<List<AnimePersonalizedRecommendationData>>("personalized_suggestions", _anime ? "Anime" : "Manga", 1);
+            if (possibleData?.Any() ?? false)
+                return possibleData;
+
             if (_animePlacement == null && _mangaPlacement == null)
             {
                 try
@@ -78,7 +83,11 @@ namespace MALClient.XShared.Comm.Anime
                 await (await client.GetAsync(
                         $"/auto_recommendation/personalized_suggestions.json?placement={(_anime ? _animePlacement : _mangaPlacement)}"))
                     .Content.ReadAsStringAsync();
-            return JsonConvert.DeserializeObject<List<AnimePersonalizedRecommendationData>>(raw) ?? new List<AnimePersonalizedRecommendationData>();
+            var data =  JsonConvert.DeserializeObject<List<AnimePersonalizedRecommendationData>>(raw) ?? new List<AnimePersonalizedRecommendationData>();
+
+            DataCache.SaveData(data, "personalized_suggestions", _anime ? "Anime" : "Manga");
+
+            return data;
         }
     }
 }

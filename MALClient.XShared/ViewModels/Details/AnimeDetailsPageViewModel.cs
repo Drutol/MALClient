@@ -1057,6 +1057,8 @@ namespace MALClient.XShared.ViewModels.Details
                 LoadReviews(true);
             if (_loadedRecomm)
                 LoadRecommendations(true);
+            if(_loadedRelated)
+                LoadRelatedAnime(true);
         }
 
         public event EmptyEventHander OnDetailsLoaded;
@@ -1220,7 +1222,7 @@ namespace MALClient.XShared.ViewModels.Details
 
         public async void LoadRelatedAnime(bool force = false)
         {
-            if (LoadingRelated == true || (_loadedRelated && !force && Initialized))
+            if (LoadingRelated || (_loadedRelated && !force && Initialized))
                 return;
             LoadingRelated = true;
             _loadedRelated = true;
@@ -1238,47 +1240,7 @@ namespace MALClient.XShared.ViewModels.Details
             NoRelatedDataNoticeVisibility = RelatedAnime.Count <= 0;
             LoadingRelated = false;
         }
-
-        private async void LoadHummingbirdCoverImageMobile()
-        {
-            if (!AnimeMode)
-            {
-                AlternateImageUnavailableNoticeVisibility = true;
-                return;
-            }
-            if (_loadingAlternate)
-                return;
-            _loadingAlternate = true;
-            AlternateImageUnavailableNoticeVisibility = false;
-            LoadingHummingbirdImage = true;
-            AnimeDetailsData data = null;
-            await Task.Run(async () => data = await new AnimeDetailsHummingbirdQuery(MalId).GetAnimeDetails());
-            if (data?.AlternateCoverImgUrl != null)
-            {
-                _alternateImgUrl = data.AlternateCoverImgUrl;
-                HummingbirdImage = data.AlternateCoverImgUrl;
-            }
-            LoadingHummingbirdImage = false;
-            _loadingAlternate = false;
-        }
-
-        private async Task<string> LoadHummingbirdCoverImage()
-        {
-            if (!AnimeMode)
-            {
-                return null;
-            }
-            if (_loadingAlternate)
-                return null;
-            _loadingAlternate = true;
-            LoadingUpdate = true;
-            AnimeDetailsData data = null;
-            await Task.Run(async () => data = await new AnimeDetailsHummingbirdQuery(Id).GetAnimeDetails());
-            LoadingUpdate = false;
-            _loadingAlternate = false;
-            return data?.AlternateCoverImgUrl;
-        }
-
+   
 
         private async void LoadCharacters(bool force = false)
         {

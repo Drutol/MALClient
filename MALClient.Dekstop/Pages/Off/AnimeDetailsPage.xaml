@@ -556,7 +556,7 @@
             <Pivot.Items>
                 <PivotItem Tag="General">
                     <PivotItem.Header>
-                        General
+                        <TextBlock x:Name="PivotHeaderGeneral" Text="General"/>
                     </PivotItem.Header>
                     <PivotItem.Content>
                         <ScrollViewer VerticalScrollBarVisibility="Hidden" VerticalScrollMode="Auto" Height="Auto"
@@ -1010,7 +1010,7 @@
                 </PivotItem>
                 <PivotItem Tag="Details">
                     <PivotItem.Header>
-                        Details
+                        <TextBlock x:Name="PivotHeaderDetails" Text="Details"/>
                     </PivotItem.Header>
                     <PivotItem.Content>
                         <ScrollViewer VerticalScrollBarVisibility="Hidden">
@@ -1186,7 +1186,7 @@
                 </PivotItem>
                 <PivotItem Tag="Reviews">
                     <PivotItem.Header>
-                        Reviews
+                        <TextBlock x:Name="PivotHeaderReviews" Text="Reviews"/>
                     </PivotItem.Header>
                     <PivotItem.Content>
                         <Grid HorizontalAlignment="Stretch">
@@ -1343,7 +1343,7 @@
                 </PivotItem>
                 <PivotItem Tag="Recomm">
                     <PivotItem.Header>
-                        Recoms
+                        <TextBlock x:Name="PivotHeaderRecomm" Text="Recoms"/>
                     </PivotItem.Header>
                     <PivotItem.Content>
                         <Grid>
@@ -1525,7 +1525,7 @@
                 </PivotItem>
                 <PivotItem Tag="Related">
                     <PivotItem.Header>
-                        Related
+                        <TextBlock x:Name="PivotHeaderRelated" Text="Related"/>
                     </PivotItem.Header>
                     <PivotItem.Content>
                         <ScrollViewer>
@@ -1568,8 +1568,10 @@
                                                         Command="{Binding Source={StaticResource Locator} ,Path=AnimeDetails.NavigateDetailsCommand}"
                                                         CommandParameter="{Binding}">
                                                     <Button.Content>
-                                                        <TextBlock Text="{Binding WholeRelation}"
-                                                                   TextWrapping="WrapWholeWords" Margin="5,0" />
+                                                        <TextBlock 
+                                                                   TextWrapping="WrapWholeWords" Margin="5,0" >
+                                                            <Run Text="{Binding WholeRelation}"/> <Run Text="{Binding Title}"/>
+                                                        </TextBlock>
                                                     </Button.Content>
                                                 </Button>
                                             </Grid>

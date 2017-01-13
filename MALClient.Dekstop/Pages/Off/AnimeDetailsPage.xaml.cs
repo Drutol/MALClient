@@ -22,6 +22,38 @@ namespace MALClient.Pages.Off
         public AnimeDetailsPage()
         {
             InitializeComponent();
+            Loaded += OnLoaded;
+        }
+
+        private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
+        {
+            UpdatePivotHeaderSizes();
+            SizeChanged += OnSizeChanged;
+        }
+
+        private void OnSizeChanged(object sender, SizeChangedEventArgs sizeChangedEventArgs)
+        {
+            UpdatePivotHeaderSizes();
+        }
+
+        private void UpdatePivotHeaderSizes()
+        {
+            if (ActualWidth >= 535)
+            {
+                PivotHeaderGeneral.FontSize =
+                    PivotHeaderDetails.FontSize =
+                        PivotHeaderRecomm.FontSize = 
+                            PivotHeaderReviews.FontSize = 
+                                PivotHeaderRelated.FontSize = 24;
+            }
+            else
+            {
+                PivotHeaderGeneral.FontSize =
+                    PivotHeaderDetails.FontSize =
+                        PivotHeaderRecomm.FontSize =
+                            PivotHeaderReviews.FontSize =
+                                PivotHeaderRelated.FontSize = 20;
+            }
         }
 
         private AnimeDetailsPageViewModel ViewModel => DataContext as AnimeDetailsPageViewModel;

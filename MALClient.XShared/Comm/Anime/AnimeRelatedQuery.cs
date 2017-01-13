@@ -48,28 +48,34 @@ namespace MALClient.XShared.Comm.Anime
                             node.Attributes["class"].Value ==
                             HtmlClassMgr.ClassDefs["#Related:relationsNode:class"]);
 
-                foreach (var row in relationsNode.Descendants("tr"))
+
+                try
                 {
-                    try
+                    var tds = relationsNode.Descendants("tr").First().Descendants("td").ToList();
+                    for(int i = 0; i < tds.Count; i+=2)
                     {
-                        var current = new RelatedAnimeData();
-                        current.WholeRelation = WebUtility.HtmlDecode(row.Descendants("td").First().InnerText.Trim()) +
-                                                " ";
-                        var linkNode = row.Descendants("a").First();
-                        var link = linkNode.Attributes["href"].Value.Split('/');
-                        current.Type = link[1] == "anime"
-                            ? RelatedItemType.Anime
-                            : link[1] == "manga" ? RelatedItemType.Manga : RelatedItemType.Unknown;
-                        current.Id = Convert.ToInt32(link[2]);
-                        current.Title = WebUtility.HtmlDecode(linkNode.InnerText.Trim());
-                        current.WholeRelation += current.Title;
-                        output.Add(current);
+                        var relation = WebUtility.HtmlDecode(tds[i].InnerText.Trim());
+                        foreach (var linkNode in tds[i+1].Descendants("a"))
+                        {
+                            var current = new RelatedAnimeData();
+                            current.WholeRelation = relation;
+                            var link = linkNode.Attributes["href"].Value.Split('/');
+                            current.Type = link[1] == "anime"
+                                ? RelatedItemType.Anime
+                                : link[1] == "manga" ? RelatedItemType.Manga : RelatedItemType.Unknown;
+                            current.Id = Convert.ToInt32(link[2]);
+                            current.Title = WebUtility.HtmlDecode(linkNode.InnerText.Trim());
+                            output.Add(current);
+                        }
                     }
-                    catch (Exception)
-                    {
-                        //mystery
-                    }
+                       
+
                 }
+                catch (Exception)
+                {
+                    //mystery
+                }
+                
             }
             catch (Exception)
             {

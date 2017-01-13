@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.UI;
@@ -8,6 +9,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
+using MALClient.XShared.Utils.Enums;
 using MALClient.XShared.Utils.Managers;
 using MALClient.XShared.ViewModels;
 
@@ -17,6 +19,7 @@ namespace MALClient.Shared.Items
 {
     public sealed partial class AnimeGridItem : UserControl
     {
+        private bool _handlerAdded;
         private Point _initialPoint;
         private static readonly TimeZoneInfo _jstTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Tokyo Standard Time");
 
@@ -67,6 +70,11 @@ namespace MALClient.Shared.Items
             if(DataContext == null)
                 return;
             ViewModel.AnimeItemDisplayContext = DisplayContext;
+            if (!_handlerAdded)
+            {
+                ViewModel.PropertyChanged += ViewModelOnPropertyChanged;
+                _handlerAdded = true;
+            }
             if (DisplayAirTillTime)
             {
                 var time = ViewModel.GetTimeTillNextAir(_jstTimeZone);
@@ -78,6 +86,18 @@ namespace MALClient.Shared.Items
                 }
             }
             Bindings.Update();
+        }
+
+        private void ViewModelOnPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
+        {
+            if (propertyChangedEventArgs.PropertyName == nameof(ViewModel.MyStatus))
+            {
+                var targetStatus = ViewModelLocator.AnimeList.GetDesiredStatus();
+                if (targetStatus == AnimeStatus.AllOrAiring || ViewModel.MyStatus != targetStatus)
+                    Opacity = .6;
+                else
+                    Opacity = 1;
+            }
         }
 
         public AnimeItemViewModel ViewModel => DataContext as AnimeItemViewModel;

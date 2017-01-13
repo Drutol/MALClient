@@ -216,7 +216,7 @@ namespace MALClient
 
         private double GetStartingSplitterWidth()
         {
-            return ApplicationView.GetForCurrentView().VisibleBounds.Width > 1400.0 ? 535 : 420;
+            return ApplicationView.GetForCurrentView().VisibleBounds.Width > 1400.0 ? 535 : 465;
         }
 
         #region Search

@@ -39,7 +39,7 @@ namespace MALClient.Shared.XamlConverters
                 case MalNotificationsTypes.Payment:
                      return FontAwesomeIcon.Money;
                 case MalNotificationsTypes.Messages:
-                     return FontAwesomeIcon.MailForward;
+                     return FontAwesomeIcon.EnvelopeOutline;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(value), value, null);
             }

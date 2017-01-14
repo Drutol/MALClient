@@ -1043,6 +1043,7 @@ namespace MALClient.XShared.ViewModels.Details
             }
             catch (Exception)
             {
+
                 LoadingGlobal = false;
                 // no internet?              
             }

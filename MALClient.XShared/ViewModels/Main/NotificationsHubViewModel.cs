@@ -23,12 +23,18 @@ namespace MALClient.XShared.ViewModels.Main
         private List<NotificationGroupViewModel> _notificationGroups;
         private ICommand _navigateNotificationCommand;
         private List<MalNotification> _allNotifications;
+        private bool _loading;
+        private bool _emptyNoticeVisibility;
 
 
         public async void Init(bool force = false)
         {
             if (AllNotifications == null || force)
+            {
+                Loading = true;
                 AllNotifications = await MalNotificationsQuery.GetNotifications();
+                Loading = false;
+            }
         }
 
         public ICommand MarkAsReadComand => _markAsReadComand ?? (_markAsReadComand = new RelayCommand<MalNotification>(
@@ -99,7 +105,7 @@ namespace MALClient.XShared.ViewModels.Main
                         .Except(new[]
                         {
                             MalNotificationsTypes.Generic, MalNotificationsTypes.Payment,
-                            MalNotificationsTypes.BlogComment,
+                            MalNotificationsTypes.BlogComment, MalNotificationsTypes.Messages, 
                         })
                         .Select(
                             type =>
@@ -130,6 +136,7 @@ namespace MALClient.XShared.ViewModels.Main
             {
                 _notifications = value;
                 RaisePropertyChanged(() => Notifications);
+                EmptyNoticeVisibility = !value.Any();
             }
         }
 
@@ -159,6 +166,26 @@ namespace MALClient.XShared.ViewModels.Main
             }
 
             public bool AnyNotifications => NotificationsCount != 0;
+        }
+
+        public bool EmptyNoticeVisibility
+        {
+            get { return _emptyNoticeVisibility; }
+            set
+            {
+                _emptyNoticeVisibility = value;
+                RaisePropertyChanged(() => EmptyNoticeVisibility);
+            }
+        }
+
+        public bool Loading
+        {
+            get { return _loading; }
+            set
+            {
+                _loading = value;
+                RaisePropertyChanged(() => Loading);
+            }
         }
 
         private void UpdateNotificationSet()

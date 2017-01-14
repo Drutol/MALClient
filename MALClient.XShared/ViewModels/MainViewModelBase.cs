@@ -638,13 +638,13 @@ namespace MALClient.XShared.ViewModels
                 var vm = ViewModelLocator.AnimeList;
                 var potentialHints = vm.WorkMode == AnimeListWorkModes.Manga ||
                                      vm.WorkMode == AnimeListWorkModes.TopManga
-                    ? MangaMediaTypeHints
-                    : AnimeMediaTypeHints;
+                    ? MangaMediaTypeHints.ToList()
+                    : AnimeMediaTypeHints.ToList();
                 if(SearchHints != null)
                     potentialHints.AddRange(SearchHints);
                 CurrentHintSet =
                     potentialHints.Where(
-                            s => s.StartsWith(CurrentSearchQuery ?? "", StringComparison.CurrentCultureIgnoreCase))
+                            s => s.StartsWith(CurrentSearchQuery ?? "", StringComparison.CurrentCultureIgnoreCase)).Distinct()
                         .Take(5)
                         .ToList();
             }

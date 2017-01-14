@@ -199,8 +199,16 @@ namespace MALClient.XShared.Utils
 
         public static string CleanAnimeTitle(string title)
         {
-            var index = title.IndexOf('+'); //norn + nonet fails here
+            var index = title.IndexOf('+'); //norn+nonet fails here
             return index == -1 ? title : title.Substring(0, index);
+            
+            //index = title.IndexOf('/'); //fate/grand order fails here
+            //if (index == -1)
+            //    index = title.IndexOf('!'); //hibike! euphonium fails here
+            //var trimmedTitle = title.Substring(index + 1, title.Length);
+
+            //return string.IsNullOrWhiteSpace(trimmedTitle) ? trimmedTitle : title;
+
         }
 
         public static string FirstCharToUpper(string input)

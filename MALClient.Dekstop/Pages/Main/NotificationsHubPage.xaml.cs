@@ -46,10 +46,14 @@ namespace MALClient.Pages.Main
             if (model.NotificationType == ViewModelLocator.NotificationsHub.CurrentNotificationType)
             {
                 ViewModelLocator.NotificationsHub.CurrentNotificationType = null;
-                GroupsList.SelectedItem = null;
+                GroupsList.SelectionMode = ListViewSelectionMode.None;
             }
             else
+            {
+                GroupsList.SelectionMode = ListViewSelectionMode.Single;
+                GroupsList.SelectedItem = e.ClickedItem;
                 ViewModelLocator.NotificationsHub.CurrentNotificationType = model.NotificationType;
+            }
         }
     }
 }

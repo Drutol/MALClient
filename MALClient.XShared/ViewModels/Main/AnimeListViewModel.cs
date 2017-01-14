@@ -366,6 +366,10 @@ namespace MALClient.XShared.ViewModels.Main
                 _prevQuery = null;
                 _invalidatePreviousSearchResults = false;
             }
+            else
+            {
+                query = query.Trim();
+            }
 
             if(queryCondition && !_wasPreviousQuery)
                 SetDesiredStatus((int)AnimeStatus.AllOrAiring);
@@ -446,10 +450,18 @@ namespace MALClient.XShared.ViewModels.Main
                 _invalidatePreviousSearchResults = alreadyFiltered; //mangaa will not yield anything more manga
                 if (!alreadyFiltered)
                 {
-                    if (ViewModelLocator.GeneralMain.SearchHints.Count > 0) //if there are any tags to begin with
-                        items = items.Where(item => item.Title.ToLower().Contains(query) || item.Tags.Contains(query));
-                    else
-                        items = items.Where(item => item.Title.ToLower().Contains(query));
+                    try
+                    {
+                        if (ViewModelLocator.GeneralMain.SearchHints.Count > 0) //if there are any tags to begin with
+                            items = items.Where(item => item.Title.ToLower().Contains(query) || item.Tags.Contains(query));
+                        else
+                            items = items.Where(item => item.Title.ToLower().Contains(query));
+                    }
+                    catch (Exception e)
+                    {
+                        ResourceLocator.TelemetryProvider.TrackException(e);
+                    }
+
                 }
 
             }            

@@ -12,6 +12,8 @@
     <Page.Resources>
         <xamlConverters:NotificationTypeToIconConverter x:Key="NotificationTypeToIconConverter" />
         <xamlConverters:EnumWithDescriptionToStringConverter x:Key="EnumToStringConverter" />
+        <xamlConverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+        <xamlConverters:BoolToVisibilityInvertedConverter x:Key="BoolToVisibilityInvertedConverter" />
     </Page.Resources>
     <Grid Background="{ThemeResource BrushDeepBackground}">
         <Grid.ColumnDefinitions>
@@ -46,7 +48,7 @@
                 </ListView.ItemTemplate>
             </ListView>
         </Grid>
-        <Grid Grid.Column="1" Background="{ThemeResource BrushAnimeItemInnerBackground}">
+        <Grid Grid.Column="1">
             <ListView  ItemsSource="{Binding Notifications}" ItemClick="NotificationClick" IsItemClickEnabled="True">
                 <ListView.ItemContainerStyle>
                     <Style TargetType="ListViewItem">
@@ -58,7 +60,7 @@
                     </Style>
                 </ListView.ItemContainerStyle>
                 <ListView.Header>
-                    <Grid HorizontalAlignment="Stretch"  Padding="0,0,16,0">
+                    <Grid HorizontalAlignment="Stretch" Background="{ThemeResource BrushAnimeItemInnerBackground}" Padding="0,0,16,0" Visibility="{Binding EmptyNoticeVisibility,Converter={StaticResource BoolToVisibilityInvertedConverter}}">
                         <Button HorizontalAlignment="Right" Style="{StaticResource TextBlockButtonStyle}" Command="{Binding MarkAllAsReadCommand}">
                             <TextBlock Text="Mark all as read"/>
                         </Button>
@@ -83,6 +85,10 @@
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
+            <TextBlock Text="No notifications." Foreground="{ThemeResource BrushNoSearchResults}" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding EmptyNoticeVisibility,Converter={StaticResource BoolToVisibilityConverter}}"/>
+        </Grid>
+        <Grid Grid.ColumnSpan="2" Visibility="{Binding Loading,Converter={StaticResource BoolToVisibilityConverter}}" Background="{ThemeResource BrushLoadingNonTransparent}">
+            <ProgressRing  HorizontalAlignment="Center" VerticalAlignment="Center" IsActive="True" Width="75" Height="75" />
         </Grid>
         
     </Grid>

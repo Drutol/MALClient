@@ -13,5 +13,6 @@ namespace MALClient.Adapters
         void TelemetryTrackEvent(TelemetryTrackedEvents @event);
         void TelemetryTrackEvent(TelemetryTrackedEvents @event,string arg);
         void LogEvent(string @event);
+        void TrackException(Exception e);
     }
 }

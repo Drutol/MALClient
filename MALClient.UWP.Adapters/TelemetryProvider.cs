@@ -44,7 +44,16 @@ namespace MALClient.UWP.Adapters
 
         public void LogEvent(string @event)
         {
+#if !DEBUG
             HockeyClient.Current.TrackTrace(@event);
+#endif
+        }
+
+        public void TrackException(Exception e)
+        {
+#if !DEBUG
+            HockeyClient.Current.TrackException(e);
+#endif
         }
     }
 }

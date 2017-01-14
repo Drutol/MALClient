@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using System.Xml;
 using System.Xml.Linq;
 using MALClient.Models.Enums;
 using MALClient.Models.Models.Anime;
 using MALClient.XShared.Comm.Manga;
 using MALClient.XShared.Utils;
+using MALClient.XShared.ViewModels;
 using Newtonsoft.Json;
 
 namespace MALClient.XShared.Comm.Anime
@@ -28,13 +30,24 @@ namespace MALClient.XShared.Comm.Anime
                 {
                     case ApiType.Mal:
                         var data = animeMode
-                            ? await new AnimeSearchQuery(Utilities.CleanAnimeTitle(title),requestedApiType).GetRequestResponse(false)
+                            ? await new AnimeSearchQuery(Utilities.CleanAnimeTitle(title), requestedApiType)
+                                .GetRequestResponse(false)
                             : await new MangaSearchQuery(Utilities.CleanAnimeTitle(title)).GetRequestResponse(false);
+                        if (string.IsNullOrEmpty(data))
+                        {
+                            //we are loading title from website because request came from mal url
+                            var correctTitle = await AnimeTitleQuery.GetTitle(int.Parse(id), animeMode);
+                            data = animeMode
+                            ? await new AnimeSearchQuery(Utilities.CleanAnimeTitle(correctTitle), requestedApiType)
+                                .GetRequestResponse(false)
+                            : await new MangaSearchQuery(Utilities.CleanAnimeTitle(correctTitle)).GetRequestResponse(false);
+                        }
+
                         data = WebUtility.HtmlDecode(data);
-                        
+
                         data = data.Replace("&", ""); //unparsable stuff ahaead :(
                         var parsedData = XDocument.Parse(data);
-                                            
+
                         var elements = parsedData.Element(animeMode ? "anime" : "manga").Elements("entry");
                         var xmlObj = elements.First(element => element.Element("id").Value == id);
 
@@ -71,7 +84,7 @@ namespace MALClient.XShared.Comm.Anime
                             Status = jsonObj.status,
                             Synopsis = jsonObj.synopsis,
                             GlobalScore = jsonObj.community_rating,
-                            Synonyms = new List<string> { jsonObj.alternate_title.ToString() }
+                            Synonyms = new List<string> {jsonObj.alternate_title.ToString()}
                         };
                         break;
                     default:

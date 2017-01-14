@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using GalaSoft.MvvmLight.Ioc;
 using MALClient.Adapters;
 using MALClient.Adapters.Credentails;
+using MALClient.Models.Interfaces;
 using MALClient.XShared.BL;
 using MALClient.XShared.Interfaces;
 
@@ -36,6 +37,8 @@ namespace MALClient.XShared.ViewModels
 
         public static IChangeLogProvider  ChangelogProvider  => SimpleIoc.Default.GetInstance<IChangeLogProvider>();
 
+        public static IHandyDataStorage HandyDataStorage => SimpleIoc.Default.GetInstance<IHandyDataStorage>();
+
 
         // Purely shared interfaces
 
@@ -44,6 +47,7 @@ namespace MALClient.XShared.ViewModels
         public static void RegisterBase()
         {
             SimpleIoc.Default.Register<IAnimeLibraryDataStorage,AnimeLibraryDataStorage>();
+            SimpleIoc.Default.Register<IHandyDataStorage,HandyDataStorage>();
         }
 
         #region UsedByBackgroundTask

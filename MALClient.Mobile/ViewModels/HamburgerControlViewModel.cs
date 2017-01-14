@@ -335,7 +335,7 @@ namespace MALClient.ViewModels
             
         }
 
-        public List<string> PinnedProfiles => Settings.PinnedProfiles.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries).ToList();
+        public List<string> PinnedProfiles => ResourceLocator.HandyDataStorage.PinnedUsers.Select(user => user.Name).ToList();
 
         private ICommand _navigateAnimeListCategoryCommand;
 

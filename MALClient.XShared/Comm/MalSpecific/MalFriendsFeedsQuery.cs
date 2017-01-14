@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 using MALClient.Models.Models;
 using MALClient.Models.Models.MalSpecific;
+using MALClient.XShared.Utils;
 
 namespace MALClient.XShared.Comm.MalSpecific
 {
@@ -45,12 +46,12 @@ namespace MALClient.XShared.Comm.MalSpecific
             var output = new List<UserFeedEntryModel>();
 
             var xmlDoc = XElement.Parse(resp);
-            var nodes = xmlDoc.Element("channel").Elements("item").Take(5);
+            var nodes = xmlDoc.Element("channel").Elements("item").Take(Settings.FeedsMaxEntries);
             foreach (var node in nodes)
             {
                 var current = new UserFeedEntryModel();
                 current.Date = DateTime.Parse(node.Element("pubDate").Value);
-                if (DateTime.UtcNow.Subtract(current.Date).TotalDays > 7)
+                if (DateTime.UtcNow.Subtract(current.Date).TotalDays > Settings.FeedsMaxEntryAge)
                     continue;
 
                 current.User = user;

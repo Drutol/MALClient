@@ -6,12 +6,13 @@
         Caching,
         Calendar,
         Articles,
-        News,
+        News, //unused
         About,
         LogIn,
         Misc,
         Homepage,
         Notifications,
-        Ads
+        Ads,
+        Feeds
     }
 }

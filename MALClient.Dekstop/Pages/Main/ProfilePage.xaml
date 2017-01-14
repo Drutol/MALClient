@@ -160,7 +160,7 @@
                                             Symbol="{Binding IsPinned,Converter={StaticResource PinUnpinSymbolIconConverter}}" />
                                         <ToolTipService.ToolTip>
                                             <ToolTip
-                                                Content="When you pin someone you can quickly access their profile by right clicking profile button in hamburger menu" />
+                                                Content="When you pin someone you can quickly access their profile from hamburger menu." />
                                         </ToolTipService.ToolTip>
                                     </ToggleButton>
                                 </StackPanel>

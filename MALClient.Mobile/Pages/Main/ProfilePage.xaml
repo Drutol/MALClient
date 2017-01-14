@@ -105,7 +105,7 @@
                                             <ToggleButton Margin="5,0" IsChecked="{Binding IsPinned,Mode=TwoWay}" Visibility="{Binding PinProfileVisibility,Converter={StaticResource BoolToVisibilityConverter}}">
                                                 <SymbolIcon Symbol="{Binding IsPinned,Converter={StaticResource PinUnpinSymbolIconConverter}}"/>
                                                 <ToolTipService.ToolTip>
-                                                    <ToolTip Content="When you pin someone you can quickly access their profile by right clicking profile button in hamburger menu"/>
+                                                    <ToolTip Content="When you pin someone you can quickly access their profile from hamburger menu." />
                                                 </ToolTipService.ToolTip>
                                             </ToggleButton>
                                         </StackPanel>

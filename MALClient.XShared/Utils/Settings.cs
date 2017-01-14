@@ -309,11 +309,11 @@ namespace MALClient.XShared.Utils
             set { ApplicationDataService[nameof(ForceSearchIntoOffPage)] = value; }
         }
 
-        public static string PinnedProfiles
-        {
-            get { return (string) (ApplicationDataService["PinnedProfiles"] ?? ""); }
-            set { ApplicationDataService["PinnedProfiles"] = value; }
-        }
+        //public static string PinnedProfiles
+        //{
+        //    get { return (string) (ApplicationDataService["PinnedProfiles"] ?? ""); }
+        //    set { ApplicationDataService["PinnedProfiles"] = value; }
+        //}
 
         #region Views
 
@@ -668,6 +668,28 @@ namespace MALClient.XShared.Utils
         {
             get { return (bool)(ApplicationDataService[nameof(StatusPromptProceedOnDisabled)] ?? false); }
             set { ApplicationDataService[nameof(StatusPromptProceedOnDisabled)] = value; }
+        }
+
+        #endregion
+
+        #region Feeds
+
+        public static bool FeedsIncludePinnedProfiles
+        {
+            get { return (bool)(ApplicationDataService[nameof(FeedsIncludePinnedProfiles)] ?? false); }
+            set { ApplicationDataService[nameof(FeedsIncludePinnedProfiles)] = value; }
+        }
+
+        public static int FeedsMaxEntries
+        {
+            get { return (int)(ApplicationDataService[nameof(FeedsMaxEntries)] ?? 5); }
+            set { ApplicationDataService[nameof(FeedsMaxEntries)] = value; }
+        }
+
+        public static int FeedsMaxEntryAge
+        {
+            get { return (int)(ApplicationDataService[nameof(FeedsMaxEntryAge)] ?? 7); }
+            set { ApplicationDataService[nameof(FeedsMaxEntryAge)] = value; }
         }
 
         #endregion

@@ -24,7 +24,6 @@ namespace MALClient.XShared.ViewModels.Main
     public sealed class ProfilePageViewModel : ViewModelBase
     {
         private readonly IAnimeLibraryDataStorage _animeLibraryDataStorage;
-        //anime -<>- manga
 
         private List<int> _animeChartValues = new List<int>();
 
@@ -119,6 +118,7 @@ namespace MALClient.XShared.ViewModels.Main
                     CurrentData.FavouriteCharacters.Select(character => new FavouriteViewModel(character)));
             FavouriteStaff =
                 new List<FavouriteViewModel>(CurrentData.FavouritePeople.Select(staff => new FavouriteViewModel(staff)));
+
             CommentInputBoxVisibility = !string.IsNullOrEmpty(CurrentData.ProfileMemId); //posting restricted
             LoadingAboutMeVisibility = AboutMeWebViewVisibility = false;
             if (authenticatedUser)
@@ -505,18 +505,16 @@ namespace MALClient.XShared.ViewModels.Main
 
         public bool IsPinned
         {
-            get { return CurrentData.User.Name != null && Settings.PinnedProfiles.Contains(CurrentData.User.Name); }
+            get { return ResourceLocator.HandyDataStorage.PinnedUsers.Any(user => user.Name.Equals(CurrentData.User.Name,StringComparison.CurrentCultureIgnoreCase)); }
             set
             {
                 if (value)
                 {
-                    Settings.PinnedProfiles += ";" + CurrentData.User.Name;
+                    ResourceLocator.HandyDataStorage.PinnedUsers.Add(CurrentData.User);
                 }
                 else
                 {
-                    var pinned = Settings.PinnedProfiles.Split(';').ToList();
-                    pinned.Remove(CurrentData.User.Name);
-                    Settings.PinnedProfiles = string.Join(";", pinned);
+                    ResourceLocator.HandyDataStorage.PinnedUsers.Remove(CurrentData.User);
                 }
                 ViewModelLocator.GeneralHamburger.UpdatePinnedProfiles();
                 RaisePropertyChanged(() => IsPinned);

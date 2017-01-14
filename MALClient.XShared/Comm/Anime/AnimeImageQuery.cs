@@ -36,6 +36,9 @@ namespace MALClient.XShared.Comm.Anime
             _anime = anime;
         }
 
+        private static readonly NullDictionary<int, Task<string>> AnimeImageTasks = new NullDictionary<int, Task<string>>();
+        private static readonly NullDictionary<int, Task<string>> MangaImageTasks = new NullDictionary<int, Task<string>>();
+
         public static async Task<string> GetImageUrl(int id, bool anime)
         {
             if (anime)
@@ -56,22 +59,44 @@ namespace MALClient.XShared.Comm.Anime
                 }
             }
 
-            await _semaphore.WaitAsync();
-            var link = await new AnimeImageQuery(id, anime).FetchImageUrl();
-            _semaphore.Release();
 
+            var task = anime ? AnimeImageTasks[id] : MangaImageTasks[id];
+            if (task == null)
+            {
+                await _semaphore.WaitAsync();
+                task = new AnimeImageQuery(id, anime).FetchImageUrl();
+                _semaphore.Release();
+                if (anime)
+                {
+                    AnimeImageTasks[id] = task;
+                }
+                else
+                {
+                    MangaImageTasks[id] = task;
+                }
+            }
+
+            var link = await task;
+
+            
             if (anime)
             {
                 lock (CachedAnimeImages)
                 {
-                    CachedAnimeImages.Add(id, link);
+                    if (!CachedAnimeImages.ContainsKey(id))
+                        CachedAnimeImages.Add(id, link);
+                    if (AnimeImageTasks.ContainsKey(id))
+                        AnimeImageTasks.Remove(id);
                 }
             }
             else
             {
                 lock (CachedMangaImages)
                 {
-                    CachedMangaImages.Add(id, link);
+                    if (!CachedMangaImages.ContainsKey(id))
+                        CachedMangaImages.Add(id, link);
+                    if (MangaImageTasks.ContainsKey(id))
+                        MangaImageTasks.Remove(id);
                 }
             }
 
@@ -100,6 +125,23 @@ namespace MALClient.XShared.Comm.Anime
             return "";
         }
 
-
+        class NullDictionary<TKey,TVal> : Dictionary<TKey, TVal>
+        {
+            public new TVal this[TKey key]
+            {
+                get
+                {
+                    try
+                    {
+                        return base[key];
+                    }
+                    catch (Exception e)
+                    {
+                        return default(TVal);
+                    }
+                }
+                set { base[key] = value; }
+            }
+        }
     }
 }

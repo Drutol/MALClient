@@ -11,6 +11,7 @@
         Contact,
         Placeholder,
         Important,
-        SwitchApps
+        SwitchApps,
+        ContactInfo,
     }
 }

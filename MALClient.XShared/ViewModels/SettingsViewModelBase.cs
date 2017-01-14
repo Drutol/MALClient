@@ -100,13 +100,13 @@ namespace MALClient.XShared.ViewModels
                 Symbol = SettingsSymbolsEnum.PreviewLink,
                 PageType = SettingsPageIndex.Articles
             },
-            //new SettingsPageEntry
-            //{
-            //    Header = "News",
-            //    Subtitle = "News regarding app development, bugs etc.",
-            //    Symbol = SettingsSymbolsEnum.PostUpdate,
-            //    PageType = SettingsPageIndex.News
-            //},
+            new SettingsPageEntry
+            {
+                Header = "Friends feeds",
+                Subtitle = "Customize friends feeds behaviour.",
+                Symbol = SettingsSymbolsEnum.ContactInfo,
+                PageType = SettingsPageIndex.Feeds
+            },
             new SettingsPageEntry
             {
                 Header = "Notifications",
@@ -124,7 +124,7 @@ namespace MALClient.XShared.ViewModels
             new SettingsPageEntry
             {
                 Header = "Account",
-                Subtitle = "MyAnimelist or Hummingbird authentication.",
+                Subtitle = "MyAnimelist authentication.",
                 Symbol = SettingsSymbolsEnum.Contact,
                 PageType = SettingsPageIndex.LogIn
             },
@@ -716,6 +716,28 @@ namespace MALClient.XShared.ViewModels
                 Settings.AdsSecondsPerDay = value;
                 OnAdsMinutesPerDayChanged?.Invoke();
             }
+        }
+
+        #endregion
+
+        #region Feeds
+
+        public bool FeedsIncludePinnedProfiles
+        {
+            get { return Settings.FeedsIncludePinnedProfiles; }
+            set { Settings.FeedsIncludePinnedProfiles = value; }
+        }
+
+        public int FeedsMaxEntries
+        {
+            get { return Settings.FeedsMaxEntries; }
+            set { Settings.FeedsMaxEntries = value; }
+        }
+
+        public int FeedsMaxEntryAge
+        {
+            get { return Settings.FeedsMaxEntryAge; }
+            set { Settings.FeedsMaxEntryAge = value; }
         }
 
         #endregion

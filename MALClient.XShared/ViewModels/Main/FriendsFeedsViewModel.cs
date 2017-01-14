@@ -45,8 +45,12 @@ namespace MALClient.XShared.ViewModels.Main
                 return;
             Loading = true;
             Feeds = new List<UserFeedEntryModel>();
+            var source =
+                ViewModelLocator.ProfilePage.MyFriends.Concat(ResourceLocator.HandyDataStorage.PinnedUsers)
+                    .Distinct(MalUser.NameComparer)
+                    .ToList();
             Feeds =
-                (await new MalFriendsFeedsQuery(ViewModelLocator.ProfilePage.MyFriends).GetFeeds()).OrderByDescending(
+                (await new MalFriendsFeedsQuery(source).GetFeeds()).OrderByDescending(
                     model => model.Date).ToList();
             Loading = false;
         }

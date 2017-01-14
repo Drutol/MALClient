@@ -60,6 +60,7 @@
     <Compile Include="Interfaces\IAnimeLibraryDataStorage.cs" />
     <Compile Include="Interfaces\IAnimeListItem.cs" />
     <Compile Include="Interfaces\IDetailsPageArgs.cs" />
+    <Compile Include="Interfaces\IHandyDataStorage.cs" />
     <Compile Include="Models\AnimeScrapped\AnimeCharacterStaffModel.cs" />
     <Compile Include="Models\AnimeScrapped\AnimePersonalizedRecommendationData.cs" />
     <Compile Include="Models\AnimeScrapped\AnimeReviewData.cs" />

@@ -45,6 +45,7 @@
     <Compile Include="IMessageDialogProvider.cs" />
     <Compile Include="INotificationsTaskManager.cs" />
     <Compile Include="IPinTileService.cs" />
+    <Compile Include="ISchdeuledJobsManger.cs" />
     <Compile Include="ISyetemControlLuancherService.cs" />
     <Compile Include="ITelemetryProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

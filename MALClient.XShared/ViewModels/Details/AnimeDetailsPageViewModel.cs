@@ -999,7 +999,7 @@ namespace MALClient.XShared.ViewModels.Details
             StartDate = data.StartDate;
             EndDate = data.EndDate;
             GlobalScore = data.GlobalScore;
-            _imgUrl = data.ImgUrl;
+            _imgUrl = (_animeItemReference as AnimeItemViewModel)?.ImgUrl ?? data.ImgUrl;
             if (Settings.SelectedApiType == ApiType.Hummingbird)
                 MalId = data.MalId;
 

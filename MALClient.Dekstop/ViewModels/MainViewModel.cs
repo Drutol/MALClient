@@ -119,6 +119,7 @@ namespace MALClient.ViewModels
                 case PageIndex.PageWallpapers:
                 case PageIndex.PagePopularVideos:
                 case PageIndex.PageFeeds:
+                case PageIndex.PageNotificationHub:
 
                     if (index == PageIndex.PageSearch || index == PageIndex.PageMangaSearch ||
                         ((index == PageIndex.PageSearch || index == PageIndex.PageMangaSearch) &&
@@ -401,6 +402,13 @@ namespace MALClient.ViewModels
                     RefreshDataCommand = new RelayCommand(() => ViewModelLocator.FriendsFeeds.Init(true));
                     CurrentStatus = "Friends Feeds";
                     MainNavigationRequested?.Invoke(typeof(FriendsFeedsPage), args);
+                    break;
+                    case PageIndex.PageNotificationHub:
+                    HideSearchStuff();
+                    RefreshButtonVisibility = true;
+                    RefreshDataCommand = new RelayCommand(() => ViewModelLocator.NotificationsHub.Init(true));
+                    CurrentStatus = "Notifications";
+                    MainNavigationRequested?.Invoke(typeof(NotificationsHubPage), args);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(index), index, null);

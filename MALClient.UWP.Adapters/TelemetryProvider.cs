@@ -8,6 +8,7 @@ using MALClient.Models.Enums;
 using MALClient.XShared.Utils;
 using MALClient.XShared.ViewModels;
 using Microsoft.HockeyApp;
+using Microsoft.HockeyApp.DataContracts;
 
 namespace MALClient.UWP.Adapters
 {
@@ -39,6 +40,11 @@ namespace MALClient.UWP.Adapters
 #if !DEBUG
             HockeyClient.Current.TrackEvent(@event + " " + arg);
 #endif
+        }
+
+        public void LogEvent(string @event)
+        {
+            HockeyClient.Current.TrackTrace(@event);
         }
     }
 }

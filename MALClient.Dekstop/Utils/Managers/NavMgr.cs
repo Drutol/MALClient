@@ -85,7 +85,7 @@ namespace MALClient.Utils.Managers
                 _randomNavigationStackOff.Push(new Tuple<PageIndex, object>(page, args));
                 ViewModelLocator.GeneralMain.NavigateOffBackButtonVisibility = true;
             }
-            else if (page == PageIndex.PageProfile || page == PageIndex.PageArticles || page == PageIndex.PageForumIndex || page == PageIndex.PageFeeds)
+            else if (page == PageIndex.PageProfile || page == PageIndex.PageArticles || page == PageIndex.PageForumIndex || page == PageIndex.PageFeeds || page == PageIndex.PageNotificationHub)
             {
                 _randomNavigationStackMain.Push(new Tuple<PageIndex, object>(page, args));
                 ViewModelLocator.GeneralMain.NavigateMainBackButtonVisibility = true;

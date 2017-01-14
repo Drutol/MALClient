@@ -114,6 +114,7 @@
     <Compile Include="ClipboardProvider.cs" />
     <Compile Include="ImageDownloaderService.cs" />
     <Compile Include="NotificationsTaskManager.cs" />
+    <Compile Include="ScheduledJobsManager.cs" />
     <Compile Include="SystemControlsLauncherService.cs" />
     <Compile Include="LiveTilesManagerRelay.cs" />
     <Compile Include="MessageDialogProvider.cs" />

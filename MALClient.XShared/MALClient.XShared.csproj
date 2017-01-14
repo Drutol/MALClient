@@ -36,6 +36,7 @@
   <ItemGroup>
     <Compile Include="BL\AnimeLibraryDataStorage.cs" />
     <Compile Include="BL\HandyDataStorage.cs" />
+    <Compile Include="BL\InitializationRoutines.cs" />
     <Compile Include="Comm\Anime\AnimeAddQuery.cs" />
     <Compile Include="Comm\Anime\AnimeCharactersStaffQuery.cs" />
     <Compile Include="Comm\Anime\AnimeDetailsAnnQuery.cs" />
@@ -137,6 +138,7 @@
     <Compile Include="ViewModels\Main\MalArticlesViewModel.cs" />
     <Compile Include="ViewModels\Main\MalMessageDetailsViewModel.cs" />
     <Compile Include="ViewModels\Main\MalMessagingViewModel.cs" />
+    <Compile Include="ViewModels\Main\NotificationsHubViewModel.cs" />
     <Compile Include="ViewModels\Main\PopularVideosViewModel.cs" />
     <Compile Include="ViewModels\Main\ProfilePageViewModel.cs" />
     <Compile Include="ViewModels\Main\RecommendationsViewModel.cs" />

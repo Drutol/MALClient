@@ -1,5 +1,4 @@
 ﻿using System;
-using MALClient.Models.Enums.Enums;
 
 namespace MALClient.Models.Enums
 {

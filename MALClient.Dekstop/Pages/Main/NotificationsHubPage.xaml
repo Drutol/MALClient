@@ -1,0 +1,89 @@
+﻿<Page
+    x:Class="MALClient.Pages.Main.NotificationsHubPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MALClient.Pages.Main"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:uwp="using:FontAwesome.UWP"
+    xmlns:xamlConverters="using:MALClient.Shared.XamlConverters"
+    mc:Ignorable="d" DataContext="{Binding Source={StaticResource Locator},Path=NotificationsHub}">
+
+    <Page.Resources>
+        <xamlConverters:NotificationTypeToIconConverter x:Key="NotificationTypeToIconConverter" />
+        <xamlConverters:EnumWithDescriptionToStringConverter x:Key="EnumToStringConverter" />
+    </Page.Resources>
+    <Grid Background="{ThemeResource BrushDeepBackground}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="350" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid Background="{ThemeResource BrushAnimeItemInnerBackground}">
+            <ListView x:Name="GroupsList" ItemsSource="{Binding NotificationGroups}" ItemClick="NotificationGroup" IsItemClickEnabled="True">
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                        <Setter Property="Background" Value="{ThemeResource BrushAnimeItemInnerBackground}"/>
+                    </Style>
+                </ListView.ItemContainerStyle>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Margin="10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <uwp:FontAwesome VerticalAlignment="Center" Margin="10,0"
+                                         Icon="{Binding NotificationType,Converter={StaticResource NotificationTypeToIconConverter}}" />
+                            <TextBlock Grid.Column="1" HorizontalAlignment="Stretch" TextAlignment="Left" Margin="20,0"
+                                   Text="{Binding NotificationType,Converter={StaticResource EnumToStringConverter}}" />
+                            <Grid Grid.Column="2" Background="{StaticResource SystemControlDisabledAccentBrush}" Padding="15,5" Margin="10,0" CornerRadius="5">
+                                <TextBlock Text="{Binding NotificationsCount}" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="17"/>
+                            </Grid>
+                        </Grid>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </Grid>
+        <Grid Grid.Column="1" Background="{ThemeResource BrushAnimeItemInnerBackground}">
+            <ListView  ItemsSource="{Binding Notifications}" ItemClick="NotificationClick" IsItemClickEnabled="True">
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                        <Setter Property="Background" Value="{ThemeResource BrushAnimeItemBackground}" />
+                        <Setter Property="Margin" Value="0,0,0,2"/>
+                        <Setter Property="BorderThickness" Value="1,0,0,0" />
+                        <Setter Property="BorderBrush" Value="{StaticResource SystemControlBackgroundAccentBrush}" />
+                    </Style>
+                </ListView.ItemContainerStyle>
+                <ListView.Header>
+                    <Grid HorizontalAlignment="Stretch"  Padding="0,0,16,0">
+                        <Button HorizontalAlignment="Right" Style="{StaticResource TextBlockButtonStyle}" Command="{Binding MarkAllAsReadCommand}">
+                            <TextBlock Text="Mark all as read"/>
+                        </Button>
+                    </Grid>
+                </ListView.Header>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Margin="8">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <uwp:FontAwesome Icon="{Binding Type,Converter={StaticResource NotificationTypeToIconConverter}}" Margin="0,0,20,0"/>
+                            <TextBlock Grid.Column="1" Text="{Binding Content}" TextWrapping="WrapWholeWords" HorizontalAlignment="Stretch" TextAlignment="Left"/>
+                            <TextBlock Text="{Binding Date}" Margin="5,0,0,0" TextAlignment="Right" Grid.Column="2" FontStyle="Italic" FontWeight="SemiLight" Foreground="{StaticResource BrushSettingsSubtitle}"/>
+                            <Button Grid.Column="3" Width="40" Height="40" Background="Transparent" Margin="10,0,0,0" Command="{Binding Source={StaticResource Locator},Path=NotificationsHub.MarkAsReadComand}" CommandParameter="{Binding}">
+                                <SymbolIcon Symbol="Accept"/>
+                            </Button>
+                        </Grid>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </Grid>
+        
+    </Grid>
+</Page>

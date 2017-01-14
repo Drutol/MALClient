@@ -1,4 +1,4 @@
-﻿namespace MALClient.XShared.Utils.Enums
+﻿namespace MALClient.Models.Enums
 {
     public enum HamburgerButtons
     {
@@ -23,6 +23,7 @@
         CharacterSearch,
         Wallpapers,
         PopularVideos,
-        Feeds
+        Feeds,
+        Notifications,
     }
 }

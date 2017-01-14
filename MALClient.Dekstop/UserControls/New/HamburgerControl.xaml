@@ -812,6 +812,20 @@
                                            HorizontalAlignment="Left"
                                            TextWrapping="WrapWholeWords"
                                            Grid.Column="1" VerticalAlignment="Center" TextAlignment="Center" />
+                        <Button Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" 
+                                        FontFamily="Segoe MDL2 Assets" FontSize="22" Width="40" Height="35" Background="Transparent" Content="&#xE939;"
+                                        Visibility="{Binding FeedbackHubButtonVisibility}">
+                            <ToolTipService.ToolTip>
+                                <ToolTip Content="Submit feedback!"/>
+                            </ToolTipService.ToolTip>
+                            <Button.Flyout>
+                                <MenuFlyout>
+                                    <MenuFlyoutItem Text="Github" Click="OpenRepo"/>
+                                    <MenuFlyoutItem Text="Feedback hub" Click="FeedbackButton_OnClick"/>
+                                    <MenuFlyoutItem Text="Email" Click="BtnFeedbackEmailOnClick"/>
+                                </MenuFlyout>
+                            </Button.Flyout>
+                        </Button>
                     </Grid>
                 </Button>
                 <!--<Button HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch"
@@ -949,21 +963,17 @@
                             </ToolTipService.ToolTip>
                             <SymbolIcon HorizontalAlignment="Center" VerticalAlignment="Center" Symbol="Mail"
                                                 Margin="0,0,0,2" />
-                        </Button>
-                        <Button HorizontalAlignment="Right" VerticalAlignment="Center" 
-                                        FontFamily="Segoe MDL2 Assets" FontSize="22" Width="40" Height="35" Background="Transparent" Content="&#xE939;"
-                                        Visibility="{Binding FeedbackHubButtonVisibility}">
+                        </Button>                        
+                        <Button Command="{Binding ButtonNavigationCommand}" Visibility="{Binding MalApiSpecificButtonsVisibility}"
+                                        CommandParameter="26" Background="Transparent"
+                                        Width="40" Height="37" >
                             <ToolTipService.ToolTip>
-                                <ToolTip Content="Submit feedback!"/>
+                                <ToolTip Content="Notifications"/>
                             </ToolTipService.ToolTip>
-                            <Button.Flyout>
-                                <MenuFlyout>
-                                    <MenuFlyoutItem Text="Github" Click="OpenRepo"/>
-                                    <MenuFlyoutItem Text="Feedback hub" Click="FeedbackButton_OnClick"/>
-                                    <MenuFlyoutItem Text="Email" Click="BtnFeedbackEmailOnClick"/>
-                                </MenuFlyout>
-                            </Button.Flyout>
+                            <SymbolIcon HorizontalAlignment="Center" VerticalAlignment="Center" Symbol="LeaveChat"
+                                                Margin="0,0,0,2" />
                         </Button>
+                
                     </StackPanel>
                 </Grid>
                 <Button HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch"

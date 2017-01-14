@@ -1,4 +1,5 @@
 ﻿using GalaSoft.MvvmLight;
+using MALClient.Models.Enums;
 using MALClient.XShared.Delegates;
 using MALClient.XShared.NavArgs;
 using MALClient.XShared.Utils.Enums;

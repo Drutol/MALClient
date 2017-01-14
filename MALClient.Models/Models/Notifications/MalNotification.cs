@@ -118,7 +118,7 @@ namespace MALClient.Models.Models.Notifications
                 case "related_anime_add":
                     Type = MalNotificationsTypes.NewRelatedAnime;
                     Header = notification.categoryName;
-                    Content = $"{notification.anime.title} ({notification.anime.mediaType}) has just been added to MAL databse!";
+                    Content = $"{notification.anime.title} ({notification.anime.mediaType}) has just been added to MAL database!";
                     LaunchArgs = notification.url;
                     IsSupported = true;
                     break;

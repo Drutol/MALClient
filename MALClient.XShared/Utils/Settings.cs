@@ -601,6 +601,12 @@ namespace MALClient.XShared.Utils
             get { return (int)(ApplicationDataService[nameof(NotificationsRefreshTime)] ?? 15); }
             set { ApplicationDataService[nameof(NotificationsRefreshTime)] = value; }
         }
+
+        public static bool NotificationCheckInRuntime
+        {
+            get { return (bool)(ApplicationDataService[nameof(NotificationCheckInRuntime)] ?? true); }
+            set { ApplicationDataService[nameof(NotificationCheckInRuntime)] = value; }
+        }
         #endregion
 
         #region Ads

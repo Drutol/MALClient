@@ -37,6 +37,7 @@ namespace MALClient.ViewModels
             SimpleIoc.Default.Register<ITelemetryProvider, TelemetryProvider>();
             SimpleIoc.Default.Register<INotificationsTaskManager, NotificationTaskManagerAdapter>();
             SimpleIoc.Default.Register<IChangeLogProvider, ChangeLogProvider>();
+            SimpleIoc.Default.Register<ISchdeuledJobsManger, ScheduledJobsManager>();
         }
 
         public static MainViewModel Main => ServiceLocator.Current.GetInstance<MainViewModel>();

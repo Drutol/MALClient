@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace MALClient.Models.Enums.Enums
+namespace MALClient.Models.Enums
 {
     public static class EnumUtilities
     {
@@ -19,6 +16,11 @@ namespace MALClient.Models.Enums.Enums
             {
                 Text = text;
             }
+        }
+
+        public class PageIndexEnumMember : Attribute
+        {
+            public bool OffPage { get; set; }
         }
 
         public static string GetDescription(this Enum value)

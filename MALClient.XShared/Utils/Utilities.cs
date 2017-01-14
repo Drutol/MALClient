@@ -199,7 +199,7 @@ namespace MALClient.XShared.Utils
 
         public static string CleanAnimeTitle(string title)
         {
-            var index = title.IndexOf('+');
+            var index = title.IndexOf('+'); //norn + nonet fails here
             return index == -1 ? title : title.Substring(0, index);
         }
 
@@ -294,6 +294,8 @@ namespace MALClient.XShared.Utils
                     return HamburgerButtons.PopularVideos;
                 case PageIndex.PageFeeds:
                     return HamburgerButtons.Feeds;
+                case PageIndex.PageNotificationHub:
+                    return HamburgerButtons.Notifications;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(page), page, null);
             }

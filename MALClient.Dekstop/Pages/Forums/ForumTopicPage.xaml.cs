@@ -223,7 +223,7 @@ namespace MALClient.Pages.Forums
         }
 
 
-        private async void TopicWebView_OnNavigationStarting(WebView sender, WebViewNavigationStartingEventArgs args)
+        private void TopicWebView_OnNavigationStarting(WebView sender, WebViewNavigationStartingEventArgs args)
         {
             if (_navigatingRoot)
             {
@@ -246,7 +246,7 @@ namespace MALClient.Pages.Forums
                 {
                     var uri = args.Uri.AbsoluteUri;
                     args.Cancel = true;
-                    var navArgs = await MalLinkParser.GetNavigationParametersForUrl(uri);
+                    var navArgs = MalLinkParser.GetNavigationParametersForUrl(uri);
                     if (navArgs != null)
                     {
                         ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageForumIndex, _args);

@@ -215,6 +215,7 @@
     <Compile Include="XamlConverters\MessageModelToSymbolIconConverter.cs" />
     <Compile Include="XamlConverters\MinutesToFormattedTimeLostConverter.cs" />
     <Compile Include="XamlConverters\MyStatusSelectionToBrushConverter.cs" />
+    <Compile Include="XamlConverters\NotificationTypeToIconConverter.cs" />
     <Compile Include="XamlConverters\PinUnpinSymbolIconConverter.cs" />
     <Compile Include="XamlConverters\RelatedAnimeTypeToBoolConverter.cs" />
     <Compile Include="XamlConverters\SearchFilterStatusToBrushConverter.cs" />

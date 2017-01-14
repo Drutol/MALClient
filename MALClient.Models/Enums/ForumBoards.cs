@@ -1,6 +1,4 @@
-﻿using MALClient.Models.Enums.Enums;
-
-namespace MALClient.XShared.Utils.Enums
+﻿namespace MALClient.Models.Enums
 {
     public enum ForumBoards
     {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using HtmlAgilityPack;
@@ -59,6 +60,43 @@ namespace MALClient.XShared.Comm.MagicalRawQueries
                 return new List<MalNotification>();
             }
             
+        }
+
+        public static Task<bool> MarkNotifiactionsAsRead(MalNotification notification)
+        {
+            return MarkNotifiactionsAsRead(new[] {notification});
+        }
+
+        public static async Task<bool> MarkNotifiactionsAsRead(IEnumerable<MalNotification> notification)
+        {
+            try
+            {
+                var client = await MalHttpContextProvider.GetHttpContextAsync();
+
+                var dto = new ReadNotificationDTO(notification,client.Token);
+                var content = new StringContent(JsonConvert.SerializeObject(dto));
+                var response = await client.PostAsync("/notification/api/check-items-as-read.json", content);
+
+                return (await response.Content.ReadAsStringAsync()).Contains("true");
+
+            }
+            catch (Exception e)
+            {
+                MalHttpContextProvider.ErrorMessage("Notifications");
+                return false;
+            }
+        }
+
+        class ReadNotificationDTO
+        {
+            public ReadNotificationDTO(IEnumerable<MalNotification> notifications,string token)
+            {
+                csrf_token = token;
+                notification_ids = notifications.Select(notification => notification.Id).ToList();
+            }
+
+            public string csrf_token { get; private set; }
+            public List<string> notification_ids { get; private set; }
         }
     }
 }

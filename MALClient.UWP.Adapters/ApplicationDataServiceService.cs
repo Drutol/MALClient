@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Windows.Foundation.Collections;
 using Windows.Storage;
 using MALClient.Adapters;
+using Microsoft.HockeyApp;
 
 namespace MALClient.UWP.Adapters
 {
@@ -13,7 +14,18 @@ namespace MALClient.UWP.Adapters
     {
         public object this[string key]
         {
-            get { return ApplicationData.Current.LocalSettings.Values[key]; }
+            get
+            {
+                try
+                {
+                    return ApplicationData.Current.LocalSettings.Values[key];
+                }
+                catch (Exception e)
+                {
+                    HockeyClient.Current.TrackException(e); //TODO Find source
+                    return null;
+                }
+            }
             set { ApplicationData.Current.LocalSettings.Values[key] = value; }
         }
 

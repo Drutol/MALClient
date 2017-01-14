@@ -15,7 +15,7 @@ namespace MALClient.XShared.Utils
 {
     public static class MalLinkParser
     {
-        public static async Task<Tuple<PageIndex, object>> GetNavigationParametersForUrl(string uri)
+        public static Tuple<PageIndex, object> GetNavigationParametersForUrl(string uri)
         {
             uri = uri.Replace("http://", "https://");
             if (Regex.IsMatch(uri, @"https:\/\/myanimelist.net\/forum\/\?subboard=\d+"))
@@ -64,7 +64,7 @@ namespace MALClient.XShared.Utils
                 }
                 var id = uri.Split('=').Last();
 
-                return new Tuple<PageIndex, object>(PageIndex.PageForumIndex, new ForumsTopicNavigationArgs(id, ForumBoards.Creative) {Lastpost = true});
+                return new Tuple<PageIndex, object>(PageIndex.PageForumIndex, new ForumsTopicNavigationArgs(id, ForumBoards.Creative) {Lastpost = lastpost});
             }
             else if (uri == "https://myanimelist.net/forum/")
             {
@@ -113,10 +113,10 @@ namespace MALClient.XShared.Utils
                 if (link.Length < 3) //we probably don't have name 
                     return null;
                 var id = int.Parse(link[2]);
-                if (Settings.SelectedApiType == ApiType.Hummingbird) //id switch            
-                    id = await new AnimeDetailsHummingbirdQuery(id).GetHummingbirdId();
+                //if (Settings.SelectedApiType == ApiType.Hummingbird) //id switch            
+                //    id = await new AnimeDetailsHummingbirdQuery(id).GetHummingbirdId();
                 return new Tuple<PageIndex, object>(PageIndex.PageAnimeDetails,
-                    new AnimeDetailsPageNavigationArgs(id, link[3], null, null)
+                    new AnimeDetailsPageNavigationArgs(id, link[3].Replace('_',' ').Trim(), null, null)
                     {
                         AnimeMode = link[1] == "anime"
                     });

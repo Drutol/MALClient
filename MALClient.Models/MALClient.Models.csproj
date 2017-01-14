@@ -53,6 +53,7 @@
     <Compile Include="Enums\MessageSymbolsEnum.cs" />
     <Compile Include="Enums\PageIndex.cs" />
     <Compile Include="Enums\RelatedItemType.cs" />
+    <Compile Include="Enums\ScheduledJobEnum.cs" />
     <Compile Include="Enums\SettingsPageIndexEnum.cs" />
     <Compile Include="Enums\SettingsSymbolsEnum.cs" />
     <Compile Include="Enums\TelemetryEventsEnum.cs" />

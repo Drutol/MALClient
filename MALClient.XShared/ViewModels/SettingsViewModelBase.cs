@@ -609,6 +609,20 @@ namespace MALClient.XShared.ViewModels
             }
         }
 
+        public bool NotificationCheckInRuntime
+        {
+            get { return Settings.NotificationCheckInRuntime; }
+            set
+            {
+                Settings.NotificationCheckInRuntime = value;
+                if (value)
+                    ResourceLocator.SchdeuledJobsManger.StartJob(ScheduledJob.FetchNotifications, 5,
+                        () => ResourceLocator.NotificationsTaskManager.CallTask(BgTasks.Notifications));
+                else
+                    ResourceLocator.SchdeuledJobsManger.StopJob(ScheduledJob.FetchNotifications);
+            }
+        }
+
         public int NotificationsRefreshTime
         {
             get { return Settings.NotificationsRefreshTime; }

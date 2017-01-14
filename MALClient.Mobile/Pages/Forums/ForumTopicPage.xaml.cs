@@ -225,7 +225,7 @@ namespace MALClient.Pages.Forums
                 {
                     var uri = args.Uri.AbsoluteUri;
                     args.Cancel = true;
-                    var navArgs =  await MalLinkParser.GetNavigationParametersForUrl(uri);
+                    var navArgs =  MalLinkParser.GetNavigationParametersForUrl(uri);
                     if (navArgs != null)
                     {
                         ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageForumIndex, _args);

@@ -22,6 +22,7 @@ using MALClient.Utils.Managers;
 using MALClient.UWP.Adapters;
 using MALClient.UWP.BGTaskNotifications;
 using MALClient.ViewModels;
+using MALClient.XShared.BL;
 using MALClient.XShared.Comm.Anime;
 using MALClient.XShared.Comm.CommUtils;
 using MALClient.XShared.Comm.Manga;
@@ -95,17 +96,17 @@ namespace MALClient
                     }
                     else
                     {
-                        fullNavArgs = await MalLinkParser.GetNavigationParametersForUrl(options[1]);
+                        fullNavArgs = MalLinkParser.GetNavigationParametersForUrl(options[1]);
                     }
                 }
                 else
                 {
-                    fullNavArgs = await MalLinkParser.GetNavigationParametersForUrl(launchArgs.Arguments);
+                    fullNavArgs = MalLinkParser.GetNavigationParametersForUrl(launchArgs.Arguments);
                 }
             }
             else if (e is ProtocolActivatedEventArgs)
             {
-                fullNavArgs = await MalLinkParser.GetNavigationParametersForUrl("https:" + (e as ProtocolActivatedEventArgs).Uri.AbsolutePath);
+                fullNavArgs = MalLinkParser.GetNavigationParametersForUrl("https:" + (e as ProtocolActivatedEventArgs).Uri.AbsolutePath);
             }
             else
             {
@@ -120,7 +121,7 @@ namespace MALClient
                     }
                     else
                     {
-                        fullNavArgs = await MalLinkParser.GetNavigationParametersForUrl(activationArgs.Argument);
+                        fullNavArgs = MalLinkParser.GetNavigationParametersForUrl(activationArgs.Argument);
                     }
                 }
             }
@@ -182,18 +183,17 @@ namespace MALClient
             // Ensure the current window is active
             if (_initialized)
                 return;
-            Credentials.Init();
+            
+            InitializationRoutines.InitApp();
+
             NotificationTaskManager.StartNotificationTask(BgTasks.Notifications,false);
             NotificationTaskManager.OnNotificationTaskRequested += NotificationTaskManagerOnOnNotificationTaskRequested;
-            ImageCache.PerformScheduledCacheCleanup();
-            HtmlClassMgr.Init();
             LiveTilesManager.LoadTileCache();
-            FavouritesManager.LoadData();
+            ImageCache.PerformScheduledCacheCleanup();
             Window.Current.Activate();
-            AnimeImageQuery.Init();
             RateReminderPopUp.ProcessRatePopUp();
             RateReminderPopUp.ProcessDonatePopUp();
-            ViewModelLocator.ForumsMain.LoadPinnedTopics();
+
             var tb = ApplicationView.GetForCurrentView().TitleBar;
             tb.BackgroundColor =
                 tb.ButtonBackgroundColor =

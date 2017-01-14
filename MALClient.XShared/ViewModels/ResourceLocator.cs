@@ -39,6 +39,8 @@ namespace MALClient.XShared.ViewModels
 
         public static IHandyDataStorage HandyDataStorage => SimpleIoc.Default.GetInstance<IHandyDataStorage>();
 
+        public static ISchdeuledJobsManger SchdeuledJobsManger => SimpleIoc.Default.GetInstance<ISchdeuledJobsManger>();
+
 
         // Purely shared interfaces
 

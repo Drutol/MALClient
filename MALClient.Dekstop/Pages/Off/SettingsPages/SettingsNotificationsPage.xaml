@@ -6,7 +6,8 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:xamlConverters="using:MALClient.Shared.XamlConverters"
-    mc:Ignorable="d">
+    xmlns:viewModels="using:MALClient.ViewModels"
+    mc:Ignorable="d" d:DataContext="{d:DesignInstance viewModels:SettingsViewModel}">
 
     <Page.Resources>
         <xamlConverters:EnumWithDescriptionToStringConverter x:Key="EnumToDescriptionConverter" />
@@ -69,6 +70,17 @@
                     <ComboBoxItem Content="2 hours" Tag="{StaticResource Int120}"/>
                 </ComboBox.Items>
             </ComboBox>
+
+            <TextBlock Text="Check notifications more often while app is running."
+                       FontWeight="Medium"
+                       HorizontalAlignment="Center" Margin="0,5"
+                       TextWrapping="WrapWholeWords" TextAlignment="Center" />
+            <Grid HorizontalAlignment="Stretch">
+                <ToggleSwitch
+                    IsOn="{Binding NotificationCheckInRuntime,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                    OnContent="Enabled" OffContent="Disabled" HorizontalAlignment="Center" />
+            </Grid>
+            
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10">
                 <Button Content="Get notifications now!" Margin="5,0"  IsEnabled="{Binding IsCallNotificationsButtonEnabled}" Command="{Binding CallBackgroundTaskCommand}"/>
                 <Button Content="Clear seen notifications" Margin="5,0" Command="{Binding ResetSeenNotificationsCommand}"/>

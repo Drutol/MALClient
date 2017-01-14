@@ -4,6 +4,7 @@ using System.Net;
 using System.Windows.Input;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using MALClient.Models.Enums;
 using MALClient.Models.Models.MalSpecific;
 using MALClient.XShared.Comm.MagicalRawQueries;
 using MALClient.XShared.Comm.MagicalRawQueries.Messages;

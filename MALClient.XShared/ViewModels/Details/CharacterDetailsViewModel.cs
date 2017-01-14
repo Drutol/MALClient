@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows.Input;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using MALClient.Models.Enums;
 using MALClient.Models.Models.Anime;
 using MALClient.Models.Models.Favourites;
 using MALClient.Models.Models.ScrappedDetails;

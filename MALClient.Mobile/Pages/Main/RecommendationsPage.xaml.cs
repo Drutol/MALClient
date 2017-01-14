@@ -4,6 +4,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Navigation;
+using MALClient.Models.Enums;
 using MALClient.Shared.Items;
 using MALClient.XShared.NavArgs;
 using MALClient.XShared.Utils.Enums;

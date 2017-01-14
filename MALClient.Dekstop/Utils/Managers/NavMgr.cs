@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Windows.Input;
 using Windows.UI.Xaml;
+using MALClient.Models.Enums;
 using MALClient.Pages;
 using MALClient.ViewModels;
 using MALClient.XShared.NavArgs;

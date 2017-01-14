@@ -8,6 +8,7 @@ using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
+using MALClient.Models.Enums;
 using MALClient.Shared.Items;
 using MALClient.Models.Models;
 using MALClient.ViewModels;

@@ -12,6 +12,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using MALClient.Models.Enums;
 using MALClient.Models.Models.Forums;
 using MALClient.XShared.NavArgs;
 using MALClient.XShared.Utils.Enums;

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using MALClient.Models.Enums;
 using MALClient.Models.Models.Forums;
 using MALClient.XShared.Delegates;
 using MALClient.XShared.NavArgs;

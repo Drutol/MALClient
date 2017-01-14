@@ -38,6 +38,23 @@ namespace MALClient.Models.Enums.Enums
 
         }
 
+        public static TAttr GetAttribute<TAttr>(this Enum value) where TAttr : Attribute
+        {
+            try
+            {
+                var attribute = value.GetType()
+                    .GetRuntimeField(value.ToString())
+                    .GetCustomAttributes(typeof(TAttr), false)
+                    .SingleOrDefault() as TAttr;
+                return attribute;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+
+        }
+
         #endregion
     }
 }

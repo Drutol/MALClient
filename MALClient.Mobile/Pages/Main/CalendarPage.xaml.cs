@@ -3,6 +3,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
+using MALClient.Models.Enums;
 using MALClient.XShared.Utils.Enums;
 using MALClient.XShared.Utils.Managers;
 using MALClient.XShared.ViewModels;

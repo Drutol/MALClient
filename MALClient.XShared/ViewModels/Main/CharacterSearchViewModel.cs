@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows.Input;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using MALClient.Models.Enums;
 using MALClient.XShared.Comm.Search;
 using MALClient.XShared.NavArgs;
 using MALClient.XShared.Utils;

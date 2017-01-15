@@ -67,6 +67,7 @@ namespace MALClient.XShared.ViewModels.Main
             set
             {
                 _articleIndexVisibility = value;
+                ViewModelLocator.GeneralMain.RefreshButtonVisibility = value;
                 RaisePropertyChanged(() => ArticleIndexVisibility);
             }
         }
@@ -81,6 +82,7 @@ namespace MALClient.XShared.ViewModels.Main
                 if(_loadingData)
                     return;
                 _loadingVisibility = value;
+                
                 RaisePropertyChanged(() => LoadingVisibility);
             }
         }

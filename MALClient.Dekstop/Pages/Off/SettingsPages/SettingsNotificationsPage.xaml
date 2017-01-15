@@ -40,6 +40,15 @@
                 <ToggleSwitch
                     IsOn="{Binding EnableNotifications,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                     OnContent="Enabled" OffContent="Disabled" HorizontalAlignment="Center" />
+            </Grid>            
+            <TextBlock Text="Pull notifications at steady rate when app is running."
+                       FontWeight="Medium"
+                       HorizontalAlignment="Center" Margin="0,5"
+                       TextWrapping="WrapWholeWords" TextAlignment="Center" />
+            <Grid HorizontalAlignment="Stretch">
+                <ToggleSwitch
+                    IsOn="{Binding NotificationCheckInRuntime,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                    OnContent="Enabled" OffContent="Disabled" HorizontalAlignment="Center" />
             </Grid>
             <MenuFlyoutSeparator Margin="0,5" />
             <TextBlock Text="Which notification types should be displayed."

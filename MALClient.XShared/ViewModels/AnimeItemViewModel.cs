@@ -871,8 +871,11 @@ namespace MALClient.XShared.ViewModels
             if (MyStatus ==  AnimeStatus.PlanToWatch || MyStatus == AnimeStatus.Dropped ||
                 MyStatus ==  AnimeStatus.OnHold)
             {
-                trigCompleted = AllEpisodes > 1;
-                PromptForStatusChange(AllEpisodes == 1 ? AnimeStatus.Completed :  AnimeStatus.Watching);
+                if (MyEpisodesFocused+1 != AllEpisodesFocused || AllEpisodesFocused == 0) //avoid double status change when show is going to be completed immediatelly
+                {
+                    trigCompleted = AllEpisodes > 1;
+                    PromptForStatusChange(AllEpisodes == 1 ? AnimeStatus.Completed : AnimeStatus.Watching);
+                }              
             }
 
             MyEpisodesFocused++;
@@ -886,7 +889,7 @@ namespace MALClient.XShared.ViewModels
 
             ParentAbstraction.LastWatched = DateTime.Now;
 
-            if (trigCompleted && MyEpisodes == AllEpisodesFocused && AllEpisodesFocused != 0)
+            if (trigCompleted && MyEpisodesFocused == AllEpisodesFocused && AllEpisodesFocused != 0)
                 PromptForStatusChange( AnimeStatus.Completed);
 
             LoadingUpdate = false;

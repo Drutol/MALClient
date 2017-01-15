@@ -53,8 +53,12 @@ namespace MALClient.Pages.Main
 
         private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
         {
-            VisualStateGroup.CurrentStateChanged += VisualStateGroupOnCurrentStateChanged;
+            UpdateOnSizeChanged();
+            SizeChanged += (o, args) => UpdateOnSizeChanged();
+        }
 
+        private void UpdateOnSizeChanged()
+        {
             if (ActualWidth >= 1120)
             {
                 VisualStateManager.GoToState(this, "Wide", true);
@@ -65,14 +69,6 @@ namespace MALClient.Pages.Main
                 VisualStateManager.GoToState(this, "Narrow", true);
                 UpdatePivotHeaders(new Thickness(40, 0, 0, 0));
             }
-        }
-
-        private void VisualStateGroupOnCurrentStateChanged(object sender,
-            VisualStateChangedEventArgs visualStateChangedEventArgs)
-        {
-            UpdatePivotHeaders(visualStateChangedEventArgs.NewState.Name == Narrow.Name
-                ? new Thickness(40, 0, 0, 0)
-                : new Thickness(0, 0, 0, 0));
         }
 
         private void UpdatePivotHeaders(Thickness thickness)

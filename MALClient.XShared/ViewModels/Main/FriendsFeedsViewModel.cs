@@ -69,8 +69,11 @@ namespace MALClient.XShared.ViewModels.Main
             => _navigateDeitalsCommand ?? (_navigateDeitalsCommand = new RelayCommand<UserFeedEntryModel>(
                    item =>
                    {
-                       if
-                           (ViewModelLocator.AnimeDetails.Id != item.Id)
+                       if (ViewModelLocator.Mobile)
+                       {
+                           ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageFeeds,null);
+                       }
+                       if(ViewModelLocator.AnimeDetails.Id != item.Id)
                            ViewModelLocator.GeneralMain.Navigate
                            (PageIndex.PageAnimeDetails,
                                new AnimeDetailsPageNavigationArgs(item.Id, item.Title, null, null)

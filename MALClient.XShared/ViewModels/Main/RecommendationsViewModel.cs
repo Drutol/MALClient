@@ -132,28 +132,43 @@ namespace MALClient.XShared.ViewModels.Main
             if (Loading)
                 return;
 
-            if(!force)
+            if (!force)
+            {
                 switch (CurrentWorkMode)
                 {
                     case RecommendationsPageWorkMode.Anime:
                         if (RecommendationAnimeItems != null)
+                        {
+                            RaisePropertyChanged(() => CurrentWorkMode);
                             return;
+                        }
                         break;
                     case RecommendationsPageWorkMode.Manga:
                         if (RecommendationMangaItems != null)
+                        {
+                            RaisePropertyChanged(() => CurrentWorkMode);
                             return;
+                        }
                         break;
                     case RecommendationsPageWorkMode.PersonalizedAnime:
                         if (PersonalizedAnimeItems != null)
+                        {
+                            RaisePropertyChanged(() => CurrentWorkMode);
                             return;
+                        }
                         break;
                     case RecommendationsPageWorkMode.PersonalizedManga:
                         if (PersonalizedMangaItems != null)
+                        {
+                            RaisePropertyChanged(() => CurrentWorkMode);
                             return;
+                        }
                         break;
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
+                RaisePropertyChanged(() => PivotItemIndex);
+            }
 
             Loading = true;
 

@@ -1178,9 +1178,9 @@ namespace MALClient.XShared.ViewModels.Main
                 else if (WorkMode == AnimeListWorkModes.TopManga)
                     page.CurrentStatus = $"Top Manga - {Utilities.StatusToString((int)GetDesiredStatus(), WorkMode == AnimeListWorkModes.Manga)}";
                 else if (WorkMode == AnimeListWorkModes.AnimeByStudio)
-                    page.CurrentStatus = $"Studio - {Studio.GetDescription()} - Page {CurrentPage}";
+                    page.CurrentStatus = $"Studio - {Studio.GetDescription()} Page 1 - {CurrentPage}";
                 else if (WorkMode == AnimeListWorkModes.AnimeByGenre)
-                    page.CurrentStatus = $"Genre - {Genre.GetDescription()} - Page {CurrentPage}";
+                    page.CurrentStatus = $"Genre - {Genre.GetDescription()} Page 1 - {CurrentPage}";
                 else if (!string.IsNullOrWhiteSpace(ListSource))
                     page.CurrentStatus = $"{ListSource} - {Utilities.StatusToString((int)GetDesiredStatus(), WorkMode == AnimeListWorkModes.Manga)}";
                 else

@@ -8,7 +8,6 @@ using GalaSoft.MvvmLight.Ioc;
 using MALClient.Adapters;
 using MALClient.Adapters.Credentails;
 using MALClient.Shared.Managers;
-using MALClient.ViewModels;
 using MALClient.XShared.Utils;
 using MALClient.XShared.ViewModels;
 

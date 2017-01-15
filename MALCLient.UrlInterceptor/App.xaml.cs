@@ -63,7 +63,7 @@ namespace MALCLient.UrlInterceptor
             if (arg != null)
             {
                 var uri = arg.Uri.ToString();
-                uri = uri.Replace("http://","https://");
+                uri = uri.Replace("http://","https://").Replace("www.","");
                 if (Regex.IsMatch(uri, @"https:\/\/myanimelist.net\/forum\/\?subboard=\d+")
                     || Regex.IsMatch(uri, @"https:\/\/myanimelist.net\/forum\/\?board=\d+")
                     || Regex.IsMatch(uri, @"https:\/\/myanimelist.net\/forum\/\?animeid=\d+")
@@ -74,7 +74,8 @@ namespace MALCLient.UrlInterceptor
                     || Regex.IsMatch(uri, @"https:\/\/myanimelist.net\/mymessages.php\?go=read&id=\d+\|.*")
                     || Regex.IsMatch(uri, "anime\\/\\d") || Regex.IsMatch(uri, "manga\\/\\d") 
                     || uri == "https://myanimelist.net/news"
-                    || uri == "https://myanimelist.net/featured")
+                    || uri == "https://myanimelist.net/featured"
+                    || uri == "https://myanimelist.net")
                    await Launcher.LaunchUriAsync(new Uri($"malclient://{arg.Uri}"));
                 else
                    await Launcher.LaunchUriAsync(arg.Uri,new LauncherOptions() {IgnoreAppUriHandlers = true});

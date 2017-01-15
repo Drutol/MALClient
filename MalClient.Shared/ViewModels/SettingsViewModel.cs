@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.ApplicationModel;
 using Windows.Storage;
@@ -12,10 +8,9 @@ using MALClient.Models.Enums;
 using MALClient.Models.Models.Misc;
 using MALClient.XShared.Delegates;
 using MALClient.XShared.Utils;
-using MALClient.XShared.Utils.Enums;
 using MALClient.XShared.ViewModels;
 
-namespace MALClient.ViewModels
+namespace MALClient.Shared.ViewModels
 {
     public class SettingsViewModel : SettingsViewModelBase
     {

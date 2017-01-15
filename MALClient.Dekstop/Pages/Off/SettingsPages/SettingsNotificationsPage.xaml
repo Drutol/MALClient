@@ -7,7 +7,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:xamlConverters="using:MALClient.Shared.XamlConverters"
     xmlns:viewModels="using:MALClient.ViewModels"
-    mc:Ignorable="d" d:DataContext="{d:DesignInstance viewModels:SettingsViewModel}">
+    xmlns:viewModels1="using:MALClient.Shared.ViewModels"
+    mc:Ignorable="d" d:DataContext="{d:DesignInstance viewModels1:SettingsViewModel}">
 
     <Page.Resources>
         <xamlConverters:EnumWithDescriptionToStringConverter x:Key="EnumToDescriptionConverter" />

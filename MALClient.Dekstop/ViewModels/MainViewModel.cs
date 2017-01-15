@@ -403,7 +403,7 @@ namespace MALClient.ViewModels
                     CurrentStatus = "Friends Feeds";
                     MainNavigationRequested?.Invoke(typeof(FriendsFeedsPage), args);
                     break;
-                    case PageIndex.PageNotificationHub:
+                case PageIndex.PageNotificationHub:
                     HideSearchStuff();
                     RefreshButtonVisibility = true;
                     RefreshDataCommand = new RelayCommand(() => ViewModelLocator.NotificationsHub.Init(true));

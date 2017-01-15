@@ -6,6 +6,7 @@ using MALClient.Models.Enums;
 using MALClient.Pages.Main;
 using MALClient.Shared;
 using MALClient.Pages.Off.SettingsPages;
+using MALClient.Shared.ViewModels;
 using MALClient.ViewModels;
 using MALClient.XShared.Utils;
 using MALClient.XShared.Utils.Enums;
@@ -76,6 +77,9 @@ namespace MALClient.Pages.Off
                     break;
                 case SettingsPageIndex.Ads:
                     pageType = typeof(SettingsAdsPage);
+                    break;
+                case SettingsPageIndex.Feeds:
+                    pageType = typeof(SettingsFeedsPage);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(page), page, null);

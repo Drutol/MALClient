@@ -360,9 +360,9 @@ namespace MALClient.XShared.ViewModels.Details
                 case PageIndex.PageArticles:
                 case PageIndex.PageForumIndex:
                 case PageIndex.PageStaffDetails:
-                case PageIndex.PageCharacterDetails: 
-                case PageIndex.PagePopularVideos: 
-                case PageIndex.PageFeeds: 
+                case PageIndex.PageCharacterDetails:
+                case PageIndex.PagePopularVideos:
+                case PageIndex.PageFeeds:
                     await FetchData(false, param.Source);
                     if (PrevArgs != null)
                         ViewModelLocator.NavMgr.RegisterBackNav(PrevArgs);
@@ -389,6 +389,9 @@ namespace MALClient.XShared.ViewModels.Details
                     if (PrevArgs != null)
                         ViewModelLocator.NavMgr.RegisterBackNav(PrevArgs);
                     ViewModelLocator.NavMgr.RegisterBackNav(param.Source, param.PrevPageSetup);
+                    break;
+                case PageIndex.PageNotificationHub:
+                    await FetchData(false, param.Source);
                     break;
             }
 

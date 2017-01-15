@@ -5,6 +5,7 @@ namespace MALClient.Models.Enums
     [Flags]
     public enum MalNotificationsTypes
     {
+        [EnumUtilities.Description("All")]
         Generic =0x0,
         [EnumUtilities.Description("Friend Request")]
         FriendRequest = 0x1,

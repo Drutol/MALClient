@@ -7,6 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:attachedProperties="using:MALClient.Shared.UserControls.AttachedProperties"
     xmlns:xamlConverters="using:MALClient.Shared.XamlConverters"
+    xmlns:extensions="using:WinRTXamlToolkit.Controls.Extensions"
     mc:Ignorable="d" DataContext="{Binding Source={StaticResource Locator},Path=FriendsFeeds}">
 
     <Page.Resources>
@@ -39,7 +40,9 @@
             <GridView.ItemTemplate>
                 <DataTemplate>
                     <Grid VerticalAlignment="Stretch">
-                        <Image attachedProperties:AnimeImageExtensions.GuessedImageSource="{Binding Id}" Stretch="Fill"  Opacity=".45"/>
+                        <Grid Opacity=".45">
+                            <Image extensions:ImageExtensions.FadeInOnLoaded="True" attachedProperties:AnimeImageExtensions.GuessedImageSource="{Binding Id}" Stretch="Fill" />
+                        </Grid>
                         <StackPanel VerticalAlignment="Top">
                             <Ellipse Width="70" Height="70" Tapped="UIElement_OnTapped" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,10,0,5">
                                 <Ellipse.Fill>

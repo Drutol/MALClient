@@ -47,11 +47,14 @@ namespace MALClient.Pages.Messages
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             _lastArgs = e.Parameter as MalMessageDetailsNavArgs;
-            if (_lastArgs.WorkMode == MessageDetailsWorkMode.Message)
-                ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageMessanging, null);
-            else
-                ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageProfile,
-                    new ProfilePageNavigationArgs {TargetUser = MobileViewModelLocator.ProfilePage.CurrentData.User.Name});
+            if (!_lastArgs.BackNavHandled)
+            {
+                if (_lastArgs.WorkMode == MessageDetailsWorkMode.Message)
+                    ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageMessanging, null);
+                else
+                    ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageProfile,
+                        new ProfilePageNavigationArgs { TargetUser = MobileViewModelLocator.ProfilePage.CurrentData.User.Name });
+            }     
             base.OnNavigatedTo(e);
         }
     }

@@ -1,0 +1,99 @@
+﻿<Page
+    x:Class="MALClient.Pages.Main.NotificationsHubPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MALClient.Pages.Main"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:uwp="using:FontAwesome.UWP"
+    xmlns:xamlConverters="using:MALClient.Shared.XamlConverters"
+    mc:Ignorable="d" DataContext="{Binding Source={StaticResource Locator},Path=NotificationsHub}">
+
+    <Page.Resources>
+        <xamlConverters:NotificationTypeToIconConverter x:Key="NotificationTypeToIconConverter" />
+        <xamlConverters:EnumWithDescriptionToStringConverter x:Key="EnumToStringConverter" />
+        <xamlConverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+        <xamlConverters:BoolToVisibilityInvertedConverter x:Key="BoolToVisibilityInvertedConverter" />
+    </Page.Resources>
+    <Grid Background="{ThemeResource BrushDeepBackground}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid Grid.RowSpan="2" VerticalAlignment="Top" Background="{ThemeResource BrushAnimeItemInnerBackground}" Height="175" Visibility="{Binding EmptyNoticeVisibility,Converter={StaticResource BoolToVisibilityInvertedConverter}}"></Grid>
+        <Grid Grid.Row="1" Margin="0,-10,0,0">
+            <ListView  ItemsSource="{Binding Notifications}" ItemClick="NotificationClick" IsItemClickEnabled="True">
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                        <Setter Property="Background" Value="{ThemeResource BrushAnimeItemBackground}" />
+                        <Setter Property="Margin" Value="0,0,0,2"/>
+                        <Setter Property="BorderThickness" Value="1,0,0,0" />
+                        <Setter Property="BorderBrush" Value="{StaticResource SystemControlBackgroundAccentBrush}" />
+                    </Style>
+                </ListView.ItemContainerStyle>
+                <ListView.Header>
+                    <Grid HorizontalAlignment="Stretch" Background="{ThemeResource BrushAnimeItemInnerBackground}" Padding="0,2,16,0" Visibility="{Binding EmptyNoticeVisibility,Converter={StaticResource BoolToVisibilityInvertedConverter}}">
+                        <Button HorizontalAlignment="Right" Style="{StaticResource TextBlockButtonStyle}" Command="{Binding MarkAllAsReadCommand}">
+                            <TextBlock Text="Mark all as read"/>
+                        </Button>
+                    </Grid>
+                </ListView.Header>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Margin="8">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <uwp:FontAwesome Icon="{Binding Type,Converter={StaticResource NotificationTypeToIconConverter}}" Margin="0,0,20,0"/>
+                            <TextBlock Grid.Column="1" Text="{Binding Content}" TextWrapping="WrapWholeWords" HorizontalAlignment="Stretch" TextAlignment="Left"/>
+                            <TextBlock Text="{Binding Date}" Margin="5,0,0,0" TextAlignment="Right" Grid.Column="2" FontStyle="Italic" FontWeight="SemiLight" Foreground="{StaticResource BrushSettingsSubtitle}"/>
+                            <Button Grid.Column="3" Width="40" Height="40" Background="Transparent" Margin="10,0,0,0" Command="{Binding Source={StaticResource Locator},Path=NotificationsHub.MarkAsReadComand}" CommandParameter="{Binding}">
+                                <SymbolIcon Symbol="Accept"/>
+                            </Button>
+                        </Grid>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <TextBlock Text="No notifications." Foreground="{ThemeResource BrushNoSearchResults}" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding EmptyNoticeVisibility,Converter={StaticResource BoolToVisibilityConverter}}"/>
+        </Grid>        
+        <Grid Background="{ThemeResource BrushAnimeItemInnerBackground}">
+            <StackPanel>
+                <GridView x:Name="GroupsList" HorizontalAlignment="Center" ItemsSource="{Binding NotificationGroups}" ItemClick="NotificationGroup" IsItemClickEnabled="True">
+                    <GridView.ItemContainerStyle>
+                        <Style TargetType="GridViewItem">
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                            <Setter Property="Background" Value="{ThemeResource BrushAnimeItemInnerBackground}"/>
+                        </Style>
+                    </GridView.ItemContainerStyle>
+                    <GridView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapGrid ItemHeight="50" ItemWidth="50" Orientation="Horizontal"/>
+                        </ItemsPanelTemplate>
+                    </GridView.ItemsPanel>
+                    <GridView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Margin="10,0">
+                                <uwp:FontAwesome VerticalAlignment="Center"  HorizontalAlignment="Center"
+                                         Icon="{Binding NotificationType,Converter={StaticResource NotificationTypeToIconConverter}}" />
+                                <Grid HorizontalAlignment="Right" VerticalAlignment="Top" Background="{StaticResource SystemControlDisabledAccentBrush}"  CornerRadius="10" Width="17" Height="17" Margin="0,-10,-10,0">
+                                    <TextBlock Text="{Binding NotificationsCount}" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="2,0,0,1"/>
+                                </Grid>
+                            </Grid>
+                        </DataTemplate>
+                    </GridView.ItemTemplate>
+                </GridView>
+                <TextBlock HorizontalAlignment="Left" VerticalAlignment="Bottom" TextAlignment="Left" Margin="10,5,10,0" FontSize="20" TextTrimming="CharacterEllipsis"
+                                   Text="{Binding CurrentNotificationType,Converter={StaticResource EnumToStringConverter}}" />
+            </StackPanel>
+            
+        </Grid>
+        <Grid Grid.RowSpan="2" Visibility="{Binding Loading,Converter={StaticResource BoolToVisibilityConverter}}" Background="{ThemeResource BrushLoadingNonTransparent}">
+            <ProgressRing  HorizontalAlignment="Center" VerticalAlignment="Center" IsActive="True" Width="75" Height="75" />
+        </Grid>
+        
+    </Grid>
+</Page>

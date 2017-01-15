@@ -302,6 +302,13 @@ namespace MALClient.ViewModels
                     CurrentStatus = "Friends Feeds";
                     MainNavigationRequested?.Invoke(typeof(FriendsFeedsPage), args);
                     break;
+                case PageIndex.PageNotificationHub:
+                    HideSearchStuff();
+                    RefreshButtonVisibility = true;
+                    RefreshDataCommand = new RelayCommand(() => ViewModelLocator.NotificationsHub.Init(true));
+                    CurrentStatus = "Notifications";
+                    MainNavigationRequested?.Invoke(typeof(NotificationsHubPage), args);
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(index), index, null);
             }

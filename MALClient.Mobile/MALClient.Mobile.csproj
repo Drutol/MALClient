@@ -119,6 +119,9 @@
     <Compile Include="Pages\Main\MalArticlesPage.xaml.cs">
       <DependentUpon>MalArticlesPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\Main\NotificationsHubPage.xaml.cs">
+      <DependentUpon>NotificationsHubPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\Main\PopularVideosPage.xaml.cs">
       <DependentUpon>PopularVideosPage.xaml</DependentUpon>
     </Compile>
@@ -190,6 +193,9 @@
     </Compile>
     <Compile Include="Pages\Off\SettingsPages\SettingsCalendarPage.xaml.cs">
       <DependentUpon>SettingsCalendarPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Off\SettingsPages\SettingsFeedsPage.xaml.cs">
+      <DependentUpon>SettingsFeedsPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\Off\SettingsPages\SettingsGeneralPage.xaml.cs">
       <DependentUpon>SettingsGeneralPage.xaml</DependentUpon>
@@ -270,6 +276,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Pages\Main\FriendsFeedsPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\Main\NotificationsHubPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -374,6 +384,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Pages\Off\SettingsPages\SettingsCalendarPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\Off\SettingsPages\SettingsFeedsPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

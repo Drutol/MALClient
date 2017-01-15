@@ -4,6 +4,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using MALClient.Models.Models.Misc;
 using MALClient.Shared.Managers;
+using MALClient.Shared.ViewModels;
 using MALClient.ViewModels;
 using MALClient.XShared.Utils;
 

@@ -548,7 +548,7 @@
                                         <MenuFlyoutItem Text="Donate $3.99" Tag="Donate4" Click="Donate"/>
                                     </MenuFlyout>
                                 </Button.Flyout>
-                                <Grid Width="270" Height="35">
+                                <Grid Width="270" Height="42">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="40" />
                                         <ColumnDefinition Width="*" />
@@ -571,7 +571,7 @@
                                                TextWrapping="WrapWholeWords" FontSize="15" FontWeight="SemiLight"
                                                Grid.Column="1" VerticalAlignment="Center" TextAlignment="Center" />
                                     <Button Grid.Column="1" Margin="0,0,5,0" HorizontalAlignment="Right" VerticalAlignment="Center" 
-                                        FontFamily="Segoe MDL2 Assets" FontSize="22" Width="47" Height="47" Background="Transparent" Content="&#xE939;"
+                                        FontFamily="Segoe MDL2 Assets" FontSize="22" Width="47" Height="42" Background="Transparent" Content="&#xE939;"
                                         Visibility="{Binding FeedbackHubButtonVisibility}">
                                         <ToolTipService.ToolTip>
                                             <ToolTip Content="Submit feedback!"/>
@@ -590,7 +590,7 @@
                                     BorderThickness="0"
                                     Command="{Binding ButtonNavigationCommand}"
                                     CommandParameter="4" Visibility="{x:Bind ViewModel.LogInButtonVisibility,Mode=OneWay}">
-                                <Grid Width="270" Height="40">
+                                <Grid Width="270" Height="47">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="40" />
                                         <ColumnDefinition Width="*" />
@@ -633,6 +633,15 @@
                                     <TextBlock Text="Profile" HorizontalAlignment="Left" Margin="10,0,0,0"
                                                Foreground="{Binding Path=TxtForegroundBrushes[Profile]}"
                                                Grid.Column="1" VerticalAlignment="Center" TextAlignment="Center" />
+                                    <Button Grid.Column="1" Margin="0,0,7,0" HorizontalAlignment="Right" Command="{Binding ButtonNavigationCommand}" 
+                                        CommandParameter="16" Background="Transparent"
+                                        Width="47" Height="47" >
+                                        <ToolTipService.ToolTip>
+                                            <ToolTip Content="Messaging"/>
+                                        </ToolTipService.ToolTip>
+                                        <SymbolIcon HorizontalAlignment="Center" VerticalAlignment="Center" Symbol="Mail"
+                                                Margin="0,0,0,2" />
+                                    </Button>
                                 </Grid>
                             </Button>
                             <Grid Background="{ThemeResource BrushHamburgerInnerBackground}" Visibility="{Binding ProfileButtonVisibility,Converter={StaticResource BoolToVisibilityConverter}}"  Margin="0,0,-1,0" VerticalAlignment="Center" HorizontalAlignment="Stretch">
@@ -683,22 +692,22 @@
                                         </ToolTipService.ToolTip>
                                         <SymbolIcon HorizontalAlignment="Center" Margin="0,0,2,0" VerticalAlignment="Center" Symbol="Comment"/>
                                     </Button>
-                                    <Button Command="{Binding ButtonNavigationCommand}" Visibility="{Binding MalApiSpecificButtonsVisibility}"
+                                    <Button Command="{Binding ButtonNavigationCommand}" 
                                         CommandParameter="19" Background="Transparent"
                                         Width="47" Height="47">
-                                            <ToolTipService.ToolTip>
-                                                <ToolTip Content="History"/>
-                                            </ToolTipService.ToolTip>
-                                            <SymbolIcon HorizontalAlignment="Center" VerticalAlignment="Center" Symbol="Clock"
+                                        <ToolTipService.ToolTip>
+                                            <ToolTip Content="History"/>
+                                        </ToolTipService.ToolTip>
+                                        <SymbolIcon HorizontalAlignment="Center" VerticalAlignment="Center" Symbol="Clock"
                                                 Margin="0,0,0,2" />
-                                        </Button>
-                                    <Button Command="{Binding ButtonNavigationCommand}" Visibility="{Binding MalApiSpecificButtonsVisibility}"
-                                        CommandParameter="16" Background="Transparent"
+                                    </Button>
+                                    <Button Command="{Binding ButtonNavigationCommand}" 
+                                        CommandParameter="26" Background="Transparent"
                                         Width="47" Height="47" >
                                         <ToolTipService.ToolTip>
-                                            <ToolTip Content="Messaging"/>
+                                            <ToolTip Content="Notifications"/>
                                         </ToolTipService.ToolTip>
-                                        <SymbolIcon HorizontalAlignment="Center" VerticalAlignment="Center" Symbol="Mail"
+                                        <SymbolIcon HorizontalAlignment="Center" VerticalAlignment="Center" Symbol="LeaveChat"
                                                 Margin="0,0,0,2" />
                                     </Button>
                                 </StackPanel>

@@ -10,6 +10,7 @@ using GalaSoft.MvvmLight.Command;
 using MALClient.Models.Enums;
 using MALClient.Models.Models.Notifications;
 using MALClient.XShared.Comm.MagicalRawQueries;
+using MALClient.XShared.NavArgs;
 using MALClient.XShared.Utils;
 
 namespace MALClient.XShared.ViewModels.Main
@@ -31,8 +32,9 @@ namespace MALClient.XShared.ViewModels.Main
         {
             if (AllNotifications == null || force)
             {
-                Loading = true;
+                Loading = true;              
                 AllNotifications = await MalNotificationsQuery.GetNotifications();
+                CurrentNotificationType = null;
                 Loading = false;
             }
         }
@@ -60,13 +62,14 @@ namespace MALClient.XShared.ViewModels.Main
                                                     {
                                                         if (await MalNotificationsQuery.MarkNotifiactionsAsRead(Notifications))
                                                         {
-                                                            Notifications.Clear();
                                                             foreach (var type in Notifications.Select(notification => notification.Type).Distinct())
                                                             {
                                                                 NotificationGroups.First(
                                                                         model => model.NotificationType == type)
                                                                     .NotificationsCount = 0;
                                                             }
+                                                            Notifications.Clear();
+
                                                         }
                                                         else
                                                         {
@@ -83,11 +86,24 @@ namespace MALClient.XShared.ViewModels.Main
                            return;
 
                        var args = MalLinkParser.GetNavigationParametersForUrl(notification.LaunchArgs);
-                       if (ViewModelLocator.Mobile)
+                       if (!ViewModelLocator.Mobile)
                        {
+                           
                            if (!args.Item1.GetAttribute<EnumUtilities.PageIndexEnumMember>().OffPage)
                                ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageNotificationHub, null);
                        }
+                       else
+                       {
+                           var arg = args.Item2 as MalMessageDetailsNavArgs;
+                           if (arg != null)
+                               arg.BackNavHandled = true;
+                           ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageNotificationHub, null);
+                       }
+                       var navArg = args.Item2 as AnimeDetailsPageNavigationArgs;
+                       if (navArg != null)
+                           navArg.Source = PageIndex.PageNotificationHub;
+                       
+
                        ViewModelLocator.GeneralMain.Navigate(args.Item1,args.Item2);
                    }));
 
@@ -120,7 +136,7 @@ namespace MALClient.XShared.ViewModels.Main
 
         public MalNotificationsTypes? CurrentNotificationType
         {
-            get { return _currentNotificationType; }
+            get { return _currentNotificationType ?? MalNotificationsTypes.Generic; }
             set
             {
                 _currentNotificationType = value;
@@ -190,7 +206,7 @@ namespace MALClient.XShared.ViewModels.Main
 
         private void UpdateNotificationSet()
         {
-            if (CurrentNotificationType != null)
+            if (CurrentNotificationType != MalNotificationsTypes.Generic)
                 Notifications = new ObservableCollection<MalNotification>(AllNotifications.Where(notification => notification.Type == CurrentNotificationType));
             else
                 Notifications = new ObservableCollection<MalNotification>(AllNotifications);

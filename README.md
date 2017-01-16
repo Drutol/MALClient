@@ -1,16 +1,11 @@
 # MALClient
-It's rather robust MyAnimeList client application interfacing with both "official" api and the website api with wild endpoints with cookies and such. Right now it's available on Windows10 devices and android version is now in the works. It also supports Hummingbird with list managing.
+It's rather robust MyAnimeList client application interfacing with both "official" api and the website api with wild endpoints with cookies and such. Right now it's available on Windows 10 devices and android version is now in the works.
 
 ![](https://github.com/Drutol/MALClient/blob/master/MALClient.Dekstop/Assets/Square150x150Logo.scale-100.png)
 <a href="https://www.microsoft.com/store/apps/9nblggh5f3bl?ocid=badge"><img src="https://assets.windowsphone.com/f2f77ec7-9ba9-4850-9ebe-77e366d08adc/English_Get_it_Win_10_InvariantCulture_Default.png" width="47.5%" alt="Get it on Windows 10" /></a>
 
-## Chat
-[![Join the chat at https://gitter.im/MALClient/Lobby](https://badges.gitter.im/MALClient/Lobby.svg)](https://gitter.im/MALClient/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-
-
-
 ### Screenshots (UWP)
-![](http://i.imgur.com/s0zQjPy.png)
+![](http://i.imgur.com/HxFkygB.png)
 ### Features
 - Anime and manga list updates.
  - Score,Status,Episodes,Volumes
@@ -27,6 +22,7 @@ It's rather robust MyAnimeList client application interfacing with both "officia
  - Episodes
  - Reviews
  - Recommendations
+ - Personalized anime/manga suggestions.
  - Related
  - Characters&Staff
  - Mal statisctics
@@ -52,6 +48,8 @@ It's rather robust MyAnimeList client application interfacing with both "officia
  - With dark theme
  - Semi hybrid (a bit of html and a bit of native)
  - Automatic authentication
+- System toasts and notification hub!
+- Friends feeds parsed from rss channels.
 - And much more!
 
 ### Compilation
@@ -62,3 +60,10 @@ I'm planning big refactoring with developing for android.
 
 If you are looking for methods to communicate with MAL go to Comm folder where you will find all queries.
 
+### "Protocol"
+
+If you'd like for some reason to launch my app externally you can do so by using this protocol:
+```
+malclient://<your everyday MAL link>
+```
+List of all accepted urls can be found [here](https://github.com/Drutol/MALClient/blob/714a73a3f4389a3212843fda243c1034c7347144/MALClient.XShared/Utils/MalLinkParser.cs)

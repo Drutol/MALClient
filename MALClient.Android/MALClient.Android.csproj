@@ -108,9 +108,6 @@
       <HintPath>..\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.VisualBasic">
-      <HintPath>..\..\..\..\..\.nuget\packages\Microsoft.VisualBasic\10.0.1\ref\netcore50\Microsoft.VisualBasic.dll</HintPath>
-    </Reference>
     <Reference Include="Mono.Android" />
     <Reference Include="mscorlib" />
     <Reference Include="System" />
@@ -171,6 +168,7 @@
     <Compile Include="Adapters\DialogAdapters\StatusDialogAdapter.cs" />
     <Compile Include="BindingInformation\StaticBindingInfo.cs" />
     <Compile Include="BindingInformation\StaticBindings\CharacterItemBindingInfo.cs" />
+    <Compile Include="DIalogs\AnimeDetailsPageDialogBuilder.cs" />
     <Compile Include="DIalogs\AnimeUpdateDialogBuilder.cs" />
     <Compile Include="Flyouts\AnimeDetailsPageMoreFlyoutBuilder.cs" />
     <Compile Include="Flyouts\AnimeItemFlyoutBuilder.cs" />
@@ -239,6 +237,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\ResourceExtension.cs" />
     <Compile Include="UserControls\ScrollableSwipeToRefreshLayout.cs" />
+    <Compile Include="Utilities\AnimeImageExtensions.cs" />
     <Compile Include="Utilities\Includes.cs" />
     <Compile Include="Utilities\ListenableWebClient.cs" />
     <Compile Include="Utilities\AndroidUtilities.cs" />
@@ -328,7 +327,9 @@
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\icon_hamburger.xml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\AnimeDetailsPageVideosDialog.xml" />
+  </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\colors.xml" />
   </ItemGroup>
@@ -602,6 +603,9 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\SettingsPageGeneral.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\AnimeDetailsPageVideosDialogItem.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Android.Support.Vector.Drawable.23.4.0.1\build\Xamarin.Android.Support.Vector.Drawable.targets" Condition="Exists('..\packages\Xamarin.Android.Support.Vector.Drawable.23.4.0.1\build\Xamarin.Android.Support.Vector.Drawable.targets')" />

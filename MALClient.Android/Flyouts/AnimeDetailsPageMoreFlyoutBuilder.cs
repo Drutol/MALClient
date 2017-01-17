@@ -12,6 +12,7 @@ using Android.Widget;
 using Com.Orhanobut.Dialogplus;
 using Com.Shehabic.Droppy;
 using MALClient.Android.Dialogs;
+using MALClient.Android.DIalogs;
 using MALClient.XShared.ViewModels.Details;
 
 namespace MALClient.Android.Flyouts
@@ -33,6 +34,7 @@ namespace MALClient.Android.Flyouts
                         viewModel.NavigateForumBoardCommand.Execute(null);
                         break;
                     case 1:
+                        AnimeDetailsPageDialogBuilder.BuildPromotionalVideoDialog(viewModel);
                         break;
                     case 2:
                         AnimeUpdateDialogBuilder.BuildTagDialog(viewModel);

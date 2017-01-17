@@ -187,17 +187,7 @@ namespace MALClient.XShared.ViewModels.Details
         public ObservableCollection<string> OPs { get; } = new ObservableCollection<string>();
         public ObservableCollection<string> EDs { get; } = new ObservableCollection<string>();
 
-        private ObservableCollection<AnimeVideoData> _availableVideos;
-
-        public ObservableCollection<AnimeVideoData> AvailableVideos
-        {
-            get { return _availableVideos; }
-            set
-            {
-                _availableVideos = value;
-                RaisePropertyChanged(() => AvailableVideos);
-            }
-        }
+        public ObservableCollection<AnimeVideoData> AvailableVideos { get;  } = new ObservableCollection<AnimeVideoData>();
 
 
         public static List<string> ScoreFlyoutChoices { get; set; }
@@ -1280,10 +1270,14 @@ namespace MALClient.XShared.ViewModels.Details
         {
             if (LoadingVideosVisibility || (_loadedVideos && !force))
                 return;
+            AvailableVideos.Clear();
             LoadingVideosVisibility = true;
             _loadedVideos = true;
 
-            AvailableVideos = new ObservableCollection<AnimeVideoData>(await new AnimeVideosQuery(Id).GetVideos(force));
+            foreach (var animeVideoData in await new AnimeVideosQuery(Id).GetVideos(force))
+            {
+                AvailableVideos.Add(animeVideoData);
+            }
 
             NoVideosNoticeVisibility = !AvailableVideos.Any();
             LoadingVideosVisibility = false;

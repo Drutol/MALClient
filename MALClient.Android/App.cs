@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
-
+using System.Threading;
+using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
 using Android.OS;
@@ -12,6 +14,8 @@ using Android.Widget;
 using Com.Shehabic.Droppy;
 using FFImageLoading;
 using FFImageLoading.Config;
+using FFImageLoading.Work;
+using MALClient.XShared.BL;
 using MALClient.XShared.Comm.CommUtils;
 using MALClient.XShared.Utils;
 using MALClient.XShared.Utils.Managers;
@@ -38,10 +42,7 @@ namespace MALClient.Android
             //});
             ViewModelLocator.RegisterBase();
             AndroidViewModelLocator.RegisterDependencies();
-            Credentials.Init();
-            HtmlClassMgr.Init();
-            FavouritesManager.LoadData();
-            ViewModelLocator.ForumsMain.LoadPinnedTopics();
+            InitializationRoutines.InitApp();
             base.OnCreate();
         }
     }

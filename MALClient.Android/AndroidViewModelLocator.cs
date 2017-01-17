@@ -45,6 +45,7 @@ namespace MALClient.Android
             SimpleIoc.Default.Register<IImageDownloaderService, ImageDownloaderService>();
             SimpleIoc.Default.Register<ITelemetryProvider, TelemetryProvider>();
             SimpleIoc.Default.Register<INotificationsTaskManager, NotificationTaskManagerAdapter>();
+            SimpleIoc.Default.Register<ISchdeuledJobsManger, ScheduledJobsManager>();
 
         }
 

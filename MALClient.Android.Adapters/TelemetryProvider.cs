@@ -30,5 +30,15 @@ namespace MALClient.Android.Adapters
         {
            // throw new NotImplementedException();
         }
+
+        public void LogEvent(string @event)
+        {
+            //throw new NotImplementedException();
+        }
+
+        public void TrackException(Exception e)
+        {
+            //throw new NotImplementedException();
+        }
     }
 }

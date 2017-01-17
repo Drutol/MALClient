@@ -17,6 +17,7 @@ using GalaSoft.MvvmLight.Helpers;
 using MALClient.Android.Adapters.PagerAdapters;
 using MALClient.Android.BindingConverters;
 using MALClient.Android.Flyouts;
+using MALClient.Models.Enums;
 using MALClient.XShared.NavArgs;
 using MALClient.XShared.Utils.Enums;
 using MALClient.XShared.ViewModels;
@@ -49,12 +50,12 @@ namespace MALClient.Android.Fragments
         {
             Bindings.Add(RecommendationsPagePivot.Id, new List<Binding>());
             Bindings[RecommendationsPagePivot.Id].Add(
-                this.SetBinding(() => ViewModel.RecommendationItems).WhenSourceChanges(() =>
+                this.SetBinding(() => ViewModel.RecommendationAnimeItems).WhenSourceChanges(() =>
                 {
-                    if (ViewModel.RecommendationItems.Any())
+                    if (ViewModel.RecommendationAnimeItems.Any())
                     {
                         RecommendationsPagePivot.Adapter = new RecommandtionsPagerAdapter(FragmentManager,
-                            ViewModel.RecommendationItems.Select(item => item.Content as RecommendationItemViewModel));
+                            ViewModel.RecommendationAnimeItems.Select(item => item.Content as RecommendationItemViewModel));
                         RecommendationsPageTabStrip.SetViewPager(RecommendationsPagePivot);
                         RecommendationsPagePivot.SetCurrentItem(ViewModel.PivotItemIndex, false);
                     }
@@ -74,7 +75,7 @@ namespace MALClient.Android.Fragments
             _menu = RecommendationsFlyoutBuilder.BuildForRecommendationsPage(Activity, RecommendationsPageTypeChangeButton,
                 ViewModel, i =>
                {
-                   ViewModel.AnimeMode = i == 0;
+                   ViewModel.CurrentWorkMode = RecommendationsPageWorkMode.Anime;
                    _menu.Dismiss(true);
                });
             _menu.Show();

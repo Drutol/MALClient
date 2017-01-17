@@ -12,7 +12,7 @@ using Android.Widget;
 using GalaSoft.MvvmLight.Helpers;
 using MALClient.Android.Activities;
 using MALClient.Models.Enums;
-using MALClient.Models.Enums.Enums;
+using MALClient.Models.Enums;
 using MALClient.XShared.NavArgs;
 using MALClient.XShared.Utils.Enums;
 using MALClient.XShared.ViewModels;

@@ -12,6 +12,7 @@ using Android.Views;
 using Android.Widget;
 using Com.Astuetz;
 using MALClient.Android.Adapters.PagerAdapters;
+using MALClient.Models.Enums;
 using MALClient.XShared.NavArgs;
 using MALClient.XShared.Utils.Enums;
 using MALClient.XShared.ViewModels;

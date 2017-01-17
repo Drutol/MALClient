@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Windows.Input;
 using Android.Content;
 using MALClient.Android.Activities;
+using MALClient.Models.Enums;
 using MALClient.XShared.NavArgs;
 using MALClient.XShared.Utils.Enums;
 using MALClient.XShared.ViewModels;

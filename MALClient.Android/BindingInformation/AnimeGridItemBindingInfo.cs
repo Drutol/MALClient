@@ -26,7 +26,7 @@ using MALClient.Android.Flyouts;
 using MALClient.Android.Listeners;
 using MALClient.Android.Listeners.DialogListeners;
 using MALClient.Android.Managers;
-using MALClient.Models.Enums.Enums;
+using MALClient.Models.Enums;
 using MALClient.XShared.Utils.Enums;
 using MALClient.XShared.ViewModels;
 using Org.Zakariya.Flyoutmenu;

@@ -109,11 +109,11 @@ namespace MALClient.Android.Activities
             {
                 if (AnimeUpdateQuery.UpdatedSomething)                  
                         DataCache.SaveDataForUser(Credentials.UserName,
-                            ViewModelLocator.AnimeList.AllLoadedAnimeItemAbstractions.Select(
+                            ResourceLocator.AnimeLibraryDataStorage.AllLoadedAnimeItemAbstractions.Select(
                                 abstraction => abstraction.EntryData), AnimeListWorkModes.Anime);
                 if (MangaUpdateQuery.UpdatedSomething)                
                         DataCache.SaveDataForUser(Credentials.UserName,
-                            ViewModelLocator.AnimeList.AllLoadedMangaItemAbstractions.Select(
+                            ResourceLocator.AnimeLibraryDataStorage.AllLoadedMangaItemAbstractions.Select(
                                 abstraction => abstraction.EntryData), AnimeListWorkModes.Manga);
             }
             DataCache.SaveVolatileData();

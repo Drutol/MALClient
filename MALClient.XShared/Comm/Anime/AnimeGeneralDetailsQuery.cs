@@ -29,10 +29,15 @@ namespace MALClient.XShared.Comm.Anime
                 switch (requestedApiType)
                 {
                     case ApiType.Mal:
-                        var data = animeMode
+                        string data = null;
+                        if (!string.IsNullOrEmpty(title))
+                        {
+                            data = animeMode
                             ? await new AnimeSearchQuery(Utilities.CleanAnimeTitle(title), requestedApiType)
                                 .GetRequestResponse(false)
                             : await new MangaSearchQuery(Utilities.CleanAnimeTitle(title)).GetRequestResponse(false);
+                        }
+                  
                         if (string.IsNullOrEmpty(data))
                         {
                             //we are loading title from website because request came from mal url

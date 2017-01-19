@@ -202,8 +202,16 @@ namespace MALClient
 
         private void NotificationTaskManagerOnOnNotificationTaskRequested(BgTasks task)
         {
-            if (task == BgTasks.Notifications)
-                new NotificationsBackgroundTask().Run(null);
+            try
+            {
+                if (task == BgTasks.Notifications)
+                    new NotificationsBackgroundTask().Run(null);
+            }
+            catch (Exception e)
+            {
+                
+            }
+
         }
 
         private void ProcessUpdate()

@@ -107,19 +107,19 @@ namespace MALClient.Pages.Main
                         (Settings.SelectedApiType != ApiType.Hummingbird && Regex.IsMatch(uri, "manga\\/\\d")))
                     {
                         var link = uri.Substring(8).Split('/');
-                        if (link[3] == "")
-                        {
-                            if (Settings.ArticlesLaunchExternalLinks)
-                            {
-                                ResourceLocator.SystemControlsLauncherService.LaunchUri(args.Uri);
-                            }
-                            return;
-                        }
+                        //if (link[3] == "")
+                        //{
+                        //    if (Settings.ArticlesLaunchExternalLinks)
+                        //    {
+                        //        ResourceLocator.SystemControlsLauncherService.LaunchUri(args.Uri);
+                        //    }
+                        //    return;
+                        //}
                         var id = int.Parse(link[2]);
                         if (Settings.SelectedApiType == ApiType.Hummingbird) //id switch            
                             id = await new AnimeDetailsHummingbirdQuery(id).GetHummingbirdId();
                         ViewModelLocator.GeneralMain.Navigate(PageIndex.PageAnimeDetails,
-                            new AnimeDetailsPageNavigationArgs(id, link[3], null, null)
+                            new AnimeDetailsPageNavigationArgs(id, link.Length == 4 ? link[3] : null, null, null)
                             {
                                 AnimeMode = link[1] == "anime"
                             });

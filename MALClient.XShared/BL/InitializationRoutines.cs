@@ -25,7 +25,7 @@ namespace MALClient.XShared.BL
             FavouritesManager.LoadData();
             AnimeImageQuery.Init();
             ViewModelLocator.ForumsMain.LoadPinnedTopics();
-            if (Settings.NotificationCheckInRuntime)
+            if (Settings.NotificationCheckInRuntime && Credentials.Authenticated)
                 ResourceLocator.SchdeuledJobsManger.StartJob(ScheduledJob.FetchNotifications, 5, () =>
                 {
                     ResourceLocator.NotificationsTaskManager.CallTask(BgTasks.Notifications);

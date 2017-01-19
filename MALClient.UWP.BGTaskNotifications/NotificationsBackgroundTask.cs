@@ -58,27 +58,34 @@ namespace MALClient.UWP.BGTaskNotifications
 
 
             List<MalNotification> notifications = new List<MalNotification>();
-
-            if (
-                Settings.EnabledNotificationTypes.HasFlag(MalNotificationsTypes.FriendRequestAcceptDeny) ||
-                Settings.EnabledNotificationTypes.HasFlag(MalNotificationsTypes.NewRelatedAnime) ||
-                Settings.EnabledNotificationTypes.HasFlag(MalNotificationsTypes.BlogComment) ||
-                Settings.EnabledNotificationTypes.HasFlag(MalNotificationsTypes.ClubMessages) ||
-                Settings.EnabledNotificationTypes.HasFlag(MalNotificationsTypes.ForumQuoute) ||
-                Settings.EnabledNotificationTypes.HasFlag(MalNotificationsTypes.FriendRequest) ||
-                Settings.EnabledNotificationTypes.HasFlag(MalNotificationsTypes.NowAiring) ||
-                Settings.EnabledNotificationTypes.HasFlag(MalNotificationsTypes.ProfileComment) ||
-                Settings.EnabledNotificationTypes.HasFlag(MalNotificationsTypes.Payment) ||
-                Settings.EnabledNotificationTypes.HasFlag(MalNotificationsTypes.UserMentions) ||
-                Settings.EnabledNotificationTypes.HasFlag(MalNotificationsTypes.WatchedTopics))
+            try
             {
-                notifications.AddRange(await MalNotificationsQuery.GetNotifications());
-                notifications =
-                    notifications.Where(
-                        notification =>
-                            !notification.IsRead &&
-                            (Settings.EnabledNotificationTypes & notification.Type) == notification.Type).ToList();
+                if (
+               Settings.EnabledNotificationTypes.HasFlag(MalNotificationsTypes.FriendRequestAcceptDeny) ||
+               Settings.EnabledNotificationTypes.HasFlag(MalNotificationsTypes.NewRelatedAnime) ||
+               Settings.EnabledNotificationTypes.HasFlag(MalNotificationsTypes.BlogComment) ||
+               Settings.EnabledNotificationTypes.HasFlag(MalNotificationsTypes.ClubMessages) ||
+               Settings.EnabledNotificationTypes.HasFlag(MalNotificationsTypes.ForumQuoute) ||
+               Settings.EnabledNotificationTypes.HasFlag(MalNotificationsTypes.FriendRequest) ||
+               Settings.EnabledNotificationTypes.HasFlag(MalNotificationsTypes.NowAiring) ||
+               Settings.EnabledNotificationTypes.HasFlag(MalNotificationsTypes.ProfileComment) ||
+               Settings.EnabledNotificationTypes.HasFlag(MalNotificationsTypes.Payment) ||
+               Settings.EnabledNotificationTypes.HasFlag(MalNotificationsTypes.UserMentions) ||
+               Settings.EnabledNotificationTypes.HasFlag(MalNotificationsTypes.WatchedTopics))
+                {
+                    notifications.AddRange(await MalNotificationsQuery.GetNotifications());
+                    notifications =
+                        notifications.Where(
+                            notification =>
+                                !notification.IsRead &&
+                                (Settings.EnabledNotificationTypes & notification.Type) == notification.Type).ToList();
+                }
             }
+            catch (Exception e)
+            {
+                //http exec error
+            }
+           
 
             if ((Settings.EnabledNotificationTypes & MalNotificationsTypes.Messages) == MalNotificationsTypes.Messages)
             {

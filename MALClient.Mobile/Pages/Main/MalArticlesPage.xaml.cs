@@ -226,21 +226,21 @@ namespace MALClient.Pages.Main
                     if (Regex.IsMatch(uri, "anime\\/\\d") || (Settings.SelectedApiType != ApiType.Hummingbird && Regex.IsMatch(uri, "manga\\/\\d")))
                     {
                         var link = uri.Substring(8).Split('/');
-                        if (link[3] == "")
-                        {
-                            if (Settings.ArticlesLaunchExternalLinks)
-                            {
-                                ResourceLocator.SystemControlsLauncherService.LaunchUri(args.Uri);
-                            }
-                            return;
-                        }
+                        //if (link[3] == "")
+                        //{
+                        //    if (Settings.ArticlesLaunchExternalLinks)
+                        //    {
+                        //        ResourceLocator.SystemControlsLauncherService.LaunchUri(args.Uri);
+                        //    }
+                        //    return;
+                        //}
                         int id = int.Parse(link[2]);
                         if (Settings.SelectedApiType == ApiType.Hummingbird) //id switch            
                             id = await new AnimeDetailsHummingbirdQuery(id).GetHummingbirdId();
                         var arg = MalArticlesPageNavigationArgs.Articles;
                         arg.NewsId = _currentId;
                         MobileViewModelLocator.Main.Navigate(PageIndex.PageAnimeDetails,
-                            new AnimeDetailsPageNavigationArgs(id, link[3], null,null, arg)
+                            new AnimeDetailsPageNavigationArgs(id, link.Length == 4 ? link[3] : null, null,null, arg)
                             {
                                 Source = PageIndex.PageArticles,
                                 AnimeMode = link[1] == "anime"

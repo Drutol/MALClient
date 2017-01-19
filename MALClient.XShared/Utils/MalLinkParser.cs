@@ -116,7 +116,7 @@ namespace MALClient.XShared.Utils
                 //if (Settings.SelectedApiType == ApiType.Hummingbird) //id switch            
                 //    id = await new AnimeDetailsHummingbirdQuery(id).GetHummingbirdId();
                 return new Tuple<PageIndex, object>(PageIndex.PageAnimeDetails,
-                    new AnimeDetailsPageNavigationArgs(id, link[3].Replace('_',' ').Trim(), null, null)
+                    new AnimeDetailsPageNavigationArgs(id, link.Length == 4 ? link[3].Replace('_',' ').Trim() : null, null, null)
                     {
                         AnimeMode = link[1] == "anime"
                     });

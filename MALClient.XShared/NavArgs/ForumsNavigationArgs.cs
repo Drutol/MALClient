@@ -124,4 +124,39 @@ namespace MALClient.XShared.NavArgs
 
         public static ForumsTopicNavigationArgs NewMangaTopic => new ForumsTopicNavigationArgs {CreateNewTopic = true, Page = ForumsPageIndex.PageTopic,CreateNewAnimeTopic = false};
     }
+
+    public class ForumsNewTopicNavigationArgs : ForumsNavigationArgs
+    {
+
+        public ForumType ForumType { get; }
+        public TopicType? TopicType { get; }
+        public ForumBoards? BoardType { get; }
+        public string Title { get; }
+        public int Id { get; }
+
+
+        public ForumsNewTopicNavigationArgs(TopicType topicType,string title,int mediaId)
+        {
+            Page = ForumsPageIndex.PageNewTopic;
+            ForumType = ForumType.Normal;
+            TopicType = topicType;
+            Title = title;
+            Id = mediaId;
+        }
+
+        public ForumsNewTopicNavigationArgs(ForumBoards boardType)
+        {
+            Page = ForumsPageIndex.PageNewTopic;
+            ForumType = ForumType.Normal;
+            BoardType = boardType;
+            Id = (int) boardType;
+        }
+
+        public ForumsNewTopicNavigationArgs(int id)
+        {
+            Page = ForumsPageIndex.PageNewTopic;
+            ForumType = ForumType.Clubs;
+            Id = id;
+        }
+    }
 }

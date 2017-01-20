@@ -5,5 +5,6 @@
         PageIndex,
         PageBoard,
         PageTopic,
+        PageNewTopic
     }
 }     

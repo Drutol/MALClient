@@ -69,6 +69,7 @@
     <Compile Include="Comm\Forums\ForumBoardTopicsQuery.cs" />
     <Compile Include="Comm\Forums\ForumSearchQuery.cs" />
     <Compile Include="Comm\LibraryListQuery.cs" />
+    <Compile Include="Comm\MagicalRawQueries\Forums\ForumNewTopicQuery.cs" />
     <Compile Include="Comm\MagicalRawQueries\MalFavouriteQuery.cs" />
     <Compile Include="Comm\MagicalRawQueries\MalHttpContextProvider.cs" />
     <Compile Include="Comm\MagicalRawQueries\MalNotificationsQuery.cs" />
@@ -122,9 +123,11 @@
     <Compile Include="ViewModels\Forums\ForumBoardEntryViewModel.cs" />
     <Compile Include="ViewModels\Forums\ForumBoardViewModel.cs" />
     <Compile Include="ViewModels\Forums\ForumIndexViewModel.cs" />
+    <Compile Include="ViewModels\Forums\ForumNewTopicViewModel.cs" />
     <Compile Include="ViewModels\Forums\ForumsMainViewModel.cs" />
     <Compile Include="ViewModels\Forums\ForumTopicEntryViewModel.cs" />
     <Compile Include="ViewModels\Forums\ForumTopicViewModel.cs" />
+    <Compile Include="ViewModels\Forums\Items\ForumTopicQestionViewModel.cs" />
     <Compile Include="ViewModels\Interfaces\IDimensionsProvider.cs" />
     <Compile Include="ViewModels\Items\WallpaperItemViewModel.cs" />
     <Compile Include="ViewModels\MainViewModelBase.cs" />
@@ -190,6 +193,10 @@
     <ProjectReference Include="..\MALClient.Models\MALClient.Models.csproj">
       <Project>{9948a48d-1cfc-40e5-9bfa-6f93fe4c44a0}</Project>
       <Name>MALClient.Models</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MALClient.Utilities.BBCode\MALClient.Utilities.BBCode.csproj">
+      <Project>{67f9d3a8-f71e-4428-913f-c37ae82cdb24}</Project>
+      <Name>MALClient.Utilities.BBCode</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />

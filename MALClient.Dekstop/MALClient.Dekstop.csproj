@@ -114,6 +114,9 @@
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\Forums\ForumNewTopicPage.xaml.cs">
+      <DependentUpon>ForumNewTopicPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\Main\CharacterSearchPage.xaml.cs">
       <DependentUpon>CharacterSearchPage.xaml</DependentUpon>
     </Compile>
@@ -291,6 +294,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\Forums\ForumIndexPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\Forums\ForumNewTopicPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

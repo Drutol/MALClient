@@ -110,6 +110,9 @@
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\Forums\ForumsNewTopicPage.xaml.cs">
+      <DependentUpon>ForumsNewTopicPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\Main\CalendarPage.xaml.cs">
       <DependentUpon>CalendarPage.xaml</DependentUpon>
     </Compile>
@@ -274,6 +277,10 @@
     <Page Include="MainPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\Forums\ForumsNewTopicPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\Main\FriendsFeedsPage.xaml">
       <Generator>MSBuild:Compile</Generator>

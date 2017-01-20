@@ -11,6 +11,7 @@ using Windows.UI.Xaml.Navigation;
 using MALClient.Models.Enums;
 using MALClient.Shared.Items;
 using MALClient.Models.Models;
+using MALClient.Shared.Managers;
 using MALClient.ViewModels;
 using MALClient.XShared.Utils;
 using MALClient.XShared.Utils.Enums;
@@ -52,7 +53,7 @@ namespace MALClient.Pages.Main
             var color = uiSettings.GetColorValue(UIColorType.Accent);
             var color1 = uiSettings.GetColorValue(UIColorType.AccentDark2);
             var color2 = uiSettings.GetColorValue(UIColorType.AccentLight2);
-            var css = MalArticlesPage.Css.Replace("AccentColourBase", "#" + color.ToString().Substring(3)).
+            var css = CssManager.Css.Replace("AccentColourBase", "#" + color.ToString().Substring(3)).
                 Replace("AccentColourLight", "#" + color2.ToString().Substring(3)).
                 Replace("AccentColourDark", "#" + color1.ToString().Substring(3))
                 .Replace("BodyBackgroundThemeColor",

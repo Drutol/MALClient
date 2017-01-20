@@ -138,20 +138,17 @@ namespace MALClient.XShared.ViewModels.Forums
         public ICommand CreateNewTopicCommand => _createNewTopicCommand ?? (_createNewTopicCommand = new RelayCommand(
             () =>
             {
-                ForumsTopicNavigationArgs arg;
+                ForumsNewTopicNavigationArgs arg;
                 switch (PrevArgs.WorkMode)
                 {
                     case ForumBoardPageWorkModes.AnimeBoard:
-                        arg = ForumsTopicNavigationArgs.NewAnimeTopic;
-                        arg.MediaId = PrevArgs.AnimeId;
+                        arg = new ForumsNewTopicNavigationArgs(TopicType.Anime,PrevArgs.AnimeTitle,PrevArgs.AnimeId);
                         break;
                     case ForumBoardPageWorkModes.MangaBoard:
-                        arg  = ForumsTopicNavigationArgs.NewMangaTopic;
-                        arg.MediaId = PrevArgs.AnimeId;
+                        arg  = new ForumsNewTopicNavigationArgs(TopicType.Manga, PrevArgs.AnimeTitle, PrevArgs.AnimeId);
                         break;
                     default:
-                        arg = ForumsTopicNavigationArgs.NewTopic;
-                        arg.SourceBoard = PrevArgs.TargetBoard;
+                        arg = new ForumsNewTopicNavigationArgs(PrevArgs.TargetBoard);
                         break;
                 }
                 

@@ -48,6 +48,7 @@
     <Compile Include="Enums\FontAwesomeIconsEnum.cs" />
     <Compile Include="Enums\ForumBoards.cs" />
     <Compile Include="Enums\ForumsPageIndex.cs" />
+    <Compile Include="Enums\ForumTypeEnum.cs" />
     <Compile Include="Enums\HamburgerButtonsEnum.cs" />
     <Compile Include="Enums\MalNotificationsTypesEnum.cs" />
     <Compile Include="Enums\MessageSymbolsEnum.cs" />

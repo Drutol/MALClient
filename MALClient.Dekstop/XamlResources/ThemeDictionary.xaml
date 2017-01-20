@@ -14,6 +14,7 @@
             <SolidColorBrush x:Key="BrushHamburgerInnerBackground" Color="White" Opacity=".5" />
             <SolidColorBrush x:Key="BrushAnimeItemBackground" Color="#E5E5E5" />
             <SolidColorBrush x:Key="BrushAnimeItemInnerBackground" Color="#dadada" />
+            <Color x:Key="ColorAnimeItemBackground">#dadada</Color>
             <SolidColorBrush x:Key="BrushLoading" Color="Transparent" />
             <SolidColorBrush x:Key="BrushLoadingNonTransparent" Color="#E6E6E6" Opacity=".5" />
             <SolidColorBrush x:Key="BrushLoadingNonOpaque" Color="#efefef" />
@@ -51,6 +52,7 @@
             <SolidColorBrush x:Key="BrushHamburgerBackground" Color="#1f1f1f" />
             <SolidColorBrush x:Key="BrushHamburgerInnerBackground" Color="Black" Opacity=".3" />
             <SolidColorBrush x:Key="BrushAnimeItemBackground" Color="#2f2f2f" />
+            <Color x:Key="ColorAnimeItemBackground">#2f2f2f</Color>
             <SolidColorBrush x:Key="BrushAnimeItemInnerBackground" Color="#212121" />
             <SolidColorBrush x:Key="BrushLoading" Color="Transparent" />
             <SolidColorBrush x:Key="BrushLoadingNonTransparent" Color="#2a2c2a" Opacity=".5" />

@@ -160,6 +160,7 @@
     <Compile Include="Items\WallpaperItem.xaml.cs">
       <DependentUpon>WallpaperItem.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Managers\CssManager.cs" />
     <Compile Include="Managers\ImageCache.cs" />
     <Compile Include="Managers\ItemFlyoutService.cs" />
     <Compile Include="Managers\LiveTilesManager.cs" />

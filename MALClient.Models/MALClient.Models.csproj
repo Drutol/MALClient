@@ -85,7 +85,11 @@
     <Compile Include="Models\Favourites\AnimeStaffPerson.cs" />
     <Compile Include="Models\Favourites\FavouriteBase.cs" />
     <Compile Include="Models\Forums\ForumBoardEntry.cs" />
+    <Compile Include="Models\Forums\ForumMessageEntry.cs" />
     <Compile Include="Models\Forums\ForumTopicEntry.cs" />
+    <Compile Include="Models\Forums\ForumTopicQestionViewModel.cs" />
+    <Compile Include="Models\Forums\MalForumUser.cs" />
+    <Compile Include="Models\Forums\ForumTopicData.cs" />
     <Compile Include="Models\ISeasonalAnimeBaseData.cs" />
     <Compile Include="Models\Library\AnimeLibraryItemData.cs" />
     <Compile Include="Models\Library\IAnimeData.cs" />

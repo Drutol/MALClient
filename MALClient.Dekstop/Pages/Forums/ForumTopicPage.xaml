@@ -6,6 +6,11 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:xamlConverters="using:MALClient.Shared.XamlConverters"
+    xmlns:userControls="using:MALClient.Shared.UserControls"
+    xmlns:uwp="using:FontAwesome.UWP"
+    xmlns:extensions="using:WinRTXamlToolkit.Controls.Extensions"
+    xmlns:ui="using:Microsoft.Toolkit.Uwp.UI"
+    xmlns:attachedProperties="using:MALClient.Shared.UserControls.AttachedProperties"
     mc:Ignorable="d" DataContext="{Binding Source={StaticResource Locator},Path=ForumsTopic}">
 
     <Page.Resources>
@@ -14,18 +19,99 @@
     </Page.Resources>
     
     <Grid Background="{ThemeResource BrushDeepBackground}">
-        
-        <WebView x:Name="TopicWebView" Visibility="{Binding LoadingTopic,Converter={StaticResource BoolToVisibilityInvertedConverter}}" 
-                 FrameNavigationStarting="TopicWebView_OnFrameNavigationStarting" 
-                 DOMContentLoaded="TopicWebView_OnDOMContentLoaded" 
-                 NavigationStarting="TopicWebView_OnNavigationStarting"
-                 ContentLoading="TopicWebView_OnContentLoading"/>
-        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-              Visibility="{Binding LoadingTopic,Converter={StaticResource BoolToVisibilityConverter}}"
-              Background="{ThemeResource BrushLoading}">
-            <ProgressRing
-                HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="75" Height="75"
-                IsActive="True" />
-        </Grid>
+
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+            <TextBlock Text="{Binding Title}" HorizontalAlignment="Center" FontSize="28" FontWeight="Medium" VerticalAlignment="Center" Margin="0,5"/>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Center">
+            <ItemsControl  ItemsSource="{Binding AvailablePages}" >
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <ItemsStackPanel Orientation="Horizontal"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Button Margin="2,0" Command="{Binding Source={StaticResource Locator},Path=ForumsBoard.LoadPageCommand}"
+                            CommandParameter="{Binding Item1}" Padding="0">
+                            <Grid Width="23" Height="25">
+                                <Grid Background="{StaticResource SystemControlBackgroundAccentBrush}" Width="23" Height="25"
+                                  Visibility="{Binding Item2,Converter={StaticResource BoolToVisibilityConverter}}"/>
+                                <TextBlock Text="{Binding Item1}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Grid>
+                        </Button>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+            <Button Margin="2,0">
+                <Button.Flyout>
+                    <Flyout x:Name="GotoPageFlyout">
+                        <StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="0,4">
+                                <AutoSuggestBox x:Name="GotoPageTextBox" Header="Go to page" MinWidth="150" KeyDown="GotoInputOnKeyDown"  Text="{Binding GotoPageTextBind,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" QueryIcon="Go" QuerySubmitted="GotoPageTextBox_OnQuerySubmitted"/>
+                            </StackPanel>
+                            <Grid Margin="0,4" HorizontalAlignment="Stretch">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <Button Content="First" Margin="0,0,5,0" HorizontalAlignment="Stretch" Command="{Binding GotoFirstPageCommand}"/>
+                                <Button Grid.Column="1" Content="Last" HorizontalAlignment="Stretch" Command="{Binding GotoLastPageCommand}"/>
+                            </Grid>
+                        </StackPanel>
+                    </Flyout>
+                </Button.Flyout>
+                <SymbolIcon Symbol="Go" Height="25" Width="35"/>
+            </Button>
+        </StackPanel>
+        <StackPanel  Grid.Row="1" Orientation="Horizontal">
+            <!--<Button Content="Create new topic" Command="{Binding CreateNewTopicCommand}" Margin="0,0,5,0"
+                Background="{ThemeResource BrushDeepBackground}" Visibility="{Binding NewTopicButtonVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
+                BorderThickness="2" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"/>-->
+        </StackPanel>
+        <ScrollViewer Grid.Row="3">
+            <ItemsControl  ItemsSource="{Binding Messages}" HorizontalAlignment="Stretch">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Grid Background="{ThemeResource BrushAnimeItemInnerBackground}">
+                                <TextBlock Text="{Binding Data.CreateDate}"/>
+                                <TextBlock Text="{Binding Data.MessageNumber}" HorizontalAlignment="Right"/>
+                            </Grid>
+                            <Grid Grid.Row="1" Background="{ThemeResource BrushAnimeItemBackground}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="200"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid>
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding Data.Poster.MalUser.Name}"/>
+                                        <Image Source="{Binding Data.Poster.MalUser.ImgUrl}" extensions:ImageExtensions.FadeInOnLoaded="True" Stretch="UniformToFill"/>
+                                        <TextBlock Text="{Binding Data.Poster.Status}"/>
+                                        <TextBlock Text="{Binding Data.Poster.Joined}"/>
+                                        <TextBlock Text="{Binding Data.Poster.Posts}"/>
+                                    </StackPanel>
+                                </Grid>
+                                <Grid Grid.Column="1">
+                                    <WebView attachedProperties:WebViewExtensions.Content="{Binding Data.HtmlContent}"></WebView>
+                                </Grid>
+                            </Grid>
+
+                        </Grid>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
     </Grid>
 </Page>

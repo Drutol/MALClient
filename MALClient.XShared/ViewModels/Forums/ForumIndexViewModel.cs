@@ -39,7 +39,7 @@ namespace MALClient.XShared.ViewModels.Forums
             {
                 ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageForumIndex, new ForumsNavigationArgs());
                 ViewModelLocator.GeneralMain.Navigate(PageIndex.PageForumIndex,
-                    new ForumsTopicNavigationArgs(post.Id, ForumBoards.Creative, true));
+                    new ForumsTopicNavigationArgs(ForumBoards.Creative,post.Id, -1, 1));
 
             });
 

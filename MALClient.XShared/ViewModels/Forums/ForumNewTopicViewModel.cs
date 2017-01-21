@@ -9,6 +9,7 @@ using CodeKicker.BBCode;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using MALClient.Models.Enums;
+using MALClient.Models.Models.Forums;
 using MALClient.XShared.Comm.MagicalRawQueries.Forums;
 using MALClient.XShared.Delegates;
 using MALClient.XShared.NavArgs;
@@ -87,17 +88,16 @@ namespace MALClient.XShared.ViewModels.Forums
                                                   }
                                                   catch (Exception e)
                                                   {
-                                                      msg = $"{e.Message} ---- {Message}";
+                                                      msg = $"Error occured while parsing BBCode ---- {Message}";
                                                   }
                                                   UpdatePreview?.Invoke(this, msg.Replace("\r\r", "<br><br>"));
 
                                               }));
 
         public ICommand CreateTopicCommand => _createTopicCommand ?? (_createTopicCommand = new RelayCommand(
-                                                  async () =>
+                                                   () =>
                                                   {
-                                                      await ForumNewTopicQuery.CreateNewTopic(Title, Message,
-                                                          _prevArgs.ForumType, _prevArgs.Id,Question,Answers.Any(model => !string.IsNullOrEmpty(model.Answer)) ? Answers.Select(model => model.Answer).ToList() : null);
+                                                      ResourceLocator.MessageDialogProvider.ShowMessageDialogWithInput("Are you sure to post it?","Are you sure?","Yeah!","No",CreateTopic);
                                                   }));
 
         public ICommand AddAnswerCommand
@@ -113,5 +113,21 @@ namespace MALClient.XShared.ViewModels.Forums
                    {
                        Answers.Remove(model);
                    }));
+
+        private async void CreateTopic()
+        {
+            if (await ForumTopicQueries.CreateNewTopic(Title, Message,
+                _prevArgs.ForumType, _prevArgs.Id, Question,
+                Answers.Any(model => !string.IsNullOrEmpty(model.Answer))
+                    ? Answers.Select(model => model.Answer).ToList()
+                    : null))
+            {
+                ViewModelLocator.NavMgr.CurrentMainViewOnBackRequested();
+            }
+            else
+            {
+                ResourceLocator.MessageDialogProvider.ShowMessageDialog("Something went wrong while creating your topic.","Something went wrong");
+            }
+        }
     }
 }

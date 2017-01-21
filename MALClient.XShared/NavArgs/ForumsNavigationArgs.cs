@@ -1,5 +1,6 @@
 ﻿using System;
 using MALClient.Models.Enums;
+using MALClient.Models.Models.Forums;
 using MALClient.XShared.Utils.Enums;
 
 namespace MALClient.XShared.NavArgs
@@ -92,37 +93,43 @@ namespace MALClient.XShared.NavArgs
 
     public class ForumsTopicNavigationArgs : ForumsNavigationArgs
     {
-        public bool CreateNewTopic { get; set; }
-        public bool? CreateNewAnimeTopic { get; set; }
-        public int MediaId { get; set; }
+        public ForumBoards? TargetBoard { get; }
+        public ForumTopicEntry Entry { get; }
+        public TopicType TopicType { get; }
         public string TopicId { get; set; }
-        public ForumBoards? SourceBoard { get; set; }
-        public bool Lastpost { get; set; }
+        public int? MessageId { get; }
+        public int TopicPage { get; }
+        public bool LastPost => MessageId == -1;
 
-        public ForumsTopicNavigationArgs(string topicId, ForumBoards sourceBoard, bool lastpost = false)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="topicType"></param>
+        /// <param name="id"></param>
+        /// <param name="mediaTitle">Anime or manga title</param>
+        /// <param name="messageId">Null for start, -1 for last post, else scroll to message</param>
+        /// <param name="page"></param>
+        public ForumsTopicNavigationArgs(TopicType topicType,string id,int? messageId,int page)
         {
-            TopicId = topicId;
             Page = ForumsPageIndex.PageTopic;
-            SourceBoard = sourceBoard;
-            Lastpost = lastpost;
+            TopicType = topicType;
+            TopicId = id;
+            MessageId = messageId;
+            TopicPage = page;
         }
 
-        public ForumsTopicNavigationArgs(string topicId, bool lastpost)
+        public ForumsTopicNavigationArgs(ForumBoards targetBoard,string id, int? messageId,int page)
         {
-            TopicId = topicId;
             Page = ForumsPageIndex.PageTopic;
-            Lastpost = lastpost;
+            TargetBoard = targetBoard;
+            TopicId = id;
+            MessageId = messageId;
+            TopicPage = page;
         }
 
         private ForumsTopicNavigationArgs()
         {
         }
-
-        public static ForumsTopicNavigationArgs NewTopic => new ForumsTopicNavigationArgs {CreateNewTopic = true, Page = ForumsPageIndex.PageTopic};
-
-        public static ForumsTopicNavigationArgs NewAnimeTopic => new ForumsTopicNavigationArgs {CreateNewTopic = true, Page = ForumsPageIndex.PageTopic,CreateNewAnimeTopic = true};
-
-        public static ForumsTopicNavigationArgs NewMangaTopic => new ForumsTopicNavigationArgs {CreateNewTopic = true, Page = ForumsPageIndex.PageTopic,CreateNewAnimeTopic = false};
     }
 
     public class ForumsNewTopicNavigationArgs : ForumsNavigationArgs

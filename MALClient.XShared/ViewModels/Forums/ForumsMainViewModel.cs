@@ -142,7 +142,7 @@ namespace MALClient.XShared.ViewModels.Forums
             ViewModelLocator.NavMgr.ResetMainBackNav();
             ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageForumIndex, new ForumsNavigationArgs());
             ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageForumIndex, new ForumsBoardNavigationArgs(topic.SourceBoard));
-            ViewModelLocator.GeneralMain.Navigate(PageIndex.PageForumIndex, new ForumsTopicNavigationArgs(topic.Id,topic.SourceBoard,topic.Lastpost));
+            ViewModelLocator.GeneralMain.Navigate(PageIndex.PageForumIndex, new ForumsTopicNavigationArgs(topic.SourceBoard,topic.Id,topic.Lastpost ? (int?)-1 : null,1));
         }
 
         private void GotoMyRecentTopics()

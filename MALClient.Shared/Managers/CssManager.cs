@@ -11,7 +11,34 @@ namespace MALClient.Shared.Managers
 {
     public static class CssManager
     {
-        private const string Begin = @"<html><body id='root'><div id='content'>";
+        private const string Begin = @"<html><head>
+                            <meta name=""viewport"" content=""width=device-width, initial-scale=1, user-scalable=no"" />
+                            <script type=""text/javascript"">
+                                document.addEventListener('click', function(e) {
+                                   e = e || window.event;
+                                    var target = e.target || e.srcElement;
+                                    if(target.nodeName === 'A'){
+                                        target.className += ' font-bold';
+                                        setTimeout(function() {target.className -= ' font-bold'; }, 200);
+                                    }
+                                }, false);
+                                function loadLink(x,y){
+                                    var el = document.elementFromPoint(x, y);
+                                    el && el.click();
+                                };
+                                function getDocHeight(id) {
+                                    var D = document;
+                                    return Math.max(
+                                        Math.max(document.getElementById(id).scrollHeight, document.getElementById(id).scrollHeight),
+                                        Math.max(document.getElementById(id).offsetHeight, document.getElementById(id).offsetHeight),
+                                        Math.max(document.getElementById(id).clientHeight, document.getElementById(id).clientHeight)
+                                    );
+                                };
+                                function notifyDocumentHeightChanged(id){
+                                    window.external.notify(getDocHeight(id).toString());
+                                };
+                            </script>
+                       </head><body id='root' onload='notifyDocumentHeightChanged(""content"")'><div id='content'>";
         private const string End = @"</div></body></html>";
 
         public static string WrapWithCss(string html)

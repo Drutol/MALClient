@@ -126,5 +126,13 @@ namespace MALClient.Pages.Forums
         {
             ViewModel.LoadGotoPageCommand.Execute(null);
         }
+
+        private void WebView_OnScriptNotify(object sender, NotifyEventArgs e)
+        {
+            var val = int.Parse(e.Value);
+            var view = sender as FrameworkElement;
+            if (val > view.ActualHeight)
+                view.Height = val + 50;
+        }
     }
 }

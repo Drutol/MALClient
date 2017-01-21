@@ -76,35 +76,35 @@
                 Background="{ThemeResource BrushDeepBackground}" Visibility="{Binding NewTopicButtonVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
                 BorderThickness="2" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"/>-->
         </StackPanel>
-        <ScrollViewer Grid.Row="3">
+        <ScrollViewer Grid.Row="3" Background="{ThemeResource BrushAnimeItemInnerBackground}">
             <ItemsControl  ItemsSource="{Binding Messages}" HorizontalAlignment="Stretch">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Grid>
+                        <Grid Padding="0,0,16,0">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="*"/>
                             </Grid.RowDefinitions>
-                            <Grid Background="{ThemeResource BrushAnimeItemInnerBackground}">
+                            <Grid Background="{ThemeResource BrushPivotHeaderBackground}" Padding="10" BorderThickness="4,0,0,0" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}">
                                 <TextBlock Text="{Binding Data.CreateDate}"/>
-                                <TextBlock Text="{Binding Data.MessageNumber}" HorizontalAlignment="Right"/>
+                                <TextBlock Text="{Binding Data.MessageNumber}" FontWeight="SemiBold" HorizontalAlignment="Right"/>
                             </Grid>
-                            <Grid Grid.Row="1" Background="{ThemeResource BrushAnimeItemBackground}">
+                            <Grid Grid.Row="1" Background="{ThemeResource BrushAppBars}" Padding="4,0,0,0">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="200"/>
+                                    <ColumnDefinition Width="180"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
                                 <Grid>
-                                    <StackPanel>
-                                        <TextBlock Text="{Binding Data.Poster.MalUser.Name}"/>
-                                        <Image Source="{Binding Data.Poster.MalUser.ImgUrl}" extensions:ImageExtensions.FadeInOnLoaded="True" Stretch="UniformToFill"/>
+                                    <StackPanel Margin="0,0,0,5">
+                                        <Button Content="{Binding Data.Poster.MalUser.Name}" FontSize="20" Margin="0,5" Padding="0" Style="{StaticResource TextBlockButtonStyle}"/>
+                                        <Image Margin="0,0,60,0" Source="{Binding Data.Poster.MalUser.ImgUrl}" extensions:ImageExtensions.FadeInOnLoaded="True" Stretch="UniformToFill"/>
                                         <TextBlock Text="{Binding Data.Poster.Status}"/>
                                         <TextBlock Text="{Binding Data.Poster.Joined}"/>
                                         <TextBlock Text="{Binding Data.Poster.Posts}"/>
                                     </StackPanel>
                                 </Grid>
-                                <Grid Grid.Column="1">
-                                    <WebView attachedProperties:WebViewExtensions.Content="{Binding Data.HtmlContent}"></WebView>
+                                <Grid Grid.Column="1" VerticalAlignment="Stretch" MinHeight="230">
+                                    <WebView attachedProperties:WebViewExtensions.Content="{Binding Data.HtmlContent}" ScriptNotify="WebView_OnScriptNotify"></WebView>
                                 </Grid>
                             </Grid>
 

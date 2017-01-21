@@ -11,5 +11,7 @@ namespace MALClient.Models.Models.Forums
         public List<ForumMessageEntry> Messages { get; set; } = new List<ForumMessageEntry>();
         public int AllPages { get; set; }
         public int CurrentPage { get; set; }
+        public string Title { get; set; }
+        public List<ForumBreadcrumb> Breadcrumbs { get; set; } = new List<ForumBreadcrumb>();
     }
 }

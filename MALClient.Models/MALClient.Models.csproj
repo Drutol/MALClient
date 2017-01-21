@@ -85,6 +85,7 @@
     <Compile Include="Models\Favourites\AnimeStaffPerson.cs" />
     <Compile Include="Models\Favourites\FavouriteBase.cs" />
     <Compile Include="Models\Forums\ForumBoardEntry.cs" />
+    <Compile Include="Models\Forums\ForumBreadcrumb.cs" />
     <Compile Include="Models\Forums\ForumMessageEntry.cs" />
     <Compile Include="Models\Forums\ForumTopicEntry.cs" />
     <Compile Include="Models\Forums\ForumTopicQestionViewModel.cs" />

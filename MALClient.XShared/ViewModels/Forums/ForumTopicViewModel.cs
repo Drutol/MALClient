@@ -24,16 +24,18 @@ namespace MALClient.XShared.ViewModels.Forums
 
         private ForumsTopicNavigationArgs _prevArgs;
         private int _currentPage;
-        private List<Tuple<int, bool>> _availablePages;
-        private int _allPages = 5;
         private ObservableCollection<ForumTopicMessageEntryViewModel> _messages;
         private ICommand _loadPageCommand;
         private ICommand _loadGotoPageCommand;
         private ICommand _gotoLastPageCommand;
         private ICommand _gotoFirstPageCommand;
-        private ForumTopicData _currentTopicData;
         private string _gotoPageTextBind;
         private string _title;
+        private ForumTopicData _currentTopicData;
+        private ICommand _toggleWatchingCommand;
+        private string _toggleWatchingButtonText;
+        private ICommand _createReplyCommand;
+        private string _replyMessage;
 
 
         public async void Init(ForumsTopicNavigationArgs args)
@@ -41,18 +43,12 @@ namespace MALClient.XShared.ViewModels.Forums
             LoadingTopic = true;
             _prevArgs = args;
 
+            ToggleWatchingButtonText = "Toggle watching";
+            CurrentTopicData = await ForumTopicQueries.GetTopicData(_prevArgs.TopicId, _prevArgs.TopicPage, _prevArgs.LastPost);
+            CurrentPage = _prevArgs.LastPost ? CurrentTopicData.AllPages : CurrentTopicData.CurrentPage;
 
-            var data = await ForumTopicQueries.GetTopicMessages(_prevArgs.TopicId, _prevArgs.TopicPage, _prevArgs.LastPost);
-            if (_prevArgs.LastPost)
-            {
-                CurrentPage = data.AllPages;
-            }
-            else if (_prevArgs.MessageId != null)
-            {
-                CurrentPage = data.CurrentPage;
-            }
             Messages = new ObservableCollection<ForumTopicMessageEntryViewModel>(
-                data.Messages.Select(
+                CurrentTopicData.Messages.Select(
                     entry => new ForumTopicMessageEntryViewModel(entry)));
 
             
@@ -70,6 +66,17 @@ namespace MALClient.XShared.ViewModels.Forums
             }
         }
 
+
+        public ForumTopicData CurrentTopicData
+        {
+            get { return _currentTopicData; }
+            set
+            {
+                _currentTopicData = value;
+                RaisePropertyChanged(() => CurrentTopicData);
+            }
+        }
+
         public int CurrentPage
         {
             get { return _currentPage; }
@@ -78,20 +85,14 @@ namespace MALClient.XShared.ViewModels.Forums
                 _currentPage = value;
                 AvailablePages.Clear();
                 var start = value <= 2 ? 1 : value - 2;
-                for (int i = start; i <= start + 4 && i <= _allPages + 1; i++)
-                    AvailablePages.Add(new Tuple<int, bool>(i, i == value + 1));
+                for (int i = start; i <= start + 4 && i <= CurrentTopicData.AllPages; i++)
+                    AvailablePages.Add(new Tuple<int, bool>(i, i == value));
+
             }
         }
 
-        public List<Tuple<int, bool>> AvailablePages
-        {
-            get { return _availablePages; }
-            set
-            {
-                _availablePages = value;
-                RaisePropertyChanged(() => AvailablePages);
-            }
-        }
+        public ObservableCollection<Tuple<int, bool>> AvailablePages { get; } = new ObservableCollection<Tuple<int, bool>>();
+
 
         public bool LoadingTopic
         {
@@ -103,10 +104,6 @@ namespace MALClient.XShared.ViewModels.Forums
             }
         }
 
-        public bool IsMangaBoard
-            =>
-                _prevArgs.TargetBoard == null && _prevArgs.TopicType == TopicType.Manga;
-
         public string GotoPageTextBind
         {
             get { return _gotoPageTextBind; }
@@ -117,23 +114,33 @@ namespace MALClient.XShared.ViewModels.Forums
             }
         }
 
-        public string Title
+        public string ToggleWatchingButtonText
         {
-            get { return _title; }
+            get { return _toggleWatchingButtonText; }
             set
             {
-                _title = value;
-                RaisePropertyChanged(() => Title);
+                _toggleWatchingButtonText = value;
+                RaisePropertyChanged(() => ToggleWatchingButtonText);
             }
         }
+
+        public string ReplyMessage
+        {
+            get { return _replyMessage; }
+            set
+            {
+                _replyMessage = value;
+                RaisePropertyChanged(() => ReplyMessage);
+            }
+        }
+
+        #region Commands
 
         public ICommand LoadPageCommand => _loadPageCommand ?? (_loadPageCommand = new RelayCommand<int>(page =>
         {
             CurrentPage = page;
             LoadCurrentTopicPage();
         }));
-
-
 
         public ICommand LoadGotoPageCommand => _loadGotoPageCommand ?? (_loadGotoPageCommand = new RelayCommand(() =>
         {
@@ -149,7 +156,7 @@ namespace MALClient.XShared.ViewModels.Forums
         public ICommand GotoLastPageCommand => _gotoLastPageCommand ?? (_gotoLastPageCommand = new RelayCommand(
             () =>
             {
-                CurrentPage = _currentTopicData.AllPages;
+                CurrentPage = CurrentTopicData.AllPages;
                 LoadCurrentTopicPage();
             }));
 
@@ -162,17 +169,65 @@ namespace MALClient.XShared.ViewModels.Forums
                 LoadCurrentTopicPage();
             }));
 
+        public ICommand ToggleWatchingCommand => _toggleWatchingCommand ?? (_toggleWatchingCommand = new RelayCommand(
+                                                     async () =>
+                                                     {
+                                                         var res =
+                                                             await ForumTopicQueries.ToggleTopicWatching(
+                                                                 _prevArgs.TopicId);
+                                                         if(res == null)
+                                                             ResourceLocator.MessageDialogProvider.ShowMessageDialog("Unable to toggle watching status.","Something went wrong");
 
-        private async void LoadCurrentTopicPage()
+                                                         ToggleWatchingButtonText = res == true ? "Watching" : "Stopped watching";
+                                                     }));
+
+        public ICommand CreateReplyCommand => _createReplyCommand ?? (_createReplyCommand = new RelayCommand(
+                                                  async () =>
+                                                  {
+                                                      if(await ForumTopicQueries.CreateMessage(_prevArgs.TopicId,ReplyMessage))
+                                                      {
+                                                          ReplyMessage = string.Empty;
+                                                          LoadCurrentTopicPage(true,true);
+                                                      }
+                                                      else
+                                                      {
+                                                          ResourceLocator.MessageDialogProvider.ShowMessageDialog("Unable to send your reply","Something went wrong");
+                                                      }
+
+                                                  }));
+
+
+        public bool IsMangaBoard => _prevArgs.TopicType == TopicType.Manga;
+
+        #endregion
+
+
+
+        private async void LoadCurrentTopicPage(bool force = false,bool lastpost = false)
         {
             LoadingTopic = true;
 
-            _currentTopicData = await ForumTopicQueries.GetTopicMessages(_prevArgs.TopicId, CurrentPage);
+            CurrentTopicData = await ForumTopicQueries.GetTopicData(_prevArgs.TopicId, CurrentPage,lastpost,null,force);
             Messages = new ObservableCollection<ForumTopicMessageEntryViewModel>(
-                _currentTopicData.Messages.Select(
+                CurrentTopicData.Messages.Select(
                     entry => new ForumTopicMessageEntryViewModel(entry)));
+            if (lastpost)
+            {
+                CurrentPage = CurrentTopicData.AllPages;
+            }
 
             LoadingTopic = false;
+
+        }
+
+        public void RemoveMessage(ForumTopicMessageEntryViewModel forumTopicMessageEntryViewModel)
+        {
+            Messages.Remove(forumTopicMessageEntryViewModel);
+        }
+
+        public async void QuouteMessage(string dataId,string poster)
+        {
+            ReplyMessage += $"[quote={poster} message={dataId}]" + await ForumTopicQueries.GetQuoute(dataId) + "[/quoute]";
         }
     }
 }

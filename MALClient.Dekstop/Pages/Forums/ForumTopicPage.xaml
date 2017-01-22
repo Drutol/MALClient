@@ -30,7 +30,7 @@
         </Grid.RowDefinitions>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
             <TextBlock Text="{Binding CurrentTopicData.Title}" HorizontalAlignment="Center" FontSize="28"
-                       FontWeight="Medium" VerticalAlignment="Center" Margin="0,5" />
+                       FontWeight="Medium" VerticalAlignment="Center" Margin="0,5" TextTrimming="CharacterEllipsis" />
         </StackPanel>
         <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Center">
             <ItemsControl ItemsSource="{x:Bind ViewModel.AvailablePages,Mode=OneTime}">
@@ -90,86 +90,113 @@
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Button Content="{Binding Name}" Style="{StaticResource TextBlockButtonStyle}" Margin="5,0" />
+                        <Button Content="{Binding Name}" Style="{StaticResource TextBlockButtonStyle}" CommandParameter="{Binding}" Command="{Binding Source={StaticResource Locator},Path=ForumsTopic.NavigateBreadcrumbsCommand}" Margin="5,0" />
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
-            <Button Content="{Binding ToggleWatchingButtonText}" Command="{Binding ToggleWatchingCommand}" Margin="5"
+            <StackPanel Orientation="Horizontal">
+                <Button Content="New reply" Click="NewReplyButtonOnClick" Margin="5"
                     Background="{ThemeResource BrushDeepBackground}"
                     BorderThickness="2" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" />
+                <Button Content="{Binding ToggleWatchingButtonText}" Command="{Binding ToggleWatchingCommand}" Margin="5"
+                    Background="{ThemeResource BrushDeepBackground}"
+                    BorderThickness="2" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" />
+            </StackPanel>
         </StackPanel>
-        <ScrollViewer Grid.Row="3" Background="{ThemeResource BrushAnimeItemInnerBackground}">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition />
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
-
-                <ItemsControl ItemsSource="{Binding Messages}" HorizontalAlignment="Stretch">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate x:DataType="items:ForumTopicMessageEntryViewModel">
-                            <Grid Padding="0,0,16,0">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="*" />
-                                </Grid.RowDefinitions>
-                                <Grid Background="{ThemeResource BrushPivotHeaderBackground}" Padding="10"
+        <ListView x:Name="ListView" ItemsSource="{Binding Messages}" HorizontalAlignment="Stretch" SelectionMode="None" Grid.Row="3" Background="{ThemeResource BrushAnimeItemInnerBackground}">
+            <ItemsControl.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>
+                    <Setter Property="Margin" Value="0"/>
+                    <Setter Property="Padding" Value="0"/>
+                </Style>
+            </ItemsControl.ItemContainerStyle>
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate x:DataType="items:ForumTopicMessageEntryViewModel">
+                    <Grid Padding="0,0,16,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Grid Background="{ThemeResource BrushPivotHeaderBackground}" Padding="10"
                                       BorderThickness="4,0,0,0"
                                       BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}">
-                                    <TextBlock Text="{x:Bind Data.CreateDate}" />
-                                    <TextBlock Text="{x:Bind Data.MessageNumber}" FontWeight="SemiBold"
+                            <TextBlock Text="{x:Bind Data.CreateDate}" />
+                            <TextBlock Text="{x:Bind Data.MessageNumber}" FontWeight="SemiBold"
                                                HorizontalAlignment="Right" />
-                                </Grid>
-                                <Grid Grid.Row="1" Background="{ThemeResource BrushAppBars}" Padding="4,0,0,0">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="180" />
-                                        <ColumnDefinition Width="*" />
-                                    </Grid.ColumnDefinitions>
-                                    <Grid>
-                                        <StackPanel Margin="0,0,0,5">
-                                            <Button Content="{x:Bind Data.Poster.MalUser.Name}" FontSize="20"
-                                                    Margin="0,5" Padding="0"
-                                                    Style="{StaticResource TextBlockButtonStyle}" />
-                                            <Image Margin="0,0,60,0" Source="{Binding Data.Poster.MalUser.ImgUrl}"
+                        </Grid>
+                        <Grid Grid.Row="1" Background="{ThemeResource BrushAppBars}" Padding="4,0,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="180" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid>
+                                <StackPanel Margin="0,0,0,5">
+                                    <Grid Margin="0,5">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Button  Padding="0" Command="{Binding Source={StaticResource Locator},Path=ForumsTopic.NavigateProfileCommand}" CommandParameter="{x:Bind Data.Poster.MalUser}"
+                                                    Style="{StaticResource TextBlockButtonStyle}" >
+                                            <TextBlock Text="{x:Bind Data.Poster.MalUser.Name}" FontSize="20" TextWrapping="Wrap" MaxLines="2" TextTrimming="CharacterEllipsis"/>
+                                        </Button>
+                                        <Button Grid.Column="1" Visibility="{x:Bind MessagingVisible,Converter={StaticResource BoolToVisibilityConverter}}" Background="Transparent" Width="40" Height="40" HorizontalAlignment="Right" VerticalAlignment="Top" CommandParameter="{x:Bind Data.Poster.MalUser}" Command="{Binding Source={StaticResource Locator},Path=ForumsTopic.NavigateMessagingCommand}">
+                                            <SymbolIcon Symbol="Mail" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Button>
+                                    </Grid>
+
+                                    <Image Margin="0,0,40,0" Source="{Binding Data.Poster.MalUser.ImgUrl}"
                                                    extensions:ImageExtensions.FadeInOnLoaded="True"
                                                    Stretch="UniformToFill" />
-                                            <TextBlock Text="{x:Bind Data.Poster.Status}" />
-                                            <TextBlock Text="{x:Bind Data.Poster.Joined}" />
-                                            <TextBlock Text="{x:Bind Data.Poster.Posts}" />
-                                        </StackPanel>
-                                    </Grid>
-                                    <Grid Grid.Column="1" VerticalAlignment="Stretch" MinHeight="230">
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="Auto"/>
-                                            <RowDefinition Height="Auto"/>
-                                        </Grid.RowDefinitions>
-                                        <WebView
-                                            attachedProperties:WebViewExtensions.Content="{x:Bind Data.HtmlContent,Mode=OneWay}" x:Phase="1"
-                                            DefaultBackgroundColor="{ThemeResource ColorAnimeItemBackground}" MinHeight="260"
+                                    <TextBlock Text="{x:Bind Data.Poster.Status}" />
+                                    <TextBlock Text="{x:Bind Data.Poster.Joined}" />
+                                    <TextBlock Text="{x:Bind Data.Poster.Posts}" />
+                                </StackPanel>
+
+                            </Grid>
+                            <Grid Grid.Column="1" VerticalAlignment="Stretch" MinHeight="230">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                <WebView attachedProperties:WebViewExtensions.Content="{x:Bind Data.HtmlContent,Mode=OneWay}" x:Phase="1"
+                                            DefaultBackgroundColor="{ThemeResource ColorAnimeItemBackground}" MinHeight="260" NavigationStarting="TopicWebView_OnNavigationStarting"
                                             ScriptNotify="WebView_OnScriptNotify" Visibility="{Binding EditMode,Converter={StaticResource BoolToVisibilityInvertedConverter}}"/>
-                                        <StackPanel Grid.Row="0" Visibility="{x:Bind EditMode,Mode=OneWay,Converter={StaticResource BoolToVisibilityConverter}}"> 
-                                            <TextBox Margin="10" HorizontalAlignment="Stretch" MinHeight="260" AcceptsReturn="True" Text="{Binding BBcodeContent,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
-                                            <StackPanel Orientation="Horizontal" Margin="10,5">
-                                                <Button Content="Submit" Margin="0,0,5,0" Padding="20,4" Command="{x:Bind SubmitEditCommand}" Background="{StaticResource SystemControlBackgroundAccentBrush}"/>
-                                                <Button Content="Cancel" Command="{x:Bind CancelEditCommand}" Margin="5,0" Padding="20,4"/>
-                                            </StackPanel>
-                                        </StackPanel>
-                                        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Background="{ThemeResource BrushAnimeItemBackground}">
-                                            <Button Content="Edit" Style="{StaticResource TextBlockButtonStyle}" Padding="20,5" Command="{x:Bind StartEditCommand}" Visibility="{x:Bind Data.CanEdit,Converter={StaticResource BoolToVisibilityConverter}}"/>
-                                            <Button Content="Delete" Style="{StaticResource TextBlockButtonStyle}" Padding="20,5" Command="{x:Bind DeleteCommand}" Visibility="{x:Bind Data.CanDelete,Converter={StaticResource BoolToVisibilityConverter}}"/>
-                                            <Button Content="Quoute" Style="{StaticResource TextBlockButtonStyle}" Padding="20,5" Command="{x:Bind QuouteCommand}"/>
-                                        </StackPanel>
-                                        <Grid Grid.RowSpan="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                                <StackPanel Grid.Row="0" Visibility="{x:Bind EditMode,Mode=OneWay,Converter={StaticResource BoolToVisibilityConverter}}">
+                                    <TextBox Margin="10" HorizontalAlignment="Stretch" MinHeight="260" AcceptsReturn="True" Text="{Binding BBcodeContent,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                                    <StackPanel Orientation="Horizontal" Margin="10,5">
+                                        <Button Content="Submit" Margin="0,0,5,0" Padding="20,4" Command="{x:Bind SubmitEditCommand}" Background="{StaticResource SystemControlBackgroundAccentBrush}"/>
+                                        <Button Content="Cancel" Command="{x:Bind CancelEditCommand}" Margin="5,0" Padding="20,4"/>
+                                    </StackPanel>
+                                </StackPanel>
+                                <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Background="{ThemeResource BrushAnimeItemBackground}">
+                                    <Button Content="Edit" Style="{StaticResource TextBlockButtonStyle}" Padding="20,5" Command="{x:Bind StartEditCommand}" Visibility="{x:Bind Data.CanEdit,Converter={StaticResource BoolToVisibilityConverter}}"/>
+                                    <Button Content="Delete" Style="{StaticResource TextBlockButtonStyle}" Padding="20,5" Command="{x:Bind DeleteCommand}" Visibility="{x:Bind Data.CanDelete,Converter={StaticResource BoolToVisibilityConverter}}"/>
+                                    <Button Content="Quote" Style="{StaticResource TextBlockButtonStyle}" Click="NewReplyButtonOnClick" Padding="20,5" Command="{x:Bind QuoteCommand}"/>
+                                </StackPanel>
+                                <Grid Grid.Row="1" HorizontalAlignment="Stretch" Background="{ThemeResource BrushAnimeItemBackground}">
+                                    <TextBlock Margin="5,0,0,5" Text="{x:Bind Data.EditDate}" FontStyle="Italic"></TextBlock>
+                                </Grid>
+                                <!--<WebView Grid.Row="2" attachedProperties:WebViewExtensions.Content="{x:Bind Data.Poster.SignatureHtml}" Height="165" HorizontalAlignment="Stretch" NavigationStarting="TopicWebView_OnNavigationStarting" Visibility="{x:Bind SignatureVisible,Converter={StaticResource BoolToVisibilityConverter}}"/>-->
+                                                             
+                                <Grid Grid.Row="0" Grid.RowSpan="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                                               Visibility="{x:Bind Loading,Mode=OneWay,Converter={StaticResource BoolToVisibilityConverter}}"
                                               Background="{ThemeResource BrushLoadingNonTransparent}">
-                                            <ProgressBar IsIndeterminate="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="20,0"></ProgressBar>
-                                        </Grid>
-                                    </Grid>
+                                    <ProgressBar IsIndeterminate="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="20,0"></ProgressBar>
                                 </Grid>
                             </Grid>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
+                        </Grid>
+                    </Grid>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+            <ListView.Footer>
                 <Grid Grid.Row="1" HorizontalAlignment="Stretch" Background="{ThemeResource BrushAppBars}"
                       Visibility="{Binding LoadingTopic,Converter={StaticResource BoolToVisibilityInvertedConverter}}">
                     <StackPanel Margin="20" HorizontalAlignment="Stretch">
@@ -180,8 +207,8 @@
                                 Background="{StaticResource SystemControlBackgroundAccentBrush}" />
                     </StackPanel>
                 </Grid>
-            </Grid>
-        </ScrollViewer>
+            </ListView.Footer>
+        </ListView>
         <Grid Grid.Row="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
               Visibility="{Binding LoadingTopic,Converter={StaticResource BoolToVisibilityConverter}}"
               Background="{ThemeResource BrushLoadingNonTransparent}">

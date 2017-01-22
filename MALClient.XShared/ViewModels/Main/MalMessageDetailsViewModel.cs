@@ -101,6 +101,8 @@ namespace MALClient.XShared.ViewModels.Main
                     MessageSet.Clear();
                     NewMessageFieldsVisibility = true;
                     ViewModelLocator.GeneralMain.OffRefreshButtonVisibility = false;
+                    MessageTarget = args.NewMessageTarget;
+                    RaisePropertyChanged(() => MessageTarget);
                     return;
                 }
                 NewMessageFieldsVisibility = false;

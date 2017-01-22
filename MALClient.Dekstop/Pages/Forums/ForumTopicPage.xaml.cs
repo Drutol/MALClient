@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -23,6 +24,7 @@ using MALClient.XShared.Utils;
 using MALClient.XShared.Utils.Enums;
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Forums;
+using WinRTXamlToolkit.Controls.Extensions;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -31,32 +33,52 @@ namespace MALClient.Pages.Forums
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class ForumTopicPage : Page
+    public sealed partial class ForumTopicPage : Page , ForumTopicViewModel.IScrollInfoProvider
     {
         public ForumTopicViewModel ViewModel => ViewModelLocator.ForumsTopic;
+        private int _webViewsToGo;
+        private int _requestedIndex;
 
         public ForumTopicPage()
         {
             this.InitializeComponent();
             Loaded += OnLoaded;
-           
+            ViewModel.ScrollInfoProvider = this;
+            ViewModel.RequestScroll += ViewModelOnRequestScroll;
+            ViewModel.PropertyChanged += ViewModelOnPropertyChanged;
+
+        }
+
+        private void ViewModelOnPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
+        {
+            if (propertyChangedEventArgs.PropertyName == nameof(ViewModel.Messages))
+            {
+                _webViewsToGo = ViewModel.Messages.Count;
+            }
+        }
+
+        private void ViewModelOnRequestScroll(object sender, int i)
+        {
+            if (_webViewsToGo > 0)
+            {
+                _requestedIndex = i;
+                return;
+            }
+            ListView.ScrollIntoView(ViewModel.Messages[i], ScrollIntoViewAlignment.Leading);
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             ViewModel.Init(e.Parameter as ForumsTopicNavigationArgs);
             base.OnNavigatedTo(e);
+            
         }
 
         private async void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
         {
             
             
-        }
-
-        
-
-        
+        }          
 
         private async void ClipboardOnContentChanged(object sender, object o)
         {
@@ -79,28 +101,28 @@ namespace MALClient.Pages.Forums
 
         private void TopicWebView_OnNavigationStarting(WebView sender, WebViewNavigationStartingEventArgs args)
         {
-            //try
-            //{
-            //    if (args.Uri != null)
-            //    {
-            //        var uri = args.Uri.AbsoluteUri;
-            //        args.Cancel = true;
-            //        var navArgs = MalLinkParser.GetNavigationParametersForUrl(uri);
-            //        if (navArgs != null)
-            //        {
-            //            ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageForumIndex, _args);
-            //            ViewModelLocator.GeneralMain.Navigate(navArgs.Item1, navArgs.Item2);
-            //        }
-            //        else if (Settings.ArticlesLaunchExternalLinks)
-            //        {
-            //            ResourceLocator.SystemControlsLauncherService.LaunchUri(args.Uri);
-            //        }
-            //    }
-            //}
-            //catch (Exception)
-            //{
-            //    args.Cancel = true;
-            //}
+            try
+            {
+                if (args.Uri != null)
+                {
+                    var uri = args.Uri.AbsoluteUri;
+                    args.Cancel = true;
+                    var navArgs = MalLinkParser.GetNavigationParametersForUrl(uri);
+                    if (navArgs != null)
+                    {
+                        ViewModel.RegisterSelfBackNav();
+                        ViewModelLocator.GeneralMain.Navigate(navArgs.Item1, navArgs.Item2);
+                    }
+                    else if (Settings.ArticlesLaunchExternalLinks)
+                    {
+                        ResourceLocator.SystemControlsLauncherService.LaunchUri(args.Uri);
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                args.Cancel = true;
+            }
         }
 
         private void GotoInputOnKeyDown(object sender, KeyRoutedEventArgs e)
@@ -133,6 +155,27 @@ namespace MALClient.Pages.Forums
             var view = sender as FrameworkElement;
             if (val > view.ActualHeight)
                 view.Height = val + 50;
+            _webViewsToGo--;
+
+            if (_webViewsToGo == 0)
+            {
+                ScrollToIndex();
+            }
+        }
+
+        public int GetFirstVisibleItemIndex()
+        {
+            return ListView.GetFirstVisibleIndex();
+        }
+
+        private void NewReplyButtonOnClick(object sender, RoutedEventArgs e)
+        {
+            ListView.ScrollToBottom();
+        }
+
+        private void ScrollToIndex()
+        {
+            ListView.ScrollIntoView(ViewModel.Messages[_requestedIndex], ScrollIntoViewAlignment.Leading);
         }
     }
 }

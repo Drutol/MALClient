@@ -11,5 +11,6 @@
         public MessageDetailsWorkMode WorkMode { get; set; }
         public object Arg { get; set; } //either comment or message
         public bool BackNavHandled { get; set; }
+        public string NewMessageTarget { get; set; }
     }
 }

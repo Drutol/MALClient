@@ -7,10 +7,12 @@ using System.Windows.Input;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using MALClient.Models.Enums;
+using MALClient.Models.Models;
 using MALClient.Models.Models.Forums;
 using MALClient.XShared.Comm.MagicalRawQueries.Forums;
 using MALClient.XShared.Delegates;
 using MALClient.XShared.NavArgs;
+using MALClient.XShared.Utils;
 using MALClient.XShared.Utils.Enums;
 using MALClient.XShared.ViewModels.Forums.Items;
 
@@ -18,6 +20,12 @@ namespace MALClient.XShared.ViewModels.Forums
 {
     public class ForumTopicViewModel : ViewModelBase
     {
+        public interface IScrollInfoProvider
+        {
+            int GetFirstVisibleItemIndex();
+        }
+
+        public event EventHandler<int> RequestScroll; 
 
         private bool _loadingTopic;
         
@@ -36,13 +44,19 @@ namespace MALClient.XShared.ViewModels.Forums
         private string _toggleWatchingButtonText;
         private ICommand _createReplyCommand;
         private string _replyMessage;
+        private ICommand _navigateMessagingCommand;
 
+        public IScrollInfoProvider ScrollInfoProvider { get; set; }
 
         public async void Init(ForumsTopicNavigationArgs args)
         {
+            if (LoadingTopic)
+                return;
+
             LoadingTopic = true;
             _prevArgs = args;
 
+            Messages?.Clear();
             ToggleWatchingButtonText = "Toggle watching";
             CurrentTopicData = await ForumTopicQueries.GetTopicData(_prevArgs.TopicId, _prevArgs.TopicPage, _prevArgs.LastPost);
             CurrentPage = _prevArgs.LastPost ? CurrentTopicData.AllPages : CurrentTopicData.CurrentPage;
@@ -51,7 +65,14 @@ namespace MALClient.XShared.ViewModels.Forums
                 CurrentTopicData.Messages.Select(
                     entry => new ForumTopicMessageEntryViewModel(entry)));
 
-            
+            if (_prevArgs.FirstVisibleItemIndex != null)
+            {
+                RequestScroll?.Invoke(this,_prevArgs.FirstVisibleItemIndex.Value);
+            }
+            else if (_prevArgs.LastPost)
+            {
+                RequestScroll?.Invoke(this,Messages.Count-1);
+            }
 
             LoadingTopic = false;
         }
@@ -136,6 +157,20 @@ namespace MALClient.XShared.ViewModels.Forums
 
         #region Commands
 
+        public ICommand NavigateBreadcrumbsCommand => new RelayCommand<ForumBreadcrumb>(breadcrumb =>
+        {
+            var args = MalLinkParser.GetNavigationParametersForUrl(breadcrumb.Link);
+            RegisterSelfBackNav();
+            ViewModelLocator.GeneralMain.Navigate(args.Item1,args.Item2);
+        });
+
+        public ICommand NavigateProfileCommand => new RelayCommand<MalUser>(user =>
+        {
+            RegisterSelfBackNav();
+            ViewModelLocator.GeneralMain.Navigate(PageIndex.PageProfile,
+                new ProfilePageNavigationArgs {TargetUser = user.Name});
+        });
+
         public ICommand LoadPageCommand => _loadPageCommand ?? (_loadPageCommand = new RelayCommand<int>(page =>
         {
             CurrentPage = page;
@@ -196,6 +231,14 @@ namespace MALClient.XShared.ViewModels.Forums
 
                                                   }));
 
+        public ICommand NavigateMessagingCommand
+            => _navigateMessagingCommand ?? (_navigateMessagingCommand = new RelayCommand<MalUser>(
+                   user =>
+                   {
+                       ViewModelLocator.GeneralMain.Navigate(PageIndex.PageMessageDetails,new MalMessageDetailsNavArgs{WorkMode = MessageDetailsWorkMode.Message,NewMessageTarget = user.Name});
+                   }));
+
+
 
         public bool IsMangaBoard => _prevArgs.TopicType == TopicType.Manga;
 
@@ -227,7 +270,15 @@ namespace MALClient.XShared.ViewModels.Forums
 
         public async void QuouteMessage(string dataId,string poster)
         {
-            ReplyMessage += $"[quote={poster} message={dataId}]" + await ForumTopicQueries.GetQuoute(dataId) + "[/quoute]";
+            ReplyMessage += $"[quote={poster} message={dataId}]" + await ForumTopicQueries.GetQuote(dataId) + "[/quoute]";
+        }
+
+        public void RegisterSelfBackNav()
+        {
+            _prevArgs.FirstVisibleItemIndex = ScrollInfoProvider.GetFirstVisibleItemIndex();
+            _prevArgs.TopicPage = CurrentPage;
+            _prevArgs.LastPost = false;
+            ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageForumIndex, _prevArgs);
         }
     }
 }

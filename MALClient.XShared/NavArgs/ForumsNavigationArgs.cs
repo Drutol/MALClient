@@ -98,8 +98,14 @@ namespace MALClient.XShared.NavArgs
         public TopicType TopicType { get; }
         public string TopicId { get; set; }
         public int? MessageId { get; }
-        public int TopicPage { get; }
-        public bool LastPost => MessageId == -1;
+        public int TopicPage { get; set; }
+        public bool LastPost
+        {
+            get { return MessageId == -1; }
+            set { throw new NotImplementedException(); }
+        }
+
+        public int? FirstVisibleItemIndex { get; set; }
 
         /// <summary>
         /// 
@@ -118,7 +124,7 @@ namespace MALClient.XShared.NavArgs
             TopicPage = page;
         }
 
-        public ForumsTopicNavigationArgs(ForumBoards targetBoard,string id, int? messageId,int page)
+        public ForumsTopicNavigationArgs(ForumBoards targetBoard,string id, int? messageId,int page =1 )
         {
             Page = ForumsPageIndex.PageTopic;
             TargetBoard = targetBoard;
@@ -130,6 +136,8 @@ namespace MALClient.XShared.NavArgs
         private ForumsTopicNavigationArgs()
         {
         }
+
+        
     }
 
     public class ForumsNewTopicNavigationArgs : ForumsNavigationArgs

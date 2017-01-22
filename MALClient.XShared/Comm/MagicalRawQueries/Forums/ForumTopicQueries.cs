@@ -266,6 +266,7 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Forums
             {
                 var client = await MalHttpContextProvider.GetHttpContextAsync();
 
+                
                 var response =
                     await client.GetAsync(
                         lastpage
@@ -273,6 +274,12 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Forums
                             : messageId != null
                                 ? $"/forum/message/{messageId}?goto=topic"
                                 : $"/forum/?topicid={topicId}&show={(page - 1) * 50}");
+
+                if (lastpage && response.StatusCode == HttpStatusCode.RedirectMethod)
+                {
+                    response =
+                        await client.GetAsync(response.Headers.Location);
+                }
 
                 var doc = new HtmlDocument();
                 doc.Load(await response.Content.ReadAsStreamAsync());
@@ -481,11 +488,11 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Forums
         #region Quoute
 
         /// <summary>
-        /// Gets quoute string
+        /// Gets quote string
         /// </summary>
         /// <param name="id"></param>
         /// <returns>Quutable bbcode</returns>
-        public static async Task<string> GetQuoute(string id)
+        public static async Task<string> GetQuote(string id)
         {
             try
             {

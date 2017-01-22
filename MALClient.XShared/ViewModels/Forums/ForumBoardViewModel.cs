@@ -369,10 +369,10 @@ namespace MALClient.XShared.ViewModels.Forums
             if (PrevArgs.WorkMode == ForumBoardPageWorkModes.UserSearch ||
                 PrevArgs.WorkMode == ForumBoardPageWorkModes.WatchedTopics)
                 ViewModelLocator.GeneralMain.Navigate(PageIndex.PageForumIndex,
-                    new ForumsTopicNavigationArgs(ForumBoards.Creative, topic.Data.Id, lastpost ? (int?)-1 : null,1));
+                    new ForumsTopicNavigationArgs(ForumBoards.Creative, topic.Data.Id, lastpost ? (int?)-1 : null));
             else
                 ViewModelLocator.GeneralMain.Navigate(PageIndex.PageForumIndex,
-                    new ForumsTopicNavigationArgs(PrevArgs.TargetBoard,topic.Data.Id, lastpost ? (int?)-1 : null, 1));
+                    new ForumsTopicNavigationArgs(PrevArgs.TargetBoard,topic.Data.Id, lastpost ? (int?)-1 : null));
         }
 
         public void Reload()

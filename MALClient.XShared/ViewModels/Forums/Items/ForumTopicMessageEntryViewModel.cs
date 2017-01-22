@@ -8,6 +8,7 @@ using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using MALClient.Models.Models.Forums;
 using MALClient.XShared.Comm.MagicalRawQueries.Forums;
+using MALClient.XShared.Utils;
 
 namespace MALClient.XShared.ViewModels.Forums.Items
 {
@@ -53,6 +54,12 @@ namespace MALClient.XShared.ViewModels.Forums.Items
             }
         }
 
+        public bool SignatureVisible
+            => Settings.ForumsAllowSignatures && !string.IsNullOrWhiteSpace(Data.Poster.SignatureHtml);
+
+        public bool MessagingVisible
+            => !Credentials.UserName.Equals(Data.Poster.MalUser.Name, StringComparison.CurrentCultureIgnoreCase);
+
         public ICommand StartEditCommand => new RelayCommand(async () =>
         {
             Loading = true;
@@ -90,7 +97,7 @@ namespace MALClient.XShared.ViewModels.Forums.Items
             ResourceLocator.MessageDialogProvider.ShowMessageDialogWithInput("Do you really want to remove this message?","Are you sure?","Yup","Nope",Delete);
         });
 
-        public ICommand QuouteCommand => new RelayCommand(() =>
+        public ICommand QuoteCommand => new RelayCommand(() =>
         {
             ViewModelLocator.ForumsTopic.QuouteMessage(Data.Id,Data.Poster.MalUser.Name);
         });

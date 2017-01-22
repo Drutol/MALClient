@@ -568,7 +568,11 @@ namespace MALClient.XShared.Utils
             set { ApplicationDataService[nameof(ForumsSearchOnCopy)] = value; }
         }
 
-
+        public static bool ForumsAllowSignatures
+        {
+            get { return (bool) (ApplicationDataService[nameof(ForumsAllowSignatures)] ?? true); }
+            set { ApplicationDataService[nameof(ForumsAllowSignatures)] = value; }
+        }
 
         #endregion
 

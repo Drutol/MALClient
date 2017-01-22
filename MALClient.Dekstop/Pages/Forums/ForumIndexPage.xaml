@@ -167,7 +167,7 @@
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
-                <Grid Grid.Row="1" Padding="0,10,0,0" BorderThickness="0,1,0,0" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" Background="{StaticResource BrushAnimeItemInnerBackground}" Visibility="{Binding ForumIndexContent,Converter={StaticResource BoolToVisibilityConverter}}">
+                <Grid Grid.Row="1" Padding="0,10,0,0" BorderThickness="0,1,0,0" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" Background="{StaticResource BrushAppBars}" Visibility="{Binding ForumIndexContent,Converter={StaticResource BoolToVisibilityConverter}}">
                     <ItemsControl HorizontalAlignment="Center"
                               Visibility="{Binding LoadingSideContentVisibility,Converter={StaticResource BoolToVisibilityInvertedConverter}}">
                         <ItemsControl.Resources>
@@ -177,7 +177,7 @@
                                         <Style TargetType="ListViewItem">
                                             <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                                             <Setter Property="Margin" Value="0,5" />
-                                            <Setter Property="Background" Value="{ThemeResource BrushAnimeItemBackground}"/>
+                                            <Setter Property="Background" Value="{ThemeResource BrushAnimeItemInnerBackground}"/>
                                             <Setter Property="BorderBrush" Value="{StaticResource SystemControlBackgroundAccentBrush}"/>
                                             <Setter Property="BorderThickness" Value="2,0,0,0"/>
                                         </Style>

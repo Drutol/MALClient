@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using GalaSoft.MvvmLight;
@@ -155,17 +156,19 @@ namespace MALClient.XShared.ViewModels.Forums
                     Boards[0].Items[i].SetPeekPosts(peekPosts.ForumBoardEntryPeekPosts[i]);
                 for (int i = 0; i < 5; i++)
                     Boards[1].Items[i].SetPeekPosts(peekPosts.ForumBoardEntryPeekPosts[5 + i]);
-                Boards[1].Items[5].SetPeekPosts(peekPosts.ForumBoardEntryPeekPosts[9]);
+                Boards[1].Items[5].SetPeekPosts(peekPosts.ForumBoardEntryPeekPosts[9]); //double manga/anime
                 for (int i = 0; i < 7; i++)
                     Boards[2].Items[i].SetPeekPosts(peekPosts.ForumBoardEntryPeekPosts[10 + i]);
                 ForumIndexContent = peekPosts;
-                LoadingSideContentVisibility = false;
-                _loading = false;
+
             }
             catch (Exception)
             {
                //they have changed thisd once already, once bitten twice shy
             }
+
+            LoadingSideContentVisibility = false;
+            _loading = false;
 
         }
     }

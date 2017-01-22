@@ -456,6 +456,22 @@ namespace MALClient.XShared.Utils
                     .First(node => node.Attributes.Contains("class") && node.Attributes["class"].Value.Trim() == targettedClass);
         }
 
+        public static HtmlNode FirstOrDefaultOfDescendantsWithClass(this HtmlDocument doc, string descendants,
+            string targettedClass)
+        {
+            return
+                doc.DocumentNode.Descendants(descendants)
+                    .FirstOrDefault(node => node.Attributes.Contains("class") && node.Attributes["class"].Value.Trim() == targettedClass);
+        }
+
+        public static HtmlNode FirstOfDescendantsWithClassContaining(this HtmlDocument doc, string descendants,
+            string targettedClass)
+        {
+            return
+                doc.DocumentNode.Descendants(descendants)
+                    .First(node => node.Attributes.Contains("class") && node.Attributes["class"].Value.Contains(targettedClass));
+        }
+
         public static HtmlNode FirstOfDescendantsWithId(this HtmlDocument doc, string descendants, string targettedId)
         {
             return

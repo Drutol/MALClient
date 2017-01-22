@@ -68,10 +68,10 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Forums
 
                 var requestContent = new FormUrlEncodedContent(data);
 
-                //var response = await client.PostAsync(endpoint, requestContent);
-                var response =
-                    await client.PostAsync(
-                        "/forum/?action=post&club_id=73089", requestContent);
+                var response = await client.PostAsync(endpoint, requestContent);
+                //var response =
+                //    await client.PostAsync(
+                //        "/forum/?action=post&club_id=73089", requestContent);
 
                 return response.IsSuccessStatusCode;
             }
@@ -326,8 +326,15 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Forums
                     output.CurrentPage = output.AllPages;
                 }
 
-                output.Title = WebUtility.HtmlDecode(doc.FirstOfDescendantsWithClass("h1", "forum_locheader").InnerText.Trim());
-
+                output.Title = WebUtility.HtmlDecode(doc.FirstOrDefaultOfDescendantsWithClass("h1", "forum_locheader")?.InnerText.Trim());
+                if (output.Title == null)
+                {
+                    output.Title = WebUtility.HtmlDecode(doc.FirstOrDefaultOfDescendantsWithClass("h1", "forum_locheader icon-forum-locked")?.InnerText.Trim());
+                    if (output.Title != null)
+                    {
+                        output.IsLocked = true;
+                    }
+                }
                 foreach (var bradcrumb in doc.FirstOfDescendantsWithClass("div", "breadcrumb").ChildNodes.Where(node => node.Name == "div"))
                 {
                     output.Breadcrumbs.Add(new ForumBreadcrumb
@@ -485,7 +492,7 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Forums
         }
         #endregion
 
-        #region Quoute
+        #region Quote
 
         /// <summary>
         /// Gets quote string

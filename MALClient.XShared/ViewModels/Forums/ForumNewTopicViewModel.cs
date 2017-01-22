@@ -116,11 +116,24 @@ namespace MALClient.XShared.ViewModels.Forums
 
         private async void CreateTopic()
         {
-            if (await ForumTopicQueries.CreateNewTopic(Title, Message,
-                _prevArgs.ForumType, _prevArgs.Id, Question,
-                Answers.Any(model => !string.IsNullOrEmpty(model.Answer))
-                    ? Answers.Select(model => model.Answer).ToList()
-                    : null))
+            bool result;
+            if (_prevArgs.TopicType != null)
+            {
+                result = await ForumTopicQueries.CreateNewTopic(Title, Message,
+                    _prevArgs.TopicType.Value, _prevArgs.Id, Question,
+                    Answers.Any(model => !string.IsNullOrEmpty(model.Answer))
+                        ? Answers.Select(model => model.Answer).ToList()
+                        : null);
+            }
+            else
+            {
+                result = await ForumTopicQueries.CreateNewTopic(Title, Message,
+                    _prevArgs.ForumType, _prevArgs.Id, Question,
+                    Answers.Any(model => !string.IsNullOrEmpty(model.Answer))
+                        ? Answers.Select(model => model.Answer).ToList()
+                        : null);
+            }
+            if (result)
             {
                 ViewModelLocator.NavMgr.CurrentMainViewOnBackRequested();
             }

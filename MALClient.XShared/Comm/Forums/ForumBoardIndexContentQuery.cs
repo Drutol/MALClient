@@ -34,7 +34,9 @@ namespace MALClient.XShared.Comm.Forums
             {
                 try
                 {
-                    foreach (var post in topics.Descendants("li"))
+                    var lis = topics.Descendants("li").ToList();
+                    bool addMissing = lis.Count() == 1;
+                    foreach (var post in lis)
                     {
                         i++;
                         try
@@ -43,6 +45,8 @@ namespace MALClient.XShared.Comm.Forums
                                 continue;
                             //if(i == 9) //add one more because suggestions have one post
                             //    list.Add(new ForumBoardEntryPeekPost());
+                            if(addMissing)
+                                list.Add(new ForumBoardEntryPeekPost());
 
                             var current = new ForumBoardEntryPeekPost();
                             current.PostTime = WebUtility.HtmlDecode(post.FirstOfDescendantsWithClass("span", "date di-ib pt4 fs10 fn-grey4").InnerText.TrimEnd('»'));

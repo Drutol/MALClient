@@ -38,11 +38,11 @@ namespace MALClient.Pages.Forums
         public ForumTopicViewModel ViewModel => ViewModelLocator.ForumsTopic;
         private int _webViewsToGo;
         private int _requestedIndex;
+        private bool _addedCopyHandler;
 
         public ForumTopicPage()
         {
             this.InitializeComponent();
-            Loaded += OnLoaded;
             ViewModel.ScrollInfoProvider = this;
             ViewModel.RequestScroll += ViewModelOnRequestScroll;
             ViewModel.PropertyChanged += ViewModelOnPropertyChanged;
@@ -69,16 +69,25 @@ namespace MALClient.Pages.Forums
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+
+            if (Settings.ForumsSearchOnCopy)
+            {
+                _addedCopyHandler = true;
+                Clipboard.ContentChanged += ClipboardOnContentChanged;
+            }
             ViewModel.Init(e.Parameter as ForumsTopicNavigationArgs);
             base.OnNavigatedTo(e);
             
         }
 
-        private async void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
-            
-            
-        }          
+            if (_addedCopyHandler)
+            {
+                Clipboard.ContentChanged -= ClipboardOnContentChanged;
+            }
+            base.OnNavigatedFrom(e);
+        }
 
         private async void ClipboardOnContentChanged(object sender, object o)
         {
@@ -110,7 +119,9 @@ namespace MALClient.Pages.Forums
                     var navArgs = MalLinkParser.GetNavigationParametersForUrl(uri);
                     if (navArgs != null)
                     {
-                        ViewModel.RegisterSelfBackNav();
+                        if(!navArgs.Item1.GetAttribute<EnumUtilities.PageIndexEnumMember>().OffPage)
+                            ViewModel.RegisterSelfBackNav();
+
                         ViewModelLocator.GeneralMain.Navigate(navArgs.Item1, navArgs.Item2);
                     }
                     else if (Settings.ArticlesLaunchExternalLinks)
@@ -152,9 +163,10 @@ namespace MALClient.Pages.Forums
         private void WebView_OnScriptNotify(object sender, NotifyEventArgs e)
         {
             var val = int.Parse(e.Value);
-            var view = sender as FrameworkElement;
+            var view = sender as WebView;
+            view.ScriptNotify -= WebView_OnScriptNotify;
             if (val > view.ActualHeight)
-                view.Height = val + 50;
+                view.Height = val + 60;
             _webViewsToGo--;
 
             if (_webViewsToGo == 0)

@@ -29,7 +29,8 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-            <TextBlock Text="{Binding CurrentTopicData.Title}" HorizontalAlignment="Center" FontSize="28"
+            <uwp:FontAwesome Icon="Lock" Margin="10,20,10,10" Visibility="{Binding IsLockedVisibility,Converter={StaticResource BoolToVisibilityConverter}}"></uwp:FontAwesome>
+            <TextBlock Text="{Binding Header}" HorizontalAlignment="Center" FontSize="28"
                        FontWeight="Medium" VerticalAlignment="Center" Margin="0,5" TextTrimming="CharacterEllipsis" />
         </StackPanel>
         <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Center">
@@ -82,7 +83,7 @@
             </Button>
         </StackPanel>
         <StackPanel Grid.Row="1">
-            <ItemsControl ItemsSource="{Binding CurrentTopicData.Breadcrumbs}">
+            <ItemsControl ItemsSource="{Binding Breadcrumbs}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <StackPanel Orientation="Horizontal" />
@@ -197,15 +198,17 @@
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
             <ListView.Footer>
-                <Grid Grid.Row="1" HorizontalAlignment="Stretch" Background="{ThemeResource BrushAppBars}"
+                <Grid  Grid.Row="1" HorizontalAlignment="Stretch" Visibility="{x:Bind ViewModel.CurrentTopicData.IsLocked,Converter={StaticResource BoolToVisibilityInvertedConverter}}">
+                    <Grid Background="{ThemeResource BrushAppBars}"
                       Visibility="{Binding LoadingTopic,Converter={StaticResource BoolToVisibilityInvertedConverter}}">
-                    <StackPanel Margin="20" HorizontalAlignment="Stretch">
-                        <TextBlock Text="Reply:" Margin="0,5" />
-                        <TextBox AcceptsReturn="True" MinHeight="230" MaxHeight="400"
+                        <StackPanel Margin="20" HorizontalAlignment="Stretch">
+                            <TextBlock Text="Reply:" Margin="0,5" />
+                            <TextBox AcceptsReturn="True" MinHeight="230" MaxHeight="400"
                                  Text="{Binding ReplyMessage,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
-                        <Button Content="Send" Margin="0,5" Padding="20,4" Command="{Binding CreateReplyCommand}"
+                            <Button Content="Send" Margin="0,5" Padding="20,4" Command="{Binding CreateReplyCommand}"
                                 Background="{StaticResource SystemControlBackgroundAccentBrush}" />
-                    </StackPanel>
+                        </StackPanel>
+                    </Grid>
                 </Grid>
             </ListView.Footer>
         </ListView>

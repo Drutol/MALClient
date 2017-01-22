@@ -97,13 +97,9 @@ namespace MALClient.XShared.NavArgs
         public ForumTopicEntry Entry { get; }
         public TopicType TopicType { get; }
         public string TopicId { get; set; }
-        public int? MessageId { get; }
+        public int? MessageId { get; set; }
         public int TopicPage { get; set; }
-        public bool LastPost
-        {
-            get { return MessageId == -1; }
-            set { throw new NotImplementedException(); }
-        }
+        public bool LastPost => MessageId == -1;
 
         public int? FirstVisibleItemIndex { get; set; }
 

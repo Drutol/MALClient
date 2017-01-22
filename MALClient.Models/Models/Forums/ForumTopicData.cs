@@ -13,5 +13,6 @@ namespace MALClient.Models.Models.Forums
         public int CurrentPage { get; set; }
         public string Title { get; set; }
         public List<ForumBreadcrumb> Breadcrumbs { get; set; } = new List<ForumBreadcrumb>();
+        public bool IsLocked { get; set; }
     }
 }

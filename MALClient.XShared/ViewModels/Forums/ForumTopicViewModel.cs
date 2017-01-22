@@ -55,7 +55,6 @@ namespace MALClient.XShared.ViewModels.Forums
 
             LoadingTopic = true;
             _prevArgs = args;
-
             Messages?.Clear();
             ToggleWatchingButtonText = "Toggle watching";
             CurrentTopicData = await ForumTopicQueries.GetTopicData(_prevArgs.TopicId, _prevArgs.TopicPage, _prevArgs.LastPost);
@@ -98,6 +97,10 @@ namespace MALClient.XShared.ViewModels.Forums
             }
         }
 
+        public string Header => !LoadingTopic ? CurrentTopicData?.Title : null;
+        public bool IsLockedVisibility => !LoadingTopic && (CurrentTopicData?.IsLocked ?? false);
+        public List<ForumBreadcrumb> Breadcrumbs => !LoadingTopic ? CurrentTopicData?.Breadcrumbs  : null;
+
         public int CurrentPage
         {
             get { return _currentPage; }
@@ -122,6 +125,8 @@ namespace MALClient.XShared.ViewModels.Forums
             {
                 _loadingTopic = value;
                 RaisePropertyChanged(() => LoadingTopic);
+                RaisePropertyChanged(() => Header);
+                RaisePropertyChanged(() => Breadcrumbs);
             }
         }
 
@@ -277,7 +282,7 @@ namespace MALClient.XShared.ViewModels.Forums
         {
             _prevArgs.FirstVisibleItemIndex = ScrollInfoProvider.GetFirstVisibleItemIndex();
             _prevArgs.TopicPage = CurrentPage;
-            _prevArgs.LastPost = false;
+            _prevArgs.MessageId = null;
             ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageForumIndex, _prevArgs);
         }
     }

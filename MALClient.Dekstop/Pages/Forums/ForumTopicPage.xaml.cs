@@ -176,6 +176,7 @@ namespace MALClient.Pages.Forums
         private void ScrollToIndex()
         {
             ListView.ScrollIntoView(ViewModel.Messages[_requestedIndex], ScrollIntoViewAlignment.Leading);
+            _requestedIndex = 0;
         }
     }
 }

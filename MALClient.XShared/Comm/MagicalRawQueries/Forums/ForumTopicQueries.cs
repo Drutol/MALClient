@@ -103,13 +103,13 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Forums
 
                 var requestContent = new FormUrlEncodedContent(data);
 
-                //var response =
-                //    await client.PostAsync(
-                //        $"/forum/?action=message&topic_id={id}", requestContent);                
-
                 var response =
                     await client.PostAsync(
-                        $"/forum/?action=message&topic_id=1586126", requestContent);
+                        $"/forum/?action=message&topic_id={id}", requestContent);
+
+                //var response =
+                //    await client.PostAsync(
+                //        $"/forum/?action=message&topic_id=1586126", requestContent);
 
                 return response.IsSuccessStatusCode;
             }
@@ -422,14 +422,14 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Forums
                 if (!CachedMessagesDictionary.ContainsKey(topicId))
                     CachedMessagesDictionary.Add(topicId, new Dictionary<int, ForumTopicData>
                     {
-                        {page, output}
+                        {output.CurrentPage, output}
                     });
                 else
                 {
-                    if (CachedMessagesDictionary[topicId].ContainsKey(page))
-                        CachedMessagesDictionary[topicId][page] = output;
+                    if (CachedMessagesDictionary[topicId].ContainsKey(output.CurrentPage))
+                        CachedMessagesDictionary[topicId][output.CurrentPage] = output;
                     else
-                        CachedMessagesDictionary[topicId].Add(page, output);
+                        CachedMessagesDictionary[topicId].Add(output.CurrentPage, output);
                 }
                     
                 

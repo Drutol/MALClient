@@ -17,18 +17,8 @@ namespace MALClient.XShared.ViewModels.Forums.Items
         private bool _editMode;
         private string _bbcodeContent;
         private bool _loading;
-        private double _computedHeight = -1;
+        private double _computedHtmlHeight = -1;
         public ForumMessageEntry Data { get; }
-
-        public double ComputedHeight
-        {
-            get { return _computedHeight == -1 ? double.NaN : _computedHeight; }
-            set
-            {
-                _computedHeight = value;
-                RaisePropertyChanged(() => ComputedHeight);
-            }
-        }
 
         public ForumTopicMessageEntryViewModel(ForumMessageEntry data)
         {
@@ -62,6 +52,16 @@ namespace MALClient.XShared.ViewModels.Forums.Items
             {
                 _loading = value;
                 RaisePropertyChanged(() => Loading);
+            }
+        }
+
+        public double ComputedHtmlHeight
+        {
+            get { return _computedHtmlHeight == -1 ? double.NaN : _computedHtmlHeight; }
+            set
+            {
+                _computedHtmlHeight = value;
+                RaisePropertyChanged(() => ComputedHtmlHeight);
             }
         }
 

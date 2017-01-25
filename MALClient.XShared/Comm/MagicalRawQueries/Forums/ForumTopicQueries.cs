@@ -254,6 +254,7 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Forums
         /// <param name="topicId">Self explanatory</param>
         /// <param name="page">Page starting from 1</param>
         /// <param name="lastpage">Override page to last page?</param>
+        /// <param name="messageId"></param>
         /// <param name="force">Forces cache ignore</param>
         /// <returns></returns>
         public static async Task<ForumTopicData> GetTopicData(string topicId,int page,bool lastpage = false,int? messageId = null,bool force = false)
@@ -265,7 +266,7 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Forums
             try
             {
                 var client = await MalHttpContextProvider.GetHttpContextAsync();
-
+                string targetMessageId;
                 
                 var response =
                     await client.GetAsync(
@@ -275,7 +276,7 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Forums
                                 ? $"/forum/message/{messageId}?goto=topic"
                                 : $"/forum/?topicid={topicId}&show={(page - 1) * 50}");
 
-                if (lastpage && response.StatusCode == HttpStatusCode.RedirectMethod)
+                if ((lastpage || messageId != null) && response.StatusCode == HttpStatusCode.RedirectMethod)
                 {
                     response =
                         await client.GetAsync(response.Headers.Location);
@@ -342,6 +343,18 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Forums
                         Name = WebUtility.HtmlDecode(bradcrumb.InnerText.Trim()),
                         Link = bradcrumb.Descendants("a").First().Attributes["href"].Value
                     });
+                }
+
+                if (topicId == null) //in case of redirection
+                {
+                    var uri = response.RequestMessage.RequestUri.AbsoluteUri;
+                    output.TargetMessageId = uri.Split('#').Last().Replace("msg", "");
+                    var pos = uri.IndexOf('&');
+                    if (pos != -1)
+                    {
+                        uri = uri.Substring(0, pos);
+                        topicId = uri.Split('=').Last();
+                    }                    
                 }
 
                 foreach (var row in doc.WhereOfDescendantsWithClass("div", "forum_border_around"))

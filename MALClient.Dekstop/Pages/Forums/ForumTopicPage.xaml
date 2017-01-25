@@ -17,6 +17,7 @@
     <Page.Resources>
         <xamlConverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
         <xamlConverters:BoolToVisibilityInvertedConverter x:Key="BoolToVisibilityInvertedConverter" />
+        <xamlConverters:BoolInverterConverter x:Key="BoolInverterConverter" />
     </Page.Resources>
 
     <Grid Background="{ThemeResource BrushDeepBackground}">
@@ -97,10 +98,10 @@
             </ItemsControl>
             <StackPanel Orientation="Horizontal">
                 <Button Content="New reply" Click="NewReplyButtonOnClick" Margin="5"
-                    Background="{ThemeResource BrushDeepBackground}"
+                    Background="{ThemeResource BrushDeepBackground}" IsEnabled="{x:Bind ViewModel.LoadingTopic,Converter={StaticResource BoolInverterConverter}}"
                     BorderThickness="2" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" />
                 <Button Content="{Binding ToggleWatchingButtonText}" Command="{Binding ToggleWatchingCommand}" Margin="5"
-                    Background="{ThemeResource BrushDeepBackground}"
+                    Background="{ThemeResource BrushDeepBackground}" IsEnabled="{x:Bind ViewModel.LoadingTopic,Converter={StaticResource BoolInverterConverter}}"
                     BorderThickness="2" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" />
             </StackPanel>
         </StackPanel>
@@ -168,8 +169,8 @@
                                     <RowDefinition Height="Auto"/>
                                 </Grid.RowDefinitions>
                                 <WebView attachedProperties:WebViewExtensions.Content="{x:Bind Data.HtmlContent,Mode=OneWay}" attachedProperties:WebViewExtensions.ResizeToFit="True"
-                                            DefaultBackgroundColor="{ThemeResource ColorAnimeItemBackground}" MinHeight="260" NavigationStarting="TopicWebView_OnNavigationStarting" attachedProperties:WebViewExtensions.ComputedHeight="{Binding ComputedHeight,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
-                                            Visibility="{Binding EditMode,Converter={StaticResource BoolToVisibilityInvertedConverter}}" Height="{Binding ComputedHeight}"/>
+                                            DefaultBackgroundColor="{ThemeResource ColorAnimeItemBackground}" MinHeight="260" NavigationStarting="TopicWebView_OnNavigationStarting" attachedProperties:WebViewExtensions.ComputedHeight="{Binding ComputedHtmlHeight,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                            Visibility="{Binding EditMode,Converter={StaticResource BoolToVisibilityInvertedConverter}}" Height="{x:Bind ComputedHtmlHeight,Mode=OneWay}"/>
                                 <StackPanel Grid.Row="0" Visibility="{x:Bind EditMode,Mode=OneWay,Converter={StaticResource BoolToVisibilityConverter}}">
                                     <TextBox Margin="10" HorizontalAlignment="Stretch" MinHeight="260" AcceptsReturn="True" Text="{Binding BBcodeContent,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
                                     <StackPanel Orientation="Horizontal" Margin="10,5">

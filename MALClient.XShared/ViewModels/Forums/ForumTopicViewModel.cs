@@ -56,8 +56,10 @@ namespace MALClient.XShared.ViewModels.Forums
             LoadingTopic = true;
             _prevArgs = args;
             Messages?.Clear();
+            AvailablePages?.Clear();
+
             ToggleWatchingButtonText = "Toggle watching";
-            CurrentTopicData = await ForumTopicQueries.GetTopicData(_prevArgs.TopicId, _prevArgs.TopicPage, _prevArgs.LastPost);
+            CurrentTopicData = await ForumTopicQueries.GetTopicData(_prevArgs.TopicId, _prevArgs.TopicPage, _prevArgs.LastPost, _prevArgs.MessageId);
             CurrentPage = _prevArgs.LastPost ? CurrentTopicData.AllPages : CurrentTopicData.CurrentPage;
 
             Messages = new ObservableCollection<ForumTopicMessageEntryViewModel>(
@@ -71,6 +73,10 @@ namespace MALClient.XShared.ViewModels.Forums
             else if (_prevArgs.LastPost)
             {
                 RequestScroll?.Invoke(this,Messages.Count-1);
+            }
+            else if (CurrentTopicData.TargetMessageId != null)
+            {
+                RequestScroll?.Invoke(this,Messages.IndexOf(Messages.First(model => model.Data.Id == CurrentTopicData.TargetMessageId)));
             }
 
             LoadingTopic = false;
@@ -97,7 +103,7 @@ namespace MALClient.XShared.ViewModels.Forums
             }
         }
 
-        public string Header => !LoadingTopic ? CurrentTopicData?.Title : null;
+        public string Header => !LoadingTopic ? CurrentTopicData?.Title : "...";
         public bool IsLockedVisibility => !LoadingTopic && (CurrentTopicData?.IsLocked ?? false);
         public List<ForumBreadcrumb> Breadcrumbs => !LoadingTopic ? CurrentTopicData?.Breadcrumbs  : null;
 
@@ -166,14 +172,23 @@ namespace MALClient.XShared.ViewModels.Forums
         {
             var args = MalLinkParser.GetNavigationParametersForUrl(breadcrumb.Link);
             RegisterSelfBackNav();
-            ViewModelLocator.GeneralMain.Navigate(args.Item1,args.Item2);
+            if (args.Item1 == PageIndex.PageAnimeDetails)
+            {
+                var detailsArg = args.Item2 as AnimeDetailsPageNavigationArgs;
+                ViewModelLocator.GeneralMain.Navigate(PageIndex.PageForumIndex,new ForumsBoardNavigationArgs(detailsArg.Id,detailsArg.Title,detailsArg.AnimeMode));
+            }
+            else
+            {
+                ViewModelLocator.GeneralMain.Navigate(args.Item1, args.Item2);
+            }
+
         });
 
         public ICommand NavigateProfileCommand => new RelayCommand<MalUser>(user =>
         {
             RegisterSelfBackNav();
             ViewModelLocator.GeneralMain.Navigate(PageIndex.PageProfile,
-                new ProfilePageNavigationArgs {TargetUser = user.Name});
+                new ProfilePageNavigationArgs {TargetUser = user.Name,AllowBackNavReset = false});
         });
 
         public ICommand LoadPageCommand => _loadPageCommand ?? (_loadPageCommand = new RelayCommand<int>(page =>
@@ -275,7 +290,7 @@ namespace MALClient.XShared.ViewModels.Forums
 
         public async void QuouteMessage(string dataId,string poster)
         {
-            ReplyMessage += $"[quote={poster} message={dataId}]" + await ForumTopicQueries.GetQuote(dataId) + "[/quoute]";
+            ReplyMessage += $"[quote={poster} message={dataId}]" + await ForumTopicQueries.GetQuote(dataId) + "[/quote]";
         }
 
         public void RegisterSelfBackNav()

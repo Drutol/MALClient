@@ -85,7 +85,7 @@ namespace MALClient.XShared.ViewModels.Main
             if (args == null)
                 return;
 
-            if (args.TargetUser == Credentials.UserName)
+            if (args.TargetUser == Credentials.UserName && args.AllowBackNavReset)
             {
                 ViewModelLocator.NavMgr.ResetMainBackNav();
                 if (ViewModelLocator.Mobile)

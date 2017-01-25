@@ -50,9 +50,11 @@ namespace MALClient.XShared.Utils
                     return new Tuple<PageIndex, object>(PageIndex.PageForumIndex, new ForumsBoardNavigationArgs(id, "Manga Series Board", false));
                 }
             }
-            else if(Regex.IsMatch(uri, @"https:\/\/myanimelist\.net\/forum\/message\/\d+\?goto=topic"))
+            else if(Regex.IsMatch(uri, @"https:\/\/myanimelist\.net\/forum\/message\/\d+\.*"))
             {
-                
+                //https://myanimelist.net/forum/message/49205130?goto=topic
+                var id = int.Parse(uri.Replace("?goto=topic","").Substring(10).Split('/')[3]);
+                return new Tuple<PageIndex, object>(PageIndex.PageForumIndex, new ForumsTopicNavigationArgs(ForumBoards.Creative, null,id));
             }
             else if(Regex.IsMatch(uri, @"https:\/\/myanimelist.net\/forum\/\?topicid=\d+.*"))
             {

@@ -51,11 +51,13 @@ namespace MALClient.Shared.Managers
                 Replace("AccentColourLight", "#" + color2.ToString().Substring(3)).
                 Replace("AccentColourDark", "#" + color1.ToString().Substring(3))
                 .Replace("BodyBackgroundThemeColor",
-                    Settings.SelectedTheme == (int)ApplicationTheme.Dark ? "#2d2d2d" : "#e6e6e6")
+                    Settings.SelectedTheme == (int) ApplicationTheme.Dark ? "#2d2d2d" : "#e6e6e6")
                 .Replace("BodyForegroundThemeColor",
-                    Settings.SelectedTheme == (int)ApplicationTheme.Dark ? "white" : "black").Replace(
-                        "HorizontalSeparatorColor",
-                        Settings.SelectedTheme == (int)ApplicationTheme.Dark ? "#0d0d0d" : "#b3b3b3");
+                    Settings.SelectedTheme == (int) ApplicationTheme.Dark ? "white" : "black").Replace(
+                    "HorizontalSeparatorColor",
+                    Settings.SelectedTheme == (int) ApplicationTheme.Dark ? "#0d0d0d" : "#b3b3b3")
+                .Replace("BodyBackgroundThemeDarkerColor",
+                    Settings.SelectedTheme == (int) ApplicationTheme.Dark ? "#212121" : "#dadada");
             if (!Settings.ArticlesDisplayScrollBar)
                 css += CssRemoveScrollbar;
             css += "</style>";
@@ -208,7 +210,22 @@ namespace MALClient.Shared.Managers
 	        font-style: normal;
 	        font-variant: normal;
 	        font-weight: 500;
-	
+        }
+
+        .quotetext
+        {
+        	border-style: solid;
+    		border-width: 0px 0px 0px 2px;
+    		padding: 5px;
+    		border-color: AccentColourBase;
+    		background: BodyBackgroundThemeDarkerColor;
+        }
+
+        .codetext
+        {
+    		padding: 7px;
+    		background: BodyBackgroundThemeDarkerColor;
+    		font-family: 'Consolas';
         }";
 
         #endregion

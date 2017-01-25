@@ -2,12 +2,19 @@
 {
     public enum AnimeListWorkModes
     {
+        [EnumUtilities.AnimeListWorkModeEnumMember(AllowLoadingMore = false)]
         Anime,
+        [EnumUtilities.AnimeListWorkModeEnumMember(AllowLoadingMore = false)]
         SeasonalAnime,
+        [EnumUtilities.AnimeListWorkModeEnumMember(AllowLoadingMore = false)]
         Manga,
+        [EnumUtilities.AnimeListWorkModeEnumMember(AllowLoadingMore = true)]
         TopAnime,
+        [EnumUtilities.AnimeListWorkModeEnumMember(AllowLoadingMore = true)]
         TopManga,
+        [EnumUtilities.AnimeListWorkModeEnumMember(AllowLoadingMore = true)]
         AnimeByGenre,
+        [EnumUtilities.AnimeListWorkModeEnumMember(AllowLoadingMore = true)]
         AnimeByStudio
     }
 

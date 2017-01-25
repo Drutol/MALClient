@@ -31,6 +31,7 @@ namespace MALClient.XShared.ViewModels.Forums
         private string _question;
         private ICommand _addAnswerCommand;
         private ICommand _removeAnswerCommand;
+        private string _message;
 
         public void Init(ForumsNewTopicNavigationArgs args)
         {
@@ -53,7 +54,16 @@ namespace MALClient.XShared.ViewModels.Forums
         }
 
         public string Title { get; set; }
-        public string Message { get; set; }
+
+        public string Message
+        {
+            get { return _message; }
+            set
+            {
+                _message = value;
+                SubmitMessageForDelayedPreview();
+            }
+        }
 
         public string Header
         {
@@ -113,6 +123,17 @@ namespace MALClient.XShared.ViewModels.Forums
                    {
                        Answers.Remove(model);
                    }));
+
+        private bool _messageQueued;
+        private async void SubmitMessageForDelayedPreview()
+        {
+            if(_messageQueued)
+                return;
+            _messageQueued = true;
+                await Task.Delay(500);
+                PreviewCommand.Execute(null);
+            _messageQueued = false;
+        }
 
         private async void CreateTopic()
         {

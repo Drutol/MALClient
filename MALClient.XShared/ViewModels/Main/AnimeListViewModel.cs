@@ -29,6 +29,7 @@ namespace MALClient.XShared.ViewModels.Main
         private readonly IAnimeLibraryDataStorage _animeLibraryDataStorage;
         private const int ItemPrefferedWidth = 385;
         private const int LastIndexPositionOnRefresh = -10; //just a constant
+        private const int ItemsPerPage = 50; //just a constant
 
         private SmartObservableCollection<AnimeItemViewModel> _animeItems =
             new SmartObservableCollection<AnimeItemViewModel>();
@@ -159,7 +160,6 @@ namespace MALClient.XShared.ViewModels.Main
             RaisePropertyChanged(() => AnimeItems);
             _randomedIds = new List<int>();
             _fetching = _fetchingSeasonal = false;
-            CurrentPage = 1;
 
             if (args == null || args.ResetBackNav)
                 ViewModelLocator.NavMgr.ResetMainBackNav();
@@ -298,14 +298,10 @@ namespace MALClient.XShared.ViewModels.Main
                     if (WorkMode == AnimeListWorkModes.TopAnime || WorkMode == AnimeListWorkModes.TopManga)
                     {
                         AppbarBtnPinTileVisibility = AppBtnSortingVisibility = false;
-                        if (CurrentPage <= 4)
-                            LoadMoreFooterVisibility = true;
                         AnimeItemsDisplayContext = AnimeItemDisplayContext.Index;
                     }
                     else
                     {
-                        if (CurrentPage <= 4)
-                            LoadMoreFooterVisibility = true;
                         if (WorkMode == AnimeListWorkModes.AnimeByGenre || WorkMode == AnimeListWorkModes.AnimeByStudio)
                         {
                             AppbarBtnPinTileVisibility = false;
@@ -636,7 +632,7 @@ namespace MALClient.XShared.ViewModels.Main
             LoadMoreFooterVisibility = false;
             if (CurrentPage > 4)
             {
-                CurrentPage = 5;
+                CanLoadMore = false;
                 return; //we have reached max 
             }
             var prevCount = AnimeItems.Count + _animeItemsSet.Count;
@@ -645,9 +641,9 @@ namespace MALClient.XShared.ViewModels.Main
             CurrentIndexPosition = LastIndexPositionOnRefresh;
             await FetchSeasonalData(true, CurrentPage);
             if (prevCount == AnimeItems.Count + _animeItemsSet.Count)
-                CurrentPage = 5;
+                CanLoadMore = false; // no items were added
             CurrentIndexPosition = AnimeItems.Count + _animeItemsSet.Count - 1;
-            LoadMoreFooterVisibility = CurrentPage <= 4;
+            CanLoadMore = CurrentPage <= 4 && WorkMode.GetAttribute<EnumUtilities.AnimeListWorkModeEnumMember>().AllowLoadingMore;
         }
 
         public void UpdateGridItemWidth(Tuple<Tuple<double,double>, Tuple<double, double>> args)
@@ -678,6 +674,7 @@ namespace MALClient.XShared.ViewModels.Main
             var minimumIndex = CurrentIndexPosition == -1
                 ? minItems
                 : CurrentIndexPosition + 1 <= minItems ? minItems : CurrentIndexPosition + 1;
+            var allItems = _animeItemsSet.Count;
             switch (DisplayMode)
             {
                 case AnimeListDisplayModes.IndefiniteCompactList:
@@ -710,9 +707,8 @@ namespace MALClient.XShared.ViewModels.Main
                 }
                 CurrentIndexPosition = -1;
             }
-            ViewModelLocator.GeneralMain.ScrollToTopButtonVisibility = CurrentIndexPosition > minItems
-                ? true
-                : false;
+            ViewModelLocator.GeneralMain.ScrollToTopButtonVisibility = CurrentIndexPosition > minItems;
+            CurrentPage = allItems / ItemsPerPage;
             Loading = false;
             _randomedIds = new List<int>();
         }

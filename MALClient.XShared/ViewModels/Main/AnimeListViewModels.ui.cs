@@ -195,8 +195,25 @@ namespace MALClient.XShared.ViewModels.Main
             }
         }
 
-        public int CurrentPage { get;
-            set; }
+        private int CurrentPage
+        {
+            get { return _currentPage; }
+            set
+            {
+                _currentPage = value;
+                CanLoadMore = value <= 4 && WorkMode.GetAttribute<EnumUtilities.AnimeListWorkModeEnumMember>().AllowLoadingMore; ;
+            }
+        }
+
+        public bool CanLoadMore
+        {
+            get { return _canLoadMore; }
+            set
+            {
+                _canLoadMore = value;
+                LoadMoreFooterVisibility = value;
+            }
+        }
 
         private AnimeItemDisplayContext _animeItemsDisplayContext;
 
@@ -510,6 +527,8 @@ namespace MALClient.XShared.ViewModels.Main
         }
 
         private double? _maxWidth;
+        private int _currentPage;
+        private bool _canLoadMore;
 
         public double MaxWidth => (_maxWidth ?? (_maxWidth = AnimeItemViewModel.MaxWidth)).Value;
 

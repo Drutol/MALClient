@@ -31,6 +31,21 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Messages
                 var ids =
                     doc.FirstOfDescendantsWithClass("input", "inputButton btn-middle flat").Attributes["onclick"].Value
                         .Split('=');
+
+
+                try
+                {
+                    foreach (var img in msgNode.Descendants("img"))
+                    {
+                        msg.Images.Add(img.Attributes["src"].Value);
+                    }
+                }
+                catch (Exception e)
+                {
+                    //no images
+                }
+
+
                 msg.ThreadId = ids[4].Substring(0, ids[3].IndexOf('&'));
                 msg.ReplyId = ids[3].Substring(0, ids[3].IndexOf('&'));
                 return msg;
@@ -65,6 +80,18 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Messages
                     current.Content = WebUtility.HtmlDecode(tds[2].InnerText.Trim());
                     if (string.IsNullOrEmpty(current.Content))
                         continue;
+
+                    try
+                    {
+                        foreach (var img in msgHistoryNode.Descendants("img"))
+                        {
+                            current.Images.Add(img.Attributes["src"].Value);
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        //no images
+                    }
 
 
                     current.Subject = msg.Subject;

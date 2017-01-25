@@ -23,6 +23,11 @@ namespace MALClient.Models.Enums
             public bool OffPage { get; set; }
         }
 
+        public class AnimeListWorkModeEnumMember : Attribute
+        {
+            public bool AllowLoadingMore { get; set; }
+        }
+
         public static string GetDescription(this Enum value)
         {
             try

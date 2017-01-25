@@ -1,4 +1,6 @@
-﻿namespace MALClient.Models.Models.MalSpecific
+﻿using System.Collections.Generic;
+
+namespace MALClient.Models.Models.MalSpecific
 {
     public class MalMessageModel
     {
@@ -18,6 +20,7 @@
         public string ThreadId { get; set; }
         public string ReplyId { get; set; }
         public bool IsRead { get; set; }
-        public bool IsMine { get; set; }     
+        public bool IsMine { get; set; }
+        public List<string> Images { get; set; } = new List<string>();
     }
 }

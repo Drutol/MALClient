@@ -20,9 +20,30 @@ namespace MALClient.Shared.UserControls.AttachedProperties
             view.NavigateToString(CssManager.WrapWithCss(dependencyPropertyChangedEventArgs.NewValue as string));
         }
 
+        private static void ViewOnScriptNotify(object sender, NotifyEventArgs e)
+        {
+            var view = sender as WebView;
+            view.ScriptNotify -= ViewOnScriptNotify;
+
+            var val = int.Parse(e.Value);
+            if (val > view.ActualHeight)
+            {
+                SetComputedHeight(view, val + 65);
+            }
+            else
+            {
+                SetComputedHeight(view, view.ActualHeight);
+            }
+
+        }
+
         public static void SetContent(DependencyObject element, string value)
         {
             element.SetValue(ContentProperty, value);
+            if (GetResizeToFit(element))
+            {
+                (element as WebView).ScriptNotify += ViewOnScriptNotify;
+            }
         }
 
         public static string GetContent(DependencyObject element)
@@ -31,36 +52,7 @@ namespace MALClient.Shared.UserControls.AttachedProperties
         }
 
         public static readonly DependencyProperty ResizeToFitProperty = DependencyProperty.RegisterAttached(
-            "ResizeToFit", typeof(bool), typeof(WebViewExtensions), new PropertyMetadata(default(bool),ReizePropertyChangedCallback));
-
-        private static void ReizePropertyChangedCallback(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
-        {
-            var view = dependencyObject as WebView;
-            view.DOMContentLoaded += ViewOnDomContentLoaded;
-
-
-        }
-
-        private static async void ViewOnDomContentLoaded(WebView view, WebViewDOMContentLoadedEventArgs args)
-        {
-            view.DOMContentLoaded -= ViewOnDomContentLoaded;
-            await Task.Delay(2000);
-            var winHeight = await view.InvokeScriptAsync("eval", new[] { "document.body.scrollHeight.toString()" });
-            var docHeight = await view.InvokeScriptAsync("eval", new[] { "document.body.getBoundingClientRect().top.toString()" });
-            var dogfhfcHeight = await view.InvokeScriptAsync("eval", new[] { "Math.max( document.body.scrollHeight, document.body.offsetHeight, document.documentElement.clientHeight, document.documentElement.scrollHeight, document.documentElement.offsetHeight ).toString()" });
-
-            int dh, wh;
-            if (int.TryParse(docHeight, out dh) && int.TryParse(winHeight, out wh))
-                view.Height = /*view.ActualHeight +*/ int.Parse(dogfhfcHeight);
-
-            //var heightString = await view.InvokeScriptAsync("eval", new[] { "document.body.scrollHeight.toString()" });
-            //int height;
-            //if (int.TryParse(heightString, out height))
-            //{
-            //    view.Height = height;
-            //}
-
-        }
+            "ResizeToFit", typeof(bool), typeof(WebViewExtensions), new PropertyMetadata(default(bool)));
 
         public static void SetResizeToFit(DependencyObject element, bool value)
         {
@@ -70,6 +62,19 @@ namespace MALClient.Shared.UserControls.AttachedProperties
         public static bool GetResizeToFit(DependencyObject element)
         {
             return (bool) element.GetValue(ResizeToFitProperty);
+        }
+
+        public static readonly DependencyProperty ComputedHeightProperty = DependencyProperty.RegisterAttached(
+            "ComputedHeight", typeof(double), typeof(WebViewExtensions), new PropertyMetadata(default(double)));
+
+        public static void SetComputedHeight(DependencyObject element, double value)
+        {
+            element.SetValue(ComputedHeightProperty, value);
+        }
+
+        public static double GetComputedHeight(DependencyObject element)
+        {
+            return (double) element.GetValue(ComputedHeightProperty);
         }
     }
 }

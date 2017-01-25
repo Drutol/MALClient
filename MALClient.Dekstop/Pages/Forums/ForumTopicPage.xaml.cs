@@ -24,21 +24,25 @@ using MALClient.XShared.Utils;
 using MALClient.XShared.Utils.Enums;
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Forums;
+using MALClient.XShared.ViewModels.Forums.Items;
 using WinRTXamlToolkit.Controls.Extensions;
+using WebViewExtensions = MALClient.Shared.UserControls.AttachedProperties.WebViewExtensions;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
 namespace MALClient.Pages.Forums
 {
+
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
     public sealed partial class ForumTopicPage : Page , ForumTopicViewModel.IScrollInfoProvider
     {
         public ForumTopicViewModel ViewModel => ViewModelLocator.ForumsTopic;
-        private int _webViewsToGo;
+        private int _webViewsToGo = 0;
         private int _requestedIndex;
         private bool _addedCopyHandler;
+        private Dictionary<string, double> _heightDictionary;
 
         public ForumTopicPage()
         {
@@ -46,24 +50,20 @@ namespace MALClient.Pages.Forums
             ViewModel.ScrollInfoProvider = this;
             ViewModel.RequestScroll += ViewModelOnRequestScroll;
             ViewModel.PropertyChanged += ViewModelOnPropertyChanged;
-
         }
 
         private void ViewModelOnPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
         {
-            if (propertyChangedEventArgs.PropertyName == nameof(ViewModel.Messages))
-            {
-                _webViewsToGo = ViewModel.Messages.Count;
-            }
+            //if (propertyChangedEventArgs.PropertyName == nameof(ViewModel.Messages))
+            //{
+            //   _heightDictionary = 
+            //}
         }
+
+        public EventHandler<ForumTopicMessageEntryViewModel> HeightRegistar { get; set; }
 
         private void ViewModelOnRequestScroll(object sender, int i)
         {
-            if (_webViewsToGo > 0)
-            {
-                _requestedIndex = i;
-                return;
-            }
             ListView.ScrollIntoView(ViewModel.Messages[i], ScrollIntoViewAlignment.Leading);
         }
 
@@ -103,11 +103,7 @@ namespace MALClient.Pages.Forums
                 });
             }
         }       
-
-        
-
-       
-
+          
         private void TopicWebView_OnNavigationStarting(WebView sender, WebViewNavigationStartingEventArgs args)
         {
             try
@@ -160,20 +156,6 @@ namespace MALClient.Pages.Forums
             ViewModel.LoadGotoPageCommand.Execute(null);
         }
 
-        private void WebView_OnScriptNotify(object sender, NotifyEventArgs e)
-        {
-            var val = int.Parse(e.Value);
-            var view = sender as WebView;
-            view.ScriptNotify -= WebView_OnScriptNotify;
-            if (val > view.ActualHeight)
-                view.Height = val + 60;
-            _webViewsToGo--;
-
-            if (_webViewsToGo == 0)
-            {
-                ScrollToIndex();
-            }
-        }
 
         public int GetFirstVisibleItemIndex()
         {
@@ -187,8 +169,13 @@ namespace MALClient.Pages.Forums
 
         private void ScrollToIndex()
         {
-            ListView.ScrollIntoView(ViewModel.Messages[_requestedIndex], ScrollIntoViewAlignment.Leading);
-            _requestedIndex = 0;
+           // ListView.ScrollIntoView(ViewModel.Messages[_requestedIndex], ScrollIntoViewAlignment.Leading);
+           // _requestedIndex = 0;
+        }
+
+        private void VirtualizingStackPanel_OnCleanUpVirtualizedItemEvent(object sender, CleanUpVirtualizedItemEventArgs e)
+        {
+
         }
     }
 }

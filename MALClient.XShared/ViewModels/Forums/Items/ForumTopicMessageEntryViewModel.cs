@@ -17,7 +17,18 @@ namespace MALClient.XShared.ViewModels.Forums.Items
         private bool _editMode;
         private string _bbcodeContent;
         private bool _loading;
+        private double _computedHeight = -1;
         public ForumMessageEntry Data { get; }
+
+        public double ComputedHeight
+        {
+            get { return _computedHeight == -1 ? double.NaN : _computedHeight; }
+            set
+            {
+                _computedHeight = value;
+                RaisePropertyChanged(() => ComputedHeight);
+            }
+        }
 
         public ForumTopicMessageEntryViewModel(ForumMessageEntry data)
         {

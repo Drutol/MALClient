@@ -114,7 +114,7 @@
             </ItemsControl.ItemContainerStyle>
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <StackPanel/>
+                    <ItemsStackPanel/>
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
@@ -167,9 +167,9 @@
                                     <RowDefinition Height="Auto"/>
                                     <RowDefinition Height="Auto"/>
                                 </Grid.RowDefinitions>
-                                <WebView attachedProperties:WebViewExtensions.Content="{x:Bind Data.HtmlContent,Mode=OneWay}" x:Phase="1"
-                                            DefaultBackgroundColor="{ThemeResource ColorAnimeItemBackground}" MinHeight="260" NavigationStarting="TopicWebView_OnNavigationStarting"
-                                            ScriptNotify="WebView_OnScriptNotify" Visibility="{Binding EditMode,Converter={StaticResource BoolToVisibilityInvertedConverter}}"/>
+                                <WebView attachedProperties:WebViewExtensions.Content="{x:Bind Data.HtmlContent,Mode=OneWay}" attachedProperties:WebViewExtensions.ResizeToFit="True"
+                                            DefaultBackgroundColor="{ThemeResource ColorAnimeItemBackground}" MinHeight="260" NavigationStarting="TopicWebView_OnNavigationStarting" attachedProperties:WebViewExtensions.ComputedHeight="{Binding ComputedHeight,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                            Visibility="{Binding EditMode,Converter={StaticResource BoolToVisibilityInvertedConverter}}" Height="{Binding ComputedHeight}"/>
                                 <StackPanel Grid.Row="0" Visibility="{x:Bind EditMode,Mode=OneWay,Converter={StaticResource BoolToVisibilityConverter}}">
                                     <TextBox Margin="10" HorizontalAlignment="Stretch" MinHeight="260" AcceptsReturn="True" Text="{Binding BBcodeContent,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
                                     <StackPanel Orientation="Horizontal" Margin="10,5">

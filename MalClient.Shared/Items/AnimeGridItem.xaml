@@ -71,7 +71,7 @@
                 <RowDefinition Height="*" />
                 <RowDefinition Height="50" />
             </Grid.RowDefinitions>
-            <Image controlsExt:ImageExtensions.FadeInOnLoaded="True" Grid.ColumnSpan="2" Stretch="Fill"
+            <Image controlsExt:ImageExtensions.FadeInOnLoaded="True" Grid.ColumnSpan="2" Stretch="Fill" ImageOpened="Image_OnImageOpened"
                    MaxWidth="{Binding MaxWidth}" attachedProperties:AnimeImageExtensions.MalBaseImageSource="{x:Bind ViewModel.ImgUrl}">
                 <!--<Image.Source>
                     <BitmapImage UriSource="{x:Bind ViewModel.ImgUrl}" DecodePixelHeight="325"

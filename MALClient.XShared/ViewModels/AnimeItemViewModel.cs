@@ -177,7 +177,7 @@ namespace MALClient.XShared.ViewModels
                 if (_airDayBrush != null)
                     return _airDayBrush.Value;
 
-                if (ParentAbstraction.AirStartDate != null)
+                if (ParentAbstraction.AirStartDate != null && !ParentAbstraction.AirStartDate.Contains("00"))
                 {
                     var diff = DateTimeOffset.Parse(ParentAbstraction.AirStartDate).Subtract(DateTimeOffset.Now);
                     if (diff.TotalSeconds > 0)

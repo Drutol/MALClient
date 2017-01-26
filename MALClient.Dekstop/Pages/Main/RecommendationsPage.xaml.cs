@@ -63,11 +63,13 @@ namespace MALClient.Pages.Main
             {
                 VisualStateManager.GoToState(this, "Wide", true);
                 UpdatePivotHeaders(new Thickness(0, 0, 0, 0));
+                UpdatePivotPrevButtons(new Thickness(0, 0, 0, 0));               
             }
             else
             {
                 VisualStateManager.GoToState(this, "Narrow", true);
                 UpdatePivotHeaders(new Thickness(40, 0, 0, 0));
+                UpdatePivotPrevButtons(new Thickness(40, 0, 0, 0));
             }
         }
 
@@ -75,6 +77,18 @@ namespace MALClient.Pages.Main
         {
             var control = InnerPivotManga.FindDescendantByName("HeaderClipper");
             var control1 = InnerPivotAnime.FindDescendantByName("HeaderClipper");
+
+
+            if (control1 != null)
+                control1.Margin = thickness;
+            if (control != null)
+                control.Margin = thickness;
+        }
+
+        private void UpdatePivotPrevButtons(Thickness thickness)
+        {
+            var control = InnerPivotManga.FindDescendantByName("PreviousButton");
+            var control1 = InnerPivotAnime.FindDescendantByName("PreviousButton");
 
 
             if (control1 != null)

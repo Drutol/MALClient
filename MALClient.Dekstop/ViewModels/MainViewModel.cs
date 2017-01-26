@@ -393,7 +393,7 @@ namespace MALClient.ViewModels
                     break;
                 case PageIndex.PagePopularVideos:
                     HideSearchStuff();
-                    CurrentStatus = "Popular Videos";
+                    CurrentStatus = "Promotional Videos";
                     MainNavigationRequested?.Invoke(typeof(PopularVideosPage), args);
                     break;
                 case PageIndex.PageFeeds:

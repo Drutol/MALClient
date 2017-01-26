@@ -99,7 +99,7 @@
                         <SymbolIcon Symbol="Tag" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
                         <Button.Flyout>
                             <Flyout>
-                                <TextBlock Text="{x:Bind ViewModel.Notes,Mode=OneWay}"/>
+                                <TextBlock Text="{x:Bind ViewModel.Notes,Mode=OneWay}" MaxWidth="300" TextWrapping="WrapWholeWords"/>
                             </Flyout>
                         </Button.Flyout>
                     </Button>

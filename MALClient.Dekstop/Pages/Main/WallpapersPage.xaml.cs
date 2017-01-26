@@ -55,6 +55,7 @@ namespace MALClient.Pages.Main
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+            ViewModelLocator.NavMgr.ResetMainBackNav();
             ViewModelLocator.Wallpapers.Init(e.Parameter as WallpaperPageNavigationArgs);
             base.OnNavigatedTo(e);
         }

@@ -9,6 +9,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Imaging;
 using MALClient.XShared.Utils.Enums;
 using MALClient.XShared.Utils.Managers;
 using MALClient.XShared.ViewModels;
@@ -194,6 +195,18 @@ namespace MALClient.Shared.Items
         private void Timeline_OnCompleted(object sender, object e)
         {
             DecrementField.Visibility = IncrementField.Visibility = Visibility.Collapsed;
+        }
+
+        private void Image_OnImageOpened(object sender, RoutedEventArgs e)
+        {
+            var img = sender as Image;
+            var imgSource = img.Source as BitmapImage;
+            if(imgSource.PixelHeight == 0 || img.ActualHeight == 0)
+                return;
+            if (Math.Abs(ActualHeight / ActualWidth - imgSource.PixelHeight / (double)imgSource.PixelWidth) > .65)
+            {
+                img.Stretch = Stretch.Uniform;
+            }
         }
     }
 }

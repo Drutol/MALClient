@@ -630,7 +630,7 @@ namespace MALClient.XShared.ViewModels.Main
         private async void LoadMore()
         {
             LoadMoreFooterVisibility = false;
-            if (CurrentPage > 4)
+            if (CurrentPage > 4 || !CanLoadMore)
             {
                 CanLoadMore = false;
                 return; //we have reached max 
@@ -638,12 +638,19 @@ namespace MALClient.XShared.ViewModels.Main
             var prevCount = AnimeItems.Count + _animeItemsSet.Count;
 
             CurrentPage++;
-            CurrentIndexPosition = LastIndexPositionOnRefresh;
+            CurrentIndexPosition = prevCount - 2;
             await FetchSeasonalData(true, CurrentPage);
             if (prevCount == AnimeItems.Count + _animeItemsSet.Count)
+            {
                 CanLoadMore = false; // no items were added
-            CurrentIndexPosition = AnimeItems.Count + _animeItemsSet.Count - 1;
-            CanLoadMore = CurrentPage <= 4 && WorkMode.GetAttribute<EnumUtilities.AnimeListWorkModeEnumMember>().AllowLoadingMore;
+            }
+            else
+            {
+                CanLoadMore = CurrentPage <= 4 && WorkMode.GetAttribute<EnumUtilities.AnimeListWorkModeEnumMember>().AllowLoadingMore;
+
+            }
+
+            
         }
 
         public void UpdateGridItemWidth(Tuple<Tuple<double,double>, Tuple<double, double>> args)
@@ -708,7 +715,7 @@ namespace MALClient.XShared.ViewModels.Main
                 CurrentIndexPosition = -1;
             }
             ViewModelLocator.GeneralMain.ScrollToTopButtonVisibility = CurrentIndexPosition > minItems;
-            CurrentPage = allItems / ItemsPerPage;
+            CurrentPage = (allItems / ItemsPerPage)+1;
             Loading = false;
             _randomedIds = new List<int>();
         }

@@ -34,6 +34,7 @@ namespace MALClient.Pages.Main
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+            ViewModelLocator.NavMgr.ResetMainBackNav();
             ViewModelLocator.PopularVideos.Init();
             base.OnNavigatedTo(e);
         }

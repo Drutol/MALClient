@@ -514,7 +514,7 @@ namespace MALClient.XShared.ViewModels.Main
                 }
                 else
                 {
-                    ResourceLocator.HandyDataStorage.PinnedUsers.Remove(CurrentData.User);
+                    ResourceLocator.HandyDataStorage.PinnedUsers.Remove(ResourceLocator.HandyDataStorage.PinnedUsers.First(user => user.Name.Equals(CurrentData.User.Name,StringComparison.CurrentCultureIgnoreCase)));
                 }
                 ViewModelLocator.GeneralHamburger.UpdatePinnedProfiles();
                 RaisePropertyChanged(() => IsPinned);

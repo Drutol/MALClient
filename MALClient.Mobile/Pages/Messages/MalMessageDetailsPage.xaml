@@ -30,9 +30,17 @@
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*" />
                                 <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
                             <TextBlock Text="{Binding Msg.Content}" IsTextSelectionEnabled="True"  TextWrapping="WrapWholeWords" />
-                            <TextBlock HorizontalAlignment="{Binding HorizontalAlignment}" Grid.Row="1"
+                            <ItemsControl Grid.Row="1" ItemsSource="{Binding Msg.Images}" Margin="10,5">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Image Source="{Binding}" Margin="0,5"/>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                            <TextBlock HorizontalAlignment="{Binding HorizontalAlignment}" Grid.Row="2"
                                        FontWeight="SemiLight" FontSize="14"
                                        Foreground="{ThemeResource BrushSettingsSubtitle}" Text="{Binding Msg.Date}"
                                        TextTrimming="CharacterEllipsis" />

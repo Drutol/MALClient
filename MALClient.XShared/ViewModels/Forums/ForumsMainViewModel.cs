@@ -67,6 +67,13 @@ namespace MALClient.XShared.ViewModels.Forums
                 _navigateRecentTopicsCommand ??
                 (_navigateRecentTopicsCommand = new RelayCommand(GotoMyRecentTopics));
 
+        private ICommand _navigateMalClientTopicsCommand;
+
+        public ICommand NavigateMalClientTopicsCommand
+            =>
+                _navigateMalClientTopicsCommand ??
+                (_navigateMalClientTopicsCommand = new RelayCommand(GotoMalClientTopic));
+
         private ICommand _navigateWatchedTopicsCommand;
 
         public ICommand NavigateWatchedTopicsCommand
@@ -157,6 +164,14 @@ namespace MALClient.XShared.ViewModels.Forums
             ViewModelLocator.NavMgr.ResetMainBackNav();
             ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageForumIndex, new ForumsNavigationArgs());
             ViewModelLocator.GeneralMain.Navigate(PageIndex.PageForumIndex, new ForumsBoardNavigationArgs(ForumBoardPageWorkModes.WatchedTopics));
+        }
+
+        private void GotoMalClientTopic()
+        {
+            ViewModelLocator.NavMgr.ResetMainBackNav();
+            ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageForumIndex, new ForumsNavigationArgs());
+            ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageForumIndex, new ForumsBoardNavigationArgs(ForumBoardPageWorkModes.WatchedTopics));
+            ViewModelLocator.GeneralMain.Navigate(PageIndex.PageForumIndex, new ForumsTopicNavigationArgs(ForumBoards.Creative, "1499207",null));
         }
     }
 }

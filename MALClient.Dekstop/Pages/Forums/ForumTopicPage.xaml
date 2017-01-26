@@ -98,10 +98,10 @@
             </ItemsControl>
             <StackPanel Orientation="Horizontal">
                 <Button Content="New reply" Click="NewReplyButtonOnClick" Margin="5"
-                    Background="{ThemeResource BrushDeepBackground}" IsEnabled="{x:Bind ViewModel.LoadingTopic,Converter={StaticResource BoolInverterConverter}}"
+                    Background="{ThemeResource BrushDeepBackground}" IsEnabled="{x:Bind ViewModel.LoadingTopic,Mode=OneWay,Converter={StaticResource BoolInverterConverter}}"
                     BorderThickness="2" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" />
                 <Button Content="{Binding ToggleWatchingButtonText}" Command="{Binding ToggleWatchingCommand}" Margin="5"
-                    Background="{ThemeResource BrushDeepBackground}" IsEnabled="{x:Bind ViewModel.LoadingTopic,Converter={StaticResource BoolInverterConverter}}"
+                    Background="{ThemeResource BrushDeepBackground}" IsEnabled="{x:Bind ViewModel.LoadingTopic,Mode=OneWay,Converter={StaticResource BoolInverterConverter}}"
                     BorderThickness="2" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" />
             </StackPanel>
         </StackPanel>

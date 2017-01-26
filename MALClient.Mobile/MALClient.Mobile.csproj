@@ -110,8 +110,14 @@
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\Forums\ForumNewTopicPage.xaml.cs">
+      <DependentUpon>ForumNewTopicPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\Forums\ForumsNewTopicPage.xaml.cs">
       <DependentUpon>ForumsNewTopicPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Forums\ForumTopicPage.xaml.cs">
+      <DependentUpon>ForumTopicPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\Main\CalendarPage.xaml.cs">
       <DependentUpon>CalendarPage.xaml</DependentUpon>
@@ -151,9 +157,6 @@
     </Compile>
     <Compile Include="Pages\Forums\ForumsMainPage.xaml.cs">
       <DependentUpon>ForumsMainPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\Forums\ForumTopicPage.xaml.cs">
-      <DependentUpon>ForumTopicPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\Main\HistoryPage.xaml.cs">
       <DependentUpon>HistoryPage.xaml</DependentUpon>
@@ -278,9 +281,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Pages\Forums\ForumNewTopicPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Pages\Forums\ForumsNewTopicPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\Forums\ForumTopicPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Pages\Main\FriendsFeedsPage.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -315,10 +326,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Pages\Forums\ForumsMainPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Pages\Forums\ForumTopicPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

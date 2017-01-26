@@ -147,13 +147,28 @@ namespace MALClient.XShared.Comm.Forums
 
 
             var spans = tds[1].Descendants("span").Where(node => !string.IsNullOrEmpty(node.InnerText)).ToList();
-            current.Op = spans[1].InnerText;
-            current.Created = spans[2].InnerText;
+            try
+            {
+                current.Op = spans[0].InnerText;
+                current.Created = spans[1].InnerText;
+            }
+            catch (Exception e)
+            {
+                //html and specific indexes...
+            }
+            try
+            {
+                current.Replies = tds[2 + tdOffset].InnerText;
 
-            current.Replies = tds[2 + tdOffset].InnerText;
+                current.LastPoster = tds[3 + tdOffset].Descendants("a").First().InnerText;
+                current.LastPostDate = tds[3 + tdOffset].ChildNodes.Last().InnerText.Trim();
+            }
+            catch (Exception )
+            {
+                //html and specific indexes...
+            }
 
-            current.LastPoster = tds[3 +tdOffset].Descendants("a").First().InnerText;
-            current.LastPostDate = tds[3 +tdOffset].ChildNodes.Last().InnerText.Trim();
+
             return current;
         }
     }

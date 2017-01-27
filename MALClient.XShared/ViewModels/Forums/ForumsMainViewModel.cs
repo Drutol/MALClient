@@ -81,6 +81,15 @@ namespace MALClient.XShared.ViewModels.Forums
                 _navigateWatchedTopicsCommand ??
                 (_navigateWatchedTopicsCommand = new RelayCommand(GotoWatchedTopics));
 
+        private ICommand _navigateStarredMessages;
+
+        public ICommand NavigateStarredMessages
+            =>
+                _navigateStarredMessages ??
+                (_navigateStarredMessages = new RelayCommand(GotoStarredMessages));
+
+
+
         public void Init(ForumsNavigationArgs args)
         {
             if (args == null)
@@ -149,14 +158,14 @@ namespace MALClient.XShared.ViewModels.Forums
             ViewModelLocator.NavMgr.ResetMainBackNav();
             ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageForumIndex, new ForumsNavigationArgs());
             ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageForumIndex, new ForumsBoardNavigationArgs(topic.SourceBoard));
-            ViewModelLocator.GeneralMain.Navigate(PageIndex.PageForumIndex, new ForumsTopicNavigationArgs(topic.SourceBoard,topic.Id,topic.Lastpost ? (int?)-1 : null,1));
+            ViewModelLocator.GeneralMain.Navigate(PageIndex.PageForumIndex, new ForumsTopicNavigationArgs(topic.Id,topic.Lastpost ? (int?)-1 : null,1));
         }
 
         private void GotoMyRecentTopics()
         {
             ViewModelLocator.NavMgr.ResetMainBackNav();
             ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageForumIndex, new ForumsNavigationArgs());
-            ViewModelLocator.GeneralMain.Navigate(PageIndex.PageForumIndex, new ForumsBoardNavigationArgs(ForumBoardPageWorkModes.UserSearch));
+            ViewModelLocator.GeneralMain.Navigate(PageIndex.PageForumIndex, new ForumsBoardNavigationArgs(Credentials.UserName));
         }
 
         private void GotoWatchedTopics()
@@ -171,7 +180,14 @@ namespace MALClient.XShared.ViewModels.Forums
             ViewModelLocator.NavMgr.ResetMainBackNav();
             ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageForumIndex, new ForumsNavigationArgs());
             ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageForumIndex, new ForumsBoardNavigationArgs(ForumBoardPageWorkModes.WatchedTopics));
-            ViewModelLocator.GeneralMain.Navigate(PageIndex.PageForumIndex, new ForumsTopicNavigationArgs(ForumBoards.Creative, "1499207",null));
+            ViewModelLocator.GeneralMain.Navigate(PageIndex.PageForumIndex, new ForumsTopicNavigationArgs("1499207",null));
+        }
+
+        private void GotoStarredMessages()
+        {
+            ViewModelLocator.NavMgr.ResetMainBackNav();
+            ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageForumIndex, new ForumsNavigationArgs());
+            ViewModelLocator.GeneralMain.Navigate(PageIndex.PageForumIndex, new ForumStarredMessagesNavigationArgs());
         }
     }
 }

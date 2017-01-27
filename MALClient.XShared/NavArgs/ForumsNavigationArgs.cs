@@ -64,6 +64,13 @@ namespace MALClient.XShared.NavArgs
             Page = ForumsPageIndex.PageBoard;
         }
 
+        public ForumsBoardNavigationArgs(string userName)
+        {
+            Page = ForumsPageIndex.PageBoard;
+            WorkMode = ForumBoardPageWorkModes.UserSearch;
+            Query = userName;
+        }
+
         public override bool Equals(object obj)
         {
             var arg = obj as ForumsBoardNavigationArgs;
@@ -93,11 +100,10 @@ namespace MALClient.XShared.NavArgs
 
     public class ForumsTopicNavigationArgs : ForumsNavigationArgs
     {
-        public ForumBoards? TargetBoard { get; }
         public ForumTopicEntry Entry { get; }
         public TopicType TopicType { get; }
         public string TopicId { get; set; }
-        public int? MessageId { get; set; }
+        public long? MessageId { get; set; }
         public int TopicPage { get; set; }
         public bool LastPost => MessageId == -1;
 
@@ -120,10 +126,9 @@ namespace MALClient.XShared.NavArgs
             TopicPage = page;
         }
 
-        public ForumsTopicNavigationArgs(ForumBoards targetBoard,string id, int? messageId,int page =1 )
+        public ForumsTopicNavigationArgs(string id, long? messageId,int page = 1)
         {
             Page = ForumsPageIndex.PageTopic;
-            TargetBoard = targetBoard;
             TopicId = id;
             MessageId = messageId;
             TopicPage = page;
@@ -168,6 +173,21 @@ namespace MALClient.XShared.NavArgs
             Page = ForumsPageIndex.PageNewTopic;
             ForumType = ForumType.Clubs;
             Id = id;
+        }
+    }
+
+    public class ForumStarredMessagesNavigationArgs : ForumsNavigationArgs
+    {
+        public string MessageId { get; }
+
+        public ForumStarredMessagesNavigationArgs()
+        {
+            Page = ForumsPageIndex.PageStarred;
+        }
+
+        public ForumStarredMessagesNavigationArgs(string messageId) : this()
+        {
+            MessageId = messageId;
         }
     }
 }

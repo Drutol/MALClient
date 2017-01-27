@@ -54,7 +54,7 @@ namespace MALClient.XShared.Utils
             {
                 //https://myanimelist.net/forum/message/49205130?goto=topic
                 var id = int.Parse(uri.Replace("?goto=topic","").Substring(10).Split('/')[3]);
-                return new Tuple<PageIndex, object>(PageIndex.PageForumIndex, new ForumsTopicNavigationArgs(ForumBoards.Creative, null,id));
+                return new Tuple<PageIndex, object>(PageIndex.PageForumIndex, new ForumsTopicNavigationArgs(null,id));
             }
             else if(Regex.IsMatch(uri, @"https:\/\/myanimelist.net\/forum\/\?topicid=\d+.*"))
             {
@@ -66,7 +66,7 @@ namespace MALClient.XShared.Utils
                 }
                 var id = uri.Split('=').Last();
 
-                return new Tuple<PageIndex, object>(PageIndex.PageForumIndex, new ForumsTopicNavigationArgs(ForumBoards.Creative,id,lastpost ? (int?)-1 : null,1));
+                return new Tuple<PageIndex, object>(PageIndex.PageForumIndex, new ForumsTopicNavigationArgs(id,lastpost ? (int?)-1 : null,1));
             }
             else if (uri == "https://myanimelist.net/forum/")
             {

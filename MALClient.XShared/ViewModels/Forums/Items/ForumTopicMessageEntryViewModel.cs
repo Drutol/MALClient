@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using MALClient.Models.Enums;
 using MALClient.Models.Models.Forums;
 using MALClient.XShared.Comm.MagicalRawQueries.Forums;
+using MALClient.XShared.NavArgs;
 using MALClient.XShared.Utils;
 
 namespace MALClient.XShared.ViewModels.Forums.Items
@@ -18,11 +20,13 @@ namespace MALClient.XShared.ViewModels.Forums.Items
         private string _bbcodeContent;
         private bool _loading;
         private double _computedHtmlHeight = -1;
+        private bool _isStarred;
         public ForumMessageEntry Data { get; }
 
         public ForumTopicMessageEntryViewModel(ForumMessageEntry data)
         {
             Data = data;
+            _isStarred = ResourceLocator.HandyDataStorage.IsMessageStarred(data.Id,data.Poster.MalUser);
         }
 
         public bool EditMode
@@ -65,6 +69,27 @@ namespace MALClient.XShared.ViewModels.Forums.Items
             }
         }
 
+        public bool IsStarred
+        {
+            get { return _isStarred; }
+            set
+            {
+                _isStarred = value;
+                if (value)
+                    ResourceLocator.HandyDataStorage.StarForumMessage(
+                        new StarredForumMessage
+                        {
+                            MessageId = Data.Id,
+                            TopicId = Data.TopicId,
+                            Poster = Data.Poster.MalUser,
+                            TopicTitle = ViewModelLocator.ForumsTopic.Header
+                        });
+                else
+                    ResourceLocator.HandyDataStorage.UnstarForumMessage(Data.Id,Data.Poster.MalUser);
+                RaisePropertyChanged(() => IsStarred);
+            }
+        }
+
         public bool SignatureVisible
             => Settings.ForumsAllowSignatures && !string.IsNullOrWhiteSpace(Data.Poster.SignatureHtml);
 
@@ -83,6 +108,12 @@ namespace MALClient.XShared.ViewModels.Forums.Items
         {
             EditMode = false;
             BBcodeContent = null;
+        });
+
+        public ICommand GoToPostersOtherPosts => new RelayCommand(() =>
+        {
+            ViewModelLocator.ForumsTopic.RegisterSelfBackNav();
+            ViewModelLocator.GeneralMain.Navigate(PageIndex.PageForumIndex,new ForumsBoardNavigationArgs(Data.Poster.MalUser.Name));
         });
 
         public ICommand SubmitEditCommand => new RelayCommand(async () =>

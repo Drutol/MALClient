@@ -124,6 +124,12 @@
                     </ToolTipService.ToolTip>
                     <SymbolIcon Symbol="View"/>
                 </Button>
+                <Button Background="Transparent"  Command="{Binding NavigateStarredMessages}">
+                    <ToolTipService.ToolTip>
+                        <ToolTip Content="MALClient's topic"/>
+                    </ToolTipService.ToolTip>
+                    <SymbolIcon Symbol="Favorite"/>
+                </Button>                
                 <Button Background="Transparent"  Command="{Binding NavigateMalClientTopicsCommand}">
                     <ToolTipService.ToolTip>
                         <ToolTip Content="MALClient's topic"/>

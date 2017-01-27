@@ -139,26 +139,30 @@
                             </Grid.ColumnDefinitions>
                             <Grid>
                                 <StackPanel Margin="0,0,0,5">
-                                    <Grid Margin="0,5">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition/>
-                                            <ColumnDefinition Width="Auto"/>
-                                        </Grid.ColumnDefinitions>
-                                        <Button  Padding="0" Command="{Binding Source={StaticResource Locator},Path=ForumsTopic.NavigateProfileCommand}" CommandParameter="{x:Bind Data.Poster.MalUser}"
+                                    <Button  Padding="0" Command="{Binding Source={StaticResource Locator},Path=ForumsTopic.NavigateProfileCommand}" CommandParameter="{x:Bind Data.Poster.MalUser}"
                                                     Style="{StaticResource TextBlockButtonStyle}" >
-                                            <TextBlock Text="{x:Bind Data.Poster.MalUser.Name}" FontSize="20" TextWrapping="Wrap" MaxLines="2" TextTrimming="CharacterEllipsis"/>
-                                        </Button>
-                                        <Button Grid.Column="1" Visibility="{x:Bind MessagingVisible,Converter={StaticResource BoolToVisibilityConverter}}" Background="Transparent" Width="40" Height="40" HorizontalAlignment="Right" VerticalAlignment="Top" CommandParameter="{x:Bind Data.Poster.MalUser}" Command="{Binding Source={StaticResource Locator},Path=ForumsTopic.NavigateMessagingCommand}">
-                                            <SymbolIcon Symbol="Mail" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                        </Button>
-                                    </Grid>
-
+                                        <TextBlock Text="{x:Bind Data.Poster.MalUser.Name}" FontSize="20" TextWrapping="Wrap" MaxLines="2" TextTrimming="CharacterEllipsis"/>
+                                    </Button>
                                     <Image Margin="0,0,40,0" Source="{Binding Data.Poster.MalUser.ImgUrl}"
                                                    extensions:ImageExtensions.FadeInOnLoaded="True"
                                                    Stretch="UniformToFill" />
                                     <TextBlock Text="{x:Bind Data.Poster.Status}" />
                                     <TextBlock Text="{x:Bind Data.Poster.Joined}" />
                                     <TextBlock Text="{x:Bind Data.Poster.Posts}" />
+                                    <StackPanel Orientation="Horizontal">
+                                        <ToggleButton Width="40" Height="40" IsChecked="{Binding IsStarred,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                                            <SymbolIcon Symbol="Favorite"/>
+                                        </ToggleButton>
+                                        <Button Width="40" Height="40" Background="Transparent" Command="{x:Bind GoToPostersOtherPosts}" Foreground="{ThemeResource BrushText}">
+                                            <ToolTipService.ToolTip>
+                                                <ToolTip Content="See user's recent posts..."/>
+                                            </ToolTipService.ToolTip>
+                                            <SymbolIcon Symbol="BrowsePhotos"/>
+                                        </Button>
+                                        <Button  Visibility="{x:Bind MessagingVisible,Converter={StaticResource BoolToVisibilityConverter}}" Background="Transparent" Width="40" Height="40" CommandParameter="{x:Bind Data.Poster.MalUser}" Command="{Binding Source={StaticResource Locator},Path=ForumsTopic.NavigateMessagingCommand}">
+                                            <SymbolIcon Symbol="Mail" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Button>
+                                    </StackPanel>
                                 </StackPanel>
 
                             </Grid>

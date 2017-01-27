@@ -67,6 +67,7 @@ namespace MALClient.XShared.ViewModels
             SimpleIoc.Default.Register<ForumsMainViewModel>();
             SimpleIoc.Default.Register<ForumBoardViewModel>();
             SimpleIoc.Default.Register<ForumTopicViewModel>();
+            SimpleIoc.Default.Register<ForumsStarredMessagesViewModel>();
             SimpleIoc.Default.Register<ForumNewTopicViewModel>();
             SimpleIoc.Default.Register<HistoryViewModel>();
             SimpleIoc.Default.Register<CharacterDetailsViewModel>();
@@ -163,5 +164,8 @@ namespace MALClient.XShared.ViewModels
 
         public static ForumNewTopicViewModel ForumsNewTopic
             => ServiceLocator.Current.GetInstance<ForumNewTopicViewModel>();
+
+        public static ForumsStarredMessagesViewModel StarredMessages
+            => ServiceLocator.Current.GetInstance<ForumsStarredMessagesViewModel>();
     }
 }

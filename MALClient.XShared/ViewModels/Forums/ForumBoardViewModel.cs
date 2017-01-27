@@ -280,11 +280,11 @@ namespace MALClient.XShared.ViewModels.Forums
                     break;
                 case ForumBoardPageWorkModes.Search:
                     PageNavigationControlsVisibility = SearchButtonVisibility = false;
-                    Title = "Search - " + args.Query;
+                    Title = $"Search - {args.Query}";
                     Icon = args.Scope == null ? FontAwesomeIcon.Search : Utilities.BoardToIcon(args.Scope.Value);
                     break;
-                case ForumBoardPageWorkModes.UserSearch: //for now user is logged in user
-                    Title = "My Recent Posts";
+                case ForumBoardPageWorkModes.UserSearch:
+                    Title = args.Query == Credentials.UserName ? "My Recent Posts" : $"{args.Query}'s Recent Posts";
                     PageNavigationControlsVisibility = true;
                     SearchButtonVisibility = false;
                     Icon = FontAwesomeIcon.ClockOutline;
@@ -338,7 +338,7 @@ namespace MALClient.XShared.ViewModels.Forums
                         break;
                     case ForumBoardPageWorkModes.UserSearch:
                         topics = await
-                            ForumSearchQuery.GetRecentTopics();
+                            ForumSearchQuery.GetRecentTopics(PrevArgs.Query);
                         break;
                     case ForumBoardPageWorkModes.WatchedTopics:
                         topics = await
@@ -369,10 +369,10 @@ namespace MALClient.XShared.ViewModels.Forums
             if (PrevArgs.WorkMode == ForumBoardPageWorkModes.UserSearch ||
                 PrevArgs.WorkMode == ForumBoardPageWorkModes.WatchedTopics)
                 ViewModelLocator.GeneralMain.Navigate(PageIndex.PageForumIndex,
-                    new ForumsTopicNavigationArgs(ForumBoards.Creative, topic.Data.Id, lastpost ? (int?)-1 : null));
+                    new ForumsTopicNavigationArgs( topic.Data.Id, lastpost ? (int?)-1 : null));
             else
                 ViewModelLocator.GeneralMain.Navigate(PageIndex.PageForumIndex,
-                    new ForumsTopicNavigationArgs(PrevArgs.TargetBoard,topic.Data.Id, lastpost ? (int?)-1 : null));
+                    new ForumsTopicNavigationArgs(topic.Data.Id, lastpost ? (int?)-1 : null));
         }
 
         public void Reload()

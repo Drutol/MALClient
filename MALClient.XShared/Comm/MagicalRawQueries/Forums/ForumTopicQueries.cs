@@ -257,7 +257,7 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Forums
         /// <param name="messageId"></param>
         /// <param name="force">Forces cache ignore</param>
         /// <returns></returns>
-        public static async Task<ForumTopicData> GetTopicData(string topicId,int page,bool lastpage = false,int? messageId = null,bool force = false)
+        public static async Task<ForumTopicData> GetTopicData(string topicId,int page,bool lastpage = false,long? messageId = null,bool force = false)
         {
             if(!force && !lastpage && messageId == null && CachedMessagesDictionary.ContainsKey(topicId))
                 if (CachedMessagesDictionary[topicId].ContainsKey(page))
@@ -266,7 +266,6 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Forums
             try
             {
                 var client = await MalHttpContextProvider.GetHttpContextAsync();
-                string targetMessageId;
                 
                 var response =
                     await client.GetAsync(

@@ -51,14 +51,14 @@ namespace MALClient.XShared.Comm.Forums
 
         }
 
-        public static async Task<ForumBoardContent> GetRecentTopics()
+        public static async Task<ForumBoardContent> GetRecentTopics(string user)
         {
             var output = new ForumBoardContent {Pages = 0};
                 try
                 {
                     var client = await MalHttpContextProvider.GetHttpContextAsync();
 
-                    var resp = await client.GetAsync($"/forum/search?u={Credentials.UserName}&q=&uloc=1&loc=-1");
+                    var resp = await client.GetAsync($"/forum/search?u={user}&q=&uloc=1&loc=-1");
 
                     var doc = new HtmlDocument();
                     doc.LoadHtml(await resp.Content.ReadAsStringAsync());
@@ -149,8 +149,11 @@ namespace MALClient.XShared.Comm.Forums
             var spans = tds[1].Descendants("span").Where(node => !string.IsNullOrEmpty(node.InnerText)).ToList();
             try
             {
-                current.Op = spans[0].InnerText;
-                current.Created = spans[1].InnerText;
+                var offset = 0;
+                if (spans.Count == 3)
+                    offset = 1;
+                current.Op = WebUtility.HtmlDecode(spans[offset].InnerText.Trim());
+                current.Created = WebUtility.HtmlDecode(spans[1+offset].InnerText.Trim());
             }
             catch (Exception e)
             {
@@ -158,9 +161,9 @@ namespace MALClient.XShared.Comm.Forums
             }
             try
             {
-                current.Replies = tds[2 + tdOffset].InnerText;
+                current.Replies = tds[2 + tdOffset].InnerText.Trim();
 
-                current.LastPoster = tds[3 + tdOffset].Descendants("a").First().InnerText;
+                current.LastPoster = WebUtility.HtmlDecode(tds[3 + tdOffset].Descendants("a").First().InnerText.Trim());
                 current.LastPostDate = tds[3 + tdOffset].ChildNodes.Last().InnerText.Trim();
             }
             catch (Exception )

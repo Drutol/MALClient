@@ -120,6 +120,7 @@
     <Compile Include="ViewModels\Details\CharacterDetailsViewModel.cs" />
     <Compile Include="ViewModels\Details\StaffDetailsViewModel.cs" />
     <Compile Include="ViewModels\FavouriteViewModel.cs" />
+    <Compile Include="ViewModels\Forums\ForumsStarredMessagesViewModel.cs" />
     <Compile Include="ViewModels\Forums\Items\ForumBoardEntryViewModel.cs" />
     <Compile Include="ViewModels\Forums\ForumBoardViewModel.cs" />
     <Compile Include="ViewModels\Forums\ForumIndexViewModel.cs" />

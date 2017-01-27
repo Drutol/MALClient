@@ -282,8 +282,6 @@ namespace MALClient
                             ResourceLocator.AnimeLibraryDataStorage.AllLoadedMangaItemAbstractions.Select(
                                 abstraction => abstraction.EntryData), AnimeListWorkModes.Manga);
             }
-            await DataCache.SaveVolatileData();
-            await DataCache.SaveHumMalIdDictionary();
             try
             {
                 foreach (
@@ -296,9 +294,12 @@ namespace MALClient
             {
                 //well...
             }
+            await DataCache.SaveVolatileData();
+            await DataCache.SaveHumMalIdDictionary();
             await ViewModelLocator.ForumsMain.SavePinnedTopics();
             await FavouritesManager.SaveData();
             await AnimeImageQuery.SaveData();
+            await ResourceLocator.HandyDataStorage.SaveData();
             deferral.Complete();
         }
     }

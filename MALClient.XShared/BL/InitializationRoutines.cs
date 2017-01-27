@@ -30,6 +30,7 @@ namespace MALClient.XShared.BL
                 {
                     ResourceLocator.NotificationsTaskManager.CallTask(BgTasks.Notifications);
                 });
+            ResourceLocator.HandyDataStorage.Init();
         }
     }
 }

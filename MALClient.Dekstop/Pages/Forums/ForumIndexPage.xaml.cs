@@ -59,7 +59,7 @@ namespace MALClient.Pages.Forums
         {
             ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageForumIndex, null);
             ViewModelLocator.GeneralMain.Navigate(PageIndex.PageForumIndex,
-                new ForumsTopicNavigationArgs(ForumBoards.Creative,(e.ClickedItem as ForumPostEntry).Id,null,1));
+                new ForumsTopicNavigationArgs((e.ClickedItem as ForumPostEntry).Id,null));
         }
     }
 }

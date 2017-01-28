@@ -34,11 +34,11 @@ namespace MALClient.Shared.UserControls.AttachedProperties
             var view = sender as WebView;
 
             var val = int.Parse(e.Value);
-            if(val+65 == GetComputedHeight(view))
+            if(val*1.1 == GetComputedHeight(view))
                 return;
             if (val > view.ActualHeight)
             {
-                SetComputedHeight(view, val + 65);
+                SetComputedHeight(view, val*1.1);
             }
             else
             {

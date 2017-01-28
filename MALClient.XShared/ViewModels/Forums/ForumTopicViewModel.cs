@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -40,13 +41,13 @@ namespace MALClient.XShared.ViewModels.Forums
         private ICommand _gotoWebsiteCommand;
         private ICommand _gotoFirstPageCommand;
         private string _gotoPageTextBind;
-        private string _title;
         private ForumTopicData _currentTopicData;
         private ICommand _toggleWatchingCommand;
         private string _toggleWatchingButtonText;
         private ICommand _createReplyCommand;
         private string _replyMessage;
         private ICommand _navigateMessagingCommand;
+        private bool _isPinned;
 
         public IScrollInfoProvider ScrollInfoProvider { get; set; }
 
@@ -64,7 +65,7 @@ namespace MALClient.XShared.ViewModels.Forums
             ToggleWatchingButtonText = "Toggle watching";
             CurrentTopicData = await ForumTopicQueries.GetTopicData(_prevArgs.TopicId, _prevArgs.TopicPage, _prevArgs.LastPost, _prevArgs.MessageId);
             CurrentPage = _prevArgs.LastPost ? CurrentTopicData.AllPages : CurrentTopicData.CurrentPage;
-
+            ViewModelLocator.GeneralMain.CurrentStatus = $"Forums - {(CurrentTopicData.IsLocked ? "Locked: " : "")} {CurrentTopicData?.Title}";
             Messages = new ObservableCollection<ForumTopicMessageEntryViewModel>(
                 CurrentTopicData.Messages.Select(
                     entry => new ForumTopicMessageEntryViewModel(entry)));
@@ -82,7 +83,20 @@ namespace MALClient.XShared.ViewModels.Forums
                 RequestScroll?.Invoke(this,Messages.IndexOf(Messages.First(model => model.Data.Id == CurrentTopicData.TargetMessageId)));
             }
 
+            IsPinned = ViewModelLocator.ForumsMain.PinnedTopics.Any(entry => entry.Id == CurrentTopicData.Id);
+            ViewModelLocator.ForumsMain.PinnedTopics.CollectionChanged += PinnedTopicsOnCollectionChanged;
             LoadingTopic = false;
+        }
+
+        private void PinnedTopicsOnCollectionChanged(object sender, NotifyCollectionChangedEventArgs notifyCollectionChangedEventArgs)
+        {
+            IsPinned = ViewModelLocator.ForumsMain.PinnedTopics.Any(entry => entry.Id == CurrentTopicData.Id);
+        }
+
+        public void NavigatedFrom()
+        {
+            ViewModelLocator.GeneralMain.CurrentStatus = "Forums";
+            ViewModelLocator.ForumsMain.PinnedTopics.CollectionChanged -= PinnedTopicsOnCollectionChanged;
         }
 
         public ObservableCollection<ForumTopicMessageEntryViewModel> Messages
@@ -169,6 +183,17 @@ namespace MALClient.XShared.ViewModels.Forums
             }
         }
 
+
+        public bool IsPinned
+        {
+            get { return _isPinned; }
+            set
+            {
+                _isPinned = value;
+                RaisePropertyChanged(() => IsPinned);
+            }
+        }
+
         #region Commands
 
         public ICommand NavigateBreadcrumbsCommand => new RelayCommand<ForumBreadcrumb>(breadcrumb =>
@@ -226,6 +251,8 @@ namespace MALClient.XShared.ViewModels.Forums
         public ICommand GotoWebsiteCommand => _gotoWebsiteCommand ?? (_gotoWebsiteCommand = new RelayCommand(
             () =>
             {
+                if(CurrentTopicData == null)
+                    return;
                 ResourceLocator.SystemControlsLauncherService.LaunchUri(new Uri($"https://myanimelist.net/forum/?topicid={CurrentTopicData.Id}"));
             }));
 
@@ -275,18 +302,58 @@ namespace MALClient.XShared.ViewModels.Forums
                    }));
 
 
+        public ICommand PinTopicCommand
+            => new RelayCommand<bool>(
+                   lastpost =>
+                   {
+                       if(!CurrentTopicData?.Messages.Any() ?? true)
+                           return;
+
+                       var topicEntry = new ForumTopicLightEntry
+                       {
+                           Created = CurrentTopicData.Messages[0].CreateDate,
+                           Id = CurrentTopicData.Id,
+                           Lastpost = lastpost,
+                           Op = CurrentTopicData.Messages[0].Poster.MalUser.Name,
+                           SourceBoard = null,
+                           Title = CurrentTopicData.Title
+                       };
+                       ViewModelLocator.ForumsMain.PinnedTopics.Add(topicEntry);
+
+                       IsPinned = true;
+                   });
+
+        public ICommand UnpinTopicCommand
+            => new RelayCommand(
+                   () =>
+                   {
+                       if(CurrentTopicData == null)
+                           return;
+
+                       ViewModelLocator.ForumsMain.PinnedTopics.Remove(
+                           ViewModelLocator.ForumsMain.PinnedTopics.First(entry => entry.Id == CurrentTopicData.Id));
+
+                       IsPinned = false;
+                   });
+
+
 
         public bool IsMangaBoard => _prevArgs.TopicType == TopicType.Manga;
 
         #endregion
 
-
-
         private async void LoadCurrentTopicPage(bool force = false,bool lastpost = false)
         {
             LoadingTopic = true;
 
-            CurrentTopicData = await ForumTopicQueries.GetTopicData(_prevArgs.TopicId, CurrentPage,lastpost,null,force);
+            var data = await ForumTopicQueries.GetTopicData(_prevArgs.TopicId, CurrentPage,lastpost,null,force);
+            if (!data.Messages.Any())
+            {
+                CurrentPage = CurrentTopicData.CurrentPage;
+                LoadingTopic = false;
+                return;
+            }
+            
             Messages = new ObservableCollection<ForumTopicMessageEntryViewModel>(
                 CurrentTopicData.Messages.Select(
                     entry => new ForumTopicMessageEntryViewModel(entry)));

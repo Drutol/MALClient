@@ -54,6 +54,7 @@ namespace MALClient.XShared.ViewModels.Main
         private bool _scrollHandlerAdded;
 
         private bool _wasPreviousQuery;
+        private bool _canLoadMoreFilterLock;
 
         public bool CanAddScrollHandler;
         public AnimeSeason CurrentSeason;
@@ -102,7 +103,12 @@ namespace MALClient.XShared.ViewModels.Main
         public int CurrentStatus
         {
             get { return (int)GetDesiredStatus(); }
-            set { SetDesiredStatus(value); }
+            set
+            {
+                SetDesiredStatus(value);
+
+
+            }
         }
 
         public double ListItemGridWidth
@@ -173,7 +179,7 @@ namespace MALClient.XShared.ViewModels.Main
 
             //give visual feedback
             Loading = true;
-            LoadMoreFooterVisibility = false;
+            CanLoadMore = false;
             await Task.Delay(10);
 
             //depending on args
@@ -629,7 +635,6 @@ namespace MALClient.XShared.ViewModels.Main
 
         private async void LoadMore()
         {
-            LoadMoreFooterVisibility = false;
             if (CurrentPage > 4 || !CanLoadMore)
             {
                 CanLoadMore = false;

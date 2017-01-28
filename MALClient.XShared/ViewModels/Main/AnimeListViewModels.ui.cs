@@ -183,18 +183,6 @@ namespace MALClient.XShared.ViewModels.Main
             }
         }
 
-        private bool _loadMoreFooterVisibility = false;
-
-        public bool LoadMoreFooterVisibility
-        {
-            get { return _loadMoreFooterVisibility; }
-            private set
-            {
-                _loadMoreFooterVisibility = value;
-                RaisePropertyChanged(() => LoadMoreFooterVisibility);
-            }
-        }
-
         private int CurrentPage
         {
             get { return _currentPage; }
@@ -207,11 +195,11 @@ namespace MALClient.XShared.ViewModels.Main
 
         public bool CanLoadMore
         {
-            get { return _canLoadMore; }
+            get { return _canLoadMore && !_canLoadMoreFilterLock; }
             set
             {
                 _canLoadMore = value;
-                LoadMoreFooterVisibility = value;
+                RaisePropertyChanged(() => CanLoadMore);
             }
         }
 
@@ -239,15 +227,8 @@ namespace MALClient.XShared.ViewModels.Main
                 _statusSelectorSelectedIndex = value;
                 RaisePropertyChanged(() => StatusSelectorSelectedIndex);
                 ViewModelLocator.GeneralHamburger.UpdateAnimeFiltersSelectedIndex();
-                if (GetDesiredStatus() != AnimeStatus.AllOrAiring)
-                    LoadMoreFooterVisibility = false;
-                else if (WorkMode == AnimeListWorkModes.TopAnime || WorkMode == AnimeListWorkModes.TopManga)
-                {
-                    if (!Initializing && AnimeItems.Count + _animeItemsSet.Count <= 150)
-                        LoadMoreFooterVisibility = true;
-                    else
-                        LoadMoreFooterVisibility = false;
-                }
+                _canLoadMoreFilterLock = GetDesiredStatus() != AnimeStatus.AllOrAiring;//we cannot laod more when filters are active
+                RaisePropertyChanged(() => CanLoadMore);
                 if (!Initializing)
                 {
                     if (Settings.HideFilterSelectionFlyout)

@@ -139,7 +139,7 @@
                 </PivotItem.Header>
                 <Grid>
                     <Pivot x:Name="InnerPivotManga" Style="{StaticResource PivotStyleRecomm}" ItemsSource="{Binding RecommendationMangaItems}"
-                           SelectedIndex="{Binding PivotItemIndex}" PivotItemLoading="Pivot_OnPivotItemLoading">
+                           SelectedIndex="{Binding PivotItemIndex}" PivotItemLoading="Pivot_OnPivotItemLoading" Loaded="InnerPivotManga_OnLoaded">
                         <Pivot.Resources>
                             <Style TargetType="PivotHeaderItem" BasedOn="{StaticResource PivotHeaderItemRecommStyle}" />
                             <Style TargetType="PivotItem">

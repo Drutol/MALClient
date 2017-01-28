@@ -149,7 +149,7 @@
                             IsOn="{Binding PullPeekPostsOnStartup,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                             OnContent="Load" OffContent="Skip" HorizontalAlignment="Center" />
                     </Grid>
-                    <TextBlock Text="Search for copied phrase when copying text in forums."
+                    <!--<TextBlock Text="Search for copied phrase when copying text in forums."
                                FontWeight="Medium"
                                HorizontalAlignment="Center" Margin="0,5"
                                TextWrapping="WrapWholeWords" TextAlignment="Center" />
@@ -157,7 +157,7 @@
                         <ToggleSwitch
                             IsOn="{Binding ForumsSearchOnCopy,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                             OnContent="Search" OffContent="Do nothing" HorizontalAlignment="Center" />
-                    </Grid>
+                    </Grid>-->
                     <TextBlock Text="Force search page to appear always in the off section."
                                FontWeight="Medium"
                                HorizontalAlignment="Center" Margin="0,5"

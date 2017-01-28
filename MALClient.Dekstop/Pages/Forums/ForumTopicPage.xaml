@@ -18,6 +18,8 @@
         <xamlConverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
         <xamlConverters:BoolToVisibilityInvertedConverter x:Key="BoolToVisibilityInvertedConverter" />
         <xamlConverters:BoolInverterConverter x:Key="BoolInverterConverter" />
+        <x:Boolean x:Key="False" >False</x:Boolean>
+        <x:Boolean x:Key="True">True</x:Boolean>
     </Page.Resources>
 
     <Grid Background="{ThemeResource BrushDeepBackground}">
@@ -26,15 +28,9 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-            <uwp:FontAwesome Icon="Lock" Margin="10,20,10,10" Visibility="{Binding IsLockedVisibility,Converter={StaticResource BoolToVisibilityConverter}}"></uwp:FontAwesome>
-            <TextBlock Text="{Binding Header}" HorizontalAlignment="Center" FontSize="28"
-                       FontWeight="Medium" VerticalAlignment="Center" Margin="0,5" TextTrimming="CharacterEllipsis" />
-        </StackPanel>
-        <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Center">
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
             <ItemsControl ItemsSource="{x:Bind ViewModel.AvailablePages,Mode=OneTime}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
@@ -57,7 +53,7 @@
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
-            <Button Margin="2,0">
+            <Button Margin="2,0" IsEnabled="{x:Bind ViewModel.LoadingTopic,Mode=OneWay,Converter={StaticResource BoolInverterConverter}}">
                 <Button.Flyout>
                     <Flyout x:Name="GotoPageFlyout">
                         <StackPanel>
@@ -88,7 +84,7 @@
                 <SymbolIcon Symbol="Go" Height="25" Width="35" />
             </Button>
         </StackPanel>
-        <StackPanel Grid.Row="1">
+        <StackPanel>
             <ItemsControl ItemsSource="{Binding Breadcrumbs}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
@@ -108,12 +104,29 @@
                 <Button Content="{Binding ToggleWatchingButtonText}" Command="{Binding ToggleWatchingCommand}" Margin="5"
                     Background="{ThemeResource BrushDeepBackground}" IsEnabled="{x:Bind ViewModel.LoadingTopic,Mode=OneWay,Converter={StaticResource BoolInverterConverter}}"
                     BorderThickness="2" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" />
+                <Button Margin="5" Padding="0" IsEnabled="{x:Bind ViewModel.LoadingTopic,Mode=OneWay,Converter={StaticResource BoolInverterConverter}}">
+                    <Button.Flyout>
+                        <MenuFlyout>
+                            <MenuFlyoutItem Text="Pin" Command="{x:Bind ViewModel.PinTopicCommand}" CommandParameter="{StaticResource False}" Visibility="{x:Bind ViewModel.IsPinned,Mode=OneWay,Converter={StaticResource BoolToVisibilityInvertedConverter}}"/>
+                            <MenuFlyoutItem Text="Pin to lastpost" Command="{Binding PinTopicCommand}" CommandParameter="{StaticResource True}" Visibility="{x:Bind ViewModel.IsPinned,Mode=OneWay,Converter={StaticResource BoolToVisibilityInvertedConverter}}"/>
+                            <MenuFlyoutItem Text="Unpin" Command="{x:Bind ViewModel.UnpinTopicCommand}" Visibility="{x:Bind ViewModel.IsPinned,Mode=OneWay,Converter={StaticResource BoolToVisibilityConverter}}"/>
+                        </MenuFlyout>
+                    </Button.Flyout>
+                    <Grid>
+                        <Grid Padding="6,4" Visibility="{x:Bind ViewModel.IsPinned,Mode=OneWay,Converter={StaticResource BoolToVisibilityInvertedConverter}}">
+                            <SymbolIcon Symbol="Pin"/>
+                        </Grid>
+                        <Grid Padding="6,4" Background="{StaticResource SystemControlBackgroundAccentBrush}" Visibility="{x:Bind ViewModel.IsPinned,Mode=OneWay,Converter={StaticResource BoolToVisibilityConverter}}">
+                            <SymbolIcon Symbol="UnPin" Foreground="White"/>
+                        </Grid>
+                    </Grid>
+                </Button>
             </StackPanel>
         </StackPanel>
-        <ListView x:Name="ListView" ItemsSource="{Binding Messages}" HorizontalAlignment="Stretch" SelectionMode="None" Grid.Row="3" Background="{ThemeResource BrushAnimeItemInnerBackground}">
+        <ListView x:Name="ListView" ItemsSource="{x:Bind ViewModel.Messages,Mode=OneWay}" HorizontalAlignment="Stretch" SelectionMode="None" Grid.Row="2" Background="{ThemeResource BrushAnimeItemInnerBackground}">
             <ItemsControl.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
-                    <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
                     <Setter Property="Margin" Value="0"/>
                     <Setter Property="Padding" Value="0"/>
                 </Style>
@@ -228,7 +241,7 @@
                 </Grid>
             </ListView.Footer>
         </ListView>
-        <Grid Grid.Row="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+        <Grid Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
               Visibility="{Binding LoadingTopic,Converter={StaticResource BoolToVisibilityConverter}}"
               Background="{ThemeResource BrushLoadingNonTransparent}">
             <ProgressRing

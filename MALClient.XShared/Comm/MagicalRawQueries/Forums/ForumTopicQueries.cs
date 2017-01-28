@@ -259,7 +259,7 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Forums
         /// <returns></returns>
         public static async Task<ForumTopicData> GetTopicData(string topicId,int page,bool lastpage = false,long? messageId = null,bool force = false)
         {
-            if(!force && !lastpage && messageId == null && CachedMessagesDictionary.ContainsKey(topicId))
+            if(!force && !lastpage && messageId == null && topicId != null && CachedMessagesDictionary.ContainsKey(topicId))
                 if (CachedMessagesDictionary[topicId].ContainsKey(page))
                     return CachedMessagesDictionary[topicId][page];
 

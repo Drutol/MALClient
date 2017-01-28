@@ -41,7 +41,7 @@ namespace MALClient.Models.Models.Forums
         public string Created { get; set; }
         public string Id { get; set; }
         public bool Lastpost { get; set; }
-        public ForumBoards SourceBoard { get; set; }
+        public ForumBoards? SourceBoard { get; set; }
 
         public static ForumTopicLightEntry FromTopicEntry(ForumTopicEntry topic)
         {

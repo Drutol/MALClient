@@ -169,7 +169,8 @@ namespace MALClient.XShared.ViewModels.Forums
             {
                 ViewModelLocator.NavMgr.ResetMainBackNav();
                 ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageForumIndex, new ForumsNavigationArgs());
-                ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageForumIndex, new ForumsBoardNavigationArgs(topic.SourceBoard));
+                if(topic.SourceBoard != null)
+                    ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageForumIndex, new ForumsBoardNavigationArgs(topic.SourceBoard.Value));
             }
             else
             {

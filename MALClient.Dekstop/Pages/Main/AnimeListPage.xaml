@@ -269,7 +269,7 @@
             </ListView.ItemTemplate>
             <ListView.Footer>
                 <Grid HorizontalAlignment="Center" VerticalAlignment="Bottom"
-                      Visibility="{Binding LoadMoreFooterVisibility,Converter={StaticResource BoolToVisibilityConverter}}">
+                      Visibility="{Binding CanLoadMore,Converter={StaticResource BoolToVisibilityConverter}}">
                     <Button Background="Transparent" HorizontalAlignment="Center" Command="{Binding LoadMoreCommand}">
                         <StackPanel Orientation="Horizontal">
                             <SymbolIcon Symbol="More" />
@@ -316,7 +316,7 @@
             </GridView.ItemTemplate>
             <GridView.Footer>
                 <Grid HorizontalAlignment="Center" VerticalAlignment="Bottom"
-                      Visibility="{Binding LoadMoreFooterVisibility,Converter={StaticResource BoolToVisibilityConverter}}">
+                      Visibility="{Binding CanLoadMore,Converter={StaticResource BoolToVisibilityConverter}}">
                     <Button Background="Transparent" HorizontalAlignment="Center" Command="{Binding LoadMoreCommand}">
                         <StackPanel Orientation="Horizontal">
                             <SymbolIcon Symbol="More" />
@@ -357,7 +357,7 @@
             </GridView.ItemTemplate>
             <GridView.Footer>
                 <Grid HorizontalAlignment="Center" VerticalAlignment="Bottom"
-                      Visibility="{Binding LoadMoreFooterVisibility,Converter={StaticResource BoolToVisibilityConverter}}">
+                      Visibility="{Binding CanLoadMore,Converter={StaticResource BoolToVisibilityConverter}}">
                     <Button Background="Transparent" HorizontalAlignment="Center" Command="{Binding LoadMoreCommand}">
                         <StackPanel Orientation="Horizontal">
                             <SymbolIcon Symbol="More" />

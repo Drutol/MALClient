@@ -131,5 +131,10 @@ namespace MALClient.Pages.Main
         {
             (e.ClickedItem as AnimeItemViewModel).NavigateDetails(PageIndex.PageRecomendations,null);
         }
+
+        private void InnerPivotManga_OnLoaded(object sender, RoutedEventArgs e)
+        {
+            UpdateOnSizeChanged();
+        }
     }
 }

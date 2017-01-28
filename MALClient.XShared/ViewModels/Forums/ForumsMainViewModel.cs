@@ -8,6 +8,7 @@ using GalaSoft.MvvmLight.Command;
 using MALClient.Models.Enums;
 using MALClient.Models.Models.Forums;
 using MALClient.XShared.Delegates;
+using MALClient.XShared.Interfaces;
 using MALClient.XShared.NavArgs;
 using MALClient.XShared.Utils;
 using MALClient.XShared.Utils.Enums;
@@ -88,7 +89,7 @@ namespace MALClient.XShared.ViewModels.Forums
                 _navigateStarredMessages ??
                 (_navigateStarredMessages = new RelayCommand(GotoStarredMessages));
 
-
+        public ISelfBackNavAware CurrentBackNavRegistrar { get; set; }
 
         public void Init(ForumsNavigationArgs args)
         {
@@ -97,7 +98,8 @@ namespace MALClient.XShared.ViewModels.Forums
                 ViewModelLocator.NavMgr.ResetMainBackNav();
                 ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageAnimeList, null);
                 args = new ForumsNavigationArgs { Page = ForumsPageIndex.PageIndex };
-            }   
+            }
+            CurrentBackNavRegistrar = null;
             NavigationRequested?.Invoke((int)args.Page, args);
         }
 
@@ -148,45 +150,90 @@ namespace MALClient.XShared.ViewModels.Forums
 
         private void GotoFavouriteBoard(ForumBoards board)
         {
-            ViewModelLocator.NavMgr.ResetMainBackNav();
-            ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageForumIndex, new ForumsNavigationArgs());
+            if (CurrentBackNavRegistrar == null)
+            {
+                ViewModelLocator.NavMgr.ResetMainBackNav();
+                ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageForumIndex, new ForumsNavigationArgs());
+            }
+            else
+            {
+                CurrentBackNavRegistrar.RegisterSelfBackNav();
+            }
+
             ViewModelLocator.GeneralMain.Navigate(PageIndex.PageForumIndex,new ForumsBoardNavigationArgs(board));
         }
 
         private void GotoPinnedTopic(ForumTopicLightEntry topic)
         {
-            ViewModelLocator.NavMgr.ResetMainBackNav();
-            ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageForumIndex, new ForumsNavigationArgs());
-            ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageForumIndex, new ForumsBoardNavigationArgs(topic.SourceBoard));
+            if (CurrentBackNavRegistrar == null)
+            {
+                ViewModelLocator.NavMgr.ResetMainBackNav();
+                ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageForumIndex, new ForumsNavigationArgs());
+                ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageForumIndex, new ForumsBoardNavigationArgs(topic.SourceBoard));
+            }
+            else
+            {
+                CurrentBackNavRegistrar.RegisterSelfBackNav();
+            }
+
             ViewModelLocator.GeneralMain.Navigate(PageIndex.PageForumIndex, new ForumsTopicNavigationArgs(topic.Id,topic.Lastpost ? (int?)-1 : null,1));
         }
 
         private void GotoMyRecentTopics()
         {
-            ViewModelLocator.NavMgr.ResetMainBackNav();
-            ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageForumIndex, new ForumsNavigationArgs());
+            if (CurrentBackNavRegistrar == null)
+            {
+                ViewModelLocator.NavMgr.ResetMainBackNav();
+                ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageForumIndex, new ForumsNavigationArgs());
+            }
+            else
+            {
+                CurrentBackNavRegistrar.RegisterSelfBackNav();
+            }
+
             ViewModelLocator.GeneralMain.Navigate(PageIndex.PageForumIndex, new ForumsBoardNavigationArgs(Credentials.UserName));
         }
 
         private void GotoWatchedTopics()
         {
-            ViewModelLocator.NavMgr.ResetMainBackNav();
-            ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageForumIndex, new ForumsNavigationArgs());
+            if (CurrentBackNavRegistrar == null)
+            {
+                ViewModelLocator.NavMgr.ResetMainBackNav();
+                ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageForumIndex, new ForumsNavigationArgs());
+            }
+            else
+            {
+                CurrentBackNavRegistrar.RegisterSelfBackNav();
+            }
             ViewModelLocator.GeneralMain.Navigate(PageIndex.PageForumIndex, new ForumsBoardNavigationArgs(ForumBoardPageWorkModes.WatchedTopics));
         }
 
         private void GotoMalClientTopic()
         {
-            ViewModelLocator.NavMgr.ResetMainBackNav();
-            ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageForumIndex, new ForumsNavigationArgs());
-            ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageForumIndex, new ForumsBoardNavigationArgs(ForumBoardPageWorkModes.WatchedTopics));
+            if (CurrentBackNavRegistrar == null)
+            {
+                ViewModelLocator.NavMgr.ResetMainBackNav();
+                ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageForumIndex, new ForumsNavigationArgs());
+                ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageForumIndex, new ForumsBoardNavigationArgs(ForumBoardPageWorkModes.WatchedTopics));
+            }
+            else
+            {
+                CurrentBackNavRegistrar.RegisterSelfBackNav();
+            }          
             ViewModelLocator.GeneralMain.Navigate(PageIndex.PageForumIndex, new ForumsTopicNavigationArgs("1499207",null));
         }
 
         private void GotoStarredMessages()
         {
-            ViewModelLocator.NavMgr.ResetMainBackNav();
-            ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageForumIndex, new ForumsNavigationArgs());
+            if (CurrentBackNavRegistrar == null)
+            {
+                ViewModelLocator.NavMgr.ResetMainBackNav();
+                ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageForumIndex, new ForumsNavigationArgs());
+            }
+            else
+            {
+                CurrentBackNavRegistrar.RegisterSelfBackNav();
+            }
             ViewModelLocator.GeneralMain.Navigate(PageIndex.PageForumIndex, new ForumStarredMessagesNavigationArgs());
         }
     }

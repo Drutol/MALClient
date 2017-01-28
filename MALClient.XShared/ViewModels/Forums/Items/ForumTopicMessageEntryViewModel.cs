@@ -82,6 +82,7 @@ namespace MALClient.XShared.ViewModels.Forums.Items
                             MessageId = Data.Id,
                             TopicId = Data.TopicId,
                             Poster = Data.Poster.MalUser,
+                            MessageNumber = Data.MessageNumber,
                             TopicTitle = ViewModelLocator.ForumsTopic.Header
                         });
                 else

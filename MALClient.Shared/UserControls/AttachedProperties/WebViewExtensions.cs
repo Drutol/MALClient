@@ -17,15 +17,16 @@ namespace MALClient.Shared.UserControls.AttachedProperties
         private static void PropertyChangedCallback(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
         {
             var view = dependencyObject as WebView;
-            view.NavigateToString(CssManager.WrapWithCss(dependencyPropertyChangedEventArgs.NewValue as string));
+            view.NavigateToString(CssManager.WrapWithCss(dependencyPropertyChangedEventArgs.NewValue as string,GetDisableScroll(dependencyObject)));
         }
 
         private static void ViewOnScriptNotify(object sender, NotifyEventArgs e)
         {
             var view = sender as WebView;
-            view.ScriptNotify -= ViewOnScriptNotify;
 
             var val = int.Parse(e.Value);
+            if(val+65 == GetComputedHeight(view))
+                return;
             if (val > view.ActualHeight)
             {
                 SetComputedHeight(view, val + 65);
@@ -42,13 +43,31 @@ namespace MALClient.Shared.UserControls.AttachedProperties
             element.SetValue(ContentProperty, value);
             if (GetResizeToFit(element))
             {
-                (element as WebView).ScriptNotify += ViewOnScriptNotify;
+                var webView = element as WebView;
+                if (webView.Tag == null)
+                {
+                    webView.ScriptNotify += ViewOnScriptNotify;
+                    webView.Tag = true;
+                }
             }
         }
 
         public static string GetContent(DependencyObject element)
         {
             return (string) element.GetValue(ContentProperty);
+        }
+
+        public static readonly DependencyProperty DisableScrollProperty = DependencyProperty.RegisterAttached(
+            "DisableScroll", typeof(bool), typeof(WebViewExtensions), new PropertyMetadata(default(bool)));
+
+        public static void SetDisableScroll(DependencyObject element, bool value)
+        {
+            element.SetValue(DisableScrollProperty, value);
+        }
+
+        public static bool GetDisableScroll(DependencyObject element)
+        {
+            return (bool) element.GetValue(DisableScrollProperty);
         }
 
         public static readonly DependencyProperty ResizeToFitProperty = DependencyProperty.RegisterAttached(

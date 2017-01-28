@@ -8,13 +8,14 @@ using GalaSoft.MvvmLight.Command;
 using MALClient.Models.Enums;
 using MALClient.Models.Models.Forums;
 using MALClient.XShared.Comm.Forums;
+using MALClient.XShared.Interfaces;
 using MALClient.XShared.NavArgs;
 using MALClient.XShared.Utils;
 using MALClient.XShared.Utils.Enums;
 
 namespace MALClient.XShared.ViewModels.Forums
 {
-    public class ForumBoardViewModel : ViewModelBase
+    public class ForumBoardViewModel : ViewModelBase , ISelfBackNavAware
     {
         public ForumsBoardNavigationArgs PrevArgs;
 
@@ -240,6 +241,8 @@ namespace MALClient.XShared.ViewModels.Forums
 
         public void Init(ForumsBoardNavigationArgs args,bool force = false)
         {
+            ViewModelLocator.ForumsMain.CurrentBackNavRegistrar = this;
+
             if (_forceReloadOnNextInit)//navigating from crete new topic
             {
                 force = true; 
@@ -383,6 +386,11 @@ namespace MALClient.XShared.ViewModels.Forums
         public void ReloadOnNextLoad()
         {
             _forceReloadOnNextInit = true;
+        }
+
+        public void RegisterSelfBackNav()
+        {
+            ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageForumIndex,PrevArgs);
         }
     }
 }

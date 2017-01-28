@@ -11,21 +11,24 @@ namespace MALClient.Shared.Managers
 {
     public static class CssManager
     {
-        private const string Begin = @"<html><head>
+//        document.addEventListener('click', function(e)
+//        {
+//            e = e || window.event;
+//        var target = e.target || e.srcElement;
+//                                    if(target.nodeName === 'A'){
+//                                        target.className += ' font-bold';
+//                                        setTimeout(function() { target.className -= ' font-bold'; }, 200);
+//                                    }
+//}, false);
+//                                function loadLink(x, y)
+//{
+//    var el = document.elementFromPoint(x, y);
+//    el && el.click();
+//};
+private const string Begin = @"<html><head>
                             <meta name=""viewport"" content=""width=device-width, initial-scale=1, user-scalable=no"" />
                             <script type=""text/javascript"">
-                                document.addEventListener('click', function(e) {
-                                   e = e || window.event;
-                                    var target = e.target || e.srcElement;
-                                    if(target.nodeName === 'A'){
-                                        target.className += ' font-bold';
-                                        setTimeout(function() {target.className -= ' font-bold'; }, 200);
-                                    }
-                                }, false);
-                                function loadLink(x,y){
-                                    var el = document.elementFromPoint(x, y);
-                                    el && el.click();
-                                };
+
                                 function getDocHeight(id) {
                                     var D = document;
                                     return Math.max(
@@ -36,18 +39,31 @@ namespace MALClient.Shared.Managers
                                 };
                                 function notifyDocumentHeightChanged(id){
                                     window.external.notify(getDocHeight(id).toString());
+                                };                                
+                                function bindButtons(){
+                                    var classname = document.getElementsByTagName(""input"")
+                                    for (var i = 0; i < classname.length; i++) {
+                                        classname[i].addEventListener('click', function() {notifyDocumentHeightChanged(""content"")}, false);
+                                    }
                                 };
+   
                             </script>
-                       </head><body id='root' onload='notifyDocumentHeightChanged(""content"")'><div id='content'>";
+                       </head><body id='root' onload='notifyDocumentHeightChanged(""content"");bindButtons();'><div id='content'>";
         private const string End = @"</div></body></html>";
 
-        public static string WrapWithCss(string html)
+        public static string WrapWithCss(string html,bool disableScroll = false)
         {
             var uiSettings = new UISettings();
             var color = uiSettings.GetColorValue(UIColorType.Accent);
             var color1 = uiSettings.GetColorValue(UIColorType.AccentDark2);
             var color2 = uiSettings.GetColorValue(UIColorType.AccentLight2);
-            var css = Css.Replace("AccentColourBase", "#" + color.ToString().Substring(3)).
+            string css = Css;
+            if (disableScroll)
+                css = css.Insert(0, CssHtmlBodyScrollDisabled);
+            else
+                css = css.Insert(0, CssHtmlBodyScrollEnabled);
+
+            css = css.Replace("AccentColourBase", "#" + color.ToString().Substring(3)).
                 Replace("AccentColourLight", "#" + color2.ToString().Substring(3)).
                 Replace("AccentColourDark", "#" + color1.ToString().Substring(3))
                 .Replace("BodyBackgroundThemeColor",
@@ -85,14 +101,27 @@ namespace MALClient.Shared.Managers
             margin-bottom: 15px;
         }";
 
-        public const string Css =
+        private const string CssHtmlBodyScrollDisabled =
             @"<style type=""text/css"">@charset ""UTF-8"";
-	        html, body
+            html, body
 	        {
 		        background-color: BodyBackgroundThemeColor;
 		        color: BodyForegroundThemeColor;
                 font-family: 'Segoe UI';
-	        }
+                margin: 0; 
+                height: 100%; 
+                overflow: hidden;
+	        }";
+        private const string CssHtmlBodyScrollEnabled =
+            @"<style type=""text/css"">@charset ""UTF-8"";
+            html, body
+	        {
+		        background-color: BodyBackgroundThemeColor;
+		        color: BodyForegroundThemeColor;
+                font-family: 'Segoe UI';
+	        }";
+        public const string Css =
+            @"
 	        .userimg
 	        {
 		        display: block;

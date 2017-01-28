@@ -31,5 +31,6 @@ namespace MALClient.Models.Models.Forums
         public string TopicId { get; set; }
         public string TopicTitle { get; set; }
         public MalUser Poster { get; set; }
+        public string MessageNumber { get; set; }
     }
 }

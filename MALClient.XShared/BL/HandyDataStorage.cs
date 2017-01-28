@@ -104,6 +104,7 @@ namespace MALClient.XShared.BL
                 if(_starredMessages[key].All(message => message.MessageId != forumMessage.MessageId))
                 {
                     _starredMessages[key].Add(forumMessage);
+                    _starredMessages[key][0].Poster = forumMessage.Poster; //update first poster entry
                 }
             }
             _updated = true;

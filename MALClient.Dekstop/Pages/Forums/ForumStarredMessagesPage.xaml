@@ -33,16 +33,16 @@
                             </Grid.ColumnDefinitions>
                             <Image Source="{Binding Key.ImgUrl}" Width="50" Margin="20,10" Stretch="Uniform"/>
                             <Grid Grid.Column="1" HorizontalAlignment="Stretch">
-                                <Button  Style="{StaticResource TextBlockButtonStyle}" Command="{Binding Source={StaticResource Locator},Path=StarredMessages.GoToProfileCommand}" CommandParameter="{Binding Value.Item2[0]}">
+                                <Button  Style="{StaticResource TextBlockButtonStyle}" Command="{Binding Source={StaticResource Locator},Path=StarredMessages.GoToProfileCommand}" CommandParameter="{Binding Value[0]}">
                                     <TextBlock Text="{Binding Key.Name}" FontSize="20"/>
                                 </Button>
                             </Grid>
-                            <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
+                            <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,10,0">
                                 <SymbolIcon Symbol="Favorite"/>
-                                <TextBlock Text="{Binding Value.Item1}" Margin="5,0" FontSize="20"/>
+                                <TextBlock Text="{Binding Value.Count}" Margin="5,0" FontSize="20"/>
                             </StackPanel>
                         </Grid>
-                        <ItemsControl Grid.Row="1" ItemsSource="{Binding Value.Item2}" HorizontalAlignment="Stretch" >
+                        <ItemsControl Grid.Row="1" ItemsSource="{Binding Value}" HorizontalAlignment="Stretch" >
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
                                     <Grid HorizontalAlignment="Stretch" Background="{ThemeResource BrushAnimeItemInnerBackground}" Margin="2,0">
@@ -50,7 +50,9 @@
                                             <ColumnDefinition Width="*"/>
                                             <ColumnDefinition Width="Auto"/>
                                         </Grid.ColumnDefinitions>
-                                        <TextBlock Text="{Binding TopicTitle}" TextWrapping="WrapWholeWords" Margin="10" VerticalAlignment="Center"/>
+                                        <TextBlock TextWrapping="WrapWholeWords" Margin="10" VerticalAlignment="Center">
+                                           <Run Text="{Binding MessageNumber}" FontWeight="SemiBold" FontSize="18"/> <Run Text="{Binding TopicTitle}"/>   
+                                        </TextBlock>
                                         <Button Background="Transparent" Grid.Column="1" Width="50" Height="50" Margin="10" Command="{Binding Source={StaticResource Locator},Path=StarredMessages.GotoTopicCommand}" CommandParameter="{Binding}">
                                             <SymbolIcon Symbol="Go"></SymbolIcon>
                                         </Button>

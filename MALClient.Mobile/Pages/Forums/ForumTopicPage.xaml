@@ -172,7 +172,7 @@
                                 </Grid.RowDefinitions>
                                 <WebView attachedProperties:WebViewExtensions.Content="{x:Bind Data.HtmlContent,Mode=OneWay}" attachedProperties:WebViewExtensions.ResizeToFit="True"  
                                             DefaultBackgroundColor="{ThemeResource ColorAnimeItemBackground}" MinHeight="260" NavigationStarting="TopicWebView_OnNavigationStarting" attachedProperties:WebViewExtensions.ComputedHeight="{Binding ComputedHtmlHeight,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
-                                            Visibility="{Binding EditMode,Converter={StaticResource BoolToVisibilityInvertedConverter}}" Height="{x:Bind ComputedHtmlHeight,Mode=OneWay}"/>
+                                            Visibility="{Binding EditMode,Converter={StaticResource BoolToVisibilityInvertedConverter}}" Height="{x:Bind ComputedHtmlHeight,Mode=OneWay}" attachedProperties:WebViewExtensions.DisableScroll="True"/>
                                 <StackPanel Grid.Row="0" Visibility="{x:Bind EditMode,Mode=OneWay,Converter={StaticResource BoolToVisibilityConverter}}">
                                     <TextBox Margin="10" HorizontalAlignment="Stretch" MinHeight="260" AcceptsReturn="True" Text="{Binding BBcodeContent,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
                                     <StackPanel Orientation="Horizontal" Margin="10,5">

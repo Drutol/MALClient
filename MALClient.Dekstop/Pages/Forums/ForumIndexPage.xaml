@@ -93,7 +93,10 @@
                                                            TextWrapping="WrapWholeWords" FontWeight="SemiLight"
                                                            Height="40" TextAlignment="Center"
                                                            Foreground="{ThemeResource BrushSettingsSubtitle}" />
-                                                <ProgressBar IsIndeterminate="True" Grid.Row="2" Visibility="{Binding ElementName=PeekPosts,Path=Visibility,Converter={StaticResource VisiblityInverterConverter}}" Margin="0,5" HorizontalAlignment="Stretch"/>
+                                                <Grid Grid.Row="2" Height="70" Visibility="{Binding ElementName=PeekPosts,Path=Visibility,Converter={StaticResource VisiblityInverterConverter}}" Margin="0,5" HorizontalAlignment="Stretch">
+                                                    <ProgressBar IsIndeterminate="True" VerticalAlignment="Center" HorizontalAlignment="Stretch" />
+                                                </Grid>
+                                               
                                                 <Grid x:Name="PeekPosts" Grid.Row="2" Visibility="{Binding Source={StaticResource Locator},Path=ForumsIndex.LoadingSideContentVisibility,Converter={StaticResource BoolToVisibilityInvertedConverter}}">
                                                     <StackPanel>
                                                         <MenuFlyoutSeparator  Margin="0,2" Visibility="{Binding ArePeekPostsAvailable,Converter={StaticResource BoolToVisibilityConverter}}"/>

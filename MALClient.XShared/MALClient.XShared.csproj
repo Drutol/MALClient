@@ -91,6 +91,7 @@
     <Compile Include="Comm\Search\CharactersSearchQuery.cs" />
     <Compile Include="Delegates\Delegates.cs" />
     <Compile Include="Interfaces\IAnimeLibraryDataStorage.cs" />
+    <Compile Include="Interfaces\ISelfBackNavAware.cs" />
     <Compile Include="NavArgs\AnimeDetailsPageNavigationArgs.cs" />
     <Compile Include="NavArgs\AnimeListPageNavigationArgs.cs" />
     <Compile Include="NavArgs\CharacterDetailsNavigationArgs.cs" />

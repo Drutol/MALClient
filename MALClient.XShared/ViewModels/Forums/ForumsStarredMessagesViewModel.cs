@@ -9,32 +9,33 @@ using GalaSoft.MvvmLight.Command;
 using MALClient.Models.Enums;
 using MALClient.Models.Models;
 using MALClient.Models.Models.Forums;
+using MALClient.XShared.Interfaces;
 using MALClient.XShared.NavArgs;
 
 namespace MALClient.XShared.ViewModels.Forums
 {
-    public class ForumsStarredMessagesViewModel : ViewModelBase
+    public class ForumsStarredMessagesViewModel : ViewModelBase , ISelfBackNavAware
     {
         //count - unique thread
-        private Dictionary<MalUser,Tuple<int, List<StarredForumMessage>>> _leaderboard;
+        private Dictionary<MalUser,List<StarredForumMessage>> _leaderboard;
         private ICommand _gotoTopicCommand;
         private ICommand _goToProfileCommand;
 
         public void Init(ForumStarredMessagesNavigationArgs args)
         {
-            Leaderboard = new Dictionary<MalUser, Tuple<int, List<StarredForumMessage>>>();
+            ViewModelLocator.ForumsMain.CurrentBackNavRegistrar = this;
+
+            Leaderboard = new Dictionary<MalUser, List<StarredForumMessage>>();
             var data = ResourceLocator.HandyDataStorage.StarredMessages;
             foreach (var user in data.Keys.OrderByDescending(s => data[s].Count))
             {
-                Leaderboard.Add(data[user][0].Poster,
-                    new Tuple<int, List<StarredForumMessage>>(data[user].Count,
-                        data[user].Distinct(StarredForumMessage.TopicIdComparer).ToList()));
+                Leaderboard.Add(data[user][0].Poster,data[user]);
             }
             RaisePropertyChanged(() => Leaderboard);
         }
 
 
-        public Dictionary<MalUser, Tuple<int, List<StarredForumMessage>>> Leaderboard
+        public Dictionary<MalUser,List<StarredForumMessage>> Leaderboard
         {
             get { return _leaderboard; }
             set
@@ -68,5 +69,9 @@ namespace MALClient.XShared.ViewModels.Forums
                            });
                    }));
 
+        public void RegisterSelfBackNav()
+        {
+            ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageForumIndex,new ForumStarredMessagesNavigationArgs());
+        }
     }
 }

@@ -11,6 +11,7 @@ using MALClient.Models.Models;
 using MALClient.Models.Models.Forums;
 using MALClient.XShared.Comm.MagicalRawQueries.Forums;
 using MALClient.XShared.Delegates;
+using MALClient.XShared.Interfaces;
 using MALClient.XShared.NavArgs;
 using MALClient.XShared.Utils;
 using MALClient.XShared.Utils.Enums;
@@ -18,7 +19,7 @@ using MALClient.XShared.ViewModels.Forums.Items;
 
 namespace MALClient.XShared.ViewModels.Forums
 {
-    public class ForumTopicViewModel : ViewModelBase
+    public class ForumTopicViewModel : ViewModelBase , ISelfBackNavAware
     {
         public interface IScrollInfoProvider
         {
@@ -50,6 +51,7 @@ namespace MALClient.XShared.ViewModels.Forums
 
         public async void Init(ForumsTopicNavigationArgs args)
         {
+            ViewModelLocator.ForumsMain.CurrentBackNavRegistrar = this;
             if (LoadingTopic)
                 return;
 

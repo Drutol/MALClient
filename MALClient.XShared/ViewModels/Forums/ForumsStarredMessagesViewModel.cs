@@ -7,6 +7,7 @@ using System.Windows.Input;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using MALClient.Models.Enums;
+using MALClient.Models.Interfaces;
 using MALClient.Models.Models;
 using MALClient.Models.Models.Forums;
 using MALClient.XShared.Interfaces;
@@ -16,22 +17,37 @@ namespace MALClient.XShared.ViewModels.Forums
 {
     public class ForumsStarredMessagesViewModel : ViewModelBase , ISelfBackNavAware
     {
+        private readonly IHandyDataStorage _dataStorage;
         //count - unique thread
         private Dictionary<MalUser,List<StarredForumMessage>> _leaderboard;
         private ICommand _gotoTopicCommand;
         private ICommand _goToProfileCommand;
+        private ICommand _unstarMessageCommand;
+
+        public ForumsStarredMessagesViewModel(IHandyDataStorage dataStorage)
+        {
+            _dataStorage = dataStorage;
+        }
 
         public void Init(ForumStarredMessagesNavigationArgs args)
         {
             ViewModelLocator.ForumsMain.CurrentBackNavRegistrar = this;
+            if (Leaderboard != null && Leaderboard.Count == _dataStorage.StarredMessages.Count)
+                return;
 
-            Leaderboard = new Dictionary<MalUser, List<StarredForumMessage>>();
-            var data = ResourceLocator.HandyDataStorage.StarredMessages;
+            LoadLeaderboard();
+        }
+
+        private void LoadLeaderboard()
+        {
+            var data = _dataStorage.StarredMessages;
+            _leaderboard = new Dictionary<MalUser, List<StarredForumMessage>>();
             foreach (var user in data.Keys.OrderByDescending(s => data[s].Count))
             {
-                Leaderboard.Add(data[user][0].Poster,data[user]);
+                Leaderboard.Add(data[user][0].Poster, data[user]);
             }
             RaisePropertyChanged(() => Leaderboard);
+            RaisePropertyChanged(() => EmptyNoticeVisibility);
         }
 
 
@@ -42,6 +58,7 @@ namespace MALClient.XShared.ViewModels.Forums
             {
                 _leaderboard = value;
                 RaisePropertyChanged(() => Leaderboard);
+                RaisePropertyChanged(() => EmptyNoticeVisibility);
             }
         }
 
@@ -56,6 +73,14 @@ namespace MALClient.XShared.ViewModels.Forums
                            new ForumsTopicNavigationArgs(null, long.Parse(message.MessageId)));
                    }));
 
+        public ICommand UnstarMessageCommand
+            => _unstarMessageCommand ?? (_unstarMessageCommand = new RelayCommand<StarredForumMessage>(
+                   message =>
+                   {
+                       _dataStorage.UnstarForumMessage(message.MessageId,message.Poster);
+                       LoadLeaderboard();
+                   }));
+
         public ICommand GoToProfileCommand
             => _goToProfileCommand ?? (_goToProfileCommand = new RelayCommand<StarredForumMessage>(
                    message =>
@@ -68,6 +93,8 @@ namespace MALClient.XShared.ViewModels.Forums
                                TargetUser = message.Poster.Name
                            });
                    }));
+
+        public bool EmptyNoticeVisibility => !Leaderboard?.Any() ?? true;
 
         public void RegisterSelfBackNav()
         {

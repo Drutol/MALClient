@@ -285,7 +285,7 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Forums
                 doc.Load(await response.Content.ReadAsStreamAsync());
 
                 var foundMembers = new Dictionary<string,MalForumUser>();
-                var output = new ForumTopicData();
+                var output = new ForumTopicData {Id = topicId};
 
                 try
                 {
@@ -353,7 +353,8 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Forums
                     {
                         uri = uri.Substring(0, pos);
                         topicId = uri.Split('=').Last();
-                    }                    
+                    }
+                    output.Id = topicId;
                 }
 
                 foreach (var row in doc.WhereOfDescendantsWithClass("div", "forum_border_around"))

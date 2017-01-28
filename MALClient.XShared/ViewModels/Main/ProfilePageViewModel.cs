@@ -35,7 +35,6 @@ namespace MALClient.XShared.ViewModels.Main
         public ProfilePageNavigationArgs PrevArgs;
         public List<MalUser> MyFriends { get; set; }
 
-        public event WebViewNavigationRequest OnWebViewNavigationRequest;
         public event EmptyEventHander OnInitialized;
 
         public ProfilePageViewModel(IAnimeLibraryDataStorage animeLibraryDataStorage)
@@ -84,6 +83,10 @@ namespace MALClient.XShared.ViewModels.Main
 
             if (args == null)
                 return;
+
+            AboutMeHtmlContent = null;
+            AboutMeWebViewVisibility = false;
+            
 
             if (args.TargetUser == Credentials.UserName && args.AllowBackNavReset)
             {
@@ -724,6 +727,7 @@ namespace MALClient.XShared.ViewModels.Main
         private ICommand _toggleFavsCommand;
         private ICommand _toggleAboutCommand;
 
+
         public bool IsSendCommentButtonEnabled
         {
             get { return _isSendCommentButtonEnabled; }
@@ -777,9 +781,43 @@ namespace MALClient.XShared.ViewModels.Main
             => _toggleAboutCommand ?? (_toggleAboutCommand = new RelayCommand(() =>
             {
                 AboutMeWebViewVisibility = !AboutMeWebViewVisibility;
-                if(AboutMeWebViewVisibility)
-                        OnWebViewNavigationRequest?.Invoke(CurrentData.HtmlContent, false);
+                if (AboutMeWebViewVisibility)
+                    AboutMeHtmlContent = CurrentData.HtmlContent;
             }));
+
+        public ICommand NavigateMessagingCommand
+           =>  new RelayCommand(
+                  () =>
+                  {
+                      if (ViewModelLocator.Mobile)
+                          ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageProfile,PrevArgs);
+                      ViewModelLocator.GeneralMain.Navigate(PageIndex.PageMessageDetails, new MalMessageDetailsNavArgs { WorkMode = MessageDetailsWorkMode.Message, NewMessageTarget = CurrentData.User.Name });
+                  });
+
+
+        private string _aboutMeHtmlContent;
+
+        public string AboutMeHtmlContent
+        {
+            get { return _aboutMeHtmlContent; }
+            set
+            {
+                _aboutMeHtmlContent = value;
+                RaisePropertyChanged(() => AboutMeHtmlContent);
+            }
+        }
+
+        private double _computedHtmlHeight = -1;
+
+        public double ComputedHtmlHeight
+        {
+            get { return _computedHtmlHeight == -1 ? double.NaN : _computedHtmlHeight; }
+            set
+            {
+                _computedHtmlHeight = value;
+                RaisePropertyChanged(() => ComputedHtmlHeight);
+            }
+        }
 
         public bool AreFavsExpanded
         {

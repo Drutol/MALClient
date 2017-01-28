@@ -106,7 +106,7 @@ namespace MALClient
             }
             else if (e is ProtocolActivatedEventArgs)
             {
-                fullNavArgs = MalLinkParser.GetNavigationParametersForUrl("https:" + (e as ProtocolActivatedEventArgs).Uri.AbsolutePath);
+                fullNavArgs = MalLinkParser.GetNavigationParametersForUrl("https:" + (e as ProtocolActivatedEventArgs).Uri.OriginalString.Replace("malclient://",""));
             }
             else
             {
@@ -192,7 +192,6 @@ namespace MALClient
             ImageCache.PerformScheduledCacheCleanup();
             Window.Current.Activate();
             RateReminderPopUp.ProcessRatePopUp();
-            RateReminderPopUp.ProcessDonatePopUp();
 
             var tb = ApplicationView.GetForCurrentView().TitleBar;
             tb.BackgroundColor =

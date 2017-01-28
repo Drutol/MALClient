@@ -117,6 +117,8 @@ namespace MALClient.XShared.BL
             {
                 _starredMessages[key].RemoveAt(
                     _starredMessages[key].FindIndex(message => message.MessageId == messageId));
+                if (!_starredMessages[key].Any())
+                    _starredMessages.Remove(key);
             }
             _updated = true;
         }

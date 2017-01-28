@@ -193,7 +193,6 @@ namespace MALClient
 
             Window.Current.Activate();
             RateReminderPopUp.ProcessRatePopUp();
-            RateReminderPopUp.ProcessDonatePopUp();
             ProcessStatusBar();
             ProcessUpdate();
             StoreLogoWorkaroundHacker.Hack();

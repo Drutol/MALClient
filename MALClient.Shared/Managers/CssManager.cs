@@ -53,6 +53,9 @@ private const string Begin = @"<html><head>
 
         public static string WrapWithCss(string html,bool disableScroll = false)
         {
+            if (string.IsNullOrWhiteSpace(html))
+                return string.Empty;
+
             var uiSettings = new UISettings();
             var color = uiSettings.GetColorValue(UIColorType.Accent);
             var color1 = uiSettings.GetColorValue(UIColorType.AccentDark2);
@@ -245,7 +248,7 @@ private const string Begin = @"<html><head>
         {
         	border-style: solid;
     		border-width: 0px 0px 0px 2px;
-    		padding: 5px;
+    		padding: 10px;
     		border-color: AccentColourBase;
     		background: BodyBackgroundThemeDarkerColor;
         }

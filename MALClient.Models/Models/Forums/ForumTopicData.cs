@@ -15,5 +15,6 @@ namespace MALClient.Models.Models.Forums
         public List<ForumBreadcrumb> Breadcrumbs { get; set; } = new List<ForumBreadcrumb>();
         public bool IsLocked { get; set; }
         public string TargetMessageId { get; set; }
+        public string Id { get; set; }
     }
 }

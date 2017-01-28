@@ -37,6 +37,7 @@ namespace MALClient.XShared.ViewModels.Forums
         private ICommand _loadPageCommand;
         private ICommand _loadGotoPageCommand;
         private ICommand _gotoLastPageCommand;
+        private ICommand _gotoWebsiteCommand;
         private ICommand _gotoFirstPageCommand;
         private string _gotoPageTextBind;
         private string _title;
@@ -173,6 +174,11 @@ namespace MALClient.XShared.ViewModels.Forums
         public ICommand NavigateBreadcrumbsCommand => new RelayCommand<ForumBreadcrumb>(breadcrumb =>
         {
             var args = MalLinkParser.GetNavigationParametersForUrl(breadcrumb.Link);
+            if (args == null)
+            {
+                ResourceLocator.SystemControlsLauncherService.LaunchUri(new Uri(breadcrumb.Link));
+                return;
+            }
             RegisterSelfBackNav();
             if (args.Item1 == PageIndex.PageAnimeDetails)
             {
@@ -217,6 +223,12 @@ namespace MALClient.XShared.ViewModels.Forums
                 LoadCurrentTopicPage();
             }));
 
+        public ICommand GotoWebsiteCommand => _gotoWebsiteCommand ?? (_gotoWebsiteCommand = new RelayCommand(
+            () =>
+            {
+                ResourceLocator.SystemControlsLauncherService.LaunchUri(new Uri($"https://myanimelist.net/forum/?topicid={CurrentTopicData.Id}"));
+            }));
+
 
 
         public ICommand GotoFirstPageCommand => _gotoFirstPageCommand ?? (_gotoFirstPageCommand = new RelayCommand(
@@ -257,6 +269,8 @@ namespace MALClient.XShared.ViewModels.Forums
             => _navigateMessagingCommand ?? (_navigateMessagingCommand = new RelayCommand<MalUser>(
                    user =>
                    {
+                       if(ViewModelLocator.Mobile)
+                           RegisterSelfBackNav();
                        ViewModelLocator.GeneralMain.Navigate(PageIndex.PageMessageDetails,new MalMessageDetailsNavArgs{WorkMode = MessageDetailsWorkMode.Message,NewMessageTarget = user.Name});
                    }));
 
@@ -279,6 +293,7 @@ namespace MALClient.XShared.ViewModels.Forums
             if (lastpost)
             {
                 CurrentPage = CurrentTopicData.AllPages;
+                RequestScroll?.Invoke(this,Messages.Count-1);
             }
 
             LoadingTopic = false;

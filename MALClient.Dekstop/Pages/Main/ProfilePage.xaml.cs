@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using Windows.Foundation;
 using Windows.System;
 using Windows.UI.ViewManagement;
@@ -36,52 +37,27 @@ namespace MALClient.Pages.Main
         public ProfilePage()
         {
             InitializeComponent();
-            Loaded += OnLoaded;
+            ViewModel.PropertyChanged += ViewModelOnPropertyChanged;
         }
 
         private ProfilePageViewModel ViewModel => DataContext as ProfilePageViewModel;
 
-        private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
-        {
-            ViewModel.LoadProfileData(_lastArgs);
-            ViewModel.OnWebViewNavigationRequest += ViewModelOnOnWebViewNavigationRequest;
-        }
-
-        private void ViewModelOnOnWebViewNavigationRequest(string content, bool b)
-        {
-            var uiSettings = new UISettings();
-            var color = uiSettings.GetColorValue(UIColorType.Accent);
-            var color1 = uiSettings.GetColorValue(UIColorType.AccentDark2);
-            var color2 = uiSettings.GetColorValue(UIColorType.AccentLight2);
-            var css = CssManager.Css.Replace("AccentColourBase", "#" + color.ToString().Substring(3)).
-                Replace("AccentColourLight", "#" + color2.ToString().Substring(3)).
-                Replace("AccentColourDark", "#" + color1.ToString().Substring(3))
-                .Replace("BodyBackgroundThemeColor",
-                    Settings.SelectedTheme == (int)ApplicationTheme.Dark ? "#2d2d2d" : "#e6e6e6")
-                .Replace("BodyForegroundThemeColor",
-                    Settings.SelectedTheme == (int)ApplicationTheme.Dark ? "white" : "black").Replace(
-                        "HorizontalSeparatorColor",
-                        Settings.SelectedTheme == (int)ApplicationTheme.Dark ? "#0d0d0d" : "#b3b3b3");
-            css += "</style>";
-            if (content.Length < 400)
-                AboutMeWebView.Height = 300;
-            else if (content.Length < 800)
-                AboutMeWebView.Height = 500;
-            else
-                AboutMeWebView.Height = 800;
-            AboutMeWebView.NavigateToString(css + content);
-        }
-
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             _lastArgs = e.Parameter as ProfilePageNavigationArgs;
+            ViewModel.LoadProfileData(_lastArgs);
+
             base.OnNavigatedTo(e);
         }
 
-        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        private void ViewModelOnPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
         {
-            base.OnNavigatedFrom(e);
+            if (propertyChangedEventArgs.PropertyName == nameof(ViewModel.AboutMeWebViewVisibility))
+            {
+                ToggleAboutMeButton.IsChecked = ViewModel.AboutMeWebViewVisibility;
+            }
         }
+
 
         private void ListViewBase_OnItemClick(object sender, ItemClickEventArgs e)
         {
@@ -139,23 +115,21 @@ namespace MALClient.Pages.Main
             DesktopViewModelLocator.ProfilePage.TemporarilySelectedAnimeItem = e.ClickedItem as AnimeItemViewModel;
         }
 
-        private void AboutMeWebView_OnDOMContentLoaded(WebView sender, WebViewDOMContentLoadedEventArgs args)
-        {
-            ViewModel.AboutMeWebViewVisibility = true;
-            ViewModel.LoadingAboutMeVisibility = false;
-        }
 
-        private void AboutMeWebView_OnFrameNavigationStarting(WebView sender, WebViewNavigationStartingEventArgs args)
-        {
-            args.Cancel = true;
-        }
-
-        private async void AboutMeWebView_OnNavigationStarting(WebView sender, WebViewNavigationStartingEventArgs args)
+        private void AboutMeWebView_OnNavigationStarting(WebView sender, WebViewNavigationStartingEventArgs args)
         {
             if(args.Uri == null)
                 return;
             args.Cancel = true;
-            ResourceLocator.SystemControlsLauncherService.LaunchUri(args.Uri);
+            var arg = MalLinkParser.GetNavigationParametersForUrl(args.Uri.ToString());
+            if (arg == null)
+                ResourceLocator.SystemControlsLauncherService.LaunchUri(args.Uri);
+            else
+            {
+                if(ViewModelLocator.Mobile || !arg.Item1.GetAttribute<EnumUtilities.PageIndexEnumMember>().OffPage)
+                    ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageProfile,_lastArgs);
+                ViewModelLocator.GeneralMain.Navigate(arg.Item1,arg.Item2);
+            }
         }
 
         private void SearchBox_OnQuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)

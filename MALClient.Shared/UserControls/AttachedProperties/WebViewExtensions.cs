@@ -17,6 +17,15 @@ namespace MALClient.Shared.UserControls.AttachedProperties
         private static void PropertyChangedCallback(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
         {
             var view = dependencyObject as WebView;
+            if (GetResizeToFit(view))
+            {
+                if (view.Tag == null)
+                {
+                    view.ScriptNotify += ViewOnScriptNotify;
+                    view.Tag = true;
+                }
+            }
+            SetComputedHeight(view,0);
             view.NavigateToString(CssManager.WrapWithCss(dependencyPropertyChangedEventArgs.NewValue as string,GetDisableScroll(dependencyObject)));
         }
 
@@ -41,15 +50,6 @@ namespace MALClient.Shared.UserControls.AttachedProperties
         public static void SetContent(DependencyObject element, string value)
         {
             element.SetValue(ContentProperty, value);
-            if (GetResizeToFit(element))
-            {
-                var webView = element as WebView;
-                if (webView.Tag == null)
-                {
-                    webView.ScriptNotify += ViewOnScriptNotify;
-                    webView.Tag = true;
-                }
-            }
         }
 
         public static string GetContent(DependencyObject element)

@@ -126,7 +126,7 @@
                 </Button>
                 <Button Background="Transparent"  Command="{Binding NavigateStarredMessages}">
                     <ToolTipService.ToolTip>
-                        <ToolTip Content="MALClient's topic"/>
+                        <ToolTip Content="Starred messages"/>
                     </ToolTipService.ToolTip>
                     <SymbolIcon Symbol="Favorite"/>
                 </Button>                

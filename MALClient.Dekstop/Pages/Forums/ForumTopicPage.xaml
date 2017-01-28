@@ -71,11 +71,16 @@
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition />
                                     <ColumnDefinition />
+                                    <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
-                                <Button Content="First" Margin="0,0,5,0" HorizontalAlignment="Stretch"
+                                <Button Content="First" Margin="0,0,5,0" HorizontalAlignment="Stretch" 
                                         Command="{Binding GotoFirstPageCommand}" />
                                 <Button Grid.Column="1" Content="Last" HorizontalAlignment="Stretch"
                                         Command="{Binding GotoLastPageCommand}" />
+                                <Button Grid.Column="2" HorizontalAlignment="Stretch" Margin="5,0,0,0"
+                                        Command="{Binding GotoWebsiteCommand}" >
+                                    <SymbolIcon Symbol="Globe"/>
+                                </Button>
                             </Grid>
                         </StackPanel>
                     </Flyout>

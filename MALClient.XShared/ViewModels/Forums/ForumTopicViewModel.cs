@@ -65,7 +65,7 @@ namespace MALClient.XShared.ViewModels.Forums
             ToggleWatchingButtonText = "Toggle watching";
             CurrentTopicData = await ForumTopicQueries.GetTopicData(_prevArgs.TopicId, _prevArgs.TopicPage, _prevArgs.LastPost, _prevArgs.MessageId);
             CurrentPage = _prevArgs.LastPost ? CurrentTopicData.AllPages : CurrentTopicData.CurrentPage;
-            ViewModelLocator.GeneralMain.CurrentStatus = $"Forums - {(CurrentTopicData.IsLocked ? "Locked:" : "")} {CurrentTopicData?.Title}";
+            ViewModelLocator.GeneralMain.CurrentStatus = $"Forums - {(CurrentTopicData.IsLocked ? "Locked: " : "")}{CurrentTopicData?.Title}";
             Messages = new ObservableCollection<ForumTopicMessageEntryViewModel>(
                 CurrentTopicData.Messages.Select(
                     entry => new ForumTopicMessageEntryViewModel(entry)));

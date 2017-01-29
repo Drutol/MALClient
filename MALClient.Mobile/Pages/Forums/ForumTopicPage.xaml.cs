@@ -39,66 +39,45 @@ namespace MALClient.Pages.Forums
     public sealed partial class ForumTopicPage : Page , ForumTopicViewModel.IScrollInfoProvider
     {
         public ForumTopicViewModel ViewModel => ViewModelLocator.ForumsTopic;
-        private bool _addedCopyHandler;
+
 
         public ForumTopicPage()
         {
             this.InitializeComponent();
             ViewModel.ScrollInfoProvider = this;
             ViewModel.RequestScroll += ViewModelOnRequestScroll;
-            ViewModel.PropertyChanged += ViewModelOnPropertyChanged;
-        }
-
-        private void ViewModelOnPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
-        {
-            //if (propertyChangedEventArgs.PropertyName == nameof(ViewModel.Messages))
-            //{
-            //   _heightDictionary = 
-            //}
         }
 
 
         private void ViewModelOnRequestScroll(object sender, int i)
         {
+            if(i == -1 || i > ViewModel.Messages.Count -1)
+                return;
             ListView.ScrollIntoView(ViewModel.Messages[i], ScrollIntoViewAlignment.Leading);
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-
-            if (Settings.ForumsSearchOnCopy)
-            {
-                _addedCopyHandler = true;
-                Clipboard.ContentChanged += ClipboardOnContentChanged;
-            }
             ViewModel.Init(e.Parameter as ForumsTopicNavigationArgs);
             base.OnNavigatedTo(e);
             
         }
 
-        protected override void OnNavigatedFrom(NavigationEventArgs e)
-        {
-            if (_addedCopyHandler)
-            {
-                Clipboard.ContentChanged -= ClipboardOnContentChanged;
-            }
-            base.OnNavigatedFrom(e);
-        }
 
-        private async void ClipboardOnContentChanged(object sender, object o)
-        {
-            DataPackageView dataPackageView = Clipboard.GetContent();
-            if (dataPackageView.Contains(StandardDataFormats.Text))
-            {
-                string text = await dataPackageView.GetTextAsync();
-                ViewModelLocator.GeneralMain.Navigate(PageIndex.PageSearch, new SearchPageNavigationArgs
-                {
-                    Anime = !ViewModel.IsMangaBoard,
-                    Query = text.Trim(),
-                    ForceQuery = true,
-                });
-            }
-        }       
+        //private async void ClipboardOnContentChanged(object sender, object o)
+        //{
+        //    DataPackageView dataPackageView = Clipboard.GetContent();
+        //    if (dataPackageView.Contains(StandardDataFormats.Text))
+        //    {
+        //        string text = await dataPackageView.GetTextAsync();
+        //        ViewModelLocator.GeneralMain.Navigate(PageIndex.PageSearch, new SearchPageNavigationArgs
+        //        {
+        //            Anime = !ViewModel.IsMangaBoard,
+        //            Query = text.Trim(),
+        //            ForceQuery = true,
+        //        });
+        //    }
+        //}       
           
         private void TopicWebView_OnNavigationStarting(WebView sender, WebViewNavigationStartingEventArgs args)
         {
@@ -106,12 +85,13 @@ namespace MALClient.Pages.Forums
             {
                 if (args.Uri != null)
                 {
-                    var uri = args.Uri.AbsoluteUri;
+                    var uri = args.Uri.Host == string.Empty ? $"https://myanimelist.net" + args.Uri.AbsolutePath : args.ToString();
                     args.Cancel = true;
                     var navArgs = MalLinkParser.GetNavigationParametersForUrl(uri);
                     if (navArgs != null)
                     {
-                        ViewModel.RegisterSelfBackNav();
+                        if(!navArgs.Item1.GetAttribute<EnumUtilities.PageIndexEnumMember>().OffPage)
+                            ViewModel.RegisterSelfBackNav();
 
                         ViewModelLocator.GeneralMain.Navigate(navArgs.Item1, navArgs.Item2);
                     }
@@ -125,6 +105,12 @@ namespace MALClient.Pages.Forums
             {
                 args.Cancel = true;
             }
+        }
+
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            ViewModel.NavigatedFrom();
+            base.OnNavigatedFrom(e);
         }
 
         private void GotoInputOnKeyDown(object sender, KeyRoutedEventArgs e)

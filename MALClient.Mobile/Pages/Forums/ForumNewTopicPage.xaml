@@ -12,7 +12,7 @@
         <xamlConverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
         <xamlConverters:BoolToVisibilityInvertedConverter x:Key="BoolToVisibilityInvertedConverter" />
     </Page.Resources>
-    <ScrollViewer x:Name="GlobalScroll">
+    <ScrollViewer x:Name="GlobalScroll" >
         <Grid Background="{ThemeResource BrushDeepBackground}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
@@ -31,23 +31,33 @@
                     <RowDefinition/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
-                <Grid x:Name="InputSection" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="20">
-                    <ScrollViewer x:Name="InputScroll" Padding="0,0,16,0">
+                <Grid x:Name="InputSection" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="20,20,0,0">
+                    <ScrollViewer x:Name="InputScroll" Padding="0,0,16,0" VerticalScrollBarVisibility="Auto">
                         <StackPanel>
                             <StackPanel>
                                 <TextBlock Text="Topic title:"/>
-                                <TextBox Margin="0,5" Text="{Binding Title,Mode=TwoWay}" HorizontalAlignment="Stretch" AcceptsReturn="False"/>
-                                <TextBlock Text="Message:"/>
+                                <TextBox Margin="0,5" Text="{Binding Title,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" HorizontalAlignment="Stretch" AcceptsReturn="False"/>
+                                <Grid Margin="0,5,0,0">
+                                    <TextBlock Text="Message:"/>
+                                    <TextBlock Text="(supports simple BBCode)" FontWeight="SemiLight" FontStyle="Italic" FontSize="14" HorizontalAlignment="Right" Foreground="{ThemeResource BrushSettingsSubtitle}"></TextBlock>
+                                </Grid>
+
                             </StackPanel>
 
-                            <TextBox Margin="0,10" Text="{Binding Message,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Stretch" AcceptsReturn="True" MinHeight="300" VerticalAlignment="Stretch"/>
+                            <TextBox Margin="0,10" IsSpellCheckEnabled="True" DesiredCandidateWindowAlignment="Default" Text="{Binding Message,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Stretch" AcceptsReturn="True" MinHeight="300" VerticalAlignment="Stretch"/>
 
                             <StackPanel>
                                 <TextBlock Text="Pool Question:"/>
-                                <TextBox Margin="0,5" Text="{Binding Question,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" MaxLength="100" HorizontalAlignment="Left" MinWidth="200" AcceptsReturn="False"/>
+                                <TextBox Margin="0,5" Text="{Binding Question,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" MaxLength="100" HorizontalAlignment="Left" MinWidth="250" AcceptsReturn="False"/>
                             </StackPanel>
 
                             <ItemsControl ItemsSource="{Binding Answers}" Visibility="{Binding AnswersVisibility,Converter={StaticResource BoolToVisibilityConverter}}">
+                                <ItemsControl.ItemContainerTransitions>
+                                    <TransitionCollection>
+                                        <AddDeleteThemeTransition/>
+                                        <ContentThemeTransition/>
+                                    </TransitionCollection>
+                                </ItemsControl.ItemContainerTransitions>
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
                                         <Grid Margin="0,5">
@@ -66,14 +76,19 @@
                                 </ItemsControl.ItemTemplate>
                             </ItemsControl>
 
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                <Button Content="Send" Margin="5,0" Padding="20,4" Command="{Binding CreateTopicCommand}" Background="{StaticResource SystemControlBackgroundAccentBrush}"/>
-                                <Button Content="Preview" Command="{Binding PreviewCommand}" Margin="5,0" Padding="20,4"/>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,5">
+                                <Button Margin="5,0" Padding="20,4" IsEnabled="{Binding IsSendButtonEnabled}" Command="{Binding CreateTopicCommand}" Background="{StaticResource SystemControlBackgroundAccentBrush}">
+                                    <StackPanel Orientation="Horizontal">
+                                        <SymbolIcon Symbol="Accept" VerticalAlignment="Center" Margin="0,2,5,0"/>
+                                        <TextBlock Text="Send" FontSize="20" VerticalAlignment="Center"/>
+                                    </StackPanel>
+                                </Button>
+                                <!--<Button Content="Preview" Command="{Binding PreviewCommand}" Margin="5,0" Padding="20,4"/>-->
                             </StackPanel>
                         </StackPanel>
                     </ScrollViewer>
                 </Grid>
-                <Grid Grid.Column="1" x:Name="PreviewSection" Background="{ThemeResource BrushAppBars}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Padding="20">
+                <Grid Grid.Column="1" x:Name="PreviewSection" Background="{ThemeResource BrushAppBars}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Padding="20,0,20,0">
                     <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="*"/>
@@ -81,7 +96,15 @@
                         <Grid x:Name="PreviewHeader"  Background="{ThemeResource BrushAnimeItemBackground}" Padding="0,10" BorderThickness="2,0" Margin="-20,0,-20,20" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}">
                             <TextBlock Text="Preview" HorizontalAlignment="Center" FontSize="25"/>
                         </Grid>
-                    <WebView Grid.Row="1" x:Name="PreviewWebView" DefaultBackgroundColor="{ThemeResource ColorAnimeItemBackground}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" MinHeight="600"/>
+                    <WebView Grid.Row="1" Margin="0,20" x:Name="PreviewWebView" Visibility="{Binding PreviewAvailable,Converter={StaticResource BoolToVisibilityConverter}}" DefaultBackgroundColor="{ThemeResource ColorAnimeItemBackground}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" MinHeight="600"/>
+                    <StackPanel Grid.Row="1" Visibility="{Binding PreviewAvailable,Converter={StaticResource BoolToVisibilityInvertedConverter}}" HorizontalAlignment="Center" VerticalAlignment="Center" Opacity=".5" Margin="0,40">
+                        <SymbolIcon Symbol="BrowsePhotos" RenderTransformOrigin=".5,.5" Foreground="{ThemeResource BrushSettingsSubtitle}">
+                            <SymbolIcon.RenderTransform>
+                                <ScaleTransform ScaleX="4" ScaleY="4"/>
+                            </SymbolIcon.RenderTransform>
+                        </SymbolIcon>
+                        <TextBlock Text="Preview will show here..." Foreground="{ThemeResource BrushSettingsSubtitle}" Margin="0,40,0,0"/>
+                    </StackPanel>
                 </Grid>
             </Grid>
         </Grid>

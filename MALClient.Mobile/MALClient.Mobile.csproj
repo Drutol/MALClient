@@ -113,8 +113,8 @@
     <Compile Include="Pages\Forums\ForumNewTopicPage.xaml.cs">
       <DependentUpon>ForumNewTopicPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\Forums\ForumsNewTopicPage.xaml.cs">
-      <DependentUpon>ForumsNewTopicPage.xaml</DependentUpon>
+    <Compile Include="Pages\Forums\ForumStarredMessagesPage.xaml.cs">
+      <DependentUpon>ForumStarredMessagesPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\Forums\ForumTopicPage.xaml.cs">
       <DependentUpon>ForumTopicPage.xaml</DependentUpon>
@@ -285,9 +285,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Pages\Forums\ForumsNewTopicPage.xaml">
-      <SubType>Designer</SubType>
+    <Page Include="Pages\Forums\ForumStarredMessagesPage.xaml">
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Pages\Forums\ForumTopicPage.xaml">
       <Generator>MSBuild:Compile</Generator>

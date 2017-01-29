@@ -115,6 +115,8 @@
                     <MenuFlyout>
                         <MenuFlyoutItem Text="My recent topics" Command="{Binding NavigateRecentTopicsCommand}"/>
                         <MenuFlyoutItem Text="My watched topics" Command="{Binding NavigateWatchedTopicsCommand}"/>
+                        <MenuFlyoutItem Text="Starred messages" Command="{Binding NavigateStarredMessages}"/>
+                        <MenuFlyoutItem Text="MALClient's topic" Command="{Binding NavigateMalClientTopicsCommand}"/>
                     </MenuFlyout>
                 </Button.Flyout>
                 <SymbolIcon Symbol="More"/>

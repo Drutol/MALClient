@@ -12,6 +12,8 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using MALClient.XShared.NavArgs;
+using MALClient.XShared.ViewModels;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -20,11 +22,17 @@ namespace MALClient.Pages.Forums
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class ForumsNewTopicPage : Page
+    public sealed partial class ForumStarredMessagesPage : Page
     {
-        public ForumsNewTopicPage()
+        public ForumStarredMessagesPage()
         {
             this.InitializeComponent();
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            ViewModelLocator.StarredMessages.Init(e.Parameter as ForumStarredMessagesNavigationArgs);
+            base.OnNavigatedTo(e);
         }
     }
 }

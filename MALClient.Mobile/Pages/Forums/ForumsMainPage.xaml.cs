@@ -66,6 +66,9 @@ namespace MALClient.Pages.Forums
                 case ForumsPageIndex.PageNewTopic:
                     MainForumContentFrame.Navigate(typeof(ForumNewTopicPage), args);
                     break;
+                case ForumsPageIndex.PageStarred:
+                    MainForumContentFrame.Navigate(typeof(ForumStarredMessagesPage), args);
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(page), page, null);
             }

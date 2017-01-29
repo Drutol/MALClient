@@ -62,6 +62,8 @@ namespace MALClient.XShared.ViewModels.Forums
             {
                 _message = value;
                 SubmitMessageForDelayedPreview();
+                RaisePropertyChanged(() => PreviewAvailable);
+                RaisePropertyChanged(() => IsSendButtonEnabled);
             }
         }
 
@@ -72,6 +74,7 @@ namespace MALClient.XShared.ViewModels.Forums
             {
                 _header = value;
                 RaisePropertyChanged(() => Header);
+                RaisePropertyChanged(() => IsSendButtonEnabled);
             }
         }
 
@@ -86,7 +89,10 @@ namespace MALClient.XShared.ViewModels.Forums
         }
 
         public bool AnswersVisibility => !string.IsNullOrEmpty(Question);
-        
+
+        public bool PreviewAvailable => !string.IsNullOrWhiteSpace(Message);
+
+        public bool IsSendButtonEnabled =>!string.IsNullOrWhiteSpace(Title) && !string.IsNullOrWhiteSpace(Message);
 
         public ICommand PreviewCommand => _previewCommand ?? (_previewCommand
                                               = new RelayCommand(() =>
@@ -114,7 +120,8 @@ namespace MALClient.XShared.ViewModels.Forums
             => _addAnswerCommand ?? (_addAnswerCommand = new RelayCommand(
                    () =>
                    {
-                       Answers.Add(new ForumTopicQestionModel());
+                       if(Answers.Count <= 4)
+                            Answers.Add(new ForumTopicQestionModel());
                    }));
 
         public ICommand RemoveAnswerCommand
@@ -125,6 +132,8 @@ namespace MALClient.XShared.ViewModels.Forums
                    }));
 
         private bool _messageQueued;
+        private bool _previewAvailable;
+
         private async void SubmitMessageForDelayedPreview()
         {
             if(_messageQueued)

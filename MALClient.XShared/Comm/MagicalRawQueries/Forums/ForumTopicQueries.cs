@@ -287,6 +287,8 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Forums
 
                 var foundMembers = new Dictionary<string,MalForumUser>();
                 var output = new ForumTopicData {Id = topicId};
+                if (messageId != null && messageId != -1)
+                    output.TargetMessageId = messageId.ToString();
 
                 try
                 {

@@ -48,10 +48,11 @@ namespace MALClient.Pages.Forums
             ViewModel.RequestScroll += ViewModelOnRequestScroll;
         }
 
-        public EventHandler<ForumTopicMessageEntryViewModel> HeightRegistar { get; set; }
 
         private void ViewModelOnRequestScroll(object sender, int i)
         {
+            if(i == -1 || i > ViewModel.Messages.Count -1)
+                return;
             ListView.ScrollIntoView(ViewModel.Messages[i], ScrollIntoViewAlignment.Leading);
         }
 

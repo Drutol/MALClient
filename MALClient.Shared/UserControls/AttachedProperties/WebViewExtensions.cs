@@ -57,7 +57,7 @@ namespace MALClient.Shared.UserControls.AttachedProperties
             if (val > view.ActualHeight)
             {
                 SetComputedHeight(view, val);
-                Debug.WriteLine($"{(view.DataContext as ForumTopicMessageEntryViewModel)?.Data.MessageNumber} - {val}");
+                //Debug.WriteLine($"{(view.DataContext as ForumTopicMessageEntryViewModel)?.Data.MessageNumber} - {val}");
             }
             else
             {

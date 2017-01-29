@@ -64,9 +64,15 @@ namespace MALClient.XShared.Utils
                     lastpost = true;
                     uri = uri.Replace("&goto=lastpost", "");
                 }
-                var id = uri.Split('=').Last();
+                var pos = uri.IndexOf('&');
+                var id = (pos == -1 ? uri : uri.Substring(0,pos)).Split('=').Last();
+                long targetMessage = -1;
+                if (uri.Contains("#"))
+                    long.TryParse(uri.Split('#').Last().Substring(3),out targetMessage);
 
-                return new Tuple<PageIndex, object>(PageIndex.PageForumIndex, new ForumsTopicNavigationArgs(id,lastpost ? (int?)-1 : null,1));
+                return new Tuple<PageIndex, object>(PageIndex.PageForumIndex,
+                    new ForumsTopicNavigationArgs(id,
+                        targetMessage == 0 ? (lastpost ? (long?) -1 : null) : targetMessage));
             }
             else if (uri == "https://myanimelist.net/forum/")
             {

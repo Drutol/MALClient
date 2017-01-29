@@ -65,7 +65,7 @@ namespace MALClient.XShared.ViewModels.Forums
             ToggleWatchingButtonText = "Toggle watching";
             CurrentTopicData = await ForumTopicQueries.GetTopicData(_prevArgs.TopicId, _prevArgs.TopicPage, _prevArgs.LastPost, _prevArgs.MessageId);
             CurrentPage = _prevArgs.LastPost ? CurrentTopicData.AllPages : CurrentTopicData.CurrentPage;
-            ViewModelLocator.GeneralMain.CurrentStatus = $"Forums - {(CurrentTopicData.IsLocked ? "Locked: " : "")} {CurrentTopicData?.Title}";
+            ViewModelLocator.GeneralMain.CurrentStatus = $"Forums - {(CurrentTopicData.IsLocked ? "Locked:" : "")} {CurrentTopicData?.Title}";
             Messages = new ObservableCollection<ForumTopicMessageEntryViewModel>(
                 CurrentTopicData.Messages.Select(
                     entry => new ForumTopicMessageEntryViewModel(entry)));
@@ -78,10 +78,12 @@ namespace MALClient.XShared.ViewModels.Forums
             {
                 RequestScroll?.Invoke(this,Messages.Count-1);
             }
-            else if (CurrentTopicData.TargetMessageId != null)
+            else if (CurrentTopicData.TargetMessageId != null /*|| (_prevArgs.MessageId != null && _prevArgs.MessageId != -1)*/)
             {
+                //var index = _prevArgs.MessageId != null && _prevArgs.MessageId != -1 ? _prevArgs.MessageId.ToString() : CurrentTopicData.T
                 RequestScroll?.Invoke(this,Messages.IndexOf(Messages.First(model => model.Data.Id == CurrentTopicData.TargetMessageId)));
             }
+            
 
             IsPinned = ViewModelLocator.ForumsMain.PinnedTopics.Any(entry => entry.Id == CurrentTopicData.Id);
             ViewModelLocator.ForumsMain.PinnedTopics.CollectionChanged += PinnedTopicsOnCollectionChanged;

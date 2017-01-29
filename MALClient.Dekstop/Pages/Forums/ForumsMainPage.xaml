@@ -114,13 +114,13 @@
           
                 <Button Background="Transparent"  Command="{Binding NavigateRecentTopicsCommand}">
                     <ToolTipService.ToolTip>
-                        <ToolTip Content="My recent topic"/>
+                        <ToolTip Content="My recent topics"/>
                     </ToolTipService.ToolTip>
                     <SymbolIcon Symbol="Comment"/>
                 </Button>
                 <Button Background="Transparent"  Command="{Binding NavigateWatchedTopicsCommand}">
                     <ToolTipService.ToolTip>
-                        <ToolTip Content="Watched topic"/>
+                        <ToolTip Content="Watched topics"/>
                     </ToolTipService.ToolTip>
                     <SymbolIcon Symbol="View"/>
                 </Button>

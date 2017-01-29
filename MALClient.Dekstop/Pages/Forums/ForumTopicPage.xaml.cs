@@ -84,7 +84,7 @@ namespace MALClient.Pages.Forums
             {
                 if (args.Uri != null)
                 {
-                    var uri = args.Uri.AbsoluteUri;
+                    var uri = args.Uri.Host == string.Empty ? $"https://myanimelist.net" + args.Uri.AbsolutePath : args.ToString();
                     args.Cancel = true;
                     var navArgs = MalLinkParser.GetNavigationParametersForUrl(uri);
                     if (navArgs != null)

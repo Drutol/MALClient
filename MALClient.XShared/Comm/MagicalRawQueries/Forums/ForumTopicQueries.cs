@@ -11,6 +11,7 @@ using MALClient.Models.Enums;
 using MALClient.Models.Models;
 using MALClient.Models.Models.Forums;
 using MALClient.XShared.Utils;
+using MALClient.XShared.ViewModels.Forums.Items;
 using Newtonsoft.Json;
 
 namespace MALClient.XShared.Comm.MagicalRawQueries.Forums
@@ -293,9 +294,9 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Forums
                     var lastLinkNode = pager.Descendants("a").LastOrDefault(node => node.InnerText.Contains("Last"));
                     if (lastLinkNode != null)
                     {
-                        output.AllPages = int.Parse(lastLinkNode
+                        output.AllPages = (int.Parse(lastLinkNode
                                                 .Attributes["href"]
-                                                .Value.Split('=').Last()) / 50;
+                                                .Value.Split('=').Last()) / 50) + 1;
                     }
                     else
                     {
@@ -463,6 +464,22 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Forums
 
         }
 
+        public static void NotifyMessageRemoved(ForumMessageEntry forumMessage)
+        {
+            if (CachedMessagesDictionary.ContainsKey(forumMessage.TopicId))
+            {
+                foreach (var page in CachedMessagesDictionary[forumMessage.TopicId])
+                {
+                    var index = page.Value.Messages.FindIndex(entry => entry.Id == forumMessage.Id);
+                    if (index != -1)
+                    {
+                        page.Value.Messages.RemoveAt(index);
+                        break;
+                    }
+                }
+            }
+        }
+
         #endregion
 
         #region Watch/UnWatch
@@ -544,5 +561,6 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Forums
 
         #endregion
         // 
+
     }
 }

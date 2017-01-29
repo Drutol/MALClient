@@ -289,7 +289,6 @@ namespace MALClient.XShared.ViewModels.Forums
                                                       {
                                                           ResourceLocator.MessageDialogProvider.ShowMessageDialog("Unable to send your reply","Something went wrong");
                                                       }
-
                                                   }));
 
         public ICommand NavigateMessagingCommand
@@ -353,7 +352,7 @@ namespace MALClient.XShared.ViewModels.Forums
                 LoadingTopic = false;
                 return;
             }
-            
+            CurrentTopicData = data;
             Messages = new ObservableCollection<ForumTopicMessageEntryViewModel>(
                 CurrentTopicData.Messages.Select(
                     entry => new ForumTopicMessageEntryViewModel(entry)));
@@ -370,6 +369,7 @@ namespace MALClient.XShared.ViewModels.Forums
         public void RemoveMessage(ForumTopicMessageEntryViewModel forumTopicMessageEntryViewModel)
         {
             Messages.Remove(forumTopicMessageEntryViewModel);
+            ForumTopicQueries.NotifyMessageRemoved(forumTopicMessageEntryViewModel.Data);
         }
 
         public async void QuouteMessage(string dataId,string poster)

@@ -42,6 +42,8 @@ namespace MALClient.XShared.ViewModels.Main
             => _navigateMessageCommand ?? (_navigateMessageCommand = new RelayCommand<MalMessageModel>(
                    model =>
                    {
+                       if(DisplaySentMessages)
+                           return;
                        ViewModelLocator.GeneralMain.Navigate(PageIndex.PageMessageDetails,
                            new MalMessageDetailsNavArgs {WorkMode = MessageDetailsWorkMode.Message, Arg = model});
                    }));

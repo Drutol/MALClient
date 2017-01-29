@@ -215,8 +215,8 @@
                     </StackPanel>
                 </Grid>
                 <Grid Grid.Column="1" Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10" Visibility="{Binding AboutMeWebViewVisibility,Converter={StaticResource BoolToVisibilityConverter}}">
-                    <WebView x:Name="AboutMeWebView" 
-                             attachedProperties:WebViewExtensions.Content="{Binding AboutMeHtmlContent}" 
+                    <WebView x:Name="AboutMeWebView" DefaultBackgroundColor="{ThemeResource ColorAnimeItemBackground}"
+                             attachedProperties:WebViewExtensions.Content="{Binding AboutMeHtmlContent}" MinHeight="50"
                              attachedProperties:WebViewExtensions.ResizeToFit="True" Height="{Binding ComputedHtmlHeight}" attachedProperties:WebViewExtensions.ComputedHeight="{Binding ComputedHtmlHeight,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                              NavigationStarting="AboutMeWebView_OnNavigationStarting"/>
                 </Grid>

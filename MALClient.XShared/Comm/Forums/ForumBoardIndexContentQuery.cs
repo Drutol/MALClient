@@ -35,7 +35,12 @@ namespace MALClient.XShared.Comm.Forums
                 try
                 {
                     var lis = topics.Descendants("li").ToList();
-                    bool addMissing = lis.Count() == 1;
+                    if (lis.Count == 0)
+                    {
+                        output.ForumBoardEntryPeekPosts.Add(new List<ForumBoardEntryPeekPost>());
+                        continue;
+                    }
+                    bool addMissing = lis.Count == 1;
                     foreach (var post in lis)
                     {
                         i++;

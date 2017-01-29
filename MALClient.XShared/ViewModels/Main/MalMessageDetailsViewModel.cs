@@ -113,7 +113,7 @@ namespace MALClient.XShared.ViewModels.Main
                 _prevMsg = arg;
                 MessageSet.Clear();
                 LoadingVisibility = true;
-                if (!force && MessageThreads.ContainsKey(arg.ThreadId))
+                if (!force && arg.ThreadId != null && MessageThreads.ContainsKey(arg.ThreadId))
                 {
                     MessageSet.AddRange(MessageThreads[arg.ThreadId]);
                 }

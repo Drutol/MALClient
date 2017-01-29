@@ -153,7 +153,12 @@ namespace MALClient.XShared.ViewModels.Forums
             try
             {
                 for (int i = 0; i < 5; i++)
+                {
+                    if (Boards[0].Items[i].Board == ForumBoards.Suggestions &&
+                        peekPosts.ForumBoardEntryPeekPosts[i].All(post => post.Id == null))
+                        i++; //suggestions are empty
                     Boards[0].Items[i].SetPeekPosts(peekPosts.ForumBoardEntryPeekPosts[i]);
+                }
                 for (int i = 0; i < 5; i++)
                     Boards[1].Items[i].SetPeekPosts(peekPosts.ForumBoardEntryPeekPosts[5 + i]);
                 Boards[1].Items[5].SetPeekPosts(peekPosts.ForumBoardEntryPeekPosts[9]); //double manga/anime

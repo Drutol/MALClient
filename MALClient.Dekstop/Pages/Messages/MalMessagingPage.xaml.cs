@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Linq;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
@@ -22,6 +23,17 @@ namespace MALClient.Pages.Messages
         {
             InitializeComponent();
             Loaded += (sender, args) => ViewModel.Init();
+            ViewModel.PropertyChanged+= ViewModelOnPropertyChanged;
+        }
+
+        private void ViewModelOnPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
+        {
+            if (propertyChangedEventArgs.PropertyName == nameof(ViewModel.DisplaySentMessages))
+            {
+                MessagesListView.SelectionMode = ViewModel.DisplaySentMessages
+                    ? ListViewSelectionMode.None
+                    : ListViewSelectionMode.Single;
+            }
         }
 
         private MalMessagingViewModel ViewModel => DataContext as MalMessagingViewModel;

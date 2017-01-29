@@ -41,7 +41,7 @@
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Grid Background="{ThemeResource BrushAnimeItemInnerBackground}" VerticalAlignment="Top">
+            <Grid Background="{ThemeResource BrushAnimeItemInnerBackground}" VerticalAlignment="Top" MinHeight="250">
                 <SymbolIcon Symbol="Help" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                 <Image Stretch="Uniform" VerticalAlignment="Top" Width="175" attachedProperties:AnimeImageExtensions.MalBaseImageSource="{Binding Data.ImgUrl}" />
                 <Grid Grid.Column="0" VerticalAlignment="Bottom" HorizontalAlignment="Right" Background="{ThemeResource BrushFavouriteStarBackground}" Visibility="{Binding Source={StaticResource Locator},Path=AnimeDetails.MalApiSpecificControlsVisibility}">

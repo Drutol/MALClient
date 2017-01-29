@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using MALClient.Shared.Managers;
+using MALClient.XShared.ViewModels.Forums.Items;
 
 namespace MALClient.Shared.UserControls.AttachedProperties
 {
@@ -29,16 +31,33 @@ namespace MALClient.Shared.UserControls.AttachedProperties
             view.NavigateToString(CssManager.WrapWithCss(dependencyPropertyChangedEventArgs.NewValue as string,GetDisableScroll(dependencyObject)));
         }
 
-        private static void ViewOnScriptNotify(object sender, NotifyEventArgs e)
+        private static async void ViewOnScriptNotify(object sender, NotifyEventArgs e)
         {
             var view = sender as WebView;
-
-            var val = int.Parse(e.Value);
-            if(val*1.1 == GetComputedHeight(view))
+            double val;
+            if(!double.TryParse(e.Value,out val))
                 return;
+            val *= 1.1;
+            if (view.ActualHeight == 0) // let's recheck
+            {
+                await Task.Delay(1000);
+                try
+                {
+                    await view.InvokeScriptAsync("eval", new[] { @"notifyDocumentHeightChanged('content');" });
+                }
+                catch (Exception)
+                {
+                    //null content
+                }
+                return;
+            }
+            if (view.DataContext == null || Math.Abs(val - GetComputedHeight(view)) < .1)
+                return;
+
             if (val > view.ActualHeight)
             {
-                SetComputedHeight(view, val*1.1);
+                SetComputedHeight(view, val);
+                Debug.WriteLine($"{(view.DataContext as ForumTopicMessageEntryViewModel)?.Data.MessageNumber} - {val}");
             }
             else
             {

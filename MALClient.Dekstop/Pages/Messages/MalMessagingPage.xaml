@@ -25,7 +25,7 @@
     </Page.BottomAppBar>
 
     <Grid>
-        <ListView Margin="10,10,0,10" ItemsSource="{Binding MessageIndex}"
+        <ListView x:Name="MessagesListView" Margin="10,10,0,10" ItemsSource="{Binding MessageIndex}"
                   SelectionChanged="Selector_OnSelectionChanged"
                   ItemClick="OnMessageClick" IsItemClickEnabled="True">
             <ListView.ItemContainerStyle>

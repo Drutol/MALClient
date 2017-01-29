@@ -281,7 +281,7 @@
                 </Grid>
             </ListView.Footer>
         </ListView>
-        <Grid Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+        <Grid Grid.Row="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
               Visibility="{Binding LoadingTopic,Converter={StaticResource BoolToVisibilityConverter}}"
               Background="{ThemeResource BrushLoadingNonTransparent}">
             <ProgressRing

@@ -61,14 +61,18 @@
             <Button Margin="5,0" IsTabStop="False" Grid.Column="1" Background="Transparent" Height="48" Width="45" DataContext="{Binding Source={StaticResource Locator},Path=GeneralMain}">
                 <Button.Flyout>
                     <Flyout>
-                        <ListView ItemsSource="{Binding SearchFilterOptions}"
+                        <StackPanel>
+                            <TextBlock Text="No filters available..." Visibility="{Binding Source={StaticResource Locator},Path=SearchPage.EmptyNoticeVisibility,Converter={StaticResource BoolToVisibilityConverter}}"/>
+                            <TextBlock Text="No filters available..." Visibility="{Binding Source={StaticResource Locator},Path=SearchPage.IsFirstVisitGridVisible,Converter={StaticResource BoolToVisibilityConverter}}"/>
+                            <ListView ItemsSource="{Binding SearchFilterOptions}"
                                       SelectedIndex="{Binding SearchFilterSelectedIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-                            <ListView.ItemTemplate>
-                                <DataTemplate>
-                                    <TextBlock Text="{Binding}" />
-                                </DataTemplate>
-                            </ListView.ItemTemplate>
-                        </ListView>
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding}" />
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                        </StackPanel>
                     </Flyout>
                 </Button.Flyout>
                 <SymbolIcon Symbol="Filter"

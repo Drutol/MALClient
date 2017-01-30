@@ -34,7 +34,7 @@
                             <ItemsControl Grid.Row="1" ItemsSource="{Binding Msg.Images}" Margin="10,5">
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
-                                       <Image Source="{Binding}" Margin="0,5"/>
+                                        <Image Source="{Binding}"></Image>
                                     </DataTemplate>
                                 </ItemsControl.ItemTemplate>
                             </ItemsControl>

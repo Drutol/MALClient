@@ -22,6 +22,11 @@ namespace MALClient.Models.Models.Notifications
         public bool IsRead { get; set; }
         public string ImgUrl { get; set; }
 
+        public MalNotification(string id)
+        {
+            Id = id;
+        }
+
         public MalNotification(MalMessageModel malMessageModel)
         {
             IsRead = false;
@@ -73,7 +78,7 @@ namespace MALClient.Models.Models.Notifications
                     break;
                 case "forum_quote":
                     Type = MalNotificationsTypes.ForumQuoute;
-                    Header = "New forum quoute!";
+                    Header = "New forum quote!";
                     Content = $"{notification.quoteUserName} has quouted your post in the \"{notification.topicTitle}\" thread.";
                     LaunchArgs = notification.url;
                     IsSupported = true;
@@ -133,6 +138,7 @@ namespace MALClient.Models.Models.Notifications
                     Type = MalNotificationsTypes.Generic;
                     break;
             }
+            LaunchArgs = $"{notification.id}~{LaunchArgs}";
             Id = notification.id;
             Date = notification.createdAtForDisplay;
         }

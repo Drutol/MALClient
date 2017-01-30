@@ -14,6 +14,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using MALClient.Models.Enums;
+using MALClient.Models.Models.Notifications;
 using MALClient.Shared;
 using MALClient.Shared.ViewModels;
 using MALClient.Pages;
@@ -25,6 +26,7 @@ using MALClient.ViewModels;
 using MALClient.XShared.BL;
 using MALClient.XShared.Comm.Anime;
 using MALClient.XShared.Comm.CommUtils;
+using MALClient.XShared.Comm.MagicalRawQueries;
 using MALClient.XShared.Comm.Manga;
 using MALClient.XShared.NavArgs;
 using MALClient.XShared.Utils;
@@ -113,7 +115,12 @@ namespace MALClient
                 var activationArgs = e as ToastNotificationActivatedEventArgs;
                 if (activationArgs != null)
                 {
-                    if (activationArgs.Argument.Contains(";"))
+                    var arg = activationArgs.Argument;
+                    var pos = arg.IndexOf('~');
+                    var id = arg.Substring(0, pos);
+                    arg = arg.Substring(pos+1);
+                    MalNotificationsQuery.MarkNotifiactionsAsRead(new MalNotification(id));
+                    if (arg.Contains(";"))
                     {
                         var options = activationArgs.Argument.Split(';');
                         if (options[0] == TileActions.OpenUrl.ToString())
@@ -121,7 +128,7 @@ namespace MALClient
                     }
                     else
                     {
-                        fullNavArgs = MalLinkParser.GetNavigationParametersForUrl(activationArgs.Argument);
+                        fullNavArgs = MalLinkParser.GetNavigationParametersForUrl(arg);
                     }
                 }
             }

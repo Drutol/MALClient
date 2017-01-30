@@ -158,5 +158,11 @@ namespace MALClient.Pages.Forums
         {
 
         }
+
+        private void UIElement_OnTapped(object sender, TappedRoutedEventArgs e)
+        {
+            var element = (sender as FrameworkElement);
+            element.Visibility = Visibility.Collapsed;
+        }
     }
 }

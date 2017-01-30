@@ -11,6 +11,8 @@ namespace MALClient.Shared.Managers
 {
     public static class CssManager
     {
+        private static string ReplacedCss { get;  }
+        private static string ReplacedCssHtmlBodyScrollEnabled { get;  }
 //        document.addEventListener('click', function(e)
 //        {
 //            e = e || window.event;
@@ -25,7 +27,7 @@ namespace MALClient.Shared.Managers
 //    var el = document.elementFromPoint(x, y);
 //    el && el.click();
 //};
-private const string Begin = @"<html><head>
+        private const string Begin = @"<html><head>
                             <meta name=""viewport"" content=""width=device-width, initial-scale=1, user-scalable=no"" />
                             <script type=""text/javascript"">
 
@@ -51,32 +53,50 @@ private const string Begin = @"<html><head>
                        </head><body id='root' onload='notifyDocumentHeightChanged(""content"");bindButtons();'><div id='content'>";
         private const string End = @"</div></body></html>";
 
-        public static string WrapWithCss(string html,bool disableScroll = false)
+        static CssManager()
         {
-            if (string.IsNullOrWhiteSpace(html))
-                return string.Empty;
-
             var uiSettings = new UISettings();
             var color = uiSettings.GetColorValue(UIColorType.Accent);
             var color1 = uiSettings.GetColorValue(UIColorType.AccentDark2);
             var color2 = uiSettings.GetColorValue(UIColorType.AccentLight2);
             string css = Css;
-            if (disableScroll)
-                css = css.Insert(0, CssHtmlBodyScrollDisabled);
-            else
-                css = css.Insert(0, CssHtmlBodyScrollEnabled);
+            string bodyCss = CssHtmlBodyScrollEnabled;
 
             css = css.Replace("AccentColourBase", "#" + color.ToString().Substring(3)).
                 Replace("AccentColourLight", "#" + color2.ToString().Substring(3)).
                 Replace("AccentColourDark", "#" + color1.ToString().Substring(3))
                 .Replace("BodyBackgroundThemeColor",
-                    Settings.SelectedTheme == (int) ApplicationTheme.Dark ? "#2d2d2d" : "#e6e6e6")
+                    Settings.SelectedTheme == (int)ApplicationTheme.Dark ? "#2d2d2d" : "#e6e6e6")
                 .Replace("BodyForegroundThemeColor",
-                    Settings.SelectedTheme == (int) ApplicationTheme.Dark ? "white" : "black").Replace(
+                    Settings.SelectedTheme == (int)ApplicationTheme.Dark ? "white" : "black").Replace(
                     "HorizontalSeparatorColor",
-                    Settings.SelectedTheme == (int) ApplicationTheme.Dark ? "#0d0d0d" : "#b3b3b3")
+                    Settings.SelectedTheme == (int)ApplicationTheme.Dark ? "#0d0d0d" : "#b3b3b3")
                 .Replace("BodyBackgroundThemeDarkerColor",
-                    Settings.SelectedTheme == (int) ApplicationTheme.Dark ? "#212121" : "#dadada");
+                    Settings.SelectedTheme == (int)ApplicationTheme.Dark ? "#212121" : "#dadada");
+
+            bodyCss = bodyCss.Replace("AccentColourBase", "#" + color.ToString().Substring(3)).
+                Replace("AccentColourLight", "#" + color2.ToString().Substring(3)).
+                Replace("AccentColourDark", "#" + color1.ToString().Substring(3))
+                .Replace("BodyBackgroundThemeColor",
+                    Settings.SelectedTheme == (int)ApplicationTheme.Dark ? "#2d2d2d" : "#e6e6e6")
+                .Replace("BodyForegroundThemeColor",
+                    Settings.SelectedTheme == (int)ApplicationTheme.Dark ? "white" : "black").Replace(
+                    "HorizontalSeparatorColor",
+                    Settings.SelectedTheme == (int)ApplicationTheme.Dark ? "#0d0d0d" : "#b3b3b3")
+                .Replace("BodyBackgroundThemeDarkerColor",
+                    Settings.SelectedTheme == (int)ApplicationTheme.Dark ? "#212121" : "#dadada");
+
+            ReplacedCssHtmlBodyScrollEnabled = bodyCss;
+            ReplacedCss = css;
+        }
+
+        public static string WrapWithCss(string html,bool disableScroll = false)
+        {
+            if (string.IsNullOrWhiteSpace(html))
+                return string.Empty;
+
+            var css = ReplacedCss.Insert(0, ReplacedCssHtmlBodyScrollEnabled);
+
             if (!Settings.ArticlesDisplayScrollBar)
                 css += CssRemoveScrollbar;
             css += "</style>";
@@ -123,7 +143,7 @@ private const string Begin = @"<html><head>
 		        color: BodyForegroundThemeColor;
                 font-family: 'Segoe UI';
 	        }";
-        public const string Css =
+        private const string Css =
             @"
 	        .userimg
 	        {

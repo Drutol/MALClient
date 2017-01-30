@@ -214,14 +214,19 @@
                                     <RowDefinition Height="Auto" />
                                     <RowDefinition Height="Auto" />
                                 </Grid.RowDefinitions>
-                                <WebView
+                                <Grid Visibility="{x:Bind EditMode,Mode=OneWay,Converter={StaticResource BoolToVisibilityInvertedConverter}}">
+                                    <WebView
                                     attachedProperties:WebViewExtensions.Content="{x:Bind Data.HtmlContent,Mode=OneWay}"
                                     attachedProperties:WebViewExtensions.ResizeToFit="True"
                                     DefaultBackgroundColor="{ThemeResource ColorAnimeItemBackground}" MinHeight="270"
                                     NavigationStarting="TopicWebView_OnNavigationStarting"
-                                    attachedProperties:WebViewExtensions.ComputedHeight="{Binding ComputedHtmlHeight,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
-                                    Visibility="{Binding EditMode,Converter={StaticResource BoolToVisibilityInvertedConverter}}"
+                                    attachedProperties:WebViewExtensions.ComputedHeight="{Binding ComputedHtmlHeight,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"   
                                     Height="{x:Bind ComputedHtmlHeight,Mode=OneWay}" />
+                                    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Tapped="UIElement_OnTapped">
+                                        <Rectangle HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Fill="Transparent"/>
+                                        <SymbolIcon Symbol="Placeholder" HorizontalAlignment="Right" VerticalAlignment="Bottom" Opacity=".4"/>
+                                    </Grid>
+                                </Grid>
                                 <StackPanel Grid.Row="0"
                                             Visibility="{x:Bind EditMode,Mode=OneWay,Converter={StaticResource BoolToVisibilityConverter}}">
                                     <TextBox Margin="10" HorizontalAlignment="Stretch" MinHeight="260"

@@ -284,6 +284,7 @@ namespace MALClient.XShared.ViewModels.Forums
                                                   {
                                                       if(await ForumTopicQueries.CreateMessage(_prevArgs.TopicId,ReplyMessage))
                                                       {
+                                                          ResourceLocator.TelemetryProvider.TelemetryTrackEvent(TelemetryTrackedEvents.CreatedReply);
                                                           ReplyMessage = string.Empty;
                                                           LoadCurrentTopicPage(true,true);
                                                       }

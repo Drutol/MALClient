@@ -87,7 +87,7 @@ namespace MALClient.XShared.NavArgs
                     case ForumBoardPageWorkModes.Search:
                         return Query == arg.Query && Scope == arg.Scope;
                     case ForumBoardPageWorkModes.UserSearch:
-                        return WorkMode == arg.WorkMode;
+                        return arg.Query == Query;
                     case ForumBoardPageWorkModes.WatchedTopics:
                         return WorkMode == arg.WorkMode;
                     default:

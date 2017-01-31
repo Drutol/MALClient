@@ -29,22 +29,22 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Forums
         /// <param name="question"></param>
         /// <param name="answers"></param>
         /// <returns></returns>
-        public static async Task<bool> CreateNewTopic(string title, string message, TopicType type, int id,
+        public static Task<Tuple<bool, string>> CreateNewTopic(string title, string message, TopicType type, int id,
             string question = null, List<string> answers = null)
         {
-            return await CreateNewTopic(title, message, type == TopicType.Anime
+            return CreateNewTopic(title, message, type == TopicType.Anime
                 ? $"/forum/?action=post&anime_id={id}"
                 : $"/forum/?action=post&manga_id={id}", question, answers);
         }
 
-        public static async Task<bool> CreateNewTopic(string title, string message, ForumType type, int id,
+        public static Task<Tuple<bool, string>> CreateNewTopic(string title, string message, ForumType type, int id,
             string question = null, List<string> answers = null)
         {
-            return await CreateNewTopic(title, message, type == ForumType.Normal
+            return CreateNewTopic(title, message, type == ForumType.Normal
                 ? $"/forum/?action=post&boardid={id}"
                 : $"/forum/?action=post&club_id={id}", question, answers);
         }
-        private static async Task<bool> CreateNewTopic(string title, string message, string endpoint, string question = null, List<string> answers = null)
+        private static async Task<Tuple<bool,string>> CreateNewTopic(string title, string message, string endpoint, string question = null, List<string> answers = null)
         {
             try
             {
@@ -74,11 +74,31 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Forums
                 //    await client.PostAsync(
                 //        "/forum/?action=post&club_id=73089", requestContent);
 
-                return response.IsSuccessStatusCode;
+                if (!response.IsSuccessStatusCode)
+                    return new Tuple<bool, string>(false,null);
+
+                try
+                {
+                    var resp = await response.Content.ReadAsStringAsync();
+                    if(resp.Contains("badresult"))
+                        return new Tuple<bool, string>(false,null);
+                    var doc = new HtmlDocument();
+                    doc.LoadHtml(resp);
+                    var wrapper = doc.FirstOfDescendantsWithId("div", "contentWrapper");
+                    var matches = Regex.Match(wrapper.InnerHtml, @"topicid=(\d+)");
+                    return new Tuple<bool, string>(true,matches.Groups[1].Value);
+                }
+                catch (Exception)
+                {
+                   return new Tuple<bool, string>(true,null);
+                }
+
+
+
             }
             catch (Exception)
             {
-                return false;
+                return new Tuple<bool, string>(false, null);
             }
         }
 

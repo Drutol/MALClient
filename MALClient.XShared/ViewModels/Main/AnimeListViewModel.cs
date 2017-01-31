@@ -720,7 +720,7 @@ namespace MALClient.XShared.ViewModels.Main
                 CurrentIndexPosition = -1;
             }
             ViewModelLocator.GeneralMain.ScrollToTopButtonVisibility = CurrentIndexPosition > minItems;
-            CurrentPage = (allItems / ItemsPerPage)+1;
+            CurrentPage = (int)Math.Ceiling((double)allItems / ItemsPerPage);
             Loading = false;
             _randomedIds = new List<int>();
         }

@@ -9,6 +9,8 @@
         PinnedTile,
         LaunchedFeedback,
         LaunchedFeedbackHub,
-        Navigated
+        Navigated,
+        CreatedTopic,
+        CreatedReply,
     }
 }

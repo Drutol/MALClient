@@ -34,6 +34,12 @@ namespace MALClient.XShared.Utils
                     return new Tuple<PageIndex, object>(PageIndex.PageForumIndex, new ForumsBoardNavigationArgs(board));
                 }
             }
+            //else if (Regex.IsMatch(uri, @"https:\/\/myanimelist.net\/forum\/\?clubid=\d+"))
+            //{
+            //    var id = uri.Split('=').Last();
+
+            //    return new Tuple<PageIndex, object>(PageIndex.PageForumIndex, new ForumsBoardNavigationArgs());
+            //}
             else if(Regex.IsMatch(uri, @"https:\/\/myanimelist.net\/forum\/\?animeid=\d+"))
             {
                 int id;

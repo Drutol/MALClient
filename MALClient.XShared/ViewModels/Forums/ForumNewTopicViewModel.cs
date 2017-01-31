@@ -53,7 +53,16 @@ namespace MALClient.XShared.ViewModels.Forums
             }
         }
 
-        public string Title { get; set; }
+        public string Title
+        {
+            get { return _title; }
+            set
+            {
+                _title = value;
+                RaisePropertyChanged(() => Title);
+                RaisePropertyChanged(() => IsSendButtonEnabled);
+            }
+        }
 
         public string Message
         {
@@ -74,7 +83,6 @@ namespace MALClient.XShared.ViewModels.Forums
             {
                 _header = value;
                 RaisePropertyChanged(() => Header);
-                RaisePropertyChanged(() => IsSendButtonEnabled);
             }
         }
 
@@ -133,6 +141,7 @@ namespace MALClient.XShared.ViewModels.Forums
 
         private bool _messageQueued;
         private bool _previewAvailable;
+        private string _title;
 
         private async void SubmitMessageForDelayedPreview()
         {
@@ -146,7 +155,7 @@ namespace MALClient.XShared.ViewModels.Forums
 
         private async void CreateTopic()
         {
-            bool result;
+            Tuple<bool,string> result;
             if (_prevArgs.TopicType != null)
             {
                 result = await ForumTopicQueries.CreateNewTopic(Title, Message,
@@ -163,13 +172,23 @@ namespace MALClient.XShared.ViewModels.Forums
                         ? Answers.Select(model => model.Answer).ToList()
                         : null);
             }
-            if (result)
+            if (result.Item1)
             {
-                ViewModelLocator.NavMgr.CurrentMainViewOnBackRequested();
+                ResourceLocator.TelemetryProvider.TelemetryTrackEvent(TelemetryTrackedEvents.CreatedTopic);
+                if (result.Item2 != null)
+                {
+                    ViewModelLocator.GeneralMain.Navigate(PageIndex.PageForumIndex,new ForumsTopicNavigationArgs(result.Item2,null));
+                }
+                else
+                {
+                    ViewModelLocator.NavMgr.CurrentMainViewOnBackRequested();
+                }
+
+                Message = Title = string.Empty;
             }
             else
             {
-                ResourceLocator.MessageDialogProvider.ShowMessageDialog("Something went wrong while creating your topic.","Something went wrong");
+                ResourceLocator.MessageDialogProvider.ShowMessageDialog("Something went wrong while creating your topic. Remember that you can post new topics every 5 minutes.","Something went wrong!");
             }
         }
     }

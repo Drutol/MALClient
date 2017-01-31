@@ -4,9 +4,6 @@
     <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
   </PropertyGroup>
   <ImportGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
-    <Import Project="$(NuGetPackageRoot)microsoft.services.store.engagement\10.1610.0\build\Microsoft.Services.Store.Engagement.targets" Condition="Exists('$(NuGetPackageRoot)microsoft.services.store.engagement\10.1610.0\build\Microsoft.Services.Store.Engagement.targets')" />
-    <Import Project="$(NuGetPackageRoot)microsoft.advertising.xaml\10.1609.2\build\Microsoft.Advertising.XAML.targets" Condition="Exists('$(NuGetPackageRoot)microsoft.advertising.xaml\10.1609.2\build\Microsoft.Advertising.XAML.targets')" />
-    <Import Project="$(NuGetPackageRoot)microsoft.advertising.js\10.1609.2\build\Microsoft.Advertising.JS.targets" Condition="Exists('$(NuGetPackageRoot)microsoft.advertising.js\10.1609.2\build\Microsoft.Advertising.JS.targets')" />
     <Import Project="$(NuGetPackageRoot)microsoft.net.native.sharedlibrary-x86\1.6.0\build\Microsoft.Net.Native.SharedLibrary-x86.targets" Condition="Exists('$(NuGetPackageRoot)microsoft.net.native.sharedlibrary-x86\1.6.0\build\Microsoft.Net.Native.SharedLibrary-x86.targets')" />
     <Import Project="$(NuGetPackageRoot)microsoft.net.native.sharedlibrary-x64\1.6.0\build\Microsoft.Net.Native.SharedLibrary-x64.targets" Condition="Exists('$(NuGetPackageRoot)microsoft.net.native.sharedlibrary-x64\1.6.0\build\Microsoft.Net.Native.SharedLibrary-x64.targets')" />
     <Import Project="$(NuGetPackageRoot)microsoft.net.native.sharedlibrary-arm\1.6.0\build\Microsoft.Net.Native.SharedLibrary-arm.targets" Condition="Exists('$(NuGetPackageRoot)microsoft.net.native.sharedlibrary-arm\1.6.0\build\Microsoft.Net.Native.SharedLibrary-arm.targets')" />

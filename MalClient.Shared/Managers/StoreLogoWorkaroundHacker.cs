@@ -27,10 +27,18 @@ namespace MALClient.Shared.Managers
 
         public static void Hack()
         {
-            var tileUpdater = TileUpdateManager.CreateTileUpdaterForApplication();
-            XmlDocument document = new XmlDocument();
-            document.LoadXml(xml);
-            tileUpdater.Update(new TileNotification(document));
+            try
+            {
+                var tileUpdater = TileUpdateManager.CreateTileUpdaterForApplication();
+                XmlDocument document = new XmlDocument();
+                document.LoadXml(xml);
+                tileUpdater.Update(new TileNotification(document));
+            }
+            catch (Exception e)
+            {
+                //hack failed
+            }
+
         }
     }
 }

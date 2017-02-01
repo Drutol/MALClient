@@ -1,6 +1,6 @@
-MainPackage=C:\Users\dogie\Documents\Visual Studio 2015\Projects\MALClient\MALClient.Dekstop\bin\x64\Release\MALClient.Dekstop_5.2.8.0_x64.appx
-SymbolPackage=C:\Users\dogie\Documents\VsBuilds\MALClient.Dekstop_5.2.8.0_Test\MALClient.Dekstop_5.2.8.0_x64.appxsym
-ResourcePack=C:\Users\dogie\Documents\Visual Studio 2015\Projects\MALClient\MALClient.Dekstop\bin\x64\Release\MALClient.Dekstop_5.2.8.0_scale-100.appx
-ResourcePack=C:\Users\dogie\Documents\Visual Studio 2015\Projects\MALClient\MALClient.Dekstop\bin\x64\Release\MALClient.Dekstop_5.2.8.0_scale-125.appx
-ResourcePack=C:\Users\dogie\Documents\Visual Studio 2015\Projects\MALClient\MALClient.Dekstop\bin\x64\Release\MALClient.Dekstop_5.2.8.0_scale-150.appx
-ResourcePack=C:\Users\dogie\Documents\Visual Studio 2015\Projects\MALClient\MALClient.Dekstop\bin\x64\Release\MALClient.Dekstop_5.2.8.0_scale-400.appx
+MainPackage=C:\Users\dogie\Documents\Visual Studio 2017\Projects\MALClient\MALClient.Dekstop\bin\x64\Release\MALClient.Dekstop_5.3.0.0_x64.appx
+SymbolPackage=C:\Users\dogie\Documents\VsBuilds\MALClient.Dekstop_5.3.0.0_Test\MALClient.Dekstop_5.3.0.0_x64.appxsym
+ResourcePack=C:\Users\dogie\Documents\Visual Studio 2017\Projects\MALClient\MALClient.Dekstop\bin\x64\Release\MALClient.Dekstop_5.3.0.0_scale-100.appx
+ResourcePack=C:\Users\dogie\Documents\Visual Studio 2017\Projects\MALClient\MALClient.Dekstop\bin\x64\Release\MALClient.Dekstop_5.3.0.0_scale-125.appx
+ResourcePack=C:\Users\dogie\Documents\Visual Studio 2017\Projects\MALClient\MALClient.Dekstop\bin\x64\Release\MALClient.Dekstop_5.3.0.0_scale-150.appx
+ResourcePack=C:\Users\dogie\Documents\Visual Studio 2017\Projects\MALClient\MALClient.Dekstop\bin\x64\Release\MALClient.Dekstop_5.3.0.0_scale-400.appx

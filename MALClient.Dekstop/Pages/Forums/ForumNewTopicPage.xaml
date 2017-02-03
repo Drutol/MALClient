@@ -50,13 +50,16 @@
 
                             </StackPanel>
 
-                            <TextBox Margin="0,10" IsSpellCheckEnabled="True" DesiredCandidateWindowAlignment="Default"
+                            <TextBox Margin="0,10" IsSpellCheckEnabled="True" DesiredCandidateWindowAlignment="Default" TextWrapping="Wrap"
                                      Text="{Binding Message,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                      HorizontalAlignment="Stretch" AcceptsReturn="True" MinHeight="300"
                                      VerticalAlignment="Stretch" />
 
                             <StackPanel>
-                                <TextBlock Text="Pool Question:" />
+                                <ToolTipService.ToolTip>
+                                    <ToolTip Content="Yeah it's poll question..."></ToolTip>
+                                </ToolTipService.ToolTip>
+                                <TextBlock Text="🏊 Pool Question:" />
                                 <TextBox Margin="0,5"
                                          Text="{Binding Question,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                          MaxLength="100" HorizontalAlignment="Left" MinWidth="250"
@@ -82,7 +85,7 @@
                                             </Grid.ColumnDefinitions>
                                             <TextBlock Grid.Column="0" Text="Answer:" Margin="5,0"
                                                        VerticalAlignment="Center" />
-                                            <TextBox Grid.Column="1" Text="{Binding Answer,Mode=TwoWay}" />
+                                            <TextBox Grid.Column="1" Text="{Binding Answer,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
                                             <Button Grid.Column="2" Content="Remove" Margin="2,0"
                                                     Visibility="{Binding Removable,Converter={StaticResource BoolToVisibilityConverter}}"
                                                     Style="{StaticResource TextBlockButtonStyle}"

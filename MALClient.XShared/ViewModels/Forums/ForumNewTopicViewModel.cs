@@ -36,7 +36,9 @@ namespace MALClient.XShared.ViewModels.Forums
         public void Init(ForumsNewTopicNavigationArgs args)
         {
             Answers.Clear();
-            Answers.Add(new ForumTopicQestionModel {Removable = false});
+            var model = new ForumTopicQestionModel {Removable = false};
+            model.AnswerChanged += ModelOnAnswerChanged;
+            Answers.Add(model);
             Question = null;
             _prevArgs = args;
             if (args.BoardType != null)
@@ -93,6 +95,7 @@ namespace MALClient.XShared.ViewModels.Forums
             {
                 _question = value;
                 RaisePropertyChanged(() => AnswersVisibility);
+                RaisePropertyChanged(() => IsSendButtonEnabled);
             }
         }
 
@@ -100,7 +103,11 @@ namespace MALClient.XShared.ViewModels.Forums
 
         public bool PreviewAvailable => !string.IsNullOrWhiteSpace(Message);
 
-        public bool IsSendButtonEnabled =>!string.IsNullOrWhiteSpace(Title) && !string.IsNullOrWhiteSpace(Message);
+        public bool IsSendButtonEnabled
+            =>
+                !string.IsNullOrWhiteSpace(Title) && !string.IsNullOrWhiteSpace(Message) &&
+                (string.IsNullOrEmpty(Question) || Answers.All(model => !string.IsNullOrWhiteSpace(model.Answer)))
+        ;
 
         public ICommand PreviewCommand => _previewCommand ?? (_previewCommand
                                               = new RelayCommand(() =>
@@ -128,15 +135,26 @@ namespace MALClient.XShared.ViewModels.Forums
             => _addAnswerCommand ?? (_addAnswerCommand = new RelayCommand(
                    () =>
                    {
-                       if(Answers.Count <= 4)
-                            Answers.Add(new ForumTopicQestionModel());
+                       if (Answers.Count <= 4)
+                       {
+                           var model = new ForumTopicQestionModel();
+                           model.AnswerChanged += ModelOnAnswerChanged;
+                           Answers.Add(model);
+                       }
+                       RaisePropertyChanged(() => IsSendButtonEnabled);
                    }));
+
+        private void ModelOnAnswerChanged(object sender, string s)
+        {
+            RaisePropertyChanged(() => IsSendButtonEnabled);
+        }
 
         public ICommand RemoveAnswerCommand
                         => _removeAnswerCommand ?? (_removeAnswerCommand = new RelayCommand<ForumTopicQestionModel>(
                    model =>
                    {
                        Answers.Remove(model);
+                       RaisePropertyChanged(() => IsSendButtonEnabled);
                    }));
 
         private bool _messageQueued;

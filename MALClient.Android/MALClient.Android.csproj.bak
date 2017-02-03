@@ -18,13 +18,13 @@
     <AndroidResgenClass>Resource</AndroidResgenClass>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
     <AndroidUseLatestPlatformSdk>True</AndroidUseLatestPlatformSdk>
-    <TargetFrameworkVersion>v7.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v6.0</TargetFrameworkVersion>
     <AndroidManifest>Properties\AndroidManifest.xml</AndroidManifest>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
+    <DebugSymbols>True</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
@@ -32,7 +32,15 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AndroidUseSharedRuntime>True</AndroidUseSharedRuntime>
-    <AndroidLinkMode>None</AndroidLinkMode>
+    <AndroidLinkMode>SdkOnly</AndroidLinkMode>
+    <EmbedAssembliesIntoApk>False</EmbedAssembliesIntoApk>
+    <BundleAssemblies>False</BundleAssemblies>
+    <AndroidCreatePackagePerAbi>False</AndroidCreatePackagePerAbi>
+    <Debugger>Xamarin</Debugger>
+    <AotAssemblies>False</AotAssemblies>
+    <EnableLLVM>False</EnableLLVM>
+    <AndroidEnableMultiDex>False</AndroidEnableMultiDex>
+    <EnableProguard>False</EnableProguard>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -43,6 +51,17 @@
     <WarningLevel>4</WarningLevel>
     <AndroidUseSharedRuntime>False</AndroidUseSharedRuntime>
     <AndroidLinkMode>SdkOnly</AndroidLinkMode>
+    <EmbedAssembliesIntoApk>True</EmbedAssembliesIntoApk>
+    <BundleAssemblies>False</BundleAssemblies>
+    <AndroidCreatePackagePerAbi>False</AndroidCreatePackagePerAbi>
+    <Debugger>Xamarin</Debugger>
+    <AotAssemblies>False</AotAssemblies>
+    <EnableLLVM>False</EnableLLVM>
+    <AndroidEnableMultiDex>False</AndroidEnableMultiDex>
+    <EnableProguard>False</EnableProguard>
+    <DebugSymbols>False</DebugSymbols>
+    <AndroidSupportedAbis>armeabi;armeabi-v7a;x86_64</AndroidSupportedAbis>
+    <AndroidLinkSkip>System.Core;System.Runtime.Serialization</AndroidLinkSkip>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AndroidIconics, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -54,11 +73,11 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="FFImageLoading, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Xamarin.FFImageLoading.2.2.5\lib\MonoAndroid10\FFImageLoading.dll</HintPath>
+      <HintPath>..\packages\Xamarin.FFImageLoading.2.2.6-pre-258\lib\MonoAndroid10\FFImageLoading.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="FFImageLoading.Platform, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Xamarin.FFImageLoading.2.2.5\lib\MonoAndroid10\FFImageLoading.Platform.dll</HintPath>
+      <HintPath>..\packages\Xamarin.FFImageLoading.2.2.6-pre-258\lib\MonoAndroid10\FFImageLoading.Platform.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="FFImageLoading.Transformations, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -89,9 +108,6 @@
       <HintPath>..\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.VisualBasic">
-      <HintPath>..\..\..\..\..\.nuget\packages\Microsoft.VisualBasic\10.0.1\ref\netcore50\Microsoft.VisualBasic.dll</HintPath>
-    </Reference>
     <Reference Include="Mono.Android" />
     <Reference Include="mscorlib" />
     <Reference Include="System" />
@@ -105,6 +121,10 @@
     </Reference>
     <Reference Include="Xamarin.Android.Support.Design, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Xamarin.Android.Support.Design.23.4.0.1\lib\MonoAndroid43\Xamarin.Android.Support.Design.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Xamarin.Android.Support.v13, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Xamarin.Android.Support.v13.22.2.0.0\lib\MonoAndroid403\Xamarin.Android.Support.v13.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Xamarin.Android.Support.v4, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -131,58 +151,105 @@
     <Compile Include="Adapters\DialogAdapters\ScoreDialogAdapter.cs" />
     <Compile Include="Adapters\DialogAdapters\WatchedDialogAdapter.cs" />
     <Compile Include="Adapters\PagerAdapters\AnimeDetailsPagerAdapter.cs" />
+    <Compile Include="Adapters\PagerAdapters\ArticlesPagePagerAdapter.cs" />
+    <Compile Include="Adapters\PagerAdapters\CalendarPagerAdapter.cs" />
+    <Compile Include="Adapters\PagerAdapters\RecommandtionsPagerAdapter.cs" />
+    <Compile Include="Adapters\PagerAdapters\SearchPagePagerAdapter.cs" />
     <Compile Include="BindingConverters\SpecializedConverters.cs" />
     <Compile Include="BindingInformation\AnimeGridItemBindingInfo.cs" />
     <Compile Include="Adapters\CollectionAdapters\AnimeListItemsAdapter.cs" />
     <Compile Include="BindingInformation\AnimeListItemBindingInfo.cs" />
+    <Compile Include="BindingInformation\BindingExtension.cs" />
     <Compile Include="BindingInformation\BindingInfo.cs" />
     <Compile Include="Adapters\CollectionAdapters\DeeplyObservableCollectionAdapter.cs" />
     <Compile Include="AndroidViewModelLocator.cs" />
     <Compile Include="App.cs" />
     <Compile Include="BindingConverters\Converters.cs" />
     <Compile Include="Adapters\DialogAdapters\StatusDialogAdapter.cs" />
+    <Compile Include="BindingInformation\StaticBindingInfo.cs" />
+    <Compile Include="BindingInformation\StaticBindings\CharacterItemBindingInfo.cs" />
+    <Compile Include="DIalogs\AnimeDetailsPageDialogBuilder.cs" />
     <Compile Include="DIalogs\AnimeUpdateDialogBuilder.cs" />
+    <Compile Include="Flyouts\AnimeDetailsPageMoreFlyoutBuilder.cs" />
     <Compile Include="Flyouts\AnimeItemFlyoutBuilder.cs" />
     <Compile Include="Flyouts\FlyoutMenus\AnimeListFilterFlyoutItem.cs" />
     <Compile Include="Flyouts\FlyoutMenus\AnimeListSortFlyoutItem.cs" />
     <Compile Include="Flyouts\AnimeListPageFlyoutBuilder.cs" />
     <Compile Include="Flyouts\FlyoutMenus\TextBasedFlyoutBase.cs" />
     <Compile Include="Flyouts\FlyoutMenus\TextFlyoutItem.cs" />
-    <Compile Include="Fragments\AnimeDetailsPageFragment.ui.cs" />
+    <Compile Include="Flyouts\RecommendationsFlyoutBuilder.cs" />
     <Compile Include="Fragments\AnimeDetailsPageFragment.cs" />
+    <Compile Include="Fragments\AnimeDetailsPageFragment.ui.cs">
+      <DependentUpon>AnimeDetailsPageFragment.cs</DependentUpon>
+    </Compile>
     <Compile Include="Fragments\AnimeDetailsPageTabs\AnimeDetailsPageDetailsTabFragment.cs" />
     <Compile Include="Fragments\AnimeDetailsPageTabs\AnimeDetailsPageGeneralTabFragment.cs" />
     <Compile Include="Fragments\AnimeDetailsPageTabs\AnimeDetailsPageRecomsTabFragment.cs" />
     <Compile Include="Fragments\AnimeDetailsPageTabs\AnimeDetailsPageRelatedTabFragment.cs" />
     <Compile Include="Fragments\AnimeDetailsPageTabs\AnimeDetailsPageReviewsTabFragment.cs" />
     <Compile Include="Fragments\AnimeListPageFragment.cs" />
-    <Compile Include="Fragments\AnimeListPageFragment.ui.cs" />
+    <Compile Include="Fragments\AnimeListPageFragment.ui.cs">
+      <DependentUpon>AnimeListPageFragment.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Fragments\ArticlesPageFragments\ArticlesPageFragment.cs" />
+    <Compile Include="Fragments\ArticlesPageFragments\ArticlesPageTabFragment.cs" />
+    <Compile Include="Fragments\CalendarFragments\CalendarPageFragment.cs" />
+    <Compile Include="Fragments\CalendarFragments\CalendarPageFragment.ui.cs">
+      <SubType>Code</SubType>
+      <DependentUpon>CalendarPageFragment.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Fragments\CalendarFragments\CalendarPageSummaryTabFragment.cs" />
+    <Compile Include="Fragments\CalendarFragments\CalendarPageTabFragment.cs" />
+    <Compile Include="Fragments\SearchFragments\CharacterSearchPageFragment.cs" />
+    <Compile Include="Fragments\LogInPageFragment.ui.cs">
+      <DependentUpon>LogInPageFragment.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Fragments\RecommendationsFragments\RecommendationItemFragment.cs" />
+    <Compile Include="Fragments\RecommendationsFragments\RecommendationsPageFragment.cs" />
+    <Compile Include="Fragments\SearchFragments\AnimeSearchPageFragment.cs" />
     <Compile Include="Fragments\LogInPageFragment.cs" />
     <Compile Include="Activities\MainActivity.cs" />
-    <Compile Include="Fragments\LogInPageFragment.ui.cs" />
     <Compile Include="Fragments\MalFragmentBase.cs" />
+    <Compile Include="Fragments\SearchFragments\AnimeTypeSearchFragment.cs" />
+    <Compile Include="Fragments\SearchFragments\SearchPageFragment.cs" />
+    <Compile Include="Fragments\SettingsFragments\SettingsGeneralFragment.cs" />
+    <Compile Include="Fragments\SettingsFragments\SettingsGeneralFragment.ui.cs">
+      <SubType>Code</SubType>
+      <DependentUpon>SettingsGeneralFragment.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Fragments\SettingsFragments\SettingsHomepageFragment.cs" />
+    <Compile Include="Fragments\SettingsFragments\SettingsPageFragment.cs" />
+    <Compile Include="Listeners\DateSetListener.cs" />
     <Compile Include="Listeners\DialogListeners\DialogDismissedListener.cs" />
     <Compile Include="Listeners\DialogListeners\EnumDialogListener.cs" />
     <Compile Include="Listeners\DialogListeners\IntegerDialogListener.cs" />
     <Compile Include="Listeners\DroppyMenuListener.cs" />
     <Compile Include="Listeners\HamburgerItemClickListener.cs" />
     <Compile Include="Listeners\MenuFlyoutSelectionListener.cs" />
+    <Compile Include="Listeners\OnCheckedListener.cs" />
     <Compile Include="Listeners\OnClickListener.cs" />
+    <Compile Include="Listeners\OnItemClickListener.cs" />
+    <Compile Include="Listeners\ScrollListener.cs" />
     <Compile Include="Listeners\SwipeLayoutListener.cs" />
     <Compile Include="Managers\ImageCache.cs" />
     <Compile Include="Managers\NavMgr.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\ResourceExtension.cs" />
+    <Compile Include="UserControls\ScrollableSwipeToRefreshLayout.cs" />
+    <Compile Include="Utilities\AnimeImageExtensions.cs" />
+    <Compile Include="Utilities\Includes.cs" />
+    <Compile Include="Utilities\ListenableWebClient.cs" />
     <Compile Include="Utilities\AndroidUtilities.cs" />
     <Compile Include="Utilities\DimensionsHelper.cs" />
     <Compile Include="Utilities\JavaObjectWrapper.cs" />
+    <Compile Include="Utilities\GridViewColumnHelper.cs" />
     <Compile Include="ViewModels\HamburgerControlViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="ViewModels\SettingsViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="Resources\AboutResources.txt" />
     <None Include="Assets\AboutAssets.txt" />
     <AndroidResource Include="Resources\layout\AnimeGridItem.xml">
       <SubType>Designer</SubType>
@@ -261,29 +328,7 @@
     <AndroidResource Include="Resources\drawable\icon_hamburger.xml" />
   </ItemGroup>
   <ItemGroup>
-    <XamarinComponentReference Include="xamandroidsupportdesign">
-      <Visible>False</Visible>
-      <Version>23.4.0.1</Version>
-    </XamarinComponentReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Resources\drawable\icon\" />
-    <Folder Include="UserControls\" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\mipmap-xxxhdpi\malclient_logo_wide.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\mipmap-xxhdpi\malclient_logo_wide.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\mipmap-hdpi\malclient_logo_wide.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\mipmap-xhdpi\malclient_logo_wide.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\mipmap-mdpi\malclient_logo_wide.png" />
+    <AndroidResource Include="Resources\layout\AnimeDetailsPageVideosDialog.xml" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\colors.xml" />
@@ -319,7 +364,9 @@
     <AndroidResource Include="Resources\values\styles.xml" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\layout\AnimeDetailsPage.xml" />
+    <AndroidResource Include="Resources\layout\AnimeDetailsPage.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\border_accent_underline.xml" />
@@ -433,6 +480,132 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\anime_list_item_background.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\SuggestionItem.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\AnimeSearchItem.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\AnimeSearchPage.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\SearchPage.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\CharacterSearchPage.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\CharacterItem.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\AnimeTypeSearchPage.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\AnimeSearchTypeItem.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\CalendarPage.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\CalendarPageSummaryTab.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\CalenarPageTabContent.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\CalendarPageSummaryTabContent.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\animator\animation_slide_btm.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\animator\animation_fade_out.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <XamarinComponentReference Include="xamandroidsupportdesign">
+      <Visible>False</Visible>
+      <Version>23.4.0.1</Version>
+    </XamarinComponentReference>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\SeasonSelectionPopup.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\AnimeTagsDialog.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\AnimeTagsDialogListItem.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\icon_tag.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\icon_trash.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\values\attrs.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\icon_swap.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\RecommendationsPage.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\RecommendationItem.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\RecommendationItemDetailItem.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\LogInBG.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\wideLogo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\SettingsPage.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\SettingsPageItem.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\SettingsPageHomepage.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\icon_save_local.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\icon_newspaper.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\icon_info.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\icon_ads.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\icon_placeholder.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\icon_notification.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\ArticlesPage.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\ArticlesPageTabItem.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\ArtclesPageItem.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\SettingsPageGeneral.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\AnimeDetailsPageVideosDialogItem.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Android.Support.Vector.Drawable.23.4.0.1\build\Xamarin.Android.Support.Vector.Drawable.targets" Condition="Exists('..\packages\Xamarin.Android.Support.Vector.Drawable.23.4.0.1\build\Xamarin.Android.Support.Vector.Drawable.targets')" />

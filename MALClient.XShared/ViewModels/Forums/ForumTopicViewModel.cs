@@ -229,7 +229,7 @@ namespace MALClient.XShared.ViewModels.Forums
         public ICommand LoadPageCommand => _loadPageCommand ?? (_loadPageCommand = new RelayCommand<int>(page =>
         {
             CurrentPage = page;
-            LoadCurrentTopicPage();
+            LoadCurrentTopicPageAsync();
         }));
 
         public ICommand LoadGotoPageCommand => _loadGotoPageCommand ?? (_loadGotoPageCommand = new RelayCommand(() =>
@@ -238,7 +238,7 @@ namespace MALClient.XShared.ViewModels.Forums
             if (!int.TryParse(GotoPageTextBind, out val))
                 return;
             CurrentPage = val;
-            LoadCurrentTopicPage();
+            LoadCurrentTopicPageAsync();
             GotoPageTextBind = "";
         }));
 
@@ -247,7 +247,7 @@ namespace MALClient.XShared.ViewModels.Forums
             () =>
             {
                 CurrentPage = CurrentTopicData.AllPages;
-                LoadCurrentTopicPage();
+                LoadCurrentTopicPageAsync();
             }));
 
         public ICommand GotoWebsiteCommand => _gotoWebsiteCommand ?? (_gotoWebsiteCommand = new RelayCommand(
@@ -264,7 +264,7 @@ namespace MALClient.XShared.ViewModels.Forums
             () =>
             {
                 CurrentPage = 1;
-                LoadCurrentTopicPage();
+                LoadCurrentTopicPageAsync();
             }));
 
         public ICommand ToggleWatchingCommand => _toggleWatchingCommand ?? (_toggleWatchingCommand = new RelayCommand(
@@ -286,7 +286,7 @@ namespace MALClient.XShared.ViewModels.Forums
                                                       {
                                                           ResourceLocator.TelemetryProvider.TelemetryTrackEvent(TelemetryTrackedEvents.CreatedReply);
                                                           ReplyMessage = string.Empty;
-                                                          LoadCurrentTopicPage(true,true);
+                                                          LoadCurrentTopicPageAsync(true,true);
                                                       }
                                                       else
                                                       {
@@ -344,7 +344,7 @@ namespace MALClient.XShared.ViewModels.Forums
 
         #endregion
 
-        private async void LoadCurrentTopicPage(bool force = false,bool lastpost = false)
+        private async Task LoadCurrentTopicPageAsync(bool force = false,bool lastpost = false)
         {
             LoadingTopic = true;
 
@@ -386,6 +386,15 @@ namespace MALClient.XShared.ViewModels.Forums
             _prevArgs.TopicPage = CurrentPage;
             _prevArgs.MessageId = null;
             ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageForumIndex, _prevArgs);
+        }
+
+        public async void Reload()
+        {
+            if(LoadingTopic)
+                return;
+            var message = ScrollInfoProvider.GetFirstVisibleItemIndex();
+            await LoadCurrentTopicPageAsync(true);
+            RequestScroll?.Invoke(this,message);
         }
     }
 }

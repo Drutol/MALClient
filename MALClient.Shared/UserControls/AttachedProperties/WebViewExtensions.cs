@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.Graphics.Display;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using MALClient.Shared.Managers;
@@ -13,6 +14,8 @@ namespace MALClient.Shared.UserControls.AttachedProperties
 {
     public class WebViewExtensions : DependencyObject
     {
+       // private static DisplayInformation _displayInformation = DisplayInformation.GetForCurrentView();
+
         public static readonly DependencyProperty ContentProperty = DependencyProperty.RegisterAttached(
             "Content", typeof(string), typeof(WebViewExtensions), new PropertyMetadata(default(string),PropertyChangedCallback));
 
@@ -37,6 +40,8 @@ namespace MALClient.Shared.UserControls.AttachedProperties
             double val;
             if(!double.TryParse(e.Value,out val))
                 return;
+
+           // val = val / 72 * _displayInformation.LogicalDpi;
             val *= 1.1;
             if (view.ActualHeight == 0) // let's recheck
             {

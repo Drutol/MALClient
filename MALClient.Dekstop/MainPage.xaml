@@ -104,7 +104,7 @@
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" MaxWidth="50" />
-                <ColumnDefinition Width="*" MaxWidth="16" />
+                <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <Grid>
@@ -142,7 +142,7 @@
                     Visibility="{Binding RefreshButtonVisibility,Converter={StaticResource BoolToVisibilityConverter}}">
                 <SymbolIcon Symbol="Refresh" />
             </Button>
-            <Grid Grid.Column="4" Background="{ThemeResource BrushSplitter}"
+            <Grid Grid.Column="4" Background="{ThemeResource BrushSplitter}" HorizontalAlignment="Stretch" Width="16"
                   Visibility="{Binding OffContentVisibility,Converter={StaticResource BoolToVisibilityConverter}}" />
             <Grid Column="5"
                   Visibility="{Binding OffContentVisibility,Converter={StaticResource BoolToVisibilityConverter}}"

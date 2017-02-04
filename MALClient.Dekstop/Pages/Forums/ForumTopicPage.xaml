@@ -196,11 +196,22 @@
                                     <RowDefinition Height="Auto"/>
                                     <RowDefinition Height="Auto"/>
                                 </Grid.RowDefinitions>
-                                <WebView attachedProperties:WebViewExtensions.Content="{x:Bind Data.HtmlContent,Mode=OneWay}" attachedProperties:WebViewExtensions.ResizeToFit="True"
+                                <Grid>
+                                    <WebView attachedProperties:WebViewExtensions.Content="{x:Bind Data.HtmlContent,Mode=OneWay}" attachedProperties:WebViewExtensions.ResizeToFit="True"
                                             DefaultBackgroundColor="{ThemeResource ColorAnimeItemBackground}" MinHeight="270" NavigationStarting="TopicWebView_OnNavigationStarting" attachedProperties:WebViewExtensions.ComputedHeight="{Binding ComputedHtmlHeight,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                             Visibility="{Binding EditMode,Converter={StaticResource BoolToVisibilityInvertedConverter}}" Height="{x:Bind ComputedHtmlHeight,Mode=OneWay}"/>
+                                    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Tapped="OccludingRectangleOnTap" Loaded="OccludingRectangleOnLoaded">
+                                        <Rectangle HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Fill="Transparent"/>
+                                        <SymbolIcon Symbol="Placeholder" HorizontalAlignment="Right" VerticalAlignment="Bottom" Opacity=".4">
+                                            <ToolTipService.ToolTip>
+                                                <ToolTip Content="Tap on post once to enable interaction. This is workaround for WebView scrolling with touch input which seems to be present."></ToolTip>
+                                            </ToolTipService.ToolTip>
+                                        </SymbolIcon>
+                                    </Grid>
+                                </Grid>
+
                                 <StackPanel Grid.Row="0" Visibility="{x:Bind EditMode,Mode=OneWay,Converter={StaticResource BoolToVisibilityConverter}}">
-                                    <TextBox Margin="10" HorizontalAlignment="Stretch" MinHeight="260" AcceptsReturn="True" Text="{Binding BBcodeContent,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap"/>
+                                    <userControls:BBCodeTextBox Margin="10" HorizontalAlignment="Stretch" MinHeight="260" Text="{Binding BBcodeContent,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
                                     <StackPanel Orientation="Horizontal" Margin="10,5">
                                         <Button Content="Submit" Margin="0,0,5,0" Padding="20,4" Command="{x:Bind SubmitEditCommand}" Background="{StaticResource SystemControlBackgroundAccentBrush}"/>
                                         <Button Content="Cancel" Command="{x:Bind CancelEditCommand}" Margin="5,0" Padding="20,4"/>
@@ -234,8 +245,11 @@
                             <TextBlock Text="Reply:" Margin="0,5" />
                             <userControls:BBCodeTextBox MinHeight="230" MaxHeight="400"
                                  Text="{Binding ReplyMessage,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
-                            <Button Content="Send" Margin="0,5" Padding="20,4" Command="{Binding CreateReplyCommand}"
+                            <Grid>
+                                <Button Content="Send" Margin="0,5" Padding="20,4" Command="{Binding CreateReplyCommand}"
                                 Background="{StaticResource SystemControlBackgroundAccentBrush}" />
+                                <Button Style="{StaticResource TextBlockButtonStyle}" Content="Top" HorizontalAlignment="Right" Click="TopButtonOnClick"/>
+                            </Grid>
                         </StackPanel>
                     </Grid>
                 </Grid>

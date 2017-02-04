@@ -127,7 +127,7 @@ namespace MALClient.XShared.Comm.Anime
                                 @"(http:|https:)\/\/(i.imgur.com|cdn.awwni.me|i.redd.it|i.reddituploads.com)\/(?!a\/).*"))
                     .Select(child => new AnimeWallpaperData
                     {
-                        FileUrl = child.data.url,
+                        FileUrl = WebUtility.HtmlDecode(child.data.url),
                         Title = child.data.title,
                         Nsfw = child.data.over_18,
                         Upvotes = child.data.ups,

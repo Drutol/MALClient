@@ -53,7 +53,6 @@ namespace MALClient.XShared.ViewModels.Main
         private AnimeListWorkModes _prevWorkMode = AnimeListWorkModes.Anime;
         private bool _scrollHandlerAdded;
 
-        private bool _wasPreviousQuery;
         private bool _canLoadMoreFilterLock;
 
         public bool CanAddScrollHandler;
@@ -358,7 +357,7 @@ namespace MALClient.XShared.ViewModels.Main
             var query = ViewModelLocator.GeneralMain.CurrentSearchQuery;
 
             var queryCondition = !string.IsNullOrWhiteSpace(query) && query.Length > 1;
-            if (!_wasPreviousQuery && searchSource && !queryCondition)
+            if (!WasPreviousQuery && searchSource && !queryCondition)
                 // refresh was requested from search but there's nothing to update
             {
                 return;
@@ -373,19 +372,19 @@ namespace MALClient.XShared.ViewModels.Main
                 query = query.Trim();
             }
 
-            if(queryCondition && !_wasPreviousQuery)
+            if(queryCondition && !WasPreviousQuery)
                 SetDesiredStatus((int)AnimeStatus.AllOrAiring);
-            else if(!queryCondition && _wasPreviousQuery)
+            else if(!queryCondition && WasPreviousQuery)
                 SetDesiredStatus((int)_prevAnimeStatus);
 
-            _wasPreviousQuery = queryCondition;
+            WasPreviousQuery = queryCondition;
 
 
             var status = GetDesiredStatus();
 
             IEnumerable<AnimeItemAbstraction> items;
             if (queryCondition && !_invalidatePreviousSearchResults &&
-                _wasPreviousQuery &&
+                WasPreviousQuery &&
                 !string.IsNullOrEmpty(_prevQuery) &&
                 query.Length > _prevQuery.Length &&
                 query.Substring(0, _prevQuery.Length-1) == _prevQuery) //use previous results if query is more detailed
@@ -669,6 +668,16 @@ namespace MALClient.XShared.ViewModels.Main
         }
 
         #region Pagination
+
+        private bool WasPreviousQuery
+        {
+            get { return _wasPreviousQuery; }
+            set
+            {
+                _wasPreviousQuery = value;
+                RaisePropertyChanged(() => CanLoadMore);
+            }
+        }
 
         /// <summary>
         ///     This method is fully responsible for preparing the view.
@@ -1169,8 +1178,6 @@ namespace MALClient.XShared.ViewModels.Main
 
         #endregion
 
-
-
         #region StatusRelatedStuff
 
         private void UpdateUpperStatus()
@@ -1314,6 +1321,7 @@ namespace MALClient.XShared.ViewModels.Main
         public bool IsMangaWorkMode => WorkMode == AnimeListWorkModes.Manga || WorkMode == AnimeListWorkModes.TopManga;
 
         private bool _cancelLoadingAllItems;
+        private bool _wasPreviousQuery;
 
         private async void LoadAllItemsDetails()
         {

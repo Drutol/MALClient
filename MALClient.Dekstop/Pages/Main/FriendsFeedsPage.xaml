@@ -11,7 +11,7 @@
     mc:Ignorable="d" DataContext="{Binding Source={StaticResource Locator},Path=FriendsFeeds}">
 
     <Page.Resources>
-        <xamlConverters:DateToStringConverter x:Key="DateToStringConverter" />
+        <xamlConverters:DateToDiffStringConverter x:Key="DateToDiffStringConverter" />
         <xamlConverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
     </Page.Resources>
     
@@ -55,7 +55,7 @@
                             <TextBlock Text="{Binding Header}" MaxLines="3" TextTrimming="CharacterEllipsis" TextWrapping="WrapWholeWords" TextAlignment="Center" FontSize="22" FontWeight="SemiBold" HorizontalAlignment="Center" Margin="10"/>
                             <TextBlock Text="{Binding Description}" Margin="10" TextWrapping="WrapWholeWords" HorizontalAlignment="Stretch" TextAlignment="Center"/>
                         </StackPanel>
-                        <TextBlock Text="{Binding Date,Converter={StaticResource DateToStringConverter}}" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="5" TextTrimming="CharacterEllipsis" FontWeight="SemiLight" />
+                        <TextBlock Text="{Binding Date,Converter={StaticResource DateToDiffStringConverter}}" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="5" TextTrimming="CharacterEllipsis" FontWeight="SemiLight" />
                     </Grid>
                 </DataTemplate>
             </GridView.ItemTemplate>

@@ -6,6 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:xamlConverters="using:MALClient.Shared.XamlConverters"
+    xmlns:userControls="using:MALClient.Shared.UserControls"
     mc:Ignorable="d" DataContext="{Binding Source={StaticResource Locator},Path=ForumsNewTopic}">
 
     <Page.Resources>
@@ -50,13 +51,13 @@
 
                             </StackPanel>
 
-                            <TextBox Margin="0,10" IsSpellCheckEnabled="True" DesiredCandidateWindowAlignment="Default"
+                            <userControls:BBCodeTextBox Margin="0,10"
                                      Text="{Binding Message,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
-                                     HorizontalAlignment="Stretch" AcceptsReturn="True" MinHeight="300"
+                                     HorizontalAlignment="Stretch" MinHeight="300"
                                      VerticalAlignment="Stretch" />
 
                             <StackPanel>
-                                <TextBlock Text="Pool Question:" />
+                                <TextBlock Text="🏊 Pool Question:" />
                                 <TextBox Margin="0,5"
                                          Text="{Binding Question,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                          MaxLength="100" HorizontalAlignment="Left" MinWidth="250"

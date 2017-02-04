@@ -50,7 +50,7 @@
                     <Grid.Background>
                         <SolidColorBrush Color="Black" Opacity=".75" />
                     </Grid.Background>
-                    <TextBlock Margin="5" FontWeight="SemiLight">
+                    <TextBlock Margin="5" FontWeight="SemiLight" Foreground="White">
                         /r/<Run Text="{Binding Data.Source}" />
                     </TextBlock>
                 </Grid>
@@ -59,7 +59,7 @@
                     <Grid.Background>
                         <SolidColorBrush Color="Black" Opacity=".75" />
                     </Grid.Background>
-                    <TextBlock Margin="5" FontWeight="SemiLight">
+                    <TextBlock Margin="5" FontWeight="SemiLight" Foreground="White">
                         <Run Text="{Binding Resolution}" />
                     </TextBlock>
                 </Grid>
@@ -67,7 +67,7 @@
                     <Grid.Background>
                         <SolidColorBrush Color="Black" Opacity=".75" />
                     </Grid.Background>
-                    <TextBlock Margin="5" FontWeight="SemiLight">
+                    <TextBlock Margin="5" FontWeight="SemiLight" Foreground="White">
                         <Run Text="{Binding Created}" />
                     </TextBlock>
                 </Grid>

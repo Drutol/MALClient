@@ -6,6 +6,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
+using Windows.Devices.Input;
 using Windows.Foundation;
 using Windows.System;
 using Windows.UI;
@@ -46,6 +47,10 @@ namespace MALClient.Pages.Forums
             this.InitializeComponent();
             ViewModel.ScrollInfoProvider = this;
             ViewModel.RequestScroll += ViewModelOnRequestScroll;
+            var touchCapabilities = new TouchCapabilities();
+            OccludingRectanglesVisibility = touchCapabilities.TouchPresent != 0
+                ? Visibility.Visible
+                : Visibility.Collapsed;
         }
 
 
@@ -77,7 +82,9 @@ namespace MALClient.Pages.Forums
         //            ForceQuery = true,
         //        });
         //    }
-        //}       
+        //}       \
+
+        public Visibility OccludingRectanglesVisibility { get; set; }
           
         private void TopicWebView_OnNavigationStarting(WebView sender, WebViewNavigationStartingEventArgs args)
         {
@@ -148,15 +155,19 @@ namespace MALClient.Pages.Forums
             ListView.ScrollToBottom();
         }
 
-        private void ScrollToIndex()
+        private void TopButtonOnClick(object sender, RoutedEventArgs e)
         {
-           // ListView.ScrollIntoView(ViewModel.Messages[_requestedIndex], ScrollIntoViewAlignment.Leading);
-           // _requestedIndex = 0;
+            ListView.ScrollIntoView(ViewModel.Messages.First());
         }
 
-        private void VirtualizingStackPanel_OnCleanUpVirtualizedItemEvent(object sender, CleanUpVirtualizedItemEventArgs e)
+        private void OccludingRectangleOnTap(object sender, TappedRoutedEventArgs e)
         {
+            (sender as FrameworkElement).Visibility = Visibility.Collapsed;
+        }
 
+        private void OccludingRectangleOnLoaded(object sender, RoutedEventArgs e)
+        {
+            (sender as FrameworkElement).Visibility = OccludingRectanglesVisibility;
         }
     }
 }

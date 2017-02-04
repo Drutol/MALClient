@@ -121,7 +121,7 @@ namespace MALClient.XShared.ViewModels.Forums
                                                   {
                                                       msg = $"Error occured while parsing BBCode ---- {Message}";
                                                   }
-                                                  UpdatePreview?.Invoke(this, msg.Replace("\r\r", "<br><br>"));
+                                                  UpdatePreview?.Invoke(this, msg);
 
                                               }));
 

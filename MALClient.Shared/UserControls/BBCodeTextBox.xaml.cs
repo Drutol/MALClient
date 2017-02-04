@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
@@ -36,6 +37,12 @@ namespace MALClient.Shared.UserControls
 
     public sealed partial class BBCodeTextBox : UserControl
     {
+        private static readonly TypeInfo TypeInfo;
+        static BBCodeTextBox()
+        {
+            var typeInfo = TypeInfo ?? (TypeInfo = typeof(FrameworkElement).GetTypeInfo());
+        }
+
         public static readonly DependencyProperty TextProperty = DependencyProperty.Register(
             "Text", typeof(string), typeof(BBCodeTextBox), new PropertyMetadata(default(string),TextPropertyChangedCallback));
 
@@ -43,7 +50,7 @@ namespace MALClient.Shared.UserControls
         {
             var control = dependencyObject as BBCodeTextBox;
             control._lockTextChange = true;
-            control.ContentBox.Text = dependencyPropertyChangedEventArgs.NewValue as string;
+            control.ContentBox.Text = dependencyPropertyChangedEventArgs.NewValue as string ?? "";
             control._lockTextChange = false;
         }
 
@@ -89,7 +96,7 @@ namespace MALClient.Shared.UserControls
                     InsertBasicTags("spoiler",true);
                     break;
                 case BBCodeMarkers.Image:
-                    InsertBasicTags("img",true);
+                    InsertBasicTags("img");
                     break;
                 case BBCodeMarkers.List:
                     InsertListTag();
@@ -105,14 +112,20 @@ namespace MALClient.Shared.UserControls
             var text = ContentBox.Text;
             if (ContentBox.SelectionLength > 0)
             {
-                text = text.Remove(ContentBox.SelectionStart, ContentBox.SelectionLength);
-                text = text.Insert(ContentBox.SelectionStart,ContentBox.SelectedText.Wrap($"[{tag}{(parametric ? "=" : "")}]", $"[/{tag}]"));
+                var length = ContentBox.SelectionLength;
+                text = text.Remove(ContentBox.SelectionStart, length);
+                var openTag = $"[{tag}{(parametric ? "=" : "")}]";
+                text = text.Insert(ContentBox.SelectionStart,ContentBox.SelectedText.Wrap(openTag, $"[/{tag}]"));
+                var selStart = ContentBox.SelectionStart + openTag.Length;
+                Text = text;
+                ContentBox.Select(selStart, length);
             }
             else
             {
                 text = text.Insert(ContentBox.SelectionStart, "".Wrap($"[{tag}{(parametric ? "=" : "")}]", $"[/{tag}]"));
+                Text = text;
             }
-            Text = text;
+
         }
 
         private void InsertListTag()
@@ -139,6 +152,20 @@ namespace MALClient.Shared.UserControls
                //bbcode parsing
             }
 
+        }
+
+
+        private void ButtonOnLoaded(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var prop = TypeInfo.GetDeclaredProperty("AllowFocusOnInteraction");
+                prop?.SetValue(sender, false);
+            }
+            catch (Exception)
+            {
+                //not AU
+            }
         }
     }
 }

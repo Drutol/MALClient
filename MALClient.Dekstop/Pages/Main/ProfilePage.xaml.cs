@@ -155,5 +155,16 @@ namespace MALClient.Pages.Main
                 e.Handled = true;
             }
         }
+
+        private void AboutMeWebView_OnContentLoading(WebView sender, WebViewContentLoadingEventArgs args)
+        {
+            AboutMeLoader.Visibility = Visibility.Visible;
+        }
+
+
+        private void AboutMeWebView_OnNavigationCompleted(WebView sender, WebViewNavigationCompletedEventArgs args)
+        {
+            AboutMeLoader.Visibility = Visibility.Collapsed;
+        }
     }
 }

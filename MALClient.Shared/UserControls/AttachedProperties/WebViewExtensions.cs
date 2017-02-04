@@ -14,8 +14,7 @@ namespace MALClient.Shared.UserControls.AttachedProperties
 {
     public class WebViewExtensions : DependencyObject
     {
-       // private static DisplayInformation _displayInformation = DisplayInformation.GetForCurrentView();
-
+    
         public static readonly DependencyProperty ContentProperty = DependencyProperty.RegisterAttached(
             "Content", typeof(string), typeof(WebViewExtensions), new PropertyMetadata(default(string),PropertyChangedCallback));
 
@@ -43,6 +42,7 @@ namespace MALClient.Shared.UserControls.AttachedProperties
 
            // val = val / 72 * _displayInformation.LogicalDpi;
             val *= 1.1;
+           // val *= _scaleCoefficient;
             if (view.ActualHeight == 0) // let's recheck
             {
                 await Task.Delay(1000);
@@ -109,6 +109,7 @@ namespace MALClient.Shared.UserControls.AttachedProperties
 
         public static readonly DependencyProperty ComputedHeightProperty = DependencyProperty.RegisterAttached(
             "ComputedHeight", typeof(double), typeof(WebViewExtensions), new PropertyMetadata(default(double)));
+
 
         public static void SetComputedHeight(DependencyObject element, double value)
         {

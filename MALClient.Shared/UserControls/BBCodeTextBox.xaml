@@ -24,83 +24,88 @@
 
     <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <Grid.RowDefinitions>
-            <RowDefinition Height="40" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Grid Background="{ThemeResource BrushDeepBackground}">
-            <StackPanel Orientation="Horizontal"  Margin="0,0,40,0">
-                <Button Background="Transparent" Width="40" Height="40" Tag="{StaticResource B}"
+            <ItemsControl  Margin="0,0,40,0">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapGrid Orientation="Horizontal"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <Button Background="Transparent" Width="40" Height="40" Tag="{StaticResource B}" Loaded="ButtonOnLoaded"
                     Click="EditorButtonOnClick">
                     <ToolTipService.ToolTip>
                         <ToolTip Content="Bold" />
                     </ToolTipService.ToolTip>
                     <SymbolIcon Symbol="Bold" />
                 </Button>
-                <Button Background="Transparent" Width="40" Height="40" Tag="{StaticResource I}"
+                <Button Background="Transparent" Width="40" Height="40" Tag="{StaticResource I}"  Loaded="ButtonOnLoaded"
                     Click="EditorButtonOnClick">
                     <ToolTipService.ToolTip>
                         <ToolTip Content="Italic" />
                     </ToolTipService.ToolTip>
                     <SymbolIcon Symbol="Italic" />
                 </Button>
-                <Button Background="Transparent" Width="40" Height="40" Tag="{StaticResource U}"
+                <Button Background="Transparent" Width="40" Height="40" Tag="{StaticResource U}" Loaded="ButtonOnLoaded"
                     Click="EditorButtonOnClick">
                     <ToolTipService.ToolTip>
                         <ToolTip Content="Underline" />
                     </ToolTipService.ToolTip>
                     <SymbolIcon Symbol="Underline" />
                 </Button>
-                <Button Background="Transparent" Width="40" Height="40" Tag="{StaticResource AC}"
+                <Button Background="Transparent" Width="40" Height="40" Tag="{StaticResource AC}" Loaded="ButtonOnLoaded"
                     Click="EditorButtonOnClick">
                     <ToolTipService.ToolTip>
                         <ToolTip Content="Align center" />
                     </ToolTipService.ToolTip>
                     <SymbolIcon Symbol="AlignCenter" />
                 </Button>
-                <Button Background="Transparent" Width="40" Height="40" Tag="{StaticResource AR}"
+                <Button Background="Transparent" Width="40" Height="40" Tag="{StaticResource AR}" Loaded="ButtonOnLoaded"
                     Click="EditorButtonOnClick">
                     <ToolTipService.ToolTip>
                         <ToolTip Content="Align right" />
                     </ToolTipService.ToolTip>
                     <SymbolIcon Symbol="AlignRight" />
                 </Button>
-                <Button Background="Transparent" Width="40" Height="40" Tag="{StaticResource V}"
+                <Button Background="Transparent" Width="40" Height="40" Tag="{StaticResource V}" Loaded="ButtonOnLoaded"
                     Click="EditorButtonOnClick">
                     <ToolTipService.ToolTip>
                         <ToolTip Content="Embed video" />
                     </ToolTipService.ToolTip>
                     <SymbolIcon Symbol="Video" />
                 </Button>
-                <Button Background="Transparent" Width="40" Height="40" Tag="{StaticResource Code}"
+                <Button Background="Transparent" Width="40" Height="40" Tag="{StaticResource Code}" Loaded="ButtonOnLoaded"
                     Click="EditorButtonOnClick">
                     <ToolTipService.ToolTip>
                         <ToolTip Content="Code" />
                     </ToolTipService.ToolTip>
                     <SymbolIcon Symbol="Remote" />
                 </Button>
-                <Button Background="Transparent" Width="40" Height="40" Tag="{StaticResource List}"
+                <Button Background="Transparent" Width="40" Height="40" Tag="{StaticResource List}" Loaded="ButtonOnLoaded"
                     Click="EditorButtonOnClick">
                     <ToolTipService.ToolTip>
                         <ToolTip Content="List" />
                     </ToolTipService.ToolTip>
                     <SymbolIcon Symbol="List" />
                 </Button>
-                <Button Background="Transparent" Width="40" Height="40" Tag="{StaticResource Spoiler}"
+                <Button Background="Transparent" Width="40" Height="40" Tag="{StaticResource Spoiler}"  Loaded="ButtonOnLoaded"
                     Click="EditorButtonOnClick">
                     <ToolTipService.ToolTip>
                         <ToolTip Content="Spoiler" />
                     </ToolTipService.ToolTip>
-                    <SymbolIcon Symbol="Preview" />
+                    <SymbolIcon Symbol="OpenFile" />
                 </Button>
-                <Button Background="Transparent" Width="40" Height="40" Tag="{StaticResource Img}"
+                <Button Background="Transparent" Width="40" Height="40" Tag="{StaticResource Img}" Loaded="ButtonOnLoaded"
                     Click="EditorButtonOnClick">
                     <ToolTipService.ToolTip>
                         <ToolTip Content="Image" />
                     </ToolTipService.ToolTip>
                     <SymbolIcon Symbol="Pictures" />
                 </Button>
-            </StackPanel>
-            <Button Background="Transparent" Width="40" Height="40" HorizontalAlignment="Right"
+            </ItemsControl>
+            <Button Background="Transparent" Width="40" Height="40" HorizontalAlignment="Right" VerticalAlignment="Top" 
                     Click="PreviewButtonOnClick">
                 <ToolTipService.ToolTip>
                     <ToolTip Content="Preview" />
@@ -109,7 +114,7 @@
                 <Button.Flyout>
                     <Flyout>
                         <Grid Width="400" Height="500">
-                            <WebView x:Name="PreviewWebView"/>
+                            <WebView x:Name="PreviewWebView" DefaultBackgroundColor="{ThemeResource ColorAnimeItemBackground}"/>
                         </Grid>
                     </Flyout>
                 </Button.Flyout>

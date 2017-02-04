@@ -215,10 +215,11 @@
                     </StackPanel>
                 </Grid>
                 <Grid Grid.Column="1" Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10" Visibility="{Binding AboutMeWebViewVisibility,Converter={StaticResource BoolToVisibilityConverter}}">
-                    <WebView x:Name="AboutMeWebView" DefaultBackgroundColor="{ThemeResource ColorAnimeItemBackground}"
-                             attachedProperties:WebViewExtensions.Content="{Binding AboutMeHtmlContent}" MinHeight="50"
+                    <WebView x:Name="AboutMeWebView" DefaultBackgroundColor="{ThemeResource ColorAnimeItemBackground}" ContentLoading="AboutMeWebView_OnContentLoading"
+                            attachedProperties:WebViewExtensions.Content="{Binding AboutMeHtmlContent}" MinHeight="150" NavigationCompleted="AboutMeWebView_OnNavigationCompleted"
                              attachedProperties:WebViewExtensions.ResizeToFit="True" Height="{Binding ComputedHtmlHeight}" attachedProperties:WebViewExtensions.ComputedHeight="{Binding ComputedHtmlHeight,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                              NavigationStarting="AboutMeWebView_OnNavigationStarting"/>
+                    <ProgressRing x:Name="AboutMeLoader" IsActive="True" Width="50" Height="50" HorizontalAlignment="Center"/>
                 </Grid>
                 <Grid  Grid.Column="1" Grid.Row="3">
                     <ItemsControl x:Name="FavsItemsControl" HorizontalAlignment="Stretch" Visibility="{Binding AreFavsExpanded,Converter={StaticResource BoolToVisibilityConverter}}">

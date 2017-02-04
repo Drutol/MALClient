@@ -36,7 +36,7 @@ namespace CodeKicker.BBCode
                 //}
             }
 
-            return defaultParser.ToHtml(bbCode);
+            return defaultParser.ToHtml(bbCode).Replace("\r\r", "<br><br>");
         }
 
         static BBCodeParser GetParser()

@@ -243,11 +243,11 @@ namespace MALClient.XShared.ViewModels.Forums
         }));
 
 
-        public ICommand GotoLastPageCommand => _gotoLastPageCommand ?? (_gotoLastPageCommand = new RelayCommand(
-            () =>
+        public ICommand GotoLastPageCommand => _gotoLastPageCommand ?? (_gotoLastPageCommand = new RelayCommand(async () =>
             {
                 CurrentPage = CurrentTopicData.AllPages;
-                LoadCurrentTopicPageAsync();
+                await LoadCurrentTopicPageAsync();
+                RequestScroll?.Invoke(this,Messages.Count-1);
             }));
 
         public ICommand GotoWebsiteCommand => _gotoWebsiteCommand ?? (_gotoWebsiteCommand = new RelayCommand(

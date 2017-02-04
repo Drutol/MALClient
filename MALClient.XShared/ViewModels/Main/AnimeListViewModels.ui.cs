@@ -195,7 +195,7 @@ namespace MALClient.XShared.ViewModels.Main
 
         public bool CanLoadMore
         {
-            get { return _canLoadMore && !_canLoadMoreFilterLock; }
+            get { return _canLoadMore && !_canLoadMoreFilterLock && !WasPreviousQuery; }
             set
             {
                 _canLoadMore = value;

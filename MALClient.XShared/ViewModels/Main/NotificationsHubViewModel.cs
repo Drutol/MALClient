@@ -85,7 +85,7 @@ namespace MALClient.XShared.ViewModels.Main
                        if(!notification.IsSupported)
                            return;
 
-                       var args = MalLinkParser.GetNavigationParametersForUrl(notification.LaunchArgs);
+                       var args = MalLinkParser.GetNavigationParametersForUrl(notification.SanitizedLaunchArgs);
                        if (!ViewModelLocator.Mobile)
                        {
                            

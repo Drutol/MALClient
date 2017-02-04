@@ -230,7 +230,7 @@
                                 <StackPanel Grid.Row="0"
                                             Visibility="{x:Bind EditMode,Mode=OneWay,Converter={StaticResource BoolToVisibilityConverter}}">
                                     <TextBox Margin="10" HorizontalAlignment="Stretch" MinHeight="260"
-                                             AcceptsReturn="True"
+                                             AcceptsReturn="True" TextWrapping="Wrap"
                                              Text="{Binding BBcodeContent,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
                                     <StackPanel Orientation="Horizontal" Margin="10,5">
                                         <Button Content="Submit" Margin="0,0,5,0" Padding="20,4"

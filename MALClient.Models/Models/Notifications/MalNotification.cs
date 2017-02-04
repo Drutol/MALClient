@@ -22,6 +22,8 @@ namespace MALClient.Models.Models.Notifications
         public bool IsRead { get; set; }
         public string ImgUrl { get; set; }
 
+        public string SanitizedLaunchArgs => LaunchArgs.Contains("~") ? LaunchArgs.Split('~').Last() : LaunchArgs;
+
         public MalNotification(string id)
         {
             Id = id;

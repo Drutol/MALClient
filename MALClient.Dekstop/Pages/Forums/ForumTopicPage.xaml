@@ -200,7 +200,7 @@
                                             DefaultBackgroundColor="{ThemeResource ColorAnimeItemBackground}" MinHeight="270" NavigationStarting="TopicWebView_OnNavigationStarting" attachedProperties:WebViewExtensions.ComputedHeight="{Binding ComputedHtmlHeight,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                             Visibility="{Binding EditMode,Converter={StaticResource BoolToVisibilityInvertedConverter}}" Height="{x:Bind ComputedHtmlHeight,Mode=OneWay}"/>
                                 <StackPanel Grid.Row="0" Visibility="{x:Bind EditMode,Mode=OneWay,Converter={StaticResource BoolToVisibilityConverter}}">
-                                    <TextBox Margin="10" HorizontalAlignment="Stretch" MinHeight="260" AcceptsReturn="True" Text="{Binding BBcodeContent,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                                    <TextBox Margin="10" HorizontalAlignment="Stretch" MinHeight="260" AcceptsReturn="True" Text="{Binding BBcodeContent,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap"/>
                                     <StackPanel Orientation="Horizontal" Margin="10,5">
                                         <Button Content="Submit" Margin="0,0,5,0" Padding="20,4" Command="{x:Bind SubmitEditCommand}" Background="{StaticResource SystemControlBackgroundAccentBrush}"/>
                                         <Button Content="Cancel" Command="{x:Bind CancelEditCommand}" Margin="5,0" Padding="20,4"/>

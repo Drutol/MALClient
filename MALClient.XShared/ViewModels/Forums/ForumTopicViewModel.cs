@@ -272,7 +272,7 @@ namespace MALClient.XShared.ViewModels.Forums
                                                      {
                                                          var res =
                                                              await ForumTopicQueries.ToggleTopicWatching(
-                                                                 _prevArgs.TopicId);
+                                                                 CurrentTopicData.Id);
                                                          if(res == null)
                                                              ResourceLocator.MessageDialogProvider.ShowMessageDialog("Unable to toggle watching status.","Something went wrong");
 
@@ -282,10 +282,12 @@ namespace MALClient.XShared.ViewModels.Forums
         public ICommand CreateReplyCommand => _createReplyCommand ?? (_createReplyCommand = new RelayCommand(
                                                   async () =>
                                                   {
-                                                      if(await ForumTopicQueries.CreateMessage(_prevArgs.TopicId,ReplyMessage))
+                                                      if(await ForumTopicQueries.CreateMessage(CurrentTopicData.Id,ReplyMessage))
                                                       {
                                                           ResourceLocator.TelemetryProvider.TelemetryTrackEvent(TelemetryTrackedEvents.CreatedReply);
                                                           ReplyMessage = string.Empty;
+                                                          if (CurrentTopicData.Messages.Count % 50 == 0) //we have to go next page
+                                                              CurrentPage++;
                                                           LoadCurrentTopicPageAsync(true,true);
                                                       }
                                                       else
@@ -348,7 +350,7 @@ namespace MALClient.XShared.ViewModels.Forums
         {
             LoadingTopic = true;
 
-            var data = await ForumTopicQueries.GetTopicData(_prevArgs.TopicId, CurrentPage,lastpost,null,force);
+            var data = await ForumTopicQueries.GetTopicData(CurrentTopicData.Id, CurrentPage,lastpost,null,force);
             if (!data.Messages.Any())
             {
                 CurrentPage = CurrentTopicData.CurrentPage;

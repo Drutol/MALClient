@@ -521,5 +521,10 @@ namespace MALClient.XShared.Utils
                 action(element);
         }
 
+        public static string Wrap(this string s, string start,string end)
+        {
+            return $"{start}{s}{end}";
+        }
+
     }
 }

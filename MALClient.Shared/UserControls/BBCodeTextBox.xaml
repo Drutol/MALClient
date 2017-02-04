@@ -1,0 +1,122 @@
+﻿<UserControl
+    x:Class="MALClient.Shared.UserControls.BBCodeTextBox"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MALClient.Shared.UserControls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    d:DesignHeight="300"
+    d:DesignWidth="400">
+
+    <UserControl.Resources>
+        <local:BBCodeMarkers x:Key="B">Bold</local:BBCodeMarkers>
+        <local:BBCodeMarkers x:Key="U">Underline</local:BBCodeMarkers>
+        <local:BBCodeMarkers x:Key="I">Italic</local:BBCodeMarkers>
+        <local:BBCodeMarkers x:Key="Code">Code</local:BBCodeMarkers>
+        <local:BBCodeMarkers x:Key="V">Video</local:BBCodeMarkers>
+        <local:BBCodeMarkers x:Key="AC">AlignCenter</local:BBCodeMarkers>
+        <local:BBCodeMarkers x:Key="AR">AlignRight</local:BBCodeMarkers>
+        <local:BBCodeMarkers x:Key="Spoiler">Spoiler</local:BBCodeMarkers>
+        <local:BBCodeMarkers x:Key="Img">Image</local:BBCodeMarkers>
+        <local:BBCodeMarkers x:Key="List">List</local:BBCodeMarkers>
+    </UserControl.Resources>
+
+    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid Background="{ThemeResource BrushDeepBackground}">
+            <StackPanel Orientation="Horizontal"  Margin="0,0,40,0">
+                <Button Background="Transparent" Width="40" Height="40" Tag="{StaticResource B}"
+                    Click="EditorButtonOnClick">
+                    <ToolTipService.ToolTip>
+                        <ToolTip Content="Bold" />
+                    </ToolTipService.ToolTip>
+                    <SymbolIcon Symbol="Bold" />
+                </Button>
+                <Button Background="Transparent" Width="40" Height="40" Tag="{StaticResource I}"
+                    Click="EditorButtonOnClick">
+                    <ToolTipService.ToolTip>
+                        <ToolTip Content="Italic" />
+                    </ToolTipService.ToolTip>
+                    <SymbolIcon Symbol="Italic" />
+                </Button>
+                <Button Background="Transparent" Width="40" Height="40" Tag="{StaticResource U}"
+                    Click="EditorButtonOnClick">
+                    <ToolTipService.ToolTip>
+                        <ToolTip Content="Underline" />
+                    </ToolTipService.ToolTip>
+                    <SymbolIcon Symbol="Underline" />
+                </Button>
+                <Button Background="Transparent" Width="40" Height="40" Tag="{StaticResource AC}"
+                    Click="EditorButtonOnClick">
+                    <ToolTipService.ToolTip>
+                        <ToolTip Content="Align center" />
+                    </ToolTipService.ToolTip>
+                    <SymbolIcon Symbol="AlignCenter" />
+                </Button>
+                <Button Background="Transparent" Width="40" Height="40" Tag="{StaticResource AR}"
+                    Click="EditorButtonOnClick">
+                    <ToolTipService.ToolTip>
+                        <ToolTip Content="Align right" />
+                    </ToolTipService.ToolTip>
+                    <SymbolIcon Symbol="AlignRight" />
+                </Button>
+                <Button Background="Transparent" Width="40" Height="40" Tag="{StaticResource V}"
+                    Click="EditorButtonOnClick">
+                    <ToolTipService.ToolTip>
+                        <ToolTip Content="Embed video" />
+                    </ToolTipService.ToolTip>
+                    <SymbolIcon Symbol="Video" />
+                </Button>
+                <Button Background="Transparent" Width="40" Height="40" Tag="{StaticResource Code}"
+                    Click="EditorButtonOnClick">
+                    <ToolTipService.ToolTip>
+                        <ToolTip Content="Code" />
+                    </ToolTipService.ToolTip>
+                    <SymbolIcon Symbol="Remote" />
+                </Button>
+                <Button Background="Transparent" Width="40" Height="40" Tag="{StaticResource List}"
+                    Click="EditorButtonOnClick">
+                    <ToolTipService.ToolTip>
+                        <ToolTip Content="List" />
+                    </ToolTipService.ToolTip>
+                    <SymbolIcon Symbol="List" />
+                </Button>
+                <Button Background="Transparent" Width="40" Height="40" Tag="{StaticResource Spoiler}"
+                    Click="EditorButtonOnClick">
+                    <ToolTipService.ToolTip>
+                        <ToolTip Content="Spoiler" />
+                    </ToolTipService.ToolTip>
+                    <SymbolIcon Symbol="Preview" />
+                </Button>
+                <Button Background="Transparent" Width="40" Height="40" Tag="{StaticResource Img}"
+                    Click="EditorButtonOnClick">
+                    <ToolTipService.ToolTip>
+                        <ToolTip Content="Image" />
+                    </ToolTipService.ToolTip>
+                    <SymbolIcon Symbol="Pictures" />
+                </Button>
+            </StackPanel>
+            <Button Background="Transparent" Width="40" Height="40" HorizontalAlignment="Right"
+                    Click="PreviewButtonOnClick">
+                <ToolTipService.ToolTip>
+                    <ToolTip Content="Preview" />
+                </ToolTipService.ToolTip>
+                <SymbolIcon Symbol="Preview" />
+                <Button.Flyout>
+                    <Flyout>
+                        <Grid Width="400" Height="500">
+                            <WebView x:Name="PreviewWebView"/>
+                        </Grid>
+                    </Flyout>
+                </Button.Flyout>
+            </Button>
+        </Grid>
+        <TextBox Grid.Row="1" x:Name="ContentBox" AcceptsReturn="True" TextWrapping="Wrap"
+                 TextChanged="ContentBox_OnTextChanged"  HorizontalAlignment="Stretch" IsSpellCheckEnabled="True"
+                 VerticalAlignment="Stretch" />
+    </Grid>
+</UserControl>

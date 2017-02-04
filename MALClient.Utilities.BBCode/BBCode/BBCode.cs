@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using CodeKicker.BBCode.SyntaxTree;
 
 namespace CodeKicker.BBCode
@@ -21,6 +22,20 @@ namespace CodeKicker.BBCode
         public static string ToHtml(string bbCode)
         {
             if (bbCode == null) throw new ArgumentNullException("bbCode");
+
+            if (bbCode.Contains("quote"))
+            {
+                var pos = 0;
+                bbCode = Regex.Replace(bbCode, @"\[quote=.*? message=\d+(?=\])", "[quote");
+                //while ((pos = bbCode.IndexOf("[quote",pos, StringComparison.Ordinal)) != -1)
+                //{
+                //    var endIndex = bbCode.IndexOf(']', pos);
+                //    bbCode = bbCode.Remove(pos, endIndex+1);
+                //    bbCode = bbCode.Insert(pos, "[quote]");
+                //    pos += 6;
+                //}
+            }
+
             return defaultParser.ToHtml(bbCode);
         }
 
@@ -31,11 +46,13 @@ namespace CodeKicker.BBCode
                     new BBTag("b", "<b>", "</b>"), 
                     new BBTag("i", "<span style=\"font-style:italic;\">", "</span>"), 
                     new BBTag("u", "<span style=\"text-decoration:underline;\">", "</span>"), 
-                    new BBTag("code", "<pre class=\"prettyprint\">", "</pre>"), 
+                    new BBTag("code", "<div class=\"codetext\">", "</div>"), 
                     new BBTag("img", "<img src=\"${content}\" />", "", false, true), 
-                    new BBTag("quote", "<blockquote>", "</blockquote>"), 
+                    new BBTag("quote", "<div class=\"quotetext\">", "</div>"), 
                     new BBTag("list", "<ul>", "</ul>"), 
                     new BBTag("*", "<li>", "</li>", true, false), 
+                    new BBTag("center", "<div align=\"center\">", "</div>"), 
+                    new BBTag("right", "<div align=\"right\">", "</div>"), 
                     new BBTag("url", "<a href=\"${href}\">", "</a>", new BBAttribute("href", ""), new BBAttribute("href", "href")), 
                 });
         }

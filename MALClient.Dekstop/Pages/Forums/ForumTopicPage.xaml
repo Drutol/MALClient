@@ -232,7 +232,7 @@
                       Visibility="{Binding LoadingTopic,Converter={StaticResource BoolToVisibilityInvertedConverter}}">
                         <StackPanel Margin="20" HorizontalAlignment="Stretch">
                             <TextBlock Text="Reply:" Margin="0,5" />
-                            <TextBox AcceptsReturn="True" MinHeight="230" MaxHeight="400" TextWrapping="Wrap"
+                            <userControls:BBCodeTextBox MinHeight="230" MaxHeight="400"
                                  Text="{Binding ReplyMessage,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
                             <Button Content="Send" Margin="0,5" Padding="20,4" Command="{Binding CreateReplyCommand}"
                                 Background="{StaticResource SystemControlBackgroundAccentBrush}" />

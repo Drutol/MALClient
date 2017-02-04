@@ -174,6 +174,9 @@
     <Compile Include="UserControls\AttachedProperties\AnimeImageExtensions.cs" />
     <Compile Include="UserControls\AttachedProperties\MonitoredImageSourceExtension.cs" />
     <Compile Include="UserControls\AttachedProperties\WebViewExtensions.cs" />
+    <Compile Include="UserControls\BBCodeTextBox.xaml.cs">
+      <DependentUpon>BBCodeTextBox.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\CachedEntryItem.xaml.cs">
       <DependentUpon>CachedEntryItem.xaml</DependentUpon>
     </Compile>
@@ -297,6 +300,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="UserControls\BBCodeTextBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UserControls\CachedEntryItem.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -318,6 +325,10 @@
     <ProjectReference Include="..\MALClient.Models\MALClient.Models.csproj">
       <Project>{9948a48d-1cfc-40e5-9bfa-6f93fe4c44a0}</Project>
       <Name>MALClient.Models</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MALClient.Utilities.BBCode\MALClient.Utilities.BBCode.csproj">
+      <Project>{67f9d3a8-f71e-4428-913f-c37ae82cdb24}</Project>
+      <Name>MALClient.Utilities.BBCode</Name>
     </ProjectReference>
     <ProjectReference Include="..\MALClient.XShared\MALClient.XShared.csproj">
       <Project>{036824de-34ca-4611-a8ee-02a939cdd295}</Project>

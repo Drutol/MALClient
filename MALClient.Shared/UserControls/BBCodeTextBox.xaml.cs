@@ -60,6 +60,31 @@ namespace MALClient.Shared.UserControls
             set { SetValue(TextProperty, value); }
         }
 
+        public static readonly DependencyProperty PreviewVisibilityProperty = DependencyProperty.Register(
+            "PreviewVisibility", typeof(Visibility), typeof(BBCodeTextBox), new PropertyMetadata(default(Visibility),PropertyChangedCallback));
+
+        private static void PropertyChangedCallback(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
+        {
+            var control = dependencyObject as BBCodeTextBox;
+            if ((Visibility) dependencyPropertyChangedEventArgs.NewValue == Visibility.Visible)
+            {
+                control.EditorPanel.Margin = new Thickness(0,0,40,0);
+                control.PreviewButton.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                control.EditorPanel.Margin = new Thickness(0);
+                control.PreviewButton.Visibility = Visibility.Collapsed;
+            }
+        }
+
+        public Visibility PreviewVisibility
+        {
+            get { return (Visibility) GetValue(PreviewVisibilityProperty); }
+            set { SetValue(PreviewVisibilityProperty, value); }
+        }
+
+
         private bool _lockTextChange;
 
         public BBCodeTextBox()

@@ -454,6 +454,11 @@ namespace MALClient.XShared.Comm.Profile
                                 deleteNode.Attributes["onclick"].Value.Split(new char[] {'(', ')'},
                                     StringSplitOptions.RemoveEmptyEntries).Last();
                         }
+                        foreach (var img in comment.Descendants("img").Skip(1))
+                        {
+                            if (img.Attributes.Contains("src"))
+                                curr.Images.Add(img.Attributes["src"].Value);
+                        }
                         current.Comments.Add(curr);
                     }
                 }

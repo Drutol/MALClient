@@ -42,6 +42,7 @@ namespace MALClient.Models.Models
         public string Id { get; set; }
         public bool CanDelete { get; set; }
         public string ComToCom { get; set; }
+        public List<string> Images { get; set; } = new List<string>();
     }
 
     public class ProfileData

@@ -172,6 +172,7 @@
     <Compile Include="UserControls\AlternatingListView.cs" />
     <Compile Include="UserControls\AttachedProperties\AnimatedVisibilityExtension.cs" />
     <Compile Include="UserControls\AttachedProperties\AnimeImageExtensions.cs" />
+    <Compile Include="UserControls\AttachedProperties\LinkedImageExtensions.cs" />
     <Compile Include="UserControls\AttachedProperties\MonitoredImageSourceExtension.cs" />
     <Compile Include="UserControls\AttachedProperties\WebViewExtensions.cs" />
     <Compile Include="UserControls\BBCodeTextBox.xaml.cs">

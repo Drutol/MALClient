@@ -122,7 +122,11 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Profile
                         current.Content = WebUtility.HtmlDecode(commentBox.FirstOfDescendantsWithClass("div", "spaceit").InnerText).Trim();
                         current.Date = commentBox.Descendants("small").First().InnerText.Trim(new[] { '|', ' ' });
                         current.Sender = WebUtility.HtmlDecode(commentBox.Descendants("a").Skip(1).First().InnerText.Trim());
-
+                        foreach (var img in commentBox.Descendants("img").Skip(1))
+                        {
+                            if (img.Attributes.Contains("src"))
+                                current.Images.Add(img.Attributes["src"].Value);
+                        }
                         output.Add(current);
                     }
                     catch (Exception)

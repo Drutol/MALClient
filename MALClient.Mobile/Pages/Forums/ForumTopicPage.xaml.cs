@@ -164,5 +164,10 @@ namespace MALClient.Pages.Forums
             var element = (sender as FrameworkElement);
             element.Visibility = Visibility.Collapsed;
         }
+
+        private void TopButtonOnClick(object sender, RoutedEventArgs e)
+        {
+            ListView.ScrollIntoView(ViewModel.Messages.First());
+        }
     }
 }

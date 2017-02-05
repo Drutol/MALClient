@@ -10,6 +10,8 @@
     xmlns:items="using:MALClient.Shared.Items"
     xmlns:userControls="using:MALClient.Shared.UserControls"
     xmlns:xamlConverters="using:MALClient.Shared.XamlConverters"
+    xmlns:attachedProperties="using:MALClient.Shared.UserControls.AttachedProperties"
+    xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
     DataContext="{Binding Source={StaticResource MobileLocator}, Path=ProfilePage}"
     mc:Ignorable="d">
 
@@ -28,9 +30,11 @@
             <xamlConverters:IsThereAnyTextToVisibilityConverter x:Key="IsThereAnyTextToVisibilityConverter"/>
             <xamlConverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
             <xamlConverters:PinUnpinSymbolIconConverter x:Key="PinUnpinSymbolIconConverter"/>
+            <converters:CollectionVisibilityConverter x:Key="CollectionEmptyToVisibilityConverter" />
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/XamlResources/DictionaryProfilePage.xaml" />
             </ResourceDictionary.MergedDictionaries>
+
         </ResourceDictionary>
     </Page.Resources>
 
@@ -161,7 +165,7 @@
                                 <SymbolIcon Symbol="Refresh" Margin="5"/>
                             </Button>
                             <StackPanel Grid.Row="0">
-                                <TextBlock Grid.Row="0" Text="Comments" HorizontalAlignment="Center" FontWeight="SemiLight" FontSize="26"
+                                <TextBlock Text="Comments" HorizontalAlignment="Center" FontWeight="SemiLight" FontSize="26"
                                Foreground="{StaticResource SystemControlBackgroundAccentBrush}" />
                                 <TextBlock Visibility="{Binding EmptyCommentsNoticeVisibility}"
                                 Text="No comments..."
@@ -193,6 +197,7 @@
                                             <Grid.RowDefinitions>
                                                 <RowDefinition Height="*"/>
                                                 <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
                                             </Grid.RowDefinitions>
                                             <StackPanel Grid.RowSpan="2">
                                                 <Button Padding="0" Margin="0" Width="75" Height="75"
@@ -214,10 +219,27 @@
                                                TextAlignment="Left" Margin="10,15,10,10" HorizontalAlignment="Left" />
                                             <TextBlock Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Top"
                                                FontSize="14" FontWeight="SemiLight" Text="{Binding Date}" />
-                                            <StackPanel Grid.Row="1" Margin="0,10,0,0" Orientation="Horizontal" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+                                            <Grid Grid.Column="1" Grid.Row="1" Visibility="{Binding Images,Converter={StaticResource CollectionEmptyToVisibilityConverter}}" Margin="0,10,0,0">
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="Auto"/>
+                                                    <RowDefinition Height="*"/>
+                                                </Grid.RowDefinitions>
+                                                <ToggleButton x:Name="ToggleButton" Content="Toggle images" HorizontalAlignment="Right"  Padding="2"/>
+                                                <ItemsControl Grid.Row="1" ItemsSource="{Binding Images}" Visibility="{Binding ElementName=ToggleButton,Path=IsChecked,Converter={StaticResource BoolToVisibilityConverter}}">
+                                                    <ItemsControl.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <Grid MinHeight="100" MinWidth="100">
+                                                                <Image Source="{Binding}" Margin="0,5" Stretch="None" VerticalAlignment="Center" HorizontalAlignment="Center" MaxHeight="600" attachedProperties:LinkedImageExtensions.Target="{Binding ElementName=Loader}" attachedProperties:LinkedImageExtensions.TargetVisibility="Collapsed"/>
+                                                                <ProgressRing x:Name="Loader" IsActive="True" Width="50" Height="50" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                            </Grid>
+                                                        </DataTemplate>
+                                                    </ItemsControl.ItemTemplate>
+                                                </ItemsControl>
+                                            </Grid>
+                                            <StackPanel Grid.Row="2" Margin="0,10,0,0" Orientation="Horizontal" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Bottom">
                                                 <Button Content="Conversation" Margin="1"
                                                 Visibility="{Binding ComToCom,Converter={StaticResource IsThereAnyTextToVisibilityConverter}}"
-                                                Background="{StaticResource SystemControlBackgroundAccentBrush}" Padding="1"
+                                                Background="{StaticResource SystemControlBackgroundAccentBrush}" Padding="2"
                                                 Command="{Binding Source={StaticResource MobileLocator},Path=ProfilePage.NavigateConversationCommand}"
                                                 CommandParameter="{Binding}"/>
                                                 <Button Content="Delete" Margin="1" Padding="1"

@@ -833,7 +833,7 @@
                                         <ColumnDefinition Width="100" />
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
-                                    <StackPanel Background="{ThemeResource BrushAppBarInner}" Margin="-5,-5,0,-5" Padding="5">
+                                    <StackPanel Background="{ThemeResource BrushAppBars}" Margin="-5,-5,0,-5" Padding="5">
                                         <Button Padding="0" Margin="0,20,0,0" Width="75" Height="75"
                                                 HorizontalAlignment="Center" Click="ButtonBase_OnClick"
                                                 Tag="{Binding User.Name}">

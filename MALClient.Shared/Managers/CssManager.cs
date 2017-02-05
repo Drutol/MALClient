@@ -45,7 +45,7 @@ namespace MALClient.Shared.Managers
                                 function bindButtons(){
                                     var classname = document.getElementsByTagName(""input"")
                                     for (var i = 0; i < classname.length; i++) {
-                                        classname[i].addEventListener('click', function() {notifyDocumentHeightChanged(""content"")}, false);
+                                        classname[i].addEventListener('click', function() {notifyDocumentHeightChanged(""content"");this.nextSibling.childNodes[0].style.display = 'none';}, false);
                                     }
                                 };
    

@@ -1,21 +1,12 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
 using Android.App;
-using Android.Content;
 using Android.OS;
-using Android.Runtime;
-using Android.Views;
 using Android.Widget;
-using MALClient.Android.Fragments.SettingsFragments;
 using MALClient.Android.ViewModels;
 using MALClient.Models.Enums;
-using MALClient.XShared.Utils.Enums;
 using MALClient.XShared.ViewModels;
 
-namespace MALClient.Android.Fragments
+namespace MALClient.Android.Fragments.SettingsFragments
 {
     public class SettingsPageFragment : MalFragmentBase
     {
@@ -57,6 +48,8 @@ namespace MALClient.Android.Fragments
                 case SettingsPageIndex.Notifications:
                     break;
                 case SettingsPageIndex.Ads:
+                    break;
+                case SettingsPageIndex.Feeds:
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(page), page, null);

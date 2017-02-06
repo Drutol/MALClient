@@ -79,6 +79,8 @@ namespace MALClient.Android.Fragments.SettingsFragments
                     return Resource.Drawable.icon_notification;
                 case SettingsSymbolsEnum.SwitchApps:
                     return Resource.Drawable.icon_ads;
+                case SettingsSymbolsEnum.ContactInfo:
+                    return Resource.Drawable.icon_feeds;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(symbol), symbol, null);
             }

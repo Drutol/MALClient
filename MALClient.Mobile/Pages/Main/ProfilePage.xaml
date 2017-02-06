@@ -228,7 +228,7 @@
                                                     <ItemsControl.ItemTemplate>
                                                         <DataTemplate>
                                                             <Grid MinHeight="100" MinWidth="100">
-                                                                <Image Source="{Binding}" Margin="0,5" Stretch="None" VerticalAlignment="Center" HorizontalAlignment="Center" MaxHeight="600" attachedProperties:LinkedImageExtensions.Target="{Binding ElementName=Loader}" attachedProperties:LinkedImageExtensions.TargetVisibility="Collapsed"/>
+                                                                <Image Source="{Binding}" Margin="0,5" Stretch="Uniform" VerticalAlignment="Center" HorizontalAlignment="Center" MaxHeight="600" attachedProperties:LinkedImageExtensions.Target="{Binding ElementName=Loader}" attachedProperties:LinkedImageExtensions.TargetVisibility="Collapsed"/>
                                                                 <ProgressRing x:Name="Loader" IsActive="True" Width="50" Height="50" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                                             </Grid>
                                                         </DataTemplate>

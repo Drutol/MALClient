@@ -15,31 +15,40 @@ namespace MALClient.UWP.Shared.Managers
         private const string TilesTaskName = "LiveTilesBackgroundTask";
         private const string TilesTaskNamespace = "MALClient.UWP.BGTaskLiveTilesNotifications.LiveTilesBackgroundTask";
 
+        private const string ToastActivationTaskName = "ToastActivationTask";
+        private const string ToastActivationTaskNamespace = "MALClient.UWP.BGTaskToastActivation.ToastActivationTask";
+
         public static event BackgroundTaskCall OnNotificationTaskRequested;
 
         private static Dictionary<BgTasks, BackgroundTaskRegistration> TaskRegistration { get; } =
             new Dictionary<BgTasks, BackgroundTaskRegistration>();
 
-
         public static async void StartNotificationTask(BgTasks targetTask,bool restart = true)
         {
             string taskName, taskEntryPoint;
-            int refreshTime;
-            if (targetTask == BgTasks.Notifications)
+            int refreshTime = 15;
+            switch (targetTask)
             {
-                if (!Settings.EnableNotifications || !Credentials.Authenticated ||
-                    Settings.SelectedApiType == ApiType.Hummingbird)
-                    return;
+                case BgTasks.Notifications:
+                    if (!Settings.EnableNotifications || !Credentials.Authenticated ||
+                        Settings.SelectedApiType == ApiType.Hummingbird)
+                        return;
 
-                refreshTime = Settings.NotificationsRefreshTime;
-                taskName = NotificationsTaskName;
-                taskEntryPoint = NotificationsTaskNamespace;
-            }
-            else
-            {
-                refreshTime = 720; //half a day 
-                taskName = TilesTaskName;
-                taskEntryPoint = TilesTaskNamespace;
+                    refreshTime = Settings.NotificationsRefreshTime;
+                    taskName = NotificationsTaskName;
+                    taskEntryPoint = NotificationsTaskNamespace;
+                    break;
+                case BgTasks.Tiles:
+                    refreshTime = 720; //half a day 
+                    taskName = TilesTaskName;
+                    taskEntryPoint = TilesTaskNamespace;
+                    break;
+                case BgTasks.ToastActivation:
+                    taskName = ToastActivationTaskName;
+                    taskEntryPoint = ToastActivationTaskNamespace;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(targetTask), targetTask, null);
             }
 
             var taskRegistered = TaskRegistration.ContainsKey(targetTask);
@@ -65,8 +74,17 @@ namespace MALClient.UWP.Shared.Managers
                     TaskEntryPoint = taskEntryPoint
                 };
 
-                builder.AddCondition(new SystemCondition(SystemConditionType.InternetAvailable));
-                builder.SetTrigger(new TimeTrigger((uint)refreshTime, false));
+                if (targetTask == BgTasks.ToastActivation)
+                {
+                    builder.AddCondition(new SystemCondition(SystemConditionType.InternetAvailable));
+                    builder.SetTrigger(new ToastNotificationActionTrigger());
+                }
+                else
+                {
+                    builder.AddCondition(new SystemCondition(SystemConditionType.InternetAvailable));
+                    builder.SetTrigger(new TimeTrigger((uint)refreshTime, false));
+                }
+
 
                 if (TaskRegistration.ContainsKey(targetTask))
                     TaskRegistration[targetTask] = builder.Register();

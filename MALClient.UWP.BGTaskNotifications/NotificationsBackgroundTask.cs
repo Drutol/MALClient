@@ -211,7 +211,7 @@ namespace MALClient.UWP.BGTaskNotifications
                             {
                                 ActivationType = ToastActivationType.Foreground,
                             },
-                            new ToastButtonDismiss()
+                            new ToastButton("Mark as read",$"MarkRead;{notification.Id}"){ActivationType = ToastActivationType.Background}
                         }
                     };
                 case MalNotificationsTypes.ProfileComment:
@@ -223,7 +223,7 @@ namespace MALClient.UWP.BGTaskNotifications
                             {
                                 ActivationType = ToastActivationType.Foreground,
                             },
-                            new ToastButtonDismiss()
+                            new ToastButton("Mark as read",$"MarkRead;{notification.Id}"){ActivationType = ToastActivationType.Background}
                         }
                     };
                 case MalNotificationsTypes.ForumQuoute:
@@ -235,7 +235,7 @@ namespace MALClient.UWP.BGTaskNotifications
                             {
                                 ActivationType = ToastActivationType.Foreground,
                             },
-                            new ToastButtonDismiss()
+                            new ToastButton("Mark as read",$"MarkRead;{notification.Id}"){ActivationType = ToastActivationType.Background}
                         }
                     };
                 case MalNotificationsTypes.UserMentions:
@@ -247,7 +247,7 @@ namespace MALClient.UWP.BGTaskNotifications
                             {
                                 ActivationType = ToastActivationType.Foreground,
                             },
-                            new ToastButtonDismiss()
+                             new ToastButton("Mark as read",$"MarkRead;{notification.Id}"){ActivationType = ToastActivationType.Background}
                         }
                     };
                 case MalNotificationsTypes.WatchedTopics:
@@ -259,7 +259,7 @@ namespace MALClient.UWP.BGTaskNotifications
                             {
                                 ActivationType = ToastActivationType.Foreground,
                             },
-                            new ToastButtonDismiss()
+                             new ToastButton("Mark as read",$"MarkRead;{notification.Id}"){ActivationType = ToastActivationType.Background}
                         }
                     };
                 case MalNotificationsTypes.ClubMessages:
@@ -271,7 +271,7 @@ namespace MALClient.UWP.BGTaskNotifications
                             {
                                 ActivationType = ToastActivationType.Foreground,
                             },
-                            new ToastButtonDismiss()
+                             new ToastButton("Mark as read",$"MarkRead;{notification.Id}"){ActivationType = ToastActivationType.Background}
                         }
                     };
                 case MalNotificationsTypes.NewRelatedAnime:
@@ -283,7 +283,7 @@ namespace MALClient.UWP.BGTaskNotifications
                             {
                                 ActivationType = ToastActivationType.Foreground,
                             },
-                            new ToastButtonDismiss()
+                             new ToastButton("Mark as read",$"MarkRead;{notification.Id}"){ActivationType = ToastActivationType.Background}
                         }
                     };
                 case MalNotificationsTypes.NowAiring:
@@ -295,7 +295,7 @@ namespace MALClient.UWP.BGTaskNotifications
                             {
                                 ActivationType = ToastActivationType.Foreground,
                             },
-                            new ToastButtonDismiss()
+                            new ToastButton("Mark as read",$"MarkRead;{notification.Id}"){ActivationType = ToastActivationType.Background}
                         }
                     };
 

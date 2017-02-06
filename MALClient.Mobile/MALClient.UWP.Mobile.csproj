@@ -510,6 +510,10 @@
       <Project>{cb57338d-9a51-4cbc-b0bb-3d579c2588fd}</Project>
       <Name>MALClient.UWP.BGTaskNotifications</Name>
     </ProjectReference>
+    <ProjectReference Include="..\MALClient.UWP.BGTaskToastActivation\MALClient.UWP.BGTaskToastActivation.csproj">
+      <Project>{ed2a9bc2-0847-438e-acde-bf026a389de4}</Project>
+      <Name>MALClient.UWP.BGTaskToastActivation</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MALClient.XShared\MALClient.XShared.csproj">
       <Project>{036824de-34ca-4611-a8ee-02a939cdd295}</Project>
       <Name>MALClient.XShared</Name>

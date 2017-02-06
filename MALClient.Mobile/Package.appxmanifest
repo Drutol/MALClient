@@ -22,14 +22,9 @@
         <uap:SplashScreen Image="Assets\SplashScreen.png" />
       </uap:VisualElements>
       <Extensions>
-        <uap:Extension Category="windows.protocol">
-          <uap:Protocol Name="malclient">
-            <uap:Logo>Assets\StoreLogoAsset.png</uap:Logo>
-            <uap:DisplayName>MALClient</uap:DisplayName>
-          </uap:Protocol>
-        </uap:Extension>
-        <Extension Category="windows.backgroundTasks" EntryPoint="MALClient.UWP.BGTaskLiveTilesNotifications.LiveTilesBackgroundTask">
+        <Extension Category="windows.backgroundTasks" EntryPoint="MALClient.UWP.BGTaskToastActivation.ToastActivationTask">
           <BackgroundTasks>
+            <Task Type="systemEvent" />
             <Task Type="timer" />
           </BackgroundTasks>
         </Extension>
@@ -38,6 +33,17 @@
             <Task Type="timer" />
           </BackgroundTasks>
         </Extension>
+        <Extension Category="windows.backgroundTasks" EntryPoint="MALClient.UWP.BGTaskLiveTilesNotifications.LiveTilesBackgroundTask">
+          <BackgroundTasks>
+            <Task Type="timer" />
+          </BackgroundTasks>
+        </Extension>
+        <uap:Extension Category="windows.protocol">
+          <uap:Protocol Name="malclient">
+            <uap:Logo>Assets\StoreLogoAsset.png</uap:Logo>
+            <uap:DisplayName>MALClient</uap:DisplayName>
+          </uap:Protocol>
+        </uap:Extension>
       </Extensions>
     </Application>
   </Applications>

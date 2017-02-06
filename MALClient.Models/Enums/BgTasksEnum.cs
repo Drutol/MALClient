@@ -4,5 +4,6 @@
     {
         Notifications,
         Tiles,
+        ToastActivation,
     }
 }

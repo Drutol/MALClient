@@ -1,12 +1,11 @@
 ﻿<Page
-    x:Class="MALClient.Pages.Off.SettingsPages.SettingsCachingPage"
+    x:Class="MALClient.UWP.Pages.Off.SettingsPages.SettingsCachingPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:userControls="using:MALClient.UserControls"
-    xmlns:userControls1="using:MALClient.Shared.UserControls"
-    xmlns:xamlConverters="using:MALClient.Shared.XamlConverters"
+    xmlns:xamlConverters="using:MALClient.UWP.Shared.XamlConverters"
+    xmlns:userControls="using:MALClient.UWP.Shared.UserControls"
     mc:Ignorable="d">
 
     <Page.Resources>
@@ -26,7 +25,7 @@
     <ScrollViewer>
         <StackPanel HorizontalAlignment="Stretch">
             <TextBlock Text="Currently cached data:" FontWeight="Medium" HorizontalAlignment="Center" />
-            <userControls1:AlternatingListView ItemsSource="{Binding CachedEntries}" Height="Auto"
+            <userControls:AlternatingListView ItemsSource="{Binding CachedEntries}" Height="Auto"
                                                           HorizontalAlignment="Stretch"  ScrollViewer.VerticalScrollMode="Disabled"
                                                           SelectionMode="None" Margin="0,10,0,5">
                 <ListView.Header>
@@ -75,7 +74,7 @@
                         </Grid>
                     </DataTemplate>
                 </ListView.ItemTemplate>
-            </userControls1:AlternatingListView>
+            </userControls:AlternatingListView>
             <Button Visibility="{Binding RemoveAllCachedDataButtonVisibility,Converter={StaticResource BoolToVisibilityConverter}}" Margin="2" Click="RemoveAllAnimeDetails"
                                     HorizontalAlignment="Center">
                 <StackPanel Orientation="Horizontal">

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using MALClient.XShared.ViewModels;
 
-namespace MALClient.Shared.Items
+namespace MALClient.UWP.Shared.Items
 {
     public class AnimeUserCache
     {

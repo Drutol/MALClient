@@ -10,7 +10,6 @@ using MALClient.Models.Enums;
 using MALClient.Models.Models.Anime;
 using MALClient.XShared.Comm.Anime;
 using MALClient.XShared.Utils;
-using MALClient.XShared.Utils.Enums;
 
 namespace MALClient.XShared.ViewModels.Main
 {

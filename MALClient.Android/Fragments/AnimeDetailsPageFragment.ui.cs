@@ -12,6 +12,7 @@ using Android.Views;
 using Android.Widget;
 using Com.Astuetz;
 using FFImageLoading.Views;
+using MALClient.Android.Resources;
 
 namespace MALClient.Android.Fragments
 {

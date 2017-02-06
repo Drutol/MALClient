@@ -1,28 +1,20 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using Android.App;
-using Android.Content;
-using Android.OS;
-using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Com.Orhanobut.Dialogplus;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Helpers;
 using MALClient.Android.Activities;
-using MALClient.Android.Adapters.DialogAdapters;
+using MALClient.Android.DialogAdapters;
 using MALClient.Android.Listeners.DialogListeners;
 using MALClient.Android.Resources;
+using MALClient.Models.Enums;
 using MALClient.Models.Models.Library;
-using MALClient.XShared.Utils;
-using MALClient.XShared.Utils.Enums;
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Details;
 
-namespace MALClient.Android.Dialogs
+namespace MALClient.Android.DIalogs
 {
     public static class AnimeUpdateDialogBuilder
     {

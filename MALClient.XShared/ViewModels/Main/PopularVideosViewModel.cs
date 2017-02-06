@@ -11,7 +11,6 @@ using MALClient.Models.Enums;
 using MALClient.Models.Models.AnimeScrapped;
 using MALClient.XShared.Comm.MalSpecific;
 using MALClient.XShared.NavArgs;
-using MALClient.XShared.Utils.Enums;
 
 namespace MALClient.XShared.ViewModels.Main
 {

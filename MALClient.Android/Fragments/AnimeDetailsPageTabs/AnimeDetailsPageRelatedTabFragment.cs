@@ -13,6 +13,7 @@ using GalaSoft.MvvmLight.Helpers;
 using MALClient.Android.Activities;
 using MALClient.Android.BindingConverters;
 using MALClient.Android.Listeners;
+using MALClient.Android.Resources;
 using MALClient.Models.Models.AnimeScrapped;
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Details;

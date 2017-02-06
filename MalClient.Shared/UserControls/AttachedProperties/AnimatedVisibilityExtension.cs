@@ -2,7 +2,7 @@
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media.Animation;
 
-namespace MALClient.Shared.UserControls.AttachedProperties
+namespace MALClient.UWP.Shared.UserControls.AttachedProperties
 {
     public class AnimatedVisibilityExtension : DependencyObject
     {

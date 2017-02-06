@@ -1,4 +1,4 @@
-﻿using MALClient.XShared.Utils.Enums;
+﻿using MALClient.Models.Enums;
 
 namespace MALClient.Models.Models.Library
 {

@@ -7,7 +7,6 @@ using MALClient.Models.Enums;
 using MALClient.Models.Models.ApiResponses;
 using MALClient.XShared.Comm.Profile;
 using MALClient.XShared.NavArgs;
-using MALClient.XShared.Utils.Enums;
 
 namespace MALClient.XShared.ViewModels.Main
 {

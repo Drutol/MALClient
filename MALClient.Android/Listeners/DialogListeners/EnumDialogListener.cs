@@ -10,7 +10,6 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Com.Orhanobut.Dialogplus;
-using MALClient.XShared.Utils.Enums;
 using Object = Java.Lang.Object;
 
 namespace MALClient.Android.Listeners.DialogListeners

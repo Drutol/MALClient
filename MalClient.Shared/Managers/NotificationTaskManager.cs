@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Windows.ApplicationModel.Background;
 using MALClient.Models.Enums;
 using MALClient.XShared.Delegates;
 using MALClient.XShared.Utils;
 
-namespace MALClient.Shared.Managers
+namespace MALClient.UWP.Shared.Managers
 {
     public static class NotificationTaskManager
     {

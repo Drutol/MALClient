@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using CodeKicker.BBCode.SyntaxTree;
 using System.Diagnostics;
+using System.Linq;
+using MALClient.BBCode.SyntaxTree;
 
-namespace CodeKicker.BBCode
+namespace MALClient.BBCode
 {
     /// <summary>
     /// This class is useful for creating a custom parser. You can customize which tags are available

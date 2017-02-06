@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.Storage.Streams;
-using MALClient.Shared;
 using MALClient.Adapters;
+using MALClient.UWP.Shared;
 
 namespace MALClient.UWP.Adapters
 {

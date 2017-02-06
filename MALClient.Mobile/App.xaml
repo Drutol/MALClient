@@ -1,11 +1,11 @@
 ﻿<Application
-    x:Class="MALClient.App"
+    x:Class="MALClient.UWP.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:MALClient"
-    xmlns:viewModels="using:MALClient.ViewModels"
     xmlns:viewModels1="using:MALClient.XShared.ViewModels"
-    xmlns:viewModels2="using:MALClient.Shared.ViewModels">
+    xmlns:viewModels="using:MALClient.UWP.ViewModels"
+    xmlns:viewModels2="using:MALClient.UWP.Shared.ViewModels">
 
     <Application.Resources>
         <ResourceDictionary>

@@ -9,7 +9,6 @@ using MALClient.Models.Models.ScrappedDetails;
 using MALClient.XShared.Comm.Details;
 using MALClient.XShared.Delegates;
 using MALClient.XShared.NavArgs;
-using MALClient.XShared.Utils.Enums;
 
 namespace MALClient.XShared.ViewModels.Details
 {

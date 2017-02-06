@@ -1,32 +1,26 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using Android.App;
-using Android.Content;
 using Android.OS;
-using Android.Runtime;
 using Android.Support.V4.View;
-using Android.Views;
 using Android.Webkit;
 using Android.Widget;
 using Com.Astuetz;
 using GalaSoft.MvvmLight.Helpers;
-using MALClient.Android.Adapters.PagerAdapters;
 using MALClient.Android.BindingConverters;
+using MALClient.Android.PagerAdapters;
 using MALClient.Android.Resources;
 using MALClient.Models.Enums;
 using MALClient.Models.Models.MalSpecific;
 using MALClient.XShared.Comm.Anime;
 using MALClient.XShared.NavArgs;
 using MALClient.XShared.Utils;
-using MALClient.XShared.Utils.Enums;
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Main;
 
-namespace MALClient.Android.Fragments
+namespace MALClient.Android.Fragments.ArticlesPageFragments
 {
     public class ArticlesPageFragment : MalFragmentBase
     {

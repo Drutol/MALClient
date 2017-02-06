@@ -1,21 +1,10 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using Android.App;
-using Android.Content;
 using Android.Graphics;
-using Android.OS;
 using Android.Runtime;
-using Android.Views;
-using Android.Widget;
 using MALClient.Models.Enums;
-using MALClient.XShared.Utils;
-using MALClient.XShared.Utils.Enums;
 using MALClient.XShared.ViewModels;
 
-namespace MALClient.Android.Flyouts
+namespace MALClient.Android.Flyouts.FlyoutMenus
 {
     public class AnimeListSortFlyoutItem : TextBasedFlyoutBase
     {

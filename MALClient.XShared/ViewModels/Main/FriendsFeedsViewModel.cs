@@ -9,7 +9,6 @@ using MALClient.Models.Models.MalSpecific;
 using MALClient.XShared.Comm.MalSpecific;
 using MALClient.XShared.NavArgs;
 using MALClient.XShared.Utils;
-using MALClient.XShared.Utils.Enums;
 
 namespace MALClient.XShared.ViewModels.Main
 {

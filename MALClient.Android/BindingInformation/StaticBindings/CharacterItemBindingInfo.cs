@@ -11,6 +11,7 @@ using Android.Views;
 using Android.Widget;
 using FFImageLoading;
 using FFImageLoading.Views;
+using MALClient.Android.Resources;
 using MALClient.Models.Models.Favourites;
 using MALClient.XShared.ViewModels;
 

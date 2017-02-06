@@ -1,23 +1,14 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using Android.App;
-using Android.Content;
 using Android.OS;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
 using GalaSoft.MvvmLight.Helpers;
-using MALClient.Android.Adapters.PagerAdapters;
 using MALClient.Android.BindingConverters;
+using MALClient.Android.PagerAdapters;
+using MALClient.Android.Resources;
 using MALClient.Models.Enums;
-using MALClient.XShared.Utils.Enums;
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Main;
 
-namespace MALClient.Android.Fragments
+namespace MALClient.Android.Fragments.CalendarFragments
 {
     public partial class CalendarPageFragment : MalFragmentBase
     {

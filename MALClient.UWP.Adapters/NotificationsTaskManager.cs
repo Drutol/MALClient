@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using GalaSoft.MvvmLight.Helpers;
 using MALClient.Adapters;
 using MALClient.Models.Enums;
-using MALClient.Shared.Managers;
+using MALClient.UWP.Shared.Managers;
 using MALClient.XShared.Delegates;
 
 namespace MALClient.UWP.Adapters

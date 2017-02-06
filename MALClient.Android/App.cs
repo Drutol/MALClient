@@ -11,7 +11,6 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
-using Com.Shehabic.Droppy;
 using FFImageLoading;
 using FFImageLoading.Config;
 using FFImageLoading.Work;

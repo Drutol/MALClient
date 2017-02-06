@@ -1,8 +1,6 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 
-namespace CodeKicker.BBCode
+namespace MALClient.BBCode
 {
     public class BBCodeParsingException : Exception
     {

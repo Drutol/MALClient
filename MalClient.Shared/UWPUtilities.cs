@@ -1,25 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Appointments;
 using Windows.Foundation.Metadata;
 using Windows.Storage;
-using Windows.Storage.Pickers;
 using Windows.Storage.Streams;
 using Windows.UI.ViewManagement;
-using FontAwesome.UWP;
 using MALClient.Models.Enums;
 using MALClient.XShared.Comm.Profile;
 using MALClient.XShared.Utils;
-using MALClient.XShared.Utils.Enums;
 using MALClient.XShared.ViewModels;
 
-namespace MALClient.Shared
+namespace MALClient.UWP.Shared
 {
     public static class UWPUtilities
     {

@@ -22,7 +22,6 @@ using MALClient.XShared.Delegates;
 using MALClient.XShared.Interfaces;
 using MALClient.XShared.NavArgs;
 using MALClient.XShared.Utils;
-using MALClient.XShared.Utils.Enums;
 using MALClient.XShared.Utils.Managers;
 using VideoLibrary;
 
@@ -1083,9 +1082,9 @@ namespace MALClient.XShared.ViewModels.Details
             foreach (var genre in data.Information.First(s => s.StartsWith("Genres:")).Substring(7).Split(','))
             {
                 if (i%2 == 0)
-                    LeftGenres.Add(Utilities.FirstCharToUpper(genre));
+                    LeftGenres.Add(Utils.Utilities.FirstCharToUpper(genre));
                 else
-                    RightGenres.Add(Utilities.FirstCharToUpper(genre));
+                    RightGenres.Add(Utils.Utilities.FirstCharToUpper(genre));
                 i++;
             }
 

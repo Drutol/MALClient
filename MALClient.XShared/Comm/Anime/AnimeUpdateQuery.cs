@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using MALClient.Models.Enums;
 using MALClient.Models.Models.Library;
 using MALClient.XShared.Utils;
-using MALClient.XShared.Utils.Enums;
 using MALClient.XShared.Utils.Managers;
 using MALClient.XShared.ViewModels;
 

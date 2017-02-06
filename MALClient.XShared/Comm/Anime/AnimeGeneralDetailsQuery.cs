@@ -33,9 +33,9 @@ namespace MALClient.XShared.Comm.Anime
                         if (!string.IsNullOrEmpty(title))
                         {
                             data = animeMode
-                            ? await new AnimeSearchQuery(Utilities.CleanAnimeTitle(title), requestedApiType)
+                            ? await new AnimeSearchQuery(Utils.Utilities.CleanAnimeTitle(title), requestedApiType)
                                 .GetRequestResponse(false)
-                            : await new MangaSearchQuery(Utilities.CleanAnimeTitle(title)).GetRequestResponse(false);
+                            : await new MangaSearchQuery(Utils.Utilities.CleanAnimeTitle(title)).GetRequestResponse(false);
                         }
                   
                         if (string.IsNullOrEmpty(data))
@@ -43,9 +43,9 @@ namespace MALClient.XShared.Comm.Anime
                             //we are loading title from website because request came from mal url
                             var correctTitle = await AnimeTitleQuery.GetTitle(int.Parse(id), animeMode);
                             data = animeMode
-                            ? await new AnimeSearchQuery(Utilities.CleanAnimeTitle(correctTitle), requestedApiType)
+                            ? await new AnimeSearchQuery(Utils.Utilities.CleanAnimeTitle(correctTitle), requestedApiType)
                                 .GetRequestResponse(false)
-                            : await new MangaSearchQuery(Utilities.CleanAnimeTitle(correctTitle)).GetRequestResponse(false);
+                            : await new MangaSearchQuery(Utils.Utilities.CleanAnimeTitle(correctTitle)).GetRequestResponse(false);
                         }
 
                         data = WebUtility.HtmlDecode(data);

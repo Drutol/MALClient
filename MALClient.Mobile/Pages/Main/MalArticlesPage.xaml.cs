@@ -1,24 +1,21 @@
 ﻿using System;
 using System.Linq;
 using System.Text.RegularExpressions;
-using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using MALClient.Models.Enums;
 using MALClient.Models.Models.MalSpecific;
-using MALClient.ViewModels;
-using MALClient.XShared.Comm;
+using MALClient.UWP.ViewModels;
 using MALClient.XShared.Comm.Anime;
 using MALClient.XShared.NavArgs;
 using MALClient.XShared.Utils;
-using MALClient.XShared.Utils.Enums;
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Main;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
-namespace MALClient.Pages.Main
+namespace MALClient.UWP.Pages.Main
 {
 
     /// <summary>

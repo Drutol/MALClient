@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 
-namespace CodeKicker.BBCode.SyntaxTree
+namespace MALClient.BBCode.SyntaxTree
 {
     public sealed class TagNode : SyntaxTreeNode
     {

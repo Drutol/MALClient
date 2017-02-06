@@ -10,7 +10,6 @@ using GalaSoft.MvvmLight.Command;
 using MALClient.Models.Enums;
 using MALClient.XShared.Delegates;
 using MALClient.XShared.NavArgs;
-using MALClient.XShared.Utils.Enums;
 using MALClient.XShared.ViewModels.Main;
 
 namespace MALClient.XShared.ViewModels

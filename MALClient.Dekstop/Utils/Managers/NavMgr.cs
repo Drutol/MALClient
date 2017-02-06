@@ -1,15 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Input;
-using Windows.UI.Xaml;
 using MALClient.Models.Enums;
-using MALClient.Pages;
-using MALClient.ViewModels;
 using MALClient.XShared.NavArgs;
-using MALClient.XShared.Utils.Enums;
 using MALClient.XShared.ViewModels;
 
-namespace MALClient.Utils.Managers
+namespace MALClient.UWP.Utils.Managers
 {
     /// <summary>
     ///     Back navigation manager , highly stripped down (compared to mobile version)

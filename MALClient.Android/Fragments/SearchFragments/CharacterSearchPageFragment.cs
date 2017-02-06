@@ -1,27 +1,19 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using Android.App;
-using Android.Content;
 using Android.Content.Res;
 using Android.OS;
-using Android.Runtime;
 using Android.Views;
 using Android.Widget;
-using FFImageLoading;
-using FFImageLoading.Views;
 using GalaSoft.MvvmLight.Helpers;
 using MALClient.Android.Activities;
 using MALClient.Android.BindingConverters;
 using MALClient.Android.BindingInformation;
 using MALClient.Android.BindingInformation.StaticBindings;
+using MALClient.Android.Resources;
 using MALClient.XShared.NavArgs;
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Main;
 
-namespace MALClient.Android.Fragments
+namespace MALClient.Android.Fragments.SearchFragments
 {
     public class CharacterSearchPageFragment : MalFragmentBase
     {

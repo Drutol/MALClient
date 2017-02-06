@@ -1,12 +1,11 @@
 ﻿<Page
-    x:Class="MALClient.Pages.Main.NotificationsHubPage"
+    x:Class="MALClient.UWP.Pages.Main.NotificationsHubPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:MALClient.Pages.Main"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:uwp="using:FontAwesome.UWP"
-    xmlns:xamlConverters="using:MALClient.Shared.XamlConverters"
+    xmlns:xamlConverters="using:MALClient.UWP.Shared.XamlConverters"
     mc:Ignorable="d" DataContext="{Binding Source={StaticResource Locator},Path=NotificationsHub}">
 
     <Page.Resources>

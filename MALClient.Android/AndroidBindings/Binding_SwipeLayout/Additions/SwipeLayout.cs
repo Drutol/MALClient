@@ -1,22 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using Android.App;
-using Android.Content;
-using Android.OS;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
-
 namespace Com.Daimajia.Swipe
 {
     public partial class SwipeLayout
     {
-        private ISwipeListener _swipeListener;
+        private Com.Daimajia.Swipe.SwipeLayout.ISwipeListener _swipeListener;
 
-        public ISwipeListener SwipeListener
+        public Com.Daimajia.Swipe.SwipeLayout.ISwipeListener SwipeListener
         {
             get { return _swipeListener; }
             set

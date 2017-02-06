@@ -5,7 +5,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using CodeKicker.BBCode;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using MALClient.Models.Enums;
@@ -115,7 +114,7 @@ namespace MALClient.XShared.ViewModels.Forums
                                                   string msg; 
                                                   try
                                                   {
-                                                      msg = BBCode.ToHtml(Message);
+                                                      msg = BBCode.BBCode.ToHtml(Message);
                                                   }
                                                   catch (Exception e)
                                                   {

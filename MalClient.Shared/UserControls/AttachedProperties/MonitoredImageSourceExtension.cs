@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Imaging;
 
-namespace MALClient.Shared.UserControls.AttachedProperties
+namespace MALClient.UWP.Shared.UserControls.AttachedProperties
 {
     public class MonitoredImageSourceExtension : DependencyObject
     {

@@ -9,6 +9,7 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+
 using Com.Shehabic.Droppy;
 using Com.Shehabic.Droppy.Views;
 using MALClient.Android.Resources;

@@ -7,7 +7,7 @@
     <ProjectGuid>{FBD14EC9-E60E-4155-BD43-210F3096CA5A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MALClient.Shared</RootNamespace>
+    <RootNamespace>MALClient.UWP.Shared</RootNamespace>
     <AssemblyName>MALClient.Shared</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>

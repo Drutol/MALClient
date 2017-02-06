@@ -12,6 +12,8 @@ using Android.Views;
 using Android.Widget;
 using GalaSoft.MvvmLight.Command;
 using MALClient.Android.Fragments;
+using MALClient.Android.Fragments.ArticlesPageFragments;
+using MALClient.Android.Fragments.CalendarFragments;
 using MALClient.Android.Fragments.RecommendationsFragments;
 using MALClient.Android.Fragments.SearchFragments;
 using MALClient.Android.Fragments.SettingsFragments;
@@ -21,7 +23,6 @@ using MALClient.Models.Models.MalSpecific;
 using MALClient.XShared.Delegates;
 using MALClient.XShared.NavArgs;
 using MALClient.XShared.Utils;
-using MALClient.XShared.Utils.Enums;
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Main;
 

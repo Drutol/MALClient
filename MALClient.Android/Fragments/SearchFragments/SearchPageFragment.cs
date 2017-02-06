@@ -11,10 +11,10 @@ using Android.Support.V4.View;
 using Android.Views;
 using Android.Widget;
 using Com.Astuetz;
-using MALClient.Android.Adapters.PagerAdapters;
+using MALClient.Android.PagerAdapters;
+using MALClient.Android.Resources;
 using MALClient.Models.Enums;
 using MALClient.XShared.NavArgs;
-using MALClient.XShared.Utils.Enums;
 using MALClient.XShared.ViewModels;
 
 namespace MALClient.Android.Fragments.SearchFragments

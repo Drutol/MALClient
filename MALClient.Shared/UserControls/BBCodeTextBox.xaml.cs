@@ -1,25 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Reflection;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
-using CodeKicker.BBCode;
-using MALClient.Shared.Managers;
+using MALClient.UWP.Shared.Managers;
 using MALClient.XShared.Utils;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
-namespace MALClient.Shared.UserControls
+namespace MALClient.UWP.Shared.UserControls
 {
     public enum BBCodeMarkers
     {
@@ -170,7 +158,7 @@ namespace MALClient.Shared.UserControls
         {
             try
             {
-                PreviewWebView.NavigateToString(CssManager.WrapWithCss(BBCode.ToHtml(ContentBox.Text)));
+                PreviewWebView.NavigateToString(CssManager.WrapWithCss(BBCode.BBCode.ToHtml(ContentBox.Text)));
             }
             catch (Exception)
             {

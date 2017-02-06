@@ -1,13 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-
 using Android.App;
-using Android.Content;
 using Android.Content.Res;
 using Android.Graphics;
-using Android.OS;
 using Android.Runtime;
 using Android.Support.V13.App;
 using Android.Util;
@@ -19,7 +15,7 @@ using MALClient.Android.Resources;
 using MALClient.XShared.ViewModels.Main;
 using Orientation = Android.Widget.Orientation;
 
-namespace MALClient.Android.Adapters.PagerAdapters
+namespace MALClient.Android.PagerAdapters
 {
     public class CalendarPagerAdapter : FragmentStatePagerAdapter, PagerSlidingTabStrip.ICustomTabProvider
     {

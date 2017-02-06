@@ -1,14 +1,12 @@
 ﻿<Page
-    x:Class="MALClient.Pages.Forums.ForumBoardPage"
+    x:Class="MALClient.UWP.Pages.Forums.ForumBoardPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:MALClient.Pages.Forums"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:uwp="using:FontAwesome.UWP"
-    xmlns:userControls="using:MALClient.Shared.UserControls"
-    xmlns:xamlConverters="using:MALClient.Shared.XamlConverters"
-    xmlns:derived="using:MALClient.Shared.UserControls.Derived"
+    xmlns:xamlConverters="using:MALClient.UWP.Shared.XamlConverters"
+    xmlns:userControls="using:MALClient.UWP.Shared.UserControls"
     mc:Ignorable="d" DataContext="{Binding Source={StaticResource Locator},Path=ForumsBoard}">
 
     <Page.Resources>

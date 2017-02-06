@@ -1,20 +1,12 @@
 ﻿using System;
-using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.Store;
-using Windows.System;
-using Windows.UI.Core;
-using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media.Animation;
-using Windows.UI.Xaml.Media.Imaging;
 using MALClient.Models.Enums;
-using MALClient.ViewModels;
+using MALClient.UWP.ViewModels;
 using MALClient.XShared.NavArgs;
 using MALClient.XShared.Utils;
-using MALClient.XShared.Utils.Enums;
 using MALClient.XShared.ViewModels;
 using Microsoft.Services.Store.Engagement;
 
@@ -22,7 +14,7 @@ using Microsoft.Services.Store.Engagement;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 
-namespace MALClient.UserControls
+namespace MALClient.UWP.UserControls
 { 
 
     public sealed partial class HamburgerControl : UserControl

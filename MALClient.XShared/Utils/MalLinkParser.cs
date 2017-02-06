@@ -7,7 +7,6 @@ using MALClient.Models.Models;
 using MALClient.Models.Models.MalSpecific;
 using MALClient.XShared.Comm.Anime;
 using MALClient.XShared.NavArgs;
-using MALClient.XShared.Utils.Enums;
 using MALClient.XShared.ViewModels.Main;
 using Newtonsoft.Json;
 

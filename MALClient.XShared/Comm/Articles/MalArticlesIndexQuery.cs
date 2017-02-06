@@ -5,9 +5,9 @@ using System.Net;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using HtmlAgilityPack;
+using MALClient.Models.Enums;
 using MALClient.Models.Models.MalSpecific;
 using MALClient.XShared.Utils;
-using MALClient.XShared.Utils.Enums;
 
 namespace MALClient.XShared.Comm.Articles
 {

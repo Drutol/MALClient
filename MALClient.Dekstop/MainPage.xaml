@@ -5,19 +5,18 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:toolkit="using:WinRTXamlToolkit.Controls"
-    xmlns:xamlConverters1="using:MALClient.Shared.XamlConverters"
-    xmlns:userControls="using:MALClient.Shared.UserControls"
-    xmlns:new="using:MALClient.UserControls.New"
-    xmlns:attProp="using:MALClient.UserControls.AttachedProperties"
-    xmlns:attachedProperties="using:MALClient.Shared.UserControls.AttachedProperties"
+    xmlns:new="using:MALClient.UWP.UserControls.New"
     xmlns:ui="using:Microsoft.Advertising.WinRT.UI"
-    x:Class="MALClient.MainPage"
+    xmlns:xamlConverters="using:MALClient.UWP.Shared.XamlConverters"
+    xmlns:userControls="using:MALClient.UWP.Shared.UserControls"
+    xmlns:attachedProperties="using:MALClient.UWP.Shared.UserControls.AttachedProperties"
+    x:Class="MALClient.UWP.MainPage"
     mc:Ignorable="d">
 
     <Page.Resources>
-        <xamlConverters1:VisiblityInverterConverter x:Key="VisiblityInverterConverter" />
-        <xamlConverters1:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
-        <xamlConverters1:SearchFilterStatusToBrushConverter x:Key="SearchFilterStatusToBrushConverter" />
+        <xamlConverters:VisiblityInverterConverter x:Key="VisiblityInverterConverter" />
+        <xamlConverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+        <xamlConverters:SearchFilterStatusToBrushConverter x:Key="SearchFilterStatusToBrushConverter" />
         <Storyboard x:Name="FadeInPinDialogStoryboard">
             <DoubleAnimation Storyboard.TargetName="PinDialog" Storyboard.TargetProperty="Opacity" SpeedRatio="3"
                              EnableDependentAnimation="True" From="0" To="1" />
@@ -62,7 +61,7 @@
         <Storyboard x:Key="ChangelogFadeOutStoryboard">
             <FadeOutThemeAnimation TargetName="ChangelogGrid" />
         </Storyboard>
-        <xamlConverters1:BottomStackMarginToFrameMarginWithAdConverter
+        <xamlConverters:BottomStackMarginToFrameMarginWithAdConverter
             x:Key="BottomStackMarginToFrameMarginWithAdConverter" />
     </Page.Resources>
 

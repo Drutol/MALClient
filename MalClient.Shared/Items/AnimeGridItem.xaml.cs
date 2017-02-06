@@ -3,20 +3,18 @@ using System.ComponentModel;
 using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.UI;
-using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
-using MALClient.XShared.Utils.Enums;
-using MALClient.XShared.Utils.Managers;
+using MALClient.Models.Enums;
+using MALClient.UWP.Shared.Managers;
 using MALClient.XShared.ViewModels;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 
-namespace MALClient.Shared.Items
+namespace MALClient.UWP.Shared.Items
 {
     public sealed partial class AnimeGridItem : UserControl
     {

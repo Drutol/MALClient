@@ -3,18 +3,16 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using MALClient.Models.Enums;
-using MALClient.Pages.Main;
-using MALClient.Shared;
-using MALClient.Pages.Off.SettingsPages;
-using MALClient.Shared.ViewModels;
-using MALClient.ViewModels;
-using MALClient.XShared.Utils;
-using MALClient.XShared.Utils.Enums;
+using MALClient.UWP.Pages.Main;
+using MALClient.UWP.Pages.Off.SettingsPages;
+using MALClient.UWP.Shared;
+using MALClient.UWP.Shared.ViewModels;
+using MALClient.UWP.ViewModels;
 using MALClient.XShared.ViewModels;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
-namespace MALClient.Pages.Off
+namespace MALClient.UWP.Pages.Off
 {
     /// <summary>
     ///     An empty page that can be used on its own or navigated to within a Frame.

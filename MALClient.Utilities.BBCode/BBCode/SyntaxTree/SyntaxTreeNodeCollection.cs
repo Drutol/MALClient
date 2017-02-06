@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 
-namespace CodeKicker.BBCode.SyntaxTree
+namespace MALClient.BBCode.SyntaxTree
 {
     public interface ISyntaxTreeNodeCollection : IList<SyntaxTreeNode>
     {

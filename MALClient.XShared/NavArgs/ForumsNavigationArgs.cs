@@ -1,7 +1,6 @@
 ﻿using System;
 using MALClient.Models.Enums;
 using MALClient.Models.Models.Forums;
-using MALClient.XShared.Utils.Enums;
 
 namespace MALClient.XShared.NavArgs
 {

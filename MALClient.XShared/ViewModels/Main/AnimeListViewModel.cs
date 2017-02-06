@@ -19,7 +19,6 @@ using MALClient.XShared.Delegates;
 using MALClient.XShared.Interfaces;
 using MALClient.XShared.NavArgs;
 using MALClient.XShared.Utils;
-using MALClient.XShared.Utils.Enums;
 using MALClient.XShared.ViewModels.Interfaces;
 
 namespace MALClient.XShared.ViewModels.Main
@@ -538,7 +537,7 @@ namespace MALClient.XShared.ViewModels.Main
                             itemsWithStartDate =
                                 itemsWithStartDate.OrderByDescending(
                                         item => int.Parse(item.AirStartDate.Substring(0, 4)))
-                                    .ThenByDescending(item => Utilities.DateToSeason(item.AirStartDate))
+                                    .ThenByDescending(item => Utils.Utilities.DateToSeason(item.AirStartDate))
                                     .ThenBy(item => item.Title)
                                     .ToList();
                             items = itemsWithStartDate.Concat(itemsWithoutStartDate.OrderBy(item => item.Title));
@@ -548,7 +547,7 @@ namespace MALClient.XShared.ViewModels.Main
                             itemsWithStartDate =
                                 itemsWithStartDate.OrderBy(
                                         item => int.Parse(item.AirStartDate.Substring(0, 4)))
-                                    .ThenBy(item => Utilities.DateToSeason(item.AirStartDate))
+                                    .ThenBy(item => Utils.Utilities.DateToSeason(item.AirStartDate))
                                     .ThenBy(item => item.Title)
                                     .ToList();
                             items = itemsWithStartDate.Concat(itemsWithoutStartDate.OrderBy(item => item.Title));
@@ -1189,19 +1188,19 @@ namespace MALClient.XShared.ViewModels.Main
 
             if (WorkMode != AnimeListWorkModes.SeasonalAnime)
                 if (WorkMode == AnimeListWorkModes.TopAnime)
-                    page.CurrentStatus = $"Top {TopAnimeWorkMode} - {Utilities.StatusToString((int)GetDesiredStatus(), WorkMode == AnimeListWorkModes.Manga)}";
+                    page.CurrentStatus = $"Top {TopAnimeWorkMode} - {Utils.Utilities.StatusToString((int)GetDesiredStatus(), WorkMode == AnimeListWorkModes.Manga)}";
                 else if (WorkMode == AnimeListWorkModes.TopManga)
-                    page.CurrentStatus = $"Top Manga - {Utilities.StatusToString((int)GetDesiredStatus(), WorkMode == AnimeListWorkModes.Manga)}";
+                    page.CurrentStatus = $"Top Manga - {Utils.Utilities.StatusToString((int)GetDesiredStatus(), WorkMode == AnimeListWorkModes.Manga)}";
                 else if (WorkMode == AnimeListWorkModes.AnimeByStudio)
                     page.CurrentStatus = $"Studio - {Studio.GetDescription()} Page 1 - {CurrentPage}";
                 else if (WorkMode == AnimeListWorkModes.AnimeByGenre)
                     page.CurrentStatus = $"Genre - {Genre.GetDescription()} Page 1 - {CurrentPage}";
                 else if (!string.IsNullOrWhiteSpace(ListSource))
-                    page.CurrentStatus = $"{ListSource} - {Utilities.StatusToString((int)GetDesiredStatus(), WorkMode == AnimeListWorkModes.Manga)}";
+                    page.CurrentStatus = $"{ListSource} - {Utils.Utilities.StatusToString((int)GetDesiredStatus(), WorkMode == AnimeListWorkModes.Manga)}";
                 else
                     page.CurrentStatus = $"{(WorkMode == AnimeListWorkModes.Anime ? "Anime list" : "Manga list")}";
             else
-                page.CurrentStatus = $"{CurrentSeason?.Name} - {Utilities.StatusToString((int)GetDesiredStatus(), WorkMode == AnimeListWorkModes.Manga)}";
+                page.CurrentStatus = $"{CurrentSeason?.Name} - {Utils.Utilities.StatusToString((int)GetDesiredStatus(), WorkMode == AnimeListWorkModes.Manga)}";
 
 
             if (WorkMode == AnimeListWorkModes.Anime || WorkMode == AnimeListWorkModes.Manga || WorkMode == AnimeListWorkModes.SeasonalAnime || WorkMode == AnimeListWorkModes.AnimeByGenre || WorkMode == AnimeListWorkModes.AnimeByStudio)

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using Windows.ApplicationModel.Store;
-using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using MALClient.XShared.Utils;
@@ -9,7 +8,7 @@ using MALClient.XShared.ViewModels;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
-namespace MALClient.Pages.Off.SettingsPages
+namespace MALClient.UWP.Pages.Off.SettingsPages
 {
     /// <summary>
     ///     An empty page that can be used on its own or navigated to within a Frame.

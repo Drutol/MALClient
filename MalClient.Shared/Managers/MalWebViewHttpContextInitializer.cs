@@ -1,15 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Text;
 using System.Threading.Tasks;
 using Windows.UI.Popups;
 using Windows.Web.Http;
 using Windows.Web.Http.Filters;
 using MALClient.XShared.Comm.MagicalRawQueries;
 
-namespace MALClient.Shared.Managers
+namespace MALClient.UWP.Shared.Managers
 {
     public static class MalWebViewHttpContextInitializer
     {

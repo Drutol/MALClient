@@ -11,7 +11,6 @@ using Android.Views;
 using Android.Widget;
 using Com.Orhanobut.Dialogplus;
 using Com.Shehabic.Droppy;
-using MALClient.Android.Dialogs;
 using MALClient.Android.DIalogs;
 using MALClient.XShared.ViewModels.Details;
 

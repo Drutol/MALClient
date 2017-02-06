@@ -12,18 +12,16 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
-using MALClient.Shared;
 using MALClient.Models.Enums;
-using MALClient.XShared.Comm;
+using MALClient.UWP.Shared;
 using MALClient.XShared.Comm.Anime;
 using MALClient.XShared.NavArgs;
 using MALClient.XShared.Utils;
-using MALClient.XShared.Utils.Enums;
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Main;
 using Microsoft.Services.Store.Engagement;
 
-namespace MALClient.ViewModels
+namespace MALClient.UWP.ViewModels
 {
     public class HamburgerControlViewModel : ViewModelBase , IHamburgerViewModel
     {

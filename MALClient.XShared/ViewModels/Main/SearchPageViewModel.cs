@@ -12,7 +12,6 @@ using MALClient.XShared.Comm.Anime;
 using MALClient.XShared.Comm.Manga;
 using MALClient.XShared.NavArgs;
 using MALClient.XShared.Utils;
-using MALClient.XShared.Utils.Enums;
 
 namespace MALClient.XShared.ViewModels.Main
 {
@@ -127,7 +126,7 @@ namespace MALClient.XShared.ViewModels.Main
                 await
                     Task.Run(
                         async () =>
-                            data = await new AnimeSearchQuery(Utilities.CleanAnimeTitle(query)).GetSearchResults());
+                            data = await new AnimeSearchQuery(Utils.Utilities.CleanAnimeTitle(query)).GetSearchResults());
                 try
                 {
                     foreach (var item in data)
@@ -149,7 +148,7 @@ namespace MALClient.XShared.ViewModels.Main
                 await
                     Task.Run(
                         async () =>
-                            response = await new MangaSearchQuery(Utilities.CleanAnimeTitle(query)).GetRequestResponse());
+                            response = await new MangaSearchQuery(Utils.Utilities.CleanAnimeTitle(query)).GetRequestResponse());
                 try
                 {
                     response = WebUtility.HtmlDecode(response);

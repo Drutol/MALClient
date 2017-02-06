@@ -2,7 +2,7 @@
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Animation;
 
-namespace MALClient.Shared.ViewModels.Interfaces
+namespace MALClient.UWP.Shared.ViewModels.Interfaces
 {
     public interface IMainViewInteractions
     {

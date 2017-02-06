@@ -5,7 +5,6 @@ using Android.Content;
 using MALClient.Android.Activities;
 using MALClient.Models.Enums;
 using MALClient.XShared.NavArgs;
-using MALClient.XShared.Utils.Enums;
 using MALClient.XShared.ViewModels;
 
 namespace MALClient.Android.Managers

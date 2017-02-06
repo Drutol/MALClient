@@ -1,14 +1,13 @@
-﻿using Windows.Storage.Streams;
-using GalaSoft.MvvmLight.Ioc;
+﻿using GalaSoft.MvvmLight.Ioc;
 using MALClient.Adapters;
-using MALClient.Adapters.Credentails;
-using MALClient.Utils;
+using MALClient.Adapters.Credentials;
 using MALClient.UWP.Adapters;
+using MALClient.UWP.Utils;
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Main;
 using Microsoft.Practices.ServiceLocation;
 
-namespace MALClient.ViewModels
+namespace MALClient.UWP.ViewModels
 {
     public class MobileViewModelLocator
     {

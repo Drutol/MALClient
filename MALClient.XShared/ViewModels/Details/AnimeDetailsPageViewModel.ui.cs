@@ -12,7 +12,6 @@ using MALClient.Models.Models.AnimeScrapped;
 using MALClient.Models.Models.Favourites;
 using MALClient.XShared.NavArgs;
 using MALClient.XShared.Utils;
-using MALClient.XShared.Utils.Enums;
 using MALClient.XShared.Utils.Managers;
 
 namespace MALClient.XShared.ViewModels.Details
@@ -33,7 +32,7 @@ namespace MALClient.XShared.ViewModels.Details
             }
         }
 
-        public string MyStatusBind => Utilities.StatusToString((int)MyStatus, !AnimeMode, IsRewatching);
+        public string MyStatusBind => Utils.Utilities.StatusToString((int)MyStatus, !AnimeMode, IsRewatching);
 
         private AnimeStatus MyStatus
         {
@@ -463,7 +462,7 @@ namespace MALClient.XShared.ViewModels.Details
         private ICommand _changeStatusCommand;
 
         public ICommand ChangeStatusCommand
-            => _changeStatusCommand ?? (_changeStatusCommand = new RelayCommand<string>(s => ChangeStatus((AnimeStatus)Utilities.StatusToInt(s))));
+            => _changeStatusCommand ?? (_changeStatusCommand = new RelayCommand<string>(s => ChangeStatus((AnimeStatus)Utils.Utilities.StatusToInt(s))));
 
         private ICommand _navigateCharacterDetailsCommand;
 

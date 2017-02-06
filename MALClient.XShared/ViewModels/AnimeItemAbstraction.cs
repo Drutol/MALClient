@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using MALClient.Models.Enums;
 using MALClient.Models.Models.AnimeScrapped;
 using MALClient.Models.Models.Library;
 using MALClient.Models.Models.Misc;
 using MALClient.XShared.Utils;
-using MALClient.XShared.Utils.Enums;
 
 // ReSharper disable InconsistentNaming
 

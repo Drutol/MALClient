@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using MALClient.Models.Enums;
-using MALClient.XShared.Utils.Enums;
 
 namespace MALClient.Models.Models.Forums
 {

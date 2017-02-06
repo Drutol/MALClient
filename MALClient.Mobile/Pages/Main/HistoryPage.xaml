@@ -1,12 +1,10 @@
 ﻿<Page
-    x:Class="MALClient.Pages.Main.HistoryPage"
+    x:Class="MALClient.UWP.Pages.Main.HistoryPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:MALClient.Pages.Main"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:derived="using:MALClient.Shared.UserControls.Derived"
-    xmlns:items="using:MALClient.Shared.Items"
+    xmlns:items="using:MALClient.UWP.Shared.Items"
     mc:Ignorable="d" DataContext="{Binding Source={StaticResource Locator},Path=History}">
 
     <Grid Background="{ThemeResource BrushDeepBackground}">

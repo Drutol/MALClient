@@ -10,7 +10,7 @@ using MALClient.Models.Models.Forums;
 using MALClient.XShared.Comm.Forums;
 using MALClient.XShared.NavArgs;
 using MALClient.XShared.Utils;
-using MALClient.XShared.Utils.Enums;
+using MALClient.XShared.ViewModels.Forums.Items;
 
 namespace MALClient.XShared.ViewModels.Forums
 {

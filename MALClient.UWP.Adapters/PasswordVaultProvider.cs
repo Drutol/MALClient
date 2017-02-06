@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 using Windows.Security.Credentials;
-using MALClient.Adapters.Credentails;
+using MALClient.Adapters.Credentials;
 using MALClient.Models.AdapterModels;
 
 namespace MALClient.UWP.Adapters

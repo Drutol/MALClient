@@ -1,13 +1,12 @@
 ﻿<Page
-    x:Class="MALClient.Pages.Main.HummingbirdProfilePage"
+    x:Class="MALClient.UWP.Pages.Main.HummingbirdProfilePage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:MALClient.Pages"
+    xmlns:local="using:MALClient.UWP.Pages"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:userControls="using:MALClient.UserControls" 
-    xmlns:xamlConverters="using:MALClient.Shared.XamlConverters" 
-    xmlns:items1="using:MALClient.Shared.Items"
+    xmlns:xamlConverters="using:MALClient.UWP.Shared.XamlConverters"
+    xmlns:items="using:MALClient.UWP.Shared.Items"
     mc:Ignorable="d"
     DataContext="{Binding Source={StaticResource Locator}, Path=HumProfilePage}">
 
@@ -166,7 +165,7 @@
                                 <DataTemplate>
                                     <Grid Background="{ThemeResource BrushAnimeItemBackground}" CornerRadius="10"
                                           Padding="5">
-                                        <items1:AnimeItem DataContext="{Binding}" />
+                                        <items:AnimeItem DataContext="{Binding}" />
                                     </Grid>
                                 </DataTemplate>
                             </ListView.ItemTemplate>

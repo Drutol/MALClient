@@ -1,15 +1,14 @@
 ﻿using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using MALClient.Models.Enums;
-using MALClient.Shared;
+using MALClient.UWP.Shared;
 using MALClient.XShared.Utils;
-using MALClient.XShared.Utils.Enums;
 using MALClient.XShared.ViewModels;
 using Settings = MALClient.XShared.Utils.Settings;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
-namespace MALClient.Pages.Off.SettingsPages
+namespace MALClient.UWP.Pages.Off.SettingsPages
 {
     /// <summary>
     ///     An empty page that can be used on its own or navigated to within a Frame.

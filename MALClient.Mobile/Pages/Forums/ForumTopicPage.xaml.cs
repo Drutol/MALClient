@@ -1,36 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
-using System.Text.RegularExpressions;
-using System.Threading;
-using System.Threading.Tasks;
-using Windows.ApplicationModel.DataTransfer;
-using Windows.Foundation;
 using Windows.System;
-using Windows.UI;
-using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
-using MALClient.Shared.Managers;
 using MALClient.Models.Enums;
-using MALClient.XShared.Comm;
-using MALClient.XShared.Comm.Anime;
-using MALClient.XShared.Comm.MagicalRawQueries;
 using MALClient.XShared.NavArgs;
 using MALClient.XShared.Utils;
-using MALClient.XShared.Utils.Enums;
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Forums;
-using MALClient.XShared.ViewModels.Forums.Items;
 using WinRTXamlToolkit.Controls.Extensions;
-using WebViewExtensions = MALClient.Shared.UserControls.AttachedProperties.WebViewExtensions;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
-namespace MALClient.Pages.Forums
+namespace MALClient.UWP.Pages.Forums
 {
 
     /// <summary>

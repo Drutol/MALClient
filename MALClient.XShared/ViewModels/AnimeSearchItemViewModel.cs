@@ -11,7 +11,6 @@ using MALClient.Models.Models.Anime;
 using MALClient.Models.Models.Library;
 using MALClient.XShared.NavArgs;
 using MALClient.XShared.Utils;
-using MALClient.XShared.Utils.Enums;
 using MALClient.XShared.ViewModels.Main;
 
 namespace MALClient.XShared.ViewModels

@@ -16,7 +16,6 @@ using MALClient.XShared.Comm.MagicalRawQueries;
 using MALClient.XShared.Comm.Manga;
 using MALClient.XShared.NavArgs;
 using MALClient.XShared.Utils;
-using MALClient.XShared.Utils.Enums;
 using MALClient.XShared.Utils.Managers;
 
 namespace MALClient.XShared.ViewModels
@@ -165,7 +164,7 @@ namespace MALClient.XShared.ViewModels
             =>
                 AnimeItemDisplayContext == AnimeItemDisplayContext.Index
                     ? ParentAbstraction?.Index.ToString()
-                    : Utilities.DayToString((DayOfWeek) (ParentAbstraction.AirDay - 1));
+                    : Utils.Utilities.DayToString((DayOfWeek) (ParentAbstraction.AirDay - 1));
 
         private bool _airing;
 
@@ -272,7 +271,7 @@ namespace MALClient.XShared.ViewModels
             =>
             (!Settings.DisplaySeasonWithType || string.IsNullOrEmpty(ParentAbstraction.AirStartDate)
                 ? ""
-                : Utilities.SeasonToCapitalLetterWithYear(ParentAbstraction.AirStartDate) + " ")  + 
+                : Utils.Utilities.SeasonToCapitalLetterWithYear(ParentAbstraction.AirStartDate) + " ")  + 
             (ParentAbstraction.Type == 0
                 ? ""
                 : ParentAbstraction.RepresentsAnime
@@ -287,8 +286,8 @@ namespace MALClient.XShared.ViewModels
                     : ((MangaType) ParentAbstraction.Type).ToString();
 
 
-        public string MyStatusBind => Utilities.StatusToString((int)MyStatus, !ParentAbstraction.RepresentsAnime,ParentAbstraction.IsRewatching);
-        public string MyStatusBindShort => Utilities.StatusToShortString((int)MyStatus, !ParentAbstraction.RepresentsAnime,ParentAbstraction.IsRewatching);
+        public string MyStatusBind => Utils.Utilities.StatusToString((int)MyStatus, !ParentAbstraction.RepresentsAnime,ParentAbstraction.IsRewatching);
+        public string MyStatusBindShort => Utils.Utilities.StatusToShortString((int)MyStatus, !ParentAbstraction.RepresentsAnime,ParentAbstraction.IsRewatching);
 
         public AnimeStatus MyStatus
         {
@@ -952,7 +951,7 @@ namespace MALClient.XShared.ViewModels
 
         private void ChangeStatus(string status)
         {
-            ChangeStatus((AnimeStatus)Utilities.StatusToInt(status));
+            ChangeStatus((AnimeStatus)Utils.Utilities.StatusToInt(status));
         }
 
         private async void ChangeStatus(AnimeStatus status)
@@ -1113,7 +1112,7 @@ namespace MALClient.XShared.ViewModels
                     return;
                 }
                 ResourceLocator.MessageDialogProvider.ShowMessageDialogWithInput(
-                        $"From : {Utilities.StatusToString((int)MyStatus, !ParentAbstraction.RepresentsAnime)}\nTo : {Utilities.StatusToString((int)to,!ParentAbstraction.RepresentsAnime)}",
+                        $"From : {Utils.Utilities.StatusToString((int)MyStatus, !ParentAbstraction.RepresentsAnime)}\nTo : {Utils.Utilities.StatusToString((int)to,!ParentAbstraction.RepresentsAnime)}",
                         "Would you like to change current status?","Yes","No",() => ChangeStatus(to));
             }
             catch (Exception)

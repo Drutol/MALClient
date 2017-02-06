@@ -12,7 +12,6 @@ using Android.Widget;
 using GalaSoft.MvvmLight.Command;
 using MALClient.Models.Enums;
 using MALClient.XShared.Delegates;
-using MALClient.XShared.Utils.Enums;
 using MALClient.XShared.ViewModels;
 
 namespace MALClient.Android.ViewModels

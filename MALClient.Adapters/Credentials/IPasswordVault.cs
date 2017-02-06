@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using MALClient.Models.AdapterModels;
 
-namespace MALClient.Adapters.Credentails
+namespace MALClient.Adapters.Credentials
 {
     public interface IPasswordVault
     {

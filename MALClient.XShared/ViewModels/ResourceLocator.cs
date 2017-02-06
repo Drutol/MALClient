@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using GalaSoft.MvvmLight.Ioc;
 using MALClient.Adapters;
-using MALClient.Adapters.Credentails;
+using MALClient.Adapters.Credentials;
 using MALClient.Models.Interfaces;
 using MALClient.XShared.BL;
 using MALClient.XShared.Interfaces;

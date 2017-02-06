@@ -8,7 +8,6 @@ using MALClient.Models.Enums;
 using MALClient.Models.Models.ApiResponses;
 using MALClient.Models.Models.Library;
 using MALClient.XShared.Utils;
-using MALClient.XShared.Utils.Enums;
 using Newtonsoft.Json;
 
 namespace MALClient.XShared.Comm
@@ -96,7 +95,7 @@ namespace MALClient.XShared.Comm
                                     MyScore = Convert.ToInt32(item.Element("my_score").Value),
                                     Notes = item.Element("my_tags").Value,
                                     IsRewatching = item.Element("my_rewatching").Value == "1",
-                                    LastWatched = Utilities.ConvertFromUnixTimestamp(int.Parse(item.Element("my_last_updated").Value))
+                                    LastWatched = Utils.Utilities.ConvertFromUnixTimestamp(int.Parse(item.Element("my_last_updated").Value))
                                 });
                             }
                             break;
@@ -120,7 +119,7 @@ namespace MALClient.XShared.Comm
                                     AllVolumes = Convert.ToInt32(item.Element("series_volumes").Value),
                                     IsRewatching = item.Element("my_rereadingg").Value == "1",
                                     Notes = item.Element("my_tags").Value,
-                                    LastWatched = Utilities.ConvertFromUnixTimestamp(int.Parse(item.Element("my_last_updated").Value))
+                                    LastWatched = Utils.Utilities.ConvertFromUnixTimestamp(int.Parse(item.Element("my_last_updated").Value))
                                 });
                             }
                             break;

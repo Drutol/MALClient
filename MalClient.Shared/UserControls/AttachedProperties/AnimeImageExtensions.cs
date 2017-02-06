@@ -1,20 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
-using Windows.Graphics.Imaging;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Imaging;
 using MALClient.Models.Enums;
-using MALClient.Shared.Managers;
+using MALClient.UWP.Shared.Managers;
 using MALClient.XShared.Comm.Anime;
 using MALClient.XShared.Utils;
 using MALClient.XShared.ViewModels;
 
-namespace MALClient.Shared.UserControls.AttachedProperties
+namespace MALClient.UWP.Shared.UserControls.AttachedProperties
 {
     public class AnimeImageExtensions : DependencyObject
     {

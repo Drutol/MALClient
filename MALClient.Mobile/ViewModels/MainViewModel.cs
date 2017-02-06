@@ -1,38 +1,26 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using Windows.Media.PlayTo;
-using Windows.UI;
 using Windows.UI.Popups;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Media.Animation;
-using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
-using MALClient.Shared.ViewModels;
 using MALClient.Models.Enums;
 using MALClient.Models.Models;
 using MALClient.Models.Models.MalSpecific;
-using MALClient.Pages;
-using MALClient.Pages.Forums;
-using MALClient.Pages.Main;
-using MALClient.Pages.Messages;
-using MALClient.Pages.Off;
-using MALClient.Shared.ViewModels.Interfaces;
-using MALClient.XShared.Comm;
+using MALClient.UWP.Pages.Forums;
+using MALClient.UWP.Pages.Main;
+using MALClient.UWP.Pages.Messages;
+using MALClient.UWP.Pages.Off;
+using MALClient.UWP.Shared.ViewModels.Interfaces;
 using MALClient.XShared.Delegates;
 using MALClient.XShared.NavArgs;
 using MALClient.XShared.Utils;
-using MALClient.XShared.Utils.Enums;
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Main;
 
-namespace MALClient.ViewModels
+namespace MALClient.UWP.ViewModels
 {
     public class MainViewModel : MainViewModelBase
     {

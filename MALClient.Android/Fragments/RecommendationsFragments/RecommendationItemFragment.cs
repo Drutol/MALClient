@@ -12,7 +12,8 @@ using Android.Widget;
 using FFImageLoading;
 using FFImageLoading.Views;
 using GalaSoft.MvvmLight.Helpers;
-using MALClient.Android.Adapters.CollectionAdapters;
+using MALClient.Android.CollectionAdapters;
+using MALClient.Android.Resources;
 using MALClient.Models.Enums;
 using MALClient.XShared.ViewModels;
 

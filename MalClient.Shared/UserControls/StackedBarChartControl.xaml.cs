@@ -5,13 +5,12 @@ using System.Threading.Tasks;
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Shapes;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 
-namespace MALClient.Shared.UserControls
+namespace MALClient.UWP.Shared.UserControls
 {
     public sealed partial class StackedBarChartControl : UserControl
     {

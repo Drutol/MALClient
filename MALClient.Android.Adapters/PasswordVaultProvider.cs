@@ -1,4 +1,4 @@
-﻿using MALClient.Adapters.Credentails;
+﻿using MALClient.Adapters.Credentials;
 using MALClient.Models.AdapterModels;
 using MALClient.XShared.ViewModels;
 

@@ -5,7 +5,7 @@ using Windows.Foundation;
 using Windows.UI.Xaml;
 using WinRTXamlToolkit.Controls;
 
-namespace MALClient.Shared.UserControls.Derived
+namespace MALClient.UWP.Shared.UserControls.Derived
 {
     /// <summary>
     ///     This panel will arrange items of various sizes

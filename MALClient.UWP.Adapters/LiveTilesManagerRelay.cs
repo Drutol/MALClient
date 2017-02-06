@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MALClient.Adapters;
 using MALClient.Models.Models.Library;
-using MALClient.Shared.Managers;
+using MALClient.UWP.Shared.Managers;
 using MALClient.XShared.Utils.Managers;
 
 namespace MALClient.UWP.Adapters

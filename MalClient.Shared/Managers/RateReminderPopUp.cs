@@ -1,13 +1,10 @@
 ﻿using System;
 using Windows.ApplicationModel;
-using Windows.ApplicationModel.Store;
 using Windows.System;
 using Windows.UI.Popups;
-using MALClient.Models.Enums;
 using MALClient.XShared.Utils;
-using MALClient.XShared.ViewModels;
 
-namespace MALClient.Shared.Managers
+namespace MALClient.UWP.Shared.Managers
 {
     public static class RateReminderPopUp
     {

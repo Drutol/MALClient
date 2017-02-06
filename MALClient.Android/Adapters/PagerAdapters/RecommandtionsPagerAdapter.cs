@@ -1,12 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-
 using Android.App;
-using Android.Content;
 using Android.Graphics;
-using Android.OS;
 using Android.Runtime;
 using Android.Support.V13.App;
 using Android.Views;
@@ -16,7 +12,7 @@ using MALClient.Android.Fragments.RecommendationsFragments;
 using MALClient.Android.Resources;
 using MALClient.XShared.ViewModels;
 
-namespace MALClient.Android.Adapters.PagerAdapters
+namespace MALClient.Android.PagerAdapters
 {
     class RecommandtionsPagerAdapter : FragmentStatePagerAdapter, PagerSlidingTabStrip.ICustomTabProvider
     {

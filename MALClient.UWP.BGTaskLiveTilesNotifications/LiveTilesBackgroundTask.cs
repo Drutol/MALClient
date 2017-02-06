@@ -4,8 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Background;
-using MALClient.Shared.Managers;
 using MALClient.UWP.Adapters;
+using MALClient.UWP.Shared.Managers;
 using MALClient.XShared.ViewModels;
 
 namespace MALClient.UWP.BGTaskLiveTilesNotifications

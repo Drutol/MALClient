@@ -1,16 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using Windows.Graphics.Display;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using MALClient.Shared.Managers;
-using MALClient.XShared.ViewModels.Forums.Items;
+using MALClient.UWP.Shared.Managers;
 
-namespace MALClient.Shared.UserControls.AttachedProperties
+namespace MALClient.UWP.Shared.UserControls.AttachedProperties
 {
     public class WebViewExtensions : DependencyObject
     {

@@ -1,15 +1,15 @@
 ﻿<Page
-    x:Class="MALClient.Pages.Off.AnimeDetailsPage"
+    x:Class="MALClient.UWP.Pages.Off.AnimeDetailsPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controlsExt="using:WinRTXamlToolkit.Controls.Extensions"
-    xmlns:extensions="using:MALClient.UserControls.AttachedProperties"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:xamlConverters="using:MALClient.Shared.XamlConverters"
-    xmlns:userControls="using:MALClient.Shared.UserControls"
-    xmlns:new="using:MALClient.Shared.UserControls.New"
-    xmlns:attachedProperties="using:MALClient.Shared.UserControls.AttachedProperties"
+    xmlns:attachedProperties1="using:MALClient.UWP.UserControls.AttachedProperties"
+    xmlns:xamlConverters="using:MALClient.UWP.Shared.XamlConverters"
+    xmlns:attachedProperties="using:MALClient.UWP.Shared.UserControls.AttachedProperties"
+    xmlns:new="using:MALClient.UWP.Shared.UserControls.New"
+    xmlns:userControls="using:MALClient.UWP.Shared.UserControls"
     DataContext="{Binding AnimeDetails ,Source={StaticResource Locator}}"
     mc:Ignorable="d">
 
@@ -561,7 +561,7 @@
                     <PivotItem.Content>
                         <ScrollViewer VerticalScrollBarVisibility="Hidden" VerticalScrollMode="Auto" Height="Auto"
                                       VerticalAlignment="Stretch"
-                                      extensions:ScrollViewerExtensions.ShowScrollbarAtBreakpointOffset="500">
+                                      attachedProperties1:ScrollViewerExtensions.ShowScrollbarAtBreakpointOffset="500">
                             <StackPanel>
                                 <Grid>
                                     <Grid.ColumnDefinitions>

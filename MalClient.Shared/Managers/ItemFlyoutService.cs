@@ -1,7 +1,7 @@
 ﻿using Windows.UI.Xaml;
-using MALClient.Shared.Flyouts;
+using MALClient.UWP.Shared.Flyouts;
 
-namespace MALClient.XShared.Utils.Managers
+namespace MALClient.UWP.Shared.Managers
 {
     /// <summary>
     ///     This class mangaes with item flyouts, instead of having tons of flyouts we have

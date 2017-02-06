@@ -10,7 +10,7 @@ using MALClient.XShared.Delegates;
 using MALClient.XShared.Utils;
 using MALClient.XShared.ViewModels;
 
-namespace MALClient.Shared.ViewModels
+namespace MALClient.UWP.Shared.ViewModels
 {
     public class SettingsViewModel : SettingsViewModelBase
     {

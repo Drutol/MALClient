@@ -14,7 +14,6 @@ using MALClient.XShared.Comm.Anime;
 using MALClient.XShared.Delegates;
 using MALClient.XShared.Interfaces;
 using MALClient.XShared.Utils;
-using MALClient.XShared.Utils.Enums;
 
 namespace MALClient.XShared.ViewModels.Main
 {
@@ -22,7 +21,7 @@ namespace MALClient.XShared.ViewModels.Main
     {
         public string Header { get; set; }
         public string Sub { get; set; }
-        public string FullHeader => Utilities.ShortDayToFullDay(Header); //full name
+        public string FullHeader => Utils.Utilities.ShortDayToFullDay(Header); //full name
         public List<AnimeItemViewModel> Items { get; set; } = new List<AnimeItemViewModel>();
     }
 
@@ -310,14 +309,14 @@ namespace MALClient.XShared.ViewModels.Main
             if (Settings.CalendarSwitchMonSun)
             {
                 CalendarData.Move(0, 6);
-                CalendarData[0].Header = Utilities.DayToString(DayOfWeek.Monday, true);
-                CalendarData[6].Header = Utilities.DayToString(DayOfWeek.Sunday, true);
+                CalendarData[0].Header = Utils.Utilities.DayToString(DayOfWeek.Monday, true);
+                CalendarData[6].Header = Utils.Utilities.DayToString(DayOfWeek.Sunday, true);
                 for (int i = 1; i < 6; i++)
-                    CalendarData[i].Header = Utilities.DayToString((DayOfWeek) i + 1, true);
+                    CalendarData[i].Header = Utils.Utilities.DayToString((DayOfWeek) i + 1, true);
             }
             else
                 for (int i = 0; i < 7; i++)
-                    CalendarData[i].Header = Utilities.DayToString((DayOfWeek) i, true);
+                    CalendarData[i].Header = Utils.Utilities.DayToString((DayOfWeek) i, true);
             List<CalendarPivotPage> emptyPages = new List<CalendarPivotPage>();
             foreach (var calendarPivotPage in CalendarData.Take(CalendarData.Count - 1))
             {
@@ -355,7 +354,7 @@ namespace MALClient.XShared.ViewModels.Main
             {
                 //we have to find it because it may have been removed
                 //we will do this by comparing header string
-                string today = Utilities.DayToString(DateTime.Now.DayOfWeek, true);
+                string today = Utils.Utilities.DayToString(DateTime.Now.DayOfWeek, true);
                 int index = CalendarData.Count - 1;
                 for (int i = 0; i < CalendarData.Count - 1; i++)
                 {

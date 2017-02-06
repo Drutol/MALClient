@@ -133,7 +133,7 @@ namespace MALClient.XShared.Comm.Anime
                         Upvotes = child.data.ups,
                         RedditUrl = "https://www.reddit.com" + child.data.permalink,
                         Source = _source,
-                        DateTime = Utilities.ConvertFromUnixTimestamp(child.data.created_utc)
+                        DateTime = Utils.Utilities.ConvertFromUnixTimestamp(child.data.created_utc)
                     }).ToList();
         }
     }

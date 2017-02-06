@@ -2,7 +2,7 @@
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
-namespace MALClient.Shared.UserControls.Derived
+namespace MALClient.UWP.Shared.UserControls.Derived
 {
     public class RadioToggleMenuFlyoutItem : ToggleMenuFlyoutItem
     {

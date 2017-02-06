@@ -1,17 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Windows.UI.ViewManagement;
-using GalaSoft.MvvmLight.Ioc;
+﻿using GalaSoft.MvvmLight.Ioc;
 using MALClient.Adapters;
-using MALClient.Adapters.Credentails;
-using MALClient.Shared.Managers;
-using MALClient.XShared.Utils;
 using MALClient.XShared.ViewModels;
 
-namespace MALClient.Shared.ViewModels
+namespace MALClient.UWP.Shared.ViewModels
 {
     public class UWPViewModelLocator
     {

@@ -7,20 +7,18 @@ using Windows.Graphics.Imaging;
 using Windows.Storage;
 using Windows.Storage.Streams;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Media.Imaging;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using MALClient.Adapters;
 using MALClient.Models.Enums;
-using MALClient.Shared.Managers;
+using MALClient.UWP.Shared.Managers;
 using MALClient.XShared.Delegates;
 using MALClient.XShared.Utils;
-using MALClient.XShared.Utils.Managers;
 using MALClient.XShared.ViewModels;
 using WinRTXamlToolkit.Imaging;
 
-namespace MALClient.Shared.ViewModels
+namespace MALClient.UWP.Shared.ViewModels
 {
     public class PinTileDialogViewModel : ViewModelBase , IPinTileService
     {

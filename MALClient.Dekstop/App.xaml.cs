@@ -6,38 +6,31 @@ using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
 using Windows.Storage;
 using Windows.Storage.Search;
-using Windows.System;
 using Windows.UI;
-using Windows.UI.Popups;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using MALClient.Models.Enums;
 using MALClient.Models.Models.Notifications;
-using MALClient.Shared;
-using MALClient.Shared.ViewModels;
-using MALClient.Pages;
-using MALClient.Shared.Managers;
-using MALClient.Utils.Managers;
 using MALClient.UWP.Adapters;
 using MALClient.UWP.BGTaskNotifications;
-using MALClient.ViewModels;
+using MALClient.UWP.Shared;
+using MALClient.UWP.Shared.Managers;
+using MALClient.UWP.Shared.ViewModels;
+using MALClient.UWP.ViewModels;
 using MALClient.XShared.BL;
 using MALClient.XShared.Comm.Anime;
-using MALClient.XShared.Comm.CommUtils;
 using MALClient.XShared.Comm.MagicalRawQueries;
 using MALClient.XShared.Comm.Manga;
 using MALClient.XShared.NavArgs;
 using MALClient.XShared.Utils;
-using MALClient.XShared.Utils.Enums;
 using MALClient.XShared.Utils.Managers;
 using MALClient.XShared.ViewModels;
-using Microsoft.HockeyApp;
 using DataCache = MALClient.XShared.Utils.DataCache;
 using Settings = MALClient.XShared.Utils.Settings;
 
-namespace MALClient
+namespace MALClient.UWP
 {
     /// <summary>
     ///     Provides application-specific behavior to supplement the default Application class.

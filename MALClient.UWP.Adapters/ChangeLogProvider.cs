@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MALClient.Adapters;
-using MALClient.Shared;
+using MALClient.UWP.Shared;
 
 namespace MALClient.UWP.Adapters
 {

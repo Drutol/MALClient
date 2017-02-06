@@ -1,7 +1,7 @@
 ﻿using System;
 using Windows.UI.Xaml.Data;
 
-namespace MALClient.Shared.XamlConverters
+namespace MALClient.UWP.Shared.XamlConverters
 {
     internal class AreItemsSelectedInListViewConverter : IValueConverter
     {

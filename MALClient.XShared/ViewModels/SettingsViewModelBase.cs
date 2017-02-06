@@ -15,7 +15,6 @@ using MALClient.XShared.Comm;
 using MALClient.XShared.Comm.Profile;
 using MALClient.XShared.Delegates;
 using MALClient.XShared.Utils;
-using MALClient.XShared.Utils.Enums;
 using Newtonsoft.Json;
 using Settings = MALClient.XShared.Utils.Settings;
 

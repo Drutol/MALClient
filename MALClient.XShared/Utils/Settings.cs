@@ -5,7 +5,6 @@ using MALClient.Adapters;
 using MALClient.Models.Enums;
 using MALClient.Models.Models.Anime;
 using MALClient.XShared.Comm;
-using MALClient.XShared.Utils.Enums;
 using MALClient.XShared.ViewModels;
 
 namespace MALClient.XShared.Utils

@@ -11,7 +11,6 @@ using MALClient.Models.Models.Library;
 using MALClient.Models.Models.MalSpecific;
 using MALClient.Models.Models.Misc;
 using MALClient.XShared.Comm.Anime;
-using MALClient.XShared.Utils.Enums;
 using MALClient.XShared.ViewModels;
 using Newtonsoft.Json;
 

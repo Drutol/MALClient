@@ -6,8 +6,9 @@ using Android.Views;
 using Android.Widget;
 using GalaSoft.MvvmLight.Helpers;
 using MALClient.Android.Activities;
-using MALClient.Android.Adapters.CollectionAdapters;
 using MALClient.Android.BindingConverters;
+using MALClient.Android.CollectionAdapters;
+using MALClient.Android.Resources;
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Details;
 

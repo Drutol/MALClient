@@ -1,29 +1,22 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-
-using Android.App;
-using Android.Content;
 using Android.OS;
-using Android.Runtime;
 using Android.Support.V4.View;
-using Android.Views;
 using Android.Widget;
 using Com.Astuetz;
 using Com.Shehabic.Droppy;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Helpers;
-using MALClient.Android.Adapters.PagerAdapters;
 using MALClient.Android.BindingConverters;
 using MALClient.Android.Flyouts;
+using MALClient.Android.PagerAdapters;
+using MALClient.Android.Resources;
 using MALClient.Models.Enums;
 using MALClient.XShared.NavArgs;
-using MALClient.XShared.Utils.Enums;
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Main;
 
-namespace MALClient.Android.Fragments
+namespace MALClient.Android.Fragments.RecommendationsFragments
 {
     public class RecommendationsPageFragment : MalFragmentBase
     {

@@ -6,14 +6,12 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using MALClient.Models.Enums;
 using MALClient.Models.Models.MalSpecific;
-using MALClient.ViewModels;
-using MALClient.XShared.Utils.Enums;
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Main;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
-namespace MALClient.Pages.Messages
+namespace MALClient.UWP.Pages.Messages
 {
     /// <summary>
     ///     An empty page that can be used on its own or navigated to within a Frame.

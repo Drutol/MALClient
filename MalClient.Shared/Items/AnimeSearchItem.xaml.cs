@@ -1,23 +1,11 @@
 ﻿using System;
-using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
-using Windows.Foundation;
 using Windows.System;
-using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Media.Imaging;
-using MALClient.Models.Models.Anime;
-using MALClient.Models.Models.Library;
-using MALClient.XShared.NavArgs;
-using MALClient.XShared.Utils;
-using MALClient.XShared.Utils.Enums;
 using MALClient.XShared.ViewModels;
-using MALClient.XShared.ViewModels.Main;
 
-namespace MALClient.Shared.Items
+namespace MALClient.UWP.Shared.Items
 {
     public sealed partial class AnimeSearchItem : UserControl
     {

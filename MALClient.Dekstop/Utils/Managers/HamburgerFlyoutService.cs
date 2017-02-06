@@ -1,8 +1,7 @@
 ﻿using Windows.UI.Xaml;
-using MALClient.Shared.Flyouts.HamburgerFlyouts;
-using MALClient.UserControls;
+using MALClient.UWP.Shared.Flyouts.HamburgerFlyouts;
 
-namespace MALClient.Utils.Managers
+namespace MALClient.UWP.Utils.Managers
 {
     public static class HamburgerFlyoutService
     {

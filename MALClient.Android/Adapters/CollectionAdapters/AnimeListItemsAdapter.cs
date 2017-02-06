@@ -1,15 +1,11 @@
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using Android.App;
-using Android.Content.Res;
 using Android.Views;
-using Android.Widget;
-using MALClient.Android.Activities;
-using MALClient.Android.CollectionAdapters;
+using MALClient.Android.BindingInformation;
 using MALClient.XShared.ViewModels;
 
-namespace MALClient.Android.Adapters.CollectionAdapters
+namespace MALClient.Android.CollectionAdapters
 {
     public class AnimeListItemsAdapter : DeeplyObservableCollectionAdapter<AnimeItemViewModel>
     {

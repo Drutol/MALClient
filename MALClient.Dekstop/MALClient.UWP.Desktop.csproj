@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <ProjectGuid>{A4F39E9D-1558-4E62-BF76-29620B7B0A06}</ProjectGuid>
+    <ProjectGuid>{C8C93EE9-5473-49AC-94CE-8BD964F2CB29}</ProjectGuid>
     <OutputType>AppContainerExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MALClient</RootNamespace>
+    <RootNamespace>MALClient.UWP</RootNamespace>
     <AssemblyName>MALClient</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
@@ -16,13 +16,13 @@
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <PackageCertificateKeyFile>MALClient.Mobile_StoreKey.pfx</PackageCertificateKeyFile>
+    <PackageCertificateKeyFile>MALClient.Dekstop_StoreKey.pfx</PackageCertificateKeyFile>
     <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
     <AppxSymbolPackageEnabled>True</AppxSymbolPackageEnabled>
     <AppxBundle>Always</AppxBundle>
-    <AppxBundlePlatforms>arm</AppxBundlePlatforms>
+    <AppxBundlePlatforms>x64</AppxBundlePlatforms>
     <AppxPackageDir>C:\Users\dogie\Documents\VsBuilds\</AppxPackageDir>
-    <PackageCertificateThumbprint>AD5778F7B956D67FCD8A45D45DBA0A4B5C5A3174</PackageCertificateThumbprint>
+    <PackageCertificateThumbprint>12E2EA07745358740A1071A716461C53697C6A10</PackageCertificateThumbprint>
     <HockeyAppResourceId>b79e78858bdf44c4bfc3a1f37c8fd90c</HockeyAppResourceId>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
@@ -42,7 +42,7 @@
     <Optimize>true</Optimize>
     <NoWarn>;2008</NoWarn>
     <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
+    <PlatformTarget>x86</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>true</Prefer32Bit>
@@ -96,10 +96,15 @@
     <Prefer32Bit>true</Prefer32Bit>
     <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
     <EnableGatekeeperAnalysis>true</EnableGatekeeperAnalysis>
+    <DocumentationFile>
+    </DocumentationFile>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
-    <None Include="MALClient.Mobile_StoreKey.pfx" />
+    <None Include="MALClient.Dekstop_StoreKey.pfx" />
+    <None Include="MALClient.Dekstop_TemporaryKey.pfx" />
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
@@ -109,23 +114,32 @@
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\Forums\ForumNewTopicPage.xaml.cs">
-      <DependentUpon>ForumNewTopicPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Pages\Forums\ForumStarredMessagesPage.xaml.cs">
       <DependentUpon>ForumStarredMessagesPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\Forums\ForumTopicPage.xaml.cs">
-      <DependentUpon>ForumTopicPage.xaml</DependentUpon>
+    <Compile Include="Pages\Forums\ForumNewTopicPage.xaml.cs">
+      <DependentUpon>ForumNewTopicPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\Main\CalendarPage.xaml.cs">
-      <DependentUpon>CalendarPage.xaml</DependentUpon>
+    <Compile Include="Pages\Main\CharacterSearchPage.xaml.cs">
+      <DependentUpon>CharacterSearchPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\Main\FriendsFeedsPage.xaml.cs">
       <DependentUpon>FriendsFeedsPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\Main\MalArticlesPage.xaml.cs">
-      <DependentUpon>MalArticlesPage.xaml</DependentUpon>
+    <Compile Include="Pages\Main\HistoryPage.xaml.cs">
+      <DependentUpon>HistoryPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Forums\ForumBoardPage.xaml.cs">
+      <DependentUpon>ForumBoardPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Forums\ForumIndexPage.xaml.cs">
+      <DependentUpon>ForumIndexPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Forums\ForumsMainPage.xaml.cs">
+      <DependentUpon>ForumsMainPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Forums\ForumTopicPage.xaml.cs">
+      <DependentUpon>ForumTopicPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\Main\NotificationsHubPage.xaml.cs">
       <DependentUpon>NotificationsHubPage.xaml</DependentUpon>
@@ -142,24 +156,6 @@
     <Compile Include="Pages\Messages\MalMessagingPage.xaml.cs">
       <DependentUpon>MalMessagingPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\Off\CharacterDetailsPage.xaml.cs">
-      <DependentUpon>CharacterDetailsPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\Main\CharacterSearchPage.xaml.cs">
-      <DependentUpon>CharacterSearchPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\Forums\ForumBoardPage.xaml.cs">
-      <DependentUpon>ForumBoardPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\Forums\ForumIndexPage.xaml.cs">
-      <DependentUpon>ForumIndexPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\Forums\ForumsMainPage.xaml.cs">
-      <DependentUpon>ForumsMainPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\Main\HistoryPage.xaml.cs">
-      <DependentUpon>HistoryPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Pages\Off\AnimeDetailsPage.xaml.cs">
       <DependentUpon>AnimeDetailsPage.xaml</DependentUpon>
     </Compile>
@@ -169,9 +165,36 @@
     <Compile Include="Pages\Main\AnimeSearchPage.xaml.cs">
       <DependentUpon>AnimeSearchPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\Main\CalendarPage.xaml.cs">
+      <DependentUpon>CalendarPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\Main\HummingbirdProfilePage.xaml.cs">
       <DependentUpon>HummingbirdProfilePage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\Main\MalArticlesPage.xaml.cs">
+      <DependentUpon>MalArticlesPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Off\CharacterDetailsPage.xaml.cs">
+      <DependentUpon>CharacterDetailsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Off\SettingsPages\SettingsAdsPage.xaml.cs">
+      <DependentUpon>SettingsAdsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Off\SettingsPages\SettingsArticlesPage.xaml.cs">
+      <DependentUpon>SettingsArticlesPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Off\SettingsPages\SettingsFeedsPage.xaml.cs">
+      <DependentUpon>SettingsFeedsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Off\SettingsPages\SettingsNotificationsPage.xaml.cs">
+      <DependentUpon>SettingsNotificationsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Off\StaffDetailsPage.xaml.cs">
+      <DependentUpon>StaffDetailsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\AttachedProperties\PivotExtensions.cs" />
+    <Compile Include="UserControls\AttachedProperties\ScrollViewerExtensions.cs" />
+    <Compile Include="Utils\Managers\HamburgerFlyoutService.cs" />
     <Compile Include="Pages\Main\LogInPage.xaml.cs">
       <DependentUpon>LogInPage.xaml</DependentUpon>
     </Compile>
@@ -187,20 +210,11 @@
     <Compile Include="Pages\Off\SettingsPages\SettingsAboutPage.xaml.cs">
       <DependentUpon>SettingsAboutPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\Off\SettingsPages\SettingsAdsPage.xaml.cs">
-      <DependentUpon>SettingsAdsPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\Off\SettingsPages\SettingsArticlesPage.xaml.cs">
-      <DependentUpon>SettingsArticlesPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Pages\Off\SettingsPages\SettingsCachingPage.xaml.cs">
       <DependentUpon>SettingsCachingPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\Off\SettingsPages\SettingsCalendarPage.xaml.cs">
       <DependentUpon>SettingsCalendarPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\Off\SettingsPages\SettingsFeedsPage.xaml.cs">
-      <DependentUpon>SettingsFeedsPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\Off\SettingsPages\SettingsGeneralPage.xaml.cs">
       <DependentUpon>SettingsGeneralPage.xaml</DependentUpon>
@@ -214,23 +228,17 @@
     <Compile Include="Pages\Off\SettingsPages\SettingsNewsPage.xaml.cs">
       <DependentUpon>SettingsNewsPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\Off\SettingsPages\SettingsNotificationsPage.xaml.cs">
-      <DependentUpon>SettingsNotificationsPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Pages\Off\SettingsPages\SettingsSlidersPage.xaml.cs">
       <DependentUpon>SettingsSlidersPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\Off\StaffDetailsPage.xaml.cs">
-      <DependentUpon>StaffDetailsPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UserControls\HamburgerControl.xaml.cs">
+    <Compile Include="UserControls\New\HamburgerControl.xaml.cs">
       <DependentUpon>HamburgerControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Utils\NavMgr.cs" />
+    <Compile Include="Utils\Managers\NavMgr.cs" />
     <Compile Include="ViewModels\HamburgerControlViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
-    <Compile Include="ViewModels\MobileViewModelLocator.cs" />
+    <Compile Include="ViewModels\DekstopViewModelLocator.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -260,10 +268,14 @@
     <Content Include="Assets\StoreLogo.scale-150.png" />
     <Content Include="Assets\StoreLogo.scale-200.png" />
     <Content Include="Assets\StoreLogo.scale-400.png" />
+    <Content Include="Assets\upperappbarlogoblue.png" />
+    <Content Include="Assets\upperappbarlogowhite.png" />
     <Content Include="Assets\Wide310x150Logo.scale-100.png" />
     <Content Include="Assets\Wide310x150Logo.scale-400.png" />
     <None Include="Package.StoreAssociation.xml" />
-    <Content Include="Properties\Default.rd.xml" />
+    <Content Include="Properties\Default.rd.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />
     <Content Include="Assets\Square150x150Logo.scale-200.png" />
@@ -280,55 +292,51 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Pages\Forums\ForumNewTopicPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Pages\Forums\ForumStarredMessagesPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Pages\Forums\ForumTopicPage.xaml">
       <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Pages\Main\FriendsFeedsPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Pages\Main\NotificationsHubPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Pages\Main\PopularVideosPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Pages\Main\WallpapersPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Pages\Off\CharacterDetailsPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Pages\Main\CharacterSearchPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
     <Page Include="Pages\Forums\ForumBoardPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\Forums\ForumIndexPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\Forums\ForumNewTopicPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\Forums\ForumsMainPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\Forums\ForumTopicPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\Main\CharacterSearchPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\Main\FriendsFeedsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\Main\HistoryPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\Main\NotificationsHubPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\Main\PopularVideosPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\Main\WallpapersPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -353,8 +361,8 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\Main\CalendarPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\Main\HummingbirdProfilePage.xaml">
       <SubType>Designer</SubType>
@@ -365,8 +373,8 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\Main\MalArticlesPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\Main\ProfilePage.xaml">
       <SubType>Designer</SubType>
@@ -376,65 +384,69 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Pages\Off\CharacterDetailsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Pages\Off\SettingsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\Off\SettingsPages\SettingsAboutPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\Off\SettingsPages\SettingsAdsPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\Off\SettingsPages\SettingsArticlesPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\Off\SettingsPages\SettingsCachingPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\Off\SettingsPages\SettingsCalendarPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\Off\SettingsPages\SettingsFeedsPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\Off\SettingsPages\SettingsGeneralPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\Off\SettingsPages\SettingsHomePage.xaml">
-      <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\Off\SettingsPages\SettingsMiscPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\Off\SettingsPages\SettingsNewsPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\Off\SettingsPages\SettingsNotificationsPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\Off\SettingsPages\SettingsSlidersPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\Off\StaffDetailsPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserControls\HamburgerControl.xaml">
-      <Generator>MSBuild:Compile</Generator>
+    <Page Include="UserControls\New\HamburgerControl.xaml">
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="XamlResources\Controlstyles.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -481,8 +493,8 @@
     <SDKReference Include="Microsoft.VCLibs, Version=14.0">
       <Name>Visual C++ 2015 Runtime for Universal Windows Platform Apps</Name>
     </SDKReference>
-    <SDKReference Include="WindowsMobile, Version=10.0.14393.0">
-      <Name>Windows Mobile Extensions for the UWP</Name>
+    <SDKReference Include="WindowsDesktop, Version=10.0.14393.0">
+      <Name>Windows Desktop Extensions for the UWP</Name>
     </SDKReference>
   </ItemGroup>
   <ItemGroup>
@@ -527,6 +539,48 @@
   <PropertyGroup>
     <AssemblyOriginatorKeyFile>
     </AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Native Debug|x86'">
+    <OutputPath>bin\x86\Native Debug\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP;CODE_ANALYSIS;CODE_ANALYSIS</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <NoStdLib>true</NoStdLib>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Native Debug|ARM'">
+    <OutputPath>bin\ARM\Native Debug\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP;CODE_ANALYSIS</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <NoStdLib>true</NoStdLib>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>ARM</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Native Debug|x64'">
+    <OutputPath>bin\x64\Native Debug\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP;CODE_ANALYSIS</DefineConstants>
+    <Optimize>false</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <NoStdLib>true</NoStdLib>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+    <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
+    <EnableGatekeeperAnalysis>true</EnableGatekeeperAnalysis>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -13,7 +13,6 @@ using MALClient.Models.Models.Library;
 using MALClient.XShared.Comm.Anime;
 using MALClient.XShared.Delegates;
 using MALClient.XShared.NavArgs;
-using MALClient.XShared.Utils.Enums;
 
 namespace MALClient.XShared.ViewModels
 {

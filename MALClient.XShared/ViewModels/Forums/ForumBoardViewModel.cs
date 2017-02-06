@@ -11,7 +11,7 @@ using MALClient.XShared.Comm.Forums;
 using MALClient.XShared.Interfaces;
 using MALClient.XShared.NavArgs;
 using MALClient.XShared.Utils;
-using MALClient.XShared.Utils.Enums;
+using MALClient.XShared.ViewModels.Forums.Items;
 
 namespace MALClient.XShared.ViewModels.Forums
 {
@@ -267,7 +267,7 @@ namespace MALClient.XShared.ViewModels.Forums
                 case ForumBoardPageWorkModes.Standard:
                     PageNavigationControlsVisibility = SearchButtonVisibility = true;
                     Title = args.TargetBoard.GetDescription();
-                    Icon = Utilities.BoardToIcon(args.TargetBoard);
+                    Icon = Utils.Utilities.BoardToIcon(args.TargetBoard);
                     break;
                 case ForumBoardPageWorkModes.AnimeBoard:
                     SearchButtonVisibility = false;
@@ -284,7 +284,7 @@ namespace MALClient.XShared.ViewModels.Forums
                 case ForumBoardPageWorkModes.Search:
                     PageNavigationControlsVisibility = SearchButtonVisibility = false;
                     Title = $"Search - {args.Query}";
-                    Icon = args.Scope == null ? FontAwesomeIcon.Search : Utilities.BoardToIcon(args.Scope.Value);
+                    Icon = args.Scope == null ? FontAwesomeIcon.Search : Utils.Utilities.BoardToIcon(args.Scope.Value);
                     break;
                 case ForumBoardPageWorkModes.UserSearch:
                     Title = args.Query == Credentials.UserName ? "My Recent Posts" : $"{args.Query}'s Recent Posts";

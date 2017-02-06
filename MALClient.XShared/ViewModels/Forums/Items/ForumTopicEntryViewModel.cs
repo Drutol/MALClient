@@ -4,7 +4,7 @@ using GalaSoft.MvvmLight.Command;
 using MALClient.Models.Enums;
 using MALClient.Models.Models.Forums;
 
-namespace MALClient.XShared.ViewModels.Forums
+namespace MALClient.XShared.ViewModels.Forums.Items
 {
     public class ForumTopicEntryViewModel : ViewModelBase
     {

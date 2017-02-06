@@ -1,8 +1,7 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
-namespace CodeKicker.BBCode.SyntaxTree
+namespace MALClient.BBCode.SyntaxTree
 {
     public abstract class SyntaxTreeNode : IEquatable<SyntaxTreeNode>
     {

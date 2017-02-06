@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Windows.UI.Xaml.Controls;
 
-namespace MALClient.Shared.ViewModels
+namespace MALClient.UWP.Shared.ViewModels.Interfaces
 {
     public interface IAnimeListViewInteractions
     {

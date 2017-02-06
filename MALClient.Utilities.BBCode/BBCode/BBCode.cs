@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using CodeKicker.BBCode.SyntaxTree;
+using MALClient.BBCode.SyntaxTree;
 
-namespace CodeKicker.BBCode
+namespace MALClient.BBCode
 {
     public static class BBCode
     {

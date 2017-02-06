@@ -13,15 +13,14 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage;
-using Windows.UI.Xaml.Media.Imaging;
-using System.Net.Http;
 using MALClient.XShared.Utils;
 using MALClient.XShared.ViewModels;
 
-namespace MALClient.Shared.Managers
+namespace MALClient.UWP.Shared.Managers
 {
     /// <summary>
     /// Provides methods and tools to cache images in a temporary local folder

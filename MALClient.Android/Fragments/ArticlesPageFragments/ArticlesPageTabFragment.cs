@@ -14,6 +14,7 @@ using FFImageLoading.Views;
 using GalaSoft.MvvmLight.Helpers;
 using MALClient.Android.BindingConverters;
 using MALClient.Android.Listeners;
+using MALClient.Android.Resources;
 using MALClient.Models.Models.MalSpecific;
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Main;

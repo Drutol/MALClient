@@ -1,23 +1,14 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-
 using Android.App;
-using Android.Content;
 using Android.Graphics;
-using Android.OS;
-using Android.Runtime;
-using Android.Support.V4.Content.Res;
 using Android.Views;
 using Android.Widget;
-using MALClient.Android.Activities;
 using MALClient.Android.Resources;
 using MALClient.Models.Enums;
 using MALClient.XShared.Utils;
-using MALClient.XShared.Utils.Enums;
 
-namespace MALClient.Android.Adapters.DialogAdapters
+namespace MALClient.Android.DialogAdapters
 {
     public class ScoreDialogAdapter : BaseAdapter<int>
     {
@@ -41,7 +32,7 @@ namespace MALClient.Android.Adapters.DialogAdapters
         public override View GetView(int position, View convertView, ViewGroup parent)
         {
             position = 10 - position;
-            var view = convertView ?? _context.LayoutInflater.Inflate(Android.Resource.Layout.StatusDialogItem, null);
+            var view = convertView ?? _context.LayoutInflater.Inflate(Resource.Layout.StatusDialogItem, null);
 
             var txt = view.FindViewById<TextView>(Resource.Id.StatusDialogItemTextView);
             txt.Text = _desciptions[position];          

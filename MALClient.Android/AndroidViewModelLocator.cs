@@ -12,12 +12,11 @@ using Android.Widget;
 using GalaSoft.MvvmLight.Ioc;
 using GalaSoft.MvvmLight.Views;
 using MALClient.Adapters;
-using MALClient.Adapters.Credentails;
+using MALClient.Adapters.Credentials;
 using MALClient.Android.Activities;
 using MALClient.Android.Adapters;
 using MALClient.Android.Managers;
 using MALClient.Android.ViewModels;
-using MALClient.XShared.Utils.Enums;
 using MALClient.XShared.ViewModels;
 using Microsoft.Practices.ServiceLocation;
 

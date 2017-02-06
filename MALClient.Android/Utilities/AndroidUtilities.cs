@@ -2,17 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
-
-using Android.App;
-using Android.Content;
-using Android.Hardware.Display;
-using Android.OS;
-using Android.Runtime;
 using Android.Views;
 using Android.Views.Animations;
 using Android.Widget;
-using MALClient.Android;
 using MALClient.Android.Activities;
 
 namespace MALClient.Android

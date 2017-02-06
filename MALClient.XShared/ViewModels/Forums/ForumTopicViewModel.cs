@@ -15,7 +15,6 @@ using MALClient.XShared.Delegates;
 using MALClient.XShared.Interfaces;
 using MALClient.XShared.NavArgs;
 using MALClient.XShared.Utils;
-using MALClient.XShared.Utils.Enums;
 using MALClient.XShared.ViewModels.Forums.Items;
 
 namespace MALClient.XShared.ViewModels.Forums

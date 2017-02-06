@@ -6,7 +6,6 @@ using MALClient.Models.Enums;
 using MALClient.XShared.Comm.Anime;
 using MALClient.XShared.Delegates;
 using MALClient.XShared.NavArgs;
-using MALClient.XShared.Utils.Enums;
 using MALClient.XShared.ViewModels.Details;
 using MALClient.XShared.ViewModels.Forums;
 using MALClient.XShared.ViewModels.Main;

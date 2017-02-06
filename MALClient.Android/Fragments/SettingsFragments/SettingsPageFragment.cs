@@ -2,6 +2,7 @@ using System;
 using Android.App;
 using Android.OS;
 using Android.Widget;
+using MALClient.Android.Resources;
 using MALClient.Android.ViewModels;
 using MALClient.Models.Enums;
 using MALClient.XShared.ViewModels;

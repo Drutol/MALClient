@@ -12,12 +12,11 @@ using MALClient.Models.Models.Library;
 using MALClient.Models.Models.MalSpecific;
 using MALClient.XShared.Comm.Articles;
 using MALClient.XShared.Utils;
-using MALClient.XShared.Utils.Enums;
 using MALClient.XShared.ViewModels;
 using Microsoft.Toolkit.Uwp.Notifications;
 using Newtonsoft.Json;
 
-namespace MALClient.Shared.Managers
+namespace MALClient.UWP.Shared.Managers
 {
     public enum TileActions
     {

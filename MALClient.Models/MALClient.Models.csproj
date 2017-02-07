@@ -62,7 +62,6 @@
     <Compile Include="Interfaces\IAnimeLibraryDataStorage.cs" />
     <Compile Include="Interfaces\IAnimeListItem.cs" />
     <Compile Include="Interfaces\IDetailsPageArgs.cs" />
-    <Compile Include="Interfaces\IHandyDataStorage.cs" />
     <Compile Include="Models\AnimeScrapped\AnimeCharacterStaffModel.cs" />
     <Compile Include="Models\AnimeScrapped\AnimePersonalizedRecommendationData.cs" />
     <Compile Include="Models\AnimeScrapped\AnimeReviewData.cs" />
@@ -92,6 +91,7 @@
     <Compile Include="Models\Forums\MalForumUser.cs" />
     <Compile Include="Models\Forums\ForumTopicData.cs" />
     <Compile Include="Models\Forums\StarredForumMessage.cs" />
+    <Compile Include="Models\Forums\WatchedTopicModel.cs" />
     <Compile Include="Models\ISeasonalAnimeBaseData.cs" />
     <Compile Include="Models\Library\AnimeLibraryItemData.cs" />
     <Compile Include="Models\Library\IAnimeData.cs" />

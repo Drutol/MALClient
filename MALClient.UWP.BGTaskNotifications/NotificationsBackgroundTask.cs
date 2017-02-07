@@ -12,6 +12,7 @@ using MALClient.Adapters;
 using MALClient.Models.Enums;
 using MALClient.Models.Models.Notifications;
 using MALClient.UWP.Adapters;
+using MALClient.XShared.Comm.Forums;
 using MALClient.XShared.Comm.MagicalRawQueries;
 using MALClient.XShared.Comm.MagicalRawQueries.Messages;
 using MALClient.XShared.Utils;
@@ -45,9 +46,11 @@ namespace MALClient.UWP.BGTaskNotifications
             {
                 if (taskInstance != null) //we are already running -> started on demand
                 {
+                    ResourceLocator.RegisterBase();
                     ResourceLocator.RegisterAppDataServiceAdapter(new ApplicationDataServiceService());
                     ResourceLocator.RegisterPasswordVaultAdapter(new PasswordVaultProvider());
                     ResourceLocator.RegisterMessageDialogAdapter(new MessageDialogProvider());
+                    ResourceLocator.RegisterDataCacheAdapter(new Adapters.DataCache());
                     Credentials.Init();
                 }
             }
@@ -106,6 +109,36 @@ namespace MALClient.UWP.BGTaskNotifications
                 }
 
             }
+
+            bool watchedTopicsUpdated = false;
+            foreach (var watchedTopic in ResourceLocator.HandyDataStorage.WatchedTopics.StoredItems)
+            {
+                if (!watchedTopic.OnCooldown)
+                {
+                    var count = await new ForumTopicMessageCountQuery(watchedTopic.Id).GetMessageCount();
+                    if (count == null)
+                        continue;
+
+                    if (count > watchedTopic.LastCheckedReplyCount)
+                    {
+
+                        var notif = new MalNotification(watchedTopic);
+                        var diff = count - watchedTopic.LastCheckedReplyCount;
+                        if (diff == 1)
+                            notif.Content += " There is one new reply.";
+                        else
+                            notif.Content += $" There are {diff} new replies.";
+
+                        notifications.Add(notif);
+
+                        watchedTopic.OnCooldown = true;
+                        watchedTopic.LastCheckedReplyCount = count.Value;
+                        watchedTopicsUpdated = true;
+                    }
+                }
+            }
+            if(watchedTopicsUpdated)
+                ResourceLocator.HandyDataStorage.WatchedTopics.SaveData();
 
             var allTriggeredNotifications = (string)(ResourceLocator.ApplicationDataService[nameof(RoamingDataTypes.ReadNotifications)] ?? string.Empty);
             var triggeredNotifications = allTriggeredNotifications.Split(';').ToList();
@@ -305,6 +338,18 @@ namespace MALClient.UWP.BGTaskNotifications
                         Buttons =
                         {
                             new ToastButton("Open conversation", notification.LaunchArgs)
+                            {
+                                ActivationType = ToastActivationType.Foreground,
+                            },
+                            new ToastButtonDismiss()
+                        }
+                    };
+                case MalNotificationsTypes.WatchedTopic:
+                    return new ToastActionsCustom
+                    {
+                        Buttons =
+                        {
+                            new ToastButton("Open topic", notification.LaunchArgs)
                             {
                                 ActivationType = ToastActivationType.Foreground,
                             },

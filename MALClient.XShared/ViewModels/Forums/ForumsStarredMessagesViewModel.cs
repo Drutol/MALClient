@@ -12,6 +12,7 @@ using MALClient.Models.Models;
 using MALClient.Models.Models.Forums;
 using MALClient.XShared.Interfaces;
 using MALClient.XShared.NavArgs;
+using IHandyDataStorage = MALClient.XShared.ViewModels.Interfaces.IHandyDataStorage;
 
 namespace MALClient.XShared.ViewModels.Forums
 {

@@ -30,6 +30,8 @@ namespace MALClient.Models.Enums
         [EnumUtilities.Description("Payment")]
         Payment = 0x400,
         [EnumUtilities.Description("Messages")]
-        Messages = 0x800,      
+        Messages = 0x800,
+        [EnumUtilities.Description("Watched Topic")]
+        WatchedTopic = 0x1000,      
     }
 }

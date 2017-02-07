@@ -207,7 +207,7 @@ namespace MALClient.UWP.ViewModels
             }
         }
 
-        public List<string> PinnedProfiles => ResourceLocator.HandyDataStorage.PinnedUsers.Select(user => user.Name).ToList();
+        public List<string> PinnedProfiles => ResourceLocator.HandyDataStorage.PinnedUsers.StoredItems.Select(user => user.Name).ToList();
 
         public void UpdatePinnedProfiles()
         {

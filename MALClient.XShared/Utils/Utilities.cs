@@ -514,6 +514,30 @@ namespace MALClient.XShared.Utils
                 action(element);
         }
 
+        public static int FindIndex<T>(this IEnumerable<T> source, T obj)
+        {
+            var index = 0;
+            foreach (T element in source)
+            {
+                if (element.Equals(obj))
+                    return index;
+                index++;
+            }
+            return -1;
+        }
+
+        public static int FindIndex<T>(this IEnumerable<T> source, Predicate<T> matchPredicate)
+        {
+            var index = 0;
+            foreach (T element in source)
+            {
+                if (matchPredicate.Invoke(element))
+                    return index;
+                index++;
+            }
+            return -1;
+        }
+
         public static string Wrap(this string s, string start,string end)
         {
             return $"{start}{s}{end}";

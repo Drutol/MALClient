@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MALClient.Models.Enums;
 using MALClient.Models.Models.ApiResponses;
+using MALClient.Models.Models.Forums;
 using MALClient.Models.Models.MalSpecific;
 using Newtonsoft.Json;
 
@@ -39,6 +40,15 @@ namespace MALClient.Models.Models.Notifications
             IsSupported = true;
             LaunchArgs = $"https://myanimelist.net/mymessages.php?go=read&id={malMessageModel.Id}|{JsonConvert.SerializeObject(malMessageModel)}";
             Date = malMessageModel.Date;
+        }
+
+        public MalNotification(WatchedTopicModel watchedTopicModel)
+        {
+            Type = MalNotificationsTypes.WatchedTopic;
+            Header = "Watched topic replies!";
+            Content = $"New activity in {watchedTopicModel.Title} topic.";
+            LaunchArgs = $"https://myanimelist.net/forum/?topicid={watchedTopicModel.Id}&goto=lastpost";
+            IsSupported = true;
         }
 
         public MalNotification(MalScrappedNotification notification)

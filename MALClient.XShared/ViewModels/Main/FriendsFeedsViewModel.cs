@@ -45,7 +45,7 @@ namespace MALClient.XShared.ViewModels.Main
             Loading = true;
             Feeds = new List<UserFeedEntryModel>();
             var source =
-                ViewModelLocator.ProfilePage.MyFriends.Concat(ResourceLocator.HandyDataStorage.PinnedUsers)
+                ViewModelLocator.ProfilePage.MyFriends.Concat(ResourceLocator.HandyDataStorage.PinnedUsers.StoredItems)
                     .Distinct(MalUser.NameComparer)
                     .ToList();
             Feeds =

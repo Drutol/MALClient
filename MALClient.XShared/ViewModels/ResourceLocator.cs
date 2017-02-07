@@ -9,6 +9,7 @@ using MALClient.Adapters.Credentials;
 using MALClient.Models.Interfaces;
 using MALClient.XShared.BL;
 using MALClient.XShared.Interfaces;
+using IHandyDataStorage = MALClient.XShared.ViewModels.Interfaces.IHandyDataStorage;
 
 namespace MALClient.XShared.ViewModels
 {

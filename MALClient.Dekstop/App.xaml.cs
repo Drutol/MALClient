@@ -110,9 +110,12 @@ namespace MALClient.UWP
                 {
                     var arg = activationArgs.Argument;
                     var pos = arg.IndexOf('~');
-                    var id = arg.Substring(0, pos);
-                    arg = arg.Substring(pos+1);
-                    MalNotificationsQuery.MarkNotifiactionsAsRead(new MalNotification(id));
+                    if (pos != -1)
+                    {
+                        var id = arg.Substring(0, pos);
+                        arg = arg.Substring(pos + 1);
+                        MalNotificationsQuery.MarkNotifiactionsAsRead(new MalNotification(id));
+                    }
                     if (arg.Contains(";"))
                     {
                         var options = activationArgs.Argument.Split(';');

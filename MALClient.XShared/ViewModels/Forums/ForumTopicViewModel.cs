@@ -8,19 +8,24 @@ using System.Windows.Input;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using MALClient.Models.Enums;
+using MALClient.Models.Interfaces;
 using MALClient.Models.Models;
 using MALClient.Models.Models.Forums;
+using MALClient.XShared.Comm.Forums;
 using MALClient.XShared.Comm.MagicalRawQueries.Forums;
 using MALClient.XShared.Delegates;
 using MALClient.XShared.Interfaces;
 using MALClient.XShared.NavArgs;
 using MALClient.XShared.Utils;
 using MALClient.XShared.ViewModels.Forums.Items;
+using IHandyDataStorage = MALClient.XShared.ViewModels.Interfaces.IHandyDataStorage;
 
 namespace MALClient.XShared.ViewModels.Forums
 {
     public class ForumTopicViewModel : ViewModelBase , ISelfBackNavAware
     {
+        private readonly IHandyDataStorage _handyDataStorage;
+
         public interface IScrollInfoProvider
         {
             int GetFirstVisibleItemIndex();
@@ -47,8 +52,15 @@ namespace MALClient.XShared.ViewModels.Forums
         private string _replyMessage;
         private ICommand _navigateMessagingCommand;
         private bool _isPinned;
+        private bool _isWatched;
+        private bool _addingToWatchedTopics;
 
         public IScrollInfoProvider ScrollInfoProvider { get; set; }
+
+        public ForumTopicViewModel(IHandyDataStorage handyDataStorage)
+        {
+            _handyDataStorage = handyDataStorage;
+        }
 
         public async void Init(ForumsTopicNavigationArgs args)
         {
@@ -82,7 +94,20 @@ namespace MALClient.XShared.ViewModels.Forums
                 //var index = _prevArgs.MessageId != null && _prevArgs.MessageId != -1 ? _prevArgs.MessageId.ToString() : CurrentTopicData.T
                 RequestScroll?.Invoke(this,Messages.IndexOf(Messages.First(model => model.Data.Id == CurrentTopicData.TargetMessageId)));
             }
-            
+
+            var watched = _handyDataStorage.WatchedTopics.StoredItems.FirstOrDefault(model => model.Id == CurrentTopicData.Id);
+            if (watched != null)
+            {
+                _isWatched = true;
+                watched.OnCooldown = false;
+                _handyDataStorage.WatchedTopics.SaveData();
+            }
+            else
+            {
+                _isWatched = false;
+            }
+            RaisePropertyChanged(() => IsWatched);
+
 
             IsPinned = ViewModelLocator.ForumsMain.PinnedTopics.Any(entry => entry.Id == CurrentTopicData.Id);
             ViewModelLocator.ForumsMain.PinnedTopics.CollectionChanged += PinnedTopicsOnCollectionChanged;
@@ -192,6 +217,36 @@ namespace MALClient.XShared.ViewModels.Forums
             {
                 _isPinned = value;
                 RaisePropertyChanged(() => IsPinned);
+            }
+        }
+
+        public bool AddingToWatchedTopics
+        {
+            get { return _addingToWatchedTopics; }
+            set
+            {
+                _addingToWatchedTopics = value;
+                RaisePropertyChanged(() => AddingToWatchedTopics);
+            }
+        }
+
+        public bool IsWatched
+        {
+            get { return _isWatched; }
+            set
+            {
+                
+                _isWatched = value;
+                RaisePropertyChanged(() => IsWatched);
+                if (value)
+                {
+                    AddToWatchedTopics();
+                }
+                else
+                {
+                    _handyDataStorage.WatchedTopics.StoredItems.RemoveAt(
+                        _handyDataStorage.WatchedTopics.StoredItems.FindIndex(model => model.Id == CurrentTopicData.Id));
+                }
             }
         }
 
@@ -396,6 +451,28 @@ namespace MALClient.XShared.ViewModels.Forums
             var message = ScrollInfoProvider.GetFirstVisibleItemIndex();
             await LoadCurrentTopicPageAsync(true);
             RequestScroll?.Invoke(this,message);
+        }
+
+        private async void AddToWatchedTopics()
+        {
+            if(AddingToWatchedTopics)
+                return;
+            AddingToWatchedTopics = true;
+            var count = await new ForumTopicMessageCountQuery(CurrentTopicData.Id).GetMessageCount();
+            if (count == null)
+            {
+                _isWatched = false;
+                RaisePropertyChanged(() => IsWatched);
+                AddingToWatchedTopics = false;
+                return;
+            }
+            _handyDataStorage.WatchedTopics.StoredItems.Add(new WatchedTopicModel
+            {
+                Id = CurrentTopicData.Id,
+                LastCheckedReplyCount = count.Value,
+                Title = CurrentTopicData.Title
+            });
+            AddingToWatchedTopics = false;
         }
     }
 }

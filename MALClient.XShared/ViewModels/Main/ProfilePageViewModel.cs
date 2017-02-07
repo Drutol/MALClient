@@ -507,16 +507,18 @@ namespace MALClient.XShared.ViewModels.Main
 
         public bool IsPinned
         {
-            get { return ResourceLocator.HandyDataStorage.PinnedUsers.Any(user => user.Name.Equals(CurrentData.User.Name,StringComparison.CurrentCultureIgnoreCase)); }
+            get { return ResourceLocator.HandyDataStorage.PinnedUsers.StoredItems.Any(user => user.Name.Equals(CurrentData.User.Name,StringComparison.CurrentCultureIgnoreCase)); }
             set
             {
                 if (value)
                 {
-                    ResourceLocator.HandyDataStorage.PinnedUsers.Add(CurrentData.User);
+                    ResourceLocator.HandyDataStorage.PinnedUsers.StoredItems.Add(CurrentData.User);
                 }
                 else
                 {
-                    ResourceLocator.HandyDataStorage.PinnedUsers.Remove(ResourceLocator.HandyDataStorage.PinnedUsers.First(user => user.Name.Equals(CurrentData.User.Name,StringComparison.CurrentCultureIgnoreCase)));
+                    ResourceLocator.HandyDataStorage.PinnedUsers.StoredItems.Remove(
+                        ResourceLocator.HandyDataStorage.PinnedUsers.StoredItems.First(
+                            user => user.Name.Equals(CurrentData.User.Name, StringComparison.CurrentCultureIgnoreCase)));
                 }
                 ViewModelLocator.GeneralHamburger.UpdatePinnedProfiles();
                 RaisePropertyChanged(() => IsPinned);

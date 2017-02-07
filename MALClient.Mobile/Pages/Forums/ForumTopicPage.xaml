@@ -126,6 +126,12 @@
                         </Grid>
                     </Grid>
                 </Button>
+                <ToggleButton Margin="5" Height="29" Padding="0" BorderThickness="1" Width="34" IsEnabled="{Binding AddingToWatchedTopics,Mode=TwoWay,Converter={StaticResource BoolInverterConverter}}" IsChecked="{Binding IsWatched,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                    <ToolTipService.ToolTip>
+                        <ToolTip Content="Enable notifications for this thread."/>
+                    </ToolTipService.ToolTip>
+                    <SymbolIcon Symbol="Message"/>
+                </ToggleButton>
             </StackPanel>
         </Grid>
         <ListView x:Name="ListView" ItemsSource="{x:Bind ViewModel.Messages,Mode=OneWay}" HorizontalAlignment="Stretch"

@@ -36,6 +36,7 @@
   <ItemGroup>
     <Compile Include="BL\AnimeLibraryDataStorage.cs" />
     <Compile Include="BL\HandyDataStorage.cs" />
+    <Compile Include="BL\HandyDataStorageModule.cs" />
     <Compile Include="BL\InitializationRoutines.cs" />
     <Compile Include="Comm\Anime\AnimeAddQuery.cs" />
     <Compile Include="Comm\Anime\AnimeCharactersStaffQuery.cs" />
@@ -68,6 +69,7 @@
     <Compile Include="Comm\Forums\ForumBoardIndexContentQuery.cs" />
     <Compile Include="Comm\Forums\ForumBoardTopicsQuery.cs" />
     <Compile Include="Comm\Forums\ForumSearchQuery.cs" />
+    <Compile Include="Comm\Forums\ForumTopicMessageCountQuery.cs" />
     <Compile Include="Comm\LibraryListQuery.cs" />
     <Compile Include="Comm\MagicalRawQueries\Forums\ForumTopicQueries.cs" />
     <Compile Include="Comm\MagicalRawQueries\MalFavouriteQuery.cs" />
@@ -91,6 +93,8 @@
     <Compile Include="Comm\Search\CharactersSearchQuery.cs" />
     <Compile Include="Delegates\Delegates.cs" />
     <Compile Include="Interfaces\IAnimeLibraryDataStorage.cs" />
+    <Compile Include="Interfaces\IHandyDataStorageModule.cs" />
+    <Compile Include="Interfaces\IHandyDataStorageModuleBase.cs" />
     <Compile Include="Interfaces\ISelfBackNavAware.cs" />
     <Compile Include="NavArgs\AnimeDetailsPageNavigationArgs.cs" />
     <Compile Include="NavArgs\AnimeListPageNavigationArgs.cs" />
@@ -131,6 +135,7 @@
     <Compile Include="ViewModels\Forums\ForumTopicViewModel.cs" />
     <Compile Include="ViewModels\Forums\Items\ForumTopicMessageEntryViewModel.cs" />
     <Compile Include="ViewModels\Interfaces\IDimensionsProvider.cs" />
+    <Compile Include="ViewModels\Interfaces\IHandyDataStorage.cs" />
     <Compile Include="ViewModels\Items\WallpaperItemViewModel.cs" />
     <Compile Include="ViewModels\MainViewModelBase.cs" />
     <Compile Include="ViewModels\Main\AnimeListViewModel.cs" />

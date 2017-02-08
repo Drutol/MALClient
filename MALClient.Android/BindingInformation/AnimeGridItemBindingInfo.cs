@@ -49,8 +49,8 @@ namespace MALClient.Android.BindingInformation
 
         public Action<AnimeItemViewModel> OnItemClickAction { get; set; }
 
-        public AnimeGridItemBindingInfo(View container, AnimeItemViewModel viewModel, bool allowSwipe = true)
-            : base(container, viewModel)
+        public AnimeGridItemBindingInfo(View container, AnimeItemViewModel viewModel,bool fling, bool allowSwipe = true)
+            : base(container, viewModel,fling)
         {
             AllowSwipeInGivenContext = allowSwipe;
             PrepareContainer();
@@ -58,7 +58,7 @@ namespace MALClient.Android.BindingInformation
 
         protected override void InitBindings()
         {
-            if (_bindingsInitialized)
+            if (_bindingsInitialized || Fling)
                 return;
 
             _bindingsInitialized = true;
@@ -128,7 +128,7 @@ namespace MALClient.Android.BindingInformation
                 () => addButon.Visibility).ConvertSourceToTarget(Converters.BoolToVisibility));
             addButon.SetOnClickListener(new OnClickListener(view => ViewModel.AddAnimeCommand.Execute(null)));
 
-            var tagButton = Container.FindViewById<ImageButton>(Resource.Id.AnimeGridItemTagsButton);
+            var tagButton = Container.FindViewById<FrameLayout>(Resource.Id.AnimeGridItemTagsButton);
             Bindings.Add(tagButton.Id, new List<Binding>());
             Bindings[tagButton.Id].Add(new Binding<bool, ViewStates>(
                 ViewModel,
@@ -283,18 +283,24 @@ namespace MALClient.Android.BindingInformation
             if(_oneTimeBindingsInitialized)
                 return;
             _oneTimeBindingsInitialized = true;
+          
+            if (!Fling)
+            {
+                ViewModel.AnimeItemDisplayContext = ViewModelLocator.AnimeList.AnimeItemsDisplayContext;
 
-            ViewModel.AnimeItemDisplayContext = ViewModelLocator.AnimeList.AnimeItemsDisplayContext;
+                Container.FindViewById<ImageViewAsync>(Resource.Id.AnimeGridItemImage).AnimeInto(ViewModel.ImgUrl);
+                Container.FindViewById(Resource.Id.AnimeGridItemFavouriteIndicator).Visibility =
+                    ViewModel.IsFavouriteVisibility ? ViewStates.Visible : ViewStates.Gone;
 
-            Container.FindViewById<ImageViewAsync>(Resource.Id.AnimeGridItemImage).AnimeInto(ViewModel.ImgUrl);
+                if (AllowSwipeInGivenContext && ViewModel.Auth)
+                    InitializeSwipeLayout();
+                else
+                    DisableSwipe();
 
-            if (AllowSwipeInGivenContext && ViewModel.Auth)
-                InitializeSwipeLayout();
-            else
-                DisableSwipe();
-     
-            Container.SetOnClickListener(new OnClickListener(view => ContainerOnClick()));
-            AnimeGridItemMoreButton.SetOnClickListener(new OnClickListener(view => AnimeGridItemMoreButtonOnClick()));
+                Container.SetOnClickListener(new OnClickListener(view => ContainerOnClick()));
+                AnimeGridItemMoreButton.SetOnClickListener(new OnClickListener(view => AnimeGridItemMoreButtonOnClick()));
+            }
+
 
 
             Container.FindViewById<TextView>(Resource.Id.AnimeGridItemTitle).Text = ViewModel.Title;
@@ -315,7 +321,7 @@ namespace MALClient.Android.BindingInformation
 
 
 
-        public FrameLayout AnimeGridItemMoreButton =>  Container.FindViewById<FrameLayout>(Resource.Id.AnimeGridItemMoreButton);
+        public ImageButton AnimeGridItemMoreButton =>  Container.FindViewById<ImageButton>(Resource.Id.AnimeGridItemMoreButton);
 
         
 

@@ -9,10 +9,10 @@ namespace MALClient.Android.CollectionAdapters
 {
     public class AnimeListItemsAdapter : DeeplyObservableCollectionAdapter<AnimeItemViewModel>
     {
-        private readonly Func<AnimeItemViewModel, View, BindingInfo<AnimeItemViewModel>> _factory;
+        private readonly Func<AnimeItemViewModel, View,bool, BindingInfo<AnimeItemViewModel>> _factory;
 
         public AnimeListItemsAdapter(Activity context, int layoutResource,
-            IList<AnimeItemViewModel> items, Func<AnimeItemViewModel,View, BindingInfo<AnimeItemViewModel>> factory)
+            IList<AnimeItemViewModel> items, Func<AnimeItemViewModel,View,bool, BindingInfo<AnimeItemViewModel>> factory)
             : base(context, layoutResource, items)
         {
             _factory = factory;
@@ -32,12 +32,23 @@ namespace MALClient.Android.CollectionAdapters
         protected override void PrepareView(AnimeItemViewModel item, View view)
         {
             if (!Bindings.ContainsKey(item.Id))
-                Bindings.Add(item.Id,_factory.Invoke(item,view));
+                Bindings.Add(item.Id, _factory.Invoke(item, view, false));
             else
+            {
+                Bindings[item.Id].Fling = false;
                 Bindings[item.Id].Container = view;
+            }
         }
 
-  
-
+        protected override void PrepareViewQuickly(AnimeItemViewModel item, View view)
+        {
+            if (!Bindings.ContainsKey(item.Id))
+                Bindings.Add(item.Id, _factory.Invoke(item, view, true));
+            else
+            {
+                Bindings[item.Id].Fling = true;
+                Bindings[item.Id].Container = view;
+            }
+        }
     }
 }

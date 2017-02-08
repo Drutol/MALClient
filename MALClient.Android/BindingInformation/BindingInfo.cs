@@ -16,6 +16,7 @@ namespace MALClient.Android.BindingInformation
         protected Dictionary<int, List<Binding>> Bindings { get; set; } = new Dictionary<int, List<Binding>>();
 
         protected TViewModel ViewModel { get; private set; }
+        public bool Fling { get; set; }
 
         public View Container
         {
@@ -30,9 +31,10 @@ namespace MALClient.Android.BindingInformation
             }
         }
 
-        protected BindingInfo(View container, TViewModel viewModel)
+        protected BindingInfo(View container, TViewModel viewModel,bool fling)
         {          
             ViewModel = viewModel;
+            Fling = fling;
             Container = container;
             _initialized = true;
         }

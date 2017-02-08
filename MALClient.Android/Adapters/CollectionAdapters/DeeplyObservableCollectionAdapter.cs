@@ -12,16 +12,18 @@ using MALClient.Android.BindingInformation;
 
 namespace MALClient.Android.CollectionAdapters
 {
-    public abstract class DeeplyObservableCollectionAdapter<T> : BaseAdapter<T>
+    public abstract class DeeplyObservableCollectionAdapter<T> : BaseAdapter<T> , IFlingAwareAdapter
     {
         private IList<T> Items { get; }
         private int LayoutResource { get; }
         private Activity Context { get; }
         private Dictionary<View, T> InitializedViews { get; } = new Dictionary<View, T>();
-        private bool isObservable;
+        private readonly bool _isObservable;
+        private bool _flingScrollActive;
         protected abstract void DetachOldView(T viewModel);
 
         protected abstract void PrepareView(T item, View view);
+        protected abstract void PrepareViewQuickly(T item, View view);
 
         protected abstract long GetItemId(T item);
 
@@ -40,7 +42,7 @@ namespace MALClient.Android.CollectionAdapters
             var observable = items as ObservableCollection<T>;
             if (observable != null)
             {
-                isObservable = true;
+                _isObservable = true;
                 observable.CollectionChanged += OnCollectionChanged;
             }
             NotifyDataSetChanged();
@@ -70,9 +72,13 @@ namespace MALClient.Android.CollectionAdapters
                 T item;
                 if(InitializedViews.TryGetValue(convertView,out item))
                     DetachOldView(item);
+                InitializedViews[convertView] = viewModel;
             }
 
-            PrepareView(viewModel, view);
+            if(!FlingScrollActive)
+                PrepareView(viewModel, view);
+            else
+                PrepareViewQuickly(viewModel,view);
 
             return view;
         }
@@ -81,13 +87,32 @@ namespace MALClient.Android.CollectionAdapters
         {
             if (disposing)
             {
-                if (isObservable)
+                if (_isObservable)
                     (Items as ObservableCollection<T>).CollectionChanged -= OnCollectionChanged;
                 foreach (var bindingInfo in Bindings)
                     bindingInfo.Value.Detach();
             }
 
             base.Dispose(disposing);
+        }
+
+        public bool FlingScrollActive
+        {
+            get { return _flingScrollActive; }
+            set
+            {
+                if(_flingScrollActive == value)
+                    return;
+
+                _flingScrollActive = value;
+                if (!value)
+                {
+                    foreach (var initializedView in InitializedViews)
+                    {
+                        PrepareView(initializedView.Value,initializedView.Key);
+                    }
+                }
+            }
         }
     }
 }

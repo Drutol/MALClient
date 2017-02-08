@@ -6,6 +6,8 @@ using Android.Views;
 using Android.Views.Animations;
 using Android.Widget;
 using MALClient.Android.Activities;
+using MALClient.Android.CollectionAdapters;
+using MALClient.Android.Listeners;
 
 namespace MALClient.Android
 {
@@ -84,6 +86,14 @@ namespace MALClient.Android
             {
                 layout.AddView(adapter.GetView(i,null,layout));
             }
+        }
+
+        public static void MakeFlingAware(this AbsListView list)
+        {
+            list.SetOnScrollListener(new ScrollChangedListener((view, state) =>
+            {
+                (view.Adapter as IFlingAwareAdapter).FlingScrollActive = state == ScrollState.Fling;
+            }));
         }
 
         public static TObj Unwrap<TObj>(this Java.Lang.Object obj) where TObj : class

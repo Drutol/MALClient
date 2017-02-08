@@ -148,6 +148,7 @@
     <Compile Include="Activities\MainActivity.hamburger.cs" />
     <Compile Include="Activities\MainActivity.ui.cs" />
     <Compile Include="Adapters\CollectionAdapters\AlternatingListCollectionAdapter.cs" />
+    <Compile Include="Adapters\CollectionAdapters\IFlingAwareAdapter.cs" />
     <Compile Include="Adapters\DialogAdapters\ScoreDialogAdapter.cs" />
     <Compile Include="Adapters\DialogAdapters\WatchedDialogAdapter.cs" />
     <Compile Include="Adapters\PagerAdapters\AnimeDetailsPagerAdapter.cs" />
@@ -224,11 +225,13 @@
     <Compile Include="Listeners\DialogListeners\EnumDialogListener.cs" />
     <Compile Include="Listeners\DialogListeners\IntegerDialogListener.cs" />
     <Compile Include="Listeners\DroppyMenuListener.cs" />
+    <Compile Include="Listeners\GenericMotionListener.cs" />
     <Compile Include="Listeners\HamburgerItemClickListener.cs" />
     <Compile Include="Listeners\MenuFlyoutSelectionListener.cs" />
     <Compile Include="Listeners\OnCheckedListener.cs" />
     <Compile Include="Listeners\OnClickListener.cs" />
     <Compile Include="Listeners\OnItemClickListener.cs" />
+    <Compile Include="Listeners\ScrollChangedListener.cs" />
     <Compile Include="Listeners\ScrollListener.cs" />
     <Compile Include="Listeners\SwipeLayoutListener.cs" />
     <Compile Include="Managers\ImageCache.cs" />

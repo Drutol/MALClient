@@ -32,13 +32,15 @@ namespace MALClient.Android.BindingInformation
 
         public Action<AnimeItemViewModel> OnItemClickAction { get; set; }
 
-        public AnimeListItemBindingInfo(View container, AnimeItemViewModel viewModel) : base(container, viewModel)
+        public AnimeListItemBindingInfo(View container, AnimeItemViewModel viewModel,bool fling) : base(container, viewModel,fling)
         {
             PrepareContainer();
         }
 
         protected override void InitBindings()
         {
+            if(Fling)
+                return;
 
             Bindings.Add(AnimeListItemWatchedButton.Id, new List<Binding>());
             Bindings[AnimeListItemWatchedButton.Id].Add(new Binding<string, string>(
@@ -146,7 +148,8 @@ namespace MALClient.Android.BindingInformation
             Container.SetOnClickListener(new OnClickListener(view => ContainerOnClick()));
 
             ViewModel.AnimeItemDisplayContext = ViewModelLocator.AnimeList.AnimeItemsDisplayContext;
-            ImageService.Instance.LoadUrl(ViewModel.ImgUrl).FadeAnimation(false).Success(() => AnimeListItemImage.AnimateFadeIn()).Into(AnimeListItemImage);
+            if(!Fling)
+                ImageService.Instance.LoadUrl(ViewModel.ImgUrl).FadeAnimation(false).Success(() => AnimeListItemImage.AnimateFadeIn()).Into(AnimeListItemImage);
         }
 
         protected override void DetachInnerBindings()

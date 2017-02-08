@@ -44,6 +44,9 @@ namespace MALClient.Android.Fragments
         {
             var swipeRefresh = RootView as SwipeRefreshLayout;
 
+            //AnimeListPageGridView.ScrollingCacheEnabled = false;
+
+
             Bindings.Add(Resource.Id.AnimeListPageLoadingSpinner, new List<Binding>());
             Bindings[Resource.Id.AnimeListPageLoadingSpinner].Add(
                 this.SetBinding(() => ViewModel.Loading,
@@ -167,8 +170,8 @@ namespace MALClient.Android.Fragments
                 {
                     _animeListItemsAdapter = new AnimeListItemsAdapter(Activity,
                         Resource.Layout.AnimeGridItem, ViewModelLocator.AnimeList.AnimeGridItems,
-                        (model, view) =>
-                            new AnimeGridItemBindingInfo(view, model)
+                        (model, view, fling) =>
+                            new AnimeGridItemBindingInfo(view, model, fling)
                             {
                                 OnItemClickAction = AnimeListPageGridViewOnItemClick
                             });
@@ -184,6 +187,8 @@ namespace MALClient.Android.Fragments
                         _prevArgs = null;
                     }
 
+                    AnimeListPageGridView.MakeFlingAware();
+
                     SwipeRefreshLayout.ScrollingView = AnimeListPageGridView;
 
                     AnimeListPageListView.Adapter = null;
@@ -195,7 +200,7 @@ namespace MALClient.Android.Fragments
                 if (ViewModelLocator.AnimeList.AnimeListItems != null)
                 {
                     _animeListItemsAdapter = new AnimeListItemsAdapter(Activity,
-                        Resource.Layout.AnimeListItem, ViewModelLocator.AnimeList.AnimeListItems,(model, view) => new AnimeListItemBindingInfo(view,model)
+                        Resource.Layout.AnimeListItem, ViewModelLocator.AnimeList.AnimeListItems,(model, view, fling) => new AnimeListItemBindingInfo(view,model,fling)
                         {
                             OnItemClickAction = AnimeListPageGridViewOnItemClick
                         });
@@ -205,6 +210,8 @@ namespace MALClient.Android.Fragments
                         AnimeListPageListView.SmoothScrollToPosition(_prevArgs.SelectedItemIndex);
                         _prevArgs = null;
                     }
+
+                    AnimeListPageGridView.MakeFlingAware();
 
                     SwipeRefreshLayout.ScrollingView = AnimeListPageListView;
 

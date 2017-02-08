@@ -126,6 +126,11 @@
             android:textStyle="italic"
             android:textColor="#ffffff"
             android:textSize="16dp" />
+        <ImageView
+            android:id="@+id/AnimeGridItemFavouriteIndicator"
+            android:layout_width="30dp"
+            android:layout_height="30dp" android:layout_gravity="center_horizontal"
+            android:src="@drawable/icon_fav_outline" android:scaleType="center" />
       </LinearLayout>
       <TextView
           android:layout_width="wrap_content"
@@ -145,13 +150,27 @@
           android:layout_height="wrap_content"
           android:foreground="?android:selectableItemBackground"
           android:clickable="true"
-          android:id="@+id/AnimeGridItemMoreButton"
+          android:id="@+id/AnimeGridItemTagsButton"
           android:focusable="true"
           android:layout_alignParentRight="true" android:layout_alignParentBottom="true">
-        <ImageView android:layout_width="30dp"
-            android:layout_height="40dp"
+        <ImageView android:layout_width="35dp"
+            android:layout_height="35dp" android:scaleType="center"
             android:background="@color/BrushOpaqueTextView"
-            android:src="@drawable/icon_more_vertical" />
+            android:src="@drawable/icon_tag" />
+      </FrameLayout>
+      <FrameLayout android:layout_width="40dp"
+          android:layout_height="40dp" android:layout_alignParentRight="true"
+          android:clickable="true" android:layout_alignParentBottom="true"
+          android:focusable="true"  android:layout_gravity="center_vertical"
+          android:foreground="?android:selectableItemBackground"
+          android:id="@+id/AnimeGridItemAddToListButton">
+
+        <ImageView   android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/inc_dec_btn_backgroud"
+            android:layout_gravity="center"
+            android:src="@drawable/icon_add" android:padding="5dp"
+            android:id="@+id/imageView" />
       </FrameLayout>
 
     </RelativeLayout>
@@ -170,28 +189,12 @@
           android:ellipsize="end"
           android:scrollHorizontally="false"
           android:maxLines="2" />
-      <FrameLayout android:layout_width="40dp"
-          android:layout_height="40dp"
-          android:clickable="true"
-          android:focusable="true"  android:layout_gravity="center_vertical"
-          android:foreground="?android:selectableItemBackground"
-          android:id="@+id/AnimeGridItemAddToListButton">
-
-        <ImageView   android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:background="@drawable/inc_dec_btn_backgroud"
-            android:layout_gravity="center"
-            android:src="@drawable/icon_add" android:padding="5dp"
-            android:id="@+id/imageView" />
-      </FrameLayout>
-      <ImageButton   android:layout_width="30dp"
-          android:layout_height="30dp"
-          android:id="@+id/AnimeGridItemTagsButton"
+      <ImageButton android:layout_width="wrap_content"
+          android:layout_height="match_parent"
+          android:id="@+id/AnimeGridItemMoreButton"
           android:background="?android:selectableItemBackground"
-          android:layout_gravity="bottom"
-          android:layout_margin="5dp"
-          android:src="@drawable/icon_tag" android:padding="5dp"/>
-
+          android:layout_gravity="center"
+          android:src="@drawable/icon_more_vertical" android:padding="5dp"/>
     </LinearLayout>
   </LinearLayout>
 </com.daimajia.swipe.SwipeLayout>

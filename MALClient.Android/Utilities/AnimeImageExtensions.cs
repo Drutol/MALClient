@@ -14,10 +14,16 @@ namespace MALClient.Android
                 var pos = originUrl.IndexOf(".jpg", StringComparison.InvariantCulture);
                 if (pos == -1)
                     pos = originUrl.IndexOf(".webp", StringComparison.InvariantCulture);
+                
                 if (pos != -1)
                 {
                     var uri = originUrl.Insert(pos, "l");
                     var work = ImageService.Instance.LoadUrl(uri);
+                    if (image.Tag != null)
+                    {
+                        work = work.Success(image.AnimateFadeIn);
+                    }
+
                     image.Tag = originUrl;
                     work.Error(exception =>
                     {
@@ -25,7 +31,7 @@ namespace MALClient.Android
                             .FadeAnimation(false)
                             .Success(image.AnimateFadeIn)
                             .Into(image);
-                    }).FadeAnimation(false).Success(image.AnimateFadeIn).Into(image);
+                    }).FadeAnimation(false).Into(image);
                 }
                 else if (!string.IsNullOrEmpty(originUrl))
                     ImageService.Instance.LoadUrl(originUrl)

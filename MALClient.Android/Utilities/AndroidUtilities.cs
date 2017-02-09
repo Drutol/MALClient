@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using Android.Support.V4.View.Animation;
 using Android.Views;
 using Android.Views.Animations;
 using Android.Widget;
@@ -67,15 +68,18 @@ namespace MALClient.Android
         public static void AnimateFadeIn(this View view)
         {
             Animation fadeIn = new AlphaAnimation(0, 1);
-            fadeIn.Interpolator = new DecelerateInterpolator(); //add this
-            fadeIn.Duration = 400;
+            fadeIn.Interpolator = new LinearInterpolator();
+            fadeIn.Duration = 500;
             try
-            {
-                MainActivity.CurrentContext.RunOnUiThread(() => view.StartAnimation(fadeIn));
+            {            
+                MainActivity.CurrentContext.RunOnUiThread(() =>
+                {
+                    view.StartAnimation(fadeIn);
+                });
             }
             catch (Exception e)
             {
-
+                view.Alpha = 1;
             }
 
         }

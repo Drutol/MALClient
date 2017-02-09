@@ -111,6 +111,16 @@ namespace MALClient.Android.Fragments
             Bindings[AnimeDetailsPagePivot.Id].Add(
                 this.SetBinding(() => ViewModel.DetailsPivotSelectedIndex).WhenSourceChanges(() => AnimeDetailsPagePivot.SetCurrentItem(ViewModel.DetailsPivotSelectedIndex,true)));
 
+            Bindings.Add(AnimeDetailsPageFavouriteButton.Id, new List<Binding>());
+            Bindings[AnimeDetailsPageFavouriteButton.Id].Add(
+                this.SetBinding(() => ViewModel.IsFavourite).WhenSourceChanges(() =>
+                { 
+                    AnimeDetailsPageFavouriteButton.SetImageResource(ViewModel.IsFavourite
+                        ? Resource.Drawable.icon_favourite
+                        : Resource.Drawable.icon_fav_outline);
+                }));
+
+            AnimeDetailsPageFavouriteButton.SetCommand("Click",ViewModel.ToggleFavouriteCommand);
             AnimeDetailsPageIncrementButton.SetCommand("Click",ViewModel.IncrementEpsCommand);
             AnimeDetailsPageDecrementButton.SetCommand("Click",ViewModel.DecrementEpsCommand);
             AnimeDetailsPageMoreButton.Click +=

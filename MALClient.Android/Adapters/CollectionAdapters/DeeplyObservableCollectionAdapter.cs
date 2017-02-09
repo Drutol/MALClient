@@ -34,6 +34,9 @@ namespace MALClient.Android.CollectionAdapters
 
         public override int Count => this.Items.Count;
 
+        public const int MaxFlingThroughItems = 5;
+        public int CurrentFlingedThroughItemsCount { get; set; }
+
         protected DeeplyObservableCollectionAdapter(Activity context, int layoutResource, IList<T> items)
         {
             Context = context;
@@ -75,10 +78,17 @@ namespace MALClient.Android.CollectionAdapters
                 InitializedViews[convertView] = viewModel;
             }
 
-            if(!FlingScrollActive)
+            if (!FlingScrollActive || Items.Count < FlingItemCountThreshold ||
+                CurrentFlingedThroughItemsCount > MaxFlingThroughItems) //flingthrough will create illusion of changing items
+            {
                 PrepareView(viewModel, view);
+                CurrentFlingedThroughItemsCount = 0;
+            }
             else
+            {
                 PrepareViewQuickly(viewModel,view);
+                CurrentFlingedThroughItemsCount++;
+            }
 
             return view;
         }
@@ -107,12 +117,16 @@ namespace MALClient.Android.CollectionAdapters
                 _flingScrollActive = value;
                 if (!value)
                 {
-                    foreach (var initializedView in InitializedViews)
-                    {
-                        PrepareView(initializedView.Value,initializedView.Key);
-                    }
+                    CurrentFlingedThroughItemsCount = 0;
+                    if(Items.Count > FlingItemCountThreshold)
+                        foreach (var initializedView in InitializedViews)
+                        {
+                            PrepareView(initializedView.Value,initializedView.Key);
+                        }
                 }
             }
         }
+
+        public int FlingItemCountThreshold { get; set; } = 15;
     }
 }

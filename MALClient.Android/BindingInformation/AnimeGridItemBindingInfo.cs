@@ -72,6 +72,11 @@ namespace MALClient.Android.BindingInformation
                 () => ViewModel.Type,
                 typeView,
                 () => typeView.Text));
+            Bindings[typeView.Id].Add(new Binding<string, ViewStates>(
+                ViewModel,
+                () => ViewModel.Type,
+                typeView,
+                () => typeView.Visibility).ConvertSourceToTarget(s => string.IsNullOrEmpty(s) ? ViewStates.Gone : ViewStates.Visible));
 
             var topLeftView = Container.FindViewById<TextView>(Resource.Id.AnimeGridItemToLeftInfo);
             Bindings.Add(Resource.Id.AnimeGridItemToLeftInfo, new List<Binding>());
@@ -284,7 +289,7 @@ namespace MALClient.Android.BindingInformation
                 return;
             _oneTimeBindingsInitialized = true;
           
-            if (!Fling)
+            if (!Fling && (int)Container.Tag != ViewModel.Id)
             {
                 ViewModel.AnimeItemDisplayContext = ViewModelLocator.AnimeList.AnimeItemsDisplayContext;
 
@@ -299,10 +304,16 @@ namespace MALClient.Android.BindingInformation
 
                 Container.SetOnClickListener(new OnClickListener(view => ContainerOnClick()));
                 AnimeGridItemMoreButton.SetOnClickListener(new OnClickListener(view => AnimeGridItemMoreButtonOnClick()));
+
+                Container.Tag = ViewModel.Id;
+            }
+            else if(Fling)
+            {
+                
             }
 
 
-
+            
             Container.FindViewById<TextView>(Resource.Id.AnimeGridItemTitle).Text = ViewModel.Title;
         }
         
@@ -322,8 +333,5 @@ namespace MALClient.Android.BindingInformation
 
 
         public ImageButton AnimeGridItemMoreButton =>  Container.FindViewById<ImageButton>(Resource.Id.AnimeGridItemMoreButton);
-
-        
-
     }
 }

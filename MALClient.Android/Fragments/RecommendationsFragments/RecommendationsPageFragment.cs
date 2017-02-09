@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Android.OS;
@@ -45,10 +46,22 @@ namespace MALClient.Android.Fragments.RecommendationsFragments
             Bindings[RecommendationsPagePivot.Id].Add(
                 this.SetBinding(() => ViewModel.RecommendationAnimeItems).WhenSourceChanges(() =>
                 {
-                    if (ViewModel.RecommendationAnimeItems.Any())
+                    if (ViewModel.RecommendationAnimeItems?.Any() ?? false)
                     {
                         RecommendationsPagePivot.Adapter = new RecommandtionsPagerAdapter(FragmentManager,
-                            ViewModel.RecommendationAnimeItems.Select(item => item.Content as RecommendationItemViewModel));
+                            ViewModel.RecommendationAnimeItems.Select(
+                                item => item.Content as RecommendationItemViewModel));
+                        RecommendationsPageTabStrip.SetViewPager(RecommendationsPagePivot);
+                        RecommendationsPagePivot.SetCurrentItem(ViewModel.PivotItemIndex, false);
+                    }
+                }));
+            Bindings[RecommendationsPagePivot.Id].Add(
+                this.SetBinding(() => ViewModel.RecommendationAnimeItems).WhenSourceChanges(() =>
+                {
+                    if (ViewModel.RecommendationMangaItems?.Any() ?? false)
+                    {
+                        RecommendationsPagePivot.Adapter = new RecommandtionsPagerAdapter(FragmentManager,
+                            ViewModel.RecommendationMangaItems.Select(item => item.Content as RecommendationItemViewModel));
                         RecommendationsPageTabStrip.SetViewPager(RecommendationsPagePivot);
                         RecommendationsPagePivot.SetCurrentItem(ViewModel.PivotItemIndex, false);
                     }

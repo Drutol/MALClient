@@ -1,0 +1,8 @@
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_enabled="false" android:drawable="#7f7f7f"/>
+    <item android:state_pressed="false"
+        android:drawable="@color/AccentColourLight" /> <!-- pressed -->
+    <item android:state_pressed="true"
+        android:drawable="@color/AccentColourDark" /> <!-- focused -->
+    <item android:state_enabled="true" android:drawable="@color/AccentColour"/> <!-- idle state -->
+</selector>

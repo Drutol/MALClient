@@ -14,6 +14,7 @@ using GalaSoft.MvvmLight.Command;
 using MALClient.Android.Fragments;
 using MALClient.Android.Fragments.ArticlesPageFragments;
 using MALClient.Android.Fragments.CalendarFragments;
+using MALClient.Android.Fragments.ProfilePageFragments;
 using MALClient.Android.Fragments.RecommendationsFragments;
 using MALClient.Android.Fragments.SearchFragments;
 using MALClient.Android.Fragments.SettingsFragments;
@@ -161,22 +162,18 @@ namespace MALClient.Android.ViewModels
                     MainNavigationRequested?.Invoke(LogInPageFragment.Instance);
                     break;
                 case PageIndex.PageProfile:
-                    //HideSearchStuff();
-                    //RefreshButtonVisibility = true;
-                    //if (Settings.SelectedApiType == ApiType.Mal)
-                    //    RefreshDataCommand =
-                    //        new RelayCommand(() => ViewModelLocator.ProfilePage.LoadProfileData(null, true));
-                    //else
-                    //    RefreshDataCommand = new RelayCommand(() => ViewModelLocator.HumProfilePage.Init(true));
-                    //if (Settings.SelectedApiType == ApiType.Mal)
-                    //{
-                    //    if (CurrentMainPage == PageIndex.PageProfile)
-                    //        ViewModelLocator.ProfilePage.LoadProfileData(args as ProfilePageNavigationArgs);
-                    //    else
-                    //        MainNavigationRequested?.Invoke(typeof(ProfilePage), args);
-                    //}
-                    //else
-                    //    MainNavigationRequested?.Invoke(typeof(HummingbirdProfilePage), args);
+                    HideSearchStuff();
+                    RefreshButtonVisibility = true;
+                    if (Settings.SelectedApiType == ApiType.Mal)
+                        RefreshDataCommand =
+                            new RelayCommand(async () => await ViewModelLocator.ProfilePage.LoadProfileData(null, true));
+                    if (Settings.SelectedApiType == ApiType.Mal)
+                    {
+                        if (CurrentMainPage == PageIndex.PageProfile)
+                            ViewModelLocator.ProfilePage.LoadProfileData(args as ProfilePageNavigationArgs);
+                        else
+                            MainNavigationRequested?.Invoke(new ProfilePageFragment(args as ProfilePageNavigationArgs));
+                    }
                     break;
                 case PageIndex.PageRecomendations:
                     HideSearchStuff();

@@ -56,9 +56,9 @@
               android:layout_height="wrap_content" android:textColor="?AccentColour" android:text="Friends" android:textSize="@dimen/FontSizeHuge" android:fontFamily="@string/font_family_light"/>
         </RelativeLayout>
         <MALClient.Android.UserControls.ExpandableGridView android:id="@+id/ProfilePageGeneralTabFriendsGrid" android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content" android:numColumns="auto_fit"/>
       </LinearLayout>
-      <LinearLayout
+      <LinearLayout android:background="?BrushDeepBackground"
           android:layout_width="match_parent"
           android:layout_height="wrap_content" android:padding="10dp" android:orientation="vertical">
         <TextView

@@ -15,7 +15,7 @@
         android:layout_width="match_parent"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         app:pstsPaddingMiddle="true"
-        android:layout_height="25dp"
+        android:layout_height="55dp"
         android:textColorPrimary="?AccentColour"
         android:background="?BrushPivotHeaderBackground"/>
     <android.support.v4.view.ViewPager

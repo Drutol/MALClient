@@ -87,6 +87,7 @@ namespace MALClient.Android
 
         public static void SetAdapter(this LinearLayout layout, BaseAdapter adapter)
         {
+            layout.RemoveAllViews();
             for (int i = 0; i < adapter.Count; i++)
             {
                 layout.AddView(adapter.GetView(i,null,layout));

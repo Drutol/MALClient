@@ -15,15 +15,15 @@
   </style>
 
   <style name="AccentButtonStyle">
-    <item name="android:background">@drawable/accent_button_background</item>
+    <item name="android:background">?AccentColour</item>
     <item name="android:textColor">#fff</item>
     <item name="android:textAllCaps">false</item>
     <item name="android:minWidth">30dp</item>
     <item name="android:minHeight">30dp</item>
-    <item name="android:paddingTop">5dp</item>
-    <item name="android:paddingBottom">5dp</item>
-    <item name="android:paddingStart">8dp</item>
-    <item name="android:paddingEnd">8dp</item>
+    <item name="android:paddingTop">7dp</item>
+    <item name="android:paddingBottom">7dp</item>
+    <item name="android:paddingStart">10dp</item>
+    <item name="android:paddingEnd">10dp</item>
   </style>
 
   <style name="AccentColourButtonStyle">

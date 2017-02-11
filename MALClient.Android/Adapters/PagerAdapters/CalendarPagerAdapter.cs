@@ -62,7 +62,7 @@ namespace MALClient.Android.PagerAdapters
                 img.ScaleX = .7f;
                 img.ScaleY = .7f;
                 img.SetScaleType(ImageView.ScaleType.CenterInside);
-                img.ImageTintList = ColorStateList.ValueOf(new Color(ResourceExtension.BrushTextRes));
+                img.ImageTintList = ColorStateList.ValueOf(new Color(ResourceExtension.BrushText));
                 img.SetImageResource(Resource.Drawable.icon_list);
                 viewUpper = img;
                 viewBottom.Text = "Summary";

@@ -16,13 +16,8 @@ namespace MALClient.Android.UserControls
 {
     public class ExpandableGridView : GridView
     {
-        private bool _isExpanded;
-
-        public bool IsExpanded
-        {
-            get { return _isExpanded; }
-            set { _isExpanded = value; }
-        }
+        public float ItemHeight { get; set; }
+        public float ItemWidth { get; set; } = 1;
 
         public ExpandableGridView(Context context) : base(context)
         {
@@ -41,22 +36,18 @@ namespace MALClient.Android.UserControls
 
         protected override void OnMeasure(int widthMeasureSpec, int heightMeasureSpec)
         {
-            // HACK! TAKE THAT ANDROID!
-            if (IsExpanded)
-            {
-                // Calculate entire height by providing a very large height hint.
-                // View.MEASURED_SIZE_MASK represents the largest height possible.
-                int expandSpec = MeasureSpec.MakeMeasureSpec(MeasuredSizeMask,
-                    MeasureSpecMode.AtMost);
-                base.OnMeasure(widthMeasureSpec, expandSpec);
 
-                ViewGroup.LayoutParams param = LayoutParameters;
-                param.Height = MeasuredHeight;
-            }
-            else
-            {
-                base.OnMeasure(widthMeasureSpec, heightMeasureSpec);
-            }
+            // Calculate entire height by providing a very large height hint.
+            // View.MEASURED_SIZE_MASK represents the largest height possible.
+            int expandSpec = MeasureSpec.MakeMeasureSpec(MeasuredSizeMask,
+                MeasureSpecMode.AtMost);
+            base.OnMeasure(widthMeasureSpec, expandSpec);
+
+            if(Width == 0)
+                return;
+            ViewGroup.LayoutParams param = LayoutParameters;
+            param.Height = DimensionsHelper.DpToPx(8.0f/(Width/ItemWidth) * ItemHeight);
+
         }
     }
 }

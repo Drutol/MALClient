@@ -76,6 +76,8 @@
   
   <color name="Transparent">#00ffffff</color>
   <color name="BrushOpaqueTextView">#bd000000</color>
+  
+  <color name="White">#fff</color>
 
 
 

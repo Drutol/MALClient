@@ -1,4 +1,5 @@
 using System;
+using Android.Views;
 using FFImageLoading;
 using FFImageLoading.Views;
 using MALClient.XShared.Utils;
@@ -14,15 +15,13 @@ namespace MALClient.Android
                 var pos = originUrl.IndexOf(".jpg", StringComparison.InvariantCulture);
                 if (pos == -1)
                     pos = originUrl.IndexOf(".webp", StringComparison.InvariantCulture);
-                
+                image.Visibility = ViewStates.Invisible;
                 if (pos != -1)
                 {
                     var uri = originUrl.Insert(pos, "l");
                     var work = ImageService.Instance.LoadUrl(uri);
-                    if (image.Tag != null)
-                    {
-                        work = work.Success(image.AnimateFadeIn);
-                    }
+
+                    work = work.Success(image.AnimateFadeIn);
 
                     image.Tag = originUrl;
                     work.Error(exception =>

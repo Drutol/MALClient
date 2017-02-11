@@ -32,6 +32,7 @@ namespace MALClient.Android.Fragments.SettingsFragments
                 case SettingsPageIndex.Caching:
                     break;
                 case SettingsPageIndex.Calendar:
+                    fragment = new SettingsCalendarFragment();
                     break;
                 case SettingsPageIndex.Articles:
                     break;

@@ -34,37 +34,86 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
 
         protected override void InitBindings()
         {
-            Bindings.Add(1,new List<Binding>());
+            Bindings.Add(1, new List<Binding>());
+            Bindings[1].Add(
+                this.SetBinding(() => ViewModel.CurrentData).WhenSourceChanges(() =>
+                {
+                    ImageService.Instance.LoadUrl(ViewModel.CurrentData.User.ImgUrl)
+                        .Success(ProfilePageGeneralTabAnimeUserImg.AnimateFadeIn)
+                        .Into(ProfilePageGeneralTabAnimeUserImg);
 
-            this.SetBinding(() => ViewModel.CurrentData).WhenSourceChanges(() =>
+                    ProfilePageGeneralTabDetailsList.SetAdapter(
+                        ViewModel.CurrentData.Details.GetAdapter(GetDetailTemplateDelegate));
+
+                    ProfilePageGeneralTabFriendsGrid.ItemHeight =
+                        ProfilePageGeneralTabFriendsGrid.ItemWidth = DimensionsHelper.DpToPx(65);
+                    ProfilePageGeneralTabFriendsGrid.SetColumnWidth((int) ProfilePageGeneralTabFriendsGrid.ItemWidth);
+                    ProfilePageGeneralTabFriendsGrid.Adapter =
+                        ViewModel.CurrentData.Friends.GetAdapter(GetFriendTemplateDelegate);
+
+                    ProfilePageGeneralTabCommentsList.SetAdapter(
+                        ViewModel.CurrentData.Comments.GetAdapter(GetCommentTemplateDelegate));
+
+                    ProfilePageGeneralTabAnimeListButton.SetCommand(ViewModel.NavigateAnimeListCommand);
+                    ProfilePageGeneralTabMangaListButton.SetCommand(ViewModel.NavigateMangaListCommand);
+                    ProfilePageGeneralTabHistoryButton.SetCommand(ViewModel.NavigateHistoryCommand);
+                }));
+        }
+
+        private View GetCommentTemplateDelegate(int i, MalComment malComment, View convertView)
+        {
+            var view = convertView;
+
+
+            if (view == null)
             {
-                ImageService.Instance.LoadUrl(ViewModel.CurrentData.User.ImgUrl)
-                    .Success(ProfilePageGeneralTabAnimeUserImg.AnimateFadeIn)
-                    .Into(ProfilePageGeneralTabAnimeUserImg);
+                view = Activity.LayoutInflater.Inflate(Resource.Layout.ProfilePageGeneralTabCommentItem, null);
+                view.FindViewById<Button>(Resource.Id.ProfilePageGeneralTabCommentItemDeleteButton).Click += OnCommentDeleteClick;
+                view.FindViewById<Button>(Resource.Id.ProfilePageGeneralTabCommentItemConvButton).Click += OnCommentConversationClick;
+            }
 
-                ProfilePageGeneralTabDetailsList.SetAdapter(
-                    ViewModel.CurrentData.Details.GetAdapter(GetDetailTemplateDelegate));
+            ImageService.Instance.LoadUrl(malComment.User.ImgUrl)
+                .Success(view.FindViewById(Resource.Id.ProfilePageGeneralTabCommentItemUserImg).AnimateFadeIn)
+                .Into(view.FindViewById<ImageViewAsync>(Resource.Id.ProfilePageGeneralTabCommentItemUserImg));
 
-                ProfilePageGeneralTabFriendsGrid.ItemHeight = ProfilePageGeneralTabFriendsGrid.ItemWidth = DimensionsHelper.DpToPx(65);
-                ProfilePageGeneralTabFriendsGrid.SetColumnWidth((int)ProfilePageGeneralTabFriendsGrid.ItemWidth);
-                ProfilePageGeneralTabFriendsGrid.Adapter =
-                    ViewModel.CurrentData.Friends.GetAdapter(GetFriendTemplateDelegate);
+            view.FindViewById<TextView>(Resource.Id.ProfilePageGeneralTabCommentItemUsername).Text = malComment.User.Name;
+            view.FindViewById<TextView>(Resource.Id.ProfilePageGeneralTabCommentItemDate).Text = malComment.Date;
+            view.FindViewById<TextView>(Resource.Id.ProfilePageGeneralTabCommentItemContent).Text = malComment.Content;
 
-                ProfilePageGeneralTabAnimeListButton.SetCommand(ViewModel.NavigateAnimeListCommand);
-                ProfilePageGeneralTabMangaListButton.SetCommand(ViewModel.NavigateMangaListCommand);
-                ProfilePageGeneralTabHistoryButton.SetCommand(ViewModel.NavigateHistoryCommand);
-            });
+            view.FindViewById(Resource.Id.ProfilePageGeneralTabCommentItemDeleteButton).Visibility = malComment.CanDelete ? ViewStates.Visible : ViewStates.Gone;
+            view.FindViewById(Resource.Id.ProfilePageGeneralTabCommentItemDeleteButton).Visibility = string.IsNullOrEmpty(malComment.ComToCom) ? ViewStates.Gone : ViewStates.Visible;
 
+            view.Tag = malComment.Wrap();
+            
+            return view;
+        }
 
+        private void OnCommentConversationClick(object sender, EventArgs eventArgs)
+        {
+            
+        }
+
+        private void OnCommentDeleteClick(object sender, EventArgs eventArgs)
+        {
+            
 
         }
 
         private View GetFriendTemplateDelegate(int i, MalUser malUser, View convertView)
         {
             var view = convertView;
-            view = view ?? new ImageViewAsync(Context) {LayoutParameters = new ViewGroup.LayoutParams(DimensionsHelper.DpToPx(65),DimensionsHelper.DpToPx(65))};
+            if (view == null)
+            {
+                var pic = new ImageViewAsync(Context) {LayoutParameters = new ViewGroup.LayoutParams(DimensionsHelper.DpToPx(65),DimensionsHelper.DpToPx(65))};
+                pic.ScaleToFit = true;
+                pic.SetScaleType(ImageView.ScaleType.Matrix);
+                pic.SetAdjustViewBounds(false);
+                view = pic;
+            }
 
-            ImageService.Instance.LoadUrl(malUser.ImgUrl).Success(view.AnimateFadeIn).Into(view as ImageViewAsync);
+            var img = view as ImageViewAsync;
+
+            img.Into(malUser.ImgUrl);
 
             return view;
         }

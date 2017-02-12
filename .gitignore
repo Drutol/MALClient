@@ -217,3 +217,5 @@ Components/
 MALClient.Mobile/BundleArtifacts/
 MALClient.Desktop/BundleArtifacts/
 _pkginfo.txt
+*.targets
+Resource.Designer.cs

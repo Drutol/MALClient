@@ -266,6 +266,7 @@
     <AndroidResource Include="Resources\layout\AnimeListPage.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
+    <AndroidResource Include="Resources\layout\ProfilePageGeneralTabCommentItem.xml" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\MainPage.xml">

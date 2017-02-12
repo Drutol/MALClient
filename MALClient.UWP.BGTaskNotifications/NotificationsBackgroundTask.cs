@@ -115,7 +115,7 @@ namespace MALClient.UWP.BGTaskNotifications
             {
                 if (!watchedTopic.OnCooldown)
                 {
-                    var count = await new ForumTopicMessageCountQuery(watchedTopic.Id).GetMessageCount();
+                    var count = await new ForumTopicMessageCountQuery(watchedTopic.Id).GetMessageCount(true);
                     if (count == null)
                         continue;
 

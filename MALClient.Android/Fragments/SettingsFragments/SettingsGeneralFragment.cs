@@ -171,6 +171,8 @@ namespace MALClient.Android.Fragments.SettingsFragments
                     () => SettingsPageGeneralAllowDateOverrideCheckBox.Checked,BindingMode.TwoWay));
             //
             SettingsPageGeneralAirDayOffsetSlider.Progress = Settings.AirDayOffset + 3;
+            SettingsPageGeneralAirDayOffsetTextView.Text = (Settings.AirDayOffset).ToString();
+
             SettingsPageGeneralAirDayOffsetSlider.ProgressChanged += (sender, args) =>
             {
                 Settings.AirDayOffset = SettingsPageGeneralAirDayOffsetSlider.Progress - 3;

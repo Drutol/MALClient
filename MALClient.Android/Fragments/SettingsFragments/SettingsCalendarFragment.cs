@@ -34,9 +34,12 @@ namespace MALClient.Android.Fragments.SettingsFragments
         protected override void InitBindings()
         {
             Bindings.Add(SettingsPageCalendarBuildOptionsWatchingCheckBox.Id, new List<Binding>());
+            Bindings[_settingsPageCalendarBuildOptionsWatchingCheckBox.Id].Add(
+                this.SetBinding(() => ViewModel.CalendarIncludeWatching,
+                    () => _settingsPageCalendarBuildOptionsWatchingCheckBox.Checked, BindingMode.TwoWay));
             Bindings[SettingsPageCalendarBuildOptionsWatchingCheckBox.Id].Add(
-                this.SetBinding(() => ViewModel.SetStartDateOnListAdd,
-                    () => SettingsPageCalendarBuildOptionsPlanToWatchCheckBox.Checked, BindingMode.TwoWay));
+                this.SetBinding(() => ViewModel.CalendarIncludePlanned,
+                    () => _settingsPageCalendarBuildOptionsPlanToWatchCheckBox.Checked, BindingMode.TwoWay));
             //
             SettingsPageCalendarStartPageRadioGroup.Check(Settings.CalendarStartOnToday == true
                 ? SettingsPageCalendarStartPageRadioToday.Id
@@ -48,11 +51,15 @@ namespace MALClient.Android.Fragments.SettingsFragments
             //
             Bindings.Add(SettingsPageCalendarMiscFirstDaySwitch.Id, new List<Binding>());
             Bindings[SettingsPageCalendarMiscFirstDaySwitch.Id].Add(
-                this.SetBinding(() => ViewModel.PullHigherQualityImages,
+                this.SetBinding(() => ViewModel.CalendarSwitchMonSun,
+                    () => SettingsPageCalendarMiscFirstDaySwitch.Checked, BindingMode.TwoWay));
+            Bindings[SettingsPageCalendarMiscFirstDaySwitch.Id].Add(
+                this.SetBinding(() => ViewModel.CalendarRemoveEmptyDays,
                     () => SettingsPageCalendarMiscRemoveEmptyDaysSwitch.Checked, BindingMode.TwoWay));
             Bindings[SettingsPageCalendarMiscFirstDaySwitch.Id].Add(
-                this.SetBinding(() => ViewModel.DisplaySeasonWithType,
+                this.SetBinding(() => ViewModel.CalendarPullExactAiringTime,
                     () => SettingsPageCalendarMiscExactAiringTimeSwitch.Checked, BindingMode.TwoWay));
+
         }
 
         public override int LayoutResourceId => Resource.Layout.SettingsPageCalendar;

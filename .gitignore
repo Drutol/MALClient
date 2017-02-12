@@ -189,6 +189,9 @@ UpgradeLog*.htm
 *.mdf
 *.ldf
 
+*.targets
+*.Designer.cs
+
 # Business Intelligence projects
 *.rdl.data
 *.bim.layout
@@ -217,5 +220,5 @@ Components/
 MALClient.Mobile/BundleArtifacts/
 MALClient.Desktop/BundleArtifacts/
 _pkginfo.txt
+MALClient.Android/Resources/Resource.Designer.cs
 *.targets
-Resource.Designer.cs

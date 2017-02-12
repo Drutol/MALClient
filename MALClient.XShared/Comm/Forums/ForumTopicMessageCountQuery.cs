@@ -19,7 +19,7 @@ namespace MALClient.XShared.Comm.Forums
             Request.Method = "GET";
         }
 
-        public async Task<int?> GetMessageCount()
+        public async Task<int?> GetMessageCount(bool failIfLastMessageIsMine)
         {
             var raw = await GetRequestResponse();
             var doc = new HtmlDocument();
@@ -28,6 +28,14 @@ namespace MALClient.XShared.Comm.Forums
             try
             {
                 var row = doc.WhereOfDescendantsWithClass("div", "forum_border_around").Last();
+                if (failIfLastMessageIsMine)
+                {
+                    var tds = row.Descendants("tr").First().ChildNodes.Where(node => node.Name == "td").ToList();
+                    var posterName = WebUtility.HtmlDecode(tds[0].Descendants("strong").First().InnerText.Trim());
+                    if (Credentials.UserName.Equals(posterName, StringComparison.CurrentCultureIgnoreCase))
+                        return null;
+                }
+
                 var divs = row.ChildNodes.Where(node => node.Name == "div").ToList();
                 var headerDivs = divs[0].Descendants("div").ToList();
                 return int.Parse(WebUtility.HtmlDecode(headerDivs[1].InnerText.Trim()).Substring(1));

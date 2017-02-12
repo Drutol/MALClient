@@ -14,6 +14,18 @@
     <item name="colorControlHighlight">?OpaqueAccentColour</item>
   </style>
 
+  <style name="AccentButtonStyle">
+    <item name="android:background">?AccentColour</item>
+    <item name="android:textColor">#fff</item>
+    <item name="android:textAllCaps">false</item>
+    <item name="android:minWidth">30dp</item>
+    <item name="android:minHeight">30dp</item>
+    <item name="android:paddingTop">7dp</item>
+    <item name="android:paddingBottom">7dp</item>
+    <item name="android:paddingStart">10dp</item>
+    <item name="android:paddingEnd">10dp</item>
+  </style>
+
   <style name="AccentColourButtonStyle">
     <item name="android:background">?AccentColourDark</item>
     <item name="android:fontFamily">@string/font_family_light</item>
@@ -67,6 +79,7 @@
     <item name="BrushSettingsSubtitle">@color/DarkBrushSettingsSubtitle</item>
     <item name="BrushFavouriteStarBackground">@color/DarkBrushFavouriteStarBackground</item>
     <item name="BrushNoSearchResults">@color/DarkBrushNoSearchResults</item>
+    <item name="BrushNoSearchResultsContrasting">@color/DarkBrushNoSearchResults</item>
     <item name="BrushButtonPressed">@color/DarkBrushButtonPressed</item>
     <item name="BrushFlyoutBackground">@color/DarkBrushFlyoutBackground</item>
     <item name="BrushSelectedDialogItem">@color/DarkBrushSelectedDialogItem</item>
@@ -113,6 +126,7 @@
     <item name="BrushSettingsSubtitle">@color/LightBrushSettingsSubtitle</item>
     <item name="BrushFavouriteStarBackground">@color/LightBrushFavouriteStarBackground</item>
     <item name="BrushNoSearchResults">@color/LightBrushNoSearchResults</item>
+    <item name="BrushNoSearchResultsContrasting">@color/White</item>
     <item name="BrushButtonPressed">@color/LightBrushButtonPressed</item>
     <item name="BrushFlyoutBackground">@color/LightBrushFlyoutBackground</item>
     <item name="BrushSelectedDialogItem">@color/LightBrushSelectedDialogItem</item>

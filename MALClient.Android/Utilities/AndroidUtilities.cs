@@ -74,18 +74,20 @@ namespace MALClient.Android
             {            
                 MainActivity.CurrentContext.RunOnUiThread(() =>
                 {
+                    view.Visibility = ViewStates.Visible;
                     view.StartAnimation(fadeIn);
                 });
             }
             catch (Exception e)
             {
-                view.Alpha = 1;
+
             }
 
         }
 
         public static void SetAdapter(this LinearLayout layout, BaseAdapter adapter)
         {
+            layout.RemoveAllViews();
             for (int i = 0; i < adapter.Count; i++)
             {
                 layout.AddView(adapter.GetView(i,null,layout));

@@ -19,10 +19,12 @@ namespace MALClient.Android.Fragments
     public abstract class MalFragmentBase : Fragment
     {
         private readonly bool _initBindings;
+        private readonly bool _detachBindingOnDestroy;
 
-        protected MalFragmentBase(bool initBindings = true)
+        protected MalFragmentBase(bool initBindings = true,bool detachBindingOnDestroy = true)
         {
             _initBindings = initBindings;
+            _detachBindingOnDestroy = detachBindingOnDestroy;
         }
 
         protected View RootView { get; private set; }
@@ -47,14 +49,15 @@ namespace MALClient.Android.Fragments
         {
             if (RootView == null)
                 RootView = inflater.Inflate(LayoutResourceId, container, false);
-            if (_initBindings)
+            if (_initBindings && !Bindings.Any())
                 InitBindings();
             return RootView;
         }
 
         public sealed override void OnStop()
         {
-            DetachBindings();
+            if(_detachBindingOnDestroy)
+                DetachBindings();
             base.OnStop();
         }
 

@@ -30,6 +30,7 @@
     <attr name="BrushSettingsSubtitle" format="reference"/>
     <attr name="BrushFavouriteStarBackground" format="reference"/>
     <attr name="BrushNoSearchResults" format="reference"/>
+    <attr name="BrushNoSearchResultsContrasting" format="reference"/>
     <attr name="BrushButtonPressed" format="reference"/>
     <attr name="BrushFlyoutBackground" format="reference"/>
     <attr name="BrushSelectedDialogItem" format="reference"/>

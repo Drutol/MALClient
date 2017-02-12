@@ -293,7 +293,12 @@ namespace MALClient.Android.BindingInformation
             {
                 ViewModel.AnimeItemDisplayContext = ViewModelLocator.AnimeList.AnimeItemsDisplayContext;
 
-                Container.FindViewById<ImageViewAsync>(Resource.Id.AnimeGridItemImage).AnimeInto(ViewModel.ImgUrl);
+
+                var img = Container.FindViewById<ImageViewAsync>(Resource.Id.AnimeGridItemImage);
+                img.AnimeInto(ViewModel.ImgUrl);
+                Container.FindViewById(Resource.Id.AnimeGridItemImgPlaceholder).Visibility = ViewStates.Gone;
+
+
                 Container.FindViewById(Resource.Id.AnimeGridItemFavouriteIndicator).Visibility =
                     ViewModel.IsFavouriteVisibility ? ViewStates.Visible : ViewStates.Gone;
 
@@ -309,7 +314,9 @@ namespace MALClient.Android.BindingInformation
             }
             else if(Fling)
             {
-                
+                Container.FindViewById(Resource.Id.AnimeGridItemImage).Visibility = ViewStates.Invisible;
+                Container.FindViewById(Resource.Id.AnimeGridItemImgPlaceholder).Visibility = ViewStates.Visible;
+
             }
 
 

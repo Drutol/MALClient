@@ -458,7 +458,7 @@ namespace MALClient.XShared.ViewModels.Forums
             if(AddingToWatchedTopics)
                 return;
             AddingToWatchedTopics = true;
-            var count = await new ForumTopicMessageCountQuery(CurrentTopicData.Id).GetMessageCount();
+            var count = await new ForumTopicMessageCountQuery(CurrentTopicData.Id).GetMessageCount(false);
             if (count == null)
             {
                 _isWatched = false;

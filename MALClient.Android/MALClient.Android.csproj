@@ -213,6 +213,16 @@
     <Compile Include="Fragments\MalFragmentBase.cs" />
     <Compile Include="Fragments\SearchFragments\AnimeTypeSearchFragment.cs" />
     <Compile Include="Fragments\SearchFragments\SearchPageFragment.cs" />
+    <Compile Include="Fragments\SettingsFragments\SettingsCalendarFragment.cs" />
+    <Compile Include="Fragments\SettingsFragments\SettingsCalendarFragment.ui.cs">
+      <SubType>Code</SubType>
+      <DependentUpon>SettingsCalendarFragment.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Fragments\SettingsFragments\SettingsFeedsFragment.cs" />
+    <Compile Include="Fragments\SettingsFragments\SettingsFeedsFragment.ui.cs">
+      <SubType>Code</SubType>
+      <DependentUpon>SettingsFeedsFragment.cs</DependentUpon>
+    </Compile>
     <Compile Include="Fragments\SettingsFragments\SettingsGeneralFragment.cs" />
     <Compile Include="Fragments\SettingsFragments\SettingsGeneralFragment.ui.cs">
       <SubType>Code</SubType>
@@ -571,7 +581,9 @@
     <AndroidResource Include="Resources\drawable\wideLogo.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\layout\SettingsPage.xml" />
+    <AndroidResource Include="Resources\layout\SettingsPage.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\SettingsPageItem.xml" />
@@ -607,13 +619,23 @@
     <AndroidResource Include="Resources\layout\ArtclesPageItem.xml" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\layout\SettingsPageGeneral.xml" />
+    <AndroidResource Include="Resources\layout\SettingsPageGeneral.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\AnimeDetailsPageVideosDialogItem.xml" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\icon_feeds.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\SettingsPageCalendar.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\SettingsPageFeeds.xml" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\ProfilePage.xml" />
@@ -635,6 +657,7 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\ProfilePageGeneralTabDetailsItem.xml" />
+
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Android.Support.Vector.Drawable.23.4.0.1\build\Xamarin.Android.Support.Vector.Drawable.targets" Condition="Exists('..\packages\Xamarin.Android.Support.Vector.Drawable.23.4.0.1\build\Xamarin.Android.Support.Vector.Drawable.targets')" />

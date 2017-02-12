@@ -45,6 +45,7 @@ namespace MALClient.Android.Fragments.SettingsFragments
             SettingsPageGeneralThemeRadioGroup.Check(Settings.SelectedTheme == 1
                 ? SettingsPageGeneralRadioDarkTheme.Id
                 : SettingsPageGeneralRadioLightTheme.Id);
+            
             SettingsPageGeneralThemeRadioGroup.SetOnCheckedChangeListener(new OnCheckedListener(i =>
             {
                 Settings.SelectedTheme = i == SettingsPageGeneralRadioDarkTheme.Id ? 1 : 0;

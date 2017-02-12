@@ -229,6 +229,11 @@
       <DependentUpon>SettingsGeneralFragment.cs</DependentUpon>
     </Compile>
     <Compile Include="Fragments\SettingsFragments\SettingsHomepageFragment.cs" />
+    <Compile Include="Fragments\SettingsFragments\SettingsNotificationsFragment.cs" />
+    <Compile Include="Fragments\SettingsFragments\SettingsNotificationsFragment.ui.cs">
+      <SubType>Code</SubType>
+      <DependentUpon>SettingsNotificationsFragment.cs</DependentUpon>
+    </Compile>
     <Compile Include="Fragments\SettingsFragments\SettingsPageFragment.cs" />
     <Compile Include="Listeners\DateSetListener.cs" />
     <Compile Include="Listeners\DialogListeners\DialogDismissedListener.cs" />
@@ -656,7 +661,11 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\ProfilePageGeneralTabDetailsItem.xml" />
-
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\SettingsPageNotifications.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Android.Support.Vector.Drawable.23.4.0.1\build\Xamarin.Android.Support.Vector.Drawable.targets" Condition="Exists('..\packages\Xamarin.Android.Support.Vector.Drawable.23.4.0.1\build\Xamarin.Android.Support.Vector.Drawable.targets')" />

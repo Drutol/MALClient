@@ -48,6 +48,7 @@ namespace MALClient.Android.Fragments.SettingsFragments
                     fragment = new SettingsHomepageFragment();
                     break;
                 case SettingsPageIndex.Notifications:
+                    fragment = new SettingsNotificationsFragment();
                     break;
                 case SettingsPageIndex.Ads:
                     break;

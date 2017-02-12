@@ -5,7 +5,7 @@
     android:orientation="vertical"
     android:background="?BrushDeepBackground">
 
-  <ProgressBar android:id="@+id/ProfilePageLoadingSpinner" android:layout_width="wrap_content" android:indeterminateTint="?AccentColour" android:indeterminateTintMode="src_in" android:layout_height="wrap_content" android:indeterminate="true" android:layout_centerInParent="true"/>
+  
 
   <LinearLayout android:layout_width="match_parent" android:orientation="vertical" android:layout_height="match_parent"
       android:layout_alignParentTop="true"
@@ -13,8 +13,6 @@
     <com.astuetz.PagerSlidingTabStrip
         android:id="@+id/ProfilePageTabStrip"
         android:layout_width="match_parent"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        app:pstsPaddingMiddle="true"
         android:layout_height="55dp"
         android:textColorPrimary="?AccentColour"
         android:background="?BrushPivotHeaderBackground"/>
@@ -23,4 +21,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
   </LinearLayout>
+
+  <ProgressBar android:id="@+id/ProfilePageLoadingSpinner" android:layout_width="wrap_content" android:indeterminateTint="?AccentColour" android:indeterminateTintMode="src_in" android:layout_height="wrap_content" android:indeterminate="true" android:layout_centerInParent="true"/>
 </RelativeLayout>
+
+<!--xmlns:app="http://schemas.android.com/apk/res-auto"
+app:pstsPaddingMiddle="true"-->

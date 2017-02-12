@@ -59,7 +59,7 @@ namespace MALClient.Android.Fragments.SettingsFragments
             Bindings[SettingsPageCalendarMiscFirstDaySwitch.Id].Add(
                 this.SetBinding(() => ViewModel.CalendarPullExactAiringTime,
                     () => SettingsPageCalendarMiscExactAiringTimeSwitch.Checked, BindingMode.TwoWay));
-
+            
         }
 
         public override int LayoutResourceId => Resource.Layout.SettingsPageCalendar;

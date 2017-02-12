@@ -795,6 +795,16 @@ namespace MALClient.XShared.ViewModels.Main
                       ViewModelLocator.GeneralMain.Navigate(PageIndex.PageMessageDetails, new MalMessageDetailsNavArgs { WorkMode = MessageDetailsWorkMode.Message, NewMessageTarget = CurrentData.User.Name });
                   });
 
+        public ICommand NavigateProfileCommand
+            => _navigateProfileCommand ?? (_navigateProfileCommand = new RelayCommand<MalUser>(
+                   user =>
+                   {
+                       ViewModelLocator.NavMgr.RegisterBackNav(PrevArgs);
+                       ViewModelLocator.GeneralMain.Navigate(PageIndex.PageProfile,
+                           new ProfilePageNavigationArgs {TargetUser = user.Name});
+                   }));
+
+
 
         private string _aboutMeHtmlContent;
 
@@ -809,6 +819,7 @@ namespace MALClient.XShared.ViewModels.Main
         }
 
         private double _computedHtmlHeight = -1;
+        private ICommand _navigateProfileCommand;
 
         public double ComputedHtmlHeight
         {

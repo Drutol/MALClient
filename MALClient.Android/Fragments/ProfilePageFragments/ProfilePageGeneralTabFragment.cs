@@ -53,11 +53,11 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
 
                     ProfilePageGeneralTabCommentsList.SetAdapter(
                         ViewModel.CurrentData.Comments.GetAdapter(GetCommentTemplateDelegate));
-
-                    ProfilePageGeneralTabAnimeListButton.SetCommand(ViewModel.NavigateAnimeListCommand);
-                    ProfilePageGeneralTabMangaListButton.SetCommand(ViewModel.NavigateMangaListCommand);
-                    ProfilePageGeneralTabHistoryButton.SetCommand(ViewModel.NavigateHistoryCommand);
                 }));
+
+            ProfilePageGeneralTabAnimeListButton.SetCommand(ViewModel.NavigateAnimeListCommand);
+            ProfilePageGeneralTabMangaListButton.SetCommand(ViewModel.NavigateMangaListCommand);
+            ProfilePageGeneralTabHistoryButton.SetCommand(ViewModel.NavigateHistoryCommand);
         }
 
         private View GetCommentTemplateDelegate(int i, MalComment malComment, View convertView)
@@ -88,35 +88,27 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
             return view;
         }
 
-        private void OnCommentConversationClick(object sender, EventArgs eventArgs)
-        {
-            
-        }
 
-        private void OnCommentDeleteClick(object sender, EventArgs eventArgs)
-        {
-            
 
-        }
 
         private View GetFriendTemplateDelegate(int i, MalUser malUser, View convertView)
         {
             var view = convertView;
             if (view == null)
             {
-                var pic = new ImageViewAsync(Context) {LayoutParameters = new ViewGroup.LayoutParams(DimensionsHelper.DpToPx(65),DimensionsHelper.DpToPx(65))};
-                pic.ScaleToFit = true;
-                pic.SetScaleType(ImageView.ScaleType.Matrix);
-                pic.SetAdjustViewBounds(false);
-                view = pic;
+                view = Activity.LayoutInflater.Inflate(Resource.Layout.ProfilePageGeneralTabFriendItem, null);
+                view.Click += FriendButtonOnClick;
             }
 
-            var img = view as ImageViewAsync;
+            var img = (view as FrameLayout).FindViewById<ImageViewAsync>(Resource.Id.ProfilePageGeneralTabFriendItemImage);
 
             img.Into(malUser.ImgUrl);
 
+            view.Tag = malUser.Wrap();
+
             return view;
         }
+
 
         private View GetDetailTemplateDelegate(int i, Tuple<string, string> tuple, View convertView)
         {
@@ -127,6 +119,23 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
             view.FindViewById<TextView>(Resource.Id.ProfilePageGeneralTabDetailsItemRight).Text = tuple.Item2;
 
             return view;
+        }
+
+
+        private void OnCommentConversationClick(object sender, EventArgs eventArgs)
+        {
+
+        }
+
+        private void OnCommentDeleteClick(object sender, EventArgs eventArgs)
+        {
+
+
+        }
+
+        private void FriendButtonOnClick(object sender, EventArgs eventArgs)
+        {
+            ViewModel.NavigateProfileCommand.Execute((sender as View).Tag.Unwrap<MalUser>());
         }
 
         public override int LayoutResourceId => Resource.Layout.ProfilePageGeneralTab;

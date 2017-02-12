@@ -32,6 +32,7 @@ namespace MALClient.Android.Fragments.SettingsFragments
                 case SettingsPageIndex.Caching:
                     break;
                 case SettingsPageIndex.Calendar:
+                    fragment = new SettingsCalendarFragment();
                     break;
                 case SettingsPageIndex.Articles:
                     break;
@@ -51,6 +52,7 @@ namespace MALClient.Android.Fragments.SettingsFragments
                 case SettingsPageIndex.Ads:
                     break;
                 case SettingsPageIndex.Feeds:
+                    fragment = new SettingsFeedsFragment();
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(page), page, null);

@@ -32,7 +32,7 @@ namespace MALClient.Android.PagerAdapters
         public ProfilePagePagerAdapter(FragmentManager fm) : base(fm)
         {
             _generalFragment = new ProfilePageGeneralTabFragment();
-            _favsFragment = new ArticlesPageTabFragment(false);
+            _favsFragment = new ProfilePageFavouritesTabFragment();
             _recentsFragment = new ArticlesPageTabFragment(false);
             _statsFragment = new ArticlesPageTabFragment(false);
 

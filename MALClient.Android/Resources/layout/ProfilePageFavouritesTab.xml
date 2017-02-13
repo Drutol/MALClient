@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+  <GridView
+      android:id="@+id/ProfilePageFavouritesTabGridView"
+      android:layout_width="match_parent"
+      android:layout_height="0dp"
+      android:layout_weight="1"
+      android:numColumns="auto_fit"
+      android:layout_gravity="center"
+      android:choiceMode="singleChoice"/>
+  <RelativeLayout
+      android:layout_width="match_parent"
+      android:layout_height="@dimen/AppBarBtnHeight"
+      android:background="?BrushAppBars">
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent" android:layout_centerInParent="true">
+      <FrameLayout android:padding="8dp"
+          android:layout_width="wrap_content" android:id="@+id/ProfilePageFavouritesTabAnimeBtn"
+          android:layout_height="match_parent" android:clickable="true"
+          android:focusable="true" android:foreground="?selectableItemBackground">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:text="Anime"
+            android:layout_gravity="center"
+            android:textColor="?BrushText"/>
+      </FrameLayout>
+      <FrameLayout android:padding="8dp"
+          android:layout_width="wrap_content" android:id="@+id/ProfilePageFavouritesTabMangaBtn"
+          android:layout_height="match_parent" android:clickable="true"
+          android:focusable="true" android:foreground="?selectableItemBackground">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:text="Manga"
+            android:layout_gravity="center"
+            android:textColor="?BrushText"/>
+      </FrameLayout>
+      <FrameLayout android:padding="8dp"
+          android:layout_width="wrap_content" android:id="@+id/ProfilePageFavouritesTabCharsBtn"
+          android:layout_height="match_parent" android:clickable="true"
+          android:focusable="true" android:foreground="?selectableItemBackground">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:text="Characters"
+            android:layout_gravity="center"
+            android:textColor="?BrushText"/>
+      </FrameLayout>
+      <FrameLayout android:padding="8dp"
+          android:layout_width="wrap_content" android:id="@+id/ProfilePageFavouritesTabPplBtn"
+          android:layout_height="match_parent" android:clickable="true"
+          android:focusable="true" android:foreground="?selectableItemBackground">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:text="People"
+            android:layout_gravity="center"
+            android:textColor="?BrushText"/>
+      </FrameLayout>
+    </LinearLayout>
+
+  </RelativeLayout>
+</LinearLayout>

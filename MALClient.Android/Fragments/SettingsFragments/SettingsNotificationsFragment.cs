@@ -36,11 +36,11 @@ namespace MALClient.Android.Fragments.SettingsFragments
             //
             SettingsPageNotificationsEnable.Checked = Settings.EnableNotifications;
             SettingsPageNotificationsEnable.CheckedChange +=
-                (sender, args) => Settings.EnableNotifications = SettingsPageNotificationsEnable.Checked;
+                (sender, args) => ViewModel.EnableNotifications = SettingsPageNotificationsEnable.Checked;
 
-            SettingsPageNotificationsCheckInRuntime.Checked = Settings.NotificationCheckInRuntime;
+            SettingsPageNotificationsCheckInRuntime.Checked = ViewModel.NotificationCheckInRuntime;
             SettingsPageNotificationsCheckInRuntime.CheckedChange +=
-                (sender, args) => Settings.NotificationCheckInRuntime = SettingsPageNotificationsCheckInRuntime.Checked;
+                (sender, args) => ViewModel.NotificationCheckInRuntime = SettingsPageNotificationsCheckInRuntime.Checked;
             //
             foreach (MalNotificationsTypes malNotificationsType in Enum.GetValues(typeof(MalNotificationsTypes)))
             {
@@ -54,7 +54,7 @@ namespace MALClient.Android.Fragments.SettingsFragments
                     NotificationsTypesCheckBoxGroup.AddView(temp);
                     temp.CheckedChange += NotificationsCheckBoxesChange;
 
-                    if ( Settings.EnabledNotificationTypes.HasFlag(malNotificationsType) )
+                    if ( ViewModel.EnabledNotificationTypes.HasFlag(malNotificationsType) )
                         temp.Checked = true;
                 }
             }
@@ -75,13 +75,12 @@ namespace MALClient.Android.Fragments.SettingsFragments
                 view.Tag = i1;
                 return view;
             });
-            SettingsPageNotificationsFrequencySpinner.SetSelection(availableTimes.IndexOf(Settings.NotificationsRefreshTime));
+            SettingsPageNotificationsFrequencySpinner.SetSelection(availableTimes.IndexOf(ViewModel.NotificationsRefreshTime));
             SettingsPageNotificationsFrequencySpinner.ItemSelected += (sender, args) =>
             {
-                Settings.NotificationsRefreshTime = (int)SettingsPageNotificationsFrequencySpinner.SelectedView.Tag;
+                ViewModel.NotificationsRefreshTime = (int)SettingsPageNotificationsFrequencySpinner.SelectedView.Tag;
             };
             //
-            
 
         }
 
@@ -92,9 +91,9 @@ namespace MALClient.Android.Fragments.SettingsFragments
             var val = (MalNotificationsTypes)(int)(sender as CheckBox).Tag;
 
             if (checkedChangeEventArgs.IsChecked == true)
-                Settings.EnabledNotificationTypes |=  val;
+                ViewModel.EnabledNotificationTypes |=  val;
             else
-                Settings.EnabledNotificationTypes &= ~val;
+                ViewModel.EnabledNotificationTypes &= ~val;
         }
     }
 }

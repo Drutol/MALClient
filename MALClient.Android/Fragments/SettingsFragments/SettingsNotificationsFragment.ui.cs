@@ -18,7 +18,7 @@ namespace MALClient.Android.Fragments.SettingsFragments
         private Switch _settingsPageNotificationsCheckInRuntime;
         private LinearLayout _notificationsTypesCheckBoxGroup;
         private Spinner _settingsPageNotificationsFrequencySpinner;
-
+        
         public Switch SettingsPageNotificationsEnable => _settingsPageNotificationsEnable ?? (_settingsPageNotificationsEnable = FindViewById<Switch>(Resource.Id.SettingsPageNotificationsEnable));
 
         public Switch SettingsPageNotificationsCheckInRuntime => _settingsPageNotificationsCheckInRuntime ?? (_settingsPageNotificationsCheckInRuntime = FindViewById<Switch>(Resource.Id.SettingsPageNotificationsCheckInRuntime));

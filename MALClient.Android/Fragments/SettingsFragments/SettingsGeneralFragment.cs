@@ -39,7 +39,6 @@ namespace MALClient.Android.Fragments.SettingsFragments
             SettingsPageGeneralStartPageRadioGroup.SetOnCheckedChangeListener(new OnCheckedListener(i =>
             {
                 Settings.DefaultMenuTab = i == SettingsPageGeneralRadioAnimeList.Id ? "anime" : "manga";
-                
             }));
             //
             SettingsPageGeneralThemeRadioGroup.Check(Settings.SelectedTheme == 1
@@ -69,6 +68,9 @@ namespace MALClient.Android.Fragments.SettingsFragments
             Bindings[SettingsPageGeneralPullHigherSwitch.Id].Add(
                 this.SetBinding(() => ViewModel.EnsureRandomizerAlwaysSelectsWinner,
                     () => SettingsPageGeneralRandomSelectedSwitch.Checked,BindingMode.TwoWay));
+            Bindings[SettingsPageGeneralPullHigherSwitch.Id].Add(
+                this.SetBinding(() => ViewModel.ArticlesLaunchExternalLinks,
+                    () => SettingsPageGeneralExternalLinksSwitch.Checked, BindingMode.TwoWay));
             //
             SettingsPageGeneralAnimeSortRadioGroup.Check(GetViewIdForAnimeSortOption(Settings.AnimeSortOrder));
             SettingsPageGeneralAnimeSortRadioGroup.SetOnCheckedChangeListener(new OnCheckedListener(i =>

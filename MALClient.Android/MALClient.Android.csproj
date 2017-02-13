@@ -213,6 +213,7 @@
     <Compile Include="Fragments\MalFragmentBase.cs" />
     <Compile Include="Fragments\SearchFragments\AnimeTypeSearchFragment.cs" />
     <Compile Include="Fragments\SearchFragments\SearchPageFragment.cs" />
+    <Compile Include="Fragments\SettingsFragments\SettingsAdsFragment.cs" />
     <Compile Include="Fragments\SettingsFragments\SettingsCalendarFragment.cs" />
     <Compile Include="Fragments\SettingsFragments\SettingsCalendarFragment.ui.cs">
       <SubType>Code</SubType>
@@ -664,6 +665,11 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\SettingsPageNotifications.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\SettingsPageAds.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>

@@ -27,6 +27,7 @@ namespace MALClient.Android.Fragments.SettingsFragments
         private Switch _settingsPageGeneralAutoSortSwitch;
         private Switch _settingsPageGeneralVolsImportantSwitch;
         private Switch _settingsPageGeneralRandomSelectedSwitch;
+        private Switch _settingsPageGeneralExternalLinksSwitch;
         private RadioButton _settingsPageGeneralAnimeSortTitleRadioBtn;
         private RadioButton _settingsPageGeneralAnimeScoreTitleRadioBtn;
         private RadioButton _settingsPageGeneralAnimeWatchedTitleRadioBtn;
@@ -81,6 +82,8 @@ namespace MALClient.Android.Fragments.SettingsFragments
         public Switch SettingsPageGeneralVolsImportantSwitch => _settingsPageGeneralVolsImportantSwitch ?? (_settingsPageGeneralVolsImportantSwitch = FindViewById<Switch>(Resource.Id.SettingsPageGeneralVolsImportantSwitch));
 
         public Switch SettingsPageGeneralRandomSelectedSwitch => _settingsPageGeneralRandomSelectedSwitch ?? (_settingsPageGeneralRandomSelectedSwitch = FindViewById<Switch>(Resource.Id.SettingsPageGeneralRandomSelectedSwitch));
+
+        public Switch SettingsPageGeneralExternalLinksSwitch => _settingsPageGeneralExternalLinksSwitch ?? (_settingsPageGeneralExternalLinksSwitch = FindViewById<Switch>(Resource.Id.SettingsPageGeneralExternalLinksSwitch));
 
         public RadioButton SettingsPageGeneralAnimeSortTitleRadioBtn => _settingsPageGeneralAnimeSortTitleRadioBtn ?? (_settingsPageGeneralAnimeSortTitleRadioBtn = FindViewById<RadioButton>(Resource.Id.SettingsPageGeneralAnimeSortTitleRadioBtn));
 

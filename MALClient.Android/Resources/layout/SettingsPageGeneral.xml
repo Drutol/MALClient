@@ -32,12 +32,12 @@
             <View style="@style/Divider" android:layout_marginTop="10dp"/>
 
             <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="5dp" android:layout_marginTop="15dp">
-                  <TextView android:text="Try to display higher quality images in relevant places." android:layout_width="0dp" android:layout_height="wrap_content" android:layout_gravity="center_vertical" android:textSize="@dimen/FontSizeMedium" android:textColor="?BrushText" android:layout_weight="1"/>
+                  <TextView android:text="Try to display higher quality images in relevant places" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_gravity="center_vertical" android:textSize="@dimen/FontSizeMedium" android:textColor="?BrushText" android:layout_weight="1"/>
                   <Switch  android:id="@+id/SettingsPageGeneralPullHigherSwitch" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center_vertical"/>
             </LinearLayout>
 
             <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="5dp" android:layout_marginTop="15dp">
-                  <TextView android:text="Display show's season next to its type." android:layout_width="0dp" android:layout_height="wrap_content" android:layout_gravity="center_vertical" android:textSize="@dimen/FontSizeMedium" android:textColor="?BrushText" android:layout_weight="1"/>
+                  <TextView android:text="Display show's season next to its type" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_gravity="center_vertical" android:textSize="@dimen/FontSizeMedium" android:textColor="?BrushText" android:layout_weight="1"/>
                   <Switch  android:id="@+id/SettingsPageGeneralSeasonSwitch" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center_vertical"/>
             </LinearLayout>
 
@@ -47,13 +47,18 @@
             </LinearLayout>
 
             <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="5dp" android:layout_marginTop="15dp">
-                  <TextView android:text="Make manga volumes more important than chapters." android:layout_width="0dp" android:layout_height="wrap_content" android:textSize="@dimen/FontSizeMedium" android:layout_gravity="center_vertical" android:textColor="?BrushText" android:layout_weight="1"/>
+                  <TextView android:text="Make manga volumes more important than chapters" android:layout_width="0dp" android:layout_height="wrap_content" android:textSize="@dimen/FontSizeMedium" android:layout_gravity="center_vertical" android:textColor="?BrushText" android:layout_weight="1"/>
                   <Switch   android:id="@+id/SettingsPageGeneralVolsImportantSwitch" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center_vertical"/>
             </LinearLayout>
 
             <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="5dp" android:layout_marginTop="15dp">
-                  <TextView android:text="When choosing at random ensure winner to be selected." android:layout_width="0dp" android:layout_height="wrap_content" android:textSize="@dimen/FontSizeMedium" android:layout_gravity="center_vertical" android:textColor="?BrushText" android:layout_weight="1"/>
+                  <TextView android:text="When choosing at random ensure winner to be selected" android:layout_width="0dp" android:layout_height="wrap_content" android:textSize="@dimen/FontSizeMedium" android:layout_gravity="center_vertical" android:textColor="?BrushText" android:layout_weight="1"/>
                   <Switch   android:id="@+id/SettingsPageGeneralRandomSelectedSwitch" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center_vertical"/>
+            </LinearLayout>
+        
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="5dp" android:layout_marginTop="15dp">
+                  <TextView android:text="Open unsupported links in external browser" android:layout_width="0dp" android:layout_height="wrap_content" android:textSize="@dimen/FontSizeMedium" android:layout_gravity="center_vertical" android:textColor="?BrushText" android:layout_weight="1"/>
+                  <Switch   android:id="@+id/SettingsPageGeneralExternalLinksSwitch" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center_vertical"/>
             </LinearLayout>
 
             <View style="@style/Divider" android:layout_marginTop="10dp"/>

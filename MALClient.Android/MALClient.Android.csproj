@@ -249,6 +249,7 @@
     <Compile Include="Listeners\OnCheckedListener.cs" />
     <Compile Include="Listeners\OnClickListener.cs" />
     <Compile Include="Listeners\OnItemClickListener.cs" />
+    <Compile Include="Listeners\OnPreparedListener.cs" />
     <Compile Include="Listeners\ScrollChangedListener.cs" />
     <Compile Include="Listeners\ScrollListener.cs" />
     <Compile Include="Listeners\SwipeLayoutListener.cs" />

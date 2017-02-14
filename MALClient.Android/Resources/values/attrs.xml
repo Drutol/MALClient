@@ -34,6 +34,7 @@
     <attr name="BrushButtonPressed" format="reference"/>
     <attr name="BrushFlyoutBackground" format="reference"/>
     <attr name="BrushSelectedDialogItem" format="reference"/>
+    <attr name="BrushMediaElementShadow" format="reference"/>
     <attr name="AccentColour" format="reference"/>
     <attr name="AccentColourDark" format="reference"/>
     <attr name="AccentColourLight" format="reference"/>

@@ -86,6 +86,7 @@ namespace MALClient.Android.DIalogs
         private static void VideoItemOnClick(View view)
         {
             ViewModelLocator.AnimeDetails.OpenVideoCommand.Execute(view.Tag.Unwrap<AnimeVideoData>());
+            CleanupVideosDialog();
         }
 
         private static void CleanupVideosDialog()

@@ -7,6 +7,7 @@ using Android.App;
 using Android.Content;
 using Android.OS;
 using Android.Runtime;
+using Android.Util;
 using Android.Views;
 using Android.Widget;
 using Com.Shehabic.Droppy;
@@ -145,11 +146,23 @@ namespace MALClient.Android.BindingInformation
         {
             AnimeListItemTitle.Text = ViewModel.Title;
 
-            Container.SetOnClickListener(new OnClickListener(view => ContainerOnClick()));
 
-            ViewModel.AnimeItemDisplayContext = ViewModelLocator.AnimeList.AnimeItemsDisplayContext;
-            if(!Fling)
-                ImageService.Instance.LoadUrl(ViewModel.ImgUrl).FadeAnimation(false).Success(() => AnimeListItemImage.AnimateFadeIn()).Into(AnimeListItemImage);
+            if (!Fling && (int)Container.Tag != ViewModel.Id)
+            {
+                AnimeListItemImgPlaceholder.Visibility = ViewStates.Gone;
+                AnimeListItemImage.AnimeInto(ViewModel.ImgUrl);
+
+                Container.SetOnClickListener(new OnClickListener(view => ContainerOnClick()));
+
+                ViewModel.AnimeItemDisplayContext = ViewModelLocator.AnimeList.AnimeItemsDisplayContext;
+
+                Container.Tag = ViewModel.Id;
+            }
+            else
+            {
+                AnimeListItemImage.Visibility = ViewStates.Invisible;
+                AnimeListItemImgPlaceholder.Visibility = ViewStates.Visible;
+            }
         }
 
         protected override void DetachInnerBindings()
@@ -162,6 +175,7 @@ namespace MALClient.Android.BindingInformation
 
         #region Views
 
+        private ImageView _animeListItemImgPlaceholder;
         private ImageViewAsync _animeListItemImage;
         private ImageButton _animeListItemMoreButton;
         private TextView _animeListItemTitle;
@@ -176,6 +190,7 @@ namespace MALClient.Android.BindingInformation
         private ImageButton _animeListItemDecButton;
         private LinearLayout _animeListItemIncDecSection;
 
+        public ImageView AnimeListItemImgPlaceholder => _animeListItemImgPlaceholder ?? (_animeListItemImgPlaceholder = Container.FindViewById<ImageView>(Resource.Id.AnimeListItemImgPlaceholder));
 
         public ImageViewAsync AnimeListItemImage => _animeListItemImage ?? (_animeListItemImage = Container.FindViewById<ImageViewAsync>(Resource.Id.AnimeListItemImage));
 

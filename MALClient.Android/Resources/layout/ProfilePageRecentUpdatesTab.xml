@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:orientation="vertical"
+      android:layout_height="wrap_content">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/AppBarBtnHeight"
+        android:background="?BrushAppBars">
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content" android:text="Recent Anime"
+          android:layout_centerInParent="true" android:textColor="?AccentColourLight"
+          android:fontFamily="@string/font_family_light" android:textSize="@dimen/FontSizeHuge"
+          android:layout_gravity="center"/>
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+      <LinearLayout
+          android:id="@+id/ProfilePageRecentUpdatesTabAnimeList"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:numColumns="auto_fit"
+          android:layout_gravity="top"
+          android:orientation="vertical"
+          android:choiceMode="singleChoice"/>
+      <RelativeLayout
+          android:layout_width="match_parent" android:id="@+id/ProfilePageRecentUpdatesTabAnimeListEmptyNotice"
+          android:layout_height="100dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:text="No recent anime updates..."
+            android:textColor="?BrushNoSearchResultsContrasting"
+            android:layout_centerInParent="true" android:fontFamily="@string/font_family_light"/>
+      </RelativeLayout>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/AppBarBtnHeight"
+        android:background="?BrushAppBars">
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content" android:text="Recent Manga"
+          android:layout_centerInParent="true" android:textColor="?AccentColourLight"
+          android:fontFamily="@string/font_family_light" android:textSize="@dimen/FontSizeHuge"
+          android:layout_gravity="center"/>
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+      <RelativeLayout
+          android:layout_width="match_parent" android:id="@+id/ProfilePageRecentUpdatesTabMangaListEmptyNotice"
+          android:layout_height="100dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:text="No recent manga updates..."
+            android:textColor="?BrushNoSearchResultsContrasting"
+            android:layout_centerInParent="true" android:fontFamily="@string/font_family_light"/>
+      </RelativeLayout>
+      <LinearLayout
+          android:id="@+id/ProfilePageRecentUpdatesTabMangaList"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:numColumns="auto_fit"
+          android:layout_gravity="top"
+          android:orientation="vertical"
+          android:choiceMode="singleChoice"/>
+    </RelativeLayout>
+  </LinearLayout>
+</ScrollView>

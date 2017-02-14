@@ -17,21 +17,21 @@ using MALClient.XShared.ViewModels;
 
 namespace MALClient.Android.BindingInformation.StaticBindings
 {
-    public class CharacterItemBindingInfo : IStaticBindingInfo<FavouriteViewModel>
+    public class FavouriteItemBindingInfo : IStaticBindingInfo<FavouriteViewModel>
     {
-        private static CharacterItemBindingInfo _instance;
+        private static FavouriteItemBindingInfo _instance;
 
-        private CharacterItemBindingInfo()
+        private FavouriteItemBindingInfo()
         { }
 
-        public static CharacterItemBindingInfo Instance => _instance ?? (_instance = new CharacterItemBindingInfo());
+        public static FavouriteItemBindingInfo Instance => _instance ?? (_instance = new FavouriteItemBindingInfo());
 
         public void Bind(View target, FavouriteViewModel model)
         {
             target.FindViewById<TextView>(Resource.Id.CharacterItemName).Text = model.Data.Name;
             target.FindViewById<TextView>(Resource.Id.CharacterItemNotes).Text = model.Data.Notes;
             var img = target.FindViewById<ImageViewAsync>(Resource.Id.CharacterItemImage);
-            ImageService.Instance.LoadUrl(model.Data.ImgUrl).FadeAnimation(false).Success(() => img.AnimateFadeIn()).Into(img);
+            img.Into(model.Data.ImgUrl);
         }
     }
 }

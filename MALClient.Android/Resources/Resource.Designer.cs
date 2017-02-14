@@ -4393,6 +4393,7 @@ namespace MALClient.Android
 			
 			// aapt resource value: 0x7f0701c7
 			public const int HamburgerMenuUpperSection = 2131165639;
+
 			
 			// aapt resource value: 0x7f070127
 			public const int LoginPageLoadingSpinner = 2131165479;
@@ -4427,116 +4428,116 @@ namespace MALClient.Android
 			// aapt resource value: 0x7f070125
 			public const int PasswordInput = 2131165477;
 			
-			// aapt resource value: 0x7f07015d
-			public const int ProfilePageGeneralTabAnimeListButton = 2131165533;
-			
-			// aapt resource value: 0x7f07015b
-			public const int ProfilePageGeneralTabAnimeUserImg = 2131165531;
-			
-			// aapt resource value: 0x7f070162
-			public const int ProfilePageGeneralTabCommentsList = 2131165538;
-			
-			// aapt resource value: 0x7f070163
-			public const int ProfilePageGeneralTabDetailsItemLeft = 2131165539;
-			
-			// aapt resource value: 0x7f070164
-			public const int ProfilePageGeneralTabDetailsItemRight = 2131165540;
-			
 			// aapt resource value: 0x7f07015c
-			public const int ProfilePageGeneralTabDetailsList = 2131165532;
-			
-			// aapt resource value: 0x7f070160
-			public const int ProfilePageGeneralTabFriendsGrid = 2131165536;
-			
-			// aapt resource value: 0x7f07015f
-			public const int ProfilePageGeneralTabHistoryButton = 2131165535;
+			public const int ProfilePageFavouritesTabAnimeBtn = 2131165532;
 			
 			// aapt resource value: 0x7f07015e
-			public const int ProfilePageGeneralTabMangaListButton = 2131165534;
+			public const int ProfilePageFavouritesTabCharsBtn = 2131165534;
 			
-			// aapt resource value: 0x7f070161
-			public const int ProfilePageGeneralTabSendCommentButton = 2131165537;
+			// aapt resource value: 0x7f07015b
+			public const int ProfilePageFavouritesTabGridView = 2131165531;
 			
-			// aapt resource value: 0x7f070158
-			public const int ProfilePageLoadingSpinner = 2131165528;
+			// aapt resource value: 0x7f07015d
+			public const int ProfilePageFavouritesTabMangaBtn = 2131165533;
 			
-			// aapt resource value: 0x7f07015a
-			public const int ProfilePagePivot = 2131165530;
+			// aapt resource value: 0x7f07015f
+			public const int ProfilePageFavouritesTabPplBtn = 2131165535;
 			
-			// aapt resource value: 0x7f070159
-			public const int ProfilePageTabStrip = 2131165529;
+			// aapt resource value: 0x7f070162
+			public const int ProfilePageGeneralTabAnimeListButton = 2131165538;
 			
-			// aapt resource value: 0x7f070167
-			public const int RecommendationItemDepImage = 2131165543;
-			
-			// aapt resource value: 0x7f070166
-			public const int RecommendationItemDepImageButton = 2131165542;
-			
-			// aapt resource value: 0x7f070168
-			public const int RecommendationItemDepTitle = 2131165544;
+			// aapt resource value: 0x7f070160
+			public const int ProfilePageGeneralTabAnimeUserImg = 2131165536;
 			
 			// aapt resource value: 0x7f07016c
-			public const int RecommendationItemDescription = 2131165548;
-			
-			// aapt resource value: 0x7f070170
-			public const int RecommendationItemDetailItemDepValue = 2131165552;
-			
-			// aapt resource value: 0x7f070171
-			public const int RecommendationItemDetailItemMyDepValue = 2131165553;
-			
-			// aapt resource value: 0x7f070173
-			public const int RecommendationItemDetailItemMyRecValue = 2131165555;
-			
-			// aapt resource value: 0x7f070172
-			public const int RecommendationItemDetailItemRecValue = 2131165554;
-			
-			// aapt resource value: 0x7f07016f
-			public const int RecommendationItemDetailItemType = 2131165551;
+			public const int ProfilePageGeneralTabCommentItemContent = 2131165548;
 			
 			// aapt resource value: 0x7f07016d
-			public const int RecommendationItemDetailsContainer = 2131165549;
-			
-			// aapt resource value: 0x7f07016e
-			public const int RecommendationItemLoading = 2131165550;
-			
-			// aapt resource value: 0x7f07016a
-			public const int RecommendationItemRecImage = 2131165546;
-			
-			// aapt resource value: 0x7f070169
-			public const int RecommendationItemRecImageButton = 2131165545;
+			public const int ProfilePageGeneralTabCommentItemConvButton = 2131165549;
 			
 			// aapt resource value: 0x7f07016b
-			public const int RecommendationItemRecTitle = 2131165547;
+			public const int ProfilePageGeneralTabCommentItemDate = 2131165547;
 			
-			// aapt resource value: 0x7f070177
-			public const int RecommendationsPageLoading = 2131165559;
+			// aapt resource value: 0x7f07016e
+			public const int ProfilePageGeneralTabCommentItemDeleteButton = 2131165550;
 			
-			// aapt resource value: 0x7f070176
-			public const int RecommendationsPagePivot = 2131165558;
+			// aapt resource value: 0x7f070168
+			public const int ProfilePageGeneralTabCommentItemImgButton = 2131165544;
 			
-			// aapt resource value: 0x7f070175
-			public const int RecommendationsPageTabStrip = 2131165557;
+			// aapt resource value: 0x7f070169
+			public const int ProfilePageGeneralTabCommentItemUserImg = 2131165545;
+			
+			// aapt resource value: 0x7f07016a
+			public const int ProfilePageGeneralTabCommentItemUsername = 2131165546;
+			
+			// aapt resource value: 0x7f070167
+			public const int ProfilePageGeneralTabCommentsList = 2131165543;
+			
+			// aapt resource value: 0x7f07016f
+			public const int ProfilePageGeneralTabDetailsItemLeft = 2131165551;
+			
+			// aapt resource value: 0x7f070170
+			public const int ProfilePageGeneralTabDetailsItemRight = 2131165552;
+			
+			// aapt resource value: 0x7f070161
+			public const int ProfilePageGeneralTabDetailsList = 2131165537;
+			
+			// aapt resource value: 0x7f070171
+			public const int ProfilePageGeneralTabFriendItemImage = 2131165553;
+			
+			// aapt resource value: 0x7f070165
+			public const int ProfilePageGeneralTabFriendsGrid = 2131165541;
+			
+			// aapt resource value: 0x7f070164
+			public const int ProfilePageGeneralTabHistoryButton = 2131165540;
+			
+			// aapt resource value: 0x7f070163
+			public const int ProfilePageGeneralTabMangaListButton = 2131165539;
+			
+			// aapt resource value: 0x7f070166
+			public const int ProfilePageGeneralTabSendCommentButton = 2131165542;
+			
+			// aapt resource value: 0x7f07015a
+			public const int ProfilePageLoadingSpinner = 2131165530;
+			
+			// aapt resource value: 0x7f070159
+			public const int ProfilePagePivot = 2131165529;
+			
+			// aapt resource value: 0x7f070158
+			public const int ProfilePageTabStrip = 2131165528;
 			
 			// aapt resource value: 0x7f070174
-			public const int RecommendationsPageTypeChangeButton = 2131165556;
+			public const int RecommendationItemDepImage = 2131165556;
 			
-			// aapt resource value: 0x7f07017d
-			public const int SearchPageContentFrame = 2131165565;
+			// aapt resource value: 0x7f070173
+			public const int RecommendationItemDepImageButton = 2131165555;
 			
-			// aapt resource value: 0x7f070178
-			public const int SearchPageTabStrip = 2131165560;
+			// aapt resource value: 0x7f070175
+			public const int RecommendationItemDepTitle = 2131165557;
 			
 			// aapt resource value: 0x7f070179
-			public const int SearchPageViewPager = 2131165561;
+			public const int RecommendationItemDescription = 2131165561;
+			
+			// aapt resource value: 0x7f07017d
+			public const int RecommendationItemDetailItemDepValue = 2131165565;
+			
+			// aapt resource value: 0x7f07017e
+			public const int RecommendationItemDetailItemMyDepValue = 2131165566;
+			
+			// aapt resource value: 0x7f070180
+			public const int RecommendationItemDetailItemMyRecValue = 2131165568;
+			
+			// aapt resource value: 0x7f07017f
+			public const int RecommendationItemDetailItemRecValue = 2131165567;
 			
 			// aapt resource value: 0x7f07017c
-			public const int SeasonSelectionPopupAcceptButton = 2131165564;
+			public const int RecommendationItemDetailItemType = 2131165564;
 			
 			// aapt resource value: 0x7f07017a
-			public const int SeasonSelectionPopupSeasonComboBox = 2131165562;
+			public const int RecommendationItemDetailsContainer = 2131165562;
 			
 			// aapt resource value: 0x7f07017b
-			public const int SeasonSelectionPopupYearComboBox = 2131165563;
+			public const int RecommendationItemLoading = 2131165563;
 			
 			// aapt resource value: 0x7f0701ae
 			public const int SettingsGeneralPageLockDisplayModeSwitch = 2131165614;
@@ -4736,12 +4737,13 @@ namespace MALClient.Android
 			// aapt resource value: 0x7f070126
 			public const int SignInButton = 2131165478;
 			
-			// aapt resource value: 0x7f0701c0
-			public const int StatusDialogItemTextView = 2131165632;
+
+			// aapt resource value: 0x7f0701c6
+			public const int StatusDialogItemTextView = 2131165638;
 			
-			// aapt resource value: 0x7f0701c1
-			public const int SuggestionItemTextView = 2131165633;
-			
+			// aapt resource value: 0x7f0701c7
+			public const int SuggestionItemTextView = 2131165639;
+
 			// aapt resource value: 0x7f070124
 			public const int UsernameInput = 2131165476;
 			
@@ -5153,8 +5155,8 @@ namespace MALClient.Android
 			// aapt resource value: 0x7f070007
 			public const int progress_horizontal = 2131165191;
 			
-			// aapt resource value: 0x7f070165
-			public const int psts_tab_title = 2131165541;
+			// aapt resource value: 0x7f070172
+			public const int psts_tab_title = 2131165554;
 			
 			// aapt resource value: 0x7f070051
 			public const int pull_out = 2131165265;
@@ -5678,31 +5680,31 @@ namespace MALClient.Android
 			public const int ProfilePage = 2130903145;
 			
 			// aapt resource value: 0x7f03006a
-			public const int ProfilePageGeneralTab = 2130903146;
+			public const int ProfilePageFavouritesTab = 2130903146;
 			
 			// aapt resource value: 0x7f03006b
-			public const int ProfilePageGeneralTabDetailsItem = 2130903147;
+			public const int ProfilePageGeneralTab = 2130903147;
 			
 			// aapt resource value: 0x7f03006c
-			public const int psts_tab = 2130903148;
+			public const int ProfilePageGeneralTabCommentItem = 2130903148;
 			
 			// aapt resource value: 0x7f03006d
-			public const int RecommendationItem = 2130903149;
+			public const int ProfilePageGeneralTabDetailsItem = 2130903149;
 			
 			// aapt resource value: 0x7f03006e
-			public const int RecommendationItemDetailItem = 2130903150;
+			public const int ProfilePageGeneralTabFriendItem = 2130903150;
 			
 			// aapt resource value: 0x7f03006f
-			public const int RecommendationsPage = 2130903151;
+			public const int psts_tab = 2130903151;
 			
 			// aapt resource value: 0x7f030070
-			public const int SearchPage = 2130903152;
+			public const int RecommendationItem = 2130903152;
 			
 			// aapt resource value: 0x7f030071
-			public const int SeasonSelectionPopup = 2130903153;
+			public const int RecommendationItemDetailItem = 2130903153;
 			
 			// aapt resource value: 0x7f030072
-			public const int select_dialog_item_material = 2130903154;
+			public const int RecommendationsPage = 2130903154;
 			
 			// aapt resource value: 0x7f030073
 			public const int select_dialog_multichoice_material = 2130903155;

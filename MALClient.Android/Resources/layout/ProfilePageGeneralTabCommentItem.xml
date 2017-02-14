@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="130dp"
+    android:orientation="horizontal">
+  <LinearLayout
+      android:layout_width="match_parent"  android:background="?BrushAnimeItemBackground"   android:layout_marginTop="10dp"
+      android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_width="100dp" android:orientation="vertical"
+        android:layout_height="match_parent" android:background="?BrushAppBars">
+
+      <FrameLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:id="@+id/ProfilePageGeneralTabCommentItemImgButton"
+          android:foreground="?selectableItemBackground"
+          android:clickable="true"
+          android:focusable="true">
+        <FFImageLoading.Views.ImageViewAsync
+            android:layout_width="match_parent" android:layout_gravity="top" android:scaleType="centerCrop"
+            android:layout_height="76dp" android:layout_margin="12dp"
+            android:id="@+id/ProfilePageGeneralTabCommentItemUserImg" />
+      </FrameLayout>
+      <TextView
+          android:layout_width="wrap_content" android:id="@+id/ProfilePageGeneralTabCommentItemUsername"
+          android:layout_height="wrap_content" android:maxLines="2" android:ellipsize="end" android:text="Drutol" android:textAlignment="center" android:layout_gravity="center" android:textColor="?BrushText" android:layout_marginStart="8dp" android:layout_marginEnd="8dp"/>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="0dp" android:orientation="vertical"
+        android:layout_height="wrap_content" android:layout_weight="1">
+      <TextView
+          android:layout_width="wrap_content" android:id="@+id/ProfilePageGeneralTabCommentItemDate"
+          android:layout_height="wrap_content" android:text="Jan 45" android:fontFamily="@string/font_family_light" android:textColor="?BrushNoSearchResults" android:layout_gravity="end" android:layout_margin="3dp"/>
+      <TextView
+          android:layout_width="wrap_content" android:id="@+id/ProfilePageGeneralTabCommentItemContent"
+          android:layout_height="wrap_content" android:minHeight="60dp"  android:text="Some comment" android:layout_margin="5dp" android:textColor="?BrushText"/>
+      <LinearLayout
+          android:layout_width="wrap_content" android:layout_gravity="end" android:layout_marginBottom="5dp" android:layout_marginEnd="-5dp"
+          android:layout_height="wrap_content">
+
+        <Button
+            android:layout_width="wrap_content" android:layout_marginEnd="10dp" android:minWidth="30dp" android:minHeight="25dp" android:padding="3dp" android:textAllCaps="false"
+            android:layout_height="wrap_content" android:background="@drawable/button_underline_background_style" android:text="Conversation"
+            android:id="@+id/ProfilePageGeneralTabCommentItemConvButton" />
+        <Button
+            android:layout_width="wrap_content" android:layout_marginEnd="10dp" android:minWidth="30dp" android:minHeight="25dp" android:padding="3dp" android:textAllCaps="false"
+            android:layout_height="wrap_content" android:background="@drawable/button_underline_background_style" android:text="Delete"
+            android:id="@+id/ProfilePageGeneralTabCommentItemDeleteButton" />
+
+      </LinearLayout>
+    </LinearLayout>
+  </LinearLayout>
+
+</LinearLayout>

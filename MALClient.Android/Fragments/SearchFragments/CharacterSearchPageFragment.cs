@@ -48,7 +48,7 @@ namespace MALClient.Android.Fragments.SearchFragments
         {
             var view = convertView ?? MainActivity.CurrentContext.LayoutInflater.Inflate(Resource.Layout.CharacterItem,null);
 
-            view.SetBinding(CharacterItemBindingInfo.Instance,favouriteViewModel);
+            view.SetBinding(FavouriteItemBindingInfo.Instance,favouriteViewModel);
 
             return view;
         }

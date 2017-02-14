@@ -58,7 +58,7 @@
         <MALClient.Android.UserControls.ExpandableGridView android:id="@+id/ProfilePageGeneralTabFriendsGrid" android:layout_width="match_parent"
             android:layout_height="wrap_content" android:numColumns="auto_fit"/>
       </LinearLayout>
-      <LinearLayout android:background="?BrushDeepBackground"
+      <LinearLayout
           android:layout_width="match_parent"
           android:layout_height="wrap_content" android:padding="10dp" android:orientation="vertical">
         <TextView
@@ -66,14 +66,14 @@
             android:layout_height="wrap_content" android:textColor="?AccentColour" android:text="Comments" android:textSize="@dimen/FontSizeHuge" android:fontFamily="@string/font_family_light"/>
         <EditText
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"  android:inputType="textMultiLine" />
+            android:layout_height="wrap_content"  android:inputType="textMultiLine" android:hint="Comment..."/>
         <Button android:layout_marginTop="5dp"
             android:layout_width="wrap_content" android:id="@+id/ProfilePageGeneralTabSendCommentButton"
             android:layout_height="wrap_content" style="@style/AccentButtonStyle" android:text="Send Comment" android:padding="5dp"/>
-        <LinearLayout
-            android:layout_width="match_parent" android:layout_marginTop="5dp" android:id="@+id/ProfilePageGeneralTabCommentsList"
-            android:layout_height="wrap_content"/>
       </LinearLayout>
+      <LinearLayout
+        android:layout_width="match_parent" android:layout_marginTop="5dp" android:dividerPadding="5dp" android:id="@+id/ProfilePageGeneralTabCommentsList"
+        android:layout_height="wrap_content" android:orientation="vertical"/>
     </LinearLayout>
   </ScrollView>
 </RelativeLayout>

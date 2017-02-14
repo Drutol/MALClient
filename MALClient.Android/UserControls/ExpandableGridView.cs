@@ -46,7 +46,7 @@ namespace MALClient.Android.UserControls
             if(Width == 0)
                 return;
             ViewGroup.LayoutParams param = LayoutParameters;
-            param.Height = DimensionsHelper.DpToPx(8.0f/(Width/ItemWidth) * ItemHeight);
+            param.Height = DimensionsHelper.DpToPx(Adapter.Count/(Width/ItemWidth) * ItemHeight);
 
         }
     }

@@ -47,5 +47,18 @@ namespace MALClient.Android
             }
 
         }
+
+        public static void Into(this ImageViewAsync image, string originUrl)
+        {
+            if (string.IsNullOrEmpty(originUrl))
+                return;
+
+            image.Visibility = ViewStates.Invisible;
+
+            var work = ImageService.Instance.LoadUrl(originUrl);
+            work = work.Success(image.AnimateFadeIn);
+            image.Tag = originUrl;
+            work.FadeAnimation(false).Into(image);
+        }
     }
 }

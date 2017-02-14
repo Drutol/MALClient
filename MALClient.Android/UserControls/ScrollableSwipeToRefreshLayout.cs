@@ -32,7 +32,7 @@ namespace MALClient.Android.UserControls
 
         public override bool CanChildScrollUp()
         {
-            return ScrollingView.CanScrollVertically(-1);
+            return ScrollingView?.CanScrollVertically(-1) ?? true;
         }
     }
 }

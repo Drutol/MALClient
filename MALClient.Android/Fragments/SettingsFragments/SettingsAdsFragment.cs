@@ -22,15 +22,8 @@ using MALClient.XShared.ViewModels;
 
 namespace MALClient.Android.Fragments.SettingsFragments
 {
-    public partial class SettingsAdsFragment : MalFragmentBase
-    {
-        private LinearLayout _settingsPageAdsEnableAdsSwitch;
-        private Spinner _settingsPageAdsMinutesDailySpinner;
-
-        public LinearLayout SettingsPageAdsEnableAdsSwitch => _settingsPageAdsEnableAdsSwitch ?? (_settingsPageAdsEnableAdsSwitch = FindViewById<LinearLayout>(Resource.Id.SettingsPageAdsEnableAdsSwitch));
-
-        public Spinner SettingsPageAdsMinutesDailySpinner => _settingsPageAdsMinutesDailySpinner ?? (_settingsPageAdsMinutesDailySpinner = FindViewById<Spinner>(Resource.Id.SettingsPageAdsMinutesDailySpinner));
-        
+    public class SettingsAdsFragment : MalFragmentBase
+    {          
         private SettingsViewModel ViewModel;
 
         protected override void Init(Bundle savedInstanceState)
@@ -49,7 +42,7 @@ namespace MALClient.Android.Fragments.SettingsFragments
             SettingsPageAdsMinutesDailySpinner.Adapter = availableTimes.GetAdapter((i, i1, arg3) =>
             {
                 var view = arg3;
-                var text = i1 == 0 ? $"Indefinietly" : $"{i1} minutes";
+                var text = i1 == 0 ? "Indefinietly" : $"{i1} minutes";
                 if (view == null)
                 {
                     view = AnimeListPageFlyoutBuilder.BuildBaseItem(Activity, text,
@@ -71,5 +64,16 @@ namespace MALClient.Android.Fragments.SettingsFragments
 
         public override int LayoutResourceId => Resource.Layout.SettingsPageAds;
 
+
+        #region Views
+
+        private LinearLayout _settingsPageAdsEnableAdsSwitch;
+        private Spinner _settingsPageAdsMinutesDailySpinner;
+
+        public LinearLayout SettingsPageAdsEnableAdsSwitch => _settingsPageAdsEnableAdsSwitch ?? (_settingsPageAdsEnableAdsSwitch = FindViewById<LinearLayout>(Resource.Id.SettingsPageAdsEnableAdsSwitch));
+
+        public Spinner SettingsPageAdsMinutesDailySpinner => _settingsPageAdsMinutesDailySpinner ?? (_settingsPageAdsMinutesDailySpinner = FindViewById<Spinner>(Resource.Id.SettingsPageAdsMinutesDailySpinner));
+
+        #endregion
     }
 }

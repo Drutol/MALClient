@@ -41,12 +41,12 @@ namespace MALClient.Android.Fragments.SettingsFragments
                 this.SetBinding(() => ViewModel.CalendarIncludePlanned,
                     () => _settingsPageCalendarBuildOptionsPlanToWatchCheckBox.Checked, BindingMode.TwoWay));
             //
-            SettingsPageCalendarStartPageRadioGroup.Check(Settings.CalendarStartOnToday == true
+            SettingsPageCalendarStartPageRadioGroup.Check(Settings.CalendarStartOnToday
                 ? SettingsPageCalendarStartPageRadioToday.Id
                 : SettingsPageCalendarStartPageRadioSummary.Id);
             SettingsPageCalendarStartPageRadioGroup.SetOnCheckedChangeListener(new OnCheckedListener(i =>
             {
-                Settings.CalendarStartOnToday = i == SettingsPageCalendarStartPageRadioToday.Id ? true : false;
+                Settings.CalendarStartOnToday = i == SettingsPageCalendarStartPageRadioToday.Id;
             }));
             //
             Bindings.Add(SettingsPageCalendarMiscFirstDaySwitch.Id, new List<Binding>());

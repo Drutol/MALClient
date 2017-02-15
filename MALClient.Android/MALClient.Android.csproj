@@ -202,6 +202,7 @@
     <Compile Include="Fragments\ProfilePageFragments\ProfilePageFavouritesTabFragment.cs" />
     <Compile Include="Fragments\ProfilePageFragments\ProfilePageFragment.cs" />
     <Compile Include="Fragments\ProfilePageFragments\ProfilePageGeneralTabFragment.cs" />
+    <Compile Include="Fragments\ProfilePageFragments\ProfilePageStatsTabFragment.cs" />
     <Compile Include="Fragments\ProfilePageFragments\ProfilePageRecentUpdatesFragment.cs" />
     <Compile Include="Fragments\SearchFragments\CharacterSearchPageFragment.cs" />
     <Compile Include="Fragments\LogInPageFragment.ui.cs">
@@ -249,17 +250,23 @@
     <Compile Include="Listeners\OnCheckedListener.cs" />
     <Compile Include="Listeners\OnClickListener.cs" />
     <Compile Include="Listeners\OnItemClickListener.cs" />
+    <Compile Include="Listeners\OnTouchListener.cs" />
     <Compile Include="Listeners\OnPreparedListener.cs" />
     <Compile Include="Listeners\ScrollChangedListener.cs" />
     <Compile Include="Listeners\ScrollListener.cs" />
     <Compile Include="Listeners\SwipeLayoutListener.cs" />
     <Compile Include="Managers\ImageCache.cs" />
     <Compile Include="Managers\NavMgr.cs" />
-    <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Resources\ResourceExtension.cs" />
+    <Compile Include="UserControls\ChartView.cs" />
     <Compile Include="UserControls\ExpandableGridView.cs" />
     <Compile Include="UserControls\ScrollableSwipeToRefreshLayout.cs" />
+    <Compile Include="UserControls\SemiCircle.cs">
+      <SubType>Code</SubType>
+      <DependentUpon>ChartView.cs</DependentUpon>
+    </Compile>
     <Compile Include="Utilities\AnimeImageExtensions.cs" />
     <Compile Include="Utilities\Includes.cs" />
     <Compile Include="Utilities\ListenableWebClient.cs" />
@@ -500,7 +507,9 @@
     <AndroidResource Include="Resources\drawable\icon_eye.xml" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\layout\AnimeListItem.xml" />
+    <AndroidResource Include="Resources\layout\AnimeListItem.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\anime_list_item_background.xml" />
@@ -530,7 +539,9 @@
     <AndroidResource Include="Resources\layout\AnimeSearchTypeItem.xml" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\layout\CalendarPage.xml" />
+    <AndroidResource Include="Resources\layout\CalendarPage.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\CalendarPageSummaryTab.xml" />
@@ -595,7 +606,9 @@
     </AndroidResource>
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\layout\SettingsPageItem.xml" />
+    <AndroidResource Include="Resources\layout\SettingsPageItem.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\SettingsPageHomepage.xml" />
@@ -644,7 +657,9 @@
     </AndroidResource>
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\layout\SettingsPageFeeds.xml" />
+    <AndroidResource Include="Resources\layout\SettingsPageFeeds.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\ProfilePage.xml" />
@@ -684,6 +699,7 @@
     <AndroidResource Include="Resources\layout\ProfilePageFavouritesTab.xml" />
   </ItemGroup>
   <ItemGroup>
+    <AndroidResource Include="Resources\layout\ProfilePageStatsTab.xml" />
     <AndroidResource Include="Resources\layout\ProfilePageRecentUpdatesTab.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />

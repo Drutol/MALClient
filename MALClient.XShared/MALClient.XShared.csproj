@@ -114,8 +114,12 @@
     <Compile Include="Utils\Managers\FavouritesManager.cs" />
     <Compile Include="Utils\PageUtils.cs" />
     <Compile Include="Utils\Settings.cs" />
+    <Compile Include="Utils\SexyMath.cs" />
     <Compile Include="Utils\SmartObservableCollection.cs" />
     <Compile Include="Utils\Utilities.cs" />
+    <Compile Include="Utils\Vector2D.cs">
+      <DependentUpon>SexyMath.cs</DependentUpon>
+    </Compile>
     <Compile Include="ViewModels\AnimeItemAbstraction.cs" />
     <Compile Include="ViewModels\AnimeItemViewModel.cs" />
     <Compile Include="ViewModels\AnimeListSeparatorViewModel.cs" />

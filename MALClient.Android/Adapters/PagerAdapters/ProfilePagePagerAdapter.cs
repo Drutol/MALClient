@@ -33,9 +33,8 @@ namespace MALClient.Android.PagerAdapters
         {
             _generalFragment = new ProfilePageGeneralTabFragment();
             _favsFragment = new ProfilePageFavouritesTabFragment();
+            _statsFragment = new ProfilePageStatsTabFragment();
             _recentsFragment = new ProfilePageRecentUpdatesFragment();
-            _statsFragment = new ArticlesPageTabFragment(false);
-
         }
 
         private MalFragmentBase _currentFragment;

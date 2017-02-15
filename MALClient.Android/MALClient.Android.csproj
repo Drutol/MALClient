@@ -261,6 +261,10 @@
     <Compile Include="UserControls\ChartView.cs" />
     <Compile Include="UserControls\ExpandableGridView.cs" />
     <Compile Include="UserControls\ScrollableSwipeToRefreshLayout.cs" />
+    <Compile Include="UserControls\SemiCircle.cs">
+      <SubType>Code</SubType>
+      <DependentUpon>ChartView.cs</DependentUpon>
+    </Compile>
     <Compile Include="Utilities\AnimeImageExtensions.cs" />
     <Compile Include="Utilities\Includes.cs" />
     <Compile Include="Utilities\ListenableWebClient.cs" />

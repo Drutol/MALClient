@@ -15,83 +15,12 @@ using Android.Graphics;
 using Android.Animation;
 using MALClient.Android.Listeners;
 using Android.Graphics.Drawables;
+using MALClient.XShared.Utils;
 
 namespace MALClient.Android.UserControls
 {
     class ChartView : View
     {
-        private class SemiCircle
-        {
-            private float _value;
-            private Paint _paint;
-            private float _lengthTotal;
-            private DashPathEffect _dashEffect;
-            private float _angle = 0;
-            private float _lengthFraction= 0;
-
-            public SemiCircle(int value, int sum, Color color, int fraction = 1)
-            {
-                _value = value;
-                _lengthTotal = value * (_innerCircleRadius + _outterCircleRadius) * (float)System.Math.PI / sum;
-                SetLengthFraction(fraction);
-                setPaint(value, color);
-            }
-
-            public void Draw(Canvas canvas)
-            {
-                canvas.Save();
-                    canvas.Rotate(_angle);
-                    canvas.DrawCircle(0, 0, (_innerCircleRadius + _outterCircleRadius) / 2.0f, _paint);
-                canvas.Restore();
-            }
-
-            public Color GetColor()
-            {
-                return _paint.Color;
-            }
-            public void SetLengthFraction(float value)
-            {
-                _lengthFraction = value;
-                _dashEffect = new DashPathEffect(new float[] { _lengthTotal * _lengthFraction, 1000000 }, 0); //BIG number to be sure I get only one dash line.
-            }
-
-            public void SetAngle(float angle)
-            {
-                _angle = angle;
-                if (_angle > 360) angle -= 360;
-                else if (_angle < 0) angle += 360;
-            }
-
-            public float GetAngle()
-            {
-                return _angle;
-            }
-
-            private void setPaint(int value, Color color)
-            {
-                _paint = new Paint();
-                _paint.Color = color;
-                _paint.SetStyle(Paint.Style.Stroke);
-                _paint.StrokeWidth = (_outterCircleRadius - _innerCircleRadius);
-                _paint.AntiAlias = true;
-                _paint.SetPathEffect(_dashEffect);
-            }
-
-            public void SetStrokeWidth(float value)
-            {
-                _paint.StrokeWidth = value;
-            }
-
-            public float GetStrokeWidth()
-            {
-                return _paint.StrokeWidth;
-            }
-
-            public float GetValue()
-            {
-                return _value;
-            }
-        }
         private int[] valuesArray = new int[] { 21, 12, 65, 10, 30 };
         private List<SemiCircle> SemiCircles = new List<SemiCircle>();
         private int selectedChartSegment = -1;
@@ -127,7 +56,7 @@ namespace MALClient.Android.UserControls
             {
                 Color color = new Color(colorsArray[i]);
                 color.A = 255;
-                SemiCircles.Add(new SemiCircle(value, sum, color));
+                SemiCircles.Add(new SemiCircle(value, sum, _innerCircleRadius, _outterCircleRadius, color));
                 SemiCircles[i].SetAngle(angle);
                 angle += value * 360.0f / sum;
                 i++;
@@ -141,6 +70,25 @@ namespace MALClient.Android.UserControls
             _textPaint.SetARGB(255, 50, 50, 50);
             _textPaint.AntiAlias = true;
             _textPaint.TextSize = 150;
+
+            ValueAnimator initAnimation = ValueAnimator.OfFloat(new float[] { 0, 1 });
+            initAnimation.SetDuration(1000);
+            initAnimation.Update += (sender, args) =>
+            {
+                foreach( SemiCircle ob in SemiCircles)
+                {
+                    ob.SetLengthFraction((float)initAnimation.AnimatedValue);
+                    ob.SetAngleFraction((float)initAnimation.AnimatedValue);
+                    _globalAngle = 180 * (float)initAnimation.AnimatedValue - 180;
+                    Invalidate();
+                }
+            };
+            initAnimation.AnimationEnd += (sender, args) =>
+            {
+                _globalAngle = 0;
+            };
+            initAnimation.Start();
+
         }
 
         protected override void OnDraw(Canvas canvas)
@@ -169,7 +117,7 @@ namespace MALClient.Android.UserControls
             switch(e.Action)
             {
                 case MotionEventActions.Up:
-                    selectSegment(x, y);
+                    trySelectSegment(x, y);
                     break;
                 case MotionEventActions.Move:
                     break;
@@ -179,35 +127,16 @@ namespace MALClient.Android.UserControls
             }
         }
 
-        private void selectSegment(float x, float y)
+        private void trySelectSegment(float x, float y)
         {
-            float relativeX = x - MeasuredWidth / 2.0f;
-            float relativeY = y - MeasuredHeight / 2.0f;
+            Vector2D pressedPoint = new Vector2D(x - MeasuredWidth / 2.0f, y - MeasuredHeight / 2.0f);
+            float pressedPointAngle = pressedPoint.GetAngle();
 
-            float pressedPointAngle = 0;
-
-            if(relativeX == 0)
-            {
-                pressedPointAngle = 90;
-                if (relativeY < 0)
-                    pressedPointAngle += 180;
-            }else
-            {
-                float relativeAngle = 0;
-
-                if (relativeX < 0)
-                    relativeAngle += 180;
-                else if (relativeY < 0)
-                    relativeAngle += 360;
-
-                float atan = (float)( System.Math.Atan(relativeY / relativeX) * (180 / System.Math.PI) );
-                pressedPointAngle = atan + relativeAngle;
-            }
-            if (System.Math.Sqrt(System.Math.Pow(relativeX, 2) + System.Math.Pow(relativeY, 2)) <= _outterCircleRadius)
+            if ( pressedPoint.GetLength() <= _outterCircleRadius && pressedPoint.GetLength() >= _innerCircleRadius )
             {
                 for (int i = 1; i < SemiCircles.Count; i++)
                 {
-                    if ( (pressedPointAngle -_globalAngle + 720)%360 < SemiCircles[i].GetAngle() )
+                    if ( ( pressedPointAngle -_globalAngle + 720 )%360 < SemiCircles[i].GetAngle() )
                     { 
                         SelectedChartSegmentChanged(i-1);
                         return;
@@ -217,6 +146,7 @@ namespace MALClient.Android.UserControls
                 return;
             }
         }
+
         private void SelectedChartSegmentChanged(int value)
         {
             if (selectedChartSegment == value) return;
@@ -227,7 +157,7 @@ namespace MALClient.Android.UserControls
             float angleDelta = 0;
 
             if ( selectedChartSegment == SemiCircles.Count - 1)
-                angleDelta = 90 - SemiCircles[selectedChartSegment].GetAngle() - (360 - SemiCircles[selectedChartSegment].GetAngle()) / 2.0f;
+                angleDelta = 90 - SemiCircles[selectedChartSegment].GetAngle() - ( 360* SemiCircles[selectedChartSegment].GetAngleFraction() - SemiCircles[selectedChartSegment].GetAngle()) / 2.0f;
             else
                 angleDelta = 90-SemiCircles[selectedChartSegment].GetAngle() - ( SemiCircles[selectedChartSegment+1].GetAngle()- SemiCircles[selectedChartSegment].GetAngle() )/2.0f;
 

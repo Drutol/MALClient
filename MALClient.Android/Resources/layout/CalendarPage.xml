@@ -1,26 +1,27 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8"?>
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-android:background="?BrushDeepBackground">
+                android:background="?BrushDeepBackground">
   <LinearLayout android:layout_width="match_parent"
                 android:orientation="vertical"
                 android:layout_height="match_parent"
                 android:id="@+id/CalendarPageContentGrid">
     <com.astuetz.PagerSlidingTabStrip
-        android:id="@+id/CalendarPageTabStrip"
-        android:layout_width="match_parent"
-        android:layout_height="55dp"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        app:pstsPaddingMiddle="true"
-        android:textColorPrimary="?AccentColour"
-        android:background="?BrushPivotHeaderBackground"/>
+      android:id="@+id/CalendarPageTabStrip"
+      android:layout_width="match_parent"
+      android:layout_height="55dp"
+      xmlns:app="http://schemas.android.com/apk/res-auto"
+      app:pstsPaddingMiddle="true"
+      android:textColorPrimary="?AccentColour"
+      android:background="?BrushPivotHeaderBackground" />
     <android.support.v4.view.ViewPager
-        android:id="@+id/CalendarPageViewPager"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="?BrushDetailsBackground"/>
+      android:id="@+id/CalendarPageViewPager"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:background="?BrushDetailsBackground" />
   </LinearLayout>
 
   <LinearLayout android:layout_width="match_parent"
@@ -33,14 +34,13 @@ android:background="?BrushDeepBackground">
                  android:layout_height="wrap_content"
                  android:indeterminate="false"
                  style="?android:attr/progressBarStyleHorizontal"
-                 android:id="@+id/CalendarPageProgressBar"/>
+                 android:id="@+id/CalendarPageProgressBar" />
     <TextView android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:text="Building calendar, please wait..."
               android:layout_gravity="center"
               android:textColor="?BrushText"
               android:fontFamily="@string/font_family_light"
-              android:textSize="@dimen/FontSizeMedium"/>
+              android:textSize="@dimen/FontSizeMedium" />
   </LinearLayout>
 </RelativeLayout>
-

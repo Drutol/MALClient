@@ -1,13 +1,21 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:foreground="?android:selectableItemBackground"
               android:background="?BrushDetailsRelatedBackground">
-  <RelativeLayout android:background="@drawable/border_accent_left_wide"  android:layout_width="match_parent" android:layout_height="wrap_content">
-    <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:background="?android:selectableItemBackground" android:paddingTop="5dp" android:paddingBottom="5dp">
-      <TextView android:id="@+id/AnimeRelatedItemContent" android:layout_width="wrap_content" android:fontFamily="@string/font_family_light" android:textColor="?AccentColour" android:layout_height="wrap_content" android:gravity="center" android:text="Prequel: Bakemonogatoari" android:textAlignment="center" android:layout_centerInParent="true" android:layout_marginStart="9dp" android:layout_marginBottom="5dp" android:ellipsize="end"/>
+  <RelativeLayout android:background="@drawable/border_accent_left_wide" android:layout_width="match_parent"
+                  android:layout_height="wrap_content">
+    <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:background="?android:selectableItemBackground" android:paddingTop="5dp"
+                    android:paddingBottom="5dp">
+      <TextView android:id="@+id/AnimeRelatedItemContent" android:layout_width="wrap_content"
+                android:fontFamily="@string/font_family_light" android:textColor="?AccentColour"
+                android:layout_height="wrap_content" android:gravity="center" android:text="Prequel: Bakemonogatoari"
+                android:textAlignment="center" android:layout_centerInParent="true" android:layout_marginStart="9dp"
+                android:layout_marginBottom="5dp" android:ellipsize="end" />
     </RelativeLayout>
   </RelativeLayout>
 </LinearLayout>

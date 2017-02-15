@@ -1,44 +1,45 @@
-﻿<?xml version="1.0" encoding="utf-8" ?> 
-<LinearLayout  xmlns:android="http://schemas.android.com/apk/res/android"
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical">
+  <RelativeLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <FFImageLoading.Views.ImageViewAsync
       android:layout_width="match_parent"
+      android:layout_height="260dp"
+      android:id="@+id/CharacterItemImage"
+      android:adjustViewBounds="true"
+      android:scaleType="fitXY" />
+  </RelativeLayout>
+  <LinearLayout
+    android:layout_width="match_parent"
+    android:background="?BrushAnimeItemBackground"
+    android:layout_height="55dp" android:orientation="vertical" android:padding="4dp">
+    <TextView
+      android:layout_width="wrap_content"
+      android:id="@+id/CharacterItemName"
       android:layout_height="wrap_content"
-      android:orientation="vertical">
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-      <FFImageLoading.Views.ImageViewAsync
-          android:layout_width="match_parent"
-          android:layout_height="260dp"
-          android:id="@+id/CharacterItemImage"
-          android:adjustViewBounds="true"
-          android:scaleType="fitXY" />
-    </RelativeLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:background="?BrushAnimeItemBackground"
-        android:layout_height="55dp" android:orientation="vertical" android:padding="4dp">
-      <TextView
-          android:layout_width="wrap_content"
-          android:id="@+id/CharacterItemName"
-          android:layout_height="wrap_content"
-          android:textSize="18dp"
-          android:text="sdfsdfsdfsdfdsfds"
-          android:textColor="?BrushText"
-          android:ellipsize="end"
-          android:scrollHorizontally="false"
-          android:maxLines="1" />
-      <TextView
-          android:layout_width="wrap_content"
-          android:id="@+id/CharacterItemNotes"
-          android:layout_height="wrap_content"
-          android:layout_marginTop="2dp"
-          android:textSize="18dp"
-          android:textStyle="italic"
-          android:fontFamily="@string/font_family_light"
-          android:text="(fdsfdsfdsfsdfs)"
-          android:textColor="?BrushText"
-          android:ellipsize="end"
-          android:scrollHorizontally="false"
-          android:maxLines="1"/>
-    </LinearLayout>
+      android:textSize="18dp"
+      android:text="sdfsdfsdfsdfdsfds"
+      android:textColor="?BrushText"
+      android:ellipsize="end"
+      android:scrollHorizontally="false"
+      android:maxLines="1" />
+    <TextView
+      android:layout_width="wrap_content"
+      android:id="@+id/CharacterItemNotes"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="2dp"
+      android:textSize="18dp"
+      android:textStyle="italic"
+      android:fontFamily="@string/font_family_light"
+      android:text="(fdsfdsfdsfsdfs)"
+      android:textColor="?BrushText"
+      android:ellipsize="end"
+      android:scrollHorizontally="false"
+      android:maxLines="1" />
   </LinearLayout>
+</LinearLayout>

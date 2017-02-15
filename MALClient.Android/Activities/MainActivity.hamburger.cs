@@ -133,6 +133,11 @@ namespace MALClient.Android.Activities
             articlesButton.WithIdentifier((int) PageIndex.PageArticles);
             articlesButton.WithIcon(Resource.Drawable.icon_newspaper);
 
+            var videoButton = GetBaseSecondaryItem();
+            videoButton.WithName("Promotional Videos");
+            videoButton.WithIdentifier((int) PageIndex.PagePopularVideos);
+            videoButton.WithIcon(Resource.Drawable.icon_newspaper);
+
             //
 
             IDrawerItem accountButton;
@@ -192,7 +197,8 @@ namespace MALClient.Android.Activities
                 mangaListButton,
                 topMangaButton,
                 othersSubHeader,//
-                articlesButton
+                articlesButton,
+                videoButton
 
             });
 

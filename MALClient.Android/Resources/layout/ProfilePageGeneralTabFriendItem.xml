@@ -1,11 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
+
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content" 
-    android:layout_height="wrap_content" android:clickable="true"  android:focusable="true" android:foreground="?selectableItemBackground">
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content" android:clickable="true" android:focusable="true"
+             android:foreground="?selectableItemBackground">
 
   <FFImageLoading.Views.ImageViewAsync
-      android:layout_width="65dp"
-      android:layout_height="65dp" android:scaleType="centerCrop"
-      android:id="@+id/ProfilePageGeneralTabFriendItemImage" android:layout_marginBottom="10dp"/>
+    android:layout_width="65dp"
+    android:layout_height="65dp" android:scaleType="centerCrop"
+    android:id="@+id/ProfilePageGeneralTabFriendItemImage" android:layout_marginBottom="10dp" />
 
 </FrameLayout>

@@ -1,43 +1,65 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" android:paddingTop="3dp" android:background="?BrushDeepBackground" android:layout_width="match_parent" android:layout_height="match_parent">
-      <ScrollView android:layout_width="match_parent" android:layout_height="match_parent">
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="?BrushDeepBackground">
-                  <LinearLayout android:layout_width="match_parent" android:layout_height="230dp" android:paddingStart="3dp" android:paddingEnd="3dp">
-                        <LinearLayout android:gravity="center" android:orientation="vertical" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1">
-                              <FrameLayout android:layout_width="match_parent"
-                                           android:layout_height="190dp"
-                                           android:focusable="true"
-                                           android:clickable="true"
-                                           android:id="@+id/RecommendationItemDepImageButton"
-                                           android:foreground="?android:selectableItemBackground">
-                                    <FFImageLoading.Views.ImageViewAsync android:id="@+id/RecommendationItemDepImage" android:layout_width="match_parent" android:layout_height="match_parent"/>
-                              </FrameLayout>
-                              <TextView android:id="@+id/RecommendationItemDepTitle" android:layout_width="match_parent" android:layout_height="40dp" android:text="Shelter" android:textColor="?BrushText" android:ellipsize="end" android:layout_margin="3dp" android:maxLines="2" android:gravity="center"/>
-                        </LinearLayout>
-                        <ImageView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight=".3" android:src="@drawable/icon_swap" android:layout_gravity="center_vertical"/>
-                        <LinearLayout android:gravity="center" android:layout_gravity="center" android:orientation="vertical" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1">
-                              <FrameLayout android:layout_width="match_parent"
-                                           android:layout_height="190dp"
-                                           android:focusable="true"
-                                           android:clickable="true"
-                                           android:id="@+id/RecommendationItemRecImageButton"
-                                           android:foreground="?android:selectableItemBackground">
-                                    <FFImageLoading.Views.ImageViewAsync android:id="@+id/RecommendationItemRecImage" android:layout_width="match_parent" android:layout_height="190dp"/>
-                              </FrameLayout>
-                              <TextView android:id="@+id/RecommendationItemRecTitle" android:layout_width="match_parent" android:layout_height="40dp" android:text="Shelter" android:textColor="?BrushText" android:ellipsize="end" android:layout_margin="3dp" android:maxLines="2" android:gravity="center"/>
-                        </LinearLayout>
-                  </LinearLayout>
-                  <View style="@style/Divider" android:layout_marginTop="7dp"/>
-                  <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center_horizontal" android:text="Recommendation description" android:textColor="?BrushText"/>
-                  <TextView android:id="@+id/RecommendationItemDescription" android:layout_width="match_parent" android:layout_height="wrap_content" android:textColor="?BrushText" android:fontFamily="@string/font_family_light" android:layout_margin="5dp"/>
-                  <LinearLayout android:id="@+id/RecommendationItemDetailsContainer" android:orientation="vertical" android:layout_width="match_parent" android:layout_height="wrap_content"/>
-            </LinearLayout>
-      </ScrollView>
-      <RelativeLayout android:id="@+id/RecommendationItemLoading" android:layout_width="match_parent" android:layout_height="match_parent" android:background="?BrushLoading">
-            <ProgressBar android:layout_width="wrap_content" android:indeterminate="true" android:indeterminateTint="?AccentColour" android:indeterminateTintMode="src_in" android:layout_height="wrap_content" android:layout_centerInParent="true"/>
-      </RelativeLayout>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" android:paddingTop="3dp"
+                android:background="?BrushDeepBackground" android:layout_width="match_parent"
+                android:layout_height="match_parent">
+  <ScrollView android:layout_width="match_parent" android:layout_height="match_parent">
+    <LinearLayout
+      android:orientation="vertical"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:background="?BrushDeepBackground">
+      <LinearLayout android:layout_width="match_parent" android:layout_height="230dp" android:paddingStart="3dp"
+                    android:paddingEnd="3dp">
+        <LinearLayout android:gravity="center" android:orientation="vertical" android:layout_width="0dp"
+                      android:layout_height="match_parent" android:layout_weight="1">
+          <FrameLayout android:layout_width="match_parent"
+                       android:layout_height="190dp"
+                       android:focusable="true"
+                       android:clickable="true"
+                       android:id="@+id/RecommendationItemDepImageButton"
+                       android:foreground="?android:selectableItemBackground">
+            <FFImageLoading.Views.ImageViewAsync android:id="@+id/RecommendationItemDepImage"
+                                                 android:layout_width="match_parent"
+                                                 android:layout_height="match_parent" />
+          </FrameLayout>
+          <TextView android:id="@+id/RecommendationItemDepTitle" android:layout_width="match_parent"
+                    android:layout_height="40dp" android:text="Shelter" android:textColor="?BrushText"
+                    android:ellipsize="end" android:layout_margin="3dp" android:maxLines="2" android:gravity="center" />
+        </LinearLayout>
+        <ImageView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight=".3"
+                   android:src="@drawable/icon_swap" android:layout_gravity="center_vertical" />
+        <LinearLayout android:gravity="center" android:layout_gravity="center" android:orientation="vertical"
+                      android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1">
+          <FrameLayout android:layout_width="match_parent"
+                       android:layout_height="190dp"
+                       android:focusable="true"
+                       android:clickable="true"
+                       android:id="@+id/RecommendationItemRecImageButton"
+                       android:foreground="?android:selectableItemBackground">
+            <FFImageLoading.Views.ImageViewAsync android:id="@+id/RecommendationItemRecImage"
+                                                 android:layout_width="match_parent" android:layout_height="190dp" />
+          </FrameLayout>
+          <TextView android:id="@+id/RecommendationItemRecTitle" android:layout_width="match_parent"
+                    android:layout_height="40dp" android:text="Shelter" android:textColor="?BrushText"
+                    android:ellipsize="end" android:layout_margin="3dp" android:maxLines="2" android:gravity="center" />
+        </LinearLayout>
+      </LinearLayout>
+      <View style="@style/Divider" android:layout_marginTop="7dp" />
+      <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal" android:text="Recommendation description"
+                android:textColor="?BrushText" />
+      <TextView android:id="@+id/RecommendationItemDescription" android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:textColor="?BrushText"
+                android:fontFamily="@string/font_family_light" android:layout_margin="5dp" />
+      <LinearLayout android:id="@+id/RecommendationItemDetailsContainer" android:orientation="vertical"
+                    android:layout_width="match_parent" android:layout_height="wrap_content" />
+    </LinearLayout>
+  </ScrollView>
+  <RelativeLayout android:id="@+id/RecommendationItemLoading" android:layout_width="match_parent"
+                  android:layout_height="match_parent" android:background="?BrushLoading">
+    <ProgressBar android:layout_width="wrap_content" android:indeterminate="true"
+                 android:indeterminateTint="?AccentColour" android:indeterminateTintMode="src_in"
+                 android:layout_height="wrap_content" android:layout_centerInParent="true" />
+  </RelativeLayout>
 </RelativeLayout>

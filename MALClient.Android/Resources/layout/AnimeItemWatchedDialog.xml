@@ -1,9 +1,22 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical">
-  <TextView android:id="@+id/AnimeItemWatchedDialogTitleTextView" android:layout_width="wrap_content" android:layout_height="wrap_content" style="@style/TextViewHeaderStyle" android:text="Watched eps" android:layout_gravity="center_horizontal"/>
-  <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
-    <EditText android:id="@+id/AnimeItemWatchedDialogTextInput" android:layout_width="match_parent" android:backgroundTint="?AccentColour" android:backgroundTintMode="add" android:layout_height="wrap_content" android:inputType="numberDecimal" android:layout_weight="1"/>
-    <ImageButton android:id="@+id/AnimeItemWatchedDialogAcceptButton" android:layout_width="50dp" android:layout_height="match_parent" android:src="@drawable/icon_ok" android:background="?android:selectableItemBackground"/>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+              android:layout_height="wrap_content" android:orientation="vertical">
+  <TextView android:id="@+id/AnimeItemWatchedDialogTitleTextView" android:layout_width="wrap_content"
+            android:layout_height="wrap_content" style="@style/TextViewHeaderStyle" android:text="Watched eps"
+            android:layout_gravity="center_horizontal" />
+  <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:orientation="horizontal">
+    <EditText android:id="@+id/AnimeItemWatchedDialogTextInput" android:layout_width="match_parent"
+              android:backgroundTint="?AccentColour" android:backgroundTintMode="add"
+              android:layout_height="wrap_content" android:inputType="numberDecimal" android:layout_weight="1" />
+    <ImageButton android:id="@+id/AnimeItemWatchedDialogAcceptButton" android:layout_width="50dp"
+                 android:layout_height="match_parent" android:src="@drawable/icon_ok"
+                 android:background="?android:selectableItemBackground" />
   </LinearLayout>
-  <GridView android:stretchMode="columnWidth" android:gravity="center" android:id="@+id/AnimeItemWatchedDialogEpisodesGridView" android:columnWidth="80dp" android:choiceMode="singleChoice" android:listSelector="?AccentColour" android:verticalSpacing="5dp" android:horizontalSpacing="5dp" android:numColumns="auto_fit" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="10dp" android:layout_marginTop="20dp"/>
+  <GridView android:stretchMode="columnWidth" android:gravity="center"
+            android:id="@+id/AnimeItemWatchedDialogEpisodesGridView" android:columnWidth="80dp"
+            android:choiceMode="singleChoice" android:listSelector="?AccentColour" android:verticalSpacing="5dp"
+            android:horizontalSpacing="5dp" android:numColumns="auto_fit" android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:layout_marginBottom="10dp" android:layout_marginTop="20dp" />
 </LinearLayout>

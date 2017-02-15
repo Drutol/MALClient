@@ -1,28 +1,30 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="?BrushDeepBackground">
 
-  
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:background="?BrushDeepBackground">
+
 
   <LinearLayout android:layout_width="match_parent" android:orientation="vertical" android:layout_height="match_parent"
-      android:layout_alignParentTop="true"
-      android:layout_alignParentStart="true">
+                android:layout_alignParentTop="true"
+                android:layout_alignParentStart="true">
     <com.astuetz.PagerSlidingTabStrip
-        android:id="@+id/ProfilePageTabStrip"
-        android:layout_width="match_parent"
-        android:layout_height="55dp"
-        android:textColorPrimary="?AccentColour"
-        android:background="?BrushPivotHeaderBackground"/>
+      android:id="@+id/ProfilePageTabStrip"
+      android:layout_width="match_parent"
+      android:layout_height="55dp"
+      android:textColorPrimary="?AccentColour"
+      android:background="?BrushPivotHeaderBackground" />
     <android.support.v4.view.ViewPager
-        android:id="@+id/ProfilePagePivot"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+      android:id="@+id/ProfilePagePivot"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent" />
   </LinearLayout>
 
-  <ProgressBar android:id="@+id/ProfilePageLoadingSpinner" android:layout_width="wrap_content" android:indeterminateTint="?AccentColour" android:indeterminateTintMode="src_in" android:layout_height="wrap_content" android:indeterminate="true" android:layout_centerInParent="true"/>
+  <ProgressBar android:id="@+id/ProfilePageLoadingSpinner" android:layout_width="wrap_content"
+               android:indeterminateTint="?AccentColour" android:indeterminateTintMode="src_in"
+               android:layout_height="wrap_content" android:indeterminate="true" android:layout_centerInParent="true" />
 </RelativeLayout>
 
 <!--xmlns:app="http://schemas.android.com/apk/res-auto"

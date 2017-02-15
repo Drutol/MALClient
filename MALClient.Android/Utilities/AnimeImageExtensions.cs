@@ -57,7 +57,6 @@ namespace MALClient.Android
 
             var work = ImageService.Instance.LoadUrl(originUrl);
             work = work.Success(image.AnimateFadeIn);
-            image.Tag = originUrl;
             work.FadeAnimation(false).Into(image);
         }
     }

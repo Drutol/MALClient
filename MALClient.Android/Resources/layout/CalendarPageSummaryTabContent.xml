@@ -1,4 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
@@ -16,15 +17,15 @@
             android:gravity="center"
             android:textColor="?BrushText"
             android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"/>
+            android:layout_marginBottom="5dp" />
   <GridView
-      android:id="@+id/CalendarPageSummaryTabContentList"
-      android:layout_width="match_parent"
-      android:layout_gravity="top"
-      android:layout_height="match_parent"
-      android:choiceMode="singleChoice"
-      android:stretchMode="columnWidth"
-      android:numColumns="auto_fit"
-      android:dividerHeight="5dp"
-      android:divider="@color/Transparent" />
+    android:id="@+id/CalendarPageSummaryTabContentList"
+    android:layout_width="match_parent"
+    android:layout_gravity="top"
+    android:layout_height="match_parent"
+    android:choiceMode="singleChoice"
+    android:stretchMode="columnWidth"
+    android:numColumns="auto_fit"
+    android:dividerHeight="5dp"
+    android:divider="@color/Transparent" />
 </LinearLayout>

@@ -1,49 +1,72 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
+
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
   <LinearLayout
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:orientation="vertical">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
-    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical">
-      <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="General" android:textColor="?BrushText" android:textSize="@dimen/FontSizeMedium" android:layout_gravity="center_horizontal"/>
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                  android:orientation="vertical">
+      <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="General"
+                android:textColor="?BrushText" android:textSize="@dimen/FontSizeMedium"
+                android:layout_gravity="center_horizontal" />
       <LinearLayout
-          android:layout_width="match_parent"
-          android:layout_height="match_parent"
-          android:orientation="vertical"
-          android:padding="5dp"
-          android:layout_margin="5dp">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="5dp"
+        android:layout_margin="5dp">
 
-        <Switch android:id="@+id/SettingsPageFeedsAddPinnedProfilesSwitch" android:layout_width="match_parent" android:text="Add pinned profiles to feeds" android:layout_height="wrap_content"/>
+        <Switch android:id="@+id/SettingsPageFeedsAddPinnedProfilesSwitch" android:layout_width="match_parent"
+                android:text="Add pinned profiles to feeds" android:layout_height="wrap_content" />
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="You can &quot;pin&quot; profiles by visiting their profile and clicking pin button."
-            android:textSize="@dimen/FontSizeSmall"/>
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:text="You can &quot;pin&quot; profiles by visiting their profile and clicking pin button."
+          android:textSize="@dimen/FontSizeSmall" />
       </LinearLayout>
     </LinearLayout>
 
-    <View style="@style/Divider" android:layout_marginTop="10dp"/>
+    <View style="@style/Divider" android:layout_marginTop="10dp" />
 
-    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="10dp" android:orientation="vertical">
-      <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center_horizontal">
-        <TextView  android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center_horizontal" android:text="Maximum entries per account:" android:textColor="?BrushText" android:textSize="@dimen/FontSizeMedium" android:gravity="center_horizontal"/>
-        <TextView android:id="@+id/SettingsPageFeedsMaximumEntriesTextView" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center_horizontal" android:layout_marginStart="5dp" android:text="0" android:textColor="?AccentColour" android:textSize="@dimen/FontSizeMedium" android:gravity="center_horizontal"/>
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                  android:layout_marginTop="10dp" android:orientation="vertical">
+      <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal">
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                  android:layout_gravity="center_horizontal" android:text="Maximum entries per account:"
+                  android:textColor="?BrushText" android:textSize="@dimen/FontSizeMedium"
+                  android:gravity="center_horizontal" />
+        <TextView android:id="@+id/SettingsPageFeedsMaximumEntriesTextView" android:layout_width="wrap_content"
+                  android:layout_height="wrap_content" android:layout_gravity="center_horizontal"
+                  android:layout_marginStart="5dp" android:text="0" android:textColor="?AccentColour"
+                  android:textSize="@dimen/FontSizeMedium" android:gravity="center_horizontal" />
       </LinearLayout>
-      <SeekBar android:id="@+id/SettingsPageFeedsMaximumEntriesSlider" android:layout_width="match_parent" android:max="5" android:layout_marginTop="5dp" android:layout_height="wrap_content"/>
+      <SeekBar android:id="@+id/SettingsPageFeedsMaximumEntriesSlider" android:layout_width="match_parent"
+               android:max="5" android:layout_marginTop="5dp" android:layout_height="wrap_content" />
     </LinearLayout>
 
-    <View style="@style/Divider" android:layout_marginTop="10dp"/>
+    <View style="@style/Divider" android:layout_marginTop="10dp" />
 
-    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="10dp" android:orientation="vertical">
-      <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center_horizontal">
-        <TextView  android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center_horizontal" android:text="How old entries to display (days):" android:textColor="?BrushText" android:textSize="@dimen/FontSizeMedium" android:gravity="center_horizontal"/>
-        <TextView android:id="@+id/SettingsPageFeedsElderEntriesTextView" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center_horizontal" android:layout_marginStart="5dp" android:text="0" android:textColor="?AccentColour" android:textSize="@dimen/FontSizeMedium" android:gravity="center_horizontal"/>
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                  android:layout_marginTop="10dp" android:orientation="vertical">
+      <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal">
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                  android:layout_gravity="center_horizontal" android:text="How old entries to display (days):"
+                  android:textColor="?BrushText" android:textSize="@dimen/FontSizeMedium"
+                  android:gravity="center_horizontal" />
+        <TextView android:id="@+id/SettingsPageFeedsElderEntriesTextView" android:layout_width="wrap_content"
+                  android:layout_height="wrap_content" android:layout_gravity="center_horizontal"
+                  android:layout_marginStart="5dp" android:text="0" android:textColor="?AccentColour"
+                  android:textSize="@dimen/FontSizeMedium" android:gravity="center_horizontal" />
       </LinearLayout>
-      <SeekBar android:id="@+id/SettingsPageFeedsElderEntriesSlider" android:layout_width="match_parent" android:max="11" android:layout_marginTop="5dp" android:layout_height="wrap_content"/>
+      <SeekBar android:id="@+id/SettingsPageFeedsElderEntriesSlider" android:layout_width="match_parent"
+               android:max="11" android:layout_marginTop="5dp" android:layout_height="wrap_content" />
     </LinearLayout>
 
   </LinearLayout>

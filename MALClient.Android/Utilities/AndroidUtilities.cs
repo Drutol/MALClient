@@ -105,6 +105,14 @@ namespace MALClient.Android
             }));
         }
 
+        public static void MakeFlingAware(this AbsListView list,Action<bool> action)
+        {
+            list.SetOnScrollListener(new ScrollChangedListener((view, state) =>
+            {
+                action.Invoke(state == ScrollState.Fling);
+            }));
+        }
+
         public static TObj Unwrap<TObj>(this Java.Lang.Object obj) where TObj : class
         {
             return (obj as JavaObjectWrapper<TObj>)?.Instance;

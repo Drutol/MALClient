@@ -1,12 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content" android:padding="5dp">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:padding="5dp">
   <TextView
-      android:layout_width="wrap_content" android:text="fgd" android:textColor="?BrushText" android:fontFamily="@string/font_family_light"
-      android:layout_height="wrap_content" android:id="@+id/ProfilePageGeneralTabDetailsItemLeft"/>
+    android:layout_width="wrap_content" android:text="fgd" android:textColor="?BrushText"
+    android:fontFamily="@string/font_family_light"
+    android:layout_height="wrap_content" android:id="@+id/ProfilePageGeneralTabDetailsItemLeft" />
   <TextView
-      android:layout_width="wrap_content" android:layout_alignParentRight="true" android:text="dgfdg" android:textColor="?BrushText"
-      android:layout_height="wrap_content" android:id="@+id/ProfilePageGeneralTabDetailsItemRight"/>
+    android:layout_width="wrap_content" android:layout_alignParentRight="true" android:text="dgfdg"
+    android:textColor="?BrushText"
+    android:layout_height="wrap_content" android:id="@+id/ProfilePageGeneralTabDetailsItemRight" />
 
 </RelativeLayout>

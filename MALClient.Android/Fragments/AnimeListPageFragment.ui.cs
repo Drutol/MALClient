@@ -211,7 +211,7 @@ namespace MALClient.Android.Fragments
                         _prevArgs = null;
                     }
 
-                    AnimeListPageGridView.MakeFlingAware();
+                    AnimeListPageListView.MakeFlingAware();
 
                     SwipeRefreshLayout.ScrollingView = AnimeListPageListView;
 

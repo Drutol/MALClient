@@ -66,6 +66,7 @@ namespace MALClient.Android.Activities
                 _addedNavHandlers = true;
                 InitBindings();
                 ViewModel.MainNavigationRequested += ViewModelOnMainNavigationRequested;
+                ViewModel.MediaElementCollapsed += ViewModelOnMediaElementCollapsed;
 
                 ViewModelLocator.AnimeList.DimensionsProvider = this;
 
@@ -78,9 +79,9 @@ namespace MALClient.Android.Activities
     
         }
 
-        public override void OnConfigurationChanged(Configuration newConfig)
+        private void ViewModelOnMediaElementCollapsed()
         {
-            base.OnConfigurationChanged(newConfig);
+            MainPageVideoView.StopPlayback();
         }
 
         public override void OnBackPressed()

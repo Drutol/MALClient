@@ -83,6 +83,7 @@
     <item name="BrushButtonPressed">@color/DarkBrushButtonPressed</item>
     <item name="BrushFlyoutBackground">@color/DarkBrushFlyoutBackground</item>
     <item name="BrushSelectedDialogItem">@color/DarkBrushSelectedDialogItem</item>
+    <item name="BrushMediaElementShadow">@color/DarkBrushMediaElementShadow</item>
   </style>
 
   <style name="Theme.MALClient.Light" parent="Theme.AppCompat.Light.NoActionBar">
@@ -130,6 +131,7 @@
     <item name="BrushButtonPressed">@color/LightBrushButtonPressed</item>
     <item name="BrushFlyoutBackground">@color/LightBrushFlyoutBackground</item>
     <item name="BrushSelectedDialogItem">@color/LightBrushSelectedDialogItem</item>
+    <item name="BrushMediaElementShadow">@color/LightBrushMediaElementShadow</item>
   </style>
 
   <style name="Divider">

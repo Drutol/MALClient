@@ -316,11 +316,8 @@ namespace MALClient.Android.BindingInformation
             {
                 Container.FindViewById(Resource.Id.AnimeGridItemImage).Visibility = ViewStates.Invisible;
                 Container.FindViewById(Resource.Id.AnimeGridItemImgPlaceholder).Visibility = ViewStates.Visible;
-
             }
-
-
-            
+          
             Container.FindViewById<TextView>(Resource.Id.AnimeGridItemTitle).Text = ViewModel.Title;
         }
         

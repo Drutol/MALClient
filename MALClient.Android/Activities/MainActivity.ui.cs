@@ -40,6 +40,7 @@ using MALClient.XShared.ViewModels.Main;
 using Object = Java.Lang.Object;
 using SimpleCursorAdapter = Android.Support.V4.Widget.SimpleCursorAdapter;
 using SearchView = Android.Support.V7.Widget.SearchView;
+using Uri = Android.Net.Uri;
 
 namespace MALClient.Android.Activities
 {
@@ -141,11 +142,35 @@ namespace MALClient.Android.Activities
                 }
             }));
 
+            
+
+            Bindings.Add(MainPageVideoViewContainer.Id, new List<Binding>());
+            Bindings[MainPageVideoViewContainer.Id].Add(
+                this.SetBinding(() => ViewModel.MediaElementVisibility,
+                    () => MainPageVideoViewContainer.Visibility).ConvertSourceToTarget(Converters.BoolToVisibility));
+
+            Bindings.Add(MainPageVideoView.Id, new List<Binding>());
+            Bindings[MainPageVideoView.Id].Add(
+                this.SetBinding(() => ViewModel.MediaElementSource).WhenSourceChanges(() =>
+                {
+                    if (string.IsNullOrEmpty(ViewModel.MediaElementSource))
+                        return;
+
+                    var mediaController = new MediaController(this);
+                    mediaController.SetAnchorView(MainPageVideoView);
+
+                    MainPageVideoView.SetMediaController(mediaController);
+                    MainPageVideoView.SetVideoURI(Uri.Parse(ViewModel.MediaElementSource));
+                    MainPageVideoView.RequestFocus();
+                }));
+
             MainPageSearchView.SuggestionsAdapter = _searchSuggestionAdapter;
             MainPageSearchView.QueryTextChange += MainPageSearchViewOnQueryTextChange;
             MainPageSearchView.QueryTextSubmit += MainPageSearchViewOnQueryTextSubmit;
             MainPageSearchView.SuggestionClick += MainPageSearchViewOnSuggestionClick;
             MainPageSearchView.QueryTextSubmit += MainPageSearchViewOnQueryTextSubmit;
+            MainPageCloseVideoButton.Click += MainPageCloseVideoButtonOnClick;
+            MainPageVideoView.Prepared += MainPageVideoViewOnPrepared;
             MainPageSearchView.Visibility = ViewStates.Visible;
 
 
@@ -153,6 +178,17 @@ namespace MALClient.Android.Activities
             ViewModel.PropertyChanged += ViewModelOnPropertyChanged;
             BuildDrawer();     
             _drawer.OnDrawerItemClickListener = new HamburgerItemClickListener(OnHamburgerItemClick); 
+        }
+
+        private void MainPageCloseVideoButtonOnClick(object sender, EventArgs eventArgs)
+        {
+            ViewModel.MediaElementSource = null;
+            ViewModel.MediaElementVisibility = false;
+        }
+
+        private void MainPageVideoViewOnPrepared(object sender, EventArgs eventArgs)
+        {
+            MainPageVideoView.Start();
         }
 
         private void OnUpperFlyoutStatusChanged(AnimeStatus animeStatus)
@@ -236,6 +272,10 @@ namespace MALClient.Android.Activities
         private SearchView _mainPageSearchView;
         private ImageButton _mainPageRefreshButton;
         private FrameLayout _mainContentFrame;
+        private ImageButton _mainPageCopyVideoLinkButton;
+        private ImageButton _mainPageCloseVideoButton;
+        private VideoView _mainPageVideoView;
+        private LinearLayout _mainPageVideoViewContainer;
 
         public ImageButton MainPageHamburgerButton => _mainPageHamburgerButton ?? (_mainPageHamburgerButton = FindViewById<ImageButton>(Resource.Id.MainPageHamburgerButton));
 
@@ -248,6 +288,16 @@ namespace MALClient.Android.Activities
         public ImageButton MainPageRefreshButton => _mainPageRefreshButton ?? (_mainPageRefreshButton = FindViewById<ImageButton>(Resource.Id.MainPageRefreshButton));
 
         public FrameLayout MainContentFrame => _mainContentFrame ?? (_mainContentFrame = FindViewById<FrameLayout>(Resource.Id.MainContentFrame));
+
+        public ImageButton MainPageCopyVideoLinkButton => _mainPageCopyVideoLinkButton ?? (_mainPageCopyVideoLinkButton = FindViewById<ImageButton>(Resource.Id.MainPageCopyVideoLinkButton));
+
+        public ImageButton MainPageCloseVideoButton => _mainPageCloseVideoButton ?? (_mainPageCloseVideoButton = FindViewById<ImageButton>(Resource.Id.MainPageCloseVideoButton));
+
+        public VideoView MainPageVideoView => _mainPageVideoView ?? (_mainPageVideoView = FindViewById<VideoView>(Resource.Id.MainPageVideoView));
+
+        public LinearLayout MainPageVideoViewContainer => _mainPageVideoViewContainer ?? (_mainPageVideoViewContainer = FindViewById<LinearLayout>(Resource.Id.MainPageVideoViewContainer));
+
+
 
 
     }

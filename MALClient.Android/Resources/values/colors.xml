@@ -30,6 +30,7 @@
   <color name="LightBrushSettingsSubtitle">#555555</color>
   <color name="LightBrushFavouriteStarBackground">#ffffff</color>
   <color name="LightBrushNoSearchResults">#b9b9b9</color>
+  <color name="LightBrushMediaElementShadow">#e5f5f5f5</color>
   
   <color name="DarkBrushText">#ffffff </color>
   <color name="DarkBrushTextInverted">#000000 </color>
@@ -59,6 +60,8 @@
   <color name="DarkBrushSettingsSubtitle">#d3d3d3 </color>
   <color name="DarkBrushFavouriteStarBackground">#bd000000</color>
   <color name="DarkBrushNoSearchResults">#B9B9B9</color>
+  <color name="DarkBrushMediaElementShadow">#e5000000</color>
+
 
 
   <color name="AccentColour">#ff8c00</color>

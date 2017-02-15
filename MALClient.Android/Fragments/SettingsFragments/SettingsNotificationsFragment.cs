@@ -46,15 +46,16 @@ namespace MALClient.Android.Fragments.SettingsFragments
             {
                 if (malNotificationsType != MalNotificationsTypes.Generic)
                 {
-                    CheckBox temp = new CheckBox( Context );
+                    CheckBox temp = new CheckBox(Context);
                     temp.Text = malNotificationsType.GetDescription();
-                    temp.LayoutParameters = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.FillParent, ViewGroup.LayoutParams.MatchParent) { TopMargin = DimensionsHelper.DpToPx(5) };
-                    temp.Tag = (int)malNotificationsType;
+                    temp.LayoutParameters = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent,
+                        ViewGroup.LayoutParams.MatchParent) {TopMargin = DimensionsHelper.DpToPx(5)};
+                    temp.Tag = (int) malNotificationsType;
 
                     NotificationsTypesCheckBoxGroup.AddView(temp);
                     temp.CheckedChange += NotificationsCheckBoxesChange;
 
-                    if ( ViewModel.EnabledNotificationTypes.HasFlag(malNotificationsType) )
+                    if (ViewModel.EnabledNotificationTypes.HasFlag(malNotificationsType))
                         temp.Checked = true;
                 }
             }

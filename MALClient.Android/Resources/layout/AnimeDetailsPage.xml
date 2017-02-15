@@ -100,7 +100,7 @@
                 android:focusable="true"
                 android:foreground="?android:selectableItemBackground"
                 android:id="@+id/AnimeDetailsPageIncrementButton">
-              <ImageView   android:layout_width="@dimen/IncrementDecrementButtonWidth"
+              <ImageView android:layout_width="@dimen/IncrementDecrementButtonWidth"
                   android:layout_height="@dimen/IncrementDecrementButtonWidth"
                   android:background="@drawable/inc_dec_btn_backgroud"
                   android:src="@drawable/icon_add" android:padding="5dp"/>

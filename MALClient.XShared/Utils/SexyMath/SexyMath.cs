@@ -46,7 +46,7 @@ namespace MALClient.XShared.Utils
         /// </summary>
         public static float VectorLength(Vector2D vector)
         {
-            return vector.GetLength();
+            return VectorLength(vector.X, vector.Y);
         }
 
         /// <summary>

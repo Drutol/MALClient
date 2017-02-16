@@ -19,11 +19,19 @@ namespace MALClient.Android.UserControls
         private List<Arc> ArcsList = new List<Arc>();
 
         private int _selectedArc = -1;
-        public float InnerCircleRadius { get; set; } = 300;
+        public float InnerCircleRadius { get; set; } = 400;
         public float OutterCircleRadius { get; set; } = 500;
 
-        private float currentSum { get; set; } = 0;
-
+        private float _currentSum = 0;
+        private float currentSum
+        {
+            get { return _currentSum; }
+            set
+            {
+                _currentSum = value;
+                SumUpdate();
+            }
+        }
         public Chart(View view)
         {
             _view = view;
@@ -38,7 +46,6 @@ namespace MALClient.Android.UserControls
         
         public void Draw(Canvas canvas)
         {
-            float angle = 0;
             canvas.Save();
             foreach(var arc in ArcsList)
             {
@@ -50,20 +57,16 @@ namespace MALClient.Android.UserControls
 
         public void AddArc(float value, Color color)
         {
-            currentSum += value;
             ArcsList.Add(new Arc(value, color, this));
-            ValueChanged();
         }
-
+        //DEBUG
         public void incVal()
         {
-            ArcsList[0].Value++;
+            ArcsList[0].Value+=10;
         }
-
-        public void ValueChanged()
+        //-----//
+        public void SumUpdate()
         {
-            currentSum = 0;
-            foreach (Arc arc in ArcsList) currentSum += arc.Value;
             foreach (Arc arc in ArcsList) arc.UpdateLength();
             _view.Invalidate();
         }

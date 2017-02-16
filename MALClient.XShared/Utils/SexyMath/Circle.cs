@@ -6,20 +6,19 @@ using System.Threading.Tasks;
 
 namespace MALClient.XShared.Utils
 {
-    public class Circle
+    public class Circle : Shape
     {
-        public Vector2D CenterPoint { get; set; }
         public float Radius { get; set; }
 
         public Circle(Vector2D center, float radius)
         {
-            CenterPoint = center;
+            Position = center;
             Radius = radius;
         }
 
         public Circle(float x, float y, float radius)
         {
-            CenterPoint = new Vector2D(x, y);
+            Position = new Vector2D(x, y);
             Radius = radius;
         }
 
@@ -28,9 +27,25 @@ namespace MALClient.XShared.Utils
             return SexyMath.CirclePeremiter(Radius);
         }
 
+        public override bool CheckCollision(Circle collider)
+        {
+            return SexyMath.CheckCollision(this, collider);
+        }
+
+        public override bool CheckCollision(Point collider)
+        {
+            return SexyMath.CheckCollision(this, collider);
+        }
+
+        public override bool CheckCollision(Shape collider)
+        {
+            return collider.CheckCollision(this);
+        }
+
         public float GetField()
         {
             return SexyMath.CircleField(Radius);
         }
+
     }
 }

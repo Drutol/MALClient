@@ -13,7 +13,9 @@ namespace MALClient.XShared.Utils
         /// </summary>
         public static bool CheckCollision(Circle one, Circle two)
         {
-            return ( VectorLength(one.CenterPoint - two.CenterPoint) <= one.Radius + two.Radius );
+            Vector2D Debug = one.Position - two.Position;
+            var length = VectorLength(Debug);
+            return ( VectorLength(one.Position - two.Position) <= one.Radius + two.Radius );
         }
 
         /// <summary>
@@ -27,9 +29,13 @@ namespace MALClient.XShared.Utils
         /// <summary>
         /// Returns true if point is within circle's field.
         /// </summary>
-        public static bool CheckCollision(Circle circle, Vector2D point)
+        public static bool CheckCollision(Circle circle, Point point)
         {
-            return ( VectorLength(circle.CenterPoint - point) <= circle.Radius );
+            return ( VectorLength(circle.Position - point.Position) <= circle.Radius );
+        }
+        public static bool CheckCollision(Point point, Circle circle)
+        {
+            return CheckCollision(circle, point);
         }
 
         /// <summary>
@@ -39,5 +45,7 @@ namespace MALClient.XShared.Utils
         {
             return one.X == two.X && one.Y == two.Y;
         }
+
+        
     }
 }

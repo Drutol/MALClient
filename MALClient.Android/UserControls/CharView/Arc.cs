@@ -11,6 +11,7 @@ using Android.Views;
 using Android.Widget;
 using Android.Graphics;
 using MALClient.XShared.Utils;
+using Android.Animation;
 
 namespace MALClient.Android.UserControls
 {
@@ -20,16 +21,24 @@ namespace MALClient.Android.UserControls
         {
             #region Properties&Fields
             private readonly Chart _chart;
+            private ValueAnimator ValueChangeAnimation;
 
-            private float _value;
+            private float _value = 0;
             public float Value
             {
                 get { return _value; }
                 set
                 {
-                    if (value <= 0) return;
+                    if (value < 0) return;
+                    float prev = _value;
                     _value = value;
-                    _chart.ValueChanged();
+                    _chart.currentSum += value - prev;
+
+                    //TEST//
+                    if (ValueChangeAnimation.IsRunning) return;
+                    ValueChangeAnimation.SetFloatValues(new float[] { prev, value });
+                    ValueChangeAnimation.Start();
+                    //----//
                 }
             }
 
@@ -74,16 +83,30 @@ namespace MALClient.Android.UserControls
                 _chart = chart;
                 _drawingRadius = ( chart.InnerCircleRadius + chart.OutterCircleRadius )/2.0f;
                 _value = value;
+                _chart.currentSum += value;
                 LengthFraction = 1;
                 UpdateLength();
                 StrokeWidth = 2.0f * (chart.OutterCircleRadius - _drawingRadius);
                 _standardStrokeWidth = StrokeWidth;
+                ValueChangeAnimation = ValueAnimator.OfFloat();
+                ValueChangeAnimation.SetDuration(2000);
+                ValueChangeAnimation.Update += (sender, args) =>
+                {
+                    Value = (float)ValueChangeAnimation.AnimatedValue;
+                };
 
                 Paint.Color = color;
                 Paint.SetStyle(Paint.Style.Stroke);
                 Paint.StrokeWidth = StrokeWidth;
                 Paint.AntiAlias = true;
                 Paint.SetPathEffect(_dashEffect);
+
+                //DEBUG//
+                Circle circ = new Circle(0, 0, 5.0f);
+                Circle newCirc = new Circle(9.00001f, 5, 4.0f);
+
+                bool elo = circ.CheckCollision(newCirc as Shape);
+                //-----//
             }
 
             public void Draw(Canvas canvas)

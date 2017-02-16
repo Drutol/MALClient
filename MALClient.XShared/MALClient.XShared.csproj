@@ -108,24 +108,20 @@
     <Compile Include="NavArgs\StaffDetailsNaviagtionArgs.cs" />
     <Compile Include="NavArgs\WallpaperPageNavigationArgs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Utils\Circle.cs">
-      <DependentUpon>SexyMath.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Utils\Collisions.cs">
-      <DependentUpon>SexyMath.cs</DependentUpon>
-    </Compile>
+    <Compile Include="Utils\SexyMath\Circle.cs" />
+    <Compile Include="Utils\SexyMath\Collisions.cs" />
     <Compile Include="Utils\Credentials.cs" />
     <Compile Include="Utils\DataCache.cs" />
     <Compile Include="Utils\MalLinkParser.cs" />
     <Compile Include="Utils\Managers\FavouritesManager.cs" />
     <Compile Include="Utils\PageUtils.cs" />
+    <Compile Include="Utils\SexyMath\Point.cs" />
     <Compile Include="Utils\Settings.cs" />
-    <Compile Include="Utils\SexyMath.cs" />
+    <Compile Include="Utils\SexyMath\SexyMath.cs" />
+    <Compile Include="Utils\SexyMath\Shape.cs" />
     <Compile Include="Utils\SmartObservableCollection.cs" />
     <Compile Include="Utils\Utilities.cs" />
-    <Compile Include="Utils\Vector2D.cs">
-      <DependentUpon>SexyMath.cs</DependentUpon>
-    </Compile>
+    <Compile Include="Utils\SexyMath\Vector2D.cs" />
     <Compile Include="ViewModels\AnimeItemAbstraction.cs" />
     <Compile Include="ViewModels\AnimeItemViewModel.cs" />
     <Compile Include="ViewModels\AnimeListSeparatorViewModel.cs" />
@@ -216,6 +212,7 @@
       <Name>MALClient.Utilities.BBCode</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -40,10 +40,11 @@ namespace MALClient.Android.UserControls
         {
             pieChart = new Chart(this);
             //DEBUG
-            pieChart.AddArc(15, new Color(255, 255, 255, 255));
-            pieChart.AddArc(5, new Color(255, 0, 255, 255));
-            pieChart.AddArc(10, new Color(255, 0, 0, 255));
-            pieChart.AddArc(30, new Color(255, 255, 0, 255));
+            pieChart.AddArc(15, new Color(0xdd, 0x21, 0x6c, 255));
+            pieChart.AddArc(5, new Color(0x21, 0xdd, 0x90, 255));
+            pieChart.AddArc(10, new Color(0xff, 0xe0, 0x47, 255));
+            pieChart.AddArc(30, new Color(0x74, 0xc3, 0x26, 255));
+            pieChart.AddArc(4, new Color(0x21, 0xb3, 0xdd, 255));
             //-----//
             var touchListener = new OnTouchListener(onTouch);
             this.SetOnTouchListener(touchListener);
@@ -65,7 +66,12 @@ namespace MALClient.Android.UserControls
             switch(e.Action)
             {
                 case MotionEventActions.Up:
-                    pieChart.incVal();
+                    //DEBUG//
+                    if (SexyMath.CheckCollision(pieChart.InnerCircleRadius, new Vector2D(x - MeasuredWidth/2.0f, y - MeasuredHeight/2.0f)))
+                    {
+                        pieChart.incVal();
+                    }
+                    //----//
                     trySelectSegment(x, y);
                     break;
                 case MotionEventActions.Move:

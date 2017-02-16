@@ -8,29 +8,19 @@ namespace MALClient.XShared.Utils
 {
     public class Vector2D
     {
-        private float _x = 0;
-        private float _y = 0;
+        public float X { get; set; }
+        public float Y { get; set; }
 
         public Vector2D(float x, float y)
         {
-            _x = x;
-            _y = y;
+            X = x;
+            Y = y;
         }
 
         public Vector2D(Vector2D vector)
         {
-            _x = vector.GetX();
-            _y = vector.GetY();
-        }
-
-        public float GetX()
-        {
-            return _x;
-        }
-
-        public float GetY()
-        {
-            return _y;
+            X = vector.X;
+            Y = vector.Y;
         }
 
         /// <summary>
@@ -38,8 +28,8 @@ namespace MALClient.XShared.Utils
         /// </summary>
         public void Translate(float x, float y)
         {
-            _x += x;
-            _y += y;
+            X += x;
+            Y += y;
         }
 
         /// <summary>
@@ -47,8 +37,8 @@ namespace MALClient.XShared.Utils
         /// </summary>
         public void Translate(Vector2D vector)
         {
-            _x += vector.GetX();
-            _y += vector.GetY();
+            X += vector.X;
+            Y += vector.Y;
         }
 
         /// <summary>
@@ -61,8 +51,8 @@ namespace MALClient.XShared.Utils
             if (length == 0) return;
             var relativeAngle = GetAngle();
 
-            _x = (float)Math.Cos(relativeAngle + angle) * length;
-            _y = (float)Math.Sin(relativeAngle + angle) * length;
+            X = (float)Math.Cos(relativeAngle + angle) * length;
+            Y = (float)Math.Sin(relativeAngle + angle) * length;
         }
 
         /// <summary>
@@ -70,8 +60,8 @@ namespace MALClient.XShared.Utils
         /// </summary>
         public void Flip()
         {
-            _x = -_x;
-            _y = -_y;
+            X = -X;
+            Y = -Y;
         }
 
         /// <summary>
@@ -79,9 +69,9 @@ namespace MALClient.XShared.Utils
         /// </summary>
         public void FlipPerpendicular()
         {
-            float temp = _y;
-            _y = -_x;
-            _x = temp;
+            float temp = Y;
+            Y = -X;
+            X = temp;
         }
 
         /// <summary>
@@ -90,8 +80,8 @@ namespace MALClient.XShared.Utils
         /// <param name="scale"></param>
         public void Scale(float scale)
         {
-            _x *= scale;
-            _y *= scale;
+            X *= scale;
+            Y *= scale;
         }
 
         /// <summary>
@@ -99,8 +89,8 @@ namespace MALClient.XShared.Utils
         /// </summary>
         public void Scale(float scaleX, float scaleY)
         {
-            _x *= scaleX;
-            _y *= scaleY;
+            X *= scaleX;
+            Y *= scaleY;
         }
 
         /// <summary>
@@ -109,7 +99,7 @@ namespace MALClient.XShared.Utils
         /// </summary>
         public float GetAngle()
         {
-            return SexyMath.VectorAngle(_x, _y);
+            return SexyMath.VectorAngle(X, Y);
         }
 
         /// <summary>
@@ -126,17 +116,17 @@ namespace MALClient.XShared.Utils
         /// <para>It's basically length of line segment from (0,0) to (x, y)</para>
         public float GetLength()
         {
-            return SexyMath.VectorLength(_x, _y);
+            return SexyMath.VectorLength(X, Y);
         }
 
         public static Vector2D operator +(Vector2D a, Vector2D b)
         {
-            return new Vector2D(a.GetX() + b.GetX(), a.GetY() + b.GetY());
+            return new Vector2D(a.X + b.X, a.Y + b.Y);
         }
 
         public static Vector2D operator -(Vector2D a, Vector2D b)
         {
-            return new Vector2D(a.GetX() - b.GetX(), a.GetY() - b.GetY());
+            return new Vector2D(a.X - b.X, a.Y - b.Y);
         }
 
         public static Vector2D operator *(Vector2D a, float value)
@@ -151,7 +141,7 @@ namespace MALClient.XShared.Utils
         /// </summary>
         public Vector2D GetUnitVector()
         {
-            return SexyMath.UnitVector(_x, _y);
+            return SexyMath.UnitVector(X, Y);
         }
     }
 }

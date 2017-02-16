@@ -260,13 +260,11 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Resources\ResourceExtension.cs" />
-    <Compile Include="UserControls\ChartView.cs" />
+    <Compile Include="UserControls\CharView\ChartView.cs" />
     <Compile Include="UserControls\ExpandableGridView.cs" />
     <Compile Include="UserControls\ScrollableSwipeToRefreshLayout.cs" />
-    <Compile Include="UserControls\SemiCircle.cs">
-      <SubType>Code</SubType>
-      <DependentUpon>ChartView.cs</DependentUpon>
-    </Compile>
+    <Compile Include="UserControls\CharView\Arc.cs" />
+    <Compile Include="UserControls\CharView\Chart.cs" />
     <Compile Include="Utilities\AnimeImageExtensions.cs" />
     <Compile Include="Utilities\Includes.cs" />
     <Compile Include="Utilities\ListenableWebClient.cs" />

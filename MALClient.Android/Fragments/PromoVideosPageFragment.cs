@@ -5,6 +5,7 @@ using System.Text;
 
 using Android.App;
 using Android.Content;
+using Android.Content.Res;
 using Android.Graphics;
 using Android.OS;
 using Android.Runtime;
@@ -44,9 +45,6 @@ namespace MALClient.Android.Fragments
             ViewModel = ViewModelLocator.PopularVideos;
             ViewModel.Init();
         }
-
-
-
 
         protected override void InitBindings()
         {
@@ -123,6 +121,11 @@ namespace MALClient.Android.Fragments
         {
             PromoVideosPageGridView.ClearFlingAdapter();
             base.Cleanup();
+        }
+
+        public override void OnConfigurationChanged(Configuration newConfig)
+        {
+            _helper.OnConfigurationChanged(newConfig);
         }
 
         #region Views

@@ -10,6 +10,7 @@ using Android.OS;
 using Android.Runtime;
 using Android.Text;
 using Android.Text.Style;
+using Android.Util;
 using Android.Views;
 using Android.Widget;
 using FFImageLoading.Views;
@@ -44,28 +45,8 @@ namespace MALClient.Android.Fragments
             ViewModel.Init();
         }
 
-        private bool IsFlingActive
-        {
-            get { return _isFlingActive; }
-            set
-            {
-                if(value == _isFlingActive)
-                    return;
 
-                _isFlingActive = value;
-                if (!value)
-                    RefreshItemBindings();
-            }
-        }
 
-        private void RefreshItemBindings()
-        {
-            for (int i = 0; i < PromoVideosPageGridView.ChildCount; i++)
-            {
-                var view = PromoVideosPageGridView.GetChildAt(i);
-                SetItemBindings(view, view.Tag.Unwrap<AnimeVideoData>());
-            }
-        }
 
         protected override void InitBindings()
         {
@@ -73,47 +54,51 @@ namespace MALClient.Android.Fragments
                 this.SetBinding(() => ViewModel.Loading,
                     () => PromoVideosPageLoadingSpinner.Visibility).ConvertSourceToTarget(Converters.BoolToVisibility));
 
-            PromoVideosPageGridView.MakeFlingAware(b => IsFlingActive = b);
-
             _helper = new GridViewColumnHelper(PromoVideosPageGridView);
 
             Bindings.Add(this.SetBinding(() => ViewModel.Videos).WhenSourceChanges(() =>
             {
-                PromoVideosPageGridView.Adapter = ViewModel.Videos.GetAdapter(GetTemplateDelegate);
+                if (ViewModel.Videos != null)
+                    PromoVideosPageGridView.InjectFlingAdapter(ViewModel.Videos.ToList(), SetItemBindingsFull,
+                        SetItemBindingsFling, GetItemContainer);
+                else
+                    PromoVideosPageGridView.Adapter = null;
             }));          
         }
 
-        private View GetTemplateDelegate(int i, AnimeVideoData animeVideoData, View convertView)
+        private View GetItemContainer()
         {
-            var view = convertView;
-            if (view == null)
-            {
-                view = Activity.LayoutInflater.Inflate(Resource.Layout.PromoVideosPageItem, null);
+            var view = Activity.LayoutInflater.Inflate(Resource.Layout.PromoVideosPageItem, null);
 
-                view.FindViewById(Resource.Id.PromoVideosPageItemImageSection).Click += VideoItemOnClickOpenVideo;
-                view.FindViewById(Resource.Id.PromoVideosPageItemSubtitleSection).Click += VideoItemOnClickOpenAnime;
-            }
+            view.FindViewById(Resource.Id.PromoVideosPageItemImageSection).Click += VideoItemOnClickOpenVideo;
+            view.FindViewById(Resource.Id.PromoVideosPageItemSubtitleSection).Click += VideoItemOnClickOpenAnime;
 
-            SetItemBindings(view,animeVideoData);
-
-            view.Tag = animeVideoData.Wrap();
             return view;
         }
 
-        private void SetItemBindings(View view,AnimeVideoData animeVideoData)
+        private void SetItemBindingsFull(View view,AnimeVideoData animeVideoData)
         {
+            Log.Debug("lol", "full");
             var img = view.FindViewById<ImageViewAsync>(Resource.Id.PromoVideosPageItemImage);
-            if (!IsFlingActive && (string)img.Tag != animeVideoData.YtLink)
+            if ((string)img.Tag != animeVideoData.YtLink)
             {
                 view.FindViewById(Resource.Id.PromoVideosPageItemImgPlaceholder).Visibility = ViewStates.Gone;
                 img.Tag = animeVideoData.YtLink;
                 img.Into(animeVideoData.Thumb);
             }
-            else if (IsFlingActive)
-            {
-                view.FindViewById(Resource.Id.PromoVideosPageItemImgPlaceholder).Visibility = ViewStates.Visible;
-                img.Visibility = ViewStates.Invisible;
-            }
+
+            var str = new SpannableString($"{animeVideoData.Name} - {animeVideoData.AnimeTitle}");
+            str.SetSpan(PrefixStyle, 0, animeVideoData.Name.Length, SpanTypes.InclusiveInclusive);
+            str.SetSpan(PrefixColorStyle, 0, animeVideoData.Name.Length, SpanTypes.InclusiveInclusive);
+            view.FindViewById<TextView>(Resource.Id.PromoVideosPageItemSubtitle)
+                .SetText(str.SubSequenceFormatted(0, str.Length()), TextView.BufferType.Spannable);
+        }
+
+        private void SetItemBindingsFling(View view,AnimeVideoData animeVideoData)
+        {
+            Log.Debug("lol", "fling");
+            view.FindViewById(Resource.Id.PromoVideosPageItemImgPlaceholder).Visibility = ViewStates.Visible;
+            view.FindViewById(Resource.Id.PromoVideosPageItemImage).Visibility = ViewStates.Invisible;
 
             var str = new SpannableString($"{animeVideoData.Name} - {animeVideoData.AnimeTitle}");
             str.SetSpan(PrefixStyle, 0, animeVideoData.Name.Length, SpanTypes.InclusiveInclusive);
@@ -133,6 +118,12 @@ namespace MALClient.Android.Fragments
         }
 
         public override int LayoutResourceId => Resource.Layout.PromoVideosPage;
+
+        protected override void Cleanup()
+        {
+            PromoVideosPageGridView.ClearFlingAdapter();
+            base.Cleanup();
+        }
 
         #region Views
 

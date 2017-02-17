@@ -269,6 +269,7 @@
       <DependentUpon>ChartView.cs</DependentUpon>
     </Compile>
     <Compile Include="Utilities\AnimeImageExtensions.cs" />
+    <Compile Include="Utilities\FlingCollectionsHelper.cs" />
     <Compile Include="Utilities\Includes.cs" />
     <Compile Include="Utilities\ListenableWebClient.cs" />
     <Compile Include="Utilities\AndroidUtilities.cs" />

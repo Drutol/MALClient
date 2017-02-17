@@ -53,6 +53,7 @@ namespace MALClient.Android.UserControls
         protected override void OnDraw(Canvas canvas)
         {
             canvas.Translate(canvas.Width / 2, canvas.Height / 2);
+            canvas.Rotate(45.0f);
             canvas.Save();
                 pieChart.Draw(canvas);
             canvas.Restore();

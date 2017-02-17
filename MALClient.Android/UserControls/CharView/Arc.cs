@@ -23,8 +23,9 @@ namespace MALClient.Android.UserControls
             private readonly Chart _chart;
             private ValueAnimator ValueChangeAnimation;
 
+            private float _currEndValue=0;
             private float _value = 0;
-            public float Value
+            private float Value
             {
                 get { return _value; }
                 set
@@ -33,12 +34,6 @@ namespace MALClient.Android.UserControls
                     float prev = _value;
                     _value = value;
                     _chart.currentSum += value - prev;
-
-                    //TEST//
-                    if (ValueChangeAnimation.IsRunning) return;
-                    ValueChangeAnimation.SetFloatValues(new float[] { prev, value });
-                    ValueChangeAnimation.Start();
-                    //----//
                 }
             }
 
@@ -82,10 +77,9 @@ namespace MALClient.Android.UserControls
             {
                 _chart = chart;
                 _drawingRadius = ( chart.InnerCircleRadius + chart.OutterCircleRadius )/2.0f;
-                _value = value;
-                _chart.currentSum += value;
+                _currEndValue = value;
                 LengthFraction = 1;
-                UpdateLength();
+                
                 StrokeWidth = 2.0f * (chart.OutterCircleRadius - _drawingRadius);
                 _standardStrokeWidth = StrokeWidth;
                 ValueChangeAnimation = ValueAnimator.OfFloat();
@@ -100,6 +94,9 @@ namespace MALClient.Android.UserControls
                 Paint.StrokeWidth = StrokeWidth;
                 Paint.AntiAlias = true;
                 Paint.SetPathEffect(_dashEffect);
+
+                Value = value;
+                UpdateLength();
 
                 //DEBUG//
                 Circle circ = new Circle(0, 0, 5.0f);
@@ -122,6 +119,18 @@ namespace MALClient.Android.UserControls
                 _lengthTotal = Value * SexyMath.CirclePeremiter(_drawingRadius) / _chart.currentSum;
                 _dashEffect = new DashPathEffect(new float[] { LengthFraction * _lengthTotal, 1000000 }, 0);
                 Paint.SetPathEffect(_dashEffect);
+            }
+
+            public void SetValue(float value)
+            {
+                ValueChangeAnimation.Cancel();
+                ValueChangeAnimation.SetFloatValues(new float[] { Value, _currEndValue = _currEndValue + value });
+                ValueChangeAnimation.Start();
+            }
+
+            public float GetValue()
+            {
+                return Value;
             }
         }
     }

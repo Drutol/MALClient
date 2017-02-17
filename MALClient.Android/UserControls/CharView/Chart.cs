@@ -50,7 +50,7 @@ namespace MALClient.Android.UserControls
             foreach(var arc in ArcsList)
             {
                 arc.Draw(canvas);
-                canvas.Rotate((arc.Value / currentSum) * 360.0f);
+                canvas.Rotate((arc.GetValue() / currentSum) * 360.0f);
             }
             canvas.Restore();
         }
@@ -62,7 +62,8 @@ namespace MALClient.Android.UserControls
         //DEBUG
         public void incVal()
         {
-            ArcsList[0].Value+=10;
+            ArcsList[0].SetValue(ArcsList[0].GetValue() + 10);
+            //ArcsList[0].SetValue(ArcsList[0].GetValue() + 10);
         }
         //-----//
         public void SumUpdate()

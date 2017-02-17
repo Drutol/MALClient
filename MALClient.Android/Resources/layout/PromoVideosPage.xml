@@ -2,11 +2,12 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="?BrushDeepBackground">
   <GridView
       android:id="@+id/PromoVideosPageGridView"
       android:layout_width="match_parent"
-      android:layout_gravity="center_horizontal"
+      android:layout_centerInParent="true"
       android:layout_height="match_parent"
       android:numColumns="auto_fit"
       android:gravity="center"

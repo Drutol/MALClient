@@ -82,6 +82,8 @@ namespace MALClient.Android.Activities
         private void ViewModelOnMediaElementCollapsed()
         {
             MainPageVideoView.StopPlayback();
+            MainPageVideoView.SetMediaController(null);
+            MainPageVideoView.SetVideoURI(null);
         }
 
         public override void OnBackPressed()

@@ -18,6 +18,7 @@ using MALClient.Android.BindingConverters;
 using MALClient.Android.Resources;
 using MALClient.Models.Models.AnimeScrapped;
 using MALClient.XShared.ViewModels;
+using MALClient.XShared.ViewModels.Details;
 using MALClient.XShared.ViewModels.Main;
 
 namespace MALClient.Android.Fragments
@@ -91,7 +92,8 @@ namespace MALClient.Android.Fragments
             {
                 view = Activity.LayoutInflater.Inflate(Resource.Layout.PromoVideosPageItem, null);
 
-                view.Click += VideoItemOnClick;
+                view.FindViewById(Resource.Id.PromoVideosPageItemImageSection).Click += VideoItemOnClickOpenVideo;
+                view.FindViewById(Resource.Id.PromoVideosPageItemSubtitleSection).Click += VideoItemOnClickOpenAnime;
             }
 
             SetItemBindings(view,animeVideoData);
@@ -122,9 +124,14 @@ namespace MALClient.Android.Fragments
                 .SetText(str.SubSequenceFormatted(0, str.Length()), TextView.BufferType.Spannable);
         }
 
-        private void VideoItemOnClick(object sender, EventArgs eventArgs)
+        private async void VideoItemOnClickOpenVideo(object sender, EventArgs eventArgs)
         {
-            
+            await AnimeDetailsPageViewModel.OpenVideo(((sender as View).Parent as View).Tag.Unwrap<AnimeVideoData>());
+        }
+
+        private void VideoItemOnClickOpenAnime(object sender, EventArgs eventArgs)
+        {
+            ViewModel.NavDetailsCommand.Execute(((sender as View).Parent as View).Tag.Unwrap<AnimeVideoData>());
         }
 
         public override int LayoutResourceId => Resource.Layout.PromoVideosPage;

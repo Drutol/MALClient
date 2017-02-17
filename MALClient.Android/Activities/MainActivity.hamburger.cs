@@ -136,7 +136,7 @@ namespace MALClient.Android.Activities
             var videoButton = GetBaseSecondaryItem();
             videoButton.WithName("Promotional Videos");
             videoButton.WithIdentifier((int) PageIndex.PagePopularVideos);
-            videoButton.WithIcon(Resource.Drawable.icon_newspaper);
+            videoButton.WithIcon(Resource.Drawable.icon_video);
 
             //
 
@@ -208,7 +208,7 @@ namespace MALClient.Android.Activities
             if (Credentials.Authenticated)
             {
                 var bmp = await ImageService.Instance.LoadUrl(
-                        $"https://myanimelist.cdn-dena.com/images/userimages/4952914.jpg")
+                        $"https://myanimelist.cdn-dena.com/images/userimages/{Credentials.Id}.jpg")
                     .AsBitmapDrawableAsync();
                 var btn = accountButton as ProfileDrawerItem;
                 btn.WithIcon(bmp);

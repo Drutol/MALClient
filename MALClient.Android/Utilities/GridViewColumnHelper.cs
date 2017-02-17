@@ -1,8 +1,11 @@
+using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using Android.Content.Res;
 using Android.Views;
 using Android.Widget;
 using MALClient.Android.Activities;
+using MALClient.XShared.Comm.Anime;
 
 namespace MALClient.Android
 {

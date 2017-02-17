@@ -1,32 +1,38 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_height="315dp"
-    android:layout_width="160dp"
-    android:padding="2dp" android:clickable="true" android:focusable="true"
-    android:foreground="?selectableItemBackground"
-    android:orientation="vertical" android:background="?BrushDeepBackground">
-  <LinearLayout
-      android:layout_width="match_parent" android:orientation="vertical"
-      android:layout_height="match_parent">
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_height="315dp"
+              android:layout_width="160dp"
+              android:padding="2dp"
+              android:orientation="vertical" android:background="?BrushDeepBackground">
+  <FrameLayout
+    android:layout_width="match_parent" android:id="@+id/PromoVideosPageItemImageSection"
+    android:layout_height="270dp" android:clickable="true" android:focusable="true"
+    android:foreground="?selectableItemBackground">
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="270dp">
+      android:layout_width="match_parent"
+      android:layout_height="270dp" android:background="?BrushAnimeItemInnerBackground">
       <ImageView
-          android:layout_width="wrap_content" android:id="@+id/PromoVideosPageItemImgPlaceholder"
-          android:layout_height="wrap_content" android:layout_centerInParent="true" android:src="@drawable/icon_more"
-          android:tint="?BrushNoSearchResultsContrasting" />
+        android:layout_width="wrap_content" android:id="@+id/PromoVideosPageItemImgPlaceholder"
+        android:layout_height="wrap_content" android:layout_centerInParent="true" android:src="@drawable/icon_more"
+        android:tint="?BrushNoSearchResultsContrasting" />
       <FFImageLoading.Views.ImageViewAsync android:id="@+id/PromoVideosPageItemImage"
-          android:layout_width="match_parent"
-          android:layout_height="match_parent" />
+                                           android:layout_width="match_parent"
+                                           android:layout_height="match_parent" />
     </RelativeLayout>
-    <View style="@style/Divider" android:background="?AccentColour" />
+  </FrameLayout>
+  <View style="@style/Divider" android:background="?AccentColour" />
+  <FrameLayout
+    android:layout_width="match_parent" android:id="@+id/PromoVideosPageItemSubtitleSection"
+    android:layout_height="45dp" android:clickable="true" android:focusable="true"
+    android:foreground="?selectableItemBackground">
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="45dp">
+      android:layout_width="match_parent"
+      android:layout_height="45dp">
       <TextView android:id="@+id/PromoVideosPageItemSubtitle"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content" android:text="PV1"
-          android:layout_margin="5dp" android:textColor="?BrushText"/>
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:text="PV1"
+                android:layout_margin="5dp" android:textColor="?BrushText" />
     </LinearLayout>
-  </LinearLayout>
-</FrameLayout>
+  </FrameLayout>
+</LinearLayout>

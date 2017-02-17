@@ -33,11 +33,11 @@ namespace MALClient.Android.Fragments.SettingsFragments
 
         protected override void InitBindings()
         {
-            Bindings.Add(SettingsPageCalendarBuildOptionsWatchingCheckBox.Id, new List<Binding>());
-            Bindings[_settingsPageCalendarBuildOptionsWatchingCheckBox.Id].Add(
+            
+            Bindings.Add(
                 this.SetBinding(() => ViewModel.CalendarIncludeWatching,
                     () => _settingsPageCalendarBuildOptionsWatchingCheckBox.Checked, BindingMode.TwoWay));
-            Bindings[SettingsPageCalendarBuildOptionsWatchingCheckBox.Id].Add(
+            Bindings.Add(
                 this.SetBinding(() => ViewModel.CalendarIncludePlanned,
                     () => _settingsPageCalendarBuildOptionsPlanToWatchCheckBox.Checked, BindingMode.TwoWay));
             //
@@ -49,14 +49,14 @@ namespace MALClient.Android.Fragments.SettingsFragments
                 Settings.CalendarStartOnToday = i == SettingsPageCalendarStartPageRadioToday.Id;
             }));
             //
-            Bindings.Add(SettingsPageCalendarMiscFirstDaySwitch.Id, new List<Binding>());
-            Bindings[SettingsPageCalendarMiscFirstDaySwitch.Id].Add(
+            
+            Bindings.Add(
                 this.SetBinding(() => ViewModel.CalendarSwitchMonSun,
                     () => SettingsPageCalendarMiscFirstDaySwitch.Checked, BindingMode.TwoWay));
-            Bindings[SettingsPageCalendarMiscFirstDaySwitch.Id].Add(
+            Bindings.Add(
                 this.SetBinding(() => ViewModel.CalendarRemoveEmptyDays,
                     () => SettingsPageCalendarMiscRemoveEmptyDaysSwitch.Checked, BindingMode.TwoWay));
-            Bindings[SettingsPageCalendarMiscFirstDaySwitch.Id].Add(
+            Bindings.Add(
                 this.SetBinding(() => ViewModel.CalendarPullExactAiringTime,
                     () => SettingsPageCalendarMiscExactAiringTimeSwitch.Checked, BindingMode.TwoWay));
             

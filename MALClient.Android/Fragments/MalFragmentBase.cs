@@ -29,7 +29,7 @@ namespace MALClient.Android.Fragments
 
         protected View RootView { get; private set; }
 
-        protected Dictionary<int, List<Binding>> Bindings = new Dictionary<int, List<Binding>>();
+        protected List<Binding> Bindings = new List<Binding>();
 
         protected abstract void Init(Bundle savedInstanceState);
 
@@ -63,8 +63,8 @@ namespace MALClient.Android.Fragments
 
         public void DetachBindings()
         {
-            Bindings?.ForEach(pair => pair.Value.ForEach(binding => binding.Detach()));
-            Bindings = new Dictionary<int, List<Binding>>();
+            Bindings?.ForEach(binding => binding.Detach());
+            Bindings = new List<Binding>();
             Cleanup();
         }
 

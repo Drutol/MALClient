@@ -55,64 +55,64 @@ namespace MALClient.Android.Fragments
             AnimeDetailsPagePivot.Adapter = new AnimeDetailsPagerAdapter(FragmentManager);
             AnimeDetailsPageTabStrip.SetViewPager(AnimeDetailsPagePivot);
            
-            Bindings = new Dictionary<int, List<Binding>>();
+            Bindings = new List<Binding>();
 
-            Bindings.Add(AnimeDetailsPageScoreButton.Id, new List<Binding>());
-            Bindings[AnimeDetailsPageScoreButton.Id].Add(
+            
+            Bindings.Add(
                 this.SetBinding(() => ViewModel.MyScoreBind,
                     () => AnimeDetailsPageScoreButton.Text));
 
-            Bindings.Add(AnimeDetailsPageStatusButton.Id, new List<Binding>());
-            Bindings[AnimeDetailsPageStatusButton.Id].Add(
+            
+            Bindings.Add(
                 this.SetBinding(() => ViewModel.MyStatusBind,
                     () => AnimeDetailsPageStatusButton.Text));
 
-            Bindings.Add(AnimeDetailsPageWatchedButton.Id, new List<Binding>());
-            Bindings[AnimeDetailsPageWatchedButton.Id].Add(
+            
+            Bindings.Add(
                 this.SetBinding(() => ViewModel.MyEpisodesBind,
                     () => AnimeDetailsPageWatchedButton.Text));
 
-            Bindings.Add(AnimeDetailsPageReadVolumesButton.Id, new List<Binding>());
-            Bindings[AnimeDetailsPageReadVolumesButton.Id].Add(
+            
+            Bindings.Add(
                 this.SetBinding(() => ViewModel.MyVolumesBind,
                     () => AnimeDetailsPageReadVolumesButton.Text));
 
-            Bindings.Add(AnimeDetailsPageLoadingOverlay.Id, new List<Binding>());
-            Bindings[AnimeDetailsPageLoadingOverlay.Id].Add(
+            
+            Bindings.Add(
                 this.SetBinding(() => ViewModel.LoadingGlobal,
                     () => AnimeDetailsPageLoadingOverlay.Visibility).ConvertSourceToTarget(Converters.BoolToVisibility));
 
-            Bindings.Add(AnimeDetailsPageAddSection.Id, new List<Binding>());
-            Bindings[AnimeDetailsPageAddSection.Id].Add(
+            
+            Bindings.Add(
                 this.SetBinding(() => ViewModel.AddAnimeVisibility,
                     () => AnimeDetailsPageAddSection.Visibility).ConvertSourceToTarget(Converters.BoolToVisibility));
 
-            Bindings.Add(AnimeDetailsPageIncrementButton.Id, new List<Binding>());
-            Bindings[AnimeDetailsPageIncrementButton.Id].Add(
+            
+            Bindings.Add(
                 this.SetBinding(() => ViewModel.IsIncrementButtonEnabled,
                     () => AnimeDetailsPageIncrementButton.Enabled));
 
-            Bindings.Add(AnimeDetailsPageDecrementButton.Id, new List<Binding>());
-            Bindings[AnimeDetailsPageDecrementButton.Id].Add(
+            
+            Bindings.Add(
                 this.SetBinding(() => ViewModel.IsDecrementButtonEnabled,
                     () => AnimeDetailsPageDecrementButton.Enabled));
 
-            Bindings.Add(AnimeDetailsPageUpdateSection.Id, new List<Binding>());
-            Bindings[AnimeDetailsPageUpdateSection.Id].Add(
+            
+            Bindings.Add(
                 this.SetBinding(() => ViewModel.AddAnimeVisibility,
                     () => AnimeDetailsPageUpdateSection.Visibility).ConvertSourceToTarget(Converters.BoolToVisibilityInverted));
 
-            Bindings.Add(AnimeDetailsPageIncDecSection.Id, new List<Binding>());
-            Bindings[AnimeDetailsPageIncDecSection.Id].Add(
+            
+            Bindings.Add(
                 this.SetBinding(() => ViewModel.AddAnimeVisibility,
                     () => AnimeDetailsPageIncDecSection.Visibility).ConvertSourceToTarget(Converters.BoolToVisibilityInverted));
 
-            Bindings.Add(AnimeDetailsPagePivot.Id, new List<Binding>());
-            Bindings[AnimeDetailsPagePivot.Id].Add(
+            
+            Bindings.Add(
                 this.SetBinding(() => ViewModel.DetailsPivotSelectedIndex).WhenSourceChanges(() => AnimeDetailsPagePivot.SetCurrentItem(ViewModel.DetailsPivotSelectedIndex,true)));
 
-            Bindings.Add(AnimeDetailsPageFavouriteButton.Id, new List<Binding>());
-            Bindings[AnimeDetailsPageFavouriteButton.Id].Add(
+            
+            Bindings.Add(
                 this.SetBinding(() => ViewModel.IsFavourite).WhenSourceChanges(() =>
                 { 
                     AnimeDetailsPageFavouriteButton.SetImageResource(ViewModel.IsFavourite

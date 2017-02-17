@@ -32,8 +32,8 @@ namespace MALClient.Android.Fragments.SearchFragments
             CharacterSearchPageList.Adapter = ViewModel.FoundCharacters.GetAdapter(GetTemplateDelegate);
             _gridViewColumnHelper = new GridViewColumnHelper(CharacterSearchPageList);
 
-            Bindings.Add(CharacterSearchPageLoadingSpinner.Id, new List<Binding>());
-            Bindings[CharacterSearchPageLoadingSpinner.Id].Add(
+            
+            Bindings.Add(
                 this.SetBinding(() => ViewModel.Loading,
                     () => CharacterSearchPageLoadingSpinner.Visibility).ConvertSourceToTarget(Converters.BoolToVisibility));
         }

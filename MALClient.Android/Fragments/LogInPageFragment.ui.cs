@@ -22,22 +22,12 @@ namespace MALClient.Android.Fragments
     {
         protected override void InitBindings()
         {
-            Bindings = new Dictionary<int, List<Binding>>
-            {
-                {
-                    UsernameInput.Id,
-                    new List<Binding> { this.SetBinding(() => ViewModel.UserNameInput, () => UsernameInput.Text, BindingMode.TwoWay)}
-                },
-                {
-                    PasswordInput.Id,
-                    new List<Binding> { this.SetBinding(() => ViewModel.PasswordInput, () => PasswordInput.Text, BindingMode.TwoWay)}
-                },
-                {
-                    LoginPageLoadingSpinner.Id,
-                    new List<Binding> { this.SetBinding(() => ViewModel.Authenticating, () => LoginPageLoadingSpinner.Visibility, BindingMode.OneWay)
-                        .ConvertSourceToTarget(Converters.BoolToVisibility)}
-                },
-            };
+            Bindings = new List<Binding>();
+            Bindings.Add(this.SetBinding(() => ViewModel.UserNameInput, () => UsernameInput.Text, BindingMode.TwoWay));
+            Bindings.Add(this.SetBinding(() => ViewModel.Authenticating, () => LoginPageLoadingSpinner.Visibility,
+                    BindingMode.OneWay)
+                .ConvertSourceToTarget(Converters.BoolToVisibility));
+            Bindings.Add(this.SetBinding(() => ViewModel.PasswordInput, () => PasswordInput.Text, BindingMode.TwoWay));
 
             LoginPageRegisterButton.SetCommand(ViewModel.NavigateRegister);
             LoginPageProblemsButton.SetCommand(ViewModel.ProblemsCommand);
@@ -45,8 +35,8 @@ namespace MALClient.Android.Fragments
             UsernameInput.FocusChange += UsernameInputOnFocusChange;
             PasswordInput.FocusChange += UsernameInputOnFocusChange;
 
-           // LoginPageButtonHum.Click += LoginPageButtonOnClick;
-           // LoginPageButtonMal.Click += LoginPageButtonOnClick;
+            // LoginPageButtonHum.Click += LoginPageButtonOnClick;
+            // LoginPageButtonMal.Click += LoginPageButtonOnClick;
             SignInButton.SetCommand(ViewModel.LogInCommand);
         }
 

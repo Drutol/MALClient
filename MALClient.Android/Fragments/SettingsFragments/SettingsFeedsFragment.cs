@@ -33,8 +33,8 @@ namespace MALClient.Android.Fragments.SettingsFragments
 
         protected override void InitBindings()
         {
-            Bindings.Add(SettingsPageFeedsAddPinnedProfilesSwitch.Id, new List<Binding>());
-            Bindings[SettingsPageFeedsAddPinnedProfilesSwitch.Id].Add(
+            
+            Bindings.Add(
                 this.SetBinding(() => ViewModel.FeedsIncludePinnedProfiles,
                     () => SettingsPageFeedsAddPinnedProfilesSwitch.Checked, BindingMode.TwoWay));
             //

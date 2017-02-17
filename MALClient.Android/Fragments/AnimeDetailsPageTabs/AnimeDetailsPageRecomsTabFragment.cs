@@ -55,8 +55,7 @@ namespace MALClient.Android.Fragments.AnimeDetailsPageTabs
             _list.Adapter = _adapter;
             _list.OnItemClickListener = new OnItemClickListener<DirectRecommendationData>(data => ViewModel.NavigateDetailsCommand.Execute(data));
 
-            Bindings.Add(LoadingOverlay.Id, new List<Binding>());
-            Bindings[LoadingOverlay.Id].Add(
+            Bindings.Add(
                 this.SetBinding(() => ViewModel.LoadingRecommendations,
                     () => LoadingOverlay.Visibility).ConvertSourceToTarget(Converters.BoolToVisibility));
         }

@@ -34,8 +34,7 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
 
         protected override void InitBindings()
         {
-            Bindings.Add(1, new List<Binding>());
-            Bindings[1].Add(
+            Bindings.Add(
                 this.SetBinding(() => ViewModel.CurrentData).WhenSourceChanges(() =>
                 {
                     ImageService.Instance.LoadUrl(ViewModel.CurrentData.User.ImgUrl)

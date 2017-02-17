@@ -47,18 +47,16 @@ namespace MALClient.Android.Fragments
             //AnimeListPageGridView.ScrollingCacheEnabled = false;
 
 
-            Bindings.Add(Resource.Id.AnimeListPageLoadingSpinner, new List<Binding>());
-            Bindings[Resource.Id.AnimeListPageLoadingSpinner].Add(
+            Bindings.Add(
                 this.SetBinding(() => ViewModel.Loading,
                     () => AnimeListPageLoadingSpinner.Visibility).ConvertSourceToTarget(Converters.BoolToVisibility));
 
-            Bindings.Add(AnimeListPageSeasonMenu.Id, new List<Binding>());
-            Bindings[AnimeListPageSeasonMenu.Id].Add(
+
+            Bindings.Add(
                 this.SetBinding(() => ViewModel.AppbarBtnPinTileVisibility,
                     () => AnimeListPageSeasonMenu.Visibility).ConvertSourceToTarget(Converters.BoolToVisibility));
 
-            Bindings.Add(AnimeListPageSortMenu.Id, new List<Binding>());
-            Bindings[AnimeListPageSortMenu.Id].Add(
+            Bindings.Add(
                 this.SetBinding(() => ViewModel.AppBtnSortingVisibility,
                     () => AnimeListPageSortMenu.Visibility).ConvertSourceToTarget(Converters.BoolToVisibility));
 

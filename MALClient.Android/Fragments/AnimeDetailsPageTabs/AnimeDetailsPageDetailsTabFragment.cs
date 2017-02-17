@@ -60,8 +60,7 @@ namespace MALClient.Android.Fragments.AnimeDetailsPageTabs
         {
             CreateDetailsAdapters();
 
-            Bindings.Add(LoadingOverlay.Id, new List<Binding>());
-            Bindings[LoadingOverlay.Id].Add(
+            Bindings.Add(
                 this.SetBinding(() => ViewModel.LoadingDetails,
                     () => LoadingOverlay.Visibility).ConvertSourceToTarget(Converters.BoolToVisibility));
         }

@@ -51,8 +51,7 @@ namespace MALClient.Android.Fragments.RecommendationsFragments
 
         protected override void InitBindings()
         {
-            Bindings.Add(RecommendationItemDepImage.Id, new List<Binding>());
-            Bindings[RecommendationItemDepImage.Id].Add(
+            Bindings.Add(
                 this.SetBinding(() => ViewModel.LoadingSpinnerVisibility).WhenSourceChanges(() =>
                 {
                     if (ViewModel.LoadingSpinnerVisibility)
@@ -62,7 +61,7 @@ namespace MALClient.Android.Fragments.RecommendationsFragments
                     }
                     RecommendationItemLoading.Visibility = ViewStates.Gone;
 
-                    if(ViewModel.DetailItems.Count == 0 || RecommendationItemDetailsContainer.ChildCount > 0)
+                    if (ViewModel.DetailItems.Count == 0 || RecommendationItemDetailsContainer.ChildCount > 0)
                         return;
 
                     RecommendationItemDetailsContainer.SetAdapter(new RecommendationsFragmentDetailsAdapter(Activity,
@@ -70,14 +69,20 @@ namespace MALClient.Android.Fragments.RecommendationsFragments
                     RecommendationItemDescription.Text = ViewModel.Data.Description;
                     RecommendationItemDepTitle.Text = ViewModel.Data.DependentTitle;
                     RecommendationItemRecTitle.Text = ViewModel.Data.RecommendationTitle;
-                    if(ViewModel.Data.AnimeDependentData.ImgUrl != null)
-                        ImageService.Instance.LoadUrl(ViewModel.Data.AnimeDependentData.ImgUrl).FadeAnimation(false).Success(() => RecommendationItemDepImage.AnimateFadeIn()).Into(RecommendationItemDepImage);
-                    if(ViewModel.Data.AnimeRecommendationData.ImgUrl != null)
-                        ImageService.Instance.LoadUrl(ViewModel.Data.AnimeRecommendationData.ImgUrl).FadeAnimation(false).Success(() => RecommendationItemRecImage.AnimateFadeIn()).Into(RecommendationItemRecImage);
+                    if (ViewModel.Data.AnimeDependentData.ImgUrl != null)
+                        ImageService.Instance.LoadUrl(ViewModel.Data.AnimeDependentData.ImgUrl)
+                            .FadeAnimation(false)
+                            .Success(() => RecommendationItemDepImage.AnimateFadeIn())
+                            .Into(RecommendationItemDepImage);
+                    if (ViewModel.Data.AnimeRecommendationData.ImgUrl != null)
+                        ImageService.Instance.LoadUrl(ViewModel.Data.AnimeRecommendationData.ImgUrl)
+                            .FadeAnimation(false)
+                            .Success(() => RecommendationItemRecImage.AnimateFadeIn())
+                            .Into(RecommendationItemRecImage);
                 }));
 
-            RecommendationItemRecImageButton.SetCommand("Click",ViewModel.NavigateDepDetails);
-            RecommendationItemDepImageButton.SetCommand("Click",ViewModel.NavigateRecDetails);
+            RecommendationItemRecImageButton.SetCommand("Click", ViewModel.NavigateDepDetails);
+            RecommendationItemDepImageButton.SetCommand("Click", ViewModel.NavigateRecDetails);
 
 
         }

@@ -34,20 +34,20 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
 
         protected override void InitBindings()
         {
-            Bindings.Add(ProfilePageRecentUpdatesTabAnimeListEmptyNotice.Id, new List<Binding>());
-            Bindings[ProfilePageRecentUpdatesTabAnimeListEmptyNotice.Id].Add(
+            
+            Bindings.Add(
                 this.SetBinding(() => ViewModel.EmptyRecentAnimeNoticeVisibility,
                         () => ProfilePageRecentUpdatesTabAnimeListEmptyNotice.Visibility)
                     .ConvertSourceToTarget(Converters.BoolToVisibility));
 
-            Bindings.Add(ProfilePageRecentUpdatesTabMangaListEmptyNotice.Id, new List<Binding>());
-            Bindings[ProfilePageRecentUpdatesTabMangaListEmptyNotice.Id].Add(
+            
+            Bindings.Add(
                 this.SetBinding(() => ViewModel.EmptyRecentMangaNoticeVisibility,
                     () => ProfilePageRecentUpdatesTabMangaListEmptyNotice.Visibility)
                     .ConvertSourceToTarget(Converters.BoolToVisibility));
 
-            Bindings.Add(ProfilePageRecentUpdatesTabAnimeList.Id, new List<Binding>());
-            Bindings[ProfilePageRecentUpdatesTabMangaListEmptyNotice.Id].Add(
+            
+            Bindings.Add(
                 this.SetBinding(() => ViewModel.RecentAnime).WhenSourceChanges(() =>
                 {
                     ProfilePageRecentUpdatesTabAnimeList.SetAdapter(new AnimeListItemsAdapter(Activity,
@@ -55,8 +55,8 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
                         (model, view, arg3) => new AnimeListItemBindingInfo(view, model, false)));
                 }));
 
-            Bindings.Add(ProfilePageRecentUpdatesTabMangaList.Id, new List<Binding>());
-            Bindings[ProfilePageRecentUpdatesTabMangaList.Id].Add(
+            
+            Bindings.Add(
                 this.SetBinding(() => ViewModel.RecentManga).WhenSourceChanges(() =>
                 {
                     ProfilePageRecentUpdatesTabMangaList.SetAdapter(new AnimeListItemsAdapter(Activity,

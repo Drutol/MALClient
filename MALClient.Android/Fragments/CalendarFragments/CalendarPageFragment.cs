@@ -30,28 +30,28 @@ namespace MALClient.Android.Fragments.CalendarFragments
 
         protected override void InitBindings()
         {
-            Bindings.Add(CalendarPageProgressBar.Id, new List<Binding>());
-            Bindings[CalendarPageProgressBar.Id].Add(
+            
+            Bindings.Add(
                 this.SetBinding(() => ViewModel.ProgressValue,
                     () => CalendarPageProgressBar.Progress));
-            Bindings[CalendarPageProgressBar.Id].Add(
+            Bindings.Add(
                 this.SetBinding(() => ViewModel.MaxProgressValue,
                     () => CalendarPageProgressBar.Max));
 
-            Bindings.Add(CalendarPageProgressBarGrid.Id, new List<Binding>());
-            Bindings[CalendarPageProgressBarGrid.Id].Add(
+            
+            Bindings.Add(
                 this.SetBinding(() => ViewModel.CalendarBuildingVisibility,
                     () => CalendarPageProgressBarGrid.Visibility).ConvertSourceToTarget(Converters.BoolToVisibility));
 
-            Bindings.Add(CalendarPageViewPager.Id,new List<Binding>());
-            Bindings[CalendarPageViewPager.Id].Add(this.SetBinding(() => ViewModel.CalendarData).WhenSourceChanges(() =>
+            
+            Bindings.Add(this.SetBinding(() => ViewModel.CalendarData).WhenSourceChanges(() =>
             {
                 CalendarPageViewPager.Adapter = new CalendarPagerAdapter(FragmentManager, ViewModel.CalendarData);
                 CalendarPageTabStrip.SetViewPager(CalendarPageViewPager);
             }));
 
-            Bindings.Add(CalendarPageContentGrid.Id, new List<Binding>());
-            Bindings[CalendarPageContentGrid.Id].Add(
+            
+            Bindings.Add(
                 this.SetBinding(() => ViewModel.CalendarVisibility,
                     () => CalendarPageContentGrid.Visibility).ConvertSourceToTarget(Converters.BoolToVisibility));
         }

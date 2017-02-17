@@ -46,8 +46,7 @@ namespace MALClient.Android.Fragments.AnimeDetailsPageTabs
         {
             AnimeDetailsPageReviewsTabsList.Adapter = ViewModel.Reviews.GetAdapter(GetTemplateDelegate);
 
-            Bindings.Add(LoadingOverlay.Id, new List<Binding>());
-            Bindings[LoadingOverlay.Id].Add(
+            Bindings.Add(
                 this.SetBinding(() => ViewModel.LoadingReviews,
                     () => LoadingOverlay.Visibility).ConvertSourceToTarget(Converters.BoolToVisibility));
             

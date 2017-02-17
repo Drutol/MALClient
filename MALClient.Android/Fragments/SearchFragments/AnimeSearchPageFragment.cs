@@ -40,8 +40,7 @@ namespace MALClient.Android.Fragments.SearchFragments
             AnimeSearchPageList.Adapter = ViewModel.AnimeSearchItemViewModels.GetAdapter(GetTemplateDelegate);
             AnimeSearchPageList.ItemClick += AnimeSearchPageListOnItemClick;
 
-            Bindings.Add(AnimeSearchPageLoadingSpinner.Id, new List<Binding>());
-            Bindings[AnimeSearchPageLoadingSpinner.Id].Add(
+                        Bindings.Add(
                 this.SetBinding(() => ViewModel.Loading,
                     () => AnimeSearchPageLoadingSpinner.Visibility).ConvertSourceToTarget(Converters.BoolToVisibility));
         }

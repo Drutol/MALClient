@@ -69,8 +69,7 @@ namespace MALClient.Android.Fragments
 
         protected override void InitBindings()
         {
-            Bindings.Add(PromoVideosPageLoadingSpinner.Id, new List<Binding>());
-            Bindings[PromoVideosPageLoadingSpinner.Id].Add(
+            Bindings.Add(
                 this.SetBinding(() => ViewModel.Loading,
                     () => PromoVideosPageLoadingSpinner.Visibility).ConvertSourceToTarget(Converters.BoolToVisibility));
 
@@ -78,8 +77,7 @@ namespace MALClient.Android.Fragments
 
             _helper = new GridViewColumnHelper(PromoVideosPageGridView);
 
-            Bindings.Add(PromoVideosPageGridView.Id, new List<Binding>());
-            Bindings[PromoVideosPageGridView.Id].Add(this.SetBinding(() => ViewModel.Videos).WhenSourceChanges(() =>
+            Bindings.Add(this.SetBinding(() => ViewModel.Videos).WhenSourceChanges(() =>
             {
                 PromoVideosPageGridView.Adapter = ViewModel.Videos.GetAdapter(GetTemplateDelegate);
             }));          

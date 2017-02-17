@@ -46,13 +46,11 @@ namespace MALClient.Android.Fragments.ArticlesPageFragments
 
             ArticlesPageWebView.SetWebViewClient(_listenableWebClient);
 
-            Bindings.Add(ArticlesPageWebView.Id, new List<Binding>());
-            Bindings[ArticlesPageWebView.Id].Add(
+            Bindings.Add(
                 this.SetBinding(() => ViewModel.WebViewVisibility,
                     () => ArticlesPageWebView.Visibility).ConvertSourceToTarget(Converters.BoolToVisibility));
 
-            Bindings.Add(ArticlesPageLoadingSpinner.Id, new List<Binding>());
-            Bindings[ArticlesPageLoadingSpinner.Id].Add(
+            Bindings.Add(
                 this.SetBinding(() => ViewModel.LoadingVisibility,
                     () => ArticlesPageLoadingSpinner.Visibility).ConvertSourceToTarget(Converters.BoolToVisibility));         
         }

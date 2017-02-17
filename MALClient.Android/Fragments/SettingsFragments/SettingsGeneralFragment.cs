@@ -52,23 +52,23 @@ namespace MALClient.Android.Fragments.SettingsFragments
                     Converters.BoolToVisibility(Settings.SelectedTheme != MainActivity.CurrentTheme);
             }));
             //
-            Bindings.Add(SettingsPageGeneralPullHigherSwitch.Id, new List<Binding>());
-            Bindings[SettingsPageGeneralPullHigherSwitch.Id].Add(
+            
+            Bindings.Add(
                 this.SetBinding(() => ViewModel.PullHigherQualityImages,
                     () => SettingsPageGeneralPullHigherSwitch.Checked,BindingMode.TwoWay));
-            Bindings[SettingsPageGeneralPullHigherSwitch.Id].Add(
+            Bindings.Add(
                 this.SetBinding(() => ViewModel.DisplaySeasonWithType,
                     () => SettingsPageGeneralSeasonSwitch.Checked,BindingMode.TwoWay));
-            Bindings[SettingsPageGeneralPullHigherSwitch.Id].Add(
+            Bindings.Add(
                 this.SetBinding(() => ViewModel.AutoDescendingSorting,
                     () => SettingsPageGeneralAutoSortSwitch.Checked,BindingMode.TwoWay));
-            Bindings[SettingsPageGeneralPullHigherSwitch.Id].Add(
+            Bindings.Add(
                 this.SetBinding(() => ViewModel.MangaFocusVolumes,
                     () => SettingsPageGeneralVolsImportantSwitch.Checked,BindingMode.TwoWay));
-            Bindings[SettingsPageGeneralPullHigherSwitch.Id].Add(
+            Bindings.Add(
                 this.SetBinding(() => ViewModel.EnsureRandomizerAlwaysSelectsWinner,
                     () => SettingsPageGeneralRandomSelectedSwitch.Checked,BindingMode.TwoWay));
-            Bindings[SettingsPageGeneralPullHigherSwitch.Id].Add(
+            Bindings.Add(
                 this.SetBinding(() => ViewModel.ArticlesLaunchExternalLinks,
                     () => SettingsPageGeneralExternalLinksSwitch.Checked, BindingMode.TwoWay));
             //
@@ -135,8 +135,8 @@ namespace MALClient.Android.Fragments.SettingsFragments
                 ViewModel.SelectedDefaultViewForAll = (sender as Spinner).SelectedView.Tag.Unwrap<Tuple<AnimeListDisplayModes, string>>();
             };
 
-            Bindings.Add(SettingsGeneralPageLockDisplayModeSwitch.Id, new List<Binding>());
-            Bindings[SettingsGeneralPageLockDisplayModeSwitch.Id].Add(
+            
+            Bindings.Add(
                 this.SetBinding(() => ViewModel.LockDisplayMode,
                     () => SettingsGeneralPageLockDisplayModeSwitch.Checked,BindingMode.TwoWay));
             //
@@ -156,20 +156,20 @@ namespace MALClient.Android.Fragments.SettingsFragments
             };
             //
 
-            Bindings.Add(SettingsPageGeneralAllowDateOverrideCheckBox.Id, new List<Binding>());
-            Bindings[SettingsPageGeneralAllowDateOverrideCheckBox.Id].Add(
+            
+            Bindings.Add(
                 this.SetBinding(() => ViewModel.SetStartDateOnListAdd,
                     () => SettingsPageGeneralStartDateWhenAddCheckBox.Checked,BindingMode.TwoWay));
-            Bindings[SettingsPageGeneralAllowDateOverrideCheckBox.Id].Add(
+            Bindings.Add(
                 this.SetBinding(() => ViewModel.SetStartDateOnWatching,
                     () => SettingsPageGeneralStartDateWhenWatchCheckBox.Checked,BindingMode.TwoWay));
-            Bindings[SettingsPageGeneralAllowDateOverrideCheckBox.Id].Add(
+            Bindings.Add(
                 this.SetBinding(() => ViewModel.SetEndDateOnCompleted,
                     () => SettingsPageGeneralEndDateWhenCompleted.Checked,BindingMode.TwoWay));
-            Bindings[SettingsPageGeneralAllowDateOverrideCheckBox.Id].Add(
+            Bindings.Add(
                 this.SetBinding(() => ViewModel.SetEndDateOnDropped,
                     () => SettingsPageGeneralEndDateWhenDropCheckBox.Checked,BindingMode.TwoWay));
-            Bindings[SettingsPageGeneralAllowDateOverrideCheckBox.Id].Add(
+            Bindings.Add(
                 this.SetBinding(() => ViewModel.OverrideValidStartEndDate,
                     () => SettingsPageGeneralAllowDateOverrideCheckBox.Checked,BindingMode.TwoWay));
             //

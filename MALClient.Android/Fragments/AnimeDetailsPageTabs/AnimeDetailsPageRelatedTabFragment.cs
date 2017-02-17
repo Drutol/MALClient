@@ -41,8 +41,7 @@ namespace MALClient.Android.Fragments.AnimeDetailsPageTabs
             _list.Adapter = ViewModel.RelatedAnime.GetAdapter(RelatedItemTemplateDelegate);
             _list.OnItemClickListener = new OnItemClickListener<RelatedAnimeData>(data => ViewModel.NavigateDetailsCommand.Execute(data));
 
-            Bindings.Add(LoadingOverlay.Id, new List<Binding>());
-            Bindings[LoadingOverlay.Id].Add(
+            Bindings.Add(
                 this.SetBinding(() => ViewModel.LoadingRelated,
                     () => LoadingOverlay.Visibility).ConvertSourceToTarget(Converters.BoolToVisibility));
         }

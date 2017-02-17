@@ -37,14 +37,13 @@ namespace MALClient.Android.Fragments.ArticlesPageFragments
 
         protected override void InitBindings()
         {
-            Bindings.Add(ArticlesPageTabItemList.Id, new List<Binding>());
-            Bindings[ArticlesPageTabItemList.Id].Add(
+            Bindings.Add(
                 this.SetBinding(() => ViewModel.Articles).WhenSourceChanges(() =>
                 {
                     ArticlesPageTabItemList.Adapter = ViewModel.Articles.GetAdapter(GetTemplateDelegate);
                 }));
 
-            Bindings[ArticlesPageTabItemList.Id].Add(
+            Bindings.Add(
                 this.SetBinding(() => ViewModel.ArticleIndexVisibility,
                     () => ArticlesPageTabItemList.Visibility).ConvertSourceToTarget(Converters.BoolToVisibility));
 

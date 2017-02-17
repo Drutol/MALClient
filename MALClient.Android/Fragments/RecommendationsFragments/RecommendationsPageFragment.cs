@@ -42,8 +42,8 @@ namespace MALClient.Android.Fragments.RecommendationsFragments
 
         protected override void InitBindings()
         {
-            Bindings.Add(RecommendationsPagePivot.Id, new List<Binding>());
-            Bindings[RecommendationsPagePivot.Id].Add(
+            
+            Bindings.Add(
                 this.SetBinding(() => ViewModel.RecommendationAnimeItems).WhenSourceChanges(() =>
                 {
                     if (ViewModel.RecommendationAnimeItems?.Any() ?? false)
@@ -55,7 +55,7 @@ namespace MALClient.Android.Fragments.RecommendationsFragments
                         RecommendationsPagePivot.SetCurrentItem(ViewModel.PivotItemIndex, false);
                     }
                 }));
-            Bindings[RecommendationsPagePivot.Id].Add(
+            Bindings.Add(
                 this.SetBinding(() => ViewModel.RecommendationAnimeItems).WhenSourceChanges(() =>
                 {
                     if (ViewModel.RecommendationMangaItems?.Any() ?? false)
@@ -68,8 +68,8 @@ namespace MALClient.Android.Fragments.RecommendationsFragments
                 }));
 
 
-            Bindings.Add(RecommendationsPageLoading.Id, new List<Binding>());
-            Bindings[RecommendationsPageLoading.Id].Add(
+            
+            Bindings.Add(
                 this.SetBinding(() => ViewModel.Loading,
                     () => RecommendationsPageLoading.Visibility).ConvertSourceToTarget(Converters.BoolToVisibility));
 

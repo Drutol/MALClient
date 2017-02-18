@@ -8,7 +8,7 @@ namespace MALClient.XShared.Comm.Manga
 {
     public class MangaUpdateQuery : Query
     {
-        public static bool UpdatedSomething; //used for data saving on suspending in app.xaml.cs
+        public static bool UpdatedSomething { get; set; } //used for data saving on suspending in app.xaml.cs
 
         /// <summary>
         /// Just send rewatched value witch cannot be retrieved back

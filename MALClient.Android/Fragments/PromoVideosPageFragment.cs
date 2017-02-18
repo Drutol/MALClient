@@ -57,7 +57,7 @@ namespace MALClient.Android.Fragments
             Bindings.Add(this.SetBinding(() => ViewModel.Videos).WhenSourceChanges(() =>
             {
                 if (ViewModel.Videos != null)
-                    PromoVideosPageGridView.InjectFlingAdapter(ViewModel.Videos.ToList(), SetItemBindingsFull,
+                    PromoVideosPageGridView.InjectFlingAdapter(ViewModel.Videos, SetItemBindingsFull,
                         SetItemBindingsFling, GetItemContainer);
                 else
                     PromoVideosPageGridView.Adapter = null;
@@ -76,7 +76,6 @@ namespace MALClient.Android.Fragments
 
         private void SetItemBindingsFull(View view,AnimeVideoData animeVideoData)
         {
-            Log.Debug("lol", "full");
             var img = view.FindViewById<ImageViewAsync>(Resource.Id.PromoVideosPageItemImage);
             if ((string)img.Tag != animeVideoData.YtLink)
             {
@@ -94,7 +93,6 @@ namespace MALClient.Android.Fragments
 
         private void SetItemBindingsFling(View view,AnimeVideoData animeVideoData)
         {
-            Log.Debug("lol", "fling");
             view.FindViewById(Resource.Id.PromoVideosPageItemImgPlaceholder).Visibility = ViewStates.Visible;
             view.FindViewById(Resource.Id.PromoVideosPageItemImage).Visibility = ViewStates.Invisible;
 
@@ -119,7 +117,6 @@ namespace MALClient.Android.Fragments
 
         protected override void Cleanup()
         {
-            PromoVideosPageGridView.ClearFlingAdapter();
             base.Cleanup();
         }
 

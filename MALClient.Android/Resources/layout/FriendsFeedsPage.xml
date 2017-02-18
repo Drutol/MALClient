@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?BrushDeepBackground">
+  <GridView
+      android:id="@+id/FriendsFeedsPageGridView"
+      android:layout_width="match_parent"
+      android:layout_centerInParent="true"
+      android:layout_height="match_parent"
+      android:numColumns="auto_fit"
+      android:gravity="center"
+      android:choiceMode="singleChoice"/>
+
+  <ProgressBar android:id="@+id/FriendsFeedsPageLoadingSpinner" android:layout_width="wrap_content"
+      android:indeterminateTint="?AccentColour" android:indeterminateTintMode="src_in"
+      android:layout_height="wrap_content"
+      android:indeterminate="true" android:layout_centerInParent="true"/>
+</RelativeLayout>

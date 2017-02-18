@@ -284,6 +284,13 @@ namespace MALClient.Android.ViewModels
                     CurrentStatus = "Popular Videos";
                     MainNavigationRequested?.Invoke(new PromoVideosPageFragment());
                     break;
+                case PageIndex.PageFeeds:
+                    HideSearchStuff();
+                    RefreshButtonVisibility = true;
+                    RefreshDataCommand = new RelayCommand(() => ViewModelLocator.FriendsFeeds.Init(true));
+                    CurrentStatus = "Friends Feeds";
+                    MainNavigationRequested?.Invoke(new FriendsFeedsPageFragment());
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(index), index, null);
             }

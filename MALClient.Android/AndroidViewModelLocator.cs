@@ -26,6 +26,8 @@ namespace MALClient.Android
     {
         public static void RegisterDependencies()
         {
+            ViewModelLocator.Mobile = true;
+
             ViewModelLocator.RegisterBase();
 
             SimpleIoc.Default.Register<MainViewModel>();

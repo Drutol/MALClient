@@ -138,6 +138,11 @@ namespace MALClient.Android.Activities
             videoButton.WithIdentifier((int) PageIndex.PagePopularVideos);
             videoButton.WithIcon(Resource.Drawable.icon_video);
 
+            var feedsButton = GetBaseSecondaryItem();
+            feedsButton.WithName("Friends Feeds");
+            feedsButton.WithIdentifier((int) PageIndex.PageFeeds);
+            feedsButton.WithIcon(Resource.Drawable.icon_feeds);
+
             //
 
             IDrawerItem accountButton;
@@ -169,10 +174,7 @@ namespace MALClient.Android.Activities
 
 
             builder.AddStickyDrawerItems(accountButton, settingsButton);
-
-
             //
-
             var mangaSubHeader = new SectionDrawerItem();
             mangaSubHeader.WithName("Manga");
             mangaSubHeader.WithDivider(true);
@@ -198,7 +200,8 @@ namespace MALClient.Android.Activities
                 topMangaButton,
                 othersSubHeader,//
                 articlesButton,
-                videoButton
+                videoButton,
+                feedsButton
 
             });
 

@@ -143,5 +143,27 @@ namespace MALClient.XShared.Comm.Anime
                 set { base[key] = value; }
             }
         }
+
+        public static bool IsCached(int id, bool anime,ref string url)
+        {
+            if (anime)
+            {
+                if (CachedAnimeImages.ContainsKey(id))
+                {
+                    url = CachedAnimeImages[id];
+                    return true;
+                }
+            }
+            else
+            {
+                if (CachedAnimeImages.ContainsKey(id))
+                {
+                    url = CachedAnimeImages[id];
+                    return true;
+                }
+            }
+            return false;
+
+        }
     }
 }

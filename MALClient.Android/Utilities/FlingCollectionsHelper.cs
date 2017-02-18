@@ -11,11 +11,12 @@ namespace MALClient.Android
     {
         private static readonly Dictionary<View, bool> FlingStates = new Dictionary<View, bool>();
 
-        public static void InjectFlingAdapter<T>(this AbsListView container, List<T> items,
+        public static void InjectFlingAdapter<T>(this AbsListView container, IList<T> items,
             Action<View, T> dataTemplateFull, Action<View,T> dataTemplateFling,
             Func<View> containerTemplate) where T : class
         {
-            FlingStates.Add(container,false);
+            if(!FlingStates.ContainsKey(container))
+                FlingStates.Add(container,false);
             container.MakeFlingAware(b =>
             {
                 if(FlingStates[container] == b)

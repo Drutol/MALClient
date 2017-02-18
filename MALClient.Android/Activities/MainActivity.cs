@@ -108,19 +108,27 @@ namespace MALClient.Android.Activities
 #pragma warning disable 4014
             if (Settings.IsCachingEnabled)
             {
-                if (AnimeUpdateQuery.UpdatedSomething)                  
-                        DataCache.SaveDataForUser(Credentials.UserName,
+                if (AnimeUpdateQuery.UpdatedSomething)
+                {
+                    DataCache.SaveDataForUser(Credentials.UserName,
                             ResourceLocator.AnimeLibraryDataStorage.AllLoadedAnimeItemAbstractions.Select(
                                 abstraction => abstraction.EntryData), AnimeListWorkModes.Anime);
-                if (MangaUpdateQuery.UpdatedSomething)                
-                        DataCache.SaveDataForUser(Credentials.UserName,
+                    AnimeUpdateQuery.UpdatedSomething = false;
+                }
+                if (MangaUpdateQuery.UpdatedSomething)
+                {
+                    DataCache.SaveDataForUser(Credentials.UserName,
                             ResourceLocator.AnimeLibraryDataStorage.AllLoadedMangaItemAbstractions.Select(
                                 abstraction => abstraction.EntryData), AnimeListWorkModes.Manga);
+                    MangaUpdateQuery.UpdatedSomething = false;
+                }
             }
             DataCache.SaveVolatileData();
             DataCache.SaveHumMalIdDictionary();
             ViewModelLocator.ForumsMain.SavePinnedTopics();
             FavouritesManager.SaveData();
+            AnimeImageQuery.SaveData();
+            ResourceLocator.HandyDataStorage.SaveData();
 #pragma warning restore 4014
             base.OnPause();
         }

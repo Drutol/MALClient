@@ -14,7 +14,7 @@ namespace MALClient.XShared.Comm.Anime
 {
     public class AnimeUpdateQuery : Query
     {
-        public static bool UpdatedSomething; //used for data saving on suspending in app.xaml.cs
+        public static bool UpdatedSomething { get; set; } //used for data saving on suspending in app.xaml.cs
         private static SemaphoreSlim _updateSemaphore = new SemaphoreSlim(1);
 
         /// <summary>

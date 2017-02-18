@@ -1,7 +1,12 @@
 using System;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 using Android.Views;
 using FFImageLoading;
+using FFImageLoading.Transformations;
 using FFImageLoading.Views;
+using FFImageLoading.Work;
 using MALClient.XShared.Utils;
 
 namespace MALClient.Android
@@ -48,7 +53,7 @@ namespace MALClient.Android
 
         }
 
-        public static void Into(this ImageViewAsync image, string originUrl)
+        public static void Into(this ImageViewAsync image, string originUrl, ITransformation transformation = null)
         {
             if (string.IsNullOrEmpty(originUrl))
                 return;
@@ -57,7 +62,50 @@ namespace MALClient.Android
 
             var work = ImageService.Instance.LoadUrl(originUrl);
             work = work.Success(image.AnimateFadeIn);
-            work.FadeAnimation(false).Into(image);
+            if(transformation == null)
+                work.FadeAnimation(false).Into(image);
+            else
+                work.FadeAnimation(false).Transform(transformation).Into(image);
+        }
+
+        private static readonly Dictionary<View, CancellationTokenSource> CancellationTokenSources = new Dictionary<View, CancellationTokenSource>();
+        public static async void IntoWithTask(this ImageViewAsync image, Task<string> originUrlTask, ITransformation transformation = null)
+        {
+            CancellationToken token;
+            lock (CancellationTokenSources)
+            {
+                if (CancellationTokenSources.ContainsKey(image))
+                {
+                    CancellationTokenSources[image].Cancel();
+                    CancellationTokenSources.Remove(image);
+                }
+
+                var src = new CancellationTokenSource();
+                CancellationTokenSources.Add(image, src);
+                token = src.Token;
+            }
+
+            var originUrl = await originUrlTask;
+
+            if(token.IsCancellationRequested)
+                return;
+
+            lock (CancellationTokenSources)
+            {
+                CancellationTokenSources.Remove(image);
+            }
+
+            if (string.IsNullOrEmpty(originUrl))
+                return;
+
+            image.Visibility = ViewStates.Invisible;
+
+            var work = ImageService.Instance.LoadUrl(originUrl);
+            work = work.Success(image.AnimateFadeIn);
+            if(transformation == null)
+                work.FadeAnimation(false).Into(image);
+            else
+                work.FadeAnimation(false).Transform(transformation).Into(image);
         }
     }
 }

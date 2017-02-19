@@ -21,6 +21,12 @@ namespace MALClient.Android.UserControls
         private event EventHandler<MotionEvent> OnOutterCircleTouch;
         private List<Arc> ArcsList = new List<Arc>();
 
+        private float _angle = 0;
+        public float Angle
+        {
+            get => _angle;
+            set => _angle = value % 360.0f;
+        }
 
         private float _sum;
         private float Sum
@@ -35,7 +41,17 @@ namespace MALClient.Android.UserControls
         }
 
         private int _selectedArc = -1;
-
+        public int SelectedArc
+        {
+            get { return _selectedArc; }
+            set
+            {
+                if (_selectedArc == value) return;
+                if(_selectedArc != -1) DeselectAnimation(_selectedArc).Start();
+                _selectedArc = value;
+                SelectAnimation(_selectedArc).Start();
+            }
+        }
         private Circle _innerCircle = new Circle(0, 0, 200);
         public float InnerCircleRadius
         {
@@ -66,6 +82,10 @@ namespace MALClient.Android.UserControls
         {
             InnerCircleRadius = 200;
             OutterCircleRadius = 400;
+            view.OnViewInitialized += (sender, args) =>
+            {
+                Position = new Vector2D(view.MeasuredWidth / 2.0f, view.MeasuredHeight / 2.0f);
+            };
             view.OnViewInitialized += (sender, args) => InitAnimationStart();
             view.OnTouch += (sender, args) => checkTouch(args);
             Init();
@@ -79,12 +99,13 @@ namespace MALClient.Android.UserControls
         public void Draw(Canvas canvas)
         {
             canvas.Save();
-            canvas.Translate(Position.X, Position.Y);
-            foreach(var arc in ArcsList)
-            {
-                arc.Draw(canvas);
-                canvas.Rotate((arc.CurrentValue * arc.LengthFraction / Sum) * 360.0f);
-            }
+                canvas.Translate(Position.X, Position.Y);
+                canvas.Rotate(Angle);
+                foreach(var arc in ArcsList)
+                {
+                    arc.Draw(canvas);
+                    canvas.Rotate((arc.CurrentValue * arc.LengthFraction / Sum) * 360.0f);
+                }
             canvas.Restore();
         }
 
@@ -95,6 +116,7 @@ namespace MALClient.Android.UserControls
             Arc temp = new Arc(drawingRadius, strokeWidth, color);
             temp.OnValueChanged += (sender, args) => updateSum();
             temp.OnValueSet += (arc, toValue) => SetAnimation(arc as Arc, toValue);
+            temp.OnNeedRefresh += (sender, args) => OnChartUpdated?.Invoke(sender, args);
             ArcsList.Add(temp);
             temp.Value = value;
         }
@@ -120,7 +142,7 @@ namespace MALClient.Android.UserControls
             foreach(var arc in ArcsList)
             {
                 ValueAnimator animator = ValueAnimator.OfFloat(new float[] { 0, 1 });
-                animator.SetDuration(1000);
+                animator.SetDuration(10000);
                 animator.Update += (sender, args) =>
                 {
                     arc.LengthFraction = (float)animator.AnimatedValue;
@@ -162,7 +184,65 @@ namespace MALClient.Android.UserControls
             if (_innerCircle.CheckCollision(new XShared.Utils.Point(relativePosition)))
                 OnInnerCircleTouch?.Invoke(this, args);
             else
-                OnOutterCircleTouch?.Invoke(this, args);
+                OutterCircleTouch(args);
+        }
+
+        private void InnerCircleTouch(MotionEvent args)
+        {
+            switch(args.Action)
+            {
+                case MotionEventActions.Up:
+                    _selectedArc = -1;
+                    break;
+            }
+        }
+
+        private void OutterCircleTouch(MotionEvent args)
+        {
+            switch(args.Action)
+            {
+                case MotionEventActions.Up:
+                    SelectArc(args.GetX(), args.GetY());
+                    break;
+            }
+        }
+
+        private void SelectArc(float X, float Y)
+        {
+            Vector2D centerRelativePoint = new Vector2D(X - Position.X, Y - Position.Y);
+            float relativePointAngle = centerRelativePoint.GetAngle();
+            float circleFraction = 0;
+            for (int i = 0; i < ArcsList.Count; i++)
+            {
+                circleFraction += ArcsList[i].ChartFraction;
+                if ( ((relativePointAngle - Angle + 360.0f) % 360)/360.0f < circleFraction )
+                {
+                    SelectedArc = i;
+                    return;
+                }
+            }
+        }
+
+        private ValueAnimator SelectAnimation(int key)
+        {
+            ValueAnimator animator = ValueAnimator.OfFloat(new float[] { ArcsList[key].StandardStrokeWidth, ArcsList[key].StrokeWidth * 1.2f});
+            animator.SetDuration(1000);
+            animator.Update += (sender, args) =>
+            {
+                ArcsList[key].StrokeWidth = (float)animator.AnimatedValue;
+            };
+            return animator;
+        }
+
+        private ValueAnimator DeselectAnimation(int key)
+        {
+            ValueAnimator animator = ValueAnimator.OfFloat(new float[] { ArcsList[key].StrokeWidth, ArcsList[key].StandardStrokeWidth });
+            animator.SetDuration(1000);
+            animator.Update += (sender, args) =>
+            {
+                ArcsList[key].StrokeWidth = (float)animator.AnimatedValue;
+            };
+            return animator;
         }
     }
 }

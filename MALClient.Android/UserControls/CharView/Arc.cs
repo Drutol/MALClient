@@ -20,6 +20,8 @@ namespace MALClient.Android.UserControls
         private class Arc
         {
             #region Properties&Fields
+
+            public float ChartFraction { get; set; }
             private float _value;
             public float Value
             {
@@ -43,6 +45,8 @@ namespace MALClient.Android.UserControls
             public Paint Paint { get; set; } = new Paint();
             public event EventHandler<float> OnValueChanged;
             public event EventHandler<float> OnValueSet;
+            public event EventHandler OnNeedRefresh;
+            private float _lastSum = 0;
             private float _strokeWidth;
             public float StrokeWidth
             {
@@ -51,6 +55,7 @@ namespace MALClient.Android.UserControls
                 {
                     _strokeWidth = value;
                     Paint.StrokeWidth = value;
+                    OnNeedRefresh?.Invoke(this, null);
                 }
             }
 
@@ -62,12 +67,13 @@ namespace MALClient.Android.UserControls
                 {
                     _lengthFraction = SexyMath.Normalize(value, 0.0f, 1.0f);
                     updateDashLength();
+                    OnNeedRefresh?.Invoke(this, null);
                 }
             }
 
             private float DrawingRadius { get; set; }
             private float _standardStrokeWidth;
-            private float StandardStrokeWidth
+            public float StandardStrokeWidth
             {
                 set { _standardStrokeWidth = value; }
                 get { return _standardStrokeWidth; }
@@ -106,13 +112,15 @@ namespace MALClient.Android.UserControls
 
             public void RescaleToSum(float sum)
             {
-                Length = CurrentValue * SexyMath.CirclePeremiter(DrawingRadius) / sum;
+                Length = CurrentValue / sum * SexyMath.CirclePeremiter(DrawingRadius);
+                _lastSum = sum;
             }
 
             private void updateDashLength()
             {
                 _dashEffect = new DashPathEffect(new float[] { Length * LengthFraction, 100000 }, 0);
                 Paint.SetPathEffect(_dashEffect);
+                ChartFraction = Value * LengthFraction / _lastSum;
             }
         }
     }

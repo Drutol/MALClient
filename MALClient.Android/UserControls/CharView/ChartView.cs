@@ -48,12 +48,17 @@ namespace MALClient.Android.UserControls
             //DEBUG
             pieChart.Add(12, new Color(0, 255, 0, 120));
             pieChart.Add(16, new Color(255, 0, 0, 120));
+            pieChart.Add(10, new Color(0, 0, 255, 120));
             //-----//
             var touchListener = new OnTouchListener(onTouch);
             SetOnTouchListener(touchListener);
-            OnViewInitialized?.Invoke(this, null);
         }
 
+        protected override void OnMeasure(int widthMeasureSpec, int heightMeasureSpec)
+        {
+            base.OnMeasure(widthMeasureSpec, heightMeasureSpec);
+            OnViewInitialized?.Invoke(this, null);
+        }
         protected override void OnDraw(Canvas canvas)
         {
             canvas.Save();

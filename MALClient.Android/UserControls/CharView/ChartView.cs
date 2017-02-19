@@ -50,8 +50,7 @@ namespace MALClient.Android.UserControls
             pieChart.Add(16, new Color(255, 0, 0, 120));
             pieChart.Add(10, new Color(0, 0, 255, 120));
             //-----//
-            var touchListener = new OnTouchListener(onTouch);
-            SetOnTouchListener(touchListener);
+            SetOnTouchListener( new OnTouchListener(onTouch) );
         }
 
         protected override void OnMeasure(int widthMeasureSpec, int heightMeasureSpec)

@@ -59,8 +59,8 @@ namespace MALClient.Android.UserControls
             set
             {
                 _innerCircle.Radius = value;
-                calculateStrokeWidth(value, OutterCircleRadius);
-                calculateDrawingRadius(value, OutterCircleRadius);
+                CalculateStrokeWidth(value, OutterCircleRadius);
+                CalculateDrawingRadius(value, OutterCircleRadius);
             }
         }
 
@@ -71,8 +71,8 @@ namespace MALClient.Android.UserControls
             set
             {
                 _outterCircle.Radius = value;
-                calculateStrokeWidth(value, OutterCircleRadius);
-                calculateDrawingRadius(value, OutterCircleRadius);
+                CalculateStrokeWidth(value, OutterCircleRadius);
+                CalculateDrawingRadius(value, OutterCircleRadius);
             }
         }
         public Vector2D Position { get; set; } = new Vector2D(200, 400);
@@ -87,7 +87,7 @@ namespace MALClient.Android.UserControls
                 Position = new Vector2D(view.MeasuredWidth / 2.0f, view.MeasuredHeight / 2.0f);
             };
             view.OnViewInitialized += (sender, args) => InitAnimationStart();
-            view.OnTouch += (sender, args) => checkTouch(args);
+            view.OnTouch += (sender, args) => CheckTouch(args);
             Init();
         }
 
@@ -111,8 +111,8 @@ namespace MALClient.Android.UserControls
 
         public void Add(float value, Color color)
         {
-            var strokeWidth = calculateStrokeWidth(InnerCircleRadius, OutterCircleRadius);
-            var drawingRadius = calculateDrawingRadius(InnerCircleRadius, OutterCircleRadius);
+            var strokeWidth = CalculateStrokeWidth(InnerCircleRadius, OutterCircleRadius);
+            var drawingRadius = CalculateDrawingRadius(InnerCircleRadius, OutterCircleRadius);
             Arc temp = new Arc(drawingRadius, strokeWidth, color);
             temp.OnValueChanged += (sender, args) => updateSum();
             temp.OnValueSet += (arc, toValue) => SetAnimation(arc as Arc, toValue);
@@ -156,14 +156,14 @@ namespace MALClient.Android.UserControls
             Sum = ArcsList.Select(val => val.CurrentValue).Sum(); //LINQ! :D Sam zrobi³em!
         }
 
-        private float calculateStrokeWidth(float innerRadius, float outterRadius)
+        private float CalculateStrokeWidth(float innerRadius, float outterRadius)
         {
             return outterRadius - innerRadius;
         }
 
-        private float calculateDrawingRadius(float innerRadius, float outterRadius)
+        private float CalculateDrawingRadius(float innerRadius, float outterRadius)
         {
-            return calculateStrokeWidth(innerRadius, outterRadius) / 2.0f + innerRadius;
+            return CalculateStrokeWidth(innerRadius, outterRadius) / 2.0f + innerRadius;
         }
 
         //DEBUG
@@ -173,7 +173,7 @@ namespace MALClient.Android.UserControls
         }
         //-----//
 
-        private void checkTouch(MotionEvent args)
+        private void CheckTouch(MotionEvent args)
         {
             float X = args.GetX();
             float Y = args.GetY();

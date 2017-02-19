@@ -66,7 +66,7 @@ namespace MALClient.Android.UserControls
                 set
                 {
                     _lengthFraction = SexyMath.Normalize(value, 0.0f, 1.0f);
-                    updateDashLength();
+                    UpdateDashLength();
                     OnNeedRefresh?.Invoke(this, null);
                 }
             }
@@ -88,10 +88,10 @@ namespace MALClient.Android.UserControls
                 set
                 {
                     _length = value;
-                    updateDashLength();
+                    UpdateDashLength();
                 }
             }
-            private DashPathEffect _dashEffect = new DashPathEffect(new float[] { 10, 100000 }, 0);
+            private DashPathEffect _dashEffect = new DashPathEffect(new float[] { 10, 1000000 }, 0);
 #endregion
             public Arc(float drawingRadius, float strokeWidth, Color color)
             {
@@ -116,9 +116,9 @@ namespace MALClient.Android.UserControls
                 _lastSum = sum;
             }
 
-            private void updateDashLength()
+            private void UpdateDashLength()
             {
-                _dashEffect = new DashPathEffect(new float[] { Length * LengthFraction, 100000 }, 0);
+                _dashEffect = new DashPathEffect(new float[] { Length * LengthFraction, 1000000 }, 0);
                 Paint.SetPathEffect(_dashEffect);
                 ChartFraction = Value * LengthFraction / _lastSum;
             }

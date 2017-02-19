@@ -20,25 +20,29 @@ namespace MALClient.Android.UserControls
         private class Arc
         {
             #region Properties&Fields
-            private readonly Chart _chart;
-            private ValueAnimator ValueChangeAnimation;
-
-            private float _currEndValue=0;
-            private float _value = 0;
-            private float Value
+            private float _value;
+            public float Value
             {
                 get { return _value; }
                 set
                 {
-                    if (value < 0) return;
-                    float prev = _value;
+                    OnValueSet?.Invoke(this, value);
                     _value = value;
-                    _chart.currentSum += value - prev;
                 }
             }
-
+            private float _currentValue = 0;
+            public float CurrentValue
+            {
+                get { return _currentValue; }
+                set
+                {
+                    _currentValue = value;
+                    OnValueChanged?.Invoke(this, value);
+                }
+            }
             public Paint Paint { get; set; } = new Paint();
-
+            public event EventHandler<float> OnValueChanged;
+            public event EventHandler<float> OnValueSet;
             private float _strokeWidth;
             public float StrokeWidth
             {
@@ -50,87 +54,65 @@ namespace MALClient.Android.UserControls
                 }
             }
 
-            private float _lengthFraction;
+            private float _lengthFraction = 1;
             public float LengthFraction
             {
                 get { return _lengthFraction; }
                 set
                 {
                     _lengthFraction = SexyMath.Normalize(value, 0.0f, 1.0f);
-                    _dashEffect = new DashPathEffect(new float[] { _lengthTotal * _lengthFraction, 1000000 }, 0); //BIG number to be sure I get only one dash line.
+                    updateDashLength();
                 }
             }
 
+            private float DrawingRadius { get; set; }
             private float _standardStrokeWidth;
-            public float StandardStrokeWidth
+            private float StandardStrokeWidth
             {
+                set { _standardStrokeWidth = value; }
                 get { return _standardStrokeWidth; }
             }
 
             public float Angle { get; set; } = 0;
 
-            private float _lengthTotal;
-            private DashPathEffect _dashEffect = new DashPathEffect(new float[] { 10, 1000 }, 0);
-            private float _drawingRadius;
-#endregion
-            public Arc(float value, Color color, Chart chart)
+            private float _length;
+            private float Length
             {
-                _chart = chart;
-                _drawingRadius = ( chart.InnerCircleRadius + chart.OutterCircleRadius )/2.0f;
-                _currEndValue = value;
-                LengthFraction = 1;
-                
-                StrokeWidth = 2.0f * (chart.OutterCircleRadius - _drawingRadius);
-                _standardStrokeWidth = StrokeWidth;
-                ValueChangeAnimation = ValueAnimator.OfFloat();
-                ValueChangeAnimation.SetDuration(2000);
-                ValueChangeAnimation.Update += (sender, args) =>
+                get { return _length; }
+                set
                 {
-                    Value = (float)ValueChangeAnimation.AnimatedValue;
-                };
-
+                    _length = value;
+                    updateDashLength();
+                }
+            }
+            private DashPathEffect _dashEffect = new DashPathEffect(new float[] { 10, 100000 }, 0);
+#endregion
+            public Arc(float drawingRadius, float strokeWidth, Color color)
+            {
                 Paint.Color = color;
                 Paint.SetStyle(Paint.Style.Stroke);
-                Paint.StrokeWidth = StrokeWidth;
-                Paint.AntiAlias = true;
-                Paint.SetPathEffect(_dashEffect);
-
-                Value = value;
-                UpdateLength();
-
-                //DEBUG//
-                Circle circ = new Circle(0, 0, 5.0f);
-                Circle newCirc = new Circle(9.00001f, 5, 4.0f);
-
-                bool elo = circ.CheckCollision(newCirc as Shape);
-                //-----//
+                DrawingRadius = drawingRadius;
+                StandardStrokeWidth = strokeWidth;
+                StrokeWidth = strokeWidth;
             }
 
             public void Draw(Canvas canvas)
             {
                 canvas.Save();
-                canvas.Rotate(Angle);
-                canvas.DrawCircle(0, 0, _drawingRadius, Paint);
+                    canvas.Rotate(Angle);
+                    canvas.DrawCircle(0, 0, DrawingRadius, Paint);
                 canvas.Restore();
             }
 
-            public void UpdateLength()
+            public void RescaleToSum(float sum)
             {
-                _lengthTotal = Value * SexyMath.CirclePeremiter(_drawingRadius) / _chart.currentSum;
-                _dashEffect = new DashPathEffect(new float[] { LengthFraction * _lengthTotal, 1000000 }, 0);
+                Length = CurrentValue * SexyMath.CirclePeremiter(DrawingRadius) / sum;
+            }
+
+            private void updateDashLength()
+            {
+                _dashEffect = new DashPathEffect(new float[] { Length * LengthFraction, 100000 }, 0);
                 Paint.SetPathEffect(_dashEffect);
-            }
-
-            public void SetValue(float value)
-            {
-                ValueChangeAnimation.Cancel();
-                ValueChangeAnimation.SetFloatValues(new float[] { Value, _currEndValue = _currEndValue + value });
-                ValueChangeAnimation.Start();
-            }
-
-            public float GetValue()
-            {
-                return Value;
             }
         }
     }

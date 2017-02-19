@@ -19,9 +19,11 @@ using MALClient.XShared.Utils;
 
 namespace MALClient.Android.UserControls
 {
-    class ChartView : View
+    public class ChartView : View
     {
         private Chart pieChart;
+        public event EventHandler OnViewInitialized;
+        public event EventHandler<MotionEvent> OnTouch;
 
         public ChartView(Context context) : base(context)
         {
@@ -39,21 +41,21 @@ namespace MALClient.Android.UserControls
         private void Init(IAttributeSet attrs, int defStyle)
         {
             pieChart = new Chart(this);
+            pieChart.OnChartUpdated += (sender, args) =>
+            {
+                Invalidate();
+            }; 
             //DEBUG
-            pieChart.AddArc(15, new Color(0xdd, 0x21, 0x6c, 255));
-            pieChart.AddArc(5, new Color(0x21, 0xdd, 0x90, 255));
-            pieChart.AddArc(10, new Color(0xff, 0xe0, 0x47, 255));
-            pieChart.AddArc(30, new Color(0x74, 0xc3, 0x26, 255));
-            pieChart.AddArc(4, new Color(0x21, 0xb3, 0xdd, 255));
+            pieChart.Add(12, new Color(0, 255, 0, 120));
+            pieChart.Add(16, new Color(255, 0, 0, 120));
             //-----//
             var touchListener = new OnTouchListener(onTouch);
-            this.SetOnTouchListener(touchListener);
+            SetOnTouchListener(touchListener);
+            OnViewInitialized?.Invoke(this, null);
         }
 
         protected override void OnDraw(Canvas canvas)
         {
-            canvas.Translate(canvas.Width / 2, canvas.Height / 2);
-            canvas.Rotate(45.0f);
             canvas.Save();
                 pieChart.Draw(canvas);
             canvas.Restore();
@@ -61,26 +63,7 @@ namespace MALClient.Android.UserControls
 
         private void onTouch(MotionEvent e)
         {
-            float x = e.GetX();
-            float y = e.GetY();
-
-            switch(e.Action)
-            {
-                case MotionEventActions.Up:
-                    //DEBUG//
-                    if (SexyMath.CheckCollision(pieChart.InnerCircleRadius, new Vector2D(x - MeasuredWidth/2.0f, y - MeasuredHeight/2.0f)))
-                    {
-                        pieChart.incVal();
-                    }
-                    //----//
-                    trySelectSegment(x, y);
-                    break;
-                case MotionEventActions.Move:
-                    break;
-                case MotionEventActions.Down:
-
-                    break;
-            }
+            OnTouch?.Invoke(this, e);
         }
 
         private void trySelectSegment(float x, float y)

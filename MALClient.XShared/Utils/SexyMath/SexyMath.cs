@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MALClient.XShared.Utils
 {
-    public static class SexyMath
+    public static partial class SexyMath
     {
         /// <summary>
         /// <para>Returns angle between vector (x, y) that starts in (0, 0) relative to X+ axis.</para>
@@ -42,6 +42,14 @@ namespace MALClient.XShared.Utils
         }
 
         /// <summary>
+        /// Returns length of a vector.
+        /// </summary>
+        public static float VectorLength(Vector2D vector)
+        {
+            return VectorLength(vector.X, vector.Y);
+        }
+
+        /// <summary>
         /// <para>Converts degrees value to radians.</para>
         /// <para>Be careful not to convert radians to radians!</para>
         /// </summary>
@@ -60,12 +68,54 @@ namespace MALClient.XShared.Utils
         }
 
         /// <summary>
+        /// Returns peremiter of a circle with given radius.
+        /// </summary>
+        public static float CirclePeremiter(float radius)
+        {
+            return 2.0f * (float) Math.PI * radius;
+        }
+
+        /// <summary>
+        /// Returns field of a circle with given radius.
+        /// </summary>
+        public static float CircleField(float radius)
+        {
+            return (float)( Math.PI * Math.Pow(radius, 2) );
+        }
+
+        /// <summary>
+        /// Returns radius length of a circle with given peremiter.
+        /// </summary>
+        public static float PeremiterToRadius(float peremiter)
+        {
+            return peremiter / (2.0f * (float)Math.PI);
+        }
+
+        /// <summary>
+        /// Returns radius length of a circle with given field.
+        /// </summary>
+        public static float FieldToRadius(float field)
+        {
+            return (float)Math.Sqrt( field / Math.PI );
+        }
+
+        /// <summary>
         /// Returns a vector that points to the defined direction (x, y) but has length equal to 1.
         /// </summary>
         public static Vector2D UnitVector(float x, float y)
         {
-            var rescaler = 1.0f/VectorLength(x, y);
-            return new Vector2D(x*rescaler, y*rescaler);
+            var rescaler = 1.0f / VectorLength(x, y);
+            return new Vector2D(x * rescaler, y * rescaler);
+        }
+
+        /// <summary>
+        /// Returns value that will not exceed given 
+        /// </summary>
+        public static T Normalize<T>(T value, T startValue, T endValue) where T : IComparable
+        {
+            if (value.CompareTo(startValue) == -1) return startValue;
+            else if (value.CompareTo(endValue) == 1) return endValue;
+            else return value;
         }
     }
 }

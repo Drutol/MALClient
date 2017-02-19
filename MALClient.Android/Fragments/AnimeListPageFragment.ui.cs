@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
+using Android.Content.Res;
 using Android.Graphics;
 using Android.OS;
 using Android.Runtime;
@@ -15,6 +16,7 @@ using Android.Support.V4.Widget;
 using Android.Support.V7.Widget;
 using Android.Views;
 using Android.Widget;
+using Com.Oguzdev.Circularfloatingactionmenu.Library;
 using Com.Shehabic.Droppy;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Helpers;
@@ -30,6 +32,7 @@ using MALClient.Models.Enums;
 using MALClient.XShared.ViewModels;
 using Org.Zakariya.Flyoutmenu;
 using static MALClient.Android.Flyouts.AnimeListPageFlyoutBuilder;
+using FloatingActionButton = Android.Support.Design.Widget.FloatingActionButton;
 
 namespace MALClient.Android.Fragments
 {
@@ -74,7 +77,53 @@ namespace MALClient.Android.Fragments
 
                 ViewModel.RefreshCommand.Execute(null);
             };
+
+
+            var padding = DimensionsHelper.DpToPx(10);
+            var param = new ViewGroup.LayoutParams(DimensionsHelper.DpToPx(45), DimensionsHelper.DpToPx(45));
+            _actionMenu = new FloatingActionMenu.Builder(Activity)
+                                    .AddSubActionView(BuildFabActionButton(param,padding, Resource.Drawable.icon_filter))
+                                    .AddSubActionView(BuildFabActionButton(param,padding, Resource.Drawable.icon_sort))
+                                    .AddSubActionView(BuildFabActionButton(param,padding, Resource.Drawable.icon_eye))
+                                    .SetRadius(DimensionsHelper.DpToPx(75))
+                                    .AttachTo(AnimeListPageActionButton)
+                                    .Build();
+            InitDrawer();
         }
+
+        private View BuildFabActionButton(ViewGroup.LayoutParams param, int padding, int icon)
+        {
+            var b1 = new FloatingActionButton(Activity)
+            {
+                LayoutParameters = param,
+                Clickable = true,
+                Focusable = true
+            };
+            b1.SetImageResource(icon);
+            b1.ImageTintList = ColorStateList.ValueOf(new Color(ResourceExtension.BrushText));
+            b1.BackgroundTintList = ColorStateList.ValueOf(new Color(ResourceExtension.AccentColourDark));
+            b1.SetPadding(padding, padding, padding, padding);
+            b1.Tag = icon;
+            b1.Click += OnFloatingActionButtonOptionClick;
+            return b1;
+        }
+
+        private void OnFloatingActionButtonOptionClick(object sender, EventArgs eventArgs)
+        {
+            _actionMenu.Close(true);
+            switch ((int)(sender as View).Tag)
+            {
+                case Resource.Drawable.icon_filter:
+                    OpenFiltersDrawer();
+                    break;
+                case Resource.Drawable.icon_sort:
+                    OpenSortingDrawer();
+                    break;
+                case Resource.Drawable.icon_eye:
+                    break;
+            }
+        }
+
 
         private void ShowSeasonMenu()
         {
@@ -256,6 +305,12 @@ namespace MALClient.Android.Fragments
             }
         }
 
+        protected override void Cleanup()
+        {
+            _actionMenu.Close(false);
+            base.Cleanup();
+        }
+
         public ScrollableSwipeToRefreshLayout SwipeRefreshLayout => RootView as ScrollableSwipeToRefreshLayout;
 
         #region Views
@@ -268,6 +323,8 @@ namespace MALClient.Android.Fragments
         private ImageButton _animeListPageFilterMenu;
         private ImageButton _animeListPageSortMenu;
         private RelativeLayout _animeListPageLoadingSpinner;
+        private FloatingActionButton _animeListPageActionButton;
+        private FloatingActionMenu _actionMenu;
 
         public GridView AnimeListPageGridView => _animeListPageGridView ?? (_animeListPageGridView = FindViewById<GridView>(Resource.Id.AnimeListPageGridView));
 
@@ -285,6 +342,7 @@ namespace MALClient.Android.Fragments
 
         public RelativeLayout AnimeListPageLoadingSpinner => _animeListPageLoadingSpinner ?? (_animeListPageLoadingSpinner = FindViewById<RelativeLayout>(Resource.Id.AnimeListPageLoadingSpinner));
 
+        public FloatingActionButton AnimeListPageActionButton => _animeListPageActionButton ?? (_animeListPageActionButton = FindViewById<FloatingActionButton>(Resource.Id.AnimeListPageActionButton));
 
         #endregion
 

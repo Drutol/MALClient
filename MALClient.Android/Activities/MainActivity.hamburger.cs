@@ -20,6 +20,7 @@ using MALClient.XShared.Comm.Anime;
 using MALClient.XShared.NavArgs;
 using MALClient.XShared.Utils;
 using MALClient.XShared.ViewModels.Main;
+using static MALClient.Android.HamburgerUtilities;
 
 namespace MALClient.Android.Activities
 {
@@ -54,29 +55,7 @@ namespace MALClient.Android.Activities
             }
         }
 
-        private PrimaryDrawerItem GetBasePrimaryItem()
-        {
-            var btn = new PrimaryDrawerItem();
-            btn.WithIconTintingEnabled(true);
-            btn.WithTextColorRes(ResourceExtension.BrushTextRes);
-            btn.WithIconColorRes(ResourceExtension.BrushTextRes);
-            btn.WithSelectedColorRes(ResourceExtension.BrushAnimeItemBackgroundRes);
-            btn.WithSelectedTextColorRes(Resource.Color.AccentColour);
-            btn.WithSelectedIconColorRes(Resource.Color.AccentColourDark);
-            return btn;
-        }
 
-        private SecondaryDrawerItem GetBaseSecondaryItem()
-        {
-            var btn = new SecondaryDrawerItem();
-            btn.WithIconTintingEnabled(true);
-            btn.WithTextColorRes(ResourceExtension.BrushTextRes);
-            btn.WithIconColorRes(ResourceExtension.BrushTextRes);
-            btn.WithSelectedColorRes(ResourceExtension.BrushAnimeItemBackgroundRes);
-            btn.WithSelectedTextColorRes(Resource.Color.AccentColour);
-            btn.WithSelectedIconColorRes(Resource.Color.AccentColourDark);
-            return btn;
-        }
 
         private async void BuildDrawer()
         {

@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" android:background="?BrushAnimeItemInnerBackground">
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" android:layout_centerInParent="true"  android:layout_marginBottom="30dp" android:paddingTop="19dp">
+        <ImageView
+            android:layout_width="wrap_content" android:id="@+id/AnimeListPageDrawerHeaderIcon"
+            android:layout_height="wrap_content" android:layout_gravity="center_vertical"/>
+        <TextView
+            android:layout_width="wrap_content" android:layout_marginStart="5dp" android:id="@+id/AnimeListPageDrawerHeaderText"
+            android:layout_height="wrap_content" android:textColor="?BrushText" android:layout_gravity="center_vertical" android:textSize="26dp" android:fontFamily="@string/font_family_light"/>
+    </LinearLayout>
+</RelativeLayout>

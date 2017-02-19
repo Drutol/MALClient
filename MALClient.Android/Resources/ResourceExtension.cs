@@ -23,8 +23,16 @@ namespace MALClient.Android.Resources
 
         public static readonly int AccentColour = ResourcesCompat.GetColor(MainActivity.CurrentContext.Resources,Resource.Color.AccentColour, null);
 
+        public static readonly int AccentColourDark = ResourcesCompat.GetColor(MainActivity.CurrentContext.Resources,Resource.Color.AccentColourDark, null);
+
         public static readonly int BrushAnimeItemInnerBackground = ResourcesCompat.GetColor(MainActivity.CurrentContext.Resources,
             Settings.SelectedTheme == 1 ? Resource.Color.DarkBrushAnimeItemInnerBackground : Resource.Color.LightBrushAnimeItemInnerBackground, null);
+
+        public static readonly int BrushAnimeItemBackground = ResourcesCompat.GetColor(MainActivity.CurrentContext.Resources,
+            Settings.SelectedTheme == 1 ? Resource.Color.DarkBrushAnimeItemBackground : Resource.Color.LightBrushAnimeItemBackground, null);
+
+        public static readonly int BrushAppBars = ResourcesCompat.GetColor(MainActivity.CurrentContext.Resources,
+            Settings.SelectedTheme == 1 ? Resource.Color.DarkBrushAppBars : Resource.Color.LightBrushAppBars, null);
 
         public static readonly int BrushSelectedDialogItem = ResourcesCompat.GetColor(MainActivity.CurrentContext.Resources,
             Settings.SelectedTheme == 1 ? Resource.Color.DarkBrushSelectedDialogItem : Resource.Color.LightBrushSelectedDialogItem, null);

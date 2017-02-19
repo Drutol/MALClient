@@ -8,6 +8,7 @@ using Android.Content;
 using Android.Content.Res;
 using Android.OS;
 using Android.Runtime;
+using Android.Support.V4.Util;
 using Android.Views;
 using Android.Widget;
 using FFImageLoading;
@@ -105,11 +106,6 @@ namespace MALClient.Android.Fragments
         }
 
         public override int LayoutResourceId => Resource.Layout.FriendsFeedsPage;
-
-        protected override void Cleanup()
-        {
-            base.Cleanup();
-        }
 
         public override void OnConfigurationChanged(Configuration newConfig)
         {

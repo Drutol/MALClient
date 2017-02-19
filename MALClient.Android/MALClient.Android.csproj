@@ -39,7 +39,7 @@
     <Debugger>Xamarin</Debugger>
     <AotAssemblies>False</AotAssemblies>
     <EnableLLVM>False</EnableLLVM>
-    <AndroidEnableMultiDex>False</AndroidEnableMultiDex>
+    <AndroidEnableMultiDex>True</AndroidEnableMultiDex>
     <EnableProguard>False</EnableProguard>
     <AndroidHttpClientHandlerType>Xamarin.Android.Net.AndroidClientHandler</AndroidHttpClientHandlerType>
   </PropertyGroup>
@@ -272,6 +272,7 @@
     </Compile>
     <Compile Include="Utilities\AnimeImageExtensions.cs" />
     <Compile Include="Utilities\FlingCollectionsHelper.cs" />
+    <Compile Include="Utilities\HamburgerUtilities.cs" />
     <Compile Include="Utilities\Includes.cs" />
     <Compile Include="Utilities\ListenableWebClient.cs" />
     <Compile Include="Utilities\AndroidUtilities.cs" />
@@ -313,6 +314,10 @@
     <None Include="Properties\AndroidManifest.xml" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Binding_CircularFloatingActionMenu\Binding_CircularFloatingActionMenu.csproj">
+      <Project>{1442e14c-d636-4ec0-9b0a-de7bdc7d088c}</Project>
+      <Name>Binding_CircularFloatingActionMenu</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MALClient.Adapters\MALClient.Adapters.csproj">
       <Project>{9f8e953e-47a6-4f72-a2fe-bef7a2dae850}</Project>
       <Name>MALClient.Adapters</Name>
@@ -726,6 +731,9 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\FriendsFeedsPageItem.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\AnimeListPageDrawerHeader.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Android.Support.Vector.Drawable.23.4.0.1\build\Xamarin.Android.Support.Vector.Drawable.targets" Condition="Exists('..\packages\Xamarin.Android.Support.Vector.Drawable.23.4.0.1\build\Xamarin.Android.Support.Vector.Drawable.targets')" />

@@ -10,6 +10,7 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using Com.Oguzdev.Circularfloatingactionmenu.Library;
 using GalaSoft.MvvmLight.Helpers;
 using MALClient.XShared.Utils;
 
@@ -76,7 +77,7 @@ namespace MALClient.Android.Fragments
 
         protected virtual void Cleanup()
         {
-
+           
         }
     }
 }

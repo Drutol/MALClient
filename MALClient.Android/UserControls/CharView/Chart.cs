@@ -252,11 +252,12 @@ namespace MALClient.Android.UserControls
             if (key < 0) return;
             ValueAnimator animator = ValueAnimator.OfFloat(new float[] { ArcsList[key].StrokeWidth, ArcsList[key].StandardStrokeWidth });
             animator.SetDuration(1000);
+
             animator.Update += (sender, args) =>
             {
                 ArcsList[key].StrokeWidth = (float)animator.AnimatedValue;
             };
-            animator.Start();
+                        animator.Start();
         }
 
         private void TurnToSelectedSegment(int key)
@@ -288,7 +289,20 @@ namespace MALClient.Android.UserControls
 
             float ClosestRotateTo(float value)
             {
-                //WTF
+                if( Angle > (Angle+180)%360 )
+                {
+                    if (value > (Angle + 180) % 360 && value < Angle)
+                        return LeftRotateTo(value);
+                    else
+                        return RightRotateTo(value);
+                }
+                else
+                {
+                    if (value < (Angle + 180) % 360 && value > Angle)
+                        return RightRotateTo(value);
+                    else
+                        return LeftRotateTo(value);
+                }
             }
         }
     }

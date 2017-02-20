@@ -44,11 +44,13 @@ namespace MALClient.Android.UserControls
             pieChart.OnChartUpdated += (sender, args) =>
             {
                 Invalidate();
-            }; 
+            };
             //DEBUG
-            pieChart.Add(12, new Color(0, 255, 0, 120));
-            pieChart.Add(16, new Color(255, 0, 0, 120));
-            pieChart.Add(10, new Color(0, 0, 255, 120));
+            pieChart.Add(15, new Color(0xdd, 0x21, 0x6c, 255));
+            pieChart.Add(5, new Color(0x21, 0xdd, 0x90, 255));
+            pieChart.Add(10, new Color(0xff, 0xe0, 0x47, 255));
+            pieChart.Add(30, new Color(0x74, 0xc3, 0x26, 255));
+            pieChart.Add(4, new Color(0x21, 0xb3, 0xdd, 255));
             //-----//
             SetOnTouchListener( new OnTouchListener(onTouch) );
         }

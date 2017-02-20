@@ -19,13 +19,16 @@ namespace MALClient.Android.UserControls
     {
         private event EventHandler<MotionEvent> OnInnerCircleTouch;
         private event EventHandler<MotionEvent> OnOutterCircleTouch;
+        private event EventHandler< Tuple<int, int> > SegmentSelected;
+        private event EventHandler OnLoaded;
         private List<Arc> ArcsList = new List<Arc>();
+        public float SelectedTargetAngle { get; set; }
 
         private float _angle = 0;
         public float Angle
         {
             get => _angle;
-            set => _angle = value % 360.0f;
+            set => _angle = (value + 360.0f) % 360.0f;
         }
 
         private float _sum;
@@ -47,9 +50,8 @@ namespace MALClient.Android.UserControls
             set
             {
                 if (_selectedArc == value) return;
-                if(_selectedArc != -1) DeselectAnimation(_selectedArc).Start();
+                SegmentSelected?.Invoke(this, new Tuple<int, int>(_selectedArc, value));
                 _selectedArc = value;
-                SelectAnimation(_selectedArc).Start();
             }
         }
         private Circle _innerCircle = new Circle(0, 0, 200);
@@ -87,7 +89,14 @@ namespace MALClient.Android.UserControls
                 Position = new Vector2D(view.MeasuredWidth / 2.0f, view.MeasuredHeight / 2.0f);
             };
             view.OnViewInitialized += (sender, args) => InitAnimationStart();
-            view.OnTouch += (sender, args) => CheckTouch(args);
+            OnLoaded += (sender, args) =>
+            {
+                view.OnTouch += (ob, action) => CheckTouch(action);
+            };
+            SegmentSelected += (sender, args) => ShrinkStrokeWidth(args.Item1);
+            SegmentSelected += (sender, args) => EnlargeStrokeWidth(args.Item2);
+            SegmentSelected += (sender, args) => TurnToSelectedSegment(args.Item2);
+            SelectedTargetAngle = 90;
             Init();
         }
 
@@ -142,10 +151,14 @@ namespace MALClient.Android.UserControls
             foreach(var arc in ArcsList)
             {
                 ValueAnimator animator = ValueAnimator.OfFloat(new float[] { 0, 1 });
-                animator.SetDuration(10000);
+                animator.SetDuration(1000);
                 animator.Update += (sender, args) =>
                 {
                     arc.LengthFraction = (float)animator.AnimatedValue;
+                };
+                animator.AnimationEnd += (sender, args) =>
+                {
+                    OnLoaded?.Invoke(this, null);
                 };
                 animator.Start();
             }
@@ -223,26 +236,74 @@ namespace MALClient.Android.UserControls
             }
         }
 
-        private ValueAnimator SelectAnimation(int key)
+        private void EnlargeStrokeWidth(int key)
         {
-            ValueAnimator animator = ValueAnimator.OfFloat(new float[] { ArcsList[key].StandardStrokeWidth, ArcsList[key].StrokeWidth * 1.2f});
+            ValueAnimator animator = ValueAnimator.OfFloat(new float[] { ArcsList[key].StandardStrokeWidth, ArcsList[key].StandardStrokeWidth * 1.2f});
             animator.SetDuration(1000);
             animator.Update += (sender, args) =>
             {
                 ArcsList[key].StrokeWidth = (float)animator.AnimatedValue;
             };
-            return animator;
+            animator.Start();
         }
 
-        private ValueAnimator DeselectAnimation(int key)
+        private void ShrinkStrokeWidth(int key)
         {
+            if (key < 0) return;
             ValueAnimator animator = ValueAnimator.OfFloat(new float[] { ArcsList[key].StrokeWidth, ArcsList[key].StandardStrokeWidth });
             animator.SetDuration(1000);
+
             animator.Update += (sender, args) =>
             {
                 ArcsList[key].StrokeWidth = (float)animator.AnimatedValue;
             };
-            return animator;
+                        animator.Start();
+        }
+
+        private void TurnToSelectedSegment(int key)
+        {
+            if (key < 0) return;
+            var prevFractionSum = ArcsList.Take(key).Sum(arc => arc.ChartFraction);
+            var totalFractonSum = prevFractionSum + ArcsList[key].ChartFraction;
+            var Value = ( 360.0f - (prevFractionSum + ArcsList[key].ChartFraction / 2.0f )*360.0f + SelectedTargetAngle )%360.0f;
+
+            ValueAnimator animator = ValueAnimator.OfFloat( new float[] { Angle, ClosestRotateTo(Value) } );
+            animator.SetDuration(1000);
+            animator.Update += (sender, args) =>
+            {
+                Angle = (float)animator.AnimatedValue;
+            };
+            animator.Start();
+
+            float RightRotateTo(float value)
+            {
+                if (value > Angle) return value;
+                else return value += 360.0f;
+            }
+
+            float LeftRotateTo(float value)
+            {
+                if (value < Angle) return value;
+                else return value -= 360.0f;
+            }
+
+            float ClosestRotateTo(float value)
+            {
+                if( Angle > (Angle+180)%360 )
+                {
+                    if (value > (Angle + 180) % 360 && value < Angle)
+                        return LeftRotateTo(value);
+                    else
+                        return RightRotateTo(value);
+                }
+                else
+                {
+                    if (value < (Angle + 180) % 360 && value > Angle)
+                        return RightRotateTo(value);
+                    else
+                        return LeftRotateTo(value);
+                }
+            }
         }
     }
 }

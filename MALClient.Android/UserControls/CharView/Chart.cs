@@ -12,30 +12,57 @@ using Android.Widget;
 using Android.Graphics;
 using MALClient.XShared.Utils;
 using Android.Animation;
+using System.Collections.ObjectModel;
+
 
 namespace MALClient.Android.UserControls
 {
+    using MALClient.XShared.Utils;
     public partial class Chart
     {
-        private event EventHandler<MotionEvent> OnInnerCircleTouch;
-        private event EventHandler<MotionEvent> OnOutterCircleTouch;
-        private event EventHandler< Tuple<int, int> > SegmentSelected;
-
-        public long SegmentSelectRotationTime { get; set; } = 1000;
-        public long SegmentShrinkTime { get; set; } = 1000;
-        public long SegmentEnlargeTime { get; set; } = 1000;
-
-        public enum RotateDirection
+        class EventList<T> : List<T>
         {
-            Left,
-            Right,
-            Closest
+            public event EventHandler<int> ValueChanged;
+            public event EventHandler<T> ValueAdded;
+            public event EventHandler<T> ValueRemoved;
+            public event EventHandler<int> CollectionChanged;
+
+            public new T this[int key]
+            {
+                get => base[key];
+                set
+                {
+                    base[key] = value;
+                    ValueChanged?.Invoke(this, key);
+                    CollectionChanged?.Invoke(this, key);
+                }
+            }
+
+            public void Add(T item)
+            {
+                base.Add(item);
+                ValueAdded?.Invoke(this, item);
+                CollectionChanged?.Invoke(this, this.IndexOf(item));
+            }
+
+            public void Remove(T item)
+            {
+                Remove(item);
+                ValueRemoved?.Invoke(this, item);
+            }
+
+            public void RemoveAt(int key)
+            {
+                ValueRemoved?.Invoke(this, this[key]);
+                CollectionChanged?.Invoke(this, key);
+                base.RemoveAt(key);
+            }
         }
-        public RotateDirection SelectRotateDirection { get; set; } = RotateDirection.Closest;
-        
-        private event EventHandler OnLoaded;
-        private List<Arc> ArcsList = new List<Arc>();
-        public float SelectedTargetAngle { get; set; }
+        private EventList<float> values = new EventList<float>();
+
+        private List<Arc> arcs = new List<Arc>();
+
+        private float Sum { get; set; }
 
         private float _angle = 0;
         public float Angle
@@ -44,17 +71,204 @@ namespace MALClient.Android.UserControls
             set => _angle = (value + 360.0f) % 360.0f;
         }
 
-        private float _sum;
-        private float Sum
+        private Circle _centerCircle = new Circle(new Vector2D(0, 0), 0);
+        public float CenterRadius
         {
-            get { return _sum; }
+            get => _centerCircle.Radius;
             set
             {
-                _sum = value;
-                foreach (var arc in ArcsList) arc.RescaleToSum(value);
-                OnChartUpdated?.Invoke(null, null);
+                _centerCircle.Radius = value;
+                ChartLayoutUpdated?.Invoke(this, null);
+                _segmentsDrawingRadius = value + SegmentsWidth/2.0f; // THIS... and
             }
         }
+        public Vector2D Position
+        {
+            get => _centerCircle.Position;
+            set
+            {
+                _centerCircle.Position = value;
+                ChartLayoutUpdated?.Invoke(this, null);
+            }
+        }
+
+        private float _segmentsDrawingRadius { get; set; }
+        private float _segmetsWidth;
+        public float SegmentsWidth
+        {
+            get => _segmetsWidth;
+            set
+            {
+                _segmentsDrawingRadius = CenterRadius + value / 2.0f; // THIS. These two are ugly as fuck.
+                _segmetsWidth = value;
+            }
+        }
+
+        private int _selectedSegment = -1;
+        public int SelectedSegment
+        {
+            get => _selectedSegment;
+            set
+            {
+                SegmentSelected?.Invoke(arcs[value], value);
+                _selectedSegment = value;
+            }
+        }
+
+        public float SelectedSegmentWidth { get; set; }
+
+        private event EventHandler<MotionEvent> CenterCirclePressed;
+        private event EventHandler<MotionEvent> SegmentsCirclePressed;
+        private event EventHandler<int> SegmentSelected;
+        public event EventHandler ChartLayoutUpdated;
+
+        public Chart()
+        {
+            Init();
+        }
+
+        public void Draw(Canvas canvas)
+        {
+            canvas.Save();
+            canvas.Translate(Position.X, Position.Y);
+            var rotation = Angle;
+            for(int i=0; i<values.Count; i++)
+            {
+                canvas.Rotate(rotation);
+                arcs[i].Draw(canvas, _segmentsDrawingRadius);
+                rotation += (values[i] / Sum) * 360.0f;
+            }
+            canvas.Restore();
+        }
+
+        private void Init()
+        {
+            //Events for changes in values represented by chart.
+            values.CollectionChanged += (list, key) => UpdateSum();
+            values.CollectionChanged += (list, key) => UpdateArcsLengths();
+            values.CollectionChanged += (list, key) => UpdateSelectionAngle(); //Animations Stuff.
+            values.CollectionChanged += (list, key) => ChartLayoutUpdated?.Invoke(this, null);
+
+            SegmentSelected += (value, args) => UpdateSelectionAngle();
+
+            SegmentsWidth = 50;
+            CenterRadius = 400;
+        }
+
+        private void UpdateSum()
+        {
+            Sum = values.Sum();
+            
+        }
+
+        private void UpdateArcsLengths()
+        {
+            int i = 0;
+            float peremiter = SexyMath.CirclePeremiter(_segmentsDrawingRadius);
+            foreach(var arc in arcs)
+            {
+                arc.Length = (values[i] / Sum) * peremiter;
+                i++;
+            }
+        }
+
+        private void UpdateSelectionAngle()
+        {
+            if (SelectedSegment < 0) return;
+
+            var Value = ( 360.0f -(values.Take(SelectedSegment).Sum() + values[SelectedSegment]/2.0f) * 360.0f + 90.0f/*Selected target angle*/ )% 360 ;
+
+            ValueAnimator animator = ValueAnimator.OfFloat(new float[] { Angle, RightRotateTo(Value) });
+            animator.SetDuration(1000);
+            animator.Update += (sender, args) =>
+            {
+                Angle = (float)animator.AnimatedValue;
+            };
+            animator.AnimationEnd += (sender, args) =>
+            {
+                Angle = Value;
+            };
+            animator.Start();
+
+            float RightRotateTo(float value)
+            {
+                if (value > Angle) return value;
+                else return value += 360.0f;
+            }
+
+            float LeftRotateTo(float value)
+            {
+                if (value < Angle) return value;
+                else return value -= 360.0f;
+            }
+
+            float ClosestRotateTo(float value)
+            {
+                if (Angle > (Angle + 180) % 360)
+                {
+                    if (value > (Angle + 180) % 360 && value < Angle)
+                        return LeftRotateTo(value);
+                    else
+                        return RightRotateTo(value);
+                }
+                else
+                {
+                    if (value < (Angle + 180) % 360 && value > Angle)
+                        return RightRotateTo(value);
+                    else
+                        return LeftRotateTo(value);
+                }
+            }
+        }
+
+        public void OnClick(MotionEvent click)
+        {
+            Point clickPoint = new Point(click.GetX(), click.GetY());
+            //Check if chart was pressed at all.
+            if (!SexyMath.CheckCollision(new Circle(Position, CenterRadius+SegmentsWidth), clickPoint) ) return;
+            //Check if center circle was pressed. If not, segments circle was pressed.
+            if (_centerCircle.CheckCollision(clickPoint))
+                CenterCirclePressed?.Invoke(this, click);
+            else
+            {
+                SelectSegment(clickPoint.Position);
+                SegmentsCirclePressed?.Invoke(this, click);
+            }
+        }
+
+        private void SelectSegment(Vector2D pos)
+        {
+            float relativePointAngleFraction = (pos-Position).GetAngle()/360.0f;
+            float tempSum = 0;
+            int i = 0;
+            foreach(var value in values)
+            {
+                if (relativePointAngleFraction < tempSum / Sum)
+                {
+                    SelectedSegment = i;
+                    return;
+                }
+                tempSum += value;
+                i++;
+            }
+        }
+
+        public void Add(float value, Color color) //DEBUG ONLY. TO BE DELETED!
+        {
+            Arc temp = new Arc();
+            temp.Color = color;
+            temp.StrokeWidth = _segmetsWidth / 2.0f;
+            arcs.Add(temp);
+            values.Add(value);
+        }
+
+
+//Don't open pls.
+/*
+                
+        private event EventHandler OnLoaded;
+        private List<Arc> ArcsList = new List<Arc>();
+        public float SelectedTargetAngle { get; set; }
 
         private int _selectedArc = -1;
         public int SelectedArc
@@ -90,7 +304,6 @@ namespace MALClient.Android.UserControls
                 CalculateDrawingRadius(value, OutterCircleRadius);
             }
         }
-        public Vector2D Position { get; set; } = new Vector2D(200, 400);
         public event EventHandler OnChartUpdated;
 
         public Chart(ChartView view)
@@ -112,12 +325,6 @@ namespace MALClient.Android.UserControls
             SelectedTargetAngle = 90;
             Init();
         }
-
-        private void Init()
-        {
-            
-        }
-        
         public void Draw(Canvas canvas)
         {
             canvas.Save();
@@ -175,11 +382,6 @@ namespace MALClient.Android.UserControls
                 };
                 animator.Start();
             }
-        }
-
-        private void UpdateSum()
-        {
-            Sum = ArcsList.Select(val => val.CurrentValue).Sum(); //LINQ! :D Sam zrobi³em!
         }
 
         private float CalculateStrokeWidth(float innerRadius, float outterRadius)
@@ -340,6 +542,6 @@ namespace MALClient.Android.UserControls
                         return LeftRotateTo(value);
                 }
             }
-        }
+        }*/
     }
 }

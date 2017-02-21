@@ -21,7 +21,7 @@ namespace MALClient.Android.UserControls
 {
     public class ChartView : View
     {
-        private Chart pieChart;
+        private Chart Chart;
         public event EventHandler OnViewInitialized;
         public event EventHandler<MotionEvent> OnTouch;
 
@@ -40,17 +40,14 @@ namespace MALClient.Android.UserControls
         
         private void Init(IAttributeSet attrs, int defStyle)
         {
-            pieChart = new Chart(this);
-            pieChart.OnChartUpdated += (sender, args) =>
-            {
-                Invalidate();
-            };
+            Chart = new Chart();
+            Chart.ChartLayoutUpdated += (sender, args) => Invalidate();
             //DEBUG
-            pieChart.Add(85, new Color(0xdd, 0x21, 0x6c, 255));
-            pieChart.Add(5, new Color(0x21, 0xdd, 0x90, 255));
-            pieChart.Add(10, new Color(0xff, 0xe0, 0x47, 255));
-            pieChart.Add(30, new Color(0x74, 0xc3, 0x26, 255));
-            pieChart.Add(4, new Color(0x21, 0xb3, 0xdd, 255));
+            Chart.Add(25, new Color(0xdd, 0x21, 0x6c, 120));
+            Chart.Add(5, new Color(0x21, 0xdd, 0x90, 120));
+            Chart.Add(10, new Color(0xff, 0xe0, 0x47, 120));
+            Chart.Add(30, new Color(0x74, 0xc3, 0x26, 120));
+            Chart.Add(4, new Color(0x21, 0xb3, 0xdd, 120));
             //-----//
             SetOnTouchListener( new OnTouchListener(onTouch) );
         }
@@ -58,12 +55,13 @@ namespace MALClient.Android.UserControls
         protected override void OnMeasure(int widthMeasureSpec, int heightMeasureSpec)
         {
             base.OnMeasure(widthMeasureSpec, heightMeasureSpec);
-            OnViewInitialized?.Invoke(this, null);
+            Chart.Position = new Vector2D(MeasuredWidth / 2.0f, MeasuredHeight / 2.0f);//DEBUG
+            Chart.CenterRadius = MeasuredWidth / 2.0f - 60; // DEBUG
         }
         protected override void OnDraw(Canvas canvas)
         {
             canvas.Save();
-                pieChart.Draw(canvas);
+                Chart.Draw(canvas);
             canvas.Restore();
         }
 

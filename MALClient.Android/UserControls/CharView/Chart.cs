@@ -78,8 +78,7 @@ namespace MALClient.Android.UserControls
             set
             {
                 _centerCircle.Radius = value;
-                ChartLayoutUpdated?.Invoke(this, null);
-                _segmentsDrawingRadius = value + SegmentsWidth/2.0f; // THIS... and
+                SegmentsDrawingRadius = value + SegmentsWidth / 2.0f; // THIS... and
             }
         }
         public Vector2D Position
@@ -91,8 +90,16 @@ namespace MALClient.Android.UserControls
                 ChartLayoutUpdated?.Invoke(this, null);
             }
         }
-
-        private float _segmentsDrawingRadius { get; set; }
+        private float _segmentsDrawingRadius;
+        private float SegmentsDrawingRadius
+        {
+            get => _segmentsDrawingRadius;
+            set
+            {
+                _segmentsDrawingRadius = value;
+                UpdateArcsLengths();
+            }
+        }
         private float _segmetsWidth;
         public float SegmentsWidth
         {
@@ -101,6 +108,7 @@ namespace MALClient.Android.UserControls
             {
                 _segmentsDrawingRadius = CenterRadius + value / 2.0f; // THIS. These two are ugly as fuck.
                 _segmetsWidth = value;
+                foreach (var arc in arcs) arc.StrokeWidth = value;
             }
         }
 
@@ -131,12 +139,15 @@ namespace MALClient.Android.UserControls
         {
             canvas.Save();
             canvas.Translate(Position.X, Position.Y);
-            var rotation = Angle;
+            //DEBUG AF
+            Paint temp = new Paint();
+            temp.Color = new Color(0, 0, 0);
+            canvas.DrawCircle(0,0,CenterRadius, temp);
+            //------//
             for(int i=0; i<values.Count; i++)
             {
-                canvas.Rotate(rotation);
                 arcs[i].Draw(canvas, _segmentsDrawingRadius);
-                rotation += (values[i] / Sum) * 360.0f;
+                canvas.Rotate((values[i] / Sum) * 360.0f);
             }
             canvas.Restore();
         }
@@ -151,8 +162,7 @@ namespace MALClient.Android.UserControls
 
             SegmentSelected += (value, args) => UpdateSelectionAngle();
 
-            SegmentsWidth = 50;
-            CenterRadius = 400;
+            SegmentsWidth = 100;
         }
 
         private void UpdateSum()
@@ -257,7 +267,7 @@ namespace MALClient.Android.UserControls
         {
             Arc temp = new Arc();
             temp.Color = color;
-            temp.StrokeWidth = _segmetsWidth / 2.0f;
+            temp.StrokeWidth = _segmetsWidth;
             arcs.Add(temp);
             values.Add(value);
         }

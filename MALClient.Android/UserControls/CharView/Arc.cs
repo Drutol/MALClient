@@ -51,7 +51,6 @@ namespace MALClient.Android.UserControls
                 Paint.SetStyle(Paint.Style.Stroke);
                 Paint.AntiAlias = true;
                 Paint.SetPathEffect(_arc);
-                StrokeWidth = 10;
                 Color = new Color(unchecked( (int)0xFF00FFFF));
                 Length = int.MaxValue;
             }

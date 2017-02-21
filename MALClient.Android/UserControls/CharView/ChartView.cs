@@ -44,10 +44,9 @@ namespace MALClient.Android.UserControls
             Chart.ChartLayoutUpdated += (sender, args) => Invalidate();
             //DEBUG
             Chart.Add(25, new Color(0xdd, 0x21, 0x6c, 120));
-            Chart.Add(5, new Color(0x21, 0xdd, 0x90, 120));
-            Chart.Add(10, new Color(0xff, 0xe0, 0x47, 120));
-            Chart.Add(30, new Color(0x74, 0xc3, 0x26, 120));
-            Chart.Add(4, new Color(0x21, 0xb3, 0xdd, 120));
+            Chart.Add(25, new Color(0x21, 0xdd, 0x90, 120));
+            Chart.Add(25, new Color(0xff, 0xe0, 0x47, 120));
+            Chart.Add(25, new Color(0x74, 0xc3, 0x26, 120));
             //-----//
             SetOnTouchListener( new OnTouchListener(onTouch) );
         }
@@ -56,7 +55,7 @@ namespace MALClient.Android.UserControls
         {
             base.OnMeasure(widthMeasureSpec, heightMeasureSpec);
             Chart.Position = new Vector2D(MeasuredWidth / 2.0f, MeasuredHeight / 2.0f);//DEBUG
-            Chart.CenterRadius = MeasuredWidth / 2.0f - 60; // DEBUG
+            Chart.CenterRadius = (MeasuredWidth / 2.0f) - 100; // DEBUG
         }
         protected override void OnDraw(Canvas canvas)
         {

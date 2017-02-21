@@ -46,7 +46,7 @@ namespace MALClient.Android.UserControls
                 Invalidate();
             };
             //DEBUG
-            pieChart.Add(15, new Color(0xdd, 0x21, 0x6c, 255));
+            pieChart.Add(85, new Color(0xdd, 0x21, 0x6c, 255));
             pieChart.Add(5, new Color(0x21, 0xdd, 0x90, 255));
             pieChart.Add(10, new Color(0xff, 0xe0, 0x47, 255));
             pieChart.Add(30, new Color(0x74, 0xc3, 0x26, 255));

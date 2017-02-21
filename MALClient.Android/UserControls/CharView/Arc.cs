@@ -114,13 +114,13 @@ namespace MALClient.Android.UserControls
             {
                 Length = CurrentValue / sum * SexyMath.CirclePeremiter(DrawingRadius);
                 _lastSum = sum;
+                ChartFraction = Value * LengthFraction / _lastSum;
             }
 
             private void UpdateDashLength()
             {
                 _dashEffect = new DashPathEffect(new float[] { Length * LengthFraction, 1000000 }, 0);
                 Paint.SetPathEffect(_dashEffect);
-                ChartFraction = Value * LengthFraction / _lastSum;
             }
         }
     }

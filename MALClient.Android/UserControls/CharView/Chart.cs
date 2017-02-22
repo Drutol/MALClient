@@ -161,8 +161,7 @@ namespace MALClient.Android.UserControls
             values.CollectionChanged += (list, key) => ChartLayoutUpdated?.Invoke(this, null);
 
             SegmentSelected += (value, args) => UpdateSelectionAngle();
-
-            SegmentsWidth = 100;
+            SegmentsWidth = 100; // DEBUG
         }
 
         private void UpdateSum()
@@ -241,7 +240,6 @@ namespace MALClient.Android.UserControls
                 CenterCirclePressed?.Invoke(this, click);
             else
             {
-                SelectSegment(clickPoint.Position);
                 SegmentsCirclePressed?.Invoke(this, click);
             }
         }
@@ -253,12 +251,12 @@ namespace MALClient.Android.UserControls
             int i = 0;
             foreach(var value in values)
             {
+                tempSum += value;
                 if (relativePointAngleFraction < tempSum / Sum)
                 {
                     SelectedSegment = i;
                     return;
                 }
-                tempSum += value;
                 i++;
             }
         }

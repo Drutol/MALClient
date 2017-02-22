@@ -23,7 +23,6 @@ namespace MALClient.Android.UserControls
     {
         private Chart Chart;
         public event EventHandler OnViewInitialized;
-        public event EventHandler<MotionEvent> OnTouch;
 
         public ChartView(Context context) : base(context)
         {
@@ -48,7 +47,7 @@ namespace MALClient.Android.UserControls
             Chart.Add(25, new Color(0xff, 0xe0, 0x47, 120));
             Chart.Add(25, new Color(0x74, 0xc3, 0x26, 120));
             //-----//
-            SetOnTouchListener( new OnTouchListener(onTouch) );
+            SetOnTouchListener( new OnTouchListener(OnTouch) );
         }
 
         protected override void OnMeasure(int widthMeasureSpec, int heightMeasureSpec)
@@ -64,71 +63,9 @@ namespace MALClient.Android.UserControls
             canvas.Restore();
         }
 
-        private void onTouch(MotionEvent e)
+        private void OnTouch(MotionEvent e)
         {
-            OnTouch?.Invoke(this, e);
-        }
-
-        private void trySelectSegment(float x, float y)
-        {
-            /*if (_animationInProgress) return;
-            Vector2D pressedPoint = new Vector2D(x - MeasuredWidth / 2.0f, y - MeasuredHeight / 2.0f);
-            float pressedPointAngle = pressedPoint.GetAngle();
-
-            if ( pressedPoint.GetLength() <= _outterCircleRadius && pressedPoint.GetLength() >= _innerCircleRadius )
-            {
-                for (int i = 1; i < Arcs.Count; i++)
-                {
-                    if ( ( pressedPointAngle -_globalAngle + 720 )%360 < Arcs[i].GetAngle() )
-                    { 
-                        SelectedChartSegmentChanged(i-1);
-                        return;
-                    }
-                }
-                SelectedChartSegmentChanged(Arcs.Count - 1);
-                return;
-            }*/
-        }
-
-        private void SelectedChartSegmentChanged(int value)
-        {
-            /*if (selectedChartSegment == value) return;
-
-            var previousSelectedSegment = selectedChartSegment;
-            selectedChartSegment = value;
-
-            float angleDelta = 0;
-
-            if ( selectedChartSegment == Arcs.Count - 1)
-                angleDelta = _selectedAngle - Arcs[selectedChartSegment].GetAngle() - ( 360* Arcs[selectedChartSegment].GetAngleFraction() - Arcs[selectedChartSegment].GetAngle()) / 2.0f;
-            else
-                angleDelta = _selectedAngle - Arcs[selectedChartSegment].GetAngle() - ( Arcs[selectedChartSegment+1].GetAngle()- Arcs[selectedChartSegment].GetAngle() )/2.0f;
-
-            ValueAnimator animator = ValueAnimator.OfFloat(new float[] { _globalAngle, angleDelta });
-            animator.SetDuration(750);
-            animator.Update += (sender, args) =>
-            {
-                _globalAngle = (float)animator.AnimatedValue;
-                Invalidate();
-            };
-            var strokeWidth = Arcs[value].GetStrokeWidth();
-            ValueAnimator selectingAnimation = ValueAnimator.OfFloat(new float[] { strokeWidth, 1.5f*strokeWidth  });
-            selectingAnimation.SetDuration(750);
-            selectingAnimation.Update += (sender, args) =>
-            {
-                Arcs[selectedChartSegment].SetStrokeWidth( (float)selectingAnimation.AnimatedValue );
-                if(previousSelectedSegment >= 0)
-                {
-                    Arcs[previousSelectedSegment].SetStrokeWidth(strokeWidth - (float)selectingAnimation.AnimatedValue + 1.5f * strokeWidth);
-                }
-            };
-            selectingAnimation.AnimationEnd += (sender, args) =>
-            {
-                _animationInProgress = false;
-            };
-            _animationInProgress = true;
-            animator.Start();
-            selectingAnimation.Start();*/
+            Chart.OnClick(e);
         }
     }
 }

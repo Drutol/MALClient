@@ -496,6 +496,7 @@ namespace MALClient.XShared.ViewModels.Details
                     new RelayCommand(
                         () =>
                         {
+                            //Hooray c# 7!
                             (PageIndex index, object arg) backNavArgs = default((PageIndex index, object arg));                            if (ViewModelLocator.Mobile)
                                 ViewModelLocator.NavMgr.RegisterBackNav(PrevArgs);
                             else

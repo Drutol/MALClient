@@ -36,6 +36,8 @@ namespace MALClient.UWP.Shared.XamlConverters
                      return FontAwesomeIcon.Money;
                 case MalNotificationsTypes.Messages:
                      return FontAwesomeIcon.EnvelopeOutline;
+                case MalNotificationsTypes.WatchedTopic:
+                    return FontAwesomeIcon.Eye;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(value), value, null);
             }

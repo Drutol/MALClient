@@ -83,6 +83,12 @@ namespace MALClient.XShared.Utils
             set { ApplicationDataService["SortOrderM"] = (int) value; }
         }
 
+        public static bool PreferEnglishTitles
+        {
+            get { return (bool) (ApplicationDataService[nameof(PreferEnglishTitles)] ?? false); }
+            set { ApplicationDataService[nameof(PreferEnglishTitles)] = value; }
+        }
+
         public static bool IsSortDescending
         {
             get { return (bool) (ApplicationDataService["SortDescending"] ?? false); }

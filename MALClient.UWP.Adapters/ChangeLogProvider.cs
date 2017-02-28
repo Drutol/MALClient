@@ -12,15 +12,13 @@ namespace MALClient.UWP.Adapters
     {
         public static bool NewChangelog { get; set; }
 
-        public string DateWithVersion =>  $"v{UWPUtilities.GetAppVersion()} - 08.02.2017";
+        public string DateWithVersion =>  $"v{UWPUtilities.GetAppVersion()} - 02.03.2017";
 
         public List<string> Changelog => new List<string>
         {
-            "Various forum tweaks and fixes.",
-            "Added simple BBCode editor.",
-            "Notification will now how 'Mark as read' button instead of 'Dismiss'",
-            "Friends feeds will now display time difference.",
-            "Profile comments and converstions will now display images.",
+            "Fixed anime reviews fetching.",
+            "Opening forum from show details will now allow to navigate back to whatever page was previously active.",
+            "Why so little and why so infrequent updates? I'm working on Android version and real life has been crazy lately so I didn't have chance to do much :(\nThat being said you can catch me on github every day!",
         };
 
     }

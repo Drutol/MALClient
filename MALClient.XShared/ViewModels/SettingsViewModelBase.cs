@@ -423,6 +423,12 @@ namespace MALClient.XShared.ViewModels
             set { Settings.ArticlesDisplayScrollBar = value; }
         }
 
+        public  bool PreferEnglishTitles
+        {
+            get { return Settings.PreferEnglishTitles; }
+            set { Settings.PreferEnglishTitles = value; }
+        }
+
         public  bool SyncFavsFromTimeToTime
         {
             get { return Settings.SyncFavsFromTimeToTime; }

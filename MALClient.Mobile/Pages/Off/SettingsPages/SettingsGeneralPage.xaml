@@ -100,6 +100,15 @@
                                             IsOn="{Binding MangaFocusVolumes,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                              OnContent="Focus volumes" OffContent="Focus chapters" HorizontalAlignment="Center" />
                     </Grid>
+                    <TextBlock Text="Prefer English titles."
+                               FontWeight="Medium"
+                               HorizontalAlignment="Center" Margin="0,5"
+                               TextWrapping="WrapWholeWords" TextAlignment="Center" />
+                    <Grid HorizontalAlignment="Stretch">
+                        <ToggleSwitch
+                            IsOn="{Binding PreferEnglishTitles,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                            OnContent="Prefer English" OffContent="Prefer Japanese" HorizontalAlignment="Center" />
+                    </Grid>
                     <TextBlock Text="Load latest forum posts for board in forum index."
                                FontWeight="Medium"
                                HorizontalAlignment="Center" Margin="0,5"

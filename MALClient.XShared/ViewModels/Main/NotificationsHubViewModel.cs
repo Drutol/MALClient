@@ -121,7 +121,7 @@ namespace MALClient.XShared.ViewModels.Main
                         .Except(new[]
                         {
                             MalNotificationsTypes.Generic, MalNotificationsTypes.Payment,
-                            MalNotificationsTypes.BlogComment, MalNotificationsTypes.Messages, 
+                            MalNotificationsTypes.BlogComment, MalNotificationsTypes.Messages, MalNotificationsTypes.WatchedTopic, 
                         })
                         .Select(
                             type =>

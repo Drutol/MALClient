@@ -157,7 +157,7 @@ namespace MALClient.XShared.ViewModels.Main
                     {
                         var type = item.Element("type").Value;
                         var mangaData = new AnimeGeneralDetailsData();
-                        mangaData.ParseXElement(item, false);
+                        mangaData.ParseXElement(item, false, Settings.PreferEnglishTitles);
                         _allAnimeSearchItemViewModels.Add(new AnimeSearchItemViewModel(mangaData, false));
                         if (!_filters.Contains(type))
                             _filters.Add(type);

@@ -81,9 +81,25 @@ namespace MALClient.XShared.Comm
                             var anime = parsedData.Root.Elements("anime").ToList();
                             foreach (var item in anime)
                             {
+                                string title = "";
+                                if (Settings.PreferEnglishTitles)
+                                {
+                                    var elem = item.Element("series_synonyms");
+                                    if (!string.IsNullOrWhiteSpace(elem?.Value))
+                                    {
+                                       title = elem.Value.Split(new [] {';'}, StringSplitOptions.RemoveEmptyEntries).LastOrDefault();                                   
+                                    }
+                                    
+                                    if(string.IsNullOrEmpty(title))
+                                        title = item.Element("series_title").Value;
+                                }
+                                else
+                                {
+                                    title = item.Element("series_title").Value;
+                                }
                                 output.Add(new AnimeLibraryItemData
                                 {
-                                    Title = item.Element("series_title").Value,
+                                    Title = title,
                                     ImgUrl = item.Element("series_image").Value,
                                     Type = Convert.ToInt32(item.Element("series_type").Value),
                                     MalId = Convert.ToInt32(item.Element("series_animedb_id").Value),
@@ -103,9 +119,25 @@ namespace MALClient.XShared.Comm
                             var manga = parsedData.Root.Elements("manga").ToList();
                             foreach (var item in manga)
                             {
+                                string title = "";
+                                if (Settings.PreferEnglishTitles)
+                                {
+                                    var elem = item.Element("series_synonyms");
+                                    if (!string.IsNullOrWhiteSpace(elem?.Value))
+                                    {
+                                        title = elem.Value.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries).LastOrDefault();
+                                    }
+
+                                    if (string.IsNullOrEmpty(title))
+                                        title = item.Element("series_title").Value;
+                                }
+                                else
+                                {
+                                    title = item.Element("series_title").Value;
+                                }
                                 output.Add(new MangaLibraryItemData
                                 {
-                                    Title = item.Element("series_title").Value,
+                                    Title = title,
                                     ImgUrl = item.Element("series_image").Value,
                                     Type = Convert.ToInt32(item.Element("series_type").Value),
                                     MalId = Convert.ToInt32(item.Element("series_mangadb_id").Value),

@@ -30,13 +30,23 @@ namespace MALClient.Models.Models.Anime
         public float GlobalScore { get; set; }
         public List<string> Synonyms { get; set; } = new List<string>();
 
-        public void ParseXElement(XElement xmlObj, bool anime)
+        public void ParseXElement(XElement xmlObj, bool anime,bool preferEnglishTitle)
         {
             float score;
             if (!float.TryParse(xmlObj.Element("score").Value, out score))
                 score = 0;
             MalId = Convert.ToInt32(xmlObj.Element("id").Value);
-            Title = xmlObj.Element("title").Value;
+            var title = "";
+            if (preferEnglishTitle)
+            {
+                var elem = xmlObj.Element("english");
+                title = !string.IsNullOrWhiteSpace(elem?.Value) 
+                    ? elem.Value 
+                    : xmlObj.Element("title").Value;
+            }
+            else
+                title = xmlObj.Element("title").Value;
+            Title = title;
             GlobalScore = score;
             Type = xmlObj.Element("type").Value;
             Status = xmlObj.Element("status").Value;

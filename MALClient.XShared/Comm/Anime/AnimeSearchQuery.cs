@@ -52,7 +52,7 @@ namespace MALClient.XShared.Comm.Anime
                         foreach (var element in parsed.Elements("entry"))
                         {
                             var item = new AnimeGeneralDetailsData();
-                            item.ParseXElement(element, true);
+                            item.ParseXElement(element, true, Settings.PreferEnglishTitles);
                             output.Add(item);
                         }
                     }

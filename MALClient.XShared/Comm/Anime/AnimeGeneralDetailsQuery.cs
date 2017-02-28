@@ -57,7 +57,7 @@ namespace MALClient.XShared.Comm.Anime
                         var xmlObj = elements.First(element => element.Element("id").Value == id);
 
                         output = new AnimeGeneralDetailsData();
-                        output.ParseXElement(xmlObj, animeMode);
+                        output.ParseXElement(xmlObj, animeMode, Settings.PreferEnglishTitles);
 
                         DataCache.SaveAnimeSearchResultsData(id, output, animeMode);
                         break;

@@ -80,7 +80,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BGTasks", "BGTasks", "{9F3E
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MALClient.UWP.BGTaskToastActivation", "MALClient.UWP.BGTaskToastActivation\MALClient.UWP.BGTaskToastActivation.csproj", "{ED2A9BC2-0847-438E-ACDE-BF026A389DE4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Binding_CircularFloatingActionMenu", "Binding_CircularFloatingActionMenu\Binding_CircularFloatingActionMenu.csproj", "{1442E14C-D636-4EC0-9B0A-DE7BDC7D088C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Binding_CircularFloatingActionMenu", "MALClient.Android\AndroidBindings\Binding_CircularFloatingActionMenu\Binding_CircularFloatingActionMenu.csproj", "{1442E14C-D636-4EC0-9B0A-DE7BDC7D088C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

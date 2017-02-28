@@ -1,0 +1,6 @@
+MainPackage=C:\Users\dogie\Documents\Visual Studio 2017\Projects\MALClient\MALClient.Dekstop\bin\x64\Release\Upload\MALClient.UWP.Desktop_5.3.6.0_x64.appx
+SymbolPackage=C:\Users\dogie\Documents\VsBuilds\MALClient.UWP.Desktop_5.3.6.0\MALClient.UWP.Desktop_5.3.6.0_x64.appxsym
+ResourcePack=C:\Users\dogie\Documents\Visual Studio 2017\Projects\MALClient\MALClient.Dekstop\_scale-100.appx
+ResourcePack=C:\Users\dogie\Documents\Visual Studio 2017\Projects\MALClient\MALClient.Dekstop\_scale-125.appx
+ResourcePack=C:\Users\dogie\Documents\Visual Studio 2017\Projects\MALClient\MALClient.Dekstop\_scale-150.appx
+ResourcePack=C:\Users\dogie\Documents\Visual Studio 2017\Projects\MALClient\MALClient.Dekstop\_scale-400.appx

@@ -20,9 +20,8 @@ namespace MALClient.UWP.Adapters
                 {
                     return ApplicationData.Current.LocalSettings.Values[key];
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
-                    HockeyClient.Current.TrackException(e); //TODO Find source
                     return null;
                 }
             }

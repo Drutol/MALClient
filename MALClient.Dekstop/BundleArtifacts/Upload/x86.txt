@@ -1,0 +1,2 @@
+MainPackage=C:\Users\dogie\Documents\Visual Studio 2017\Projects\MALClient\MALClient.Dekstop\bin\x86\Release\Upload\MALClient.UWP.Desktop_5.3.6.0_x86.appx
+SymbolPackage=C:\Users\dogie\Documents\VsBuilds\MALClient.UWP.Desktop_5.3.6.0\MALClient.UWP.Desktop_5.3.6.0_x86.appxsym

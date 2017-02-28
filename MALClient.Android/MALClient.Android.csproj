@@ -312,7 +312,7 @@
     <None Include="Properties\AndroidManifest.xml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Binding_CircularFloatingActionMenu\Binding_CircularFloatingActionMenu.csproj">
+    <ProjectReference Include="AndroidBindings\Binding_CircularFloatingActionMenu\Binding_CircularFloatingActionMenu.csproj">
       <Project>{1442e14c-d636-4ec0-9b0a-de7bdc7d088c}</Project>
       <Name>Binding_CircularFloatingActionMenu</Name>
     </ProjectReference>

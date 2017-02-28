@@ -25,6 +25,7 @@ using Com.Mikepenz.Materialdrawer.Model.Interfaces;
 
 namespace MALClient.Android.Fragments
 {
+
     public partial class AnimeListPageFragment
     {
         private static AnimeListPageNavigationArgs _prevArgs;

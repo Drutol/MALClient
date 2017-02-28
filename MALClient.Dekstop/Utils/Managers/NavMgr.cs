@@ -88,6 +88,12 @@ namespace MALClient.UWP.Utils.Managers
             }
         }
 
+        public void RegisterUnmonitoredMainBackNav(PageIndex page, object args)
+        {
+            _randomNavigationStackMain.Push(new Tuple<PageIndex, object>(page, args));
+            ViewModelLocator.GeneralMain.NavigateMainBackButtonVisibility = true;
+        }
+
         public void RegisterOneTimeOverride(ICommand command)
         {
             _currentOverride = command;

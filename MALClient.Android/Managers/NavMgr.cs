@@ -118,6 +118,11 @@ namespace MALClient.Android.Managers
         {
             CurrentViewOnBackRequested();
         }
+
+        public void RegisterUnmonitoredMainBackNav(PageIndex page, object args)
+        {
+            throw new NotImplementedException();
+        }
     }
 
 }

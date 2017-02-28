@@ -543,5 +543,10 @@ namespace MALClient.XShared.Utils
             return $"{start}{s}{end}";
         }
 
+        public static string TrimWhitespaceInside(this string str,bool allWhitespce = true)
+        {
+            return Regex.Replace(str, (allWhitespce ? @"\s" : " ") + @"{2,}", " ");
+        }
+
     }
 }

@@ -11,6 +11,7 @@ using MALClient.Adapters;
 using MALClient.UWP.Shared;
 using MALClient.XShared.Utils;
 using MALClient.XShared.ViewModels;
+using Point = Windows.Foundation.Point;
 
 namespace MALClient.UWP.Adapters
 {

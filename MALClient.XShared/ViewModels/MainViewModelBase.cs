@@ -21,6 +21,7 @@ namespace MALClient.XShared.ViewModels
         protected bool _navigating;
         protected Tuple<PageIndex, object> _postponedNavigationArgs;
         protected bool? _searchStateBeforeNavigatingToSearch;
+        public object LastNavArgs { get; set; }
 
         protected bool _subscribed;
         protected bool _wasOnDetailsFromSearch;

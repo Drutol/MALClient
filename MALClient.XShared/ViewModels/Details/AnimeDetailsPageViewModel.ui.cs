@@ -496,10 +496,22 @@ namespace MALClient.XShared.ViewModels.Details
                     new RelayCommand(
                         () =>
                         {
-                            if(ViewModelLocator.Mobile)
+                            (PageIndex index, object arg) backNavArgs = default((PageIndex index, object arg));                            if (ViewModelLocator.Mobile)
                                 ViewModelLocator.NavMgr.RegisterBackNav(PrevArgs);
+                            else
+                                backNavArgs = 
+                                (index: ViewModelLocator.GeneralMain.CurrentMainPageKind.Value,
+                                 arg: ViewModelLocator.GeneralMain.CurrentMainPageKind.Value == PageIndex.PageAnimeList
+                                    ? ViewModelLocator.GeneralMain.GetCurrentListOrderParams()
+                                    : ViewModelLocator.GeneralMain.LastNavArgs);
+                                                     
                             ViewModelLocator.GeneralMain.Navigate(PageIndex.PageForumIndex,
                                 new ForumsBoardNavigationArgs(Id, Title, AnimeMode));
+                            if (!ViewModelLocator.Mobile)
+                            {
+                                //Register back nav to whetever place we are currently in
+                                ViewModelLocator.NavMgr.RegisterUnmonitoredMainBackNav(backNavArgs.Item1, backNavArgs.Item2);
+                            }
                         }));
 
         private ICommand _toggleFavouriteCommand;

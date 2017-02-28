@@ -423,6 +423,7 @@ namespace MALClient.UWP.ViewModels
                 CurrentMainPageKind = index;
             if (currOffPage != null)
                 CurrentOffPage = currOffPage;
+            LastNavArgs = args;
             _navigating = false;
             RaisePropertyChanged(() => SearchToggleLock);
         }

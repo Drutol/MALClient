@@ -39,6 +39,7 @@ namespace MALClient.XShared.ViewModels
         void CurrentOffViewOnBackRequested();
         void ResetMainBackNav();
         void RegisterBackNav(AnimeDetailsPageNavigationArgs args);
+        void RegisterUnmonitoredMainBackNav(PageIndex page, object args);
         void RegisterOneTimeMainOverride(ICommand command);
         void ResetOneTimeOverride();
         void ResetOneTimeMainOverride();

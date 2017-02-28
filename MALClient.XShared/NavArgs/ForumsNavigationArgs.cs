@@ -17,6 +17,8 @@ namespace MALClient.XShared.NavArgs
     public class ForumsNavigationArgs
     {
         public ForumsPageIndex Page { get; set; }
+
+        public bool IgnoreBackNavHandling { get; set; }
     }
 
     public class ForumsBoardNavigationArgs : ForumsNavigationArgs

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using HtmlAgilityPack;
 using MALClient.Models.Models.AnimeScrapped;
@@ -41,12 +42,7 @@ namespace MALClient.XShared.Comm.Anime
             {
                 var doc = new HtmlDocument();
                 doc.LoadHtml(raw);
-                var reviewNodes = doc.DocumentNode.Descendants("div")
-                    .Where(
-                        node =>
-                            node.Attributes.Contains("class") &&
-                            node.Attributes["class"].Value ==
-                            HtmlClassMgr.ClassDefs["#Reviews:reviewNode:class"]).Take(Settings.ReviewsToPull);
+                var reviewNodes = doc.DocumentNode.WhereOfDescendantsWithClass("div", "borderDark").Take(Settings.ReviewsToPull);
 
                 foreach (var reviewNode in reviewNodes)
                 {
@@ -54,32 +50,27 @@ namespace MALClient.XShared.Comm.Anime
                     {
                         var current = new AnimeReviewData();
                         //Details
-                        var detailsNode = reviewNode.Descendants("div").First();
-                        var pictureNode = detailsNode.Descendants("div").Where(node =>
-                            node.Attributes.Contains("class") &&
-                            node.Attributes["class"].Value ==
-                            HtmlClassMgr.ClassDefs["#Reviews:reviewNode:pictureNodeClass"])
-                            .Skip(1)
-                            .First() //2nd picSurround
+                        var detailsNode = reviewNode.ChildNodes.First(node => node.Name == "div");
+                        var pictureNode = detailsNode.WhereOfDescendantsWithClass("div", "picSurround")
+                            .First() //1nd picSurround
                             .Descendants("a").First(); //2nd a tag
-                        current.Author = pictureNode.Attributes["href"].Value.Split('/')[2];
+                        current.Author = pictureNode.Attributes["href"].Value.Split('/').Last();
                         current.AuthorAvatar = pictureNode.Descendants("img").First().Attributes["data-src"].Value;
                         //
-                        current.HelpfulCount = detailsNode.Descendants("div")
-                            .First(node =>
-                                node.Attributes.Contains("class") &&
-                                node.Attributes["class"].Value ==
-                                HtmlClassMgr.ClassDefs["#Reviews:reviewNode:helpfulCountNode"]).InnerText;
+                        current.HelpfulCount =
+                            detailsNode.WhereOfDescendantsWithClass("div", "lightLink spaceit")
+                                .Skip(1)
+                                .First()
+                                .InnerText.Trim()
+                                .TrimWhitespaceInside();
                         //
-                        var rightTableNodeDivs =
-                            detailsNode.Descendants("td").Skip(2).First().Descendants("div").ToList();
-                        current.Date = rightTableNodeDivs[0].InnerText;
-                        current.EpisodesSeen = rightTableNodeDivs[1].InnerText;
-                        current.OverallRating = rightTableNodeDivs[2].InnerText;
+                        var rightTableNode = reviewNode.FirstOfDescendantsWithClass("div", "mb8");
+                        var rightTableNodeDivs = rightTableNode.Descendants("div").ToList();
+                        current.Date = rightTableNode.ChildNodes[0].InnerText.Trim();
+                        current.EpisodesSeen = rightTableNodeDivs[0].InnerText.Trim();
+                        current.OverallRating = rightTableNodeDivs[1].InnerText.Trim().TrimWhitespaceInside();
                         //Review Content
-                        var reviewNodeContent = reviewNode.Descendants("div").First(node =>
-                            node.Attributes.Contains("class") &&
-                            node.Attributes["class"].Value == HtmlClassMgr.ClassDefs["#Reviews:reviewNode:contentNode"]);
+                        var reviewNodeContent = reviewNode.FirstOfDescendantsWithClass("div", "spaceit textReadability word-break pt8 mt8");
                         foreach (var scoreRow in reviewNodeContent.ChildNodes[1].Descendants("tr").Skip(1))
                         {
                             var tds = scoreRow.Descendants("td").ToList();
@@ -87,7 +78,7 @@ namespace MALClient.XShared.Comm.Anime
                         }
                         reviewNodeContent.ChildNodes.Remove(1);
                         current.Review =
-                            WebUtility.HtmlDecode(reviewNodeContent.InnerText.Trim().Replace("read more", ""));
+                            WebUtility.HtmlDecode(reviewNodeContent.InnerText.Replace("read more", "").Replace("Helpful", "").Trim().TrimWhitespaceInside(false));
 
                         output.Add(current);
                     }

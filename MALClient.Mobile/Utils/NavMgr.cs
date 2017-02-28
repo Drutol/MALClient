@@ -115,6 +115,11 @@ namespace MALClient.UWP.Utils
         {
             CurrentViewOnBackRequested(null,null);
         }
+
+        public void RegisterUnmonitoredMainBackNav(PageIndex page, object args)
+        {
+            throw new NotImplementedException();
+        }
     }
 
 }

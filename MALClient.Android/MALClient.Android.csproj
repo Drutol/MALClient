@@ -200,6 +200,11 @@
     </Compile>
     <Compile Include="Fragments\CalendarFragments\CalendarPageSummaryTabFragment.cs" />
     <Compile Include="Fragments\CalendarFragments\CalendarPageTabFragment.cs" />
+    <Compile Include="Fragments\ForumFragments\ForumBoardPageFragment.cs" />
+    <Compile Include="Fragments\ForumFragments\ForumIndexPageFragment.cs" />
+    <Compile Include="Fragments\ForumFragments\ForumMainPageFragment.cs" />
+    <Compile Include="Fragments\ForumFragments\ForumNewTopicPageFragment.cs" />
+    <Compile Include="Fragments\ForumFragments\ForumTopicPageFragment.cs" />
     <Compile Include="Fragments\FriendsFeedsPageFragment.cs" />
     <Compile Include="Fragments\ProfilePageFragments\ProfilePageFavouritesTabFragment.cs" />
     <Compile Include="Fragments\ProfilePageFragments\ProfilePageFragment.cs" />

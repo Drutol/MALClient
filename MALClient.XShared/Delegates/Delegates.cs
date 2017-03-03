@@ -17,7 +17,7 @@ namespace MALClient.XShared.Delegates
 
     public delegate void NavigationRequest(Type page, object args = null);
 
-    public delegate void AmbiguousNavigationRequest(int enumId, object args);
+    public delegate void AmbiguousNavigationRequest<T>(T target, object args);
 
     public delegate void WebViewNavigationRequest(string content, bool arg);
 

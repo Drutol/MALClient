@@ -16,7 +16,7 @@ namespace MALClient.XShared.ViewModels.Forums
 {
     public class ForumsMainViewModel : ViewModelBase
     {
-        public event AmbiguousNavigationRequest NavigationRequested;
+        public event AmbiguousNavigationRequest<ForumsPageIndex> NavigationRequested;
 
         public ObservableCollection<ForumBoards> PinnedBoards { get; } = new ObservableCollection<ForumBoards>();
 
@@ -99,7 +99,7 @@ namespace MALClient.XShared.ViewModels.Forums
                 args = new ForumsNavigationArgs { Page = ForumsPageIndex.PageIndex };
             }
             CurrentBackNavRegistrar = null;
-            NavigationRequested?.Invoke((int)args.Page, args);
+            NavigationRequested?.Invoke(args.Page, args);
         }
 
         private bool _pinnedTopicsLoaded;

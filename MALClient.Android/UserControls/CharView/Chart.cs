@@ -27,8 +27,8 @@ namespace MALClient.Android.UserControls
         private float _angle = 0;
         public float Angle
         {
-            get => _angle;
-            set => _angle = (value + 360.0f) % 360.0f;
+            get { return _angle; }
+            set { _angle = (value + 360.0f) % 360.0f; }
         }
 
         private float _sum;

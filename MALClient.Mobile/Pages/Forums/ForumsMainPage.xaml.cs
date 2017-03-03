@@ -41,9 +41,9 @@ namespace MALClient.UWP.Pages.Forums
             base.OnNavigatedTo(e);
         }
 
-        private void ViewModelOnNavigationRequested(int page, object args)
+        private void ViewModelOnNavigationRequested(ForumsPageIndex page, object args)
         {
-            switch((ForumsPageIndex)page)
+            switch(page)
             {
                 case ForumsPageIndex.PageIndex:
                     MainForumContentFrame.Navigate(typeof(ForumIndexPage), args);

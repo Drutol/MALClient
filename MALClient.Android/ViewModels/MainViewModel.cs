@@ -14,6 +14,7 @@ using GalaSoft.MvvmLight.Command;
 using MALClient.Android.Fragments;
 using MALClient.Android.Fragments.ArticlesPageFragments;
 using MALClient.Android.Fragments.CalendarFragments;
+using MALClient.Android.Fragments.ForumFragments;
 using MALClient.Android.Fragments.ProfilePageFragments;
 using MALClient.Android.Fragments.RecommendationsFragments;
 using MALClient.Android.Fragments.SearchFragments;
@@ -213,26 +214,31 @@ namespace MALClient.Android.ViewModels
                     //MainNavigationRequested?.Invoke(typeof(MalMessageDetailsPage), args);
                     break;
                 case PageIndex.PageForumIndex:
-                    //HideSearchStuff();
-                    //CurrentStatus = "Forums";
-                    //if (args == null || (args as ForumsNavigationArgs)?.Page == ForumsPageIndex.PageIndex)
-                    //{
-                    //    RefreshButtonVisibility = true;
-                    //    RefreshDataCommand = new RelayCommand(() => { ViewModelLocator.ForumsIndex.Init(true); });
-                    //}
-                    //else
-                    //{
-                    //    var navArgs = args as ForumsNavigationArgs;
-                    //    if (navArgs?.Page == ForumsPageIndex.PageBoard)
-                    //    {
-                    //        RefreshButtonVisibility = true;
-                    //        RefreshDataCommand = new RelayCommand(() => { ViewModelLocator.ForumsBoard.Reload(); });
-                    //    }
-                    //}
-                    //if (CurrentMainPage == PageIndex.PageForumIndex)
-                    //    ViewModelLocator.ForumsMain.Init(args as ForumsNavigationArgs);
-                    //else
-                    //    MainNavigationRequested?.Invoke(typeof(ForumsMainPage), args);
+                    HideSearchStuff();
+                    CurrentStatus = "Forums";
+                    if (args == null || (args as ForumsNavigationArgs)?.Page == ForumsPageIndex.PageIndex)
+                    {
+                        RefreshButtonVisibility = true;
+                        RefreshDataCommand = new RelayCommand(() => { ViewModelLocator.ForumsIndex.Init(true); });
+                    }
+                    else
+                    {
+                        var navArgs = args as ForumsNavigationArgs;
+                        if (navArgs?.Page == ForumsPageIndex.PageBoard)
+                        {
+                            RefreshButtonVisibility = true;
+                            RefreshDataCommand = new RelayCommand(() => { ViewModelLocator.ForumsBoard.Reload(); });
+                        }
+                        else if (navArgs?.Page == ForumsPageIndex.PageTopic)
+                        {
+                            RefreshButtonVisibility = true;
+                            RefreshDataCommand = new RelayCommand(() => { ViewModelLocator.ForumsTopic.Reload(); });
+                        }
+                    }
+                    if (CurrentMainPage != null && CurrentMainPage == PageIndex.PageForumIndex)
+                        ViewModelLocator.ForumsMain.Init(args as ForumsNavigationArgs);
+                    else
+                        MainNavigationRequested?.Invoke(new ForumMainPageFragment(args as ForumsNavigationArgs));
                     break;
                 case PageIndex.PageHistory:
                     //HideSearchStuff();

@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:orientation="vertical"
+    android:layout_height="wrap_content" android:background="?BrushHamburgerInnerBackground" android:padding="5dp">
+  <TextView
+      android:layout_width="match_parent" android:id="@+id/ForumsPinnedPostItemTitle"
+      android:layout_height="wrap_content" android:textColor="?BrushText" android:text="[App] MALClient blah blah" android:lines="1" android:ellipsize="end"/>
+  <LinearLayout android:layout_marginTop="5dp"
+      android:layout_width="match_parent" android:gravity="center_vertical"
+      android:layout_height="wrap_content">
+    <TextView
+        android:layout_width="0dp" android:layout_weight="1" android:id="@+id/ForumsPinnedPostItemAuthor"
+        android:layout_height="wrap_content" android:textColor="?BrushText" android:text="Drutol" android:fontFamily="@string/font_family_light"/>
+    <TextView
+        android:layout_width="wrap_content" android:layout_marginEnd="5dp" android:id="@+id/ForumsPinnedPostItemDate"
+        android:layout_height="wrap_content" android:text="Sep 28" android:textColor="?BrushText"/>
+    <ImageButton
+        android:layout_width="wrap_content" android:tint="?AccentColour" android:id="@+id/ForumsPinnedPostItemUnpinButton"
+        android:layout_height="wrap_content" android:background="@color/Transparent" android:src="@drawable/icon_unpin"/>
+  </LinearLayout>
+</LinearLayout>

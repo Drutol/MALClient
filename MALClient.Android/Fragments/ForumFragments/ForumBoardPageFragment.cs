@@ -10,6 +10,7 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using MALClient.XShared.NavArgs;
+using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Forums;
 
 namespace MALClient.Android.Fragments.ForumFragments
@@ -26,12 +27,13 @@ namespace MALClient.Android.Fragments.ForumFragments
 
         protected override void Init(Bundle savedInstanceState)
         {
+            ViewModel = ViewModelLocator.ForumsBoard;
             ViewModel.Init(_args);
         }
 
         protected override void InitBindings()
         {
-            throw new NotImplementedException();
+
         }
 
         public override int LayoutResourceId { get; }

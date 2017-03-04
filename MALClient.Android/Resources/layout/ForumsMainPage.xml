@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:orientation="vertical"
+    android:layout_height="wrap_content" android:background="?BrushDeepBackground">
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="35dp">
+    <ImageButton android:id="@+id/ForumsMainPagePinnedPostsButton"
+        android:layout_width="25dp" android:layout_marginStart="6dp" android:layout_gravity="center_vertical"
+        android:layout_height="25dp" android:background="@color/Transparent" android:src="@drawable/icon_list_var"/>
+    <ScrollView
+        android:layout_width="0dp" android:paddingStart="4dp" android:paddingEnd="4dp"
+        android:layout_height="match_parent" android:layout_weight="1">
+      <LinearLayout android:id="@+id/ForumsMainPagePinnedBoardsList"
+          android:layout_width="wrap_content" android:orientation="horizontal"
+          android:layout_height="match_parent"/>
+    </ScrollView>
+    <ImageButton android:id="@+id/ForumsMainPageMoreButton"
+        android:layout_width="25dp" android:layout_marginEnd="6dp" android:layout_gravity="center_vertical"
+        android:layout_height="25dp" android:background="@color/Transparent" android:src="@drawable/icon_more_vertical"/>
+  </LinearLayout>
+  <FrameLayout
+      android:id="@+id/ForumsContentFrame"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent" />
+</LinearLayout>

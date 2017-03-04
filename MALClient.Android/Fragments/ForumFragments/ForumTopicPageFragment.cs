@@ -33,7 +33,7 @@ namespace MALClient.Android.Fragments.ForumFragments
 
         protected override void InitBindings()
         {
-            throw new NotImplementedException();
+
         }
 
         public override int LayoutResourceId { get; }

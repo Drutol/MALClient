@@ -42,6 +42,7 @@
     <AndroidEnableMultiDex>True</AndroidEnableMultiDex>
     <EnableProguard>False</EnableProguard>
     <AndroidHttpClientHandlerType>Xamarin.Android.Net.AndroidClientHandler</AndroidHttpClientHandlerType>
+    <JavaMaximumHeapSize>1G</JavaMaximumHeapSize>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -173,6 +174,7 @@
     <Compile Include="DIalogs\AnimeUpdateDialogBuilder.cs" />
     <Compile Include="Flyouts\AnimeDetailsPageMoreFlyoutBuilder.cs" />
     <Compile Include="Flyouts\AnimeItemFlyoutBuilder.cs" />
+    <Compile Include="Flyouts\FlyoutMenuBuilder.cs" />
     <Compile Include="Flyouts\FlyoutMenus\AnimeListFilterFlyoutItem.cs" />
     <Compile Include="Flyouts\FlyoutMenus\AnimeListSortFlyoutItem.cs" />
     <Compile Include="Flyouts\AnimeListPageFlyoutBuilder.cs" />
@@ -742,6 +744,21 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\AnimeListPageDrawerHeader.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\ForumsMainPage.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\ForumsPinnedPostItem.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\icon_forum.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\icon_unpin.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\icon_list_var.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Android.Support.Vector.Drawable.23.4.0.1\build\Xamarin.Android.Support.Vector.Drawable.targets" Condition="Exists('..\packages\Xamarin.Android.Support.Vector.Drawable.23.4.0.1\build\Xamarin.Android.Support.Vector.Drawable.targets')" />

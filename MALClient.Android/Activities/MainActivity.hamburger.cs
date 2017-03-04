@@ -122,6 +122,11 @@ namespace MALClient.Android.Activities
             feedsButton.WithIdentifier((int) PageIndex.PageFeeds);
             feedsButton.WithIcon(Resource.Drawable.icon_feeds);
 
+            var forumsButton = GetBaseSecondaryItem();
+            forumsButton.WithName("Friends Feeds");
+            forumsButton.WithIdentifier((int) PageIndex.PageForumIndex);
+            forumsButton.WithIcon(Resource.Drawable.icon_feeds);
+
             //
 
             IDrawerItem accountButton;
@@ -180,7 +185,8 @@ namespace MALClient.Android.Activities
                 othersSubHeader,//
                 articlesButton,
                 videoButton,
-                feedsButton
+                feedsButton,
+                forumsButton
 
             });
 

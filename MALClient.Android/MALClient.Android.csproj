@@ -155,6 +155,7 @@
     <Compile Include="Adapters\PagerAdapters\ProfilePagePagerAdapter.cs" />
     <Compile Include="Adapters\PagerAdapters\RecommandtionsPagerAdapter.cs" />
     <Compile Include="Adapters\PagerAdapters\SearchPagePagerAdapter.cs" />
+    <Compile Include="BindingConverters\FontAwesomeToIconicsIcon.cs" />
     <Compile Include="BindingConverters\SpecializedConverters.cs" />
     <Compile Include="BindingInformation\AnimeGridItemBindingInfo.cs" />
     <Compile Include="Adapters\CollectionAdapters\AnimeListItemsAdapter.cs" />
@@ -317,6 +318,10 @@
     <None Include="Properties\AndroidManifest.xml" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Binding_FontAwesome\Binding_FontAwesome.csproj">
+      <Project>{f0cf9c58-f9e7-4749-9421-1310e759bd6c}</Project>
+      <Name>Binding_FontAwesome</Name>
+    </ProjectReference>
     <ProjectReference Include="AndroidBindings\Binding_CircularFloatingActionMenu\Binding_CircularFloatingActionMenu.csproj">
       <Project>{1442e14c-d636-4ec0-9b0a-de7bdc7d088c}</Project>
       <Name>Binding_CircularFloatingActionMenu</Name>

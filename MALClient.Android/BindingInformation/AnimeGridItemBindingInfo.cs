@@ -66,42 +66,42 @@ namespace MALClient.Android.BindingInformation
             
 
             var typeView = Container.FindViewById<TextView>(Resource.Id.AnimeGridItemType);
-            Bindings.Add(Resource.Id.AnimeGridItemType,new List<Binding>());
-            Bindings[Resource.Id.AnimeGridItemType].Add(new Binding<string, string>(
+            
+            Bindings.Add(new Binding<string, string>(
                 ViewModel,
                 () => ViewModel.Type,
                 typeView,
                 () => typeView.Text));
-            Bindings[typeView.Id].Add(new Binding<string, ViewStates>(
+            Bindings.Add(new Binding<string, ViewStates>(
                 ViewModel,
                 () => ViewModel.Type,
                 typeView,
                 () => typeView.Visibility).ConvertSourceToTarget(s => string.IsNullOrEmpty(s) ? ViewStates.Gone : ViewStates.Visible));
 
             var topLeftView = Container.FindViewById<TextView>(Resource.Id.AnimeGridItemToLeftInfo);
-            Bindings.Add(Resource.Id.AnimeGridItemToLeftInfo, new List<Binding>());
-            Bindings[Resource.Id.AnimeGridItemToLeftInfo].Add(new Binding<string, string>(
+            
+            Bindings.Add(new Binding<string, string>(
                     ViewModel,
                     () => ViewModel.TopLeftInfoBind,
                     topLeftView,
                     () => topLeftView.Text));
-            Bindings[Resource.Id.AnimeGridItemToLeftInfo].Add(new Binding<string, ViewStates>(
+            Bindings.Add(new Binding<string, ViewStates>(
                     ViewModel,
                     () => ViewModel.TopLeftInfoBind,
                     topLeftView,
                     () => topLeftView.Visibility).ConvertSourceToTarget(Converters.IsStringEmptyToVisibility));
 
             var statusView = Container.FindViewById<TextView>(Resource.Id.AnimeGridItemCurrentWatchingStatus);
-            Bindings.Add(Resource.Id.AnimeGridItemCurrentWatchingStatus, new List<Binding>());
-            Bindings[Resource.Id.AnimeGridItemCurrentWatchingStatus].Add(new Binding<string, string>(
+            
+            Bindings.Add(new Binding<string, string>(
                     ViewModel,
                     () => ViewModel.MyStatusBindShort,
                     statusView,
                     () => statusView.Text));
 
             var watchedView = Container.FindViewById<TextView>(Resource.Id.AnimeGridItemWatchedStatus);
-            Bindings.Add(Resource.Id.AnimeGridItemWatchedStatus, new List<Binding>());
-            Bindings[Resource.Id.AnimeGridItemWatchedStatus].Add(new Binding<string, string>(
+            
+            Bindings.Add(new Binding<string, string>(
                     ViewModel,
                     () => ViewModel.MyEpisodesBindShort,
                     watchedView,
@@ -109,24 +109,24 @@ namespace MALClient.Android.BindingInformation
             Container.FindViewById(Resource.Id.AnimeGridItemWatchedStatusButton).SetOnClickListener(new OnClickListener(view => ShowWatchedDialog()));
 
             var scoreView = Container.FindViewById<TextView>(Resource.Id.AnimeGridItemScore);
-            Bindings.Add(Resource.Id.AnimeGridItemScore, new List<Binding>());
-            Bindings[Resource.Id.AnimeGridItemScore].Add(new Binding<string, string>(
+            
+            Bindings.Add(new Binding<string, string>(
                     ViewModel,
                     () => ViewModel.MyScoreBindShort,
                     scoreView,
                     () => scoreView.Text));
 
             var topRight = Container.FindViewById<LinearLayout>(Resource.Id.AnimeGridItemTopRightInfo);
-            Bindings.Add(topRight.Id, new List<Binding>());
-            Bindings[topRight.Id].Add(new Binding<bool, ViewStates>(
+            
+            Bindings.Add(new Binding<bool, ViewStates>(
                 ViewModel,
                 () => ViewModel.Auth,
                 topRight,
                 () => topRight.Visibility).ConvertSourceToTarget(Converters.BoolToVisibility));
 
             var addButon = Container.FindViewById<FrameLayout>(Resource.Id.AnimeGridItemAddToListButton);
-            Bindings.Add(addButon.Id, new List<Binding>());
-            Bindings[addButon.Id].Add(new Binding<bool, ViewStates>(
+            
+            Bindings.Add(new Binding<bool, ViewStates>(
                 ViewModel,
                 () => ViewModel.AddToListVisibility,
                 addButon,
@@ -134,8 +134,8 @@ namespace MALClient.Android.BindingInformation
             addButon.SetOnClickListener(new OnClickListener(view => ViewModel.AddAnimeCommand.Execute(null)));
 
             var tagButton = Container.FindViewById<FrameLayout>(Resource.Id.AnimeGridItemTagsButton);
-            Bindings.Add(tagButton.Id, new List<Binding>());
-            Bindings[tagButton.Id].Add(new Binding<bool, ViewStates>(
+            
+            Bindings.Add(new Binding<bool, ViewStates>(
                 ViewModel,
                 () => ViewModel.TagsControlVisibility,
                 tagButton,

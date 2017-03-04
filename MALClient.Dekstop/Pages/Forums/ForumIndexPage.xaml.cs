@@ -34,9 +34,7 @@ namespace MALClient.UWP.Pages.Forums
 
         private void BoardGridOnItemClick(object sender, ItemClickEventArgs e)
         {
-            ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageForumIndex,null);
-            ViewModelLocator.GeneralMain.Navigate(PageIndex.PageForumIndex,
-                new ForumsBoardNavigationArgs((e.ClickedItem as ForumBoardEntryViewModel).Board));
+            ViewModel.NavigateBoardCommand.Execute((e.ClickedItem as ForumBoardEntryViewModel).Board);
         }
 
         private void BoardGridOnRightClick(object sender, RightTappedRoutedEventArgs e)

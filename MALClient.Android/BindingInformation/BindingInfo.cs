@@ -13,7 +13,7 @@ namespace MALClient.Android.BindingInformation
         protected abstract void InitBindings();
         protected abstract void InitOneTimeBindings();
         protected abstract void DetachInnerBindings();
-        protected Dictionary<int, List<Binding>> Bindings { get; set; } = new Dictionary<int, List<Binding>>();
+        protected List<Binding> Bindings { get; set; } = new List<Binding>();
 
         protected TViewModel ViewModel { get; private set; }
         public bool Fling { get; set; }
@@ -47,11 +47,11 @@ namespace MALClient.Android.BindingInformation
 
         private void DetachBaseBindings()
         {
-            foreach (var binding in Bindings.SelectMany(pair => pair.Value))
+            foreach (var binding in Bindings)
             {
                 binding?.Detach();
             }
-            Bindings = new Dictionary<int, List<Binding>>();
+            Bindings = new List<Binding>();
         }
 
         public void Detach()

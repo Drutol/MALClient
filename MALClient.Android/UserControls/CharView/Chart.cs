@@ -29,7 +29,7 @@ namespace MALClient.Android.UserControls
 
             public new T this[int key]
             {
-                get => base[key];
+                get { return base[key]; }
                 set
                 {
                     base[key] = value;
@@ -74,7 +74,8 @@ namespace MALClient.Android.UserControls
         private Circle _centerCircle = new Circle(new Vector2D(0, 0), 0);
         public float CenterRadius
         {
-            get => _centerCircle.Radius;
+            get { return _centerCircle.Radius; }
+            
             set
             {
                 _centerCircle.Radius = value;
@@ -83,7 +84,8 @@ namespace MALClient.Android.UserControls
         }
         public Vector2D Position
         {
-            get => _centerCircle.Position;
+            get { return _centerCircle.Position; }
+
             set
             {
                 _centerCircle.Position = value;
@@ -93,7 +95,8 @@ namespace MALClient.Android.UserControls
         private float _segmentsDrawingRadius;
         private float SegmentsDrawingRadius
         {
-            get => _segmentsDrawingRadius;
+            get { return _segmentsDrawingRadius; }
+
             set
             {
                 _segmentsDrawingRadius = value;
@@ -103,7 +106,8 @@ namespace MALClient.Android.UserControls
         private float _segmetsWidth;
         public float SegmentsWidth
         {
-            get => _segmetsWidth;
+            get { return _segmetsWidth; }
+
             set
             {
                 _segmentsDrawingRadius = CenterRadius + value / 2.0f; // THIS. These two are ugly as fuck.
@@ -115,7 +119,7 @@ namespace MALClient.Android.UserControls
         private int _selectedSegment = -1;
         public int SelectedSegment
         {
-            get => _selectedSegment;
+            get { return _selectedSegment; } 
             set
             {
                 SegmentSelected?.Invoke(arcs[value], value);

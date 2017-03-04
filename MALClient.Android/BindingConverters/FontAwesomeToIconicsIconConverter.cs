@@ -16,13 +16,14 @@ using MALClient.Models.Enums;
 
 namespace MALClient.Android.BindingConverters
 {
-    public static class FontAwesomeToIconicsIcon
+    public static class FontAwesomeToIconicsIconConverter
     {
         private static TypeInfo _typeInfo = typeof(FontAwesome.Icon).GetTypeInfo();
 
         public static IIcon Convert(FontAwesomeIcon icon)
         {
-            return (IIcon)(_typeInfo.GetDeclaredProperty($"Faw{icon.ToString()}")).GetConstantValue();
+            var propInf = (_typeInfo.GetDeclaredProperty($"Faw{icon}"));
+            return FontAwesome.Icon.FawBullhorn;
         }
     }
 }

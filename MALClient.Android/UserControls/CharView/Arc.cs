@@ -22,13 +22,13 @@ namespace MALClient.Android.UserControls
             private Paint Paint { get; set; } = new Paint();
             public float StrokeWidth
             {
-                get => Paint.StrokeWidth;
-                set => Paint.StrokeWidth = value;
+                get { return Paint.StrokeWidth; } 
+                set { Paint.StrokeWidth = value; } 
             }
             public Color Color
             {
-                get => Paint.Color;
-                set => Paint.Color = value;
+                get { return Paint.Color; }
+                set { Paint.Color = value; } 
             }
 
             private DashPathEffect _arc = new DashPathEffect(new float[] { 100, int.MaxValue }, 0);

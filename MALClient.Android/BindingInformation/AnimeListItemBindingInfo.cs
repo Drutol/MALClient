@@ -43,43 +43,43 @@ namespace MALClient.Android.BindingInformation
             if(Fling)
                 return;
 
-            Bindings.Add(AnimeListItemWatchedButton.Id, new List<Binding>());
-            Bindings[AnimeListItemWatchedButton.Id].Add(new Binding<string, string>(
+            
+            Bindings.Add(new Binding<string, string>(
                 ViewModel,
                 () => ViewModel.MyEpisodesBind,
                 AnimeListItemWatchedButton,
                 () => AnimeListItemWatchedButton.Text));
 
-            Bindings.Add(AnimeListItemScoreButton.Id, new List<Binding>());
-            Bindings[AnimeListItemScoreButton.Id].Add(new Binding<string, string>(
+            
+            Bindings.Add(new Binding<string, string>(
                 ViewModel,
                 () => ViewModel.MyScoreBind,
                 AnimeListItemScoreButton,
                 () => AnimeListItemScoreButton.Text));
 
-            Bindings.Add(AnimeListItemStatusButton.Id, new List<Binding>());
-            Bindings[AnimeListItemStatusButton.Id].Add(new Binding<string, string>(
+            
+            Bindings.Add(new Binding<string, string>(
                 ViewModel,
                 () => ViewModel.MyStatusBind,
                 AnimeListItemStatusButton,
                 () => AnimeListItemStatusButton.Text));
 
-            Bindings.Add(AnimeListItemIncButton.Id, new List<Binding>());
-            Bindings[AnimeListItemIncButton.Id].Add(new Binding<bool, ViewStates>(
+            
+            Bindings.Add(new Binding<bool, ViewStates>(
                 ViewModel,
                 () => ViewModel.IncrementEpsVisibility,
                 AnimeListItemIncButton,
                 () => AnimeListItemIncButton.Visibility).ConvertSourceToTarget(Converters.BoolToVisibility));
 
-            Bindings.Add(AnimeListItemDecButton.Id, new List<Binding>());
-            Bindings[AnimeListItemDecButton.Id].Add(new Binding<bool, ViewStates>(
+            
+            Bindings.Add(new Binding<bool, ViewStates>(
                 ViewModel,
                 () => ViewModel.DecrementEpsVisibility,
                 AnimeListItemDecButton,
                 () => AnimeListItemDecButton.Visibility).ConvertSourceToTarget(Converters.BoolToVisibility));
 
-            Bindings.Add(AnimeListItemStatusScoreSection.Id, new List<Binding>());
-            Bindings[AnimeListItemStatusScoreSection.Id].Add(new Binding<bool, ViewStates>(
+            
+            Bindings.Add(new Binding<bool, ViewStates>(
                 ViewModel,
                 () => ViewModel.Auth,
                 AnimeListItemStatusScoreSection,

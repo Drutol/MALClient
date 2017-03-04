@@ -25,18 +25,19 @@ namespace MALClient.Android.Fragments.ForumFragments
         private ForumsMainViewModel ViewModel;
 
         private DroppyMenuPopup _moreMenu;
+        private ForumsPinnedPostsFlyoutContext _pinnedPostsFlyoutContext;
 
         public ForumMainPageFragment(ForumsNavigationArgs args)
         {
+
             _args = args;
         }
 
         protected override void Init(Bundle savedInstanceState)
         {
             ViewModel = ViewModelLocator.ForumsMain;
-            ViewModel.Init(_args);
-
             ViewModel.NavigationRequested += ViewModelOnNavigationRequested;
+            ViewModel.Init(_args);
         }
 
         private void ViewModelOnNavigationRequested(ForumsPageIndex page, object args)
@@ -74,6 +75,15 @@ namespace MALClient.Android.Fragments.ForumFragments
         protected override void InitBindings()
         {
             ForumsMainPageMoreButton.Click += ForumsMainPageMoreButtonOnClick;
+
+            ForumsMainPagePinnedPostsButton.Click += ForumsMainPagePinnedPostsButtonOnClick;
+        }
+
+        private void ForumsMainPagePinnedPostsButtonOnClick(object sender, EventArgs eventArgs)
+        {
+            if(_pinnedPostsFlyoutContext == null)
+                _pinnedPostsFlyoutContext = new ForumsPinnedPostsFlyoutContext(ViewModel,ForumsMainPagePinnedPostsButton);
+            _pinnedPostsFlyoutContext.Show();
         }
 
         private void ForumsMainPageMoreButtonOnClick(object sender, EventArgs eventArgs)
@@ -84,7 +94,7 @@ namespace MALClient.Android.Fragments.ForumFragments
                     "My recent topics",
                     "My watched topics",
                     "MALClient's topic",
-                }, OnMoreMenuSelected, "Pinned topics");
+                }, OnMoreMenuSelected);
             _moreMenu.Show();
         }
 

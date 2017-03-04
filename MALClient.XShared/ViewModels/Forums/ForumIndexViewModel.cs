@@ -44,6 +44,16 @@ namespace MALClient.XShared.ViewModels.Forums
 
             });
 
+        private ICommand _navigateBoardCommand;
+
+        public ICommand NavigateBoardCommand => _navigateBoardCommand ?? (_navigateBoardCommand = new RelayCommand<ForumBoards>(
+            board =>
+            {
+                ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageForumIndex, null);
+                ViewModelLocator.GeneralMain.Navigate(PageIndex.PageForumIndex,
+                    new ForumsBoardNavigationArgs(board));
+            }));
+
 
         private bool _loadingSideContentVisibility;
 

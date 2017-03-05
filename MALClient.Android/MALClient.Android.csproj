@@ -158,7 +158,7 @@
     <Compile Include="Adapters\PagerAdapters\ProfilePagePagerAdapter.cs" />
     <Compile Include="Adapters\PagerAdapters\RecommandtionsPagerAdapter.cs" />
     <Compile Include="Adapters\PagerAdapters\SearchPagePagerAdapter.cs" />
-    <Compile Include="BindingConverters\FontAwesomeToIconicsIconConverter.cs" />
+    <Compile Include="BindingConverters\DummyFontAwesomeToRealFontAwesomeConverter.cs" />
     <Compile Include="BindingConverters\SpecializedConverters.cs" />
     <Compile Include="BindingInformation\AnimeGridItemBindingInfo.cs" />
     <Compile Include="Adapters\CollectionAdapters\AnimeListItemsAdapter.cs" />
@@ -170,7 +170,7 @@
     <Compile Include="App.cs" />
     <Compile Include="BindingConverters\Converters.cs" />
     <Compile Include="Adapters\DialogAdapters\StatusDialogAdapter.cs" />
-    <Compile Include="BindingInformation\ForumBoardEntryBindingInformation.cs" />
+    <Compile Include="BindingInformation\ForumBoardEntryBindingInfo.cs" />
     <Compile Include="BindingInformation\StaticBindingInfo.cs" />
     <Compile Include="BindingInformation\StaticBindings\FavouriteItemBindingInfo.cs" />
     <Compile Include="DIalogs\AnimeDetailsPageDialogBuilder.cs" />
@@ -213,6 +213,7 @@
     <Compile Include="Fragments\ForumFragments\ForumNewTopicPageFragment.cs" />
     <Compile Include="Fragments\ForumFragments\ForumTopicPageFragment.cs" />
     <Compile Include="Fragments\ForumFragments\Tabs\ForumIndexPageFragmentBoardsTabFragment.cs" />
+    <Compile Include="Fragments\ForumFragments\Tabs\ForumIndexPageFragmentRecentsTabFragment.cs" />
     <Compile Include="Fragments\FriendsFeedsPageFragment.cs" />
     <Compile Include="Fragments\ProfilePageFragments\ProfilePageFavouritesTabFragment.cs" />
     <Compile Include="Fragments\ProfilePageFragments\ProfilePageFragment.cs" />
@@ -283,6 +284,7 @@
     <Compile Include="UserControls\CharView\Chart.cs" />
     <Compile Include="Utilities\AnimeImageExtensions.cs" />
     <Compile Include="Utilities\FlingCollectionsHelper.cs" />
+    <Compile Include="Utilities\FontManager.cs" />
     <Compile Include="Utilities\HamburgerUtilities.cs" />
     <Compile Include="Utilities\Includes.cs" />
     <Compile Include="Utilities\ListenableWebClient.cs" />
@@ -295,8 +297,8 @@
     <Compile Include="ViewModels\SettingsViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
+    <AndroidAsset Include="Assets\fonts\fontawesome-webfont.ttf" />
     <None Include="packages.config" />
-    <None Include="Assets\AboutAssets.txt" />
     <AndroidResource Include="Resources\layout\AnimeGridItem.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
@@ -325,10 +327,6 @@
     <None Include="Properties\AndroidManifest.xml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Binding_FontAwesome\Binding_FontAwesome.csproj">
-      <Project>{f0cf9c58-f9e7-4749-9421-1310e759bd6c}</Project>
-      <Name>Binding_FontAwesome</Name>
-    </ProjectReference>
     <ProjectReference Include="AndroidBindings\Binding_CircularFloatingActionMenu\Binding_CircularFloatingActionMenu.csproj">
       <Project>{1442e14c-d636-4ec0-9b0a-de7bdc7d088c}</Project>
       <Name>Binding_CircularFloatingActionMenu</Name>
@@ -776,6 +774,12 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\ForumsIndexSectionItem.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\ForumIndexPageRecentsTab.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\ForumIndexPageRecentPostItem.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Android.Support.Vector.Drawable.23.4.0.1\build\Xamarin.Android.Support.Vector.Drawable.targets" Condition="Exists('..\packages\Xamarin.Android.Support.Vector.Drawable.23.4.0.1\build\Xamarin.Android.Support.Vector.Drawable.targets')" />

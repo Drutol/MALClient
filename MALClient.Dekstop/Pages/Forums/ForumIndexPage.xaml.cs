@@ -46,9 +46,7 @@ namespace MALClient.UWP.Pages.Forums
 
         private void RecentPostOnClick(object sender, ItemClickEventArgs e)
         {
-            ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageForumIndex, null);
-            ViewModelLocator.GeneralMain.Navigate(PageIndex.PageForumIndex,
-                new ForumsTopicNavigationArgs((e.ClickedItem as ForumPostEntry).Id,null));
+            ViewModel.NavigateRecentPostCommand.Execute(e.ClickedItem as ForumPostEntry);
         }
     }
 }

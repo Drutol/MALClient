@@ -30,7 +30,7 @@ namespace MALClient.Android.PagerAdapters
         public ForumIndexPagerAdapter(FragmentManager fm) : base(fm)
         {
             _boardsFragment = new ForumIndexPageFragmentBoardsTabFragment();
-            _recentsFragment = new ForumIndexPageFragmentBoardsTabFragment();
+            _recentsFragment = new ForumIndexPageFragmentRecentsTabFragment();
         }
 
         private readonly MalFragmentBase _boardsFragment;

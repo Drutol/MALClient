@@ -123,9 +123,9 @@ namespace MALClient.Android.Activities
             feedsButton.WithIcon(Resource.Drawable.icon_feeds);
 
             var forumsButton = GetBaseSecondaryItem();
-            forumsButton.WithName("Friends Feeds");
+            forumsButton.WithName("Forums");
             forumsButton.WithIdentifier((int) PageIndex.PageForumIndex);
-            forumsButton.WithIcon(Resource.Drawable.icon_feeds);
+            forumsButton.WithIcon(Resource.Drawable.icon_forum);
 
             //
 

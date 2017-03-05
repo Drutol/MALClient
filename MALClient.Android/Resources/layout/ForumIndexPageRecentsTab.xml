@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:orientation="vertical"
+    android:layout_height="match_parent" android:background="?BrushDeepBackground">
+  <ListView
+      android:id="@+id/ForumIndexPageRecentsTabListView"
+      android:layout_width="match_parent"
+      android:layout_gravity="top"
+      android:layout_height="match_parent"
+      android:choiceMode="singleChoice"
+      android:dividerHeight="5dp" android:divider="@color/Transparent" />
+  <ProgressBar android:id="@+id/ForumIndexPageRecentsTabLoadingSpinner" android:layout_width="wrap_content"
+      android:indeterminateTint="?AccentColour" android:indeterminateTintMode="src_in"
+      android:layout_height="wrap_content"
+      android:indeterminate="true" android:layout_centerInParent="true"/>
+</RelativeLayout>

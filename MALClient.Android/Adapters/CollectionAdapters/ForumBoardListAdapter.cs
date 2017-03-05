@@ -24,7 +24,7 @@ namespace MALClient.Android.CollectionAdapters
         protected override void PrepareView(ForumBoardEntryViewModel item, View view)
         {
             if (!Bindings.ContainsKey((int)item.Board))
-                Bindings.Add((int)item.Board, new ForumBoardEntryBindingInformation(view,item,false));
+                Bindings.Add((int)item.Board, new ForumBoardEntryBindingInfo(view,item,false));
             else
             {
                 Bindings[(int)item.Board].Fling = false;
@@ -35,7 +35,7 @@ namespace MALClient.Android.CollectionAdapters
         protected override void PrepareViewQuickly(ForumBoardEntryViewModel item, View view)
         {
             if (!Bindings.ContainsKey((int)item.Board))
-                Bindings.Add((int)item.Board, new ForumBoardEntryBindingInformation(view, item, true));
+                Bindings.Add((int)item.Board, new ForumBoardEntryBindingInfo(view, item, true));
             else
             {
                 Bindings[(int)item.Board].Fling = true;

@@ -20,11 +20,11 @@ using MALClient.XShared.ViewModels.Forums.Items;
 
 namespace MALClient.Android.BindingInformation
 {
-    public class ForumBoardEntryBindingInformation : BindingInfo<ForumBoardEntryViewModel>
+    public class ForumBoardEntryBindingInfo : BindingInfo<ForumBoardEntryViewModel>
     {
         private static ForumIndexViewModel ParentViewModel = ViewModelLocator.ForumsIndex;
 
-        public ForumBoardEntryBindingInformation(View container, ForumBoardEntryViewModel viewModel, bool fling) : base(container, viewModel, fling)
+        public ForumBoardEntryBindingInfo(View container, ForumBoardEntryViewModel viewModel, bool fling) : base(container, viewModel, fling)
         {
             PrepareContainer();
         }
@@ -72,7 +72,6 @@ namespace MALClient.Android.BindingInformation
                     Container.FindViewById<ImageViewAsync>(Resource.Id.ForumIndexPageBoardItemPeekPost2Image)
                         .Into(pp2.User.ImgUrl);
                 }
-                _peekBinding.Detach();
             }
         }
 
@@ -81,9 +80,9 @@ namespace MALClient.Android.BindingInformation
             Container.SetOnClickListener(new OnClickListener(view =>
                 ParentViewModel.GoToLastPostCommand.Execute(
                     view.Tag.Unwrap<ForumBoardEntryViewModel>().Board)));
-
-            var icon = new IconicsDrawable(Container.Context, FontAwesomeToIconicsIconConverter.Convert(ViewModel.Icon));
-            Container.FindViewById<ImageView>(Resource.Id.ForumIndexPageBoardItemIcon).SetImageDrawable(icon);
+            var iconImg = Container.FindViewById<TextView>(Resource.Id.ForumIndexPageBoardItemIcon);
+            iconImg.SetText(DummyFontAwesomeToRealFontAwesomeConverter.Convert(ViewModel.Icon));
+            iconImg.Typeface = FontManager.GetTypeface(Container.Context,FontManager.TypefacePath);
             Container.FindViewById<TextView>(Resource.Id.ForumIndexPageBoardItemBoardName).Text =
                 ViewModel.Entry.Name;
             Container.FindViewById<TextView>(Resource.Id.ForumIndexPageBoardItemDecription).Text =

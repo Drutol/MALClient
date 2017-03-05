@@ -24,6 +24,7 @@ namespace MALClient.Android.Fragments.ForumFragments
     {
         private ForumBoardViewModel ViewModel;
         private readonly ForumsBoardNavigationArgs _args;
+        private View _prevHighlightedPageIndicator;
 
         public ForumBoardPageFragment(ForumsBoardNavigationArgs args)
         {
@@ -61,6 +62,46 @@ namespace MALClient.Android.Fragments.ForumFragments
             {
                 ForumBoardPagePostsList.Adapter = ViewModel.Topics.GetAdapter(GetTopicTemplateDelegate);
             }));
+
+            ViewModel.AvailablePages.CollectionChanged += (sender, args) => UpdatePageSelection();
+
+            Bindings.Add(this.SetBinding(() => ViewModel.AvailablePages).WhenSourceChanges(UpdatePageSelection));
+        }
+
+        private void UpdatePageSelection()
+        {
+            ForumBoardPagePageList.SetAdapter(ViewModel.AvailablePages.GetAdapter(GetPageItemTemplateDelegate));
+        }
+
+        private View GetPageItemTemplateDelegate(int i, Tuple<int, bool> tuple, View arg3)
+        {         
+            var view = Activity.LayoutInflater.Inflate(Resource.Layout.PageIndicatorItem, null);
+
+            view.Click += PageItemOnClick;
+            view.Tag = tuple.Item1;
+
+            view.FindViewById(Resource.Id.PageIndicatorItemBackgroundPanel)
+                .SetBackgroundResource(tuple.Item2
+                    ? Resource.Color.AccentColour
+                    : ResourceExtension.BrushAnimeItemInnerBackgroundRes);
+
+            view.FindViewById<TextView>(Resource.Id.PageIndicatorItemNumber).Text = tuple.Item1.ToString();
+
+            if (tuple.Item2)
+                _prevHighlightedPageIndicator = view;
+
+            return view;
+        }
+
+        private void PageItemOnClick(object sender, EventArgs eventArgs)
+        {
+            var view = sender as View;
+            ViewModel.LoadPageCommand.Execute((int) view.Tag);
+            //update it immediatelly
+            view.FindViewById(Resource.Id.PageIndicatorItemBackgroundPanel)
+                .SetBackgroundResource(Resource.Color.AccentColour);
+            _prevHighlightedPageIndicator.FindViewById(Resource.Id.PageIndicatorItemBackgroundPanel)
+                .SetBackgroundResource(ResourceExtension.BrushAnimeItemInnerBackgroundRes);
         }
 
         private View GetTopicTemplateDelegate(int i, ForumTopicEntryViewModel forumTopicEntryViewModel, View arg3)
@@ -72,12 +113,13 @@ namespace MALClient.Android.Fragments.ForumFragments
 
                 var root = view.FindViewById(Resource.Id.ForumBordPagePostItemRootContainer);
                 root.Click += PostOnClick;
-                root.SetBackgroundResource(i%2==0 ? ResourceExtension.BrushRowAlternate1Res : ResourceExtension.BrushRowAlternate2Res);
                 view.FindViewById(Resource.Id.ForumBordPagePostItemLastPostSection).Click += LastPostOnClick;
                 view.FindViewById<TextView>(Resource.Id.ForumBordPagePostItemPollIcon).Typeface =
                     FontManager.GetTypeface(Activity, FontManager.TypefacePath);
             }
             view.Tag = forumTopicEntryViewModel.Wrap();
+
+            view.FindViewById(Resource.Id.ForumBordPagePostItemRootContainer).SetBackgroundResource(i % 2 == 0 ? ResourceExtension.BrushRowAlternate1Res : ResourceExtension.BrushRowAlternate2Res);
 
             if (forumTopicEntryViewModel.FontAwesomeIcon == FontAwesomeIcon.None)
                 view.FindViewById(Resource.Id.ForumBordPagePostItemPollIcon).Visibility = ViewStates.Gone;

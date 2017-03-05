@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"  android:clickable="true" android:focusable="true">
+  <RelativeLayout android:layout_margin="2dp" android:padding="3dp"
+      android:layout_width="wrap_content" android:background="?BrushAnimeItemInnerBackground" android:minWidth="23dp" android:layout_height="32dp">
+    <RelativeLayout
+        android:layout_width="wrap_content" android:background="?BrushAnimeItemInnerBackground" android:id="@+id/PageIndicatorItemBackgroundPanel"
+        android:layout_height="match_parent" android:layout_centerInParent="true">
+      <TextView
+          android:layout_width="wrap_content" android:minWidth="23dp" android:gravity="center_horizontal" android:id="@+id/PageIndicatorItemNumber"
+          android:layout_height="wrap_content" android:text="12" android:layout_centerInParent="true" android:textColor="?BrushText"/>
+    </RelativeLayout>
+  </RelativeLayout>
+</LinearLayout>

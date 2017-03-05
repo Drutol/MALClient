@@ -28,6 +28,9 @@ namespace MALClient.Android.Resources
         public static readonly int BrushAnimeItemInnerBackground = ResourcesCompat.GetColor(MainActivity.CurrentContext.Resources,
             Settings.SelectedTheme == 1 ? Resource.Color.DarkBrushAnimeItemInnerBackground : Resource.Color.LightBrushAnimeItemInnerBackground, null);
 
+        public static readonly int BrushAnimeItemInnerBackgroundRes = 
+            Settings.SelectedTheme == 1 ? Resource.Color.DarkBrushAnimeItemInnerBackground : Resource.Color.LightBrushAnimeItemInnerBackground;
+
         public static readonly int BrushAnimeItemBackground = ResourcesCompat.GetColor(MainActivity.CurrentContext.Resources,
             Settings.SelectedTheme == 1 ? Resource.Color.DarkBrushAnimeItemBackground : Resource.Color.LightBrushAnimeItemBackground, null);
 

@@ -8,7 +8,7 @@
         android:layout_width="wrap_content" android:layout_gravity="center_horizontal"
         android:layout_height="wrap_content">
       <TextView android:id="@+id/ForumBoardPageIcon"
-          android:layout_width="wrap_content" android:textSize="@dimen/FontSizeMedium"
+          android:layout_width="wrap_content" android:textSize="@dimen/FontSizeBig"
           android:layout_height="wrap_content" android:textColor="?BrushText"/>
       <TextView android:id="@+id/ForumBoardPageTitle"
           android:layout_width="wrap_content" android:layout_margin="5dp"
@@ -26,14 +26,15 @@
           android:layout_width="wrap_content" android:text="Search" android:layout_marginStart="5dp"
           android:layout_height="wrap_content" android:background="@drawable/inc_dec_btn_backgroud" style="@style/AccentButtonStyle"/>
       <RelativeLayout
-          android:layout_width="0dp" android:layout_weight="1"
+          android:layout_width="0dp" android:layout_weight="1" android:gravity="center_vertical"
           android:layout_height="wrap_content">
-        <LinearLayout android:id="@+id/ForumBoardPagePageList"
-            android:layout_width="wrap_content" android:orientation="horizontal"
-            android:layout_height="wrap_content"/>
         <ImageButton
             android:layout_width="wrap_content" android:layout_alignParentEnd="true" android:id="@+id/ForumBoardPageGotoPageButton"
-            android:layout_height="wrap_content" android:src="@drawable/icon_go"/>
+            android:layout_height="wrap_content" android:src="@drawable/icon_go" android:background="?BrushAnimeItemInnerBackground" android:paddingStart="9dp" android:paddingEnd="9dp" android:paddingTop="6dp" android:paddingBottom="6dp" android:layout_marginEnd="5dp" android:layout_centerVertical="true"/>
+        <LinearLayout android:id="@+id/ForumBoardPagePageList" android:layout_toLeftOf="@id/ForumBoardPageGotoPageButton"
+            android:layout_width="wrap_content" android:orientation="horizontal"
+            android:layout_height="wrap_content"/>
+
       </RelativeLayout>
     </LinearLayout>
 

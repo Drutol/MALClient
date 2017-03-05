@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" 
+    android:layout_width="match_parent"
     android:layout_height="wrap_content" >
-    <FrameLayout
+    <FrameLayout android:id="@+id/ForumIndexPageBoardItemRootContainer"
         android:layout_width="match_parent" android:clickable="true" android:focusable="true" android:foreground="?selectableItemBackground" android:padding="5dp" android:layout_marginTop="10dp" android:layout_marginBottom="10dp"
         android:layout_height="wrap_content" android:background="?BrushAnimeItemBackground">
         <LinearLayout

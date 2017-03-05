@@ -46,6 +46,12 @@ namespace MALClient.Android.Resources
         public static readonly int BrushRowAlternate2 = ResourcesCompat.GetColor(MainActivity.CurrentContext.Resources,
             Settings.SelectedTheme == 1 ? Resource.Color.DarkBrushRowAlternate2 : Resource.Color.LightBrushRowAlternate2, null);
 
+        public static readonly int BrushRowAlternate1Res =
+            Settings.SelectedTheme == 1 ? Resource.Color.DarkBrushRowAlternate1 : Resource.Color.LightBrushRowAlternate1;
+
+        public static readonly int BrushRowAlternate2Res =
+            Settings.SelectedTheme == 1 ? Resource.Color.DarkBrushRowAlternate2 : Resource.Color.LightBrushRowAlternate2;
+
         public static readonly string FontSizeLight =
             MainActivity.CurrentContext.Resources.GetString(Resource.String.font_family_light);
 

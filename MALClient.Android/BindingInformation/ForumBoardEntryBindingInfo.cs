@@ -77,9 +77,11 @@ namespace MALClient.Android.BindingInformation
 
         protected override void InitOneTimeBindings()
         {
-            Container.SetOnClickListener(new OnClickListener(view =>
-                ParentViewModel.GoToLastPostCommand.Execute(
-                    view.Tag.Unwrap<ForumBoardEntryViewModel>().Board)));
+            Container.FindViewById(Resource.Id.ForumIndexPageBoardItemRootContainer).SetOnClickListener(new OnClickListener(view =>
+                ParentViewModel.NavigateBoardCommand.Execute(
+                    (view.Parent as View).Tag.Unwrap<ForumBoardEntryViewModel>().Board)));
+
+            Container.Tag = ViewModel.Wrap();
             var iconImg = Container.FindViewById<TextView>(Resource.Id.ForumIndexPageBoardItemIcon);
             iconImg.SetText(DummyFontAwesomeToRealFontAwesomeConverter.Convert(ViewModel.Icon));
             iconImg.Typeface = FontManager.GetTypeface(Container.Context,FontManager.TypefacePath);

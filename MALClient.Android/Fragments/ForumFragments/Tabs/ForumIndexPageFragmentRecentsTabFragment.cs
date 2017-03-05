@@ -52,11 +52,7 @@ namespace MALClient.Android.Fragments.ForumFragments.Tabs
 
         private View GetRecentsSectionTemplateDelegate(int i, List<ForumPostEntry> forumPostEntries, View arg3)
         {
-            var view = arg3;
-            if (view == null)
-            {
-                view = Activity.LayoutInflater.Inflate(Resource.Layout.ForumsIndexSectionItem, null);
-            }
+            var view = arg3 ?? Activity.LayoutInflater.Inflate(Resource.Layout.ForumsIndexSectionItem, null);
 
             view.FindViewById<TextView>(Resource.Id.ForumsIndexSectionItemListHeader).Text = IndexToSectionName();
             view.FindViewById<LinearLayout>(Resource.Id.ForumsIndexSectionItemList).SetAdapter(forumPostEntries.GetAdapter(GetRecentPostTemplateDelegate));

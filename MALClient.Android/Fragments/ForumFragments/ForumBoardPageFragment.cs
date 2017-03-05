@@ -9,9 +9,14 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using GalaSoft.MvvmLight.Helpers;
+using MALClient.Android.BindingConverters;
+using MALClient.Android.Resources;
+using MALClient.Models.Enums;
 using MALClient.XShared.NavArgs;
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Forums;
+using MALClient.XShared.ViewModels.Forums.Items;
 
 namespace MALClient.Android.Fragments.ForumFragments
 {
@@ -33,9 +38,112 @@ namespace MALClient.Android.Fragments.ForumFragments
 
         protected override void InitBindings()
         {
+            ForumBoardPageIcon.Typeface = FontManager.GetTypeface(Activity,FontManager.TypefacePath);
 
+            Bindings.Add(
+                this.SetBinding(() => ViewModel.LoadingTopics,
+                    () => ForumBoardPageLoadingSpinner.Visibility).ConvertSourceToTarget(Converters.BoolToVisibility));
+
+            Bindings.Add(
+                this.SetBinding(() => ViewModel.Title,
+                    () => ForumBoardPageTitle.Text));
+
+            Bindings.Add(this.SetBinding(() => ViewModel.Icon).WhenSourceChanges(() =>
+            {
+                ForumBoardPageIcon.SetText(DummyFontAwesomeToRealFontAwesomeConverter.Convert(ViewModel.Icon));
+            }));
+
+            Bindings.Add(
+                this.SetBinding(() => ViewModel.NewTopicButtonVisibility,
+                    () => ForumBoardPageNewTopicButton.Visibility).ConvertSourceToTarget(Converters.BoolToVisibility));
+
+            Bindings.Add(this.SetBinding(() => ViewModel.Topics).WhenSourceChanges(() =>
+            {
+                ForumBoardPagePostsList.Adapter = ViewModel.Topics.GetAdapter(GetTopicTemplateDelegate);
+            }));
         }
 
-        public override int LayoutResourceId { get; }
+        private View GetTopicTemplateDelegate(int i, ForumTopicEntryViewModel forumTopicEntryViewModel, View arg3)
+        {
+            var view = arg3;
+            if (view == null)
+            {
+                view = Activity.LayoutInflater.Inflate(Resource.Layout.ForumBoardPagePostItem, null);
+
+                var root = view.FindViewById(Resource.Id.ForumBordPagePostItemRootContainer);
+                root.Click += PostOnClick;
+                root.SetBackgroundResource(i%2==0 ? ResourceExtension.BrushRowAlternate1Res : ResourceExtension.BrushRowAlternate2Res);
+                view.FindViewById(Resource.Id.ForumBordPagePostItemLastPostSection).Click += LastPostOnClick;
+                view.FindViewById<TextView>(Resource.Id.ForumBordPagePostItemPollIcon).Typeface =
+                    FontManager.GetTypeface(Activity, FontManager.TypefacePath);
+            }
+            view.Tag = forumTopicEntryViewModel.Wrap();
+
+            if (forumTopicEntryViewModel.FontAwesomeIcon == FontAwesomeIcon.None)
+                view.FindViewById(Resource.Id.ForumBordPagePostItemPollIcon).Visibility = ViewStates.Gone;
+            else
+            {
+                var icnView = view.FindViewById<TextView>(Resource.Id.ForumBordPagePostItemPollIcon);
+                icnView.Visibility = ViewStates.Visible;
+                icnView.SetText(DummyFontAwesomeToRealFontAwesomeConverter.Convert(forumTopicEntryViewModel.FontAwesomeIcon));
+            }
+
+            view.FindViewById<TextView>(Resource.Id.ForumBordPagePostItemTitle).Text =
+                forumTopicEntryViewModel.Data.Title;
+            view.FindViewById<TextView>(Resource.Id.ForumBordPagePostItemOpAndDate).Text =
+                $"{forumTopicEntryViewModel.Data.Op} {forumTopicEntryViewModel.Data.Created}";
+            view.FindViewById<TextView>(Resource.Id.ForumBordPagePostItemReplies).Text =
+                forumTopicEntryViewModel.Data.Replies;
+            view.FindViewById<TextView>(Resource.Id.ForumBordPagePostItemLastPostAuthor).Text =
+                forumTopicEntryViewModel.Data.LastPoster;
+            view.FindViewById<TextView>(Resource.Id.ForumBordPagePostItemLastPostDate).Text =
+                forumTopicEntryViewModel.Data.LastPostDate;
+
+
+
+            return view;
+        }
+
+        private void LastPostOnClick(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void PostOnClick(object sender, EventArgs eventArgs)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override int LayoutResourceId => Resource.Layout.ForumBoardPage;
+
+
+        #region Views
+
+        private TextView _forumBoardPageIcon;
+        private TextView _forumBoardPageTitle;
+        private Button _forumBoardPageNewTopicButton;
+        private Button _forumBoardPageSearchButton;
+        private LinearLayout _forumBoardPagePageList;
+        private ImageButton _forumBoardPageGotoPageButton;
+        private ListView _forumBoardPagePostsList;
+        private ProgressBar _forumBoardPageLoadingSpinner;
+
+        public TextView ForumBoardPageIcon => _forumBoardPageIcon ?? (_forumBoardPageIcon = FindViewById<TextView>(Resource.Id.ForumBoardPageIcon));
+
+        public TextView ForumBoardPageTitle => _forumBoardPageTitle ?? (_forumBoardPageTitle = FindViewById<TextView>(Resource.Id.ForumBoardPageTitle));
+
+        public Button ForumBoardPageNewTopicButton => _forumBoardPageNewTopicButton ?? (_forumBoardPageNewTopicButton = FindViewById<Button>(Resource.Id.ForumBoardPageNewTopicButton));
+
+        public Button ForumBoardPageSearchButton => _forumBoardPageSearchButton ?? (_forumBoardPageSearchButton = FindViewById<Button>(Resource.Id.ForumBoardPageSearchButton));
+
+        public LinearLayout ForumBoardPagePageList => _forumBoardPagePageList ?? (_forumBoardPagePageList = FindViewById<LinearLayout>(Resource.Id.ForumBoardPagePageList));
+
+        public ImageButton ForumBoardPageGotoPageButton => _forumBoardPageGotoPageButton ?? (_forumBoardPageGotoPageButton = FindViewById<ImageButton>(Resource.Id.ForumBoardPageGotoPageButton));
+
+        public ListView ForumBoardPagePostsList => _forumBoardPagePostsList ?? (_forumBoardPagePostsList = FindViewById<ListView>(Resource.Id.ForumBoardPagePostsList));
+
+        public ProgressBar ForumBoardPageLoadingSpinner => _forumBoardPageLoadingSpinner ?? (_forumBoardPageLoadingSpinner = FindViewById<ProgressBar>(Resource.Id.ForumBoardPageLoadingSpinner));
+
+        #endregion
     }
 }

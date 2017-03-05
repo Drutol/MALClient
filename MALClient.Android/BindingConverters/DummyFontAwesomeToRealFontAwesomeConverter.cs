@@ -57,6 +57,8 @@ namespace MALClient.Android.BindingConverters
                     return Resource.String.fa_icon_picture_o;
                 case FontAwesomeIcon.BarChart:
                     return Resource.String.fa_icon_bar_chart;
+                case FontAwesomeIcon.StickyNote:
+                    return Resource.String.fa_icon_sticky_note;
                     
             }
 

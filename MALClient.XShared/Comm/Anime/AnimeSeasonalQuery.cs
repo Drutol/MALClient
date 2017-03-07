@@ -125,11 +125,29 @@ namespace MALClient.XShared.Comm.Anime
         {
             if (htmlNode.Attributes["class"]?.Value != HtmlClassMgr.ClassDefs["#Seasonal:entryNode:class"])
                 return null;
-
             var imageNode =
                 htmlNode.FirstOfDescendantsWithClass("div", "image");
             var link = imageNode.ChildNodes.First(node => node.Name == "a").Attributes["href"].Value;
-            var img = imageNode.Attributes["style"].Value.Split(new[] {'(',')'})[1];
+            string img = null;
+            try
+            {           
+                var actualImageNode = imageNode.Descendants("img").First();
+                img = actualImageNode.Attributes["data-srcset"].Value;
+                img = img.Split(',').Last();
+                img = img.Substring(0, img.Length - 3);
+                var imgParts = img.Split('/');
+                int imgCount = imgParts.Length;
+                var imgurl = imgParts[imgCount - 2] + "/" + imgParts[imgCount - 1];
+                var pos = imgurl.IndexOf('?');
+                if (pos != -1)
+                    imgurl = imgurl.Substring(0, pos);
+                img = "https://myanimelist.cdn-dena.com/images/" + (actualImageNode.Attributes["data-srcset"].Value.Contains("/anime/") ? "anime/" : "manga/") + imgurl;
+            }
+            catch (Exception e)
+            {
+                //image has changed again.. sigh
+            }
+            
             var scoreTxt =
                 htmlNode.Descendants("span")
                     .First(

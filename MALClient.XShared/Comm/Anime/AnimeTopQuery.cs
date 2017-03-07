@@ -99,7 +99,7 @@ namespace MALClient.XShared.Comm.Anime
                     epsText = epsText.Substring(0, epsText.IndexOf(' '));
                     current.Episodes = epsText;
                     //var img = item.Descendants("img").First().Attributes["data-src"].Value.Split('/');
-                    var img = item.Descendants("img").First().Attributes["srcset"].Value;
+                    var img = item.Descendants("img").First().Attributes["data-srcset"].Value;
                     img = img.Split(',').Last();
                     img = img.Substring(0, img.Length - 3);
                     var imgParts = img.Split('/');

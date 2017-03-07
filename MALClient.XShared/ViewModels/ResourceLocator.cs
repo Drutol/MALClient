@@ -42,6 +42,8 @@ namespace MALClient.XShared.ViewModels
 
         public static ISchdeuledJobsManger SchdeuledJobsManger => SimpleIoc.Default.GetInstance<ISchdeuledJobsManger>();
 
+        public static ICssManager CssManager => SimpleIoc.Default.GetInstance<ICssManager>();
+
 
         // Purely shared interfaces
 

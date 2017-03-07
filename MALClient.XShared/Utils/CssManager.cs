@@ -1,27 +1,13 @@
-﻿using Windows.UI.ViewManagement;
-using Windows.UI.Xaml;
-using MALClient.XShared.Utils;
+﻿using MALClient.Adapters;
 
-namespace MALClient.UWP.Shared.Managers
+namespace MALClient.XShared.Utils
 {
-    public static class CssManager
+    public abstract class CssManagerBase : ICssManager
     {
-        private static string ReplacedCss { get;  }
-        private static string ReplacedCssHtmlBodyScrollEnabled { get;  }
-//        document.addEventListener('click', function(e)
-//        {
-//            e = e || window.event;
-//        var target = e.target || e.srcElement;
-//                                    if(target.nodeName === 'A'){
-//                                        target.className += ' font-bold';
-//                                        setTimeout(function() { target.className -= ' font-bold'; }, 200);
-//                                    }
-//}, false);
-//                                function loadLink(x, y)
-//{
-//    var el = document.elementFromPoint(x, y);
-//    el && el.click();
-//};
+        private string ReplacedCss { get; set; }
+        private string ReplacedCssHtmlBodyScrollEnabled { get; set; }
+        private string ReplacedBegin { get; set; }
+
         private const string Begin = @"<html><head>
                             <meta name=""viewport"" content=""width=device-width, initial-scale=1, user-scalable=no"" />
                             <script type=""text/javascript"">
@@ -35,7 +21,7 @@ namespace MALClient.UWP.Shared.Managers
                                     );
                                 };
                                 function notifyDocumentHeightChanged(id){
-                                    window.external.notify(getDocHeight(id).toString());
+                                    $notifyFunction$(getDocHeight(id).toString());
                                 };                                
                                 function bindButtons(){
                                     var classname = document.getElementsByTagName(""input"")
@@ -48,54 +34,59 @@ namespace MALClient.UWP.Shared.Managers
                        </head><body id='root' onload='notifyDocumentHeightChanged(""content"");bindButtons();'><div id='content'>";
         private const string End = @"</div></body></html>";
 
-        static CssManager()
+        protected abstract string AccentColour { get; }
+        protected abstract string AccentColourLight { get; }
+        protected abstract string AccentColourDark { get; }
+        protected abstract string NotifyFunction { get; }
+
+        private void PrepareCss()
         {
-            var uiSettings = new UISettings();
-            var color = uiSettings.GetColorValue(UIColorType.Accent);
-            var color1 = uiSettings.GetColorValue(UIColorType.AccentDark2);
-            var color2 = uiSettings.GetColorValue(UIColorType.AccentLight2);
             string css = Css;
             string bodyCss = CssHtmlBodyScrollEnabled;
 
-            css = css.Replace("AccentColourBase", "#" + color.ToString().Substring(3)).
-                Replace("AccentColourLight", "#" + color2.ToString().Substring(3)).
-                Replace("AccentColourDark", "#" + color1.ToString().Substring(3))
+            css = css.Replace("AccentColourBase", AccentColour).
+                Replace("AccentColourLight", AccentColourLight).
+                Replace("AccentColourDark", AccentColourDark)
                 .Replace("BodyBackgroundThemeColor",
-                    Settings.SelectedTheme == (int)ApplicationTheme.Dark ? "#2d2d2d" : "#e6e6e6")
+                    Settings.SelectedTheme == 1 ? "#2d2d2d" : "#e6e6e6")
                 .Replace("BodyForegroundThemeColor",
-                    Settings.SelectedTheme == (int)ApplicationTheme.Dark ? "white" : "black").Replace(
+                    Settings.SelectedTheme == 1 ? "white" : "black").Replace(
                     "HorizontalSeparatorColor",
-                    Settings.SelectedTheme == (int)ApplicationTheme.Dark ? "#0d0d0d" : "#b3b3b3")
+                    Settings.SelectedTheme == 1 ? "#0d0d0d" : "#b3b3b3")
                 .Replace("BodyBackgroundThemeDarkerColor",
-                    Settings.SelectedTheme == (int)ApplicationTheme.Dark ? "#212121" : "#dadada");
+                    Settings.SelectedTheme == 1 ? "#212121" : "#dadada");
 
-            bodyCss = bodyCss.Replace("AccentColourBase", "#" + color.ToString().Substring(3)).
-                Replace("AccentColourLight", "#" + color2.ToString().Substring(3)).
-                Replace("AccentColourDark", "#" + color1.ToString().Substring(3))
+            bodyCss = bodyCss.Replace("AccentColourBase", AccentColour).
+                Replace("AccentColourLight", AccentColourLight).
+                Replace("AccentColourDark", AccentColourDark)
                 .Replace("BodyBackgroundThemeColor",
-                    Settings.SelectedTheme == (int)ApplicationTheme.Dark ? "#2d2d2d" : "#e6e6e6")
+                    Settings.SelectedTheme == 1 ? "#2d2d2d" : "#e6e6e6")
                 .Replace("BodyForegroundThemeColor",
-                    Settings.SelectedTheme == (int)ApplicationTheme.Dark ? "white" : "black").Replace(
+                    Settings.SelectedTheme == 1 ? "white" : "black").Replace(
                     "HorizontalSeparatorColor",
-                    Settings.SelectedTheme == (int)ApplicationTheme.Dark ? "#0d0d0d" : "#b3b3b3")
+                    Settings.SelectedTheme == 1 ? "#0d0d0d" : "#b3b3b3")
                 .Replace("BodyBackgroundThemeDarkerColor",
-                    Settings.SelectedTheme == (int)ApplicationTheme.Dark ? "#212121" : "#dadada");
+                    Settings.SelectedTheme == 1 ? "#212121" : "#dadada");
 
+            ReplacedBegin = Begin.Replace("$notifyFunction$", NotifyFunction);
             ReplacedCssHtmlBodyScrollEnabled = bodyCss;
             ReplacedCss = css;
         }
 
-        public static string WrapWithCss(string html,bool disableScroll = false)
+        public string WrapWithCss(string html,bool disableScroll = false)
         {
             if (string.IsNullOrWhiteSpace(html))
                 return string.Empty;
+
+            if(string.IsNullOrEmpty(ReplacedCss))
+                PrepareCss();
 
             var css = ReplacedCss.Insert(0, ReplacedCssHtmlBodyScrollEnabled);
 
             if (!Settings.ArticlesDisplayScrollBar)
                 css += CssRemoveScrollbar;
             css += "</style>";
-            return css + Begin + html + End;
+            return css + ReplacedBegin + html + End;
         }
 
         #region Css

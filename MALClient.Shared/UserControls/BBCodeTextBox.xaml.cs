@@ -4,6 +4,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using MALClient.UWP.Shared.Managers;
 using MALClient.XShared.Utils;
+using MALClient.XShared.ViewModels;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -158,7 +159,7 @@ namespace MALClient.UWP.Shared.UserControls
         {
             try
             {
-                PreviewWebView.NavigateToString(CssManager.WrapWithCss(BBCode.BBCode.ToHtml(ContentBox.Text)));
+                PreviewWebView.NavigateToString(ResourceLocator.CssManager.WrapWithCss(BBCode.BBCode.ToHtml(ContentBox.Text)));
             }
             catch (Exception)
             {

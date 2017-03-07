@@ -2,7 +2,7 @@ using Android.Graphics;
 using Android.Webkit;
 using MALClient.XShared.Delegates;
 
-namespace MALClient.Android
+namespace MALClient.Android.Web
 {
     public class ListenableWebClient : WebViewClient
     {

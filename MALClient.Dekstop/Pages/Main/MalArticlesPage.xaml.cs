@@ -5,6 +5,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using GalaSoft.MvvmLight.Command;
 using MALClient.Models.Enums;
+using MALClient.UWP.Adapters;
 using MALClient.UWP.Shared.Managers;
 using MALClient.XShared.Comm.Anime;
 using MALClient.XShared.NavArgs;
@@ -49,7 +50,7 @@ namespace MALClient.UWP.Pages.Main
             //
 
             
-            ArticleWebView.NavigateToString(CssManager.WrapWithCss(html));
+            ArticleWebView.NavigateToString(ResourceLocator.CssManager.WrapWithCss(html));
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)

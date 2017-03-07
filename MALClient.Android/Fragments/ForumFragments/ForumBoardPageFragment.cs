@@ -118,7 +118,7 @@ namespace MALClient.Android.Fragments.ForumFragments
                     FontManager.GetTypeface(Activity, FontManager.TypefacePath);
             }
             view.Tag = forumTopicEntryViewModel.Wrap();
-
+     
             view.FindViewById(Resource.Id.ForumBordPagePostItemRootContainer).SetBackgroundResource(i % 2 == 0 ? ResourceExtension.BrushRowAlternate1Res : ResourceExtension.BrushRowAlternate2Res);
 
             if (forumTopicEntryViewModel.FontAwesomeIcon == FontAwesomeIcon.None)
@@ -153,7 +153,7 @@ namespace MALClient.Android.Fragments.ForumFragments
 
         private void PostOnClick(object sender, EventArgs eventArgs)
         {
-            throw new NotImplementedException();
+            ViewModel.LoadTopic(((sender as View).Parent as View).Tag.Unwrap<ForumTopicEntryViewModel>());
         }
 
         public override int LayoutResourceId => Resource.Layout.ForumBoardPage;

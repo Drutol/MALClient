@@ -1,6 +1,7 @@
 ﻿using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using MALClient.UWP.Adapters;
 using MALClient.UWP.Shared.Managers;
 using MALClient.XShared.NavArgs;
 using MALClient.XShared.ViewModels;
@@ -71,7 +72,7 @@ namespace MALClient.UWP.Pages.Forums
 
         private void ViewModelOnUpdatePreview(object sender, string s)
         {
-            PreviewWebView.NavigateToString(CssManager.WrapWithCss(s));
+            PreviewWebView.NavigateToString(ResourceLocator.CssManager.WrapWithCss(s));
         }
     }
 }

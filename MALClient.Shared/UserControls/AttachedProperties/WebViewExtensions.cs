@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using MALClient.UWP.Shared.Managers;
+using MALClient.XShared.ViewModels;
 
 namespace MALClient.UWP.Shared.UserControls.AttachedProperties
 {
@@ -24,7 +25,7 @@ namespace MALClient.UWP.Shared.UserControls.AttachedProperties
                 }
             }
             SetComputedHeight(view,0);
-            view.NavigateToString(CssManager.WrapWithCss(dependencyPropertyChangedEventArgs.NewValue as string,GetDisableScroll(dependencyObject)));
+            view.NavigateToString(ResourceLocator.CssManager.WrapWithCss(dependencyPropertyChangedEventArgs.NewValue as string,GetDisableScroll(dependencyObject)));
         }
 
         private static async void ViewOnScriptNotify(object sender, NotifyEventArgs e)

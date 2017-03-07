@@ -39,6 +39,7 @@
     <Compile Include="ICalendarExportProvider.cs" />
     <Compile Include="IChangeLogProvider.cs" />
     <Compile Include="IClipboardProvider.cs" />
+    <Compile Include="ICssManager.cs" />
     <Compile Include="IDataCache.cs" />
     <Compile Include="IImageDownloaderService.cs" />
     <Compile Include="ILiveTilesManager.cs" />

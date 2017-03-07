@@ -110,6 +110,7 @@
     <Compile Include="ApplicationDataServiceService.cs" />
     <Compile Include="CalendarExportProvider.cs" />
     <Compile Include="ChangeLogProvider.cs" />
+    <Compile Include="CssManager.cs" />
     <Compile Include="DataCache.cs" />
     <Compile Include="ClipboardProvider.cs" />
     <Compile Include="ImageDownloaderService.cs" />

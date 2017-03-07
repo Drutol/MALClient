@@ -12,6 +12,7 @@ using GalaSoft.MvvmLight.Helpers;
 using MALClient.Android.BindingConverters;
 using MALClient.Android.PagerAdapters;
 using MALClient.Android.Resources;
+using MALClient.Android.Web;
 using MALClient.Models.Enums;
 using MALClient.Models.Models.MalSpecific;
 using MALClient.XShared.Comm.Anime;
@@ -19,6 +20,7 @@ using MALClient.XShared.NavArgs;
 using MALClient.XShared.Utils;
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Main;
+using MALClient.Android.Web;
 
 namespace MALClient.Android.Fragments.ArticlesPageFragments
 {

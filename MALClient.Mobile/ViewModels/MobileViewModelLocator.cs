@@ -37,6 +37,7 @@ namespace MALClient.UWP.ViewModels
             SimpleIoc.Default.Register<INotificationsTaskManager, NotificationTaskManagerAdapter>();
             SimpleIoc.Default.Register<IChangeLogProvider, ChangeLogProvider>();
             SimpleIoc.Default.Register<ISchdeuledJobsManger, ScheduledJobsManager>();
+            SimpleIoc.Default.Register<ICssManager, CssManager>();
 
             ViewModelLocator.Mobile = true;
         }

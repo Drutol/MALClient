@@ -26,11 +26,11 @@ namespace MALClient.Android.Web
 
         public event EventHandler<string> NewResponse;
 
-        [Export]
+        [Export("OnData")]
         [JavascriptInterface]
         public void OnData(string value)
         {
-            NewResponse?.Invoke(this,value);
+            NewResponse?.Invoke(this,value.ToString());
         }
     }
 }

@@ -10,6 +10,7 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using GalaSoft.MvvmLight.Helpers;
+using MALClient.Android.Activities;
 using MALClient.Android.BindingConverters;
 using MALClient.Android.CollectionAdapters;
 using MALClient.Android.Resources;
@@ -58,12 +59,17 @@ namespace MALClient.Android.Fragments.ForumFragments
 
         private void UpdatePageSelection()
         {
-            ForumTopicPageList.SetAdapter(ViewModel.AvailablePages.GetAdapter(GetPageItemTemplateDelegate));
+            if(ViewModel.AvailablePages != null)
+                ForumTopicPageList.SetAdapter(ViewModel.AvailablePages.GetAdapter(GetPageItemTemplateDelegate));
         }
 
         private View GetPageItemTemplateDelegate(int i, Tuple<int, bool> tuple, View arg3)
         {
-            var view = Activity.LayoutInflater.Inflate(Resource.Layout.PageIndicatorItem, null);
+            try
+            {
+
+
+            var view = MainActivity.CurrentContext.LayoutInflater.Inflate(Resource.Layout.PageIndicatorItem, null);
 
             view.Click += PageItemOnClick;
             view.Tag = tuple.Item1;
@@ -79,6 +85,12 @@ namespace MALClient.Android.Fragments.ForumFragments
                 _prevHighlightedPageIndicator = view;
 
             return view;
+            }
+            catch (Exception e)
+            {
+                //TODO remove
+            }
+            return arg3;
         }
 
         private void PageItemOnClick(object sender, EventArgs eventArgs)

@@ -74,7 +74,8 @@ namespace MALClient.Android.Fragments.ForumFragments
         }
 
         private View GetPageItemTemplateDelegate(int i, Tuple<int, bool> tuple, View arg3)
-        {         
+        {
+
             var view = Activity.LayoutInflater.Inflate(Resource.Layout.PageIndicatorItem, null);
 
             view.Click += PageItemOnClick;

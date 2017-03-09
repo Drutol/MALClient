@@ -50,7 +50,8 @@ namespace MALClient.Android.Fragments.ForumFragments
                 if(ViewModel.Messages != null)
                     ForumTopicPagePostsList.Adapter = new ForumPostItemsAdapter(Activity, Resource.Layout.ForumTopicPageItem, ViewModel.Messages);
             }));
-            
+
+            ForumTopicPagePostsList.MakeFlingAware();
 
             ViewModel.AvailablePages.CollectionChanged += (sender, args) => UpdatePageSelection();
 
@@ -65,10 +66,6 @@ namespace MALClient.Android.Fragments.ForumFragments
 
         private View GetPageItemTemplateDelegate(int i, Tuple<int, bool> tuple, View arg3)
         {
-            try
-            {
-
-
             var view = MainActivity.CurrentContext.LayoutInflater.Inflate(Resource.Layout.PageIndicatorItem, null);
 
             view.Click += PageItemOnClick;
@@ -85,12 +82,6 @@ namespace MALClient.Android.Fragments.ForumFragments
                 _prevHighlightedPageIndicator = view;
 
             return view;
-            }
-            catch (Exception e)
-            {
-                //TODO remove
-            }
-            return arg3;
         }
 
         private void PageItemOnClick(object sender, EventArgs eventArgs)

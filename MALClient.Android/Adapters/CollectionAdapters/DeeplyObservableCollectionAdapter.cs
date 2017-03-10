@@ -61,7 +61,7 @@ namespace MALClient.Android.CollectionAdapters
 
         public override long GetItemId(int position)
         {
-            return GetItemId(Items[position]);
+            return position == Items.Count ? 324 : GetItemId(Items[position]);
         }
 
         public override View GetView(int position, View convertView, ViewGroup parent)

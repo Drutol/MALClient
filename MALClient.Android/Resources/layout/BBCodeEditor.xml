@@ -3,6 +3,9 @@
     android:layout_height="wrap_content"
     android:orientation="vertical" android:padding="7dp"
     xmlns:android="http://schemas.android.com/apk/res/android">
+  <EditText
+      android:layout_width="match_parent" android:id="@+id/BBCodeEditorTextBox" android:gravity="start"
+      android:layout_height="wrap_content" android:padding="5dp" android:minHeight="150dp" android:background="@drawable/bbcode_editor_background_states"/>
   <LinearLayout
       android:layout_width="match_parent"
       android:layout_height="35dp" android:background="?BrushAppBars">
@@ -47,7 +50,4 @@
         android:layout_height="35dp" android:src="@drawable/icon_image_alt"
         android:background="?selectableItemBackground"/>
   </LinearLayout>
-  <EditText
-      android:layout_width="match_parent" android:id="@+id/BBCodeEditorTextBox" android:gravity="start"
-      android:layout_height="wrap_content" android:padding="5dp" android:minHeight="150dp" android:background="@drawable/bbcode_editor_background_states"/>
 </LinearLayout>

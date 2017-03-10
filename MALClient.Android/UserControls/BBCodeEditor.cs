@@ -32,7 +32,12 @@ namespace MALClient.Android.UserControls
 
     public class BBCodeEditor : LinearLayout
     {
-        public string Text { get; set; }
+        public string Text
+        {
+            get { return _contentBox.Text; }
+            set { _contentBox.Text = value; }
+        }
+
         private View _editorView;
         private EditText _contentBox;
 
@@ -74,8 +79,48 @@ namespace MALClient.Android.UserControls
             LayoutParameters = new ViewGroup.LayoutParams(-1, -2);
             _editorView = (Context as Activity).LayoutInflater.Inflate(Resource.Layout.BBCodeEditor, null);
 
+            var bold = _editorView.FindViewById(Resource.Id.BBCodeEditorBtnBold);
+            bold.Tag = (int)BBCodeMarkers.Bold;
+            bold.Click += ButtonOnClick;
+
+            var italic = _editorView.FindViewById(Resource.Id.BBCodeEditorBtnItalic);
+            italic.Tag = (int)BBCodeMarkers.Italic;
+            italic.Click += ButtonOnClick;
+
+            var underline = _editorView.FindViewById(Resource.Id.BBCodeEditorBtnBoldUnderline);
+            underline.Tag = (int)BBCodeMarkers.Underline;
+            underline.Click += ButtonOnClick;
+
+            var center = _editorView.FindViewById(Resource.Id.BBCodeEditorBtnBoldCenter);
+            center.Tag = (int)BBCodeMarkers.AlignCenter;
+            center.Click += ButtonOnClick;
+
+            var right = _editorView.FindViewById(Resource.Id.BBCodeEditorBtnBoldRight);
+            right.Tag = (int)BBCodeMarkers.AlignRight;
+            right.Click += ButtonOnClick;
+
+            var list = _editorView.FindViewById(Resource.Id.BBCodeEditorBtnBoldList);
+            list.Tag = (int)BBCodeMarkers.List;
+            list.Click += ButtonOnClick;
+
+            var spoiler = _editorView.FindViewById(Resource.Id.BBCodeEditorBtnBoldSpoiler);
+            spoiler.Tag = (int)BBCodeMarkers.Spoiler;
+            spoiler.Click += ButtonOnClick;
+
+            var code = _editorView.FindViewById(Resource.Id.BBCodeEditorBtnBoldCode);
+            code.Tag = (int)BBCodeMarkers.Code;
+            code.Click += ButtonOnClick;
+
+            var image = _editorView.FindViewById(Resource.Id.BBCodeEditorBtnBoldImage);
+            image.Tag = (int)BBCodeMarkers.Image;
+            image.Click += ButtonOnClick;
 
             AddView(_editorView);
+        }
+
+        private void ButtonOnClick(object sender, EventArgs eventArgs)
+        {
+            EditorButtonOnClick((BBCodeMarkers)(int)(sender as View).Tag);
         }
 
         private void EditorButtonOnClick(BBCodeMarkers marker)

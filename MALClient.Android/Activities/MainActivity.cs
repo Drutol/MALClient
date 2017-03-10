@@ -31,7 +31,7 @@ using MALClient.XShared.ViewModels.Interfaces;
 
 namespace MALClient.Android.Activities
 {
-    [Activity(Label = "MALClient", MainLauncher = true, 
+    [Activity(Label = "MALClient",
         Icon = "@drawable/icon", /*ScreenOrientation = ScreenOrientation.Portrait,*/
         Theme = "@style/Theme.AppCompat.NoActionBar",ConfigurationChanges = ConfigChanges.Orientation|ConfigChanges.ScreenSize)]
     public partial class MainActivity : AppCompatActivity , IDimensionsProvider

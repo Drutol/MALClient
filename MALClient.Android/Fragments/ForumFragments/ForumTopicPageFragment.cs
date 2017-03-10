@@ -14,6 +14,7 @@ using MALClient.Android.Activities;
 using MALClient.Android.BindingConverters;
 using MALClient.Android.CollectionAdapters;
 using MALClient.Android.Resources;
+using MALClient.Android.UserControls;
 using MALClient.XShared.NavArgs;
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Forums;
@@ -35,7 +36,13 @@ namespace MALClient.Android.Fragments.ForumFragments
         protected override void Init(Bundle savedInstanceState)
         {
             ViewModel = ViewModelLocator.ForumsTopic;
+            ViewModel.RequestScroll += ViewModelOnRequestScroll;
             ViewModel.Init(_args);
+        }
+
+        private void ViewModelOnRequestScroll(object sender, int i)
+        {
+            ForumTopicPagePostsList.SmoothScrollToPosition(i);
         }
 
         protected override void InitBindings()
@@ -56,6 +63,10 @@ namespace MALClient.Android.Fragments.ForumFragments
             ViewModel.AvailablePages.CollectionChanged += (sender, args) => UpdatePageSelection();
 
             Bindings.Add(this.SetBinding(() => ViewModel.AvailablePages).WhenSourceChanges(UpdatePageSelection));
+
+            ForumTopicPageNewReplyButton.Click +=
+                (sender, args) =>
+                    ForumTopicPagePostsList.SmoothScrollToPosition(ForumTopicPagePostsList.Adapter.Count - 1);
         }
 
         private void UpdatePageSelection()

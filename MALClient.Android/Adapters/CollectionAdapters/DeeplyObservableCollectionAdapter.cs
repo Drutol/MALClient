@@ -24,15 +24,21 @@ namespace MALClient.Android.CollectionAdapters
 
         protected abstract void PrepareView(T item, View view);
         protected abstract void PrepareViewQuickly(T item, View view);
-
         protected abstract long GetItemId(T item);
+
+        protected virtual View GetFooterView()
+        {
+            return null;
+        }
+
+        public virtual bool HasFooter { get; set; } = false;
 
         protected Dictionary<int, BindingInfo<T>> Bindings { get; } =
             new Dictionary<int, BindingInfo<T>>();
       
         public override T this[int position] => Items[position];
 
-        public override int Count => this.Items.Count;
+        public override int Count => HasFooter ? Items.Count + 1 : Items.Count;
 
         protected DeeplyObservableCollectionAdapter(Activity context, int layoutResource, IList<T> items)
         {
@@ -60,9 +66,14 @@ namespace MALClient.Android.CollectionAdapters
 
         public override View GetView(int position, View convertView, ViewGroup parent)
         {
+            if (position == Items.Count)
+            {
+                return GetFooterView();
+            }
+
             var viewModel = Items[position];
             var view = convertView;
-            if (view == null)
+            if (view == null || (HasFooter && view.GetType() == GetFooterView().GetType()))
             {
                 view = Context.LayoutInflater.Inflate(LayoutResource, null);
                 InitializedViews.Add(view,viewModel);
@@ -102,7 +113,7 @@ namespace MALClient.Android.CollectionAdapters
 
         public bool FlingScrollActive
         {
-            get { return _flingScrollActive; }
+            get { return _flingScrollActive || FlingScrollOverride; }
             set
             {
                 if(_flingScrollActive == value)
@@ -121,5 +132,6 @@ namespace MALClient.Android.CollectionAdapters
         }
 
         public int FlingItemCountThreshold { get; set; } = 0;
+        public bool FlingScrollOverride { get; set; }
     }
 }

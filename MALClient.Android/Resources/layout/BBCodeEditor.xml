@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" android:padding="7dp"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="35dp" android:background="?BrushAppBars">
+    <ImageButton
+        android:layout_width="35dp" android:id="@+id/BBCodeEditorBtnBold"
+        android:layout_height="35dp" android:src="@drawable/icon_bold"
+        android:background="?selectableItemBackground"/>
+    <ImageButton
+        android:layout_width="35dp" android:id="@+id/BBCodeEditorBtnItalic"
+        android:layout_height="35dp" android:src="@drawable/icon_italic"
+        android:background="?selectableItemBackground"/>
+    <ImageButton
+        android:layout_width="35dp" android:id="@+id/BBCodeEditorBtnBoldUnderline"
+        android:layout_height="35dp" android:src="@drawable/icon_underline"
+        android:background="?selectableItemBackground"/>
+    <ImageButton
+        android:layout_width="35dp" android:id="@+id/BBCodeEditorBtnBoldCenter"
+        android:layout_height="35dp" android:src="@drawable/icon_align_center"
+        android:background="?selectableItemBackground"/>
+    <ImageButton
+        android:layout_width="35dp" android:id="@+id/BBCodeEditorBtnBoldRight"
+        android:layout_height="35dp" android:src="@drawable/icon_align_right"
+        android:background="?selectableItemBackground"/>
+    <ImageButton
+        android:layout_width="35dp" android:id="@+id/BBCodeEditorBtnBoldVideo"
+        android:layout_height="35dp" android:src="@drawable/icon_video"
+        android:background="?selectableItemBackground"/>
+    <ImageButton
+        android:layout_width="35dp" android:id="@+id/BBCodeEditorBtnBoldCode"
+        android:layout_height="35dp" android:src="@drawable/icon_code"
+        android:background="?selectableItemBackground"/>
+    <ImageButton
+        android:layout_width="35dp" android:id="@+id/BBCodeEditorBtnBoldList"
+        android:layout_height="35dp" android:src="@drawable/icon_list"
+        android:background="?selectableItemBackground"/>
+    <ImageButton
+        android:layout_width="35dp" android:id="@+id/BBCodeEditorBtnBoldSpoiler"
+        android:layout_height="35dp" android:src="@drawable/icon_eye_cross"
+        android:background="?selectableItemBackground"/>
+    <ImageButton
+        android:layout_width="35dp" android:id="@+id/BBCodeEditorBtnBoldImage"
+        android:layout_height="35dp" android:src="@drawable/icon_image_alt"
+        android:background="?selectableItemBackground"/>
+  </LinearLayout>
+  <EditText
+      android:layout_width="match_parent" android:id="@+id/BBCodeEditorTextBox" android:gravity="start"
+      android:layout_height="wrap_content" android:padding="5dp" android:minHeight="150dp" android:background="@drawable/bbcode_editor_background_states"/>
+</LinearLayout>

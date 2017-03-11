@@ -41,7 +41,6 @@ namespace MALClient.Android.Fragments
         private DroppyMenuPopup _sortingMenu;
         private DroppyMenuPopup _filterMenu;
         private DroppyMenuPopup _displayMenu;
-        private DroppyMenuPopup _seasonMenu;
 
         protected override void InitBindings()
         {
@@ -65,10 +64,10 @@ namespace MALClient.Android.Fragments
 
             ViewModel.PropertyChanged += AnimeListOnPropertyChanged;
            
-            AnimeListPageFilterMenu.SetCommand("Click",new RelayCommand(ShowFilterMenu));
-            AnimeListPageSortMenu.SetCommand("Click", new RelayCommand(ShowSortMenu));
-            AnimeListPageDisplayMenu.SetCommand("Click", new RelayCommand(ShowDisplayMenu));
-            AnimeListPageSeasonMenu.SetCommand("Click",new RelayCommand(ShowSeasonMenu));
+           // AnimeListPageFilterMenu.SetCommand("Click",new RelayCommand(ShowFilterMenu));
+           // AnimeListPageSortMenu.SetCommand("Click", new RelayCommand(ShowSortMenu));
+           // AnimeListPageDisplayMenu.SetCommand("Click", new RelayCommand(ShowDisplayMenu));
+           // AnimeListPageSeasonMenu.SetCommand("Click",new RelayCommand(ShowSeasonMenu));
 
             swipeRefresh.NestedScrollingEnabled = true;
             swipeRefresh.Refresh += (sender, args) =>
@@ -78,16 +77,27 @@ namespace MALClient.Android.Fragments
                 ViewModel.RefreshCommand.Execute(null);
             };
 
+            Bindings.Add(this.SetBinding(() => ViewModel.WorkMode).WhenSourceChanges(() =>
+            {
+                _actionMenu?.Close(true);
+                var padding = DimensionsHelper.DpToPx(10);
+                var param = new ViewGroup.LayoutParams(DimensionsHelper.DpToPx(45), DimensionsHelper.DpToPx(45));
+                var builder = new FloatingActionMenu.Builder(Activity)
+                    .AddSubActionView(BuildFabActionButton(param, padding, Resource.Drawable.icon_filter))
+                    .AddSubActionView(BuildFabActionButton(param, padding, Resource.Drawable.icon_sort))
+                    .AddSubActionView(BuildFabActionButton(param, padding, Resource.Drawable.icon_eye));
+                if (ViewModel.WorkMode == AnimeListWorkModes.SeasonalAnime)
+                {
+                    builder.AddSubActionView(BuildFabActionButton(param, padding, Resource.Drawable.icon_calendar));
+                    builder.SetRadius(DimensionsHelper.DpToPx(95));
+                }
+                else
+                {
+                    builder.SetRadius(DimensionsHelper.DpToPx(75));
+                }           
+                _actionMenu = builder.AttachTo(AnimeListPageActionButton).Build();
+            }));
 
-            var padding = DimensionsHelper.DpToPx(10);
-            var param = new ViewGroup.LayoutParams(DimensionsHelper.DpToPx(45), DimensionsHelper.DpToPx(45));
-            _actionMenu = new FloatingActionMenu.Builder(Activity)
-                                    .AddSubActionView(BuildFabActionButton(param,padding, Resource.Drawable.icon_filter))
-                                    .AddSubActionView(BuildFabActionButton(param,padding, Resource.Drawable.icon_sort))
-                                    .AddSubActionView(BuildFabActionButton(param,padding, Resource.Drawable.icon_eye))
-                                    .SetRadius(DimensionsHelper.DpToPx(75))
-                                    .AttachTo(AnimeListPageActionButton)
-                                    .Build();
             InitDrawer();
         }
 
@@ -120,43 +130,47 @@ namespace MALClient.Android.Fragments
                     OpenSortingDrawer();
                     break;
                 case Resource.Drawable.icon_eye:
+                    OpenViewModeDrawer();
+                    break;
+                case Resource.Drawable.icon_calendar:
+                    OpenSeasonalSelectionDrawer();
                     break;
             }
         }
 
 
-        private void ShowSeasonMenu()
-        {
-            _seasonMenu = AnimeListPageFlyoutBuilder.BuildForAnimeSeasonSelection(Activity, AnimeListPageSeasonMenu,
-                SelectSeason, ViewModel);
-            _seasonMenu.Show();
-            var spinnerYear = _seasonMenu.MenuView.FindViewById<Spinner>(Resource.Id.SeasonSelectionPopupYearComboBox);
-            var spinnerSeason = _seasonMenu.MenuView.FindViewById<Spinner>(Resource.Id.SeasonSelectionPopupSeasonComboBox);
-            spinnerYear.Adapter = ViewModel.SeasonYears.GetAdapter((i, s, arg3) =>
-            {
-                var view = arg3 ?? BuildBaseItem(Activity, s, ResourceExtension.BrushAnimeItemInnerBackground, null, false);
-                view.Tag = s.Wrap();
+        //private void ShowSeasonMenu()
+        //{
+        //    _seasonMenu = AnimeListPageFlyoutBuilder.BuildForAnimeSeasonSelection(Activity, AnimeListPageSeasonMenu,
+        //        SelectSeason, ViewModel);
+        //    _seasonMenu.Show();
+        //    var spinnerYear = _seasonMenu.MenuView.FindViewById<Spinner>(Resource.Id.SeasonSelectionPopupYearComboBox);
+        //    var spinnerSeason = _seasonMenu.MenuView.FindViewById<Spinner>(Resource.Id.SeasonSelectionPopupSeasonComboBox);
+        //    spinnerYear.Adapter = ViewModel.SeasonYears.GetAdapter((i, s, arg3) =>
+        //    {
+        //        var view = arg3 ?? BuildBaseItem(Activity, s, ResourceExtension.BrushAnimeItemInnerBackground, null, false);
+        //        view.Tag = s.Wrap();
 
-                return view;
-            });
-            spinnerYear.ItemSelected += (sender, args) =>
-            {
-                ViewModel.CurrentlySelectedCustomSeasonYear = (sender as Spinner).SelectedView.Tag.Unwrap<string>();
-            };
-            spinnerSeason.Adapter = ViewModel.SeasonSeasons.GetAdapter((i, s, arg3) =>
-            {
-                var view = arg3 ?? BuildBaseItem(Activity, s,ResourceExtension.BrushAnimeItemInnerBackground,null,false);
-                view.Tag = s.Wrap();
+        //        return view;
+        //    });
+        //    spinnerYear.ItemSelected += (sender, args) =>
+        //    {
+        //        ViewModel.CurrentlySelectedCustomSeasonYear = (sender as Spinner).SelectedView.Tag.Unwrap<string>();
+        //    };
+        //    spinnerSeason.Adapter = ViewModel.SeasonSeasons.GetAdapter((i, s, arg3) =>
+        //    {
+        //        var view = arg3 ?? BuildBaseItem(Activity, s,ResourceExtension.BrushAnimeItemInnerBackground,null,false);
+        //        view.Tag = s.Wrap();
 
-                return view;
-            });
-            spinnerSeason.ItemSelected += (sender, args) =>
-            {
-                ViewModel.CurrentlySelectedCustomSeasonSeason = (sender as Spinner).SelectedView.Tag.Unwrap<string>();
-            };
-            _seasonMenu.MenuView.FindViewById(Resource.Id.SeasonSelectionPopupAcceptButton).SetCommand("Click",ViewModel.GoToCustomSeasonCommand);
+        //        return view;
+        //    });
+        //    spinnerSeason.ItemSelected += (sender, args) =>
+        //    {
+        //        ViewModel.CurrentlySelectedCustomSeasonSeason = (sender as Spinner).SelectedView.Tag.Unwrap<string>();
+        //    };
+        //    _seasonMenu.MenuView.FindViewById(Resource.Id.SeasonSelectionPopupAcceptButton).SetCommand("Click",ViewModel.GoToCustomSeasonCommand);
 
-        }
+        //}
 
         private void SelectSeason(int season)
         {

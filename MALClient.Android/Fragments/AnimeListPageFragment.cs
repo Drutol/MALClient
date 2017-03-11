@@ -13,6 +13,7 @@ using Android.Support.V4.Widget;
 using Android.Views;
 using Android.Widget;
 using Com.Mikepenz.Materialdrawer;
+using Com.Mikepenz.Materialdrawer.Model;
 using MALClient.Android;
 using MALClient.Android.CollectionAdapters;
 using MALClient.Android.Resources;
@@ -22,7 +23,10 @@ using MALClient.XShared.NavArgs;
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Main;
 using Com.Mikepenz.Materialdrawer.Model.Interfaces;
+using GalaSoft.MvvmLight.Helpers;
 using MALClient.Android.BindingInformation;
+using MALClient.Android.Flyouts;
+using MALClient.Android.Listeners;
 using MALClient.XShared.Utils;
 
 namespace MALClient.Android.Fragments
@@ -85,6 +89,7 @@ namespace MALClient.Android.Fragments
             builder.WithStickyHeader(Resource.Layout.AnimeListPageDrawerHeader);
          
             _rightDrawer = builder.Build();
+            _rightDrawer.DrawerLayout.SetDrawerLockMode(DrawerLayout.LockModeLockedClosed);
             _rightDrawer.StickyHeader.SetBackgroundColor(new Color(ResourceExtension.BrushAppBars));
 
         }
@@ -122,6 +127,13 @@ namespace MALClient.Android.Fragments
             _rightDrawer.StickyHeader.FindViewById<TextView>(Resource.Id.AnimeListPageDrawerHeaderText).Text = "Filters";
             _rightDrawer.StickyHeader.FindViewById<ImageView>(Resource.Id.AnimeListPageDrawerHeaderIcon).SetImageResource(
                 Resource.Drawable.icon_filter);
+            _rightDrawer.OnDrawerItemClickListener = new HamburgerItemClickListener((view, i, arg3) =>
+            {
+                ViewModel.CurrentStatus = (int) arg3.Identifier;
+                ViewModel.RefreshList();
+                _rightDrawer.OnDrawerItemClickListener = null;
+                _rightDrawer.CloseDrawer();
+            });
 
             _rightDrawer.OpenDrawer();
         }
@@ -146,6 +158,109 @@ namespace MALClient.Android.Fragments
             _rightDrawer.StickyHeader.FindViewById<TextView>(Resource.Id.AnimeListPageDrawerHeaderText).Text = "Sorting";
             _rightDrawer.StickyHeader.FindViewById<ImageView>(Resource.Id.AnimeListPageDrawerHeaderIcon).SetImageResource(
                 Resource.Drawable.icon_sort);
+            _rightDrawer.OnDrawerItemClickListener = new HamburgerItemClickListener((view, i, arg3) =>
+            {
+                ViewModel.SortOption = (SortOptions) arg3.Identifier;
+                ViewModel.RefreshList();
+                _rightDrawer.OnDrawerItemClickListener = null;
+                _rightDrawer.CloseDrawer();
+            });
+
+            _rightDrawer.OpenDrawer();
+        }
+
+        private void OpenViewModeDrawer()
+        {
+            var f1 = HamburgerUtilities.GetBaseSecondaryItem();
+            f1.WithName("Grid");
+            f1.WithIdentifier((int)AnimeListDisplayModes.IndefiniteGrid);
+
+            var f2 = HamburgerUtilities.GetBaseSecondaryItem();
+            f2.WithName("Detailed List");
+            f2.WithIdentifier((int)AnimeListDisplayModes.IndefiniteList);
+
+            var f3 = HamburgerUtilities.GetBaseSecondaryItem();
+            f3.WithName("Compact List");
+            f3.WithIdentifier((int)AnimeListDisplayModes.IndefiniteCompactList);
+
+            _rightDrawer.SetItems(new List<IDrawerItem>(){ f1, f2, f3 });
+            _rightDrawer.SetSelection((int) ViewModel.DisplayMode);
+
+            _rightDrawer.StickyHeader.FindViewById<TextView>(Resource.Id.AnimeListPageDrawerHeaderText).Text = "Display Modes";
+            _rightDrawer.StickyHeader.FindViewById<ImageView>(Resource.Id.AnimeListPageDrawerHeaderIcon).SetImageResource(
+                Resource.Drawable.icon_eye);
+            _rightDrawer.OnDrawerItemClickListener = new HamburgerItemClickListener((view, i, arg3) =>
+            {
+                ViewModel.CurrentlySelectedDisplayMode =
+                    new Tuple<AnimeListDisplayModes, string>((AnimeListDisplayModes) arg3.Identifier, null);
+                _rightDrawer.OnDrawerItemClickListener = null;
+                _rightDrawer.CloseDrawer();
+            });
+
+            _rightDrawer.OpenDrawer();
+        }
+
+        private void OpenSeasonalSelectionDrawer()
+        {
+            var items = new List<IDrawerItem>();
+            int index = 0;
+            foreach (var season in ViewModel.SeasonSelection)
+            {
+                var item = HamburgerUtilities.GetBaseSecondaryItem();
+                item.WithName(season.Name);
+                item.WithIdentifier(index++);
+
+                items.Add(item);
+            }
+            var seasonView = Activity.LayoutInflater.Inflate(Resource.Layout.SeasonSelectionPopup,null);
+
+            var spinnerYear = seasonView.FindViewById<Spinner>(Resource.Id.SeasonSelectionPopupYearComboBox);
+            var spinnerSeason = seasonView.FindViewById<Spinner>(Resource.Id.SeasonSelectionPopupSeasonComboBox);
+            spinnerYear.Adapter = ViewModel.SeasonYears.GetAdapter((i, s, arg3) =>
+            {
+                var view = arg3 ?? AnimeListPageFlyoutBuilder.BuildBaseItem(Activity, s, ResourceExtension.BrushAnimeItemInnerBackground, null, false);
+                view.Tag = s.Wrap();
+
+                return view;
+            });
+            spinnerYear.ItemSelected += (sender, args) =>
+            {
+                ViewModel.CurrentlySelectedCustomSeasonYear = (sender as Spinner).SelectedView.Tag.Unwrap<string>();
+            };
+            spinnerSeason.Adapter = ViewModel.SeasonSeasons.GetAdapter((i, s, arg3) =>
+            {
+                var view = arg3 ?? AnimeListPageFlyoutBuilder.BuildBaseItem(Activity, s, ResourceExtension.BrushAnimeItemInnerBackground, null, false);
+                view.Tag = s.Wrap();
+
+                return view;
+            });
+            spinnerSeason.ItemSelected += (sender, args) =>
+            {
+                ViewModel.CurrentlySelectedCustomSeasonSeason = (sender as Spinner).SelectedView.Tag.Unwrap<string>();
+            };
+            seasonView.FindViewById(Resource.Id.SeasonSelectionPopupAcceptButton).SetOnClickListener(new OnClickListener(
+                view =>
+                {
+                    ViewModel.GoToCustomSeasonCommand.Execute(null);
+                    _rightDrawer.OnDrawerItemClickListener = null;
+                    _rightDrawer.CloseDrawer();
+                }));
+
+            items.Add(new ContainerDrawerItem().WithView(seasonView));
+            _rightDrawer.SetItems(items);
+            _rightDrawer.SetSelection(
+                ViewModel.SeasonSelection.FindIndex(season => season.Name == ViewModel.CurrentSeason.Name));
+
+            _rightDrawer.OnDrawerItemClickListener = new HamburgerItemClickListener((view, i, arg3) =>
+            {
+                ViewModel.SeasonalUrlsSelectedIndex = i;
+                _rightDrawer.OnDrawerItemClickListener = null;
+                _rightDrawer.CloseDrawer();
+            });
+
+            _rightDrawer.StickyHeader.FindViewById<TextView>(Resource.Id.AnimeListPageDrawerHeaderText).Text = "Seasonal Selection";
+            _rightDrawer.StickyHeader.FindViewById<ImageView>(Resource.Id.AnimeListPageDrawerHeaderIcon).SetImageResource(
+                Resource.Drawable.icon_calendar);
 
             _rightDrawer.OpenDrawer();
         }

@@ -270,8 +270,21 @@ namespace MALClient.Android.Fragments
             {
                 if (ViewModelLocator.AnimeList.AnimeCompactItems != null)
                 {
-                    //AnimeListPageCompactListView.Adapter = new AnimeListItemsAdapter(Context as Activity,
-                    //    Resource.Layout.AnimeGridItem, ViewModelLocator.AnimeList.AnimeCompactItems);
+                    _animeListItemsAdapter = new AnimeListItemsAdapter(Context as Activity,
+                        Resource.Layout.AnimeCompactItem, ViewModelLocator.AnimeList.AnimeCompactItems,
+                        (model, view, fling) => new AnimeCompactItemBindingInfo(view, model, fling)
+                        {
+                            OnItemClickAction = AnimeListPageGridViewOnItemClick
+                        });
+                    AnimeListPageCompactListView.Adapter = _animeListItemsAdapter;
+                    
+                    if (_prevArgs != null)
+                    {
+                        AnimeListPageListView.SmoothScrollToPosition(_prevArgs.SelectedItemIndex);
+                        _prevArgs = null;
+                    }
+
+                    AnimeListPageCompactListView.MakeFlingAware();
 
                     SwipeRefreshLayout.ScrollingView = AnimeListPageCompactListView;
 

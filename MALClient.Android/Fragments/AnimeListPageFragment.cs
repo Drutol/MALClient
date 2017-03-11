@@ -22,6 +22,8 @@ using MALClient.XShared.NavArgs;
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Main;
 using Com.Mikepenz.Materialdrawer.Model.Interfaces;
+using MALClient.Android.BindingInformation;
+using MALClient.XShared.Utils;
 
 namespace MALClient.Android.Fragments
 {
@@ -53,7 +55,10 @@ namespace MALClient.Android.Fragments
 
         public override void OnConfigurationChanged(Configuration newConfig)
         {
-            _gridViewColumnHelper.OnConfigurationChanged(newConfig);
+            if (ViewModel.DisplayMode == AnimeListDisplayModes.IndefiniteCompactList) //update vertical
+                _animeListItemsAdapter.BindingInfos.Cast<AnimeCompactItemBindingInfo>().ForEach(info => info.OnConfigurationChanged(newConfig));
+
+            _gridViewColumnHelper?.OnConfigurationChanged(newConfig);
             base.OnConfigurationChanged(newConfig);
         }
 

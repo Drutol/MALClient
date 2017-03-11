@@ -101,8 +101,7 @@ namespace MALClient.Android
         {
             list.SetOnScrollListener(new ScrollChangedListener((view, state) =>
             {
-                if(view.Adapter is IFlingAwareAdapter adapter)
-                    adapter.FlingScrollActive = state == ScrollState.Fling;
+                (view.Adapter as IFlingAwareAdapter).FlingScrollActive = state == ScrollState.Fling;
             }));
         }
 

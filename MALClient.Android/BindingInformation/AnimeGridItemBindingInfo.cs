@@ -1,36 +1,19 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using Android.App;
-using Android.Content;
-using Android.OS;
-using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Com.Daimajia.Swipe;
-using Com.Orhanobut.Dialogplus;
 using Com.Shehabic.Droppy;
-using FFImageLoading;
-using FFImageLoading.Extensions;
 using FFImageLoading.Views;
-using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Helpers;
 using MALClient.Android.Activities;
 using MALClient.Android.BindingConverters;
-using MALClient.Android.CollectionAdapters;
 using MALClient.Android.DIalogs;
 using MALClient.Android.Flyouts;
 using MALClient.Android.Listeners;
-using MALClient.Android.Listeners.DialogListeners;
-using MALClient.Android.Managers;
-using MALClient.Android.Resources;
-using MALClient.Models.Enums;
 using MALClient.XShared.ViewModels;
-using Org.Zakariya.Flyoutmenu;
 using Debug = System.Diagnostics.Debug;
-using Object = Java.Lang.Object;
 
 namespace MALClient.Android.BindingInformation
 {

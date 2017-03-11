@@ -22,8 +22,8 @@ namespace MALClient.Android.CollectionAdapters
         private bool _flingScrollActive;
         protected abstract void DetachOldView(T viewModel);
 
-        protected abstract void PrepareView(T item, View view);
-        protected abstract void PrepareViewQuickly(T item, View view);
+        protected abstract void PrepareView(T item, View view,int position);
+        protected abstract void PrepareViewQuickly(T item, View view,int position);
         protected abstract long GetItemId(T item);
 
         protected virtual View GetFooterView()
@@ -88,13 +88,12 @@ namespace MALClient.Android.CollectionAdapters
 
             if (!FlingScrollActive || Items.Count < FlingItemCountThreshold) //flingthrough will create illusion of changing items
             {
-                PrepareView(viewModel, view);
+                PrepareView(viewModel, view, position);
             }
             else
             {
-                PrepareViewQuickly(viewModel,view);
+                PrepareViewQuickly(viewModel,view, position);
             }
-
             return view;
         }
 
@@ -125,7 +124,7 @@ namespace MALClient.Android.CollectionAdapters
                     if(Items.Count > FlingItemCountThreshold)
                         foreach (var initializedView in InitializedViews)
                         {
-                            PrepareView(initializedView.Value,initializedView.Key);
+                            PrepareView(initializedView.Value,initializedView.Key,Items.IndexOf(initializedView.Value));
                         }
                 }
             }

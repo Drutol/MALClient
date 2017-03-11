@@ -82,6 +82,7 @@ namespace MALClient.Android.UserControls
             var bold = _editorView.FindViewById(Resource.Id.BBCodeEditorBtnBold);
             bold.Tag = (int)BBCodeMarkers.Bold;
             bold.Click += ButtonOnClick;
+            bold.FocusableInTouchMode = false;
 
             var italic = _editorView.FindViewById(Resource.Id.BBCodeEditorBtnItalic);
             italic.Tag = (int)BBCodeMarkers.Italic;

@@ -27,7 +27,7 @@ namespace MALClient.Android.CollectionAdapters
             }
         }
 
-        protected override void PrepareView(ForumTopicMessageEntryViewModel item, View view)
+        protected override void PrepareView(ForumTopicMessageEntryViewModel item, View view, int position)
         {
             var hash = item.Data.Id.GetHashCode();
             if (!Bindings.ContainsKey(hash))
@@ -39,7 +39,7 @@ namespace MALClient.Android.CollectionAdapters
             }
         }
 
-        protected override void PrepareViewQuickly(ForumTopicMessageEntryViewModel item, View view)
+        protected override void PrepareViewQuickly(ForumTopicMessageEntryViewModel item, View view,int position)
         { 
             var hash = item.Data.Id.GetHashCode();
             if (!Bindings.ContainsKey(hash))

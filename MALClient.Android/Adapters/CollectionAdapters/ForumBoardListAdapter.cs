@@ -21,7 +21,7 @@ namespace MALClient.Android.CollectionAdapters
             }
         }
 
-        protected override void PrepareView(ForumBoardEntryViewModel item, View view)
+        protected override void PrepareView(ForumBoardEntryViewModel item, View view, int position)
         {
             if (!Bindings.ContainsKey((int)item.Board))
                 Bindings.Add((int)item.Board, new ForumBoardEntryBindingInfo(view,item,false));
@@ -32,7 +32,7 @@ namespace MALClient.Android.CollectionAdapters
             }
         }
 
-        protected override void PrepareViewQuickly(ForumBoardEntryViewModel item, View view)
+        protected override void PrepareViewQuickly(ForumBoardEntryViewModel item, View view, int position)
         {
             if (!Bindings.ContainsKey((int)item.Board))
                 Bindings.Add((int)item.Board, new ForumBoardEntryBindingInfo(view, item, true));

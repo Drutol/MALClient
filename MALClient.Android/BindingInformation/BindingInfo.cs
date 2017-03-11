@@ -17,6 +17,7 @@ namespace MALClient.Android.BindingInformation
 
         protected TViewModel ViewModel { get; private set; }
         public bool Fling { get; set; }
+        public virtual int Position { get; set; }
 
         public View Container
         {
@@ -58,16 +59,6 @@ namespace MALClient.Android.BindingInformation
         {
             DetachBaseBindings();
             DetachInnerBindings();
-        }
-
-        private void ContainerOnViewDetachedFromWindow(object sender, View.ViewDetachedFromWindowEventArgs e)
-        {
-            DetachBaseBindings();
-        }
-
-        private void ContainerOnViewAttachedToWindow(object sender, View.ViewAttachedToWindowEventArgs e)
-        {
-            InitBindings();
         }
     }
 }

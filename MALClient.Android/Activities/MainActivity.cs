@@ -18,6 +18,8 @@ using Com.Daimajia.Swipe.Implments;
 using Com.Mikepenz.Materialdrawer;
 using Com.Shehabic.Droppy;
 using GalaSoft.MvvmLight.Ioc;
+using HockeyApp.Android;
+using HockeyApp.Android.Metrics;
 using MALClient.Android.Fragments;
 using MALClient.Android.Resources;
 using MALClient.Android.ViewModels;
@@ -76,7 +78,14 @@ namespace MALClient.Android.Activities
 
                 DroppyMenuPopup.RequestedElevation = DimensionsHelper.DpToPx(10);
             }
-    
+
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().PermitAll().Build();
+            StrictMode.SetThreadPolicy(policy);
+
+#if !DEBUG
+            CrashManager.Register(this, "4bfd20dcd9ba4bdfbb1501397ec4a176");
+            MetricsManager.Register(App.Current, "4bfd20dcd9ba4bdfbb1501397ec4a176");
+#endif
         }
 
         private void ViewModelOnMediaElementCollapsed()

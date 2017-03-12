@@ -25,9 +25,11 @@ namespace MALClient.Android
     [Application]
     public class App : Application
     {
+        public static App Current { get; private set; }
+
         public App(IntPtr handle, JniHandleOwnership ownerShip) : base(handle, ownerShip)
         {
-
+            Current = this;
         }
 
         public override void OnCreate()

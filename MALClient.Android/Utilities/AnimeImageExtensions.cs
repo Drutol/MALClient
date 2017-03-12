@@ -59,13 +59,20 @@ namespace MALClient.Android
                 return;
 
             image.Visibility = ViewStates.Invisible;
+            try
+            {
+                var work = ImageService.Instance.LoadUrl(originUrl);
+                work = work.Success(image.AnimateFadeIn);
+                if (transformation == null)
+                    work.FadeAnimation(false).Into(image);
+                else
+                    work.FadeAnimation(false).Transform(transformation).Into(image);
+            }
+            catch (Exception)
+            {
+                //TODO Throws aggregate exception for some reason
+            }
 
-            var work = ImageService.Instance.LoadUrl(originUrl);
-            work = work.Success(image.AnimateFadeIn);
-            if(transformation == null)
-                work.FadeAnimation(false).Into(image);
-            else
-                work.FadeAnimation(false).Transform(transformation).Into(image);
         }
 
         private static readonly Dictionary<View, CancellationTokenSource> CancellationTokenSources = new Dictionary<View, CancellationTokenSource>();

@@ -121,6 +121,7 @@ namespace MALClient.Android.Fragments
         private void OnFloatingActionButtonOptionClick(object sender, EventArgs eventArgs)
         {
             _actionMenu.Close(true);
+            _rightDrawer.OnDrawerItemClickListener = null;
             switch ((int)(sender as View).Tag)
             {
                 case Resource.Drawable.icon_filter:

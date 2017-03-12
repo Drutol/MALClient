@@ -135,7 +135,7 @@ namespace MALClient.Android.BindingInformation
 
         private void ContainerOnClick()
         {
-            if(_swipeListener.IsSwiping)
+            if(_swipeListener?.IsSwiping ?? false)
                 return;
             if (OnItemClickAction != null)
                 OnItemClickAction.Invoke(ViewModel);

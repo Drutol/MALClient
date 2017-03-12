@@ -24,6 +24,7 @@ using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Main;
 using Com.Mikepenz.Materialdrawer.Model.Interfaces;
 using GalaSoft.MvvmLight.Helpers;
+using MALClient.Android.Activities;
 using MALClient.Android.BindingInformation;
 using MALClient.Android.Flyouts;
 using MALClient.Android.Listeners;
@@ -165,7 +166,6 @@ namespace MALClient.Android.Fragments
                 _rightDrawer.OnDrawerItemClickListener = null;
                 _rightDrawer.CloseDrawer();
             });
-
             _rightDrawer.OpenDrawer();
         }
 
@@ -218,7 +218,7 @@ namespace MALClient.Android.Fragments
             var spinnerSeason = seasonView.FindViewById<Spinner>(Resource.Id.SeasonSelectionPopupSeasonComboBox);
             spinnerYear.Adapter = ViewModel.SeasonYears.GetAdapter((i, s, arg3) =>
             {
-                var view = arg3 ?? AnimeListPageFlyoutBuilder.BuildBaseItem(Activity, s, ResourceExtension.BrushAnimeItemInnerBackground, null, false);
+                var view = arg3 ?? AnimeListPageFlyoutBuilder.BuildBaseItem(MainActivity.CurrentContext, s, ResourceExtension.BrushAnimeItemInnerBackground, null, false);
                 view.Tag = s.Wrap();
 
                 return view;
@@ -229,7 +229,7 @@ namespace MALClient.Android.Fragments
             };
             spinnerSeason.Adapter = ViewModel.SeasonSeasons.GetAdapter((i, s, arg3) =>
             {
-                var view = arg3 ?? AnimeListPageFlyoutBuilder.BuildBaseItem(Activity, s, ResourceExtension.BrushAnimeItemInnerBackground, null, false);
+                var view = arg3 ?? AnimeListPageFlyoutBuilder.BuildBaseItem(MainActivity.CurrentContext, s, ResourceExtension.BrushAnimeItemInnerBackground, null, false);
                 view.Tag = s.Wrap();
 
                 return view;

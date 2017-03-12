@@ -68,9 +68,15 @@ namespace MALClient.Android.Fragments.ArticlesPageFragments
             view.FindViewById<TextView>(Resource.Id.ArticlesPageItemHeader).Text = malNewsUnitModel.Title;
             view.FindViewById<TextView>(Resource.Id.ArticlesPageItemHighlight).Text = malNewsUnitModel.Highlight;
 
-            ImageService.Instance.LoadUrl(malNewsUnitModel.ImgUrl).FadeAnimation(false)
-                .Into(view.FindViewById<ImageViewAsync>(Resource.Id.ArticlesPageItemImage));
-
+            try
+            {
+                view.FindViewById<ImageViewAsync>(Resource.Id.ArticlesPageItemImage).Into(malNewsUnitModel.ImgUrl);
+            }
+            catch (Exception)
+            {
+                //network on mian thread
+            }
+           
 
             return view;
         }

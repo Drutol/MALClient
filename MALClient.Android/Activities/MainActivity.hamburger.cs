@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
+using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
 using Android.Graphics;
@@ -19,12 +19,13 @@ using MALClient.Models.Enums;
 using MALClient.XShared.Comm.Anime;
 using MALClient.XShared.NavArgs;
 using MALClient.XShared.Utils;
+using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Main;
 using static MALClient.Android.HamburgerUtilities;
 
 namespace MALClient.Android.Activities
 {
-    public partial class MainActivity
+    public partial class MainActivity : IHamburgerViewModel
     {
         private object GetAppropriateArgsForPage(PageIndex page)
         {
@@ -129,36 +130,6 @@ namespace MALClient.Android.Activities
 
             //
 
-            IDrawerItem accountButton;
-            if (Credentials.Authenticated)
-            {
-                var btn = new ProfileDrawerItem();
-                btn.WithName("Account");
-                btn.WithTextColorRes(ResourceExtension.BrushTextRes);
-                btn.WithSelectedColorRes(ResourceExtension.BrushAnimeItemBackgroundRes);
-                btn.WithSelectedTextColorRes(Resource.Color.AccentColour);
-                btn.WithIdentifier((int)PageIndex.PageProfile);
-                btn.WithIcon(Resource.Drawable.icon_account);
-                accountButton = btn;
-            }
-            else
-            {
-                var btn = GetBaseSecondaryItem();
-                btn.WithName("Sign in");
-                btn.WithIdentifier((int)PageIndex.PageLogIn);
-                btn.WithIcon(Resource.Drawable.icon_login);
-                accountButton = btn;
-            }
-
-            var settingsButton = GetBaseSecondaryItem();
-            settingsButton.WithName("Settings & more");
-            settingsButton.WithIdentifier((int)PageIndex.PageSettings);
-            settingsButton.WithIcon(Resource.Drawable.icon_settings);
-
-
-
-            builder.AddStickyDrawerItems(accountButton, settingsButton);
-            //
             var mangaSubHeader = new SectionDrawerItem();
             mangaSubHeader.WithName("Manga");
             mangaSubHeader.WithDivider(true);
@@ -191,7 +162,62 @@ namespace MALClient.Android.Activities
             });
 
             _drawer = builder.Build();
+            UpdateLogInLabel();
             _drawer.StickyFooter.SetBackgroundColor(new Color(ResourceExtension.BrushAnimeItemInnerBackground));
+
+        }
+
+        public async Task UpdateProfileImg(bool dl = true)
+        {
+            
+        }
+
+        public void SetActiveButton(HamburgerButtons val)
+        {
+           //
+        }
+
+        public void UpdateApiDependentButtons()
+        {
+            //
+        }
+
+        public void UpdateAnimeFiltersSelectedIndex()
+        {
+            //
+        }
+
+        public async void UpdateLogInLabel()
+        {
+            IDrawerItem accountButton;
+            if (Credentials.Authenticated)
+            {
+                var btn = new ProfileDrawerItem();
+                btn.WithName("Account");
+                btn.WithTextColorRes(ResourceExtension.BrushTextRes);
+                btn.WithSelectedColorRes(ResourceExtension.BrushAnimeItemBackgroundRes);
+                btn.WithSelectedTextColorRes(Resource.Color.AccentColour);
+                btn.WithIdentifier((int)PageIndex.PageProfile);
+                btn.WithIcon(Resource.Drawable.icon_account);
+                accountButton = btn;
+            }
+            else
+            {
+                var btn = GetBaseSecondaryItem();
+                btn.WithName("Sign in");
+                btn.WithIdentifier((int)PageIndex.PageLogIn);
+                btn.WithIcon(Resource.Drawable.icon_login);
+                accountButton = btn;
+            }
+
+            var settingsButton = GetBaseSecondaryItem();
+            settingsButton.WithName("Settings & more");
+            settingsButton.WithIdentifier((int)PageIndex.PageSettings);
+            settingsButton.WithIcon(Resource.Drawable.icon_settings);
+
+            _drawer.RemoveAllStickyFooterItems();
+            _drawer.AddStickyFooterItem(accountButton);
+            _drawer.AddStickyFooterItem(settingsButton);
 
             if (Credentials.Authenticated)
             {
@@ -202,6 +228,23 @@ namespace MALClient.Android.Activities
                 btn.WithIcon(bmp);
                 _drawer.UpdateStickyFooterItem(btn);
             }
+        }
+
+        public bool MangaSectionVisbility { get; set; }
+
+        public void SetActiveButton(TopAnimeType topType)
+        {
+           //
+        }
+
+        public void UpdatePinnedProfiles()
+        {
+            //
+        }
+
+        public void UpdateBottomMargin()
+        {
+           //
         }
     }
 }

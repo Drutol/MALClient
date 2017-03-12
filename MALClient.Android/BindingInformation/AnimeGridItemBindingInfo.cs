@@ -183,7 +183,6 @@ namespace MALClient.Android.BindingInformation
         #endregion
 
         #region Dialogs
-
         private void ShowStatusDialog()
         {
             AnimeUpdateDialogBuilder.BuildStatusDialog(ViewModel,ViewModel.ParentAbstraction.RepresentsAnime);        

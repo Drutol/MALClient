@@ -68,6 +68,7 @@
   <color name="AccentColourDark">#cc7000</color>
   <color name="AccentColourLight">#ffaf4d</color>
   <color name="OpaqueAccentColour">#7fff8c00</color>
+  <color name="AccentColourContrast">#831B2A</color>
   
   <color name="DarkBrushButtonPressed">#50e0e0e0</color>
   <color name="DarkBrushFlyoutBackground">#2b2b2b</color>

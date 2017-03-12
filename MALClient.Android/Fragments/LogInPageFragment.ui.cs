@@ -38,6 +38,8 @@ namespace MALClient.Android.Fragments
             // LoginPageButtonHum.Click += LoginPageButtonOnClick;
             // LoginPageButtonMal.Click += LoginPageButtonOnClick;
             SignInButton.SetCommand(ViewModel.LogInCommand);
+            LoginPageLogOutButton.SetCommand(ViewModel.LogOutCommand);
+            
         }
 
         private void UsernameInputOnFocusChange(object sender, View.FocusChangeEventArgs focusChangeEventArgs)
@@ -65,6 +67,7 @@ namespace MALClient.Android.Fragments
         private Button _signInButton;
         private ProgressBar _loginPageLoadingSpinner;
         private Button _loginPageRegisterButton;
+        private Button _loginPageLogOutButton;
         private Button _loginPageProblemsButton;
         private RelativeLayout _bottomButtonsSection;
 
@@ -78,12 +81,11 @@ namespace MALClient.Android.Fragments
 
         public Button LoginPageRegisterButton => _loginPageRegisterButton ?? (_loginPageRegisterButton = FindViewById<Button>(Resource.Id.LoginPageRegisterButton));
 
+        public Button LoginPageLogOutButton => _loginPageLogOutButton ?? (_loginPageLogOutButton = FindViewById<Button>(Resource.Id.LoginPageLogOutButton));
+
         public Button LoginPageProblemsButton => _loginPageProblemsButton ?? (_loginPageProblemsButton = FindViewById<Button>(Resource.Id.LoginPageProblemsButton));
 
         public RelativeLayout BottomButtonsSection => _bottomButtonsSection ?? (_bottomButtonsSection = FindViewById<RelativeLayout>(Resource.Id.BottomButtonsSection));
-
-
-
 
     }
 }

@@ -41,7 +41,8 @@
     <item name="AccentColour">@color/AccentColour</item>
     <item name="AccentColourDark">@color/AccentColourDark</item>
     <item name="AccentColourLight">@color/AccentColourLight</item>
-    <item name="OpaqueAccentColour">@color/OpaqueAccentColour</item>
+    <item name="OpaqueAccentColour">@color/OpaqueAccentColour</item>    
+    <item name="AccentColourContrast" format="reference">@color/AccentColourContrast</item>
 
     <item name="android:colorEdgeEffect">#e6e6e6</item>
 
@@ -91,6 +92,7 @@
     <item name="AccentColourDark" format="reference">@color/AccentColourDark</item>
     <item name="AccentColourLight">@color/AccentColourLight</item>
     <item name="OpaqueAccentColour" format="reference">@color/OpaqueAccentColour</item>
+    <item name="AccentColourContrast" format="reference">@color/AccentColourContrast</item>
 
     <item name="android:colorEdgeEffect">#2d2d2d</item>
 

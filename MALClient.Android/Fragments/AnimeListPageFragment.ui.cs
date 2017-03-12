@@ -111,7 +111,7 @@ namespace MALClient.Android.Fragments
             };
             b1.SetImageResource(icon);
             b1.ImageTintList = ColorStateList.ValueOf(new Color(ResourceExtension.BrushText));
-            b1.BackgroundTintList = ColorStateList.ValueOf(new Color(ResourceExtension.AccentColourDark));
+            b1.BackgroundTintList = ColorStateList.ValueOf(new Color(ResourceExtension.AccentColourContrast));
             b1.SetPadding(padding, padding, padding, padding);
             b1.Tag = icon;
             b1.Click += OnFloatingActionButtonOptionClick;

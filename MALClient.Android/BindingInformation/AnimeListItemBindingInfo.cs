@@ -158,7 +158,7 @@ namespace MALClient.Android.BindingInformation
 
                 Container.Tag = ViewModel.Id;
             }
-            else
+            else if(Fling)
             {
                 AnimeListItemImage.Visibility = ViewStates.Invisible;
                 AnimeListItemImgPlaceholder.Visibility = ViewStates.Visible;

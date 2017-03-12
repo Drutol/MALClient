@@ -10,7 +10,12 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using Com.Shehabic.Droppy;
+using GalaSoft.MvvmLight.Helpers;
 using MALClient.Android.Activities;
+using MALClient.Android.BindingConverters;
+using MALClient.Android.DIalogs;
+using MALClient.Android.Flyouts;
 using MALClient.Android.Listeners;
 using MALClient.Android.Resources;
 using MALClient.XShared.ViewModels;
@@ -22,6 +27,8 @@ namespace MALClient.Android.BindingInformation
     {
         private int _position;
         private bool _initialized;
+        private DroppyMenuPopup _tagsMenu;
+
         public Action<AnimeItemViewModel> OnItemClickAction { get; set; }
 
         public override int Position
@@ -46,10 +53,56 @@ namespace MALClient.Android.BindingInformation
 
         protected override void InitBindings()
         {
-            if(Fling)
+            if (Fling)
                 return;
 
+            var statusBtn = Container.FindViewById<FrameLayout>(Resource.Id.AnimeCompactItemStatusButton);
+            statusBtn.SetOnClickListener(new OnClickListener(view => ShowStatusDialog()));
+            var scoreBtn = Container.FindViewById<FrameLayout>(Resource.Id.AnimeCompactItemScoreButton);
+            scoreBtn.SetOnClickListener(new OnClickListener(view => ShowRatingDialog()));
+            var incButton = Container.FindViewById<FrameLayout>(Resource.Id.AnimeCompactItemIncButton);
+            Bindings.Add(new Binding<bool, ViewStates>(
+                ViewModel,
+                () => ViewModel.IncrementEpsVisibility,
+                incButton,
+                () => incButton.Visibility).ConvertSourceToTarget(Converters.BoolToVisibility));
+            incButton.SetOnClickListener(new OnClickListener(view => ViewModel.IncrementWatchedCommand.Execute(null)));
+            var decButton = Container.FindViewById<FrameLayout>(Resource.Id.AnimeCompactItemDecButton);
+            Bindings.Add(new Binding<bool, ViewStates>(
+                ViewModel,
+                () => ViewModel.DecrementEpsVisibility,
+                decButton,
+                () => decButton.Visibility).ConvertSourceToTarget(Converters.BoolToVisibility));
+            decButton.SetOnClickListener(new OnClickListener(view => ViewModel.DecrementWatchedCommand.Execute(null)));
+            var scoreLabel = Container.FindViewById<TextView>(Resource.Id.AnimeCompactItemScoreLabel);
+            Bindings.Add(new Binding<string, string>(
+                ViewModel,
+                () => ViewModel.MyScoreBind,
+                scoreLabel,
+                () => scoreLabel.Text));
+            var statusLabel = Container.FindViewById<TextView>(Resource.Id.AnimeCompactItemStatusLabel);
+            Bindings.Add(new Binding<string, string>(
+                ViewModel,
+                () => ViewModel.MyStatusBind,
+                statusLabel,
+                () => statusLabel.Text));
+            var watchedButton = Container.FindViewById<Button>(Resource.Id.AnimeCompactItemWatchedButton);
+            Bindings.Add(new Binding<string, string>(
+                ViewModel,
+                () => ViewModel.MyEpisodesBind,
+                watchedButton,
+                () => watchedButton.Text));
+            if(ViewModel.Auth)
+                watchedButton.SetOnClickListener(new OnClickListener(view => ShowWatchedDialog()));
 
+            Container.FindViewById<FrameLayout>(Resource.Id.AnimeCompactItemTagsButton).SetOnClickListener(new OnClickListener(OnTagsButtonClick));
+        }
+
+        private void OnTagsButtonClick(View view)
+        {
+            _tagsMenu = AnimeItemFlyoutBuilder.BuildForAnimeItemTags(Container.Context, view, ViewModel,
+                () => _tagsMenu.Dismiss(true));
+            _tagsMenu.Show();
         }
 
         protected override void InitOneTimeBindings()
@@ -70,9 +123,11 @@ namespace MALClient.Android.BindingInformation
                 : ViewStates.Gone;
 
 
+
             if (!Fling && (int) Container.Tag != ViewModel.Id)
             {
                 Container.Tag = ViewModel.Id;
+                Container.SetOnClickListener(new OnClickListener(view => ContainerOnClick()));
             }
             else
             {
@@ -89,8 +144,23 @@ namespace MALClient.Android.BindingInformation
 
         protected override void DetachInnerBindings()
         {
-            
+
         }
+
+        #region Dialogs
+        private void ShowStatusDialog()
+        {
+            AnimeUpdateDialogBuilder.BuildStatusDialog(ViewModel, ViewModel.ParentAbstraction.RepresentsAnime);
+        }
+        private void ShowWatchedDialog()
+        {
+            AnimeUpdateDialogBuilder.BuildWatchedDialog(ViewModel);
+        }
+        private void ShowRatingDialog()
+        {
+            AnimeUpdateDialogBuilder.BuildScoreDialog(ViewModel);
+        }
+        #endregion
 
         private void ContainerOnClick()
         {

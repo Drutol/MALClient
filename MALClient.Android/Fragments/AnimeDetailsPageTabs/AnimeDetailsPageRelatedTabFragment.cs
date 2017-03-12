@@ -54,7 +54,7 @@ namespace MALClient.Android.Fragments.AnimeDetailsPageTabs
 
 
             view.Tag = relatedAnimeData.Wrap();
-            view.FindViewById<TextView>(Resource.Id.AnimeRelatedItemContent).Text = relatedAnimeData.WholeRelation;
+            view.FindViewById<TextView>(Resource.Id.AnimeRelatedItemContent).Text = relatedAnimeData.WholeRelation + relatedAnimeData.Title;
 
             return view;
         }

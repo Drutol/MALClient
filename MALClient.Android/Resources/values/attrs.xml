@@ -39,5 +39,6 @@
     <attr name="AccentColourDark" format="reference"/>
     <attr name="AccentColourLight" format="reference"/>
     <attr name="OpaqueAccentColour" format="reference"/>
+    <attr name="AccentColourContrast" format="reference"/>
   </declare-styleable>
 </resources>

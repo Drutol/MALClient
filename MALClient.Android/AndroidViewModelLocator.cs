@@ -34,7 +34,7 @@ namespace MALClient.Android
             SimpleIoc.Default.Register<SettingsViewModel>();
             SimpleIoc.Default.Register<MainViewModelBase>(() => SimpleIoc.Default.GetInstance<MainViewModel>());
             SimpleIoc.Default.Register<SettingsViewModelBase>(() => SimpleIoc.Default.GetInstance<SettingsViewModel>());
-            SimpleIoc.Default.Register<IHamburgerViewModel,HamburgerControlViewModel>();
+            SimpleIoc.Default.Register<IHamburgerViewModel>(() => MainActivity.CurrentContext as IHamburgerViewModel);
             SimpleIoc.Default.Register<INavMgr,NavMgr>();
 
             SimpleIoc.Default.Register<IDataCache, DataCache>();

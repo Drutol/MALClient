@@ -36,7 +36,6 @@
     <EmbedAssembliesIntoApk>False</EmbedAssembliesIntoApk>
     <BundleAssemblies>False</BundleAssemblies>
     <AndroidCreatePackagePerAbi>False</AndroidCreatePackagePerAbi>
-    <Debugger>Xamarin</Debugger>
     <AotAssemblies>False</AotAssemblies>
     <EnableLLVM>False</EnableLLVM>
     <AndroidEnableMultiDex>True</AndroidEnableMultiDex>
@@ -300,7 +299,6 @@
     <Compile Include="Utilities\DimensionsHelper.cs" />
     <Compile Include="Utilities\JavaObjectWrapper.cs" />
     <Compile Include="Utilities\GridViewColumnHelper.cs" />
-    <Compile Include="ViewModels\HamburgerControlViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModel.cs" />
   </ItemGroup>

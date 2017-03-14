@@ -4,6 +4,7 @@ using System.Net;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using MALClient.Adapters;
 using MALClient.Models.Enums;
 using MALClient.Models.Models.Library;
 using MALClient.XShared.Utils;
@@ -75,6 +76,7 @@ namespace MALClient.XShared.Comm.Anime
             await _updateSemaphore.WaitAsync();
             var result = await base.GetRequestResponse(wantMsg, statusBarMsg);
             _updateSemaphore.Release();
+            ResourceLocator.ApplicationDataService[RoamingDataTypes.LastLibraryUpdate] = DateTime.Now.ToBinary();
             return result;
         }
 

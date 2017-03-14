@@ -8,7 +8,8 @@ namespace MALClient.Adapters
 {
     public enum RoamingDataTypes
     {
-        ReadNotifications
+        ReadNotifications,
+        LastLibraryUpdate,
     }
 
     public interface IApplicationDataService

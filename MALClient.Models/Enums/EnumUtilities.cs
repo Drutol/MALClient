@@ -21,6 +21,14 @@ namespace MALClient.Models.Enums
         public class PageIndexEnumMember : Attribute
         {
             public bool OffPage { get; set; }
+
+            /// <summary>
+            /// Gets or sets a value indicating whether page needs user library
+            /// </summary>
+            /// <value>
+            /// <c>true</c> if [requires synchronize block]; otherwise, <c>false</c>.
+            /// </value>
+            public bool RequiresSyncBlock { get; set; } = false;
         }
 
         public class AnimeListWorkModeEnumMember : Attribute

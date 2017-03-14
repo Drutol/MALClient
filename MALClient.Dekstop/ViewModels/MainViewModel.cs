@@ -237,7 +237,7 @@ namespace MALClient.UWP.ViewModels
                         {
                             break; // we are already on the right
                         }
-                        if (CurrentMainPage.Value != PageIndex.PageSearch &&
+                        if (CurrentMainPage != null && CurrentMainPage.Value != PageIndex.PageSearch &&
                             CurrentMainPage.Value != PageIndex.PageMangaSearch &&
                             CurrentMainPage.Value != PageIndex.PageCharacterSearch)
                             _searchStateBeforeNavigatingToSearch = SearchToggleStatus;
@@ -438,14 +438,25 @@ namespace MALClient.UWP.ViewModels
             set
             {
                 _view = value;
+                bool hasArgumentsWithSync =
+                    InitDetailsFull?.Item1.GetAttribute<EnumUtilities.PageIndexEnumMember>().RequiresSyncBlock ?? true;
                 if (Credentials.Authenticated)
-                    Navigate(Settings.DefaultMenuTab == "anime" ? PageIndex.PageAnimeList : PageIndex.PageMangaList); //entry point whatnot
+                {
+                    if (hasArgumentsWithSync)
+                        Navigate(Settings.DefaultMenuTab == "anime" ? PageIndex.PageAnimeList : PageIndex.PageMangaList);
+                            //entry point whatnot
+                    else if(InitDetailsFull != null)
+                    {
+                        ViewModelLocator.AnimeList.Init(null);
+                        Navigate(InitDetailsFull.Item1,InitDetailsFull.Item2);
+                    }
+                }
                 else
                 {
                     Navigate(PageIndex.PageLogIn);
-                    Navigate(PageIndex.PageAnimeList,AnimeListPageNavigationArgs.TopAnime(TopAnimeType.General));
+                    Navigate(PageIndex.PageAnimeList, AnimeListPageNavigationArgs.TopAnime(TopAnimeType.General));
                 }
-                if (InitDetails != null || InitDetailsFull != null)
+                if (InitDetails != null || hasArgumentsWithSync)
                 {
                     ViewModelLocator.AnimeList.Initialized += AnimeListOnInitializedLoadArgs;
                 }

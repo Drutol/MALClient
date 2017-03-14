@@ -113,6 +113,18 @@ namespace MALClient.XShared.Utils
             {
                 return new Tuple<PageIndex, object>(PageIndex.PageArticles, MalArticlesPageNavigationArgs.Articles);
             }
+            else if (uri == "https://myanimelist.net/mymessages.php")
+            {
+                return new Tuple<PageIndex, object>(PageIndex.PageMessanging, null);
+            }
+            else if (uri == "https://myanimelist.net/forum")
+            {
+                return new Tuple<PageIndex, object>(PageIndex.PageForumIndex, null);
+            }
+            else if (uri == "https://myanimelist.net/anime.php")
+            {
+                return new Tuple<PageIndex, object>(PageIndex.PageSearch, new SearchPageNavigationArgs());
+            }
 
 
             /////////////////////////////////////////////////////Removed ? from the end

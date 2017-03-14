@@ -323,11 +323,27 @@ namespace MALClient.UWP.ViewModels
             set
             {
                 _view = value;
-                Navigate(Credentials.Authenticated
-                    ? (Settings.DefaultMenuTab == "anime" ? PageIndex.PageAnimeList : PageIndex.PageMangaList)
-                    : PageIndex.PageLogIn);
-                if (InitDetails != null || InitDetailsFull != null)
-                    MobileViewModelLocator.AnimeList.Initialized += AnimeListOnInitializedLoadArgs;
+                bool hasArgumentsWithSync =
+                    InitDetailsFull?.Item1.GetAttribute<EnumUtilities.PageIndexEnumMember>().RequiresSyncBlock ?? true;
+                if (Credentials.Authenticated)
+                {
+                    if (hasArgumentsWithSync)
+                        Navigate(Settings.DefaultMenuTab == "anime" ? PageIndex.PageAnimeList : PageIndex.PageMangaList);
+                    //entry point whatnot
+                    else if (InitDetailsFull != null)
+                    {
+                        ViewModelLocator.AnimeList.Init(null);
+                        Navigate(InitDetailsFull.Item1, InitDetailsFull.Item2);
+                    }
+                }
+                else
+                {
+                    Navigate(PageIndex.PageLogIn);
+                }
+                if (InitDetails != null || hasArgumentsWithSync)
+                {
+                    ViewModelLocator.AnimeList.Initialized += AnimeListOnInitializedLoadArgs;
+                }
             }
         }
 

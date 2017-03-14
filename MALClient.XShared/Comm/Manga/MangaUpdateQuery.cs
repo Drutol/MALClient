@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Net;
 using System.Text;
+using System.Threading.Tasks;
+using MALClient.Adapters;
 using MALClient.Models.Models.Library;
 using MALClient.XShared.Utils;
+using MALClient.XShared.ViewModels;
 
 namespace MALClient.XShared.Comm.Manga
 {
@@ -37,6 +40,11 @@ namespace MALClient.XShared.Comm.Manga
         {
         }
 
+        public override Task<string> GetRequestResponse(bool wantMsg = true, string statusBarMsg = null)
+        {
+            ResourceLocator.ApplicationDataService[RoamingDataTypes.LastLibraryUpdate] = DateTime.Now.ToBinary();
+            return base.GetRequestResponse(wantMsg, statusBarMsg);
+        }
 
         private MangaUpdateQuery(int id, int watchedEps, int myStatus, int myScore, int myVol, string startDate,
             string endDate,string notes,bool rereading)

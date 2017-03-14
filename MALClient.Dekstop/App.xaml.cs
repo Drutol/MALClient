@@ -144,14 +144,6 @@ namespace MALClient.UWP
                 {
                     //nothing
                 }
-                if (e.PreviousExecutionState == ApplicationExecutionState.NotRunning)
-                    //Crashed - we have to remove cached anime list
-                {
-                    if (Settings.IsCachingEnabled)
-                    {
-                        await DataCache.ClearAnimeListData(); //clear all cached users data
-                    }
-                }
 
 
 
@@ -174,7 +166,6 @@ namespace MALClient.UWP
             }
             else if (navArgs != null)
             {
-                ViewModelLocator.AnimeList.Initialized += AnimeListOnInitialized;
                 ViewModelLocator.GeneralMain.Navigate(PageIndex.PageAnimeDetails,
                     new AnimeDetailsPageNavigationArgs(navArgs.Item1, navArgs.Item2, null, null));
             }
@@ -196,6 +187,7 @@ namespace MALClient.UWP
             ImageCache.PerformScheduledCacheCleanup();
             Window.Current.Activate();
             RateReminderPopUp.ProcessRatePopUp();
+            JumpListManager.InitJumpList();
 
             var tb = ApplicationView.GetForCurrentView().TitleBar;
             tb.BackgroundColor =
@@ -209,10 +201,6 @@ namespace MALClient.UWP
             StoreLogoWorkaroundHacker.Hack();
             _initialized = true;
 
-        }
-
-        private void AnimeListOnInitialized()
-        {
         }
 
         private void NotificationTaskManagerOnOnNotificationTaskRequested(BgTasks task)

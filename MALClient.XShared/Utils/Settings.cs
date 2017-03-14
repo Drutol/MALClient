@@ -47,7 +47,7 @@ namespace MALClient.XShared.Utils
 
         public static int CachePersitence
         {
-            get { return (int) (ApplicationDataService["CachePersistency"] ?? 86400); }
+            get { return (int) (ApplicationDataService["CachePersistency"] ?? 7200); }
             set { ApplicationDataService["CachePersistency"] = value; }
         }
 

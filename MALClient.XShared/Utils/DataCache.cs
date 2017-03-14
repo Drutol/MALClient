@@ -34,10 +34,12 @@ namespace MALClient.XShared.Utils
     public static class DataCache
     {
         private static readonly IDataCache DataCacheService;
+        private static readonly IApplicationDataService ApplicationDataService;
 
         static DataCache()
         {
             DataCacheService = ResourceLocator.DataCacheService;
+            ApplicationDataService = ResourceLocator.ApplicationDataService;
             LoadVolatileData();
             LoadSeasonalurls();
             RetrieveHumMalIdDictionary();      
@@ -164,7 +166,8 @@ namespace MALClient.XShared.Utils
         private static bool CheckForOldData(DateTime timestamp)
         {
             var diff = DateTime.Now.ToUniversalTime().Subtract(timestamp);
-            if (diff.TotalSeconds > Settings.CachePersitence)
+            var roamingUpdate = ApplicationDataService[RoamingDataTypes.LastLibraryUpdate] as long?;
+            if (diff.TotalSeconds > Settings.CachePersitence || (roamingUpdate != null && timestamp < DateTime.FromBinary(roamingUpdate.Value)))
                 return false;
             return true;
         }

@@ -194,7 +194,8 @@
     </Compile>
     <Compile Include="UserControls\AttachedProperties\PivotExtensions.cs" />
     <Compile Include="UserControls\AttachedProperties\ScrollViewerExtensions.cs" />
-    <Compile Include="Utils\Managers\HamburgerFlyoutService.cs" />
+    <Compile Include="Managers\JumpListManager.cs" />
+    <Compile Include="Managers\HamburgerFlyoutService.cs" />
     <Compile Include="Pages\Main\LogInPage.xaml.cs">
       <DependentUpon>LogInPage.xaml</DependentUpon>
     </Compile>
@@ -235,7 +236,7 @@
     <Compile Include="UserControls\New\HamburgerControl.xaml.cs">
       <DependentUpon>HamburgerControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Utils\Managers\NavMgr.cs" />
+    <Compile Include="Managers\NavMgr.cs" />
     <Compile Include="ViewModels\HamburgerControlViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\DekstopViewModelLocator.cs" />

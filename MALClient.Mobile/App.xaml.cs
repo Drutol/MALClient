@@ -144,14 +144,6 @@ namespace MALClient.UWP
                 {
                     //nothing
                 }
-                if (e.PreviousExecutionState == ApplicationExecutionState.NotRunning)
-                //Crashed - we have to remove cached anime list
-                {
-                    if (Settings.IsCachingEnabled)
-                    {
-                        await DataCache.ClearAnimeListData(); //clear all cached users data
-                    }
-                }
 
 
 

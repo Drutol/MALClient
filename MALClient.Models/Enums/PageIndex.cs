@@ -4,7 +4,7 @@
     {
         [EnumUtilities.PageIndexEnumMember(OffPage = false)]
         PageAnimeList,
-        [EnumUtilities.PageIndexEnumMember(OffPage = true)]
+        [EnumUtilities.PageIndexEnumMember(OffPage = true,RequiresSyncBlock = true)]
         PageAnimeDetails,
         [EnumUtilities.PageIndexEnumMember(OffPage = true)]
         PageSettings,
@@ -12,11 +12,11 @@
         PageSearch,
         [EnumUtilities.PageIndexEnumMember(OffPage = true)]
         PageLogIn,
-        [EnumUtilities.PageIndexEnumMember(OffPage = false)]
+        [EnumUtilities.PageIndexEnumMember(OffPage = false, RequiresSyncBlock = true)]
         PageProfile,
         [EnumUtilities.PageIndexEnumMember(OffPage = true)]
         PageAbout,
-        [EnumUtilities.PageIndexEnumMember(OffPage = false)]
+        [EnumUtilities.PageIndexEnumMember(OffPage = false,RequiresSyncBlock = true)]
         PageRecomendations,
         [EnumUtilities.PageIndexEnumMember(OffPage = false)]
         PageSeasonal,
@@ -28,7 +28,7 @@
         PageTopAnime,
         [EnumUtilities.PageIndexEnumMember(OffPage = false)]
         PageTopManga,
-        [EnumUtilities.PageIndexEnumMember(OffPage = false)]
+        [EnumUtilities.PageIndexEnumMember(OffPage = false,RequiresSyncBlock = true)]
         PageCalendar,
         [EnumUtilities.PageIndexEnumMember(OffPage = false)]
         PageArticles,
@@ -40,7 +40,7 @@
         PageMessageDetails,
         [EnumUtilities.PageIndexEnumMember(OffPage = false)]
         PageForumIndex,
-        [EnumUtilities.PageIndexEnumMember(OffPage = false)]
+        [EnumUtilities.PageIndexEnumMember(OffPage = false, RequiresSyncBlock = true)]
         PageHistory,
         [EnumUtilities.PageIndexEnumMember(OffPage = true)]
         PageCharacterDetails,

@@ -1,6 +1,0 @@
-Binding for:
-com.github.deano2390:FlowTextView:2.0.5
-
-Dependencies:
-
-FlowTextView-2.0.5.aar,    Path=C:\Users\dogie\.gradle\caches\modules-2\files-2.1\com.github.deano2390\FlowTextView\2.0.5\dc01ce8355b0c5f09781222a7fd68633d2795bc5\FlowTextView-2.0.5.aar

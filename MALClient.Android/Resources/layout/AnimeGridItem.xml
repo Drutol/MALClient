@@ -62,10 +62,10 @@
     <RelativeLayout
       android:layout_width="wrap_content"
       android:layout_height="wrap_content" android:background="?BrushAppBars">
-      <ImageView
-        android:layout_width="wrap_content" android:id="@+id/AnimeGridItemImgPlaceholder"
-        android:layout_height="wrap_content" android:layout_centerInParent="true" android:src="@drawable/icon_more"
-        android:tint="?BrushNoSearchResultsContrasting" />
+      <ProgressBar android:scaleX=".7" android:scaleY=".7"
+    android:layout_width="wrap_content" android:id="@+id/AnimeGridItemImgPlaceholder"
+    android:layout_height="wrap_content" android:indeterminateTint="?BrushAnimeItemBackground"
+    android:indeterminate="true" android:layout_centerInParent="true" />
       <FFImageLoading.Views.ImageViewAsync
         android:layout_width="match_parent"
         android:layout_height="260dp"

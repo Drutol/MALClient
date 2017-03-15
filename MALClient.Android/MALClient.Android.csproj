@@ -366,10 +366,6 @@
       <Project>{ADFA8AA9-1743-46F8-852A-1AB69DF0B431}</Project>
       <Name>Binding_Droppy</Name>
     </ProjectReference>
-    <ProjectReference Include="AndroidBindings\Binding_FlowTextView\Binding_FlowTextView.csproj">
-      <Project>{23600F27-28CC-43B2-B9FE-F53F1F91C66B}</Project>
-      <Name>Binding_FlowTextView</Name>
-    </ProjectReference>
     <ProjectReference Include="AndroidBindings\Binding_FlyoutMenus\Binding_FlyoutMenus.csproj">
       <Project>{C383E3F2-C48F-47C4-8118-16DA79DD62AC}</Project>
       <Name>Binding_FlyoutMenus</Name>

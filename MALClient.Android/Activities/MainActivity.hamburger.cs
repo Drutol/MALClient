@@ -221,11 +221,20 @@ namespace MALClient.Android.Activities
 
             if (Credentials.Authenticated)
             {
-                var bmp = await ImageService.Instance.LoadUrl(
-                        $"https://myanimelist.cdn-dena.com/images/userimages/{Credentials.Id}.jpg")
-                    .AsBitmapDrawableAsync();
                 var btn = accountButton as ProfileDrawerItem;
-                btn.WithIcon(bmp);
+
+                try
+                {
+                    var bmp = await ImageService.Instance.LoadUrl(
+                            $"https://myanimelist.cdn-dena.com/images/userimages/{Credentials.Id}.jpg")
+                        .AsBitmapDrawableAsync();
+                    btn.WithIcon(bmp);
+                }
+                catch (Exception) // no image available
+                {
+                    btn.WithIcon(Resource.Drawable.icon_account);
+                }
+
                 _drawer.UpdateStickyFooterItem(btn);
             }
         }

@@ -45,7 +45,8 @@ namespace MALClient.Android.Flyouts
             ParamTextView = new RelativeLayout.LayoutParams(-1,-2); //wrap content
             ParamTextView.AddRule(LayoutRules.AlignParentLeft);
             ParamTextView.AddRule(LayoutRules.CenterVertical);
-            ParamTextView.LeftMargin = 10;
+            var margin = DimensionsHelper.DpToPx(10);
+            ParamTextView.SetMargins(margin,margin,margin,margin);
         }
 
         public static void InjectAnimation(DroppyMenuPopup.Builder builder)
@@ -89,7 +90,6 @@ namespace MALClient.Android.Flyouts
 
             top.SetBackgroundColor(new Color(background.Value));
             var holder = new RelativeLayout(context) { LayoutParameters = ParamRelativeLayout };
-
             holder.SetBackgroundResource(ResourceExtension.SelectableItemBackground);
 
             if (clickable)
@@ -97,7 +97,6 @@ namespace MALClient.Android.Flyouts
                 top.Clickable = true;
                 top.Focusable = true;
             }
-
 
             var txt = new TextView(context) { LayoutParameters = ParamTextView };
             if (gravity != null)

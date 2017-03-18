@@ -129,6 +129,11 @@ namespace MALClient.Android.Activities
             forumsButton.WithIdentifier((int) PageIndex.PageForumIndex);
             forumsButton.WithIcon(Resource.Drawable.icon_forum);
 
+            var messagingButton = GetBaseSecondaryItem();
+            messagingButton.WithName("Messaging");
+            messagingButton.WithIdentifier((int) PageIndex.PageMessanging);
+            messagingButton.WithIcon(Resource.Drawable.icon_message_alt);
+
             //
 
             var mangaSubHeader = new SectionDrawerItem();
@@ -158,7 +163,8 @@ namespace MALClient.Android.Activities
                 articlesButton,
                 videoButton,
                 feedsButton,
-                forumsButton
+                forumsButton,
+                messagingButton,
 
             });
 

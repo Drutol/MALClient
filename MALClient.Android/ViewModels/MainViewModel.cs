@@ -15,6 +15,7 @@ using MALClient.Android.Fragments;
 using MALClient.Android.Fragments.ArticlesPageFragments;
 using MALClient.Android.Fragments.CalendarFragments;
 using MALClient.Android.Fragments.ForumFragments;
+using MALClient.Android.Fragments.MessagingFragments;
 using MALClient.Android.Fragments.ProfilePageFragments;
 using MALClient.Android.Fragments.RecommendationsFragments;
 using MALClient.Android.Fragments.SearchFragments;
@@ -198,11 +199,11 @@ namespace MALClient.Android.ViewModels
                         MainNavigationRequested?.Invoke(new ArticlesPageFragment());
                     break;
                 case PageIndex.PageMessanging:
-                    //HideSearchStuff();
-                    //CurrentStatus = $"{Credentials.UserName} - Messages";
-                    //RefreshButtonVisibility = true;
-                    //RefreshDataCommand = new RelayCommand(() => { ViewModelLocator.MalMessaging.Init(true); });
-                    //MainNavigationRequested?.Invoke(typeof(MalMessagingPage), args);
+                    HideSearchStuff();
+                    CurrentStatus = $"{Credentials.UserName} - Messages";
+                    RefreshButtonVisibility = true;
+                    RefreshDataCommand = new RelayCommand(() => { ViewModelLocator.MalMessaging.Init(true); });
+                    MainNavigationRequested?.Invoke(new MessagingPageFragment());
                     break;
                 case PageIndex.PageMessageDetails:
                     //var msgModel = args as MalMessageDetailsNavArgs;

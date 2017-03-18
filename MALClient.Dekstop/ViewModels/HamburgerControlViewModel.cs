@@ -15,6 +15,7 @@ using GalaSoft.MvvmLight.Command;
 using MALClient.Models.Enums;
 using MALClient.UWP.Shared;
 using MALClient.XShared.Comm.Anime;
+using MALClient.XShared.Interfaces;
 using MALClient.XShared.NavArgs;
 using MALClient.XShared.Utils;
 using MALClient.XShared.ViewModels;

@@ -5,6 +5,7 @@ using GalaSoft.MvvmLight.Ioc;
 using MALClient.Models.Enums;
 using MALClient.XShared.Comm.Anime;
 using MALClient.XShared.Delegates;
+using MALClient.XShared.Interfaces;
 using MALClient.XShared.NavArgs;
 using MALClient.XShared.ViewModels.Details;
 using MALClient.XShared.ViewModels.Forums;
@@ -13,38 +14,6 @@ using Microsoft.Practices.ServiceLocation;
 
 namespace MALClient.XShared.ViewModels
 {
-    public interface IHamburgerViewModel
-    {
-        Task UpdateProfileImg(bool dl = true);
-        //Desktop
-        void SetActiveButton(HamburgerButtons val);
-        void UpdateApiDependentButtons();
-        void UpdateAnimeFiltersSelectedIndex();
-        void UpdateLogInLabel();
-        bool MangaSectionVisbility { get; set; }
-        void SetActiveButton(TopAnimeType topType);
-        void UpdatePinnedProfiles();
-        void UpdateBottomMargin();
-    }
-
-    public interface INavMgr
-    {
-        void RegisterBackNav(PageIndex page, object args, PageIndex source = PageIndex.PageAbout);
-        void RegisterOneTimeOverride(ICommand command);
-        void DeregisterBackNav();
-        void ResetOffBackNav();
-        //Desktop
-        void RegisterBackNav(ProfilePageNavigationArgs args);
-        void CurrentMainViewOnBackRequested();
-        void CurrentOffViewOnBackRequested();
-        void ResetMainBackNav();
-        void RegisterBackNav(AnimeDetailsPageNavigationArgs args);
-        void RegisterUnmonitoredMainBackNav(PageIndex page, object args);
-        void RegisterOneTimeMainOverride(ICommand command);
-        void ResetOneTimeOverride();
-        void ResetOneTimeMainOverride();
-    }
-
     public class ViewModelLocator
     {
         /// <summary>

@@ -3,6 +3,7 @@ using MALClient.Adapters;
 using MALClient.Adapters.Credentials;
 using MALClient.UWP.Adapters;
 using MALClient.UWP.Utils;
+using MALClient.XShared.Interfaces;
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Main;
 using Microsoft.Practices.ServiceLocation;

@@ -17,6 +17,7 @@ using FFImageLoading;
 using MALClient.Android.Resources;
 using MALClient.Models.Enums;
 using MALClient.XShared.Comm.Anime;
+using MALClient.XShared.Interfaces;
 using MALClient.XShared.NavArgs;
 using MALClient.XShared.Utils;
 using MALClient.XShared.ViewModels;

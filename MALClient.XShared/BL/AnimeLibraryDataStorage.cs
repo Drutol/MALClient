@@ -14,9 +14,8 @@ namespace MALClient.XShared.BL
         public List<AnimeItemAbstraction> AllLoadedAnimeItemAbstractions { get; set; } = new List<AnimeItemAbstraction>();
         public List<AnimeItemAbstraction> AllLoadedMangaItemAbstractions { get; set; } = new List<AnimeItemAbstraction>();
 
-        public Dictionary<string, Tuple<List<AnimeItemAbstraction>, List<AnimeItemAbstraction>>> OthersAbstractions {
-            get; } = new Dictionary<string, Tuple<List<AnimeItemAbstraction>, List<AnimeItemAbstraction>>>();
-
+        public Dictionary<string, Tuple<List<AnimeItemAbstraction>, List<AnimeItemAbstraction>>> OthersAbstractions { get; } 
+            = new Dictionary<string, Tuple<List<AnimeItemAbstraction>, List<AnimeItemAbstraction>>>();
 
         public List<AnimeItemAbstraction> AllLoadedAuthAnimeItems { get; set; } = new List<AnimeItemAbstraction>();
         public List<AnimeItemAbstraction> AllLoadedAuthMangaItems { get; set; } = new List<AnimeItemAbstraction>();

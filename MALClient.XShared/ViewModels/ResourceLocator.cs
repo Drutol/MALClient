@@ -44,6 +44,8 @@ namespace MALClient.XShared.ViewModels
 
         public static ICssManager CssManager => SimpleIoc.Default.GetInstance<ICssManager>();
 
+        public static DatabaseService DatabaseService => SimpleIoc.Default.GetInstance<DatabaseService>();
+
 
         // Purely shared interfaces
 
@@ -53,6 +55,7 @@ namespace MALClient.XShared.ViewModels
         {
             SimpleIoc.Default.Register<IAnimeLibraryDataStorage,AnimeLibraryDataStorage>();
             SimpleIoc.Default.Register<IHandyDataStorage,HandyDataStorage>();
+            SimpleIoc.Default.Register<DatabaseService>();
         }
 
         #region UsedByBackgroundTask

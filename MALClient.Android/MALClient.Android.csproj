@@ -311,6 +311,7 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidAsset Include="Assets\fonts\fontawesome-webfont.ttf" />
+    <None Include="app.config" />
     <None Include="packages.config" />
     <AndroidResource Include="Resources\layout\AnimeGridItem.xml">
       <SubType>Designer</SubType>

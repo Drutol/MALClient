@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
 using MALClient.Models.Models.Favourites;
+using SQLite;
 
 namespace MALClient.Models.Models
 {
     [DataContract]
     public class MalUser
     {
+
+        [PrimaryKey]
         [DataMember]
         public string Name { get; set; }
         [DataMember]

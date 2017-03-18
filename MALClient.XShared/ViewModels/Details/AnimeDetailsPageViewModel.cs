@@ -794,6 +794,7 @@ namespace MALClient.XShared.ViewModels.Details
             var animeItem = AnimeMode
                 ? new AnimeItemAbstraction(true, new AnimeLibraryItemData
                 {
+                    Owner = Credentials.UserName,
                     Title = Title,
                     ImgUrl = _imgUrl,
                     Type = type,
@@ -808,6 +809,7 @@ namespace MALClient.XShared.ViewModels.Details
                 })
                 : new AnimeItemAbstraction(true, new MangaLibraryItemData
                 {
+                    Owner = Credentials.UserName,
                     Title = Title,
                     ImgUrl = _imgUrl,
                     Type = type,
@@ -1079,14 +1081,15 @@ namespace MALClient.XShared.ViewModels.Details
             DetailedDataVisibility = true;
             //Now we can build elements here
             var i = 1;
-            foreach (var genre in data.Information.First(s => s.StartsWith("Genres:")).Substring(7).Split(','))
-            {
-                if (i%2 == 0)
-                    LeftGenres.Add(Utils.Utilities.FirstCharToUpper(genre));
-                else
-                    RightGenres.Add(Utils.Utilities.FirstCharToUpper(genre));
-                i++;
-            }
+            if(data.Information.Any())
+                foreach (var genre in data.Information.First(s => s.StartsWith("Genres:")).Substring(7).Split(','))
+                {
+                    if (i%2 == 0)
+                        LeftGenres.Add(Utils.Utilities.FirstCharToUpper(genre));
+                    else
+                        RightGenres.Add(Utils.Utilities.FirstCharToUpper(genre));
+                    i++;
+                }
 
             //Umm... K-ON is NOT music anime
             if (Id == 5680 || Id == 7791 || Id == 9617)

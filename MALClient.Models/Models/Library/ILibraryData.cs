@@ -1,5 +1,6 @@
 ﻿using System;
 using MALClient.Models.Enums;
+using SQLite;
 
 namespace MALClient.Models.Models.Library
 {

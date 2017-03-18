@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using SQLite;
 
 namespace MALClient.Models.Models.Anime
 {
@@ -11,6 +12,7 @@ namespace MALClient.Models.Models.Anime
 
     public class AnimeDetailsData
     {
+        public string Id { get; set; }
         public string AlternateCoverImgUrl;
         public List<string> EDs;
         public List<string> Episodes;

@@ -1031,6 +1031,7 @@ namespace MALClient.XShared.ViewModels
             var animeItem = ParentAbstraction.RepresentsAnime
                ? new AnimeLibraryItemData
                {
+                   Owner = Credentials.UserName,
                    Title = Title,
                    ImgUrl = ImgUrl,
                    Type = ParentAbstraction.Type,
@@ -1045,6 +1046,7 @@ namespace MALClient.XShared.ViewModels
                }
                : new MangaLibraryItemData
                {
+                   Owner = Credentials.UserName,
                    Title = Title,
                    ImgUrl = ImgUrl,
                    Type = ParentAbstraction.Type,

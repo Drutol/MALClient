@@ -8,6 +8,7 @@ using MALClient.Models.Enums;
 using MALClient.Models.Models.ApiResponses;
 using MALClient.Models.Models.Library;
 using MALClient.XShared.Utils;
+using MALClient.XShared.ViewModels;
 using Newtonsoft.Json;
 
 namespace MALClient.XShared.Comm
@@ -63,7 +64,7 @@ namespace MALClient.XShared.Comm
         {
             var output = force
                 ? new List<ILibraryData>()
-                : await DataCache.RetrieveDataForUser(_source, _mode) ?? new List<ILibraryData>();
+                : await ResourceLocator.DatabaseService.RetrieveShowsForUser(_source,_mode == AnimeListWorkModes.Anime) ?? new List<ILibraryData>();
             if (output.Count > 0)
                 return output;
             var raw = await GetRequestResponse();
@@ -99,6 +100,7 @@ namespace MALClient.XShared.Comm
                                 }
                                 output.Add(new AnimeLibraryItemData
                                 {
+                                    Owner = _source, 
                                     Title = title,
                                     ImgUrl = item.Element("series_image").Value,
                                     Type = Convert.ToInt32(item.Element("series_type").Value),
@@ -137,6 +139,7 @@ namespace MALClient.XShared.Comm
                                 }
                                 output.Add(new MangaLibraryItemData
                                 {
+                                    Owner = _source,
                                     Title = title,
                                     ImgUrl = item.Element("series_image").Value,
                                     Type = Convert.ToInt32(item.Element("series_type").Value),
@@ -189,6 +192,7 @@ namespace MALClient.XShared.Comm
 
                                     output.Add(new AnimeLibraryItemData
                                     {
+                                        Owner = _source,
                                         Title = entry.anime.title,
                                         ImgUrl = entry.anime.cover_image,
                                         Type = (int) type,
@@ -252,6 +256,7 @@ namespace MALClient.XShared.Comm
                                             score = float.Parse(mangaLibraryEntry.rating.value.ToString());
                                         output.Add(new MangaLibraryItemData
                                         {
+                                            Owner = _source,
                                             Title = details.romaji_title.ToString(),
                                             ImgUrl = details.cover_image.ToString(),
                                             Type = (int)type,
@@ -292,7 +297,7 @@ namespace MALClient.XShared.Comm
                     throw new ArgumentOutOfRangeException();
             }
 
-            DataCache.SaveDataForUser(_source, output, _mode);
+            ResourceLocator.DatabaseService.SaveLibraryDetails(output);
             return output;
         }
 

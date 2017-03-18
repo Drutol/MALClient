@@ -38,6 +38,7 @@ namespace MALClient.UWP.ViewModels
             SimpleIoc.Default.Register<IChangeLogProvider, ChangeLogProvider>();
             SimpleIoc.Default.Register<ISchdeuledJobsManger, ScheduledJobsManager>();
             SimpleIoc.Default.Register<ICssManager, CssManager>();
+            SimpleIoc.Default.Register<IDatabaseContextProvider, DatabaseContextProvider>();
         }
 
         public static MainViewModel Main => ServiceLocator.Current.GetInstance<MainViewModel>();

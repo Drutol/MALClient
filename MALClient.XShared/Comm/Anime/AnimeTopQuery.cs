@@ -5,26 +5,14 @@ using System.Net;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using HtmlAgilityPack;
+using MALClient.Models.Enums;
 using MALClient.Models.Models.AnimeScrapped;
 using MALClient.XShared.Comm.CommUtils;
 using MALClient.XShared.Utils;
+using MALClient.XShared.ViewModels;
 
 namespace MALClient.XShared.Comm.Anime
 {
-    public enum TopAnimeType
-    {
-        General,
-        Airing,
-        Upcoming,
-        Tv,
-        Movies,
-        Ovas,
-        Popular,
-        Favourited,
-        Manga
-    }
-
-
     public class AnimeTopQuery : Query
     {
         private static Dictionary<TopAnimeType,List<TopAnimeData>> _prevQueriesCache = new Dictionary<TopAnimeType, List<TopAnimeData>>();
@@ -74,7 +62,7 @@ namespace MALClient.XShared.Comm.Anime
                 if (_prevQueriesCache.ContainsKey(_type))
                     return _prevQueriesCache[_type];
 
-            var output = force ? new List<TopAnimeData>() : (await DataCache.RetrieveTopAnimeData(_type) ?? new List<TopAnimeData>());
+            var output = force ? new List<TopAnimeData>() : (await ResourceLocator.DatabaseService.RetrieveTopAnimeData(_type) ?? new List<TopAnimeData>());
             if (output.Count > 0)
             {
                 _prevQueriesCache[_type] = output;
@@ -94,6 +82,7 @@ namespace MALClient.XShared.Comm.Anime
                 try
                 {
                     var current = new TopAnimeData();
+                    current.Type = _type;
                     var epsText = item.Descendants("div").First(node => node.Attributes.Contains("class") && node.Attributes["class"].Value == HtmlClassMgr.ClassDefs["#Top:topNode:eps:class"]).ChildNodes[0].InnerText;
                     epsText = epsText.Substring(epsText.IndexOf('(') + 1);
                     epsText = epsText.Substring(0, epsText.IndexOf(' '));
@@ -134,7 +123,7 @@ namespace MALClient.XShared.Comm.Anime
             if (_page != 0) //merge data
                 output = _prevQueriesCache[_type].Union(output).Distinct().ToList();
 
-            DataCache.SaveTopAnimeData(output, _type);
+            ResourceLocator.DatabaseService.SaveTopAnime(output);
             _prevQueriesCache[_type] = output;
             return output;
         }

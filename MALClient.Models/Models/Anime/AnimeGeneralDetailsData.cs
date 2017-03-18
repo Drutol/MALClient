@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
+using SQLite;
 
 namespace MALClient.Models.Models.Anime
 {
@@ -11,6 +12,7 @@ namespace MALClient.Models.Models.Anime
     {
         private int _id = -1;
 
+        [PrimaryKey]
         public int Id
         {
             get { return _id == -1 ? MalId : _id; }

@@ -2,17 +2,55 @@
 using System.Collections.Generic;
 using System.Linq;
 using MALClient.Models.Models.Misc;
+using SQLite;
 
 namespace MALClient.Models.Models.AnimeScrapped
 {
+    
     public class AnimeScrappedDetails
     {
+        [PrimaryKey]
         public int Id { get; set; }
-        public List<string> AlternativeTitles { get; } = new List<string>();
-        public List<string> Information { get; } = new List<string>();
-        public List<string> Statistics { get; } = new List<string>();
-        public List<string> Openings { get; } = new List<string>();
-        public List<string> Endings { get; } = new List<string>();
+        [Ignore]
+        public List<string> AlternativeTitles { get; private set; } = new List<string>();
+        [Ignore]
+        public List<string> Information { get; private set; } = new List<string>();
+        [Ignore]
+        public List<string> Statistics { get; private set; } = new List<string>();
+        [Ignore]
+        public List<string> Openings { get; private set; } = new List<string>();
+        [Ignore]
+        public List<string> Endings { get; private set; } = new List<string>();
+
+        public string TextBlobAlternativeTitles
+        {
+            get { return string.Join("||", AlternativeTitles); }
+            set { AlternativeTitles = value.Split(new[] {"||"}, StringSplitOptions.RemoveEmptyEntries).ToList(); }
+        }
+
+        public string TextBlobInformation
+        {
+            get { return string.Join("||", Information); }
+            set { Information = value.Split(new[] { "||" }, StringSplitOptions.RemoveEmptyEntries).ToList(); }
+        }
+
+        public string TextBlobStatistics
+        {
+            get { return string.Join("||", Statistics); }
+            set { Statistics = value.Split(new[] { "||" }, StringSplitOptions.RemoveEmptyEntries).ToList(); }
+        }
+
+        public string TextBlobOpenings
+        {
+            get { return string.Join("||", Openings); }
+            set { Openings = value.Split(new[] { "||" }, StringSplitOptions.RemoveEmptyEntries).ToList(); }
+        }
+
+        public string TextBlobEndings
+        {
+            get { return string.Join("||", Endings); }
+            set { Endings = value.Split(new[] { "||" }, StringSplitOptions.RemoveEmptyEntries).ToList(); }
+        }
 
         public ExactAiringTimeData ExtractAiringTime(string broadcastLine)
         {

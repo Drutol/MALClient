@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using HtmlAgilityPack;
 using MALClient.Models.Models.AnimeScrapped;
 using MALClient.XShared.Utils;
+using MALClient.XShared.ViewModels;
 
 namespace MALClient.XShared.Comm.Anime
 {
@@ -26,8 +27,9 @@ namespace MALClient.XShared.Comm.Anime
 
         public async Task<AnimeScrappedDetails> GetDetails(bool force)
         {
-            var possibleData = force ? null :
-                await DataCache.RetrieveData<AnimeScrappedDetails>(_id.ToString(), "anime_details_scrapped", 14);
+            var possibleData = force
+                ? null
+                : await ResourceLocator.DatabaseService.RetrieveAnimeDetails(_id);
             if (possibleData != null)
                 return possibleData;
 
@@ -100,7 +102,7 @@ namespace MALClient.XShared.Comm.Anime
                 //hatemeł
             }
             
-            DataCache.SaveData(output,_id.ToString(), "anime_details_scrapped");
+            ResourceLocator.DatabaseService.SaveAnimeDetails(output);
             return output;
         }
     }

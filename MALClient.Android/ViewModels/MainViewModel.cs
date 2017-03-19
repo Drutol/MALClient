@@ -206,13 +206,13 @@ namespace MALClient.Android.ViewModels
                     MainNavigationRequested?.Invoke(new MessagingPageFragment());
                     break;
                 case PageIndex.PageMessageDetails:
-                    //var msgModel = args as MalMessageDetailsNavArgs;
-                    //CurrentOffStatus = msgModel.WorkMode == MessageDetailsWorkMode.Message
-                    //    ? (msgModel.Arg != null
-                    //        ? $"{(msgModel.Arg as MalMessageModel)?.Sender} - {(msgModel.Arg as MalMessageModel)?.Subject}"
-                    //        : "New Message")
-                    //    : $"Comments {Credentials.UserName} - {(msgModel.Arg as MalComment)?.User.Name}";
-                    //MainNavigationRequested?.Invoke(typeof(MalMessageDetailsPage), args);
+                    var msgModel = args as MalMessageDetailsNavArgs;
+                    CurrentOffStatus = msgModel.WorkMode == MessageDetailsWorkMode.Message
+                        ? (msgModel.Arg != null
+                            ? $"{(msgModel.Arg as MalMessageModel)?.Sender} - {(msgModel.Arg as MalMessageModel)?.Subject}"
+                            : "New Message")
+                        : $"Comments {Credentials.UserName} - {(msgModel.Arg as MalComment)?.User.Name}";
+                    MainNavigationRequested?.Invoke(new MessagingDetailsPageFragment(args as MalMessageDetailsNavArgs));
                     break;
                 case PageIndex.PageForumIndex:
                     HideSearchStuff();

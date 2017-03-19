@@ -138,6 +138,12 @@ namespace MALClient.Android.Fragments.MessagingFragments
 
         public override int LayoutResourceId => Resource.Layout.MessagingPage;
 
+        protected override void Cleanup()
+        {
+            _actionMenu.Close(true);
+            base.Cleanup();
+        }
+
         #region Views
 
         private ListView _messagingPageList;

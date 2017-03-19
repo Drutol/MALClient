@@ -38,7 +38,7 @@ namespace MALClient.XShared.Comm.Anime
                             : await new MangaSearchQuery(Utils.Utilities.CleanAnimeTitle(title)).GetRequestResponse(false);
                         }
                   
-                        if (string.IsNullOrEmpty(data))
+                        if (string.IsNullOrEmpty(data) || !data.Contains(id))
                         {
                             //we are loading title from website because request came from mal url
                             var correctTitle = await AnimeTitleQuery.GetTitle(int.Parse(id), animeMode);

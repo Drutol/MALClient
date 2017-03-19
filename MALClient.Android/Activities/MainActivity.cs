@@ -39,7 +39,7 @@ using MALClient.XShared.ViewModels.Interfaces;
 namespace MALClient.Android.Activities
 {
     [Activity(Label = "MALClient",
-        Icon = "@drawable/icon",WindowSoftInputMode = SoftInput.AdjustResize,MainLauncher = true,LaunchMode = LaunchMode.SingleTop,
+        Icon = "@drawable/icon",WindowSoftInputMode = SoftInput.AdjustResize,MainLauncher = true,LaunchMode = LaunchMode.SingleInstance,
         Theme = "@style/Theme.Splash",ConfigurationChanges = ConfigChanges.Orientation|ConfigChanges.ScreenSize)]
     public partial class MainActivity : AppCompatActivity , IDimensionsProvider
     {
@@ -78,7 +78,7 @@ namespace MALClient.Android.Activities
                 ViewModelLocator.AnimeList.DimensionsProvider = this;
 
                 var args = Intent.Extras?.GetString("launchArgs");
-                ProcessLaunchArgs(args,true);
+                ProcessLaunchArgs(args, true);
                 ViewModel.PerformFirstNavigation();
 
                 DroppyMenuPopup.RequestedElevation = DimensionsHelper.DpToPx(10);
@@ -109,9 +109,13 @@ namespace MALClient.Android.Activities
 
         protected override void OnNewIntent(Intent intent)
         {
-            var args = intent.Extras?.GetString("launchArgs");
-            ProcessLaunchArgs(args, false);
-            base.OnNewIntent(intent);
+            RunOnUiThread(() =>
+            {
+                var args = intent.Extras?.GetString("launchArgs");
+                ProcessLaunchArgs(args, false);
+            });
+
+            //base.OnNewIntent(intent);
         }
 
         private void ViewModelOnMainNavigationRequested(Fragment fragment)

@@ -12,8 +12,8 @@
     <RootNamespace>Binding_Materialtabstrip</RootNamespace>
     <AssemblyName>Binding_Materialtabstrip</AssemblyName>
     <FileAlignment>512</FileAlignment>
-    <AndroidUseLatestPlatformSdk>False</AndroidUseLatestPlatformSdk>
-    <TargetFrameworkVersion>v6.0</TargetFrameworkVersion>
+    <AndroidUseLatestPlatformSdk>True</AndroidUseLatestPlatformSdk>
+    <TargetFrameworkVersion>v7.1</TargetFrameworkVersion>
     <AndroidClassParser>jar2xml</AndroidClassParser>
     <AndroidCodegenTarget>XamarinAndroid</AndroidCodegenTarget>
   </PropertyGroup>
@@ -40,7 +40,7 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Xml" />
     <Reference Include="Xamarin.Android.Support.v4, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\Xamarin.Android.Support.v4.21.0.0.0\lib\MonoAndroid10\Xamarin.Android.Support.v4.dll</HintPath>
+      <HintPath>..\..\..\packages\Xamarin.Android.Support.v4.23.4.0.1\lib\MonoAndroid403\Xamarin.Android.Support.v4.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

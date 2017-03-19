@@ -249,6 +249,7 @@
   <ItemGroup>
     <Content Include="Assets\BadgeLogo.scale-200.png" />
     <Content Include="Assets\BadgeLogo.scale-400.png" />
+    <Content Include="Assets\EmptySquare.png" />
     <Content Include="Assets\GitHub-Mark-120px-plus.png" />
     <Content Include="Assets\GitHub-Mark-Light-120px-plus.png" />
     <Content Include="Assets\hummingbird150x150.scale-200.png" />

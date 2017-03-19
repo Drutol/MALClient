@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" IgnorableNamespaces="uap mp">
-  <Identity Name="6252Drutol.MALClient" Publisher="CN=15F8BDF5-C01B-487E-8F46-C655AF2C3DD2" Version="5.3.9.0" />
+  <Identity Name="6252Drutol.MALClient" Publisher="CN=15F8BDF5-C01B-487E-8F46-C655AF2C3DD2" Version="5.3.11.0" />
   <mp:PhoneIdentity PhoneProductId="1dcd95e9-6d62-4349-9942-7fad35a25157" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
     <DisplayName>MALClient</DisplayName>
@@ -22,9 +22,14 @@
         <uap:SplashScreen Image="Assets\SplashScreen.png" />
       </uap:VisualElements>
       <Extensions>
-        <Extension Category="windows.backgroundTasks" EntryPoint="MALClient.UWP.BGTaskToastActivation.ToastActivationTask">
+        <uap:Extension Category="windows.protocol">
+          <uap:Protocol Name="malclient">
+            <uap:Logo>Assets\StoreLogoAsset.png</uap:Logo>
+            <uap:DisplayName>MALClient</uap:DisplayName>
+          </uap:Protocol>
+        </uap:Extension>
+        <Extension Category="windows.backgroundTasks" EntryPoint="MALClient.UWP.BGTaskLiveTilesNotifications.LiveTilesBackgroundTask">
           <BackgroundTasks>
-            <Task Type="systemEvent" />
             <Task Type="timer" />
           </BackgroundTasks>
         </Extension>
@@ -33,17 +38,12 @@
             <Task Type="timer" />
           </BackgroundTasks>
         </Extension>
-        <Extension Category="windows.backgroundTasks" EntryPoint="MALClient.UWP.BGTaskLiveTilesNotifications.LiveTilesBackgroundTask">
+        <Extension Category="windows.backgroundTasks" EntryPoint="MALClient.UWP.BGTaskToastActivation.ToastActivationTask">
           <BackgroundTasks>
+            <Task Type="systemEvent" />
             <Task Type="timer" />
           </BackgroundTasks>
         </Extension>
-        <uap:Extension Category="windows.protocol">
-          <uap:Protocol Name="malclient">
-            <uap:Logo>Assets\StoreLogoAsset.png</uap:Logo>
-            <uap:DisplayName>MALClient</uap:DisplayName>
-          </uap:Protocol>
-        </uap:Extension>
       </Extensions>
     </Application>
   </Applications>

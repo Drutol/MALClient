@@ -158,13 +158,13 @@ namespace MALClient.Android.BackgroundTasks
         {
             await _toastSemaphore.WaitAsync();
             var intent = new Intent(context,  typeof(MainActivity));
-            intent.AddFlags(ActivityFlags.PreviousIsTop);
+            intent.SetAction(DateTime.Now.Ticks.ToString());
             intent.PutExtra("launchArgs",((notification.Type == MalNotificationsTypes.UserMentions && !notification.IsSupported) ||
                               notification.Type == MalNotificationsTypes.FriendRequest ||
                               notification.Type == MalNotificationsTypes.ClubMessages
                                  ? "OpenUrl;"
                                  : "") + notification.LaunchArgs);
-            var pendingIntent = PendingIntent.GetActivity(context, 0, intent, PendingIntentFlags.Immutable);
+            var pendingIntent = PendingIntent.GetActivity(context, 0, intent, PendingIntentFlags.OneShot);
             var notificationBuilder = new Notification.Builder(context)
                 .SetSmallIcon(Resource.Drawable.badge_icon)
                 .SetContentText(notification.Content)

@@ -317,5 +317,31 @@ namespace MALClient.Android.ViewModels
             get { return RefreshDataCommand; }
             set { RefreshDataCommand = value; }
         }
+
+        public void PerformFirstNavigation()
+        {
+
+            bool hasArgumentsWithSync =
+                    InitDetailsFull?.Item1.GetAttribute<EnumUtilities.PageIndexEnumMember>().RequiresSyncBlock ?? true;
+            if (Credentials.Authenticated)
+            {
+                if (hasArgumentsWithSync)
+                    Navigate(Settings.DefaultMenuTab == "anime" ? PageIndex.PageAnimeList : PageIndex.PageMangaList);
+                //entry point whatnot
+                else if (InitDetailsFull != null)
+                {
+                    ViewModelLocator.AnimeList.Init(null);
+                    Navigate(InitDetailsFull.Item1, InitDetailsFull.Item2);
+                }
+            }
+            else
+            {
+                Navigate(PageIndex.PageLogIn);
+            }
+            if (InitDetails != null || hasArgumentsWithSync)
+            {
+                ViewModelLocator.AnimeList.Initialized += AnimeListOnInitializedLoadArgs;
+            }
+        }
     }
 }

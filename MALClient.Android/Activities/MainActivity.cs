@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Net;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
@@ -20,12 +21,16 @@ using Com.Shehabic.Droppy;
 using GalaSoft.MvvmLight.Ioc;
 using HockeyApp.Android;
 using HockeyApp.Android.Metrics;
+using MALClient.Android.BackgroundTasks;
 using MALClient.Android.Fragments;
 using MALClient.Android.Resources;
 using MALClient.Android.ViewModels;
 using MALClient.Models.Enums;
+using MALClient.Models.Models.Notifications;
 using MALClient.XShared.Comm.Anime;
+using MALClient.XShared.Comm.MagicalRawQueries;
 using MALClient.XShared.Comm.Manga;
+using MALClient.XShared.NavArgs;
 using MALClient.XShared.Utils;
 using MALClient.XShared.Utils.Managers;
 using MALClient.XShared.ViewModels;
@@ -34,8 +39,8 @@ using MALClient.XShared.ViewModels.Interfaces;
 namespace MALClient.Android.Activities
 {
     [Activity(Label = "MALClient",
-        Icon = "@drawable/icon",WindowSoftInputMode = SoftInput.AdjustResize,
-        Theme = "@style/Theme.AppCompat.NoActionBar",ConfigurationChanges = ConfigChanges.Orientation|ConfigChanges.ScreenSize)]
+        Icon = "@drawable/icon",WindowSoftInputMode = SoftInput.AdjustResize,MainLauncher = true,LaunchMode = LaunchMode.SingleTop,
+        Theme = "@style/Theme.Splash",ConfigurationChanges = ConfigChanges.Orientation|ConfigChanges.ScreenSize)]
     public partial class MainActivity : AppCompatActivity , IDimensionsProvider
     {
         public static Activity CurrentContext { get; private set; }
@@ -61,7 +66,7 @@ namespace MALClient.Android.Activities
             RequestWindowFeature(WindowFeatures.NoTitle);
             CurrentTheme = Settings.SelectedTheme;
             base.OnCreate(bundle);
-            
+
             if (!_addedNavHandlers)
             {
                 SetContentView(Resource.Layout.MainPage);
@@ -72,15 +77,17 @@ namespace MALClient.Android.Activities
 
                 ViewModelLocator.AnimeList.DimensionsProvider = this;
 
-                ViewModel.Navigate(Credentials.Authenticated
-                    ? (Settings.DefaultMenuTab == "anime" ? PageIndex.PageAnimeList : PageIndex.PageMangaList)
-                    : PageIndex.PageLogIn);
+                var args = Intent.Extras?.GetString("launchArgs");
+                ProcessLaunchArgs(args,true);
+                ViewModel.PerformFirstNavigation();
 
                 DroppyMenuPopup.RequestedElevation = DimensionsHelper.DpToPx(10);
-            }
 
-            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().PermitAll().Build();
-            StrictMode.SetThreadPolicy(policy);
+                ResourceLocator.NotificationsTaskManager.StartTask(BgTasks.Notifications);
+
+                StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().PermitAll().Build();
+                StrictMode.SetThreadPolicy(policy);
+            }
 
 #if !DEBUG
             CrashManager.Register(this, "4bfd20dcd9ba4bdfbb1501397ec4a176");
@@ -100,6 +107,13 @@ namespace MALClient.Android.Activities
             ViewModelLocator.NavMgr.CurrentMainViewOnBackRequested();
         }
 
+        protected override void OnNewIntent(Intent intent)
+        {
+            var args = intent.Extras?.GetString("launchArgs");
+            ProcessLaunchArgs(args, false);
+            base.OnNewIntent(intent);
+        }
+
         private void ViewModelOnMainNavigationRequested(Fragment fragment)
         {
             _lastPage = fragment as MalFragmentBase;
@@ -110,6 +124,66 @@ namespace MALClient.Android.Activities
                 Resource.Animator.animation_fade_out);
             trans.Replace(Resource.Id.MainContentFrame, fragment);
             trans.Commit();
+        }
+
+        private void ProcessLaunchArgs(string args,bool startup)
+        {
+
+            if (!string.IsNullOrWhiteSpace(args))
+            {
+                Tuple<int, string> navArgs = null;
+                Tuple<PageIndex, object> fullNavArgs = null;
+                if (args.Contains('~')) //from notification -> mark read
+                {
+                    var arg = args;
+                    var pos = arg.IndexOf('~');
+                    if (pos != -1)
+                    {
+                        var id = arg.Substring(0, pos);
+                        arg = arg.Substring(pos + 1);
+                        //MalNotificationsQuery.MarkNotifiactionsAsRead(new MalNotification(id));
+                        fullNavArgs = MalLinkParser.GetNavigationParametersForUrl(arg);
+                    }
+                    else
+                    {
+                        fullNavArgs = MalLinkParser.GetNavigationParametersForUrl(arg);
+                    }
+                }
+                else if (Regex.IsMatch(args, @"[OpenUrl,OpenDetails];.*"))
+                {
+                    var options = args.Split(';');
+                    if (args.Contains('|')) //legacy
+                    {
+                        var detailArgs = options[1].Split('|');
+                        navArgs = new Tuple<int, string>(int.Parse(detailArgs[0]), detailArgs[1]);
+                    }
+                    else
+                    {
+                        fullNavArgs = MalLinkParser.GetNavigationParametersForUrl(options[1]);
+                    }
+                }
+                else
+                {
+                    fullNavArgs = MalLinkParser.GetNavigationParametersForUrl(args);
+                }
+                if (startup)
+                {
+                    MainViewModelBase.InitDetailsFull = fullNavArgs;
+                    MainViewModelBase.InitDetails = navArgs;
+                }
+                else
+                {
+                    if (navArgs != null)
+                    {
+                        ViewModelLocator.GeneralMain.Navigate(PageIndex.PageAnimeDetails,
+                            new AnimeDetailsPageNavigationArgs(navArgs.Item1, navArgs.Item2, null, null));
+                    }
+                    if (fullNavArgs != null)
+                    {
+                        ViewModelLocator.GeneralMain.Navigate(fullNavArgs.Item1, fullNavArgs.Item2);
+                    }
+                }
+            }          
         }
 
         protected override void OnPause()

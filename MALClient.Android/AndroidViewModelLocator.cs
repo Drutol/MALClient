@@ -15,6 +15,7 @@ using MALClient.Adapters;
 using MALClient.Adapters.Credentials;
 using MALClient.Android.Activities;
 using MALClient.Android.Adapters;
+using MALClient.Android.BackgroundTasks;
 using MALClient.Android.Managers;
 using MALClient.Android.ViewModels;
 using MALClient.XShared.Interfaces;
@@ -46,7 +47,7 @@ namespace MALClient.Android
             SimpleIoc.Default.Register<IMessageDialogProvider, MessageDialogProvider>();
             SimpleIoc.Default.Register<IImageDownloaderService, ImageDownloaderService>();
             SimpleIoc.Default.Register<ITelemetryProvider, TelemetryProvider>();
-            SimpleIoc.Default.Register<INotificationsTaskManager, NotificationTaskManagerAdapter>();
+            SimpleIoc.Default.Register<INotificationsTaskManager, NotificationTaskManager>();
             SimpleIoc.Default.Register<ISchdeuledJobsManger, ScheduledJobsManager>();
             SimpleIoc.Default.Register<ICssManager, CssManager>();
 

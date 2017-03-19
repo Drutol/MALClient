@@ -13,14 +13,16 @@ using Android.Widget;
 
 namespace MALClient.Android.Activities
 {
-    [Activity(Label = "MALClient",Icon = "@drawable/icon", NoHistory = true, MainLauncher = true, Theme = "@style/Theme.Splash",ScreenOrientation = ScreenOrientation.Portrait,
+    [Activity(Label = "MALClient",Icon = "@drawable/icon", NoHistory = true, MainLauncher = false, Theme = "@style/Theme.Splash",ScreenOrientation = ScreenOrientation.Portrait,
         ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
-    public class SplashScreen : Activity
+    public class SplashScreenActivity : Activity
     {
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
             var intent = new Intent(this, typeof(MainActivity));
+            if(Intent.Extras != null)
+                intent.PutExtra("launchArgs", Intent.Extras.GetString("launchArgs"));
             StartActivity(intent);
         }
     }

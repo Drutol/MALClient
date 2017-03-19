@@ -18,7 +18,7 @@ namespace MALClient.Android.Adapters
     {
         public void StartTask(BgTasks task)
         {
-            //throw new NotImplementedException();
+            
         }
 
         public void StopTask(BgTasks task)

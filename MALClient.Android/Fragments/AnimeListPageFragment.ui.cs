@@ -86,15 +86,21 @@ namespace MALClient.Android.Fragments
                     .AddSubActionView(BuildFabActionButton(param, padding, Resource.Drawable.icon_filter))
                     .AddSubActionView(BuildFabActionButton(param, padding, Resource.Drawable.icon_sort))
                     .AddSubActionView(BuildFabActionButton(param, padding, Resource.Drawable.icon_eye));
-                if (ViewModel.WorkMode == AnimeListWorkModes.SeasonalAnime)
+                switch (ViewModel.WorkMode)
                 {
-                    builder.AddSubActionView(BuildFabActionButton(param, padding, Resource.Drawable.icon_calendar));
-                    builder.SetRadius(DimensionsHelper.DpToPx(95));
-                }
-                else
-                {
-                    builder.SetRadius(DimensionsHelper.DpToPx(75));
-                }           
+                    case AnimeListWorkModes.SeasonalAnime:
+                        builder.AddSubActionView(BuildFabActionButton(param, padding, Resource.Drawable.icon_calendar));
+                        builder.SetRadius(DimensionsHelper.DpToPx(95));
+                        break;
+                    case AnimeListWorkModes.TopAnime:
+                    case AnimeListWorkModes.TopManga:
+                        builder.AddSubActionView(BuildFabActionButton(param, padding, Resource.Drawable.icon_fav_outline));
+                        builder.SetRadius(DimensionsHelper.DpToPx(95));
+                        break;
+                    default:
+                        builder.SetRadius(DimensionsHelper.DpToPx(75));
+                        break;
+                }         
                 _actionMenu = builder.AttachTo(AnimeListPageActionButton).Build();
             }));
 
@@ -135,6 +141,9 @@ namespace MALClient.Android.Fragments
                     break;
                 case Resource.Drawable.icon_calendar:
                     OpenSeasonalSelectionDrawer();
+                    break;
+                case Resource.Drawable.icon_fav_outline:
+                    OpenTopTypeDrawer();
                     break;
             }
         }

@@ -85,8 +85,8 @@ namespace MALClient.Android.Activities
 
                 ResourceLocator.NotificationsTaskManager.StartTask(BgTasks.Notifications);
 
-                StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().PermitAll().Build();
-                StrictMode.SetThreadPolicy(policy);
+                //StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().PermitAll().Build();
+                //StrictMode.SetThreadPolicy(policy);
             }
 
 #if !DEBUG
@@ -109,13 +109,13 @@ namespace MALClient.Android.Activities
 
         protected override void OnNewIntent(Intent intent)
         {
+            base.OnNewIntent(intent);
             RunOnUiThread(() =>
             {
                 var args = intent.Extras?.GetString("launchArgs");
                 ProcessLaunchArgs(args, false);
             });
 
-            //base.OnNewIntent(intent);
         }
 
         private void ViewModelOnMainNavigationRequested(Fragment fragment)
@@ -145,7 +145,7 @@ namespace MALClient.Android.Activities
                     {
                         var id = arg.Substring(0, pos);
                         arg = arg.Substring(pos + 1);
-                        //MalNotificationsQuery.MarkNotifiactionsAsRead(new MalNotification(id));
+                        MalNotificationsQuery.MarkNotifiactionsAsRead(new MalNotification(id));
                         fullNavArgs = MalLinkParser.GetNavigationParametersForUrl(arg);
                     }
                     else

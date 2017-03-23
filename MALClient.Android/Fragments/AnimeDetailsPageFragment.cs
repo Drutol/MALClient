@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
-
+using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
 using Android.OS;
 using Android.Runtime;
+using Android.Util;
 using Android.Views;
 using Android.Widget;
 using Com.Shehabic.Droppy;
@@ -19,6 +20,7 @@ using MALClient.Android.DIalogs;
 using MALClient.Android.Flyouts;
 using MALClient.Android.PagerAdapters;
 using MALClient.Android.Resources;
+using MALClient.Models.Enums;
 using MALClient.XShared.NavArgs;
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Details;
@@ -27,17 +29,22 @@ namespace MALClient.Android.Fragments
 {
     public partial class AnimeDetailsPageFragment : MalFragmentBase
     {
-        private static AnimeDetailsPageNavigationArgs _navArgs;
+        private AnimeDetailsPageNavigationArgs _navArgs;
         private AnimeDetailsPageViewModel ViewModel;
         private DroppyMenuPopup _menu;
 
+        public AnimeDetailsPageFragment(AnimeDetailsPageNavigationArgs navArgs)
+        {
+            _navArgs = navArgs;
+        }
+
         protected override void Init(Bundle savedInstanceState)
         {
-            ViewModel = ViewModelLocator.AnimeDetails;
-            ViewModel.RegisterOneTimeOnPropertyChangedAction(nameof(ViewModel.AnimeMode), SetupForAnimeMode);
+            ViewModel = ViewModelLocator.AnimeDetails;            
             ViewModel.PropertyChanged += ViewModelOnPropertyChanged;
             ViewModel.Init(_navArgs);
         }
+
 
         private void ViewModelOnPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
         {
@@ -48,66 +55,57 @@ namespace MALClient.Android.Fragments
                         .FadeAnimation(false).Success(() => AnimeDetailsPageShowCoverImage.AnimateFadeIn())
                         .Into(AnimeDetailsPageShowCoverImage);
             }
+            else if (propertyChangedEventArgs.PropertyName == nameof(ViewModel.AnimeMode))
+            {
+                if (ViewModel.AnimeMode)
+                {
+                    AnimeDetailsPageReadVolumesButton.Visibility =
+                        AnimeDetailsPageReadVolumesLabel.Visibility = ViewStates.Gone;
+                }
+                else
+                {
+                    AnimeDetailsPageReadVolumesButton.Visibility =
+                        AnimeDetailsPageReadVolumesLabel.Visibility = ViewStates.Visible;
+                }
+            }
         }
 
         protected override void InitBindings()
         {
             AnimeDetailsPagePivot.Adapter = new AnimeDetailsPagerAdapter(FragmentManager);
             AnimeDetailsPageTabStrip.SetViewPager(AnimeDetailsPagePivot);
-           
-            Bindings = new List<Binding>();
-
-            
+          
+         
             Bindings.Add(
                 this.SetBinding(() => ViewModel.MyScoreBind,
-                    () => AnimeDetailsPageScoreButton.Text));
-
-            
+                    () => AnimeDetailsPageScoreButton.Text));        
             Bindings.Add(
                 this.SetBinding(() => ViewModel.MyStatusBind,
-                    () => AnimeDetailsPageStatusButton.Text));
-
-            
+                    () => AnimeDetailsPageStatusButton.Text));         
             Bindings.Add(
                 this.SetBinding(() => ViewModel.MyEpisodesBind,
-                    () => AnimeDetailsPageWatchedButton.Text));
-
-            
+                    () => AnimeDetailsPageWatchedButton.Text));          
             Bindings.Add(
                 this.SetBinding(() => ViewModel.MyVolumesBind,
-                    () => AnimeDetailsPageReadVolumesButton.Text));
-
-            
+                    () => AnimeDetailsPageReadVolumesButton.Text));         
             Bindings.Add(
                 this.SetBinding(() => ViewModel.LoadingGlobal,
-                    () => AnimeDetailsPageLoadingOverlay.Visibility).ConvertSourceToTarget(Converters.BoolToVisibility));
-
-            
+                    () => AnimeDetailsPageLoadingOverlay.Visibility).ConvertSourceToTarget(Converters.BoolToVisibility));      
             Bindings.Add(
                 this.SetBinding(() => ViewModel.AddAnimeVisibility,
                     () => AnimeDetailsPageAddSection.Visibility).ConvertSourceToTarget(Converters.BoolToVisibility));
-
-            
             Bindings.Add(
                 this.SetBinding(() => ViewModel.IsIncrementButtonEnabled,
-                    () => AnimeDetailsPageIncrementButton.Enabled));
-
-            
+                    () => AnimeDetailsPageIncrementButton.Enabled));      
             Bindings.Add(
                 this.SetBinding(() => ViewModel.IsDecrementButtonEnabled,
-                    () => AnimeDetailsPageDecrementButton.Enabled));
-
-            
+                    () => AnimeDetailsPageDecrementButton.Enabled));      
             Bindings.Add(
                 this.SetBinding(() => ViewModel.AddAnimeVisibility,
-                    () => AnimeDetailsPageUpdateSection.Visibility).ConvertSourceToTarget(Converters.BoolToVisibilityInverted));
-
-            
+                    () => AnimeDetailsPageUpdateSection.Visibility).ConvertSourceToTarget(Converters.BoolToVisibilityInverted));      
             Bindings.Add(
                 this.SetBinding(() => ViewModel.AddAnimeVisibility,
-                    () => AnimeDetailsPageIncDecSection.Visibility).ConvertSourceToTarget(Converters.BoolToVisibilityInverted));
-
-            
+                    () => AnimeDetailsPageIncDecSection.Visibility).ConvertSourceToTarget(Converters.BoolToVisibilityInverted));      
             Bindings.Add(
                 this.SetBinding(() => ViewModel.DetailsPivotSelectedIndex).WhenSourceChanges(() => AnimeDetailsPagePivot.SetCurrentItem(ViewModel.DetailsPivotSelectedIndex,true)));
 
@@ -186,20 +184,6 @@ namespace MALClient.Android.Fragments
                 },true);
         }
 
-        private void SetupForAnimeMode()
-        {
-            if (ViewModel.AnimeMode)
-            {
-                AnimeDetailsPageReadVolumesButton.Visibility =
-                    AnimeDetailsPageReadVolumesLabel.Visibility = ViewStates.Gone;
-            }
-            else
-            {
-                AnimeDetailsPageReadVolumesButton.Visibility =
-                    AnimeDetailsPageReadVolumesLabel.Visibility = ViewStates.Visible;
-            }
-        }
-
         protected override void Cleanup()
         {
             AnimeDetailsPageStatusButton.Click -= AnimeDetailsPageStatusButtonOnClick;
@@ -210,11 +194,5 @@ namespace MALClient.Android.Fragments
         }
 
         public override int LayoutResourceId => Resource.Layout.AnimeDetailsPage;
-
-        public static AnimeDetailsPageFragment BuildInstance(object args)
-        {
-            _navArgs = args as AnimeDetailsPageNavigationArgs;
-            return new AnimeDetailsPageFragment();
-        }
     }
 }

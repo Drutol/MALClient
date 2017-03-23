@@ -1,6 +1,8 @@
 ﻿using System;
 using System.IO;
 using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using MALClient.Models.Enums;
@@ -19,6 +21,13 @@ namespace MALClient.XShared.Comm
             var responseString = "";
             try
             {
+                //using (var client = new HttpClient())
+                //{
+                //    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic",Convert.ToBase64String(Encoding.UTF8.GetBytes("MALClientTestAcc:passwd")));
+                //    var res = await client.GetAsync(Request.RequestUri);
+                //    var content = await res.Content.ReadAsStringAsync();
+                //    return content;
+                //}
                 var response = await Request.GetResponseAsync();
 
                 using (var stream = response.GetResponseStream())

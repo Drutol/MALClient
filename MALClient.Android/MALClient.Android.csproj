@@ -42,6 +42,7 @@
     <EnableProguard>False</EnableProguard>
     <AndroidHttpClientHandlerType>Xamarin.Android.Net.AndroidClientHandler</AndroidHttpClientHandlerType>
     <JavaMaximumHeapSize>1G</JavaMaximumHeapSize>
+    <Debugger>.Net (Xamarin)</Debugger>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -168,6 +169,7 @@
     <Compile Include="Adapters\PagerAdapters\RecommandtionsPagerAdapter.cs" />
     <Compile Include="Adapters\PagerAdapters\SearchPagePagerAdapter.cs" />
     <Compile Include="BackgroundTasks\NotificationCheckBroadcastReceiver.cs" />
+    <Compile Include="BackgroundTasks\NotificationClickBroadcastReceiver.cs" />
     <Compile Include="BackgroundTasks\NotificationTaskManager.cs" />
     <Compile Include="BindingConverters\DummyFontAwesomeToRealFontAwesomeConverter.cs" />
     <Compile Include="BindingConverters\SpecializedConverters.cs" />
@@ -897,6 +899,9 @@
   <ItemGroup>
     <AndroidResource Include="Resources\drawable-xxhdpi\badge_icon.png" />
   </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\icon_eye_notification.xml" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Android.Support.Vector.Drawable.23.4.0.1\build\Xamarin.Android.Support.Vector.Drawable.targets" Condition="Exists('..\packages\Xamarin.Android.Support.Vector.Drawable.23.4.0.1\build\Xamarin.Android.Support.Vector.Drawable.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
@@ -904,9 +909,9 @@
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\Xamarin.Android.Support.Vector.Drawable.23.4.0.1\build\Xamarin.Android.Support.Vector.Drawable.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Xamarin.Android.Support.Vector.Drawable.23.4.0.1\build\Xamarin.Android.Support.Vector.Drawable.targets'))" />
-    <PropertyGroup>
+    <!--<PropertyGroup>
       <AndroidExplicitCrunch>true</AndroidExplicitCrunch>
-    </PropertyGroup>
+    </PropertyGroup>-->
   </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
      Other similar extension points exist, see Microsoft.Common.targets.

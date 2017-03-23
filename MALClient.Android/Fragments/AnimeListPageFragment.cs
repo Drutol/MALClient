@@ -28,6 +28,7 @@ using MALClient.Android.Activities;
 using MALClient.Android.BindingInformation;
 using MALClient.Android.Flyouts;
 using MALClient.Android.Listeners;
+using MALClient.XShared.Comm.Anime;
 using MALClient.XShared.Utils;
 
 namespace MALClient.Android.Fragments
@@ -197,6 +198,32 @@ namespace MALClient.Android.Fragments
                 _rightDrawer.CloseDrawer();
             });
 
+            _rightDrawer.OpenDrawer();
+        }
+
+        private void OpenTopTypeDrawer()
+        {
+            var items = new List<IDrawerItem>();
+            foreach (TopAnimeType sortOption in Enum.GetValues(typeof(TopAnimeType)))
+            {
+                var btn = HamburgerUtilities.GetBaseSecondaryItem();
+                btn.WithName(sortOption.ToString());
+                btn.WithIdentifier((int)sortOption);
+                items.Add(btn);
+            }
+
+            _rightDrawer.SetItems(items);
+            _rightDrawer.SetSelection((int)ViewModel.TopAnimeWorkMode);
+
+            _rightDrawer.StickyHeader.FindViewById<TextView>(Resource.Id.AnimeListPageDrawerHeaderText).Text = "Top Types";
+            _rightDrawer.StickyHeader.FindViewById<ImageView>(Resource.Id.AnimeListPageDrawerHeaderIcon).SetImageResource(
+                Resource.Drawable.icon_fav_outline);
+            _rightDrawer.OnDrawerItemClickListener = new HamburgerItemClickListener((view, i, arg3) =>
+            {
+                ViewModelLocator.GeneralMain.Navigate(PageIndex.PageAnimeList,AnimeListPageNavigationArgs.TopAnime((TopAnimeType)i));
+                _rightDrawer.OnDrawerItemClickListener = null;
+                _rightDrawer.CloseDrawer();
+            });
             _rightDrawer.OpenDrawer();
         }
 

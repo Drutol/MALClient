@@ -167,13 +167,25 @@ namespace MALClient.Android.BackgroundTasks
             var pendingIntent = PendingIntent.GetActivity(context, 0, intent, PendingIntentFlags.OneShot);
             var notificationBuilder = new Notification.Builder(context)
                 .SetSmallIcon(Resource.Drawable.badge_icon)
-                .SetContentText(notification.Content)
+                .SetStyle(new Notification.BigTextStyle().BigText(notification.Content))
                 .SetContentTitle(notification.Header)
                 .SetAutoCancel(true)
                 .SetContentIntent(pendingIntent)
                 .SetSound(RingtoneManager.GetDefaultUri(RingtoneType.Notification));
+
+            if (notification.Type != MalNotificationsTypes.Messages &&
+                notification.Type != MalNotificationsTypes.WatchedTopic)
+            {
+                var readIntent = new Intent(context, typeof(NotificationClickBroadcastReceiver));
+                readIntent.SetAction(DateTime.Now.Ticks.ToString());
+                readIntent.PutExtra(NotificationClickBroadcastReceiver.NotificationReadKey, notification.Id);
+                var pendingReadIntent = PendingIntent.GetBroadcast(context, 23, readIntent, PendingIntentFlags.OneShot);
+                notificationBuilder.SetActions(new Notification.Action(Resource.Drawable.icon_eye_notification, "Mark as Read",
+                    pendingReadIntent));
+            }
+
             var notificationManager = (NotificationManager) context.GetSystemService(Context.NotificationService);
-            notificationManager.Notify((int) (DateTime.Now.Ticks & 0xFFFFFFFF), notificationBuilder.Build());
+            notificationManager.Notify(notification.Id.GetHashCode(), notificationBuilder.Build());
             await Task.Delay(500);
             _toastSemaphore.Release();
         }

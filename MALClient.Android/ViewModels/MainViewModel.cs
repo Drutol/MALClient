@@ -126,10 +126,10 @@ namespace MALClient.Android.ViewModels
                     RefreshDataCommand = new RelayCommand(() => ViewModelLocator.AnimeDetails.RefreshData());
                     _wasOnDetailsFromSearch = (args as AnimeDetailsPageNavigationArgs).Source == PageIndex.PageSearch;
                     //from search , details are passed instead of being downloaded once more
-                    if (CurrentMainPage == PageIndex.PageAnimeDetails)
-                        ViewModelLocator.AnimeDetails.Init(args as AnimeDetailsPageNavigationArgs);
-                    else
-                        MainNavigationRequested?.Invoke(AnimeDetailsPageFragment.BuildInstance(args));
+                    //if (CurrentMainPage == PageIndex.PageAnimeDetails)
+                    //    ViewModelLocator.AnimeDetails.Init(args as AnimeDetailsPageNavigationArgs);
+                    //else
+                        MainNavigationRequested?.Invoke(new AnimeDetailsPageFragment(args as AnimeDetailsPageNavigationArgs));
                     break;
                 case PageIndex.PageSettings:
                     HideSearchStuff();

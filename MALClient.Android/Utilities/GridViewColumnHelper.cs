@@ -12,16 +12,19 @@ namespace MALClient.Android
     public class GridViewColumnHelper
     {
         private readonly List<GridView> _grids;
+        private readonly int _prefferedItemWidth;
         private static readonly int PrefferedItemWidth = MainActivity.CurrentContext.Resources.DisplayMetrics.Density >= 2 ? 190 : 200;
 
-        public GridViewColumnHelper(GridView view)
+        public GridViewColumnHelper(GridView view,int? prefferedWidthDp = null)
         {
+            _prefferedItemWidth = prefferedWidthDp ?? PrefferedItemWidth;
             _grids = new List<GridView> {view};
             OnConfigurationChanged(MainActivity.CurrentContext.Resources.Configuration);
         }
 
-        public GridViewColumnHelper()
+        public GridViewColumnHelper(int? prefferedWidthDp = null)
         {
+            _prefferedItemWidth = prefferedWidthDp ?? PrefferedItemWidth;
             _grids = new List<GridView>();
         }
 
@@ -37,7 +40,7 @@ namespace MALClient.Android
         private int GetColumns(Configuration newConfig)
         {
             var width = newConfig.ScreenWidthDp;
-            var columns = (int)(width / DimensionsHelper.PxToDp(DimensionsHelper.DpToPx(PrefferedItemWidth)));
+            var columns = (int)(width / DimensionsHelper.PxToDp(DimensionsHelper.DpToPx(_prefferedItemWidth)));
             columns = columns < 2 ? 2 : columns;
             return columns;
         }
@@ -46,7 +49,7 @@ namespace MALClient.Android
         {
             grid.SetNumColumns(columns);
             var param = grid.LayoutParameters;
-            param.Width = DimensionsHelper.DpToPx(PrefferedItemWidth) * columns;
+            param.Width = DimensionsHelper.DpToPx(_prefferedItemWidth) * columns;
             if (param.Width < 0)
                 param.Width = ViewGroup.LayoutParams.MatchParent;
             if(param.Width > DimensionsHelper.DpToPx(config.ScreenWidthDp))

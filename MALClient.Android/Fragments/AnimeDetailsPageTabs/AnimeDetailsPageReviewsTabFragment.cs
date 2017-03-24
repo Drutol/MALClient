@@ -72,10 +72,8 @@ namespace MALClient.Android.Fragments.AnimeDetailsPageTabs
             view.FindViewById(Resource.Id.AnimeReviewItemLayoutReviewContent).Visibility =
                 _reviewStates[animeReviewData] ? ViewStates.Visible : ViewStates.Gone;
 
-            var img = view.FindViewById<ImageViewAsync>(Resource.Id.AnimeReviewItemLayoutAvatarImage);
-            ImageService.Instance.LoadUrl(animeReviewData.AuthorAvatar, TimeSpan.FromDays(1))
-                .FadeAnimation(false).Success(() => img.AnimateFadeIn())
-                .Into(img);
+            view.FindViewById<ImageViewAsync>(Resource.Id.AnimeReviewItemLayoutAvatarImage)
+                .Into(animeReviewData.AuthorAvatar);
             view.FindViewById<TextView>(Resource.Id.AnimeReviewItemLayoutAuthor).Text = animeReviewData.Author;
             view.FindViewById<TextView>(Resource.Id.AnimeReviewItemLayoutDate).Text = animeReviewData.Date;
             view.FindViewById<TextView>(Resource.Id.AnimeReviewItemLayoutOverallScore).Text = animeReviewData.OverallRating;

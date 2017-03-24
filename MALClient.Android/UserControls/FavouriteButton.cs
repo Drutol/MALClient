@@ -24,45 +24,55 @@ namespace MALClient.Android.UserControls
         private FrameLayout _favButton;
         private ImageView _favButtonIcon;
         private FavouriteViewModel ViewModel;
+        private bool _initialized;
 
         #region Contructors
 
         public FavouriteButton(IntPtr javaReference, JniHandleOwnership transfer) : base(javaReference, transfer)
         {
-            Init();
+
         }
 
         public FavouriteButton(Context context) : base(context)
         {
-            Init();
+
         }
 
         public FavouriteButton(Context context, IAttributeSet attrs) : base(context, attrs)
         {
-            Init();
+
         }
 
         public FavouriteButton(Context context, IAttributeSet attrs, int defStyleAttr) : base(context, attrs, defStyleAttr)
         {
-            Init();
+
         }
 
         public FavouriteButton(Context context, IAttributeSet attrs, int defStyleAttr, int defStyleRes) : base(context, attrs, defStyleAttr, defStyleRes)
         {
-            Init();
+
         }
         #endregion
 
         private void Init()
         {
-            _favButton = (Context as Activity).LayoutInflater.Inflate(Resource.Layout.FavButton, this) as FrameLayout;
+            _favButton = (Context as Activity).LayoutInflater.Inflate(Resource.Layout.FavButton, null) as FrameLayout;
             _favButtonIcon = _favButton.FindViewById<ImageView>(Resource.Id.FavButtonIcon);
             _favButton.Click += FavButtonOnClick;
             AddView(_favButton);
+            _initialized = true;
+        }
+
+        protected override void OnMeasure(int widthMeasureSpec, int heightMeasureSpec)
+        {
+            base.OnMeasure(widthMeasureSpec, heightMeasureSpec);
         }
 
         public void BindModel(FavouriteViewModel model)
         {
+            if (!_initialized)
+                Init();
+
             ViewModel = model;
 
             Bindings.Add(this.SetBinding(() => ViewModel.IsFavourite).WhenSourceChanges(() =>

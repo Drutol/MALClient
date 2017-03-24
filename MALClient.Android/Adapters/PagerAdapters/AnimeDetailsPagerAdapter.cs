@@ -35,7 +35,7 @@ namespace MALClient.Android.PagerAdapters
         private AnimeDetailsPageRecomsTabFragment _recomsFragment;
         private AnimeDetailsPageRelatedTabFragment _relatedFragment;
         private AnimeDetailsPageCharactersTabFragment _charactersFragment;
-        private AnimeDetailsPageCharactersTabFragment _staffFragment;
+        private AnimeDetailsPageStaffTabFragment _staffFragment;
 
         public override Fragment GetItem(int position)
         {
@@ -54,7 +54,7 @@ namespace MALClient.Android.PagerAdapters
                 case 5:
                     return _charactersFragment ?? (_charactersFragment = new AnimeDetailsPageCharactersTabFragment());
                 case 6:
-                    return _staffFragment ?? (_staffFragment = new AnimeDetailsPageCharactersTabFragment());
+                    return _staffFragment ?? (_staffFragment = new AnimeDetailsPageStaffTabFragment());
             }
             throw new Exception("Emm we've run out of fragments?");
         }

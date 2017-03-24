@@ -19,6 +19,8 @@ namespace MALClient.Android.UserControls
 {
     public class FavouriteItem : FrameLayout
     {
+        private bool _initialized;
+
         public new event EventHandler Click
         {
             add { _rootContainer.Click += value; }
@@ -33,50 +35,79 @@ namespace MALClient.Android.UserControls
 
         public FavouriteItem(IntPtr javaReference, JniHandleOwnership transfer) : base(javaReference, transfer)
         {
-            Init();
+
         }
 
         public FavouriteItem(Context context) : base(context)
         {
-            Init();
+
         }
 
         public FavouriteItem(Context context, IAttributeSet attrs) : base(context, attrs)
         {
-            Init();
+
         }
 
         public FavouriteItem(Context context, IAttributeSet attrs, int defStyleAttr) : base(context, attrs, defStyleAttr)
         {
-            Init();
+
         }
 
         public FavouriteItem(Context context, IAttributeSet attrs, int defStyleAttr, int defStyleRes) : base(context, attrs, defStyleAttr, defStyleRes)
         {
-            Init();
+
         }
 
         #endregion
 
         private void Init()
         {
-            _rootContainer = (Context as Activity).LayoutInflater.Inflate(Resource.Layout.FavouriteItem, this) as FrameLayout;
+            _rootContainer = (Context as Activity).LayoutInflater.Inflate(Resource.Layout.FavouriteItem, null) as FrameLayout;
             AddView(_rootContainer);
+            _initialized = true;
         }
 
-        public void BindModel(FavouriteViewModel model)
+        protected override void OnMeasure(int widthMeasureSpec, int heightMeasureSpec)
         {
-            ViewModel = model;
+            base.OnMeasure(widthMeasureSpec, heightMeasureSpec);
+        }
 
-            FavouriteItemFavButton.BindModel(model);
+        public void BindModel(FavouriteViewModel model,bool fling)
+        {
+            if (!_initialized)
+                Init();
 
-            FavouriteItemImage.Into(model.Data.ImgUrl);
-            FavouriteItemName.Text = model.Data.Name;
-            FavouriteItemRole.Text = model.Data.Notes;
+            if (!fling && ViewModel != model)
+            {
+                ViewModel = model;
 
-            FavouriteItemImage.SetScaleType(model.Data.Type == FavouriteType.Person
-                ? ImageView.ScaleType.FitCenter
-                : ImageView.ScaleType.CenterCrop);
+                FavouriteItemFavButton.BindModel(model);
+
+                if (string.IsNullOrWhiteSpace(model.Data.ImgUrl))
+                {
+                    FavouriteItemImage.Visibility = ViewStates.Invisible;
+                    FavouriteItemImagePlaceholder.Visibility = ViewStates.Visible;
+                }
+                else
+                {
+                    FavouriteItemImage.Visibility = ViewStates.Invisible;
+                    FavouriteItemImagePlaceholder.Visibility = ViewStates.Gone;
+                    FavouriteItemImage.Into(model.Data.ImgUrl);
+                }
+
+                FavouriteItemName.Text = model.Data.Name;
+                FavouriteItemRole.Text = model.Data.Notes;
+
+                FavouriteItemImage.SetScaleType(model.Data.Type == FavouriteType.Person
+                    ? ImageView.ScaleType.FitCenter
+                    : ImageView.ScaleType.CenterCrop);
+            }
+            else if (fling)
+            {
+                FavouriteItemImage.Visibility = ViewStates.Invisible;
+                FavouriteItemImagePlaceholder.Visibility = ViewStates.Visible;
+            }
+
         }
 
         #region Views
@@ -91,7 +122,7 @@ namespace MALClient.Android.UserControls
 
         public ImageViewAsync FavouriteItemImage => _favouriteItemImage ?? (_favouriteItemImage = _rootContainer.FindViewById<ImageViewAsync>(Resource.Id.FavouriteItemImage));
 
-        public ImageView FavouriteItemImagePlaceholder => _favouriteItemImagePlaceholder ?? (_favouriteItemImagePlaceholder = _rootContainer.FindViewById<ImageViewAsync>(Resource.Id.FavouriteItemImagePlaceholder));
+        public ImageView FavouriteItemImagePlaceholder => _favouriteItemImagePlaceholder ?? (_favouriteItemImagePlaceholder = _rootContainer.FindViewById<ImageView>(Resource.Id.FavouriteItemImagePlaceholder));
 
         public TextView FavouriteItemName => _favouriteItemName ?? (_favouriteItemName = _rootContainer.FindViewById<TextView>(Resource.Id.FavouriteItemName));
 

@@ -204,6 +204,7 @@
     <Compile Include="Fragments\AnimeDetailsPageFragment.ui.cs">
       <DependentUpon>AnimeDetailsPageFragment.cs</DependentUpon>
     </Compile>
+    <Compile Include="Fragments\AnimeDetailsPageTabs\AnimeDetailsPageStaffTabFragment.cs" />
     <Compile Include="Fragments\AnimeDetailsPageTabs\AnimeDetailsPageCharactersTabFragment.cs" />
     <Compile Include="Fragments\AnimeDetailsPageTabs\AnimeDetailsPageDetailsTabFragment.cs" />
     <Compile Include="Fragments\AnimeDetailsPageTabs\AnimeDetailsPageGeneralTabFragment.cs" />
@@ -912,7 +913,9 @@
     <AndroidResource Include="Resources\drawable\icon_unfavourite.xml" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\layout\FavouriteItem.xml" />
+    <AndroidResource Include="Resources\layout\FavouriteItem.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\CharacterActorPairItem.xml" />

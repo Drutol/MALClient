@@ -1,6 +1,6 @@
-﻿<FrameLayout android:layout_height="45dp" android:layout_width="45dp" android:clickable="true" android:focusable="true" android:foreground="?selectableItemBackground"
+﻿<FrameLayout android:layout_height="50dp" android:layout_width="50dp" android:clickable="true" android:focusable="true" android:foreground="?selectableItemBackground"
     xmlns:android="http://schemas.android.com/apk/res/android" android:background="@color/BrushOpaqueTextView">
   <ImageView
-      android:layout_width="30dp" android:layout_gravity="center" android:tint="#fff"
-      android:layout_height="30dp" android:src="@drawable/icon_favourite" android:id="@+id/FavButtonIcon"/>
+      android:layout_width="wrap_content" android:layout_gravity="center" android:tint="#fff"
+      android:layout_height="wrap_content" android:src="@drawable/icon_favourite" android:id="@+id/FavButtonIcon"/>
 </FrameLayout>

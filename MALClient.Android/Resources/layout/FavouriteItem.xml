@@ -1,22 +1,22 @@
-﻿<FrameLayout android:layout_width="match_parent"
+﻿<FrameLayout android:layout_width="wrap_content"
     android:foreground="?selectableItemBackground"
     android:layout_height="wrap_content"
     android:clickable="true"
     android:focusable="true"
-    android:background="?BrushAppBars"
+    android:padding="5dp"
     xmlns:android="http://schemas.android.com/apk/res/android">
-  <LinearLayout
+  <LinearLayout android:background="?BrushAppBars"
       android:layout_width="match_parent"
       android:layout_height="match_parent" android:orientation="vertical">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="200dp">
+      <FFImageLoading.Views.ImageViewAsync
+          android:layout_width="match_parent" android:adjustViewBounds="true" android:id="@+id/FavouriteItemImage"
+          android:layout_height="200dp" android:scaleType="centerCrop" android:maxWidth="180dp"/>
       <ImageView
           android:layout_width="wrap_content" android:src="@drawable/icon_help" android:layout_centerInParent="true"
           android:layout_height="wrap_content" android:id="@+id/FavouriteItemImagePlaceholder" />
-      <FFImageLoading.Views.ImageViewAsync
-          android:layout_width="match_parent" android:adjustViewBounds="true" android:id="@+id/FavouriteItemImage"
-          android:layout_height="200dp" android:scaleType="centerCrop" />
       <MALClient.Android.UserControls.FavouriteButton android:layout_height="wrap_content" android:layout_alignParentBottom="true" android:layout_alignParentEnd="true" android:layout_width="wrap_content" android:id="@+id/FavouriteItemFavButton"/>
     </RelativeLayout>
     <View style="@style/Divider" android:background="?AccentColour"/>
@@ -27,7 +27,7 @@
           android:layout_width="wrap_content" android:ellipsize="end"
           android:layout_height="wrap_content" android:maxLines="1" android:textColor="?BrushText" android:text="Kurumizawa McDowel"/>
       <TextView android:id="@+id/FavouriteItemRole"
-          android:layout_width="wrap_content" android:layout_marginTop="4dp"
+          android:layout_width="wrap_content"
           android:layout_height="wrap_content" android:maxLines="1" android:textColor="?BrushText" android:text="Main" android:fontFamily="@string/font_family_light"/>
     </LinearLayout>
   </LinearLayout>

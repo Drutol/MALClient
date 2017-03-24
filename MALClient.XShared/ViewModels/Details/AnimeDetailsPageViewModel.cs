@@ -223,12 +223,13 @@ namespace MALClient.XShared.ViewModels.Details
 
         public event EmptyEventHander BasicDataLoaded; 
 
-        public async void Init(AnimeDetailsPageNavigationArgs param)
+        public async void Init(AnimeDetailsPageNavigationArgs param,bool fakeDelay = true)
         {
             Initialized = false;
             LoadingGlobal = true;
             //wait for UI
-            await Task.Delay(5);
+            if(fakeDelay)
+                await Task.Delay(5);
             ViewModelLocator.GeneralMain.IsCurrentStatusSelectable = true;
 
             _loadingAlternate = false;
@@ -1035,7 +1036,7 @@ namespace MALClient.XShared.ViewModels.Details
                                 : null);
                 ExtractData(data);
             }
-            catch (Exception)
+            catch (Exception e)
             {
 
                 LoadingGlobal = false;

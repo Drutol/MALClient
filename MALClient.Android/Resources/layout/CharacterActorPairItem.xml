@@ -4,7 +4,7 @@
     android:layout_width="match_parent" android:orientation="horizontal"
     android:layout_height="wrap_content" >
   <MALClient.Android.UserControls.FavouriteItem android:layout_width="0dp" android:layout_weight="1"
-      android:layout_height="wrap_content" android:layout_marginRight="3dp" android:id="@+id/CharacterActorPairItemActor" />
+      android:layout_height="wrap_content" android:id="@+id/CharacterActorPairItemCharacter" />
   <MALClient.Android.UserControls.FavouriteItem android:layout_width="0dp" android:layout_weight="1"
-      android:layout_height="wrap_content" android:layout_marginLeft="3dp" android:id="@+id/CharacterActorPairItemCharacter"/>
+      android:layout_height="wrap_content" android:id="@+id/CharacterActorPairItemActor"/>
 </LinearLayout>

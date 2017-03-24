@@ -13,11 +13,14 @@ namespace MALClient.Android
     {
         private readonly List<GridView> _grids;
         private readonly int _prefferedItemWidth;
+        private readonly int _minColumns;
         private static readonly int PrefferedItemWidth = MainActivity.CurrentContext.Resources.DisplayMetrics.Density >= 2 ? 190 : 200;
 
-        public GridViewColumnHelper(GridView view,int? prefferedWidthDp = null)
+
+        public GridViewColumnHelper(GridView view,int? prefferedWidthDp = null,int? minCollumns = null)
         {
             _prefferedItemWidth = prefferedWidthDp ?? PrefferedItemWidth;
+            _minColumns = minCollumns ?? 2;
             _grids = new List<GridView> {view};
             OnConfigurationChanged(MainActivity.CurrentContext.Resources.Configuration);
         }
@@ -40,8 +43,8 @@ namespace MALClient.Android
         private int GetColumns(Configuration newConfig)
         {
             var width = newConfig.ScreenWidthDp;
-            var columns = (int)(width / DimensionsHelper.PxToDp(DimensionsHelper.DpToPx(_prefferedItemWidth)));
-            columns = columns < 2 ? 2 : columns;
+            var columns = width / _prefferedItemWidth;
+            columns = columns < _minColumns ? _minColumns : columns;
             return columns;
         }
 

@@ -5,7 +5,6 @@ using System.Text;
 
 using Android.App;
 using Android.Content;
-using Android.Content.Res;
 using Android.OS;
 using Android.Runtime;
 using Android.Views;
@@ -18,10 +17,10 @@ using MALClient.XShared.ViewModels.Details;
 
 namespace MALClient.Android.Fragments.AnimeDetailsPageTabs
 {
-    class AnimeDetailsPageCharactersTabFragment : MalFragmentBase
+    class AnimeDetailsPageStaffTabFragment : MalFragmentBase
     {
         private AnimeDetailsPageViewModel ViewModel;
-        private GridViewColumnHelper _gridHelper;
+        private GridViewColumnHelper _helper;
 
         protected override void Init(Bundle savedInstanceState)
         {
@@ -30,14 +29,15 @@ namespace MALClient.Android.Fragments.AnimeDetailsPageTabs
 
         protected override void InitBindings()
         {
-            _gridHelper = new GridViewColumnHelper(AnimeDetailsPageCharactersTabGridView,340,1);
+            _helper = new GridViewColumnHelper(AnimeDetailsPageCharactersTabGridView);
             Bindings.Add(this.SetBinding(() => ViewModel.AnimeStaffData).WhenSourceChanges(() =>
             {
                 if (ViewModel.AnimeStaffData == null)
                     AnimeDetailsPageCharactersTabGridView.Adapter = null;
                 else
-                    AnimeDetailsPageCharactersTabGridView.InjectFlingAdapter(ViewModel.AnimeStaffData.AnimeCharacterPairs,DataTemplateFull,DataTemplateFling,ContainerTemplate  );
+                    AnimeDetailsPageCharactersTabGridView.InjectFlingAdapter(ViewModel.AnimeStaffData.AnimeStaff,DataTemplateFull,DataTemplateFling,ContainerTemplate  );
             }));
+
 
             Bindings.Add(
                 this.SetBinding(() => ViewModel.LoadingCharactersVisibility,
@@ -47,36 +47,21 @@ namespace MALClient.Android.Fragments.AnimeDetailsPageTabs
 
         private View ContainerTemplate()
         {
-            var view =  Activity.LayoutInflater.Inflate(Resource.Layout.CharacterActorPairItem, null);
-            return view;
+            return new FavouriteItem(Activity);
         }
 
-        private void DataTemplateFling(View view, AnimeDetailsPageViewModel.AnimeStaffDataViewModels.AnimeCharacterStaffModelViewModel models)
+        private void DataTemplateFling(View view, FavouriteViewModel model)
         {
-            var itemCharacter = view.FindViewById<FavouriteItem>(Resource.Id.CharacterActorPairItemCharacter);
-            var itemPerson = view.FindViewById<FavouriteItem>(Resource.Id.CharacterActorPairItemActor);
-
-            itemCharacter.BindModel(models.AnimeCharacter, true);
-            itemPerson.BindModel(models.AnimeStaffPerson, true);
+            (view as FavouriteItem).BindModel(model, true);
         }
 
-        private void DataTemplateFull(View view, AnimeDetailsPageViewModel.AnimeStaffDataViewModels.AnimeCharacterStaffModelViewModel models)
+        private void DataTemplateFull(View view, FavouriteViewModel model)
         {
-            var itemCharacter = view.FindViewById<FavouriteItem>(Resource.Id.CharacterActorPairItemCharacter);
-            var itemPerson = view.FindViewById<FavouriteItem>(Resource.Id.CharacterActorPairItemActor);
-
-            itemCharacter.BindModel(models.AnimeCharacter,false);
-            itemPerson.BindModel(models.AnimeStaffPerson,false);
+            (view as FavouriteItem).BindModel(model,false);
         }
+
 
         public override int LayoutResourceId => Resource.Layout.AnimeDetailsPageCharactersTab;
-
-
-        public override void OnConfigurationChanged(Configuration newConfig)
-        {
-            _gridHelper.OnConfigurationChanged(newConfig);
-            base.OnConfigurationChanged(newConfig);
-        }
 
         #region Views
 

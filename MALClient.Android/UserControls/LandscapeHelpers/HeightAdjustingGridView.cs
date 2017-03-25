@@ -19,6 +19,7 @@ namespace MALClient.Android.UserControls
     public class HeightAdjustingGridView : GridView
     {
         private bool EnableAdjustments { get; set; }
+        private bool AlwaysAdjust { get; set; }
 
         #region Contructors
 
@@ -59,7 +60,7 @@ namespace MALClient.Android.UserControls
 
         protected override void OnMeasure(int widthMeasureSpec, int heightMeasureSpec)
         {
-            if (EnableAdjustments)
+            if (EnableAdjustments || AlwaysAdjust)
             {
                 int expandSpec = MeasureSpec.MakeMeasureSpec(Integer.MaxValue >> 2,
                     MeasureSpecMode.AtMost);

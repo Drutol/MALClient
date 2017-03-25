@@ -9,6 +9,7 @@ using Android.Content;
 using Android.Media;
 using Android.OS;
 using Android.Runtime;
+using Android.Support.V7.App;
 using Android.Views;
 using Android.Widget;
 using MALClient.Adapters;
@@ -165,9 +166,9 @@ namespace MALClient.Android.BackgroundTasks
                                  ? "OpenUrl;"
                                  : "") + notification.LaunchArgs);
             var pendingIntent = PendingIntent.GetActivity(context, 0, intent, PendingIntentFlags.OneShot);
-            var notificationBuilder = new Notification.Builder(context)
+            var notificationBuilder = new NotificationCompat.Builder(context)
                 .SetSmallIcon(Resource.Drawable.badge_icon)
-                .SetStyle(new Notification.BigTextStyle().BigText(notification.Content))
+                .SetStyle(new NotificationCompat.BigTextStyle().BigText(notification.Content))
                 .SetContentTitle(notification.Header)
                 .SetAutoCancel(true)
                 .SetContentIntent(pendingIntent)
@@ -180,7 +181,7 @@ namespace MALClient.Android.BackgroundTasks
                 readIntent.SetAction(DateTime.Now.Ticks.ToString());
                 readIntent.PutExtra(NotificationClickBroadcastReceiver.NotificationReadKey, notification.Id);
                 var pendingReadIntent = PendingIntent.GetBroadcast(context, 23, readIntent, PendingIntentFlags.OneShot);
-                notificationBuilder.SetActions(new Notification.Action(Resource.Drawable.icon_eye_notification, "Mark as Read",
+                notificationBuilder.AddAction(new NotificationCompat.Action(Resource.Drawable.icon_eye_notification, "Mark as Read",
                     pendingReadIntent));
             }
 

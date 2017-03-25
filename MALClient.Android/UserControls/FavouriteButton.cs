@@ -63,17 +63,15 @@ namespace MALClient.Android.UserControls
             _initialized = true;
         }
 
-        protected override void OnMeasure(int widthMeasureSpec, int heightMeasureSpec)
-        {
-            base.OnMeasure(widthMeasureSpec, heightMeasureSpec);
-        }
-
         public void BindModel(FavouriteViewModel model)
         {
             if (!_initialized)
                 Init();
 
             ViewModel = model;
+
+            Bindings.ForEach(binding => binding.Detach());
+            Bindings.Clear();
 
             Bindings.Add(this.SetBinding(() => ViewModel.IsFavourite).WhenSourceChanges(() =>
             {
@@ -88,16 +86,18 @@ namespace MALClient.Android.UserControls
                     _favButtonIcon.SetImageResource(Resource.Drawable.icon_favourite);
                 }
             }));
-            Bindings.Add(
-                this.SetBinding(() => ViewModel.IsFavouriteButtonEnabled,
-                    () => Visibility).ConvertSourceToTarget(Converters.BoolToVisibility));
+            Bindings.Add(this.SetBinding(() => ViewModel.IsFavouriteButtonEnabled).WhenSourceChanges(() =>
+            {
+                _favButton.Alpha = ViewModel.IsFavouriteButtonEnabled ? 1 : .7f;
+
+            }));
 
         }
 
 
         private void FavButtonOnClick(object sender, EventArgs eventArgs)
-        {
-            ViewModel?.ToggleFavouriteCommand.Execute(null);
+        {   if(ViewModel.IsFavouriteButtonEnabled)
+                ViewModel?.ToggleFavouriteCommand.Execute(null);
         }
 
         protected override void Dispose(bool disposing)

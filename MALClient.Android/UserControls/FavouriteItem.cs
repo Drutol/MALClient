@@ -28,7 +28,6 @@ namespace MALClient.Android.UserControls
         }
 
         private FrameLayout _rootContainer;
-        private List<Binding> Bindings = new List<Binding>();
         private FavouriteViewModel ViewModel;
 
         #region Contructors

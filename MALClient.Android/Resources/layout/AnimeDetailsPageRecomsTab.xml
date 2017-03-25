@@ -1,5 +1,5 @@
 ﻿<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content">
   <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="?BrushDeepBackground"
     android:padding="5dp">
-    <ListView android:layout_width="match_parent" android:layout_height="wrap_content"
+    <MALClient.Android.UserControls.HeightAdjustingListView android:layout_width="match_parent" android:layout_height="match_parent"
               android:id="@+id/AnimeDetailsPageRecomTabsList" />
   </LinearLayout>
   <RelativeLayout android:id="@+id/AnimeDetailsPageRecomTabLoadingOverlay" android:layout_width="match_parent"

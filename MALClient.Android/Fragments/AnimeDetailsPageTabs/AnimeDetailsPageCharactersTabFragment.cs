@@ -15,6 +15,7 @@ using MALClient.Android.BindingConverters;
 using MALClient.Android.UserControls;
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Details;
+using Orientation = Android.Content.Res.Orientation;
 
 namespace MALClient.Android.Fragments.AnimeDetailsPageTabs
 {
@@ -43,6 +44,8 @@ namespace MALClient.Android.Fragments.AnimeDetailsPageTabs
                 this.SetBinding(() => ViewModel.LoadingCharactersVisibility,
                     () => AnimeDetailsPageCharactersTabLoadingSpinner.Visibility)
                     .ConvertSourceToTarget(Converters.BoolToVisibility));
+
+            SetUpForOrientation(Activity.Resources.Configuration.Orientation);
         }
 
         private View ContainerTemplate()
@@ -74,8 +77,31 @@ namespace MALClient.Android.Fragments.AnimeDetailsPageTabs
 
         public override void OnConfigurationChanged(Configuration newConfig)
         {
+            SetUpForOrientation(newConfig.Orientation);
             _gridHelper.OnConfigurationChanged(newConfig);
             base.OnConfigurationChanged(newConfig);
+        }
+
+        private void SetUpForOrientation(Orientation orientation)
+        {
+            ViewGroup.LayoutParams param;
+            switch (orientation)
+            {
+                case Orientation.Landscape:
+                    param = RootView.LayoutParameters;
+                    param.Height = ViewGroup.LayoutParams.WrapContent;
+                    RootView.LayoutParameters = param;
+                    break;
+                case Orientation.Portrait:
+                case Orientation.Square:
+                case Orientation.Undefined:
+                    param = RootView.LayoutParameters;
+                    param.Height = ViewGroup.LayoutParams.MatchParent;
+                    RootView.LayoutParameters = param;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(orientation), orientation, null);
+            }
         }
 
         #region Views

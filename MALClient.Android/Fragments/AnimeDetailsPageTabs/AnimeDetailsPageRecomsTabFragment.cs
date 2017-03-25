@@ -5,6 +5,7 @@ using System.Text;
 
 using Android.App;
 using Android.Content;
+using Android.Content.Res;
 using Android.Graphics;
 using Android.OS;
 using Android.Runtime;
@@ -22,6 +23,7 @@ using MALClient.Android.Resources;
 using MALClient.Models.Models.AnimeScrapped;
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Details;
+using Orientation = Android.Content.Res.Orientation;
 
 namespace MALClient.Android.Fragments.AnimeDetailsPageTabs
 {
@@ -51,6 +53,8 @@ namespace MALClient.Android.Fragments.AnimeDetailsPageTabs
             Bindings.Add(
                 this.SetBinding(() => ViewModel.LoadingRecommendations,
                     () => LoadingOverlay.Visibility).ConvertSourceToTarget(Converters.BoolToVisibility));
+
+            SetUpForOrientation(Activity.Resources.Configuration.Orientation);
         }
 
         private View RecomItemDelegate(int i, DirectRecommendationData animeReviewData, View convertView)
@@ -71,6 +75,34 @@ namespace MALClient.Android.Fragments.AnimeDetailsPageTabs
             img.Into(animeReviewData.ImageUrl);
   
             return view;
+        }
+
+        public override void OnConfigurationChanged(Configuration newConfig)
+        {
+            SetUpForOrientation(newConfig.Orientation);
+            base.OnConfigurationChanged(newConfig);
+        }
+
+        private void SetUpForOrientation(Orientation orientation)
+        {
+            ViewGroup.LayoutParams param;
+            switch (orientation)
+            {
+                case Orientation.Landscape:
+                    param = RootView.LayoutParameters;
+                    param.Height = ViewGroup.LayoutParams.WrapContent;
+                    RootView.LayoutParameters = param;
+                    break;
+                case Orientation.Portrait:
+                case Orientation.Square:
+                case Orientation.Undefined:
+                    param = RootView.LayoutParameters;
+                    param.Height = ViewGroup.LayoutParams.MatchParent;
+                    RootView.LayoutParameters = param;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(orientation), orientation, null);
+            }
         }
 
         public static AnimeDetailsPageRecomsTabFragment Instance => new AnimeDetailsPageRecomsTabFragment();

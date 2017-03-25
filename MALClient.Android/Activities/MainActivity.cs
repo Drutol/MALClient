@@ -1,29 +1,15 @@
 ﻿using System;
 using System.Linq;
-using System.Net;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
 using Android.Content.PM;
-using Android.Content.Res;
-using Android.Graphics;
 using Android.OS;
-using Android.Support.Design.Widget;
-using Android.Support.V4.View;
-using Android.Support.V4.Widget;
 using Android.Support.V7.App;
 using Android.Views;
-using Android.Widget;
-using Com.Daimajia.Swipe.Implments;
-using Com.Mikepenz.Materialdrawer;
 using Com.Shehabic.Droppy;
 using GalaSoft.MvvmLight.Ioc;
-using HockeyApp.Android;
-using HockeyApp.Android.Metrics;
-using MALClient.Android.BackgroundTasks;
 using MALClient.Android.Fragments;
-using MALClient.Android.Resources;
 using MALClient.Android.ViewModels;
 using MALClient.Models.Enums;
 using MALClient.Models.Models.Notifications;
@@ -38,7 +24,7 @@ using MALClient.XShared.ViewModels.Interfaces;
 
 namespace MALClient.Android.Activities
 {
-    [Activity(Label = "MALClient",
+    [Activity(Label = "MALClient", ScreenOrientation = ScreenOrientation.Portrait,
         Icon = "@drawable/icon",WindowSoftInputMode = SoftInput.AdjustResize,MainLauncher = true,LaunchMode = LaunchMode.SingleInstance,
         Theme = "@style/Theme.Splash",ConfigurationChanges = ConfigChanges.Orientation|ConfigChanges.ScreenSize)]
     public partial class MainActivity : AppCompatActivity , IDimensionsProvider
@@ -60,6 +46,7 @@ namespace MALClient.Android.Activities
 
         protected override void OnCreate(Bundle bundle)
         {
+            RequestedOrientation = ScreenOrientation.Unspecified;
             SetTheme(Settings.SelectedTheme == 1
                 ? Resource.Style.Theme_MALClient_Dark
                 : Resource.Style.Theme_MALClient_Light);

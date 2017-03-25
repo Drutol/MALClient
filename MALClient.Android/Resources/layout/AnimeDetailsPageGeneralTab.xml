@@ -1,6 +1,6 @@
-﻿<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+﻿<MALClient.Android.UserControls.OrientationDependentScrollView xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:paddingTop="5dp"
             android:background="?BrushDetailsBackground">
 
@@ -178,4 +178,4 @@
               android:text="Lorem" android:textColor="?BrushText" android:paddingStart="10dp" android:paddingEnd="10dp"
               android:id="@+id/AnimeDetailsPageGeneralTabFragmentSynopsis" />
   </LinearLayout>
-</ScrollView>
+</MALClient.Android.UserControls.OrientationDependentScrollView>

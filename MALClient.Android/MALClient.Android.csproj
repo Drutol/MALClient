@@ -301,6 +301,10 @@
     <Compile Include="UserControls\ExpandableGridView.cs" />
     <Compile Include="UserControls\FavouriteButton.cs" />
     <Compile Include="UserControls\FavouriteItem.cs" />
+    <Compile Include="UserControls\LandscapeHelpers\HeightAdjustingGridView.cs" />
+    <Compile Include="UserControls\LandscapeHelpers\HeightAdjustingListView.cs" />
+    <Compile Include="UserControls\LandscapeHelpers\HeightAdjustingViewPager.cs" />
+    <Compile Include="UserControls\LandscapeHelpers\OrientationDependentScrollView.cs" />
     <Compile Include="UserControls\ScrollableSwipeToRefreshLayout.cs" />
     <Compile Include="UserControls\CharView\Arc.cs" />
     <Compile Include="UserControls\CharView\Chart.cs" />

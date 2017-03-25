@@ -5,6 +5,7 @@ using System.Text;
 
 using Android.App;
 using Android.Content;
+using Android.Content.Res;
 using Android.OS;
 using Android.Runtime;
 using Android.Views;
@@ -14,13 +15,15 @@ using MALClient.Android.BindingConverters;
 using MALClient.Android.UserControls;
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Details;
+using Orientation = Android.Content.Res.Orientation;
+
 
 namespace MALClient.Android.Fragments.AnimeDetailsPageTabs
 {
     class AnimeDetailsPageStaffTabFragment : MalFragmentBase
     {
         private AnimeDetailsPageViewModel ViewModel;
-        private GridViewColumnHelper _helper;
+        private GridViewColumnHelper _gridHelper;
 
         protected override void Init(Bundle savedInstanceState)
         {
@@ -29,7 +32,7 @@ namespace MALClient.Android.Fragments.AnimeDetailsPageTabs
 
         protected override void InitBindings()
         {
-            _helper = new GridViewColumnHelper(AnimeDetailsPageCharactersTabGridView);
+            _gridHelper = new GridViewColumnHelper(AnimeDetailsPageCharactersTabGridView);
             Bindings.Add(this.SetBinding(() => ViewModel.AnimeStaffData).WhenSourceChanges(() =>
             {
                 if (ViewModel.AnimeStaffData == null)
@@ -58,6 +61,35 @@ namespace MALClient.Android.Fragments.AnimeDetailsPageTabs
         private void DataTemplateFull(View view, FavouriteViewModel model)
         {
             (view as FavouriteItem).BindModel(model,false);
+        }
+
+        public override void OnConfigurationChanged(Configuration newConfig)
+        {
+            SetUpForOrientation(newConfig.Orientation);
+            _gridHelper.OnConfigurationChanged(newConfig);
+            base.OnConfigurationChanged(newConfig);
+        }
+
+        private void SetUpForOrientation(Orientation orientation)
+        {
+            ViewGroup.LayoutParams param;
+            switch (orientation)
+            {
+                case Orientation.Landscape:
+                    param = RootView.LayoutParameters;
+                    param.Height = ViewGroup.LayoutParams.WrapContent;
+                    RootView.LayoutParameters = param;
+                    break;
+                case Orientation.Portrait:
+                case Orientation.Square:
+                case Orientation.Undefined:
+                    param = RootView.LayoutParameters;
+                    param.Height = ViewGroup.LayoutParams.MatchParent;
+                    RootView.LayoutParameters = param;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(orientation), orientation, null);
+            }
         }
 
 

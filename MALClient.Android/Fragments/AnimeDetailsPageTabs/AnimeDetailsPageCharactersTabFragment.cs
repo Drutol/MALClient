@@ -13,6 +13,7 @@ using Android.Widget;
 using GalaSoft.MvvmLight.Helpers;
 using MALClient.Android.BindingConverters;
 using MALClient.Android.UserControls;
+using MALClient.Models.Models.Favourites;
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Details;
 using Orientation = Android.Content.Res.Orientation;
@@ -54,11 +55,22 @@ namespace MALClient.Android.Fragments.AnimeDetailsPageTabs
             return view;
         }
 
+        private void ItemPersonOnClick(object sender, EventArgs eventArgs)
+        {
+
+        }
+
+        private void ItemCharacterOnClick(object sender, EventArgs eventArgs)
+        {
+            var item = (sender as View).Tag.Unwrap<FavouriteBase>();
+            ViewModel.NavigateCharacterDetailsCommand.Execute(item);
+        }
+
         private void DataTemplateFling(View view, AnimeDetailsPageViewModel.AnimeStaffDataViewModels.AnimeCharacterStaffModelViewModel models)
         {
             var itemCharacter = view.FindViewById<FavouriteItem>(Resource.Id.CharacterActorPairItemCharacter);
             var itemPerson = view.FindViewById<FavouriteItem>(Resource.Id.CharacterActorPairItemActor);
-
+                
             itemCharacter.BindModel(models.AnimeCharacter, true);
             itemPerson.BindModel(models.AnimeStaffPerson, true);
         }
@@ -68,8 +80,15 @@ namespace MALClient.Android.Fragments.AnimeDetailsPageTabs
             var itemCharacter = view.FindViewById<FavouriteItem>(Resource.Id.CharacterActorPairItemCharacter);
             var itemPerson = view.FindViewById<FavouriteItem>(Resource.Id.CharacterActorPairItemActor);
 
+            bool firstRun = !itemCharacter.Initialized;
             itemCharacter.BindModel(models.AnimeCharacter,false);
             itemPerson.BindModel(models.AnimeStaffPerson,false);
+
+            if (firstRun)
+            {
+                itemCharacter.Click += ItemCharacterOnClick;
+                itemPerson.Click += ItemPersonOnClick;
+            }
         }
 
         public override int LayoutResourceId => Resource.Layout.AnimeDetailsPageCharactersTab;

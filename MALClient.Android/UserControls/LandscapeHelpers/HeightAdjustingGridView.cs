@@ -19,7 +19,7 @@ namespace MALClient.Android.UserControls
     public class HeightAdjustingGridView : GridView
     {
         private bool EnableAdjustments { get; set; }
-        private bool AlwaysAdjust { get; set; }
+        public bool AlwaysAdjust { get; set; }
 
         #region Contructors
 

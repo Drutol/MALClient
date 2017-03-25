@@ -14,6 +14,7 @@ using GalaSoft.MvvmLight.Command;
 using MALClient.Android.Fragments;
 using MALClient.Android.Fragments.ArticlesPageFragments;
 using MALClient.Android.Fragments.CalendarFragments;
+using MALClient.Android.Fragments.DetailsFragments;
 using MALClient.Android.Fragments.ForumFragments;
 using MALClient.Android.Fragments.MessagingFragments;
 using MALClient.Android.Fragments.ProfilePageFragments;
@@ -249,15 +250,15 @@ namespace MALClient.Android.ViewModels
                     //MainNavigationRequested?.Invoke(typeof(HistoryPage), args);
                     break;
                 case PageIndex.PageCharacterDetails:
-                    //HideSearchStuff();
-                    //RefreshButtonVisibility = true;
-                    //RefreshDataCommand = new RelayCommand(() => ViewModelLocator.CharacterDetails.RefreshData());
-                    //OffContentVisibility = true;
+                    HideSearchStuff();
+                    RefreshButtonVisibility = true;
+                    RefreshDataCommand = new RelayCommand(() => ViewModelLocator.CharacterDetails.RefreshData());
+                    OffContentVisibility = true;
 
-                    //if (CurrentOffPage == PageIndex.PageCharacterDetails)
-                    //    ViewModelLocator.CharacterDetails.Init(args as CharacterDetailsNavigationArgs);
-                    //else
-                    //    MainNavigationRequested?.Invoke(typeof(CharacterDetailsPage), args);
+                    if (CurrentOffPage == PageIndex.PageCharacterDetails)
+                        ViewModelLocator.CharacterDetails.Init(args as CharacterDetailsNavigationArgs);
+                    else
+                        MainNavigationRequested?.Invoke(new CharacterDetailsPageFragment(args as CharacterDetailsNavigationArgs));
                     break;
                 case PageIndex.PageStaffDetails:
                     //HideSearchStuff();

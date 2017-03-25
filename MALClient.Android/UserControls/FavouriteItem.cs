@@ -19,7 +19,7 @@ namespace MALClient.Android.UserControls
 {
     public class FavouriteItem : FrameLayout
     {
-        private bool _initialized;
+        public bool Initialized { get; private set; }
 
         public new event EventHandler Click
         {
@@ -63,22 +63,18 @@ namespace MALClient.Android.UserControls
         {
             _rootContainer = (Context as Activity).LayoutInflater.Inflate(Resource.Layout.FavouriteItem, null) as FrameLayout;
             AddView(_rootContainer);
-            _initialized = true;
-        }
-
-        protected override void OnMeasure(int widthMeasureSpec, int heightMeasureSpec)
-        {
-            base.OnMeasure(widthMeasureSpec, heightMeasureSpec);
+            Initialized = true;
         }
 
         public void BindModel(FavouriteViewModel model,bool fling)
         {
-            if (!_initialized)
+            if (!Initialized)
                 Init();
 
             if (!fling && ViewModel != model)
             {
                 ViewModel = model;
+                _rootContainer.Tag = model.Data.Wrap();
 
                 FavouriteItemFavButton.BindModel(model);
 

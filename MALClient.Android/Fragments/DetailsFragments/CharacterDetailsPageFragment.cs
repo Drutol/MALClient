@@ -14,6 +14,7 @@ using GalaSoft.MvvmLight.Helpers;
 using MALClient.Android.BindingConverters;
 using MALClient.Android.UserControls;
 using MALClient.Models.Models.Anime;
+using MALClient.Models.Models.Favourites;
 using MALClient.XShared.NavArgs;
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Details;
@@ -153,11 +154,20 @@ namespace MALClient.Android.Fragments.DetailsFragments
         private View GetTemplateDelegate(int i, FavouriteViewModel favouriteViewModel, View arg3)
         {
             var view = arg3;
-            view = view ?? new FavouriteItem(Activity);
-            
+            if (view == null)
+            {
+                view = new FavouriteItem(Activity);
+                view.Click += PersonOnClick;
+            }
+
             (view as FavouriteItem).BindModel(favouriteViewModel,false);
 
             return view;
+        }
+
+        private void PersonOnClick(object sender, EventArgs eventArgs)
+        {
+            ViewModel.NavigateStaffDetailsCommand.Execute((sender as View).Tag.Unwrap<FavouriteBase>());
         }
 
         public override int LayoutResourceId => Resource.Layout.CharacterDetailsPage;

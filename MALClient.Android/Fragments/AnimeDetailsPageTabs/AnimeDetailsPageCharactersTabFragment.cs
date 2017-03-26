@@ -57,13 +57,12 @@ namespace MALClient.Android.Fragments.AnimeDetailsPageTabs
 
         private void ItemPersonOnClick(object sender, EventArgs eventArgs)
         {
-
+            ViewModel.NavigateStaffDetailsCommand.Execute((sender as View).Tag.Unwrap<FavouriteBase>());
         }
 
         private void ItemCharacterOnClick(object sender, EventArgs eventArgs)
         {
-            var item = (sender as View).Tag.Unwrap<FavouriteBase>();
-            ViewModel.NavigateCharacterDetailsCommand.Execute(item);
+            ViewModel.NavigateCharacterDetailsCommand.Execute((sender as View).Tag.Unwrap<FavouriteBase>());
         }
 
         private void DataTemplateFling(View view, AnimeDetailsPageViewModel.AnimeStaffDataViewModels.AnimeCharacterStaffModelViewModel models)

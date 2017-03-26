@@ -20,6 +20,7 @@ namespace MALClient.Android.UserControls
     {
         private bool EnableAdjustments { get; set; }
         public bool AlwaysAdjust { get; set; }
+        public bool DisableAdjust { get; set; }
 
         #region Contructors
 
@@ -60,7 +61,7 @@ namespace MALClient.Android.UserControls
 
         protected override void OnMeasure(int widthMeasureSpec, int heightMeasureSpec)
         {
-            if (EnableAdjustments || AlwaysAdjust)
+            if (!DisableAdjust && (EnableAdjustments || AlwaysAdjust))
             {
                 int expandSpec = MeasureSpec.MakeMeasureSpec(Integer.MaxValue >> 2,
                     MeasureSpecMode.AtMost);

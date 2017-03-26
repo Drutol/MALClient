@@ -483,6 +483,7 @@ namespace MALClient.XShared.ViewModels.Details
                 {
                     if(person.IsUnknown)
                         return;
+                    PrevArgs.SourceTabIndex = DetailsPivotSelectedIndex;
                     ViewModelLocator.NavMgr.RegisterBackNav(PrevArgs);
                     ViewModelLocator.GeneralMain.Navigate(PageIndex.PageStaffDetails, new StaffDetailsNaviagtionArgs { Id = int.Parse(person.Id) });
                 }));

@@ -261,15 +261,15 @@ namespace MALClient.Android.ViewModels
                         MainNavigationRequested?.Invoke(new CharacterDetailsPageFragment(args as CharacterDetailsNavigationArgs));
                     break;
                 case PageIndex.PageStaffDetails:
-                    //HideSearchStuff();
-                    //RefreshButtonVisibility = true;
-                    //RefreshDataCommand = new RelayCommand(() => ViewModelLocator.StaffDetails.RefreshData());
-                    //OffContentVisibility = true;
+                    HideSearchStuff();
+                    RefreshButtonVisibility = true;
+                    RefreshDataCommand = new RelayCommand(() => ViewModelLocator.StaffDetails.RefreshData());
+                    OffContentVisibility = true;
 
-                    //if (CurrentOffPage == PageIndex.PageStaffDetails)
-                    //    ViewModelLocator.StaffDetails.Init(args as StaffDetailsNaviagtionArgs);
-                    //else
-                    //    MainNavigationRequested?.Invoke(typeof(StaffDetailsPage), args);
+                    if (CurrentOffPage == PageIndex.PageStaffDetails)
+                        ViewModelLocator.StaffDetails.Init(args as StaffDetailsNaviagtionArgs);
+                    else
+                        MainNavigationRequested?.Invoke(new PersonDetailsPageFragment(args as StaffDetailsNaviagtionArgs));
                     break;
                 case PageIndex.PageCharacterSearch:
                     //if (CurrentMainPage != PageIndex.PageSearch && CurrentMainPage != PageIndex.PageMangaSearch && CurrentMainPage != PageIndex.PageCharacterSearch)

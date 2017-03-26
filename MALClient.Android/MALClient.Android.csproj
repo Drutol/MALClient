@@ -165,6 +165,7 @@
     <Compile Include="Adapters\PagerAdapters\ArticlesPagePagerAdapter.cs" />
     <Compile Include="Adapters\PagerAdapters\CalendarPagerAdapter.cs" />
     <Compile Include="Adapters\PagerAdapters\ForumIndexPagerAdapter.cs" />
+    <Compile Include="Adapters\PagerAdapters\PersonDetailsPagerAdapter.cs" />
     <Compile Include="Adapters\PagerAdapters\ProfilePagePagerAdapter.cs" />
     <Compile Include="Adapters\PagerAdapters\RecommandtionsPagerAdapter.cs" />
     <Compile Include="Adapters\PagerAdapters\SearchPagePagerAdapter.cs" />
@@ -225,7 +226,9 @@
     <Compile Include="Fragments\CalendarFragments\CalendarPageSummaryTabFragment.cs" />
     <Compile Include="Fragments\CalendarFragments\CalendarPageTabFragment.cs" />
     <Compile Include="Fragments\DetailsFragments\CharacterDetailsPageFragment.cs" />
+    <Compile Include="Fragments\DetailsFragments\PersonDetailsPageVaTabFragment.cs" />
     <Compile Include="Fragments\DetailsFragments\PersonDetailsPageFragment.cs" />
+    <Compile Include="Fragments\DetailsFragments\PersonDetailsPageProdTabFragment.cs" />
     <Compile Include="Fragments\ForumFragments\ForumBoardPageFragment.cs" />
     <Compile Include="Fragments\ForumFragments\ForumIndexPageFragment.cs" />
     <Compile Include="Fragments\ForumFragments\ForumMainPageFragment.cs" />
@@ -940,6 +943,9 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\AnimeLightItem.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\PersonDetailsPage.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Android.Support.Vector.Drawable.23.4.0.1\build\Xamarin.Android.Support.Vector.Drawable.targets" Condition="Exists('..\packages\Xamarin.Android.Support.Vector.Drawable.23.4.0.1\build\Xamarin.Android.Support.Vector.Drawable.targets')" />

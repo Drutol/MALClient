@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:background="?BrushDeepBackground">
+  <LinearLayout
+      android:orientation="vertical"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_width="match_parent" android:background="?BrushDetailsUpperBackground"
+        android:layout_height="175dp" android:orientation="horizontal">
+      <RelativeLayout android:layout_width="115dp" android:layout_height="wrap_content" android:elevation="5dp">
+        <FFImageLoading.Views.ImageViewAsync android:id="@+id/PersonDetailsPageImage"
+            android:layout_width="match_parent" android:scaleType="fitEnd"
+            android:layout_height="match_parent" />
+        <MALClient.Android.UserControls.FavouriteButton  android:layout_height="35dp" android:layout_alignParentBottom="true" android:layout_alignParentEnd="true" android:layout_width="35dp" android:id="@+id/PersonDetailsPageFavButton"/>
+        <ImageButton android:id="@+id/PersonDetailsPageLinkButton"
+            android:layout_width="35dp" android:layout_alignParentBottom="true"
+            android:layout_height="35dp" android:background="@color/BrushOpaqueTextView" android:src="@drawable/icon_link_chain"/>
+      </RelativeLayout>
+      <ScrollView
+          android:layout_width="match_parent"
+          android:layout_height="match_parent" android:padding="5dp">
+        <TextView android:id="@+id/PersonDetailsPageDescription"
+            android:layout_width="match_parent" android:text="Member favourites: -1"
+            android:layout_height="wrap_content" android:textColor="?BrushText"/>
+      </ScrollView>
+    </LinearLayout>
+    <com.astuetz.PagerSlidingTabStrip
+        android:id="@+id/PersonDetailsPageTabStrip"
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        android:textColorPrimary="?AccentColour"
+        android:background="?BrushPivotHeaderBackground" />
+    <android.support.v4.view.ViewPager
+        android:id="@+id/PersonDetailsPagePivot"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?BrushDetailsBackground" />
+  </LinearLayout>
+
+  <RelativeLayout android:visibility="gone" android:id="@+id/PersonDetailsPageLoadingSpinner"
+      android:layout_width="match_parent" android:layout_height="match_parent"
+      android:background="?BrushLoading">
+    <ProgressBar android:layout_width="wrap_content" android:indeterminateTint="?AccentColour"
+        android:indeterminateTintMode="src_in" android:layout_height="wrap_content"
+        android:indeterminate="true" android:layout_centerInParent="true" />
+  </RelativeLayout>
+</RelativeLayout>

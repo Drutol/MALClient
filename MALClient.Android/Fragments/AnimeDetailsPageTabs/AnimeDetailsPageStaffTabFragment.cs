@@ -13,6 +13,7 @@ using Android.Widget;
 using GalaSoft.MvvmLight.Helpers;
 using MALClient.Android.BindingConverters;
 using MALClient.Android.UserControls;
+using MALClient.Models.Models.Favourites;
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Details;
 using Orientation = Android.Content.Res.Orientation;
@@ -60,7 +61,19 @@ namespace MALClient.Android.Fragments.AnimeDetailsPageTabs
 
         private void DataTemplateFull(View view, FavouriteViewModel model)
         {
-            (view as FavouriteItem).BindModel(model,false);
+            var item = view as FavouriteItem;
+            var firstRun = !item.Initialized;
+            item.BindModel(model,false);
+
+            if (firstRun)
+            {
+                item.Click += PersonOnClick;
+            }
+        }
+
+        private void PersonOnClick(object sender, EventArgs eventArgs)
+        {
+            ViewModel.NavigateStaffDetailsCommand.Execute((sender as View).Tag.Unwrap<FavouriteBase>());
         }
 
         public override void OnConfigurationChanged(Configuration newConfig)

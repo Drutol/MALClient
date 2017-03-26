@@ -87,15 +87,14 @@ namespace MALClient.Android.UserControls
                 {
                     FavouriteItemImage.Visibility = ViewStates.Invisible;
                     FavouriteItemImagePlaceholder.Visibility = ViewStates.Gone;
-                    FavouriteItemImage.Into(model.Data.ImgUrl);
+                    FavouriteItemImage.Into(model.Data.ImgUrl, null, img =>
+                    {
+                        img.HandleScaling();
+                    });
                 }
 
                 FavouriteItemName.Text = model.Data.Name;
                 FavouriteItemRole.Text = model.Data.Notes;
-
-                FavouriteItemImage.SetScaleType(model.Data.Type == FavouriteType.Person
-                    ? ImageView.ScaleType.FitCenter
-                    : ImageView.ScaleType.CenterCrop);
             }
             else if (fling)
             {

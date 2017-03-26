@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Android.Views;
+using Android.Widget;
 using FFImageLoading;
 using FFImageLoading.Transformations;
 using FFImageLoading.Views;
@@ -53,7 +54,7 @@ namespace MALClient.Android
 
         }
 
-        public static void Into(this ImageViewAsync image, string originUrl, ITransformation transformation = null)
+        public static void Into(this ImageViewAsync image, string originUrl, ITransformation transformation = null,Action<ImageViewAsync> onCompleted = null)
         {
             if (string.IsNullOrEmpty(originUrl))
                 return;
@@ -62,7 +63,11 @@ namespace MALClient.Android
             try
             {
                 var work = ImageService.Instance.LoadUrl(originUrl);
-                work = work.Success(image.AnimateFadeIn);
+                work = work.Success(() => 
+                {
+                    image.AnimateFadeIn();
+                    onCompleted?.Invoke(image);
+                });
                 if (transformation == null)
                     work.FadeAnimation(false).Into(image);
                 else
@@ -73,6 +78,26 @@ namespace MALClient.Android
                 //TODO Throws aggregate exception for some reason
             }
 
+        }
+
+        public static void HandleScaling(this ImageViewAsync image,float threshold = .3f)
+        {
+            var bounds = image.Drawable.Bounds;
+            if (bounds.Right == 0 || image.Width == 0)
+            {
+                image.SetScaleType(ImageView.ScaleType.CenterCrop);
+                return;
+            }
+            if (
+                Math.Abs(image.Height / (float)image.Width -
+                         bounds.Bottom / (float)bounds.Right) > .3f)
+            {
+                image.SetScaleType(ImageView.ScaleType.FitCenter);
+            }
+            else
+            {
+                image.SetScaleType(ImageView.ScaleType.CenterCrop);
+            }
         }
 
         private static readonly Dictionary<View, CancellationTokenSource> CancellationTokenSources = new Dictionary<View, CancellationTokenSource>();

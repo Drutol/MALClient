@@ -10,10 +10,10 @@
       android:layout_height="match_parent" android:orientation="vertical">
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="200dp">
+        android:layout_height="220dp">
       <FFImageLoading.Views.ImageViewAsync
           android:layout_width="match_parent" android:adjustViewBounds="true" android:id="@+id/FavouriteItemImage"
-          android:layout_height="200dp" android:scaleType="centerCrop" android:maxWidth="180dp"/>
+          android:layout_height="220dp" android:scaleType="centerCrop" android:maxWidth="180dp"/>
       <ImageView
           android:layout_width="wrap_content" android:src="@drawable/icon_help" android:layout_centerInParent="true"
           android:layout_height="wrap_content" android:id="@+id/FavouriteItemImagePlaceholder" />

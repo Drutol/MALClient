@@ -24,7 +24,7 @@ namespace MALClient.Android.Fragments.DetailsFragments
     {
         private readonly CharacterDetailsNavigationArgs _args;
         private CharacterDetailsViewModel ViewModel;
-        private readonly GridViewColumnHelper _gridViewColumnHelper = new GridViewColumnHelper();
+        private readonly GridViewColumnHelper _gridViewColumnHelper = new GridViewColumnHelper {MinColumns = 2, PrefferedItemWidth = 170};
 
         public CharacterDetailsPageFragment(CharacterDetailsNavigationArgs args)
         {
@@ -62,7 +62,7 @@ namespace MALClient.Android.Fragments.DetailsFragments
             }));
             Bindings.Add(this.SetBinding(() => ViewModel.MangaographyVisibility).WhenSourceChanges(() =>
             {
-                if (ViewModel.AnimeographyVisibility)
+                if (ViewModel.MangaographyVisibility)
                 {
                     CharacterDetailsPageMangaographyGrid.Visibility = ViewStates.Visible;
                     CharacterDetailsPageMangaographyEmptyNotice.Visibility = ViewStates.Gone;
@@ -109,13 +109,20 @@ namespace MALClient.Android.Fragments.DetailsFragments
                 CharacterDetailsPageImage.Into(ViewModel.Data.ImgUrl);
                 CharactersPageFavButton.BindModel(ViewModel.FavouriteViewModel);
 
-                if(ViewModel.AnimeographyVisibility)
+                if(ViewModel.Data.Animeography.Any())
                     CharacterDetailsPageAnimeographyGrid.Adapter =
                         ViewModel.Data.Animeography.GetAdapter(GetTemplateDelegate);
-                if (ViewModel.MangaographyVisibility)
+                if (ViewModel.Data.Mangaography.Any())
                     CharacterDetailsPageMangaographyGrid.Adapter =
-                        ViewModel.Data.Animeography.GetAdapter(GetTemplateDelegate);
+                        ViewModel.Data.Mangaography.GetAdapter(GetTemplateDelegate);
             }));
+
+            CharacterDetailsPageSpoilerButton.Click += CharacterDetailsPageSpoilerButtonOnClick;
+        }
+
+        private void CharacterDetailsPageSpoilerButtonOnClick(object sender, EventArgs eventArgs)
+        {
+            ResourceLocator.MessageDialogProvider.ShowMessageDialog(ViewModel.Data.SpoilerContent,"Spoiler"); 
         }
 
         private View GetTemplateDelegate(int i, AnimeLightEntry animeLightEntry, View arg3)
@@ -129,7 +136,7 @@ namespace MALClient.Android.Fragments.DetailsFragments
             view.Tag = animeLightEntry.Wrap();
 
             view.FindViewById<TextView>(Resource.Id.AnimeLightItemTitle).Text = animeLightEntry.Title;
-            view.FindViewById<ImageViewAsync>(Resource.Id.AnimeLightItemImage).Into(animeLightEntry.ImgUrl);
+            view.FindViewById<ImageViewAsync>(Resource.Id.AnimeLightItemImage).Into(animeLightEntry.ImgUrl,null,img => img.HandleScaling());
 
             return view;
         }

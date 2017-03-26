@@ -221,8 +221,6 @@ namespace MALClient.XShared.ViewModels.Details
 
         public DirectRecommendationData CurrentRecommendationsSelectedItem { get; set; }
 
-        public event EmptyEventHander BasicDataLoaded; 
-
         public async void Init(AnimeDetailsPageNavigationArgs param,bool fakeDelay = true)
         {
             Initialized = false;
@@ -957,8 +955,6 @@ namespace MALClient.XShared.ViewModels.Details
 
             //Launch UI updates without triggering inner update logic -> nothng to update
             UpdateAnimeReferenceUiBindings(Id);
-
-            BasicDataLoaded?.Invoke();
         }
 
         private void PopulateStartEndDates()

@@ -11,15 +11,26 @@ namespace MALClient.Android
 {
     public class GridViewColumnHelper
     {
+        private static readonly int DefaultPrefferedItemWidth = MainActivity.CurrentContext.Resources.DisplayMetrics.Density >= 2 ? 190 : 200;
         private readonly List<GridView> _grids;
-        private readonly int _prefferedItemWidth;
-        private readonly int _minColumns;
-        private static readonly int PrefferedItemWidth = MainActivity.CurrentContext.Resources.DisplayMetrics.Density >= 2 ? 190 : 200;
+        private int _prefferedItemWidth;
 
+        private int _minColumns;
+        public int MinColumns
+        {
+            get { return _minColumns; }
+            set { _minColumns = value; }
+        }
+
+        public int PrefferedItemWidth
+        {
+            get { return _prefferedItemWidth; }
+            set { _prefferedItemWidth = value; }
+        }
 
         public GridViewColumnHelper(GridView view,int? prefferedWidthDp = null,int? minCollumns = null)
         {
-            _prefferedItemWidth = prefferedWidthDp ?? PrefferedItemWidth;
+            _prefferedItemWidth = prefferedWidthDp ?? DefaultPrefferedItemWidth;
             _minColumns = minCollumns ?? 2;
             _grids = new List<GridView> {view};
             OnConfigurationChanged(MainActivity.CurrentContext.Resources.Configuration);
@@ -27,7 +38,7 @@ namespace MALClient.Android
 
         public GridViewColumnHelper(int? prefferedWidthDp = null)
         {
-            _prefferedItemWidth = prefferedWidthDp ?? PrefferedItemWidth;
+            _prefferedItemWidth = prefferedWidthDp ?? DefaultPrefferedItemWidth;
             _grids = new List<GridView>();
         }
 

@@ -470,6 +470,7 @@ namespace MALClient.XShared.ViewModels.Details
             => _navigateCharacterDetailsCommand ?? (_navigateCharacterDetailsCommand = new RelayCommand<AnimeCharacter>(
                 character =>
                 {
+                    PrevArgs.SourceTabIndex = DetailsPivotSelectedIndex;
                     ViewModelLocator.NavMgr.RegisterBackNav(PrevArgs);
                     ViewModelLocator.GeneralMain.Navigate(PageIndex.PageCharacterDetails, new CharacterDetailsNavigationArgs { Id = int.Parse(character.Id) });
                 }));

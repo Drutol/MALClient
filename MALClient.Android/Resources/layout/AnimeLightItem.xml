@@ -8,7 +8,7 @@
   <LinearLayout android:background="?BrushAppBars"
       android:layout_width="match_parent"
       android:layout_height="match_parent" android:orientation="vertical">
-    <FFImageLoading.Views.ImageViewAsync android:layout_height="200dp"
+    <FFImageLoading.Views.ImageViewAsync android:layout_height="220dp" android:scaleType="centerCrop"
             android:layout_width="match_parent" android:adjustViewBounds="true" android:id="@+id/AnimeLightItemImage"/>
     <View style="@style/Divider" android:background="?AccentColour"/>
     <LinearLayout

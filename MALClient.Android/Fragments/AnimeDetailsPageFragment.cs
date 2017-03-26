@@ -18,6 +18,7 @@ using MALClient.Android.Activities;
 using MALClient.Android.BindingConverters;
 using MALClient.Android.DIalogs;
 using MALClient.Android.Flyouts;
+using MALClient.Android.Listeners;
 using MALClient.Android.PagerAdapters;
 using MALClient.Android.Resources;
 using MALClient.Models.Enums;
@@ -51,8 +52,10 @@ namespace MALClient.Android.Fragments
         {
             AnimeDetailsPagePivot.Adapter = new AnimeDetailsPagerAdapter(FragmentManager);
             AnimeDetailsPageTabStrip.SetViewPager(AnimeDetailsPagePivot);
-          
+            AnimeDetailsPagePivot.SetCurrentItem(_navArgs.SourceTabIndex,false);
          
+            AnimeDetailsPagePivot.AddOnPageChangeListener(new OnPageChangedListener(i => ViewModel.DetailsPivotSelectedIndex = i));
+
             Bindings.Add(
                 this.SetBinding(() => ViewModel.MyScoreBind,
                     () => AnimeDetailsPageScoreButton.Text));        

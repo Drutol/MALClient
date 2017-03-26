@@ -80,7 +80,7 @@ namespace MALClient.Android
 
         }
 
-        public static void HandleScaling(this ImageViewAsync image,float threshold = .3f)
+        public static void HandleScaling(this ImageViewAsync image,float threshold = .4f)
         {
             var bounds = image.Drawable.Bounds;
             if (bounds.Right == 0 || image.Width == 0)
@@ -90,7 +90,7 @@ namespace MALClient.Android
             }
             if (
                 Math.Abs(image.Height / (float)image.Width -
-                         bounds.Bottom / (float)bounds.Right) > .3f)
+                         bounds.Bottom / (float)bounds.Right) > threshold)
             {
                 image.SetScaleType(ImageView.ScaleType.FitCenter);
             }

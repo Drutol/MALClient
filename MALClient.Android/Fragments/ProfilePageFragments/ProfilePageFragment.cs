@@ -42,6 +42,7 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
         {
             ProfilePagePivot.Adapter = new ProfilePagePagerAdapter(FragmentManager);
             ProfilePageTabStrip.SetViewPager(ProfilePagePivot);
+            ProfilePageTabStrip.CenterTabs();
 
             Bindings.Add(
                 this.SetBinding(() => ViewModel.LoadingVisibility,

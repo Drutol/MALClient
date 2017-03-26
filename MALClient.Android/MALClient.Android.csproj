@@ -320,6 +320,7 @@
     <Compile Include="Utilities\FontManager.cs" />
     <Compile Include="Utilities\HamburgerUtilities.cs" />
     <Compile Include="Utilities\Includes.cs" />
+    <Compile Include="Utilities\TabStripExtensions.cs" />
     <Compile Include="Utilities\Web\DataJavascriptInterface.cs" />
     <Compile Include="Utilities\Web\ListenableWebClient.cs" />
     <Compile Include="Utilities\AndroidUtilities.cs" />

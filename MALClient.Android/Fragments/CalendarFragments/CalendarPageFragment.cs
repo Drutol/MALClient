@@ -29,8 +29,7 @@ namespace MALClient.Android.Fragments.CalendarFragments
         }
 
         protected override void InitBindings()
-        {
-            
+        {                   
             Bindings.Add(
                 this.SetBinding(() => ViewModel.ProgressValue,
                     () => CalendarPageProgressBar.Progress));
@@ -48,6 +47,7 @@ namespace MALClient.Android.Fragments.CalendarFragments
             {
                 CalendarPageViewPager.Adapter = new CalendarPagerAdapter(FragmentManager, ViewModel.CalendarData);
                 CalendarPageTabStrip.SetViewPager(CalendarPageViewPager);
+                CalendarPageTabStrip.CenterTabs();
             }));
 
             

@@ -16,6 +16,9 @@ using MALClient.Android.BindingInformation;
 using MALClient.Android.BindingInformation.StaticBindings;
 using MALClient.Android.CollectionAdapters;
 using MALClient.Android.Listeners;
+using MALClient.Android.UserControls;
+using MALClient.Models.Enums;
+using MALClient.Models.Models.Favourites;
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Main;
 
@@ -107,11 +110,32 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
 
         private View GetTemplateDelegate(int i, FavouriteViewModel favouriteViewModel, View convertView)
         {
-            var view = convertView ?? Activity.LayoutInflater.Inflate(Resource.Layout.CharacterItem, null);
 
-            view.SetBinding(FavouriteItemBindingInfo.Instance, favouriteViewModel);
-
+            var view = convertView;
+            if (view == null)
+            {
+                view = new FavouriteItem(Activity);
+                ((FavouriteItem) view).BindModel(favouriteViewModel, false);
+                ((FavouriteItem)view).Click += FavItemOnClick;
+            }
+            else
+            {
+                ((FavouriteItem)view).BindModel(favouriteViewModel, false);
+            }
             return view;
+        }
+
+        private void FavItemOnClick(object sender, EventArgs eventArgs)
+        {
+            var model = (sender as View).Tag.Unwrap<FavouriteBase>();
+            if (model.Type == FavouriteType.Character)
+            {
+                ViewModel.NavigateCharacterDetailsCommand.Execute(model);
+            }
+            else
+            {
+                ViewModel.NavigateStaffDetailsCommand.Execute(model);
+            }
         }
 
 

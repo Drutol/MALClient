@@ -129,7 +129,7 @@ namespace MALClient.XShared.Comm.MagicalRawQueries
                 }
                 return _httpClient;
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 ResourceLocator.MessageDialogProvider.ShowMessageDialog(
                     "Unable to connect to MyAnimeList, they have either changed something in html or your connection is down.",

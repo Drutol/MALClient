@@ -52,6 +52,7 @@ namespace MALClient.Android.Fragments
         {
             AnimeDetailsPagePivot.Adapter = new AnimeDetailsPagerAdapter(FragmentManager);
             AnimeDetailsPageTabStrip.SetViewPager(AnimeDetailsPagePivot);
+            AnimeDetailsPageTabStrip.CenterTabs();
             AnimeDetailsPagePivot.SetCurrentItem(_navArgs.SourceTabIndex,false);
          
             AnimeDetailsPagePivot.AddOnPageChangeListener(new OnPageChangedListener(i => ViewModel.DetailsPivotSelectedIndex = i));

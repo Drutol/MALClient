@@ -34,6 +34,7 @@ namespace MALClient.Android.Fragments.DetailsFragments
         {
             AnimeDetailsPageCharactersTabGridView.DisableAdjust = true;
             _gridViewColumnHelper = new GridViewColumnHelper(AnimeDetailsPageCharactersTabGridView,340,1);
+            AnimeDetailsPageCharactersTabLoadingSpinner.Visibility = ViewStates.Gone;
 
             Bindings.Add(this.SetBinding(() => ViewModel.Data).WhenSourceChanges(() =>
             {
@@ -84,32 +85,40 @@ namespace MALClient.Android.Fragments.DetailsFragments
             view.FindViewById(Resource.Layout.AnimeLightItem).Tag = showCharacterPair.AnimeLightEntry.Wrap();
 
             view.FindViewById(Resource.Id.FavouriteItemImage).Visibility = ViewStates.Invisible;
+            view.FindViewById(Resource.Id.FavouriteItemImagePlaceholder).Visibility = ViewStates.Visible;
             view.FindViewById<TextView>(Resource.Id.FavouriteItemName).Text =
                 showCharacterPair.AnimeCharacter.Name;
             view.FindViewById<TextView>(Resource.Id.FavouriteItemRole).Text =
                 showCharacterPair.AnimeCharacter.Notes;
+            view.FindViewById(Resource.Layout.FavouriteItem).Tag = showCharacterPair.AnimeCharacter.Wrap();
         }
 
         private void DataTemplateFull(View view, ShowCharacterPair showCharacterPair)
         {
-            if (view.Tag.Unwrap<ShowCharacterPair>() != showCharacterPair)
+            var image = view.FindViewById<ImageViewAsync>(Resource.Id.AnimeLightItemImage);
+            if (image.Tag == null || (string) image.Tag != showCharacterPair.AnimeLightEntry.ImgUrl)
             {
-                var image = view.FindViewById<ImageViewAsync>(Resource.Id.AnimeLightItemImage);
-                image.Visibility = ViewStates.Visible;
                 image.Into(showCharacterPair.AnimeLightEntry.ImgUrl);
-                view.FindViewById<TextView>(Resource.Id.AnimeLightItemTitle).Text =
-                    showCharacterPair.AnimeLightEntry.Title;
-                view.FindViewById(Resource.Layout.AnimeLightItem).Tag = showCharacterPair.AnimeLightEntry.Wrap();
-
-                image = view.FindViewById<ImageViewAsync>(Resource.Id.FavouriteItemImage);
-                image.Visibility = ViewStates.Visible;
-                image.Into(showCharacterPair.AnimeCharacter.ImgUrl, null, img => img.HandleScaling());
-                view.FindViewById<TextView>(Resource.Id.FavouriteItemName).Text =
-                    showCharacterPair.AnimeCharacter.Name;
-                view.FindViewById<TextView>(Resource.Id.FavouriteItemRole).Text =
-                    showCharacterPair.AnimeCharacter.Notes;
-                view.FindViewById(Resource.Layout.FavouriteItem).Tag = showCharacterPair.AnimeCharacter.Wrap();
+                image.Tag = showCharacterPair.AnimeLightEntry.ImgUrl;
             }
+
+            view.FindViewById<TextView>(Resource.Id.AnimeLightItemTitle).Text =
+                showCharacterPair.AnimeLightEntry.Title;
+            view.FindViewById(Resource.Layout.AnimeLightItem).Tag = showCharacterPair.AnimeLightEntry.Wrap();
+
+            image = view.FindViewById<ImageViewAsync>(Resource.Id.FavouriteItemImage);
+            if (image.Tag == null || (string)image.Tag != showCharacterPair.AnimeCharacter.ImgUrl)
+            {
+                view.FindViewById(Resource.Id.FavouriteItemImagePlaceholder).Visibility = ViewStates.Gone;
+                image.Into(showCharacterPair.AnimeCharacter.ImgUrl, null, img => img.HandleScaling());
+                image.Tag = showCharacterPair.AnimeCharacter.ImgUrl;
+            }
+
+            view.FindViewById<TextView>(Resource.Id.FavouriteItemName).Text =
+                showCharacterPair.AnimeCharacter.Name;
+            view.FindViewById<TextView>(Resource.Id.FavouriteItemRole).Text =
+                showCharacterPair.AnimeCharacter.Notes;
+            view.FindViewById(Resource.Layout.FavouriteItem).Tag = showCharacterPair.AnimeCharacter.Wrap();
         }
 
         public override int LayoutResourceId => Resource.Layout.AnimeDetailsPageCharactersTab;

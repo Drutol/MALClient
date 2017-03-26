@@ -45,6 +45,8 @@ namespace MALClient.Android.Fragments.ArticlesPageFragments
         {
             ArticlesPagePivot.Adapter = new ArticlesPagePagerAdapter(FragmentManager);
             ArticlesPageTabStrip.SetViewPager(ArticlesPagePivot);
+            ArticlesPageTabStrip.CenterTabs();
+
 
             ArticlesPageWebView.SetWebViewClient(_listenableWebClient);
 

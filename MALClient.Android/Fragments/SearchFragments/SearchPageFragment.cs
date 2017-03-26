@@ -33,6 +33,7 @@ namespace MALClient.Android.Fragments.SearchFragments
             int start;
             SearchPageViewPager.Adapter = new SearchPagePagerAdapter(FragmentManager,_args,out start);
             SearchPageTabStrip.SetViewPager(SearchPageViewPager);
+            SearchPageTabStrip.CenterTabs();
 
             SearchPageViewPager.SetCurrentItem(start,false);
         }

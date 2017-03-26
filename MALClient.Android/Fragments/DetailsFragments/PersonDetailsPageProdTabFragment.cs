@@ -31,6 +31,8 @@ namespace MALClient.Android.Fragments.DetailsFragments
         protected override void InitBindings()
         {
             AnimeDetailsPageCharactersTabGridView.DisableAdjust = true;
+            AnimeDetailsPageCharactersTabLoadingSpinner.Visibility = ViewStates.Gone;
+            _gridViewColumnHelper = new GridViewColumnHelper(AnimeDetailsPageCharactersTabGridView,170);
 
             Bindings.Add(this.SetBinding(() => ViewModel.Data).WhenSourceChanges(() =>
             {
@@ -69,8 +71,12 @@ namespace MALClient.Android.Fragments.DetailsFragments
             view.FindViewById<TextView>(Resource.Id.AnimeLightItemTitle).Text = animeLightEntry.Title;
             view.FindViewById<TextView>(Resource.Id.AnimeLightItemNotes).Text = animeLightEntry.Notes;
             var image = view.FindViewById<ImageViewAsync>(Resource.Id.AnimeLightItemImage);
-            image.Visibility = ViewStates.Visible;
-            image.Into(animeLightEntry.ImgUrl, null, img => img.HandleScaling());
+            if (image.Tag == null || (string)image.Tag != animeLightEntry.ImgUrl)
+            {
+                image.Into(animeLightEntry.ImgUrl, null, img => img.HandleScaling());
+                image.Tag = animeLightEntry.ImgUrl;
+            }
+
             view.Tag = animeLightEntry.Wrap();
         }
 

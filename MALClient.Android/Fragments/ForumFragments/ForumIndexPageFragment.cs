@@ -32,6 +32,7 @@ namespace MALClient.Android.Fragments.ForumFragments
         {
             ForumIndexPagePivot.Adapter = new ForumIndexPagerAdapter(FragmentManager);
             ForumIndexPageTabStrip.SetViewPager(ForumIndexPagePivot);
+            ForumIndexPageTabStrip.CenterTabs();
         }
 
         public override int LayoutResourceId => Resource.Layout.ForumIndexPage;

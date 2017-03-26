@@ -42,6 +42,7 @@ namespace MALClient.Android.Fragments.DetailsFragments
         {
             PersonDetailsPagePivot.Adapter = new PersonDetailsPagerAdapter(FragmentManager);
             PersonDetailsPageTabStrip.SetViewPager(PersonDetailsPagePivot);
+            PersonDetailsPageTabStrip.CenterTabs();
 
             Bindings.Add(
                 this.SetBinding(() => ViewModel.Loading,

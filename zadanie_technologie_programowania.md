@@ -1,3 +1,4 @@
+
 # Cel
 
 Celem jest stworzenie multiplatformowej aplikacji na środowiska desktopowe oraz mobilne takie jak Windows 10, Windows 10 Mobile. Całość logiki biznesowej oraz logiki odpowiedzialnej za komunikację z widokiem jest współdzielona i niezależna od platformy pod warunkiem że wspiera .Net framework.
@@ -42,11 +43,10 @@ Całość jest łączona przy pomocy kontenera IoC do którego rejestrowane są 
 
 Jako baza danych zostało wykorzystane rozwiązane SQLLight ze względu na możliwość współdzielenia możliwie największej ilości kodu pomiędzy platformami. Kontekst bazy danych otrzymywany jest z adaptera ```IDatabaseContextProvider``` a dane są przetwarzane w klasie ```DatabaseService```.
 
-## Uwagi i komentarze
-
 # Lista źródeł
 
 http://www.mvvmlight.net/doc/
+
 https://github.com/praeclarum/sqlite-net/wiki
 
 # Zaliczenie
@@ -70,5 +70,6 @@ W trakcie zaliczenia mogą być poruszane zagadnienie związane z:
 ## Harmonogram
 
 Baza danych - 8 zajęcia
+
 Realizacja serializacji - 11 zajęcia
  

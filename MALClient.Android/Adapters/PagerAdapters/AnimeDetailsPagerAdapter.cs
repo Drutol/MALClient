@@ -18,9 +18,7 @@ namespace MALClient.Android.PagerAdapters
     {
         private AnimeDetailsPageViewModel _viewModel;
 
-        public AnimeDetailsPagerAdapter(IntPtr javaReference, JniHandleOwnership transfer) : base(javaReference, transfer)
-        {
-        }
+
 
         public AnimeDetailsPagerAdapter(FragmentManager fm) : base(fm)
         {

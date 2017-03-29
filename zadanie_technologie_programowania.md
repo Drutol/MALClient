@@ -64,7 +64,6 @@ https://github.com/praeclarum/sqlite-net/wiki
 
 W trakcie zaliczenia mogą być poruszane zagadnienie związane z:
 * umiejętnością wytłumaczenia działania multiplatformowej solucji
-* wskazaniem w programie miejsc odpowiedzialnych za refleksję, bindingi pomiędzy widokiem a ViewModel'ami
 * wytłumaczeniem działania serializacji
 
 ## Harmonogram

@@ -79,6 +79,7 @@ namespace MALClient.Android.Fragments.DetailsFragments
 
         private void DataTemplateFling(View view, ShowCharacterPair showCharacterPair)
         {
+            view.FindViewById(Resource.Id.AnimeLightItemImgPlaceholder).Visibility = ViewStates.Visible;
             view.FindViewById(Resource.Id.AnimeLightItemImage).Visibility = ViewStates.Invisible;
             view.FindViewById<TextView>(Resource.Id.AnimeLightItemTitle).Text =
                 showCharacterPair.AnimeLightEntry.Title;
@@ -101,7 +102,7 @@ namespace MALClient.Android.Fragments.DetailsFragments
                 image.Into(showCharacterPair.AnimeLightEntry.ImgUrl);
                 image.Tag = showCharacterPair.AnimeLightEntry.ImgUrl;
             }
-
+            view.FindViewById(Resource.Id.AnimeLightItemImgPlaceholder).Visibility = ViewStates.Gone;
             view.FindViewById<TextView>(Resource.Id.AnimeLightItemTitle).Text =
                 showCharacterPair.AnimeLightEntry.Title;
             view.FindViewById(Resource.Layout.AnimeLightItem).Tag = showCharacterPair.AnimeLightEntry.Wrap();

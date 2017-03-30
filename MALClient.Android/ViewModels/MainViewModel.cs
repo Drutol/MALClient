@@ -16,6 +16,7 @@ using MALClient.Android.Fragments.ArticlesPageFragments;
 using MALClient.Android.Fragments.CalendarFragments;
 using MALClient.Android.Fragments.DetailsFragments;
 using MALClient.Android.Fragments.ForumFragments;
+using MALClient.Android.Fragments.HistoryFragments;
 using MALClient.Android.Fragments.MessagingFragments;
 using MALClient.Android.Fragments.ProfilePageFragments;
 using MALClient.Android.Fragments.RecommendationsFragments;
@@ -243,11 +244,11 @@ namespace MALClient.Android.ViewModels
                         MainNavigationRequested?.Invoke(new ForumMainPageFragment(args as ForumsNavigationArgs));
                     break;
                 case PageIndex.PageHistory:
-                    //HideSearchStuff();
-                    //RefreshButtonVisibility = true;
-                    //RefreshDataCommand = new RelayCommand(() => { ViewModelLocator.History.Init(null, true); });
-                    //CurrentStatus = $"History - {(args as HistoryNavigationArgs)?.Source ?? Credentials.UserName}";
-                    //MainNavigationRequested?.Invoke(typeof(HistoryPage), args);
+                    HideSearchStuff();
+                    RefreshButtonVisibility = true;
+                    RefreshDataCommand = new RelayCommand(() => { ViewModelLocator.History.Init(null, true); });
+                    CurrentStatus = $"History - {(args as HistoryNavigationArgs)?.Source ?? Credentials.UserName}";
+                    MainNavigationRequested?.Invoke(new HistoryPageFragment(args as HistoryNavigationArgs));
                     break;
                 case PageIndex.PageCharacterDetails:
                     HideSearchStuff();

@@ -22,7 +22,8 @@ namespace MALClient.Android.Fragments.HistoryFragments
 {
     public class HistoryPageFragment : MalFragmentBase
     {
-        private readonly HistoryNavigationArgs _args;
+        private static HistoryNavigationArgs _args;
+        public static HistoryNavigationArgs LastArgs => _args;
         private HistoryViewModel ViewModel;
 
         public HistoryPageFragment(HistoryNavigationArgs args)
@@ -40,6 +41,9 @@ namespace MALClient.Android.Fragments.HistoryFragments
         {
             Bindings.Add(this.SetBinding(() => ViewModel.History).WhenSourceChanges(() =>
             {
+                if(ViewModel.History == null)
+                    return;
+
                 HistoryPagePivot.Adapter = new HistoryPagerAdapter(FragmentManager,ViewModel.History);
                 HistoryPageTabStrip.SetViewPager(HistoryPagePivot);
             }));

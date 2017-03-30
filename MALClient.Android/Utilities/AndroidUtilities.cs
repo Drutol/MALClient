@@ -85,11 +85,8 @@ namespace MALClient.Android
 
         }
 
-        public static void SetAdapter(this LinearLayout layout, BaseAdapter adapter, int? dpPaddingTop = null)
+        public static void SetAdapter(this LinearLayout layout, BaseAdapter adapter)
         {
-            //LinearLayout.LayoutParams param = null;
-            //if (dpPaddingTop != null)
-            //     param = new LinearLayout.LayoutParams(-1,-2) {TopMargin = DimensionsHelper.DpToPx(dpPaddingTop.Value)};
             layout.RemoveAllViews();
             for (int i = 0; i < adapter.Count; i++)
             {

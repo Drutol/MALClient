@@ -64,12 +64,14 @@ namespace MALClient.Android.Fragments.DetailsFragments
             view.FindViewById<TextView>(Resource.Id.AnimeLightItemTitle).Text = animeLightEntry.Title;
             view.FindViewById<TextView>(Resource.Id.AnimeLightItemNotes).Text = animeLightEntry.Notes;
             view.FindViewById<ImageViewAsync>(Resource.Id.AnimeLightItemImage).Visibility = ViewStates.Invisible;
+            view.FindViewById(Resource.Id.AnimeLightItemImgPlaceholder).Visibility = ViewStates.Visible;
         }
 
         private void DataTemplateFull(View view, AnimeLightEntry animeLightEntry)
         {
             view.FindViewById<TextView>(Resource.Id.AnimeLightItemTitle).Text = animeLightEntry.Title;
             view.FindViewById<TextView>(Resource.Id.AnimeLightItemNotes).Text = animeLightEntry.Notes;
+            view.FindViewById(Resource.Id.AnimeLightItemImgPlaceholder).Visibility = ViewStates.Gone;
             var image = view.FindViewById<ImageViewAsync>(Resource.Id.AnimeLightItemImage);
             if (image.Tag == null || (string)image.Tag != animeLightEntry.ImgUrl)
             {

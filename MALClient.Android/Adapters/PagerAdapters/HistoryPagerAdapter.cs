@@ -9,6 +9,7 @@ using Android.Graphics;
 using Android.OS;
 using Android.Runtime;
 using Android.Support.V13.App;
+using Android.Util;
 using Android.Views;
 using Android.Widget;
 using Com.Astuetz;
@@ -49,9 +50,11 @@ namespace MALClient.Android.Adapters.PagerAdapters
 
         public View GetCustomTabView(ViewGroup p0, int p1)
         {
-            var txt = new TextView(p0.Context);
+            var txt = new TextView(p0.Context) {LayoutParameters = new ViewGroup.LayoutParams(-2,-1)};
             txt.SetTextColor(new Color(ResourceExtension.BrushText));
             txt.Text = _items[p1].Key;
+            txt.SetTextSize(ComplexUnitType.Sp, 20);
+            txt.Gravity = GravityFlags.CenterVertical;
 
             return txt;
         }

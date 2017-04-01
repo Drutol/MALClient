@@ -45,7 +45,7 @@ namespace MALClient.Android.Fragments.DetailsFragments
             }));
         }
 
-        private View ContainerTemplate()
+        private View ContainerTemplate(int i)
         {
             var view = new LinearLayout(Activity);
 
@@ -77,7 +77,7 @@ namespace MALClient.Android.Fragments.DetailsFragments
             ViewModel.NavigateAnimeDetailsCommand.Execute((sender as View).Tag.Unwrap<AnimeLightEntry>());
         }
 
-        private void DataTemplateFling(View view, ShowCharacterPair showCharacterPair)
+        private void DataTemplateFling(View view, int i, ShowCharacterPair showCharacterPair)
         {
             view.FindViewById(Resource.Id.AnimeLightItemImgPlaceholder).Visibility = ViewStates.Visible;
             view.FindViewById(Resource.Id.AnimeLightItemImage).Visibility = ViewStates.Invisible;
@@ -94,7 +94,7 @@ namespace MALClient.Android.Fragments.DetailsFragments
             view.FindViewById(Resource.Layout.FavouriteItem).Tag = showCharacterPair.AnimeCharacter.Wrap();
         }
 
-        private void DataTemplateFull(View view, ShowCharacterPair showCharacterPair)
+        private void DataTemplateFull(View view, int i, ShowCharacterPair showCharacterPair)
         {
             var image = view.FindViewById<ImageViewAsync>(Resource.Id.AnimeLightItemImage);
             if (image.Tag == null || (string) image.Tag != showCharacterPair.AnimeLightEntry.ImgUrl)

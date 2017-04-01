@@ -89,30 +89,18 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
 
         private void UpdateGridView()
         {
+            ProfilePageFavouritesTabGridView.ClearFlingAdapter();
             switch (_currentTab)
-            {//todo binding info
+            {
                 case Resource.Id.ProfilePageFavouritesTabAnimeBtn:
-                    //if (ViewModel.FavAnime?.Any() ?? false)
-                    //    ProfilePageFavouritesTabGridView.Adapter = new AnimeListItemsAdapter(Activity,
-                    //        Resource.Layout.AnimeGridItem, ViewModel.FavAnime,
-                    //        (model, view, arg3) =>
-                    //            new AnimeGridItemBindingInfo(view, model, false, false)
-                    //            {
-                    //                AllowSwipeInGivenContext = false,
-                    //                OnItemClickAction = OnItemClickAction
-                    //            });
+                    if (ViewModel.FavAnime?.Any() ?? false)
+                        ProfilePageFavouritesTabGridView.InjectAnimeListAdapter(Context, ViewModel.FavAnime,
+                            AnimeListDisplayModes.IndefiniteGrid, OnItemClickAction);
                     break;
                 case Resource.Id.ProfilePageFavouritesTabMangaBtn:
-                    //todo binding info
-                    //if (ViewModel.FavManga?.Any() ?? false)
-                    //    ProfilePageFavouritesTabGridView.Adapter = new AnimeListItemsAdapter(Activity,
-                    //        Resource.Layout.AnimeGridItem, ViewModel.FavManga,
-                    //        (model, view, arg3) =>
-                    //            new AnimeGridItemBindingInfo(view, model, false, false)
-                    //            {
-                    //                AllowSwipeInGivenContext = false,
-                    //                OnItemClickAction = OnItemClickAction
-                    //            });
+                    if (ViewModel.FavManga?.Any() ?? false)
+                        ProfilePageFavouritesTabGridView.InjectAnimeListAdapter(Context, ViewModel.FavManga,
+                            AnimeListDisplayModes.IndefiniteGrid, OnItemClickAction);
                     break;
                 case Resource.Id.ProfilePageFavouritesTabCharsBtn:
                     if (ViewModel.FavouriteCharacters?.Any() ?? false)

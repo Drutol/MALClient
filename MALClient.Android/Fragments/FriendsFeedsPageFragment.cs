@@ -52,7 +52,7 @@ namespace MALClient.Android.Fragments
             }));
         }
 
-        private View ContainerTemplate()
+        private View ContainerTemplate(int i)
         {
             var view = Activity.LayoutInflater.Inflate(Resource.Layout.FriendsFeedsPageItem, null);
 
@@ -62,7 +62,7 @@ namespace MALClient.Android.Fragments
             return view;
         }
 
-        private void DataTemplateFling(View view, UserFeedEntryModel userFeedEntryModel)
+        private void DataTemplateFling(View view, int i, UserFeedEntryModel userFeedEntryModel)
         {
             view.FindViewById(Resource.Id.FriendsFeedsPageItemImage).Visibility = ViewStates.Invisible;
             view.FindViewById(Resource.Id.FriendsFeedsPageItemUserImageButton).Visibility = ViewStates.Invisible;
@@ -73,7 +73,7 @@ namespace MALClient.Android.Fragments
             view.FindViewById<TextView>(Resource.Id.FriendsFeedsPageItemDate).Text = userFeedEntryModel.Date.ToDiffString();
         }
 
-        private void DataTemplateFull(View view, UserFeedEntryModel userFeedEntryModel)
+        private void DataTemplateFull(View view, int i, UserFeedEntryModel userFeedEntryModel)
         {
             var img = view.FindViewById<ImageViewAsync>(Resource.Id.FriendsFeedsPageItemImage);
             if (img.Tag == null || (string) img.Tag != $"{userFeedEntryModel.Date.Ticks}{userFeedEntryModel.User.Name}")

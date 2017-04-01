@@ -36,7 +36,7 @@ namespace MALClient.Android.BackgroundTasks
                 case BgTasks.Tiles:
                     return;
                 case BgTasks.ToastActivation:
-                    return; //TODO
+                    return; 
                 default:
                     throw new ArgumentOutOfRangeException(nameof(task), task, null);
             }
@@ -59,7 +59,7 @@ namespace MALClient.Android.BackgroundTasks
                 case BgTasks.Tiles:
                     return;
                 case BgTasks.ToastActivation:
-                    return; //TODO
+                    return;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(task), task, null);
             }

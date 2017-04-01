@@ -14,6 +14,7 @@ using MALClient.Android.Activities;
 using MALClient.Android.BindingInformation;
 using MALClient.Android.CollectionAdapters;
 using MALClient.Android.Resources;
+using MALClient.Models.Enums;
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Main;
 
@@ -36,10 +37,13 @@ namespace MALClient.Android.Fragments.CalendarFragments
 
         protected override void InitBindings()
         {
-            //todo binding info
-            //CalendarPageTabContentList.Adapter = new AnimeListItemsAdapter(MainActivity.CurrentContext,
-            //    Resource.Layout.AnimeGridItem, _items, (model, view,fling) => new AnimeGridItemBindingInfo(view, model,fling, false));
+            CalendarPageTabContentList.InjectAnimeListAdapter(Context,_items,AnimeListDisplayModes.IndefiniteGrid,OnItemClick);
             _gridViewColumnHelper = new GridViewColumnHelper(CalendarPageTabContentList);
+        }
+
+        private void OnItemClick(AnimeItemViewModel animeItemViewModel)
+        {
+            //todo
         }
 
         public override void OnConfigurationChanged(Configuration newConfig)

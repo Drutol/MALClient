@@ -38,7 +38,7 @@ namespace MALClient.Android.Fragments.HistoryFragments
             (RootView as ListView).InjectFlingAdapter(_data,DataTemplateFull,DataTemplateFling,ContainerTemplate);
         }
 
-        private View ContainerTemplate()
+        private View ContainerTemplate(int i)
         {
             var view = Activity.LayoutInflater.Inflate(Resource.Layout.HistoryPageTabItem, null);
             view.FindViewById(Resource.Id.HistoryPageTabItemAnimeLightItem).Click += HistoryEntryCoverOnClick;
@@ -50,14 +50,14 @@ namespace MALClient.Android.Fragments.HistoryFragments
             (sender as View).Tag.Unwrap<AnimeItemViewModel>().NavigateDetails(PageIndex.PageHistory,HistoryPageFragment.LastArgs);
         }
 
-        private void DataTemplateFling(View view, Tuple<AnimeItemViewModel, List<MalProfileHistoryEntry>> tuple)
+        private void DataTemplateFling(View view, int i, Tuple<AnimeItemViewModel, List<MalProfileHistoryEntry>> tuple)
         {
             view.FindViewById(Resource.Id.AnimeLightItemImgPlaceholder).Visibility = ViewStates.Visible;
             view.FindViewById(Resource.Id.AnimeLightItemImage).Visibility = ViewStates.Invisible;
             view.FindViewById<TextView>(Resource.Id.AnimeLightItemTitle).Text = tuple.Item1.Title;
         }
 
-        private void DataTemplateFull(View view, Tuple<AnimeItemViewModel, List<MalProfileHistoryEntry>> tuple)
+        private void DataTemplateFull(View view, int i, Tuple<AnimeItemViewModel, List<MalProfileHistoryEntry>> tuple)
         {
             view.FindViewById(Resource.Id.AnimeLightItemImgPlaceholder).Visibility = ViewStates.Gone;
             view.FindViewById<TextView>(Resource.Id.AnimeLightItemTitle).Text = tuple.Item1.Title;

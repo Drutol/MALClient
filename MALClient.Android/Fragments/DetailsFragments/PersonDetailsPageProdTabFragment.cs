@@ -43,7 +43,7 @@ namespace MALClient.Android.Fragments.DetailsFragments
             }));
         }
 
-        private View ContainerTemplate()
+        private View ContainerTemplate(int i)
         {
 
             var view = Activity.LayoutInflater.Inflate(Resource.Layout.AnimeLightItem, null);
@@ -59,7 +59,7 @@ namespace MALClient.Android.Fragments.DetailsFragments
             ViewModel.NavigateAnimeDetailsCommand.Execute((sender as View).Tag.Unwrap<AnimeLightEntry>());
         }
 
-        private void DataTemplateFling(View view, AnimeLightEntry animeLightEntry)
+        private void DataTemplateFling(View view, int i, AnimeLightEntry animeLightEntry)
         {
             view.FindViewById<TextView>(Resource.Id.AnimeLightItemTitle).Text = animeLightEntry.Title;
             view.FindViewById<TextView>(Resource.Id.AnimeLightItemNotes).Text = animeLightEntry.Notes;
@@ -67,7 +67,7 @@ namespace MALClient.Android.Fragments.DetailsFragments
             view.FindViewById(Resource.Id.AnimeLightItemImgPlaceholder).Visibility = ViewStates.Visible;
         }
 
-        private void DataTemplateFull(View view, AnimeLightEntry animeLightEntry)
+        private void DataTemplateFull(View view, int i, AnimeLightEntry animeLightEntry)
         {
             view.FindViewById<TextView>(Resource.Id.AnimeLightItemTitle).Text = animeLightEntry.Title;
             view.FindViewById<TextView>(Resource.Id.AnimeLightItemNotes).Text = animeLightEntry.Notes;

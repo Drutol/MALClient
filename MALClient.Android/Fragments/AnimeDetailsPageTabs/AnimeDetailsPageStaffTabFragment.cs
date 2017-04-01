@@ -49,17 +49,17 @@ namespace MALClient.Android.Fragments.AnimeDetailsPageTabs
                     .ConvertSourceToTarget(Converters.BoolToVisibility));
         }
 
-        private View ContainerTemplate()
+        private View ContainerTemplate(int i)
         {
             return new FavouriteItem(Activity);
         }
 
-        private void DataTemplateFling(View view, FavouriteViewModel model)
+        private void DataTemplateFling(View view, int i, FavouriteViewModel model)
         {
             (view as FavouriteItem).BindModel(model, true);
         }
 
-        private void DataTemplateFull(View view, FavouriteViewModel model)
+        private void DataTemplateFull(View view, int i, FavouriteViewModel model)
         {
             var item = view as FavouriteItem;
             var firstRun = !item.Initialized;

@@ -64,7 +64,7 @@ namespace MALClient.Android.Fragments
             }));          
         }
 
-        private View GetItemContainer()
+        private View GetItemContainer(int i)
         {
             var view = Activity.LayoutInflater.Inflate(Resource.Layout.PromoVideosPageItem, null);
 
@@ -74,7 +74,7 @@ namespace MALClient.Android.Fragments
             return view;
         }
 
-        private void SetItemBindingsFull(View view,AnimeVideoData animeVideoData)
+        private void SetItemBindingsFull(View view, int i, AnimeVideoData animeVideoData)
         {
             var img = view.FindViewById<ImageViewAsync>(Resource.Id.PromoVideosPageItemImage);
             if ((string)img.Tag != animeVideoData.YtLink)
@@ -91,7 +91,7 @@ namespace MALClient.Android.Fragments
                 .SetText(str.SubSequenceFormatted(0, str.Length()), TextView.BufferType.Spannable);
         }
 
-        private void SetItemBindingsFling(View view,AnimeVideoData animeVideoData)
+        private void SetItemBindingsFling(View view, int i, AnimeVideoData animeVideoData)
         {
             view.FindViewById(Resource.Id.PromoVideosPageItemImgPlaceholder).Visibility = ViewStates.Visible;
             view.FindViewById(Resource.Id.PromoVideosPageItemImage).Visibility = ViewStates.Invisible;

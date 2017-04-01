@@ -40,7 +40,6 @@
     <EnableLLVM>False</EnableLLVM>
     <AndroidEnableMultiDex>True</AndroidEnableMultiDex>
     <EnableProguard>False</EnableProguard>
-    <AndroidHttpClientHandlerType>Xamarin.Android.Net.AndroidClientHandler</AndroidHttpClientHandlerType>
     <JavaMaximumHeapSize>1G</JavaMaximumHeapSize>
     <Debugger>.Net (Xamarin)</Debugger>
   </PropertyGroup>
@@ -175,9 +174,7 @@
     <Compile Include="BackgroundTasks\NotificationTaskManager.cs" />
     <Compile Include="BindingConverters\DummyFontAwesomeToRealFontAwesomeConverter.cs" />
     <Compile Include="BindingConverters\SpecializedConverters.cs" />
-    <Compile Include="BindingInformation\AnimeCompactItemBindingInfo.cs" />
     <Compile Include="Adapters\CollectionAdapters\AnimeListItemsAdapter.cs" />
-    <Compile Include="BindingInformation\AnimeListItemBindingInfo.cs" />
     <Compile Include="BindingInformation\BindingExtension.cs" />
     <Compile Include="BindingInformation\BindingInfo.cs" />
     <Compile Include="Adapters\CollectionAdapters\DeeplyObservableCollectionAdapter.cs" />
@@ -304,7 +301,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Resources\ResourceExtension.cs" />
-    <Compile Include="UserControls\AnimeGridItem.cs" />
+    <Compile Include="UserControls\AnimeItems\AnimeCompactItem.cs" />
+    <Compile Include="UserControls\AnimeItems\AnimeGridItem.cs" />
+    <Compile Include="UserControls\AnimeItems\AnimeListItem.cs" />
     <Compile Include="UserControls\BBCodeEditor.cs" />
     <Compile Include="UserControls\CharView\ChartView.cs" />
     <Compile Include="UserControls\ExpandableGridView.cs" />
@@ -319,6 +318,7 @@
     <Compile Include="UserControls\CharView\Chart.cs" />
     <Compile Include="UserControls\UserControlBase.cs" />
     <Compile Include="Utilities\AnimeImageExtensions.cs" />
+    <Compile Include="Utilities\AnimeListAdapterExtensions.cs" />
     <Compile Include="Utilities\CssManager.cs" />
     <Compile Include="Utilities\FlingCollectionsHelper.cs" />
     <Compile Include="Utilities\FontManager.cs" />

@@ -49,7 +49,7 @@ namespace MALClient.Android.Fragments.AnimeDetailsPageTabs
             SetUpForOrientation(Activity.Resources.Configuration.Orientation);
         }
 
-        private View ContainerTemplate()
+        private View ContainerTemplate(int i)
         {
             var view =  Activity.LayoutInflater.Inflate(Resource.Layout.CharacterActorPairItem, null);
             return view;
@@ -65,7 +65,7 @@ namespace MALClient.Android.Fragments.AnimeDetailsPageTabs
             ViewModel.NavigateCharacterDetailsCommand.Execute((sender as View).Tag.Unwrap<FavouriteBase>());
         }
 
-        private void DataTemplateFling(View view, AnimeDetailsPageViewModel.AnimeStaffDataViewModels.AnimeCharacterStaffModelViewModel models)
+        private void DataTemplateFling(View view,int i, AnimeDetailsPageViewModel.AnimeStaffDataViewModels.AnimeCharacterStaffModelViewModel models)
         {
             var itemCharacter = view.FindViewById<FavouriteItem>(Resource.Id.CharacterActorPairItemCharacter);
             var itemPerson = view.FindViewById<FavouriteItem>(Resource.Id.CharacterActorPairItemActor);
@@ -74,7 +74,7 @@ namespace MALClient.Android.Fragments.AnimeDetailsPageTabs
             itemPerson.BindModel(models.AnimeStaffPerson, true);
         }
 
-        private void DataTemplateFull(View view, AnimeDetailsPageViewModel.AnimeStaffDataViewModels.AnimeCharacterStaffModelViewModel models)
+        private void DataTemplateFull(View view, int i, AnimeDetailsPageViewModel.AnimeStaffDataViewModels.AnimeCharacterStaffModelViewModel models)
         {
             var itemCharacter = view.FindViewById<FavouriteItem>(Resource.Id.CharacterActorPairItemCharacter);
             var itemPerson = view.FindViewById<FavouriteItem>(Resource.Id.CharacterActorPairItemActor);

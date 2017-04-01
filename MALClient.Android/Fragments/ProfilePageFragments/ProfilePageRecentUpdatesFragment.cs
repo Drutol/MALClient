@@ -13,6 +13,7 @@ using GalaSoft.MvvmLight.Helpers;
 using MALClient.Android.BindingConverters;
 using MALClient.Android.BindingInformation;
 using MALClient.Android.CollectionAdapters;
+using MALClient.Models.Enums;
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Main;
 
@@ -50,19 +51,20 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
             Bindings.Add(
                 this.SetBinding(() => ViewModel.RecentAnime).WhenSourceChanges(() =>
                 {
-                    ProfilePageRecentUpdatesTabAnimeList.SetAdapter(new AnimeListItemsAdapter(Activity,
-                        Resource.Layout.AnimeListItem, ViewModel.RecentAnime,
-                        (model, view, arg3) => new AnimeListItemBindingInfo(view, model, false)));
+                    ProfilePageRecentUpdatesTabAnimeList.SetAnimeListAdapter(Context, ViewModel.RecentAnime,AnimeListDisplayModes.IndefiniteCompactList,OnItemClickAction);
                 }));
 
             
             Bindings.Add(
                 this.SetBinding(() => ViewModel.RecentManga).WhenSourceChanges(() =>
                 {
-                    ProfilePageRecentUpdatesTabMangaList.SetAdapter(new AnimeListItemsAdapter(Activity,
-                        Resource.Layout.AnimeListItem, ViewModel.RecentManga,
-                        (model, view, arg3) => new AnimeListItemBindingInfo(view, model, false)));
+                    ProfilePageRecentUpdatesTabAnimeList.SetAnimeListAdapter(Context, ViewModel.RecentManga, AnimeListDisplayModes.IndefiniteCompactList, OnItemClickAction);
                 }));
+        }
+
+        private void OnItemClickAction(AnimeItemViewModel animeItemViewModel)
+        {
+            ViewModel.TemporarilySelectedAnimeItem = animeItemViewModel;
         }
 
         public override int LayoutResourceId => Resource.Layout.ProfilePageRecentUpdatesTab;

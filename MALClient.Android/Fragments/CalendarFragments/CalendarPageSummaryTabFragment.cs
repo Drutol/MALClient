@@ -15,6 +15,7 @@ using MALClient.Android.Activities;
 using MALClient.Android.BindingInformation;
 using MALClient.Android.CollectionAdapters;
 using MALClient.Android.Resources;
+using MALClient.Models.Enums;
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Main;
 
@@ -52,11 +53,15 @@ namespace MALClient.Android.Fragments.CalendarFragments
 
             view.FindViewById<TextView>(Resource.Id.CalendarPageSummaryTabContentHeader).Text = tuple.Item1;
             var grid = view.FindViewById<GridView>(Resource.Id.CalendarPageSummaryTabContentList);
-            //grid.Adapter = new AnimeListItemsAdapter(MainActivity.CurrentContext,
-        //todo binding info    //    Resource.Layout.AnimeGridItem,tuple.Item2,(model, view1,fling) => new AnimeGridItemBindingInfo(view1,model,fling,false));
+            grid.InjectAnimeListAdapter(Context,tuple.Item2,AnimeListDisplayModes.IndefiniteGrid,OnItemClick);
             _gridViewColumnHelper.RegisterGrid(grid);
 
             return view;
+        }
+
+        private void OnItemClick(AnimeItemViewModel animeItemViewModel)
+        {
+           //todo
         }
 
         public override int LayoutResourceId => Resource.Layout.CalendarPageSummaryTab;

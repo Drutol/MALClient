@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using Android.Views;
 using Android.Widget;
+using FFImageLoading.Extensions;
 using GalaSoft.MvvmLight.Helpers;
 
 namespace MALClient.Android
@@ -12,8 +13,8 @@ namespace MALClient.Android
         private static readonly Dictionary<View, bool> FlingStates = new Dictionary<View, bool>();
 
         public static void InjectFlingAdapter<T>(this AbsListView container, IList<T> items,
-            Action<View, T> dataTemplateFull, Action<View,T> dataTemplateFling,
-            Func<View> containerTemplate) where T : class
+            Action<View,int, T> dataTemplateFull, Action<View,int,T> dataTemplateFling,
+            Func<int,View> containerTemplate) where T : class
         {
             if(!FlingStates.ContainsKey(container))
                 FlingStates.Add(container,false);
@@ -27,18 +28,19 @@ namespace MALClient.Android
                     for (int i = 0; i < container.ChildCount; i++)
                     {
                         var view = container.GetChildAt(i);
-                        dataTemplateFull(view,view.Tag.Unwrap<T>() );
+                        var item = view.Tag.Unwrap<T>();
+                        dataTemplateFull(view,items.IndexOf(item),item);
                     }
                 }
             });
             container.Adapter = items.GetAdapter((i, arg2, arg3) =>
             {
-                var root = arg3 ?? containerTemplate();
+                var root = arg3 ?? containerTemplate(i);
                 root.Tag = arg2.Wrap();
                 if (FlingStates[container])
-                    dataTemplateFling(root,arg2);
+                    dataTemplateFling(root,i,arg2);
                 else
-                    dataTemplateFull(root,arg2);
+                    dataTemplateFull(root,i,arg2);
                 return root;
             });
         }

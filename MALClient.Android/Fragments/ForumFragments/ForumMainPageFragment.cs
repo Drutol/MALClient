@@ -63,7 +63,7 @@ namespace MALClient.Android.Fragments.ForumFragments
                     throw new ArgumentOutOfRangeException(nameof(page), page, null);
             }
             
-            var trans = FragmentManager.BeginTransaction();
+            var trans = ChildFragmentManager.BeginTransaction();
             trans.SetCustomAnimations(Resource.Animator.animation_slide_btm,
                 Resource.Animator.animation_fade_out,
                 Resource.Animator.animation_slide_btm,

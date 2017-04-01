@@ -13,6 +13,7 @@ using Android.Views;
 using Android.Widget;
 using FFImageLoading;
 using FFImageLoading.Config;
+using FFImageLoading.Helpers;
 using FFImageLoading.Work;
 using MALClient.XShared.BL;
 using MALClient.XShared.Comm.CommUtils;
@@ -37,14 +38,32 @@ namespace MALClient.Android
 
             //ImageService.Instance.Initialize(new Configuration
             //{
-            //    FadeAnimationEnabled = true,
-            //    FadeAnimationForCachedImages = true,
-            //    FadeAnimationDuration = 200,
+            //    BitmapOptimizations = true,
+            //    VerbosePerformanceLogging = true,
+            //    Logger = new MiniLogger()
             //});
             ViewModelLocator.RegisterBase();
             AndroidViewModelLocator.RegisterDependencies();
             InitializationRoutines.InitApp();
             base.OnCreate();
+        }
+
+        private class MiniLogger : IMiniLogger
+        {
+            public void Debug(string message)
+            {
+                //System.Diagnostics.Debug.WriteLine(message);
+            }
+
+            public void Error(string errorMessage)
+            {
+                //System.Diagnostics.Debug.WriteLine(errorMessage);
+            }
+
+            public void Error(string errorMessage, Exception ex)
+            {
+
+            }
         }
     }
 }

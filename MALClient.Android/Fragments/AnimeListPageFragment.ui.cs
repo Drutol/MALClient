@@ -239,14 +239,16 @@ namespace MALClient.Android.Fragments
             {
                 if (ViewModelLocator.AnimeList.AnimeGridItems != null)
                 {
-                    _animeListItemsAdapter = new AnimeListItemsAdapter(Activity,
-                        Resource.Layout.AnimeGridItem, ViewModelLocator.AnimeList.AnimeGridItems,
-                        (model, view, fling) =>
-                            new AnimeGridItemBindingInfo(view, model, fling)
-                            {
-                                OnItemClickAction = AnimeListPageGridViewOnItemClick
-                            });
-                    AnimeListPageGridView.Adapter = _animeListItemsAdapter;
+                    AnimeListPageGridView.InjectFlingAdapter(ViewModel.AnimeGridItems, (view, model) =>
+                        {
+                            ((AnimeGridItem) view).BindModel(model, false);
+                        },
+                        (view, model) =>
+                        {
+                            ((AnimeGridItem) view).BindModel(model, true);
+                        },
+                        () => new AnimeGridItem(Context, true, AnimeListPageGridViewOnItemClick)
+                    );
                     _gridViewColumnHelper = new GridViewColumnHelper(AnimeListPageGridView);
                     if (_prevArgs != null)
                     {
@@ -258,7 +260,6 @@ namespace MALClient.Android.Fragments
                         _prevArgs = null;
                     }
 
-                    AnimeListPageGridView.MakeFlingAware();
 
                     SwipeRefreshLayout.ScrollingView = AnimeListPageGridView;
 
@@ -271,7 +272,8 @@ namespace MALClient.Android.Fragments
                 if (ViewModelLocator.AnimeList.AnimeListItems != null)
                 {
                     _animeListItemsAdapter = new AnimeListItemsAdapter(Activity,
-                        Resource.Layout.AnimeListItem, ViewModelLocator.AnimeList.AnimeListItems,(model, view, fling) => new AnimeListItemBindingInfo(view,model,fling)
+                        Resource.Layout.AnimeListItem, ViewModelLocator.AnimeList.AnimeListItems,
+                        (model, view, fling) => new AnimeListItemBindingInfo(view, model, fling)
                         {
                             OnItemClickAction = AnimeListPageGridViewOnItemClick
                         });
@@ -301,7 +303,7 @@ namespace MALClient.Android.Fragments
                             OnItemClickAction = AnimeListPageGridViewOnItemClick
                         });
                     AnimeListPageCompactListView.Adapter = _animeListItemsAdapter;
-                    
+
                     if (_prevArgs != null)
                     {
                         AnimeListPageListView.SmoothScrollToPosition(_prevArgs.SelectedItemIndex);
@@ -316,7 +318,7 @@ namespace MALClient.Android.Fragments
                     AnimeListPageGridView.Adapter = null;
                 }
             }
-            else if(propertyChangedEventArgs.PropertyName == nameof(ViewModel.DisplayMode))
+            else if (propertyChangedEventArgs.PropertyName == nameof(ViewModel.DisplayMode))
             {
                 switch (ViewModel.DisplayMode)
                 {

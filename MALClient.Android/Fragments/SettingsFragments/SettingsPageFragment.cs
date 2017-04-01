@@ -64,7 +64,7 @@ namespace MALClient.Android.Fragments.SettingsFragments
                 Toast.MakeText(Activity, "Not implemented yet, traveller!", ToastLength.Short);
                 return;
             }
-            var trans = FragmentManager.BeginTransaction();
+            var trans = ChildFragmentManager.BeginTransaction();
             trans.SetCustomAnimations(Resource.Animator.animation_slide_btm,
                 Resource.Animator.animation_fade_out,
                 Resource.Animator.animation_slide_btm,

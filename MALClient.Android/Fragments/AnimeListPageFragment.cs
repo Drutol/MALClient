@@ -61,8 +61,8 @@ namespace MALClient.Android.Fragments
 
         public override void OnConfigurationChanged(Configuration newConfig)
         {
-            if (ViewModel.DisplayMode == AnimeListDisplayModes.IndefiniteCompactList) //update vertical
-                _animeListItemsAdapter.BindingInfos.Cast<AnimeCompactItemBindingInfo>().ForEach(info => info.OnConfigurationChanged(newConfig));
+            //if (ViewModel.DisplayMode == AnimeListDisplayModes.IndefiniteCompactList) //update vertical
+                //_animeListItemsAdapter.BindingInfos.Cast<AnimeCompactItemBindingInfo>().ForEach(info => info.OnConfigurationChanged(newConfig));
 
             _gridViewColumnHelper?.OnConfigurationChanged(newConfig);
             base.OnConfigurationChanged(newConfig);

@@ -80,7 +80,7 @@ namespace MALClient.Android
             }
             catch (Exception e)
             {
-
+                view.Visibility = ViewStates.Visible;
             }
 
         }

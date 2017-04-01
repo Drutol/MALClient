@@ -6,6 +6,7 @@ using System.Text;
 
 using Android.App;
 using Android.Content;
+using Android.Content.Res;
 using Android.OS;
 using Android.Runtime;
 using Android.Views;
@@ -74,6 +75,9 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
             ProfilePageFavouritesTabMangaBtn.SetOnClickListener(listener);
             ProfilePageFavouritesTabCharsBtn.SetOnClickListener(listener);
             ProfilePageFavouritesTabPplBtn.SetOnClickListener(listener);
+            UpdateGridView();
+
+            
         }
 
         private void OnTabSelected(View view)
@@ -84,28 +88,48 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
 
 
         private void UpdateGridView()
-        {         
+        {
             switch (_currentTab)
-            {
+            {//todo binding info
                 case Resource.Id.ProfilePageFavouritesTabAnimeBtn:
-                    ProfilePageFavouritesTabGridView.Adapter = new AnimeListItemsAdapter(Activity,
-                        Resource.Layout.AnimeGridItem, ViewModel.FavAnime,
-                        (model, view, arg3) => new AnimeGridItemBindingInfo(view, model, false, false));
+                    //if (ViewModel.FavAnime?.Any() ?? false)
+                    //    ProfilePageFavouritesTabGridView.Adapter = new AnimeListItemsAdapter(Activity,
+                    //        Resource.Layout.AnimeGridItem, ViewModel.FavAnime,
+                    //        (model, view, arg3) =>
+                    //            new AnimeGridItemBindingInfo(view, model, false, false)
+                    //            {
+                    //                AllowSwipeInGivenContext = false,
+                    //                OnItemClickAction = OnItemClickAction
+                    //            });
                     break;
                 case Resource.Id.ProfilePageFavouritesTabMangaBtn:
-                    ProfilePageFavouritesTabGridView.Adapter = new AnimeListItemsAdapter(Activity,
-                        Resource.Layout.AnimeGridItem, ViewModel.FavManga,
-                        (model, view, arg3) => new AnimeGridItemBindingInfo(view, model, false, false));
+                    //todo binding info
+                    //if (ViewModel.FavManga?.Any() ?? false)
+                    //    ProfilePageFavouritesTabGridView.Adapter = new AnimeListItemsAdapter(Activity,
+                    //        Resource.Layout.AnimeGridItem, ViewModel.FavManga,
+                    //        (model, view, arg3) =>
+                    //            new AnimeGridItemBindingInfo(view, model, false, false)
+                    //            {
+                    //                AllowSwipeInGivenContext = false,
+                    //                OnItemClickAction = OnItemClickAction
+                    //            });
                     break;
                 case Resource.Id.ProfilePageFavouritesTabCharsBtn:
-                    ProfilePageFavouritesTabGridView.Adapter =
-                        ViewModel.FavouriteCharacters.GetAdapter(GetTemplateDelegate);
+                    if (ViewModel.FavouriteCharacters?.Any() ?? false)
+                        ProfilePageFavouritesTabGridView.Adapter =
+                            ViewModel.FavouriteCharacters.GetAdapter(GetTemplateDelegate);
                     break;
                 case Resource.Id.ProfilePageFavouritesTabPplBtn:
-                    ProfilePageFavouritesTabGridView.Adapter =
-                        ViewModel.FavouriteStaff.GetAdapter(GetTemplateDelegate);
+                    if (ViewModel.FavouriteStaff?.Any() ?? false)
+                        ProfilePageFavouritesTabGridView.Adapter =
+                            ViewModel.FavouriteStaff.GetAdapter(GetTemplateDelegate);
                     break;
             }
+        }
+
+        private void OnItemClickAction(AnimeItemViewModel animeItemViewModel)
+        {
+            ViewModel.TemporarilySelectedAnimeItem = animeItemViewModel;
         }
 
         private View GetTemplateDelegate(int i, FavouriteViewModel favouriteViewModel, View convertView)
@@ -136,6 +160,12 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
             {
                 ViewModel.NavigateStaffDetailsCommand.Execute(model);
             }
+        }
+
+        public override void OnConfigurationChanged(Configuration newConfig)
+        {
+            _helper.OnConfigurationChanged(newConfig);
+            base.OnConfigurationChanged(newConfig);
         }
 
 

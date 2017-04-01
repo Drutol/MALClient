@@ -36,9 +36,9 @@ namespace MALClient.Android.Fragments.CalendarFragments
 
         protected override void InitBindings()
         {
-
-            CalendarPageTabContentList.Adapter = new AnimeListItemsAdapter(MainActivity.CurrentContext,
-                Resource.Layout.AnimeGridItem, _items, (model, view,fling) => new AnimeGridItemBindingInfo(view, model,fling, false));
+            //todo binding info
+            //CalendarPageTabContentList.Adapter = new AnimeListItemsAdapter(MainActivity.CurrentContext,
+            //    Resource.Layout.AnimeGridItem, _items, (model, view,fling) => new AnimeGridItemBindingInfo(view, model,fling, false));
             _gridViewColumnHelper = new GridViewColumnHelper(CalendarPageTabContentList);
         }
 

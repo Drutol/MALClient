@@ -9,6 +9,8 @@ using Android.Support.V7.App;
 using Android.Views;
 using Com.Shehabic.Droppy;
 using GalaSoft.MvvmLight.Ioc;
+using HockeyApp.Android;
+using HockeyApp.Android.Metrics;
 using MALClient.Android.Fragments;
 using MALClient.Android.ViewModels;
 using MALClient.Models.Enums;
@@ -72,8 +74,8 @@ namespace MALClient.Android.Activities
 
                 ResourceLocator.NotificationsTaskManager.StartTask(BgTasks.Notifications);
 
-                //StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().PermitAll().Build();
-                //StrictMode.SetThreadPolicy(policy);
+                StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().PermitAll().Build();
+                StrictMode.SetThreadPolicy(policy);
             }
 
 #if !DEBUG

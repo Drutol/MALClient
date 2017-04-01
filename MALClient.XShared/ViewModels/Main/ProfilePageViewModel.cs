@@ -85,6 +85,8 @@ namespace MALClient.XShared.ViewModels.Main
 
             AboutMeHtmlContent = null;
             AboutMeWebViewVisibility = false;
+            CurrentPivotIndex = args.DesiredPivotIndex;
+            RaisePropertyChanged(() => CurrentPivotIndex);
             
 
             if (args.TargetUser == Credentials.UserName && args.AllowBackNavReset)
@@ -448,7 +450,12 @@ namespace MALClient.XShared.ViewModels.Main
         public AnimeItemViewModel TemporarilySelectedAnimeItem
         {
             get { return null; }
-            set { value?.NavigateDetails(PageIndex.PageProfile); }
+            set
+            {
+                var args = PrevArgs;
+                args.DesiredPivotIndex = CurrentPivotIndex;
+                value?.NavigateDetails(PageIndex.PageProfile,args);
+            }
         }
 
         public bool LoadingVisibility
@@ -840,6 +847,11 @@ namespace MALClient.XShared.ViewModels.Main
                 RaisePropertyChanged(() => AreFavsExpanded);
             }
         }
+
+        /// <summary>
+        /// Used to restore pivot after navigation
+        /// </summary>
+        public int CurrentPivotIndex { get; set; }
 
         #endregion
     }

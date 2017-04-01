@@ -182,7 +182,7 @@ namespace MALClient.Android.BindingInformation
             var editParam = edit.LayoutParameters as RelativeLayout.LayoutParams;
             var titleParam = titleLabel.LayoutParameters as LinearLayout.LayoutParams;
 
-            if (newConfig.ScreenWidthDp > 650)
+            if (newConfig.ScreenWidthDp > 590)
             {
                 if(parameter.Width == -2)
                     return;

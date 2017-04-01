@@ -14,6 +14,7 @@ using Android.Widget;
 using Com.Astuetz;
 using GalaSoft.MvvmLight.Helpers;
 using MALClient.Android.BindingConverters;
+using MALClient.Android.Listeners;
 using MALClient.Android.PagerAdapters;
 using MALClient.XShared.NavArgs;
 using MALClient.XShared.ViewModels;
@@ -44,9 +45,17 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
             ProfilePageTabStrip.SetViewPager(ProfilePagePivot);
             ProfilePageTabStrip.CenterTabs();
 
+            Bindings.Add(this.SetBinding(() => ViewModel.CurrentPivotIndex).WhenSourceChanges(() =>
+            {
+                ProfilePagePivot.SetCurrentItem(ViewModel.CurrentPivotIndex, false);
+            }));
+
+
             Bindings.Add(
                 this.SetBinding(() => ViewModel.LoadingVisibility,
                     () => ProfilePageLoadingSpinner.Visibility).ConvertSourceToTarget(Converters.BoolToVisibility));
+
+            ProfilePagePivot.AddOnPageChangeListener(new OnPageChangedListener(i => ViewModel.CurrentPivotIndex = i));
         }
 
         public override int LayoutResourceId => Resource.Layout.ProfilePage;

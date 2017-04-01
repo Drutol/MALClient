@@ -75,6 +75,8 @@ namespace MALClient.XShared.Comm.MagicalRawQueries
         private static CsrfHttpClient _httpClient;
         private static DateTime? _contextExpirationTime;
         private static bool _webViewsInitialized;
+        private static bool _skippedFirstError;
+
 
         /// <summary>
         ///     Establishes connection with MAL, attempts to authenticate.
@@ -131,9 +133,16 @@ namespace MALClient.XShared.Comm.MagicalRawQueries
             }
             catch (Exception e)
             {
+                if (!_skippedFirstError)
+                {
+                    _skippedFirstError = true;
+                    await Task.Delay(50);
+                    return await GetHttpContextAsync(); //bug in android http client
+                }
                 ResourceLocator.MessageDialogProvider.ShowMessageDialog(
                     "Unable to connect to MyAnimeList, they have either changed something in html or your connection is down.",
                     "Something went wrong™");
+                _skippedFirstError = false;
                 return new CsrfHttpClient(new HttpClientHandler()) {Disabled = true};
             }
             

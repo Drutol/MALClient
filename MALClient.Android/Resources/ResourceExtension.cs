@@ -25,7 +25,7 @@ namespace MALClient.Android.Resources
 
         public static readonly int AccentColourDark = ResourcesCompat.GetColor(MainActivity.CurrentContext.Resources,Resource.Color.AccentColourDark, null);
 
-        public static readonly int AccentColourContrast = ResourcesCompat.GetColor(MainActivity.CurrentContext.Resources,Resource.Color.AccentColourContrast, null);
+        public static readonly int AccentColourContrast = Settings.SelectedTheme == 1 ? ResourcesCompat.GetColor(MainActivity.CurrentContext.Resources,Resource.Color.AccentColourContrast, null) : AccentColourDark;
 
         public static readonly int BrushAnimeItemInnerBackground = ResourcesCompat.GetColor(MainActivity.CurrentContext.Resources,
             Settings.SelectedTheme == 1 ? Resource.Color.DarkBrushAnimeItemInnerBackground : Resource.Color.LightBrushAnimeItemInnerBackground, null);

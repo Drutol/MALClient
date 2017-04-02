@@ -1,10 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 
 using Android.App;
 using Android.Content;
+using Android.Graphics;
 using Android.OS;
 using Android.Runtime;
 using Android.Util;
@@ -72,18 +74,65 @@ namespace MALClient.Android.UserControls
                 AnimeListItemImage.Visibility = ViewStates.Visible;
             }
 
-
-            AnimeListItemMoreButton.SetOnClickListener(new OnClickListener(view => MoreButtonOnClick()));
-            AnimeListItemWatchedButton.SetCommand("Click", new RelayCommand(ShowWatchedDialog));
+            if (string.IsNullOrEmpty(ViewModel.TopLeftInfoBind))
+            {
+                AnimeListItemTopLeftInfo.Visibility = ViewStates.Gone;
+            }
+            else
+            {
+                AnimeListItemTopLeftInfo.Visibility = ViewStates.Visible;
+                AnimeListItemTopLeftInfoMain.Text = ViewModel.TopLeftInfoBind;
+                if (ViewModel.AirDayBrush == true)
+                {
+                    AnimeListItemTopLeftInfoMain.SetTextColor(new Color(80, 80, 80)); //gray
+                    AnimeListItemTopLeftInfoSub.Text = ViewModel.AirDayTillBind;
+                    AnimeListItemTopLeftInfoSub.Visibility = ViewStates.Visible;
+                }
+                else
+                {
+                    AnimeListItemTopLeftInfoMain.SetTextColor(new Color(255, 255, 255));
+                    AnimeListItemTopLeftInfoSub.Visibility = ViewStates.Gone;
+                }
+            }
+ 
+            
             AnimeListItemStatusButton.SetCommand("Click", new RelayCommand(ShowStatusDialog));
             AnimeListItemScoreButton.SetCommand("Click", new RelayCommand(ShowRatingDialog));
+
+            if (ViewModel.Auth)
+            {
+                AnimeListItemWatchedButton.Clickable = true;
+                AnimeListItemWatchedButton.Focusable = true;
+                AnimeListItemWatchedButton.SetCommand("Click", new RelayCommand(ShowWatchedDialog));
+            }
+            else
+            {
+                AnimeListItemWatchedButton.Clickable = false;
+                AnimeListItemWatchedButton.Focusable = false;
+            }
 
             AnimeListItemIncButton.SetCommand("Click", ViewModel.IncrementWatchedCommand);
             AnimeListItemDecButton.SetCommand("Click", ViewModel.DecrementWatchedCommand);
 
+            RootContainer.SetOnLongClickListener(new OnLongClickListener(view => MoreButtonOnClick()));
             RootContainer.SetOnClickListener(new OnClickListener(view => ContainerOnClick()));
 
             ViewModel.AnimeItemDisplayContext = ViewModelLocator.AnimeList.AnimeItemsDisplayContext;
+
+            ViewModel.PropertyChanged += ViewModelOnPropertyChanged;
+
+            AnimeListItemStatusButton.Text = ViewModel.MyStatusBind;
+            AnimeListItemWatchedButton.Text = ViewModel.MyEpisodesBind;
+            AnimeListItemScoreButton.Text = ViewModel.MyScoreBind;
+            AnimeListItemIncButton.Visibility = ViewModel.IncrementEpsVisibility
+                ? ViewStates.Visible
+                : ViewStates.Gone;
+            AnimeListItemDecButton.Visibility = ViewModel.DecrementEpsVisibility
+                ? ViewStates.Visible
+                : ViewStates.Gone;
+            AnimeListItemUpdatingBar.Visibility = ViewModel.LoadingUpdate
+                ? ViewStates.Visible
+                : ViewStates.Gone;
         }
 
         protected override void BindModelBasic()
@@ -102,55 +151,51 @@ namespace MALClient.Android.UserControls
                 AnimeListItemTypeTextView.Visibility = ViewStates.Visible;
                 AnimeListItemTypeTextView.Text = ViewModel.Type;
             }
+
+            AnimeListItemStatusScoreSection.Visibility = ViewModel.Auth ? ViewStates.Visible : ViewStates.Gone;
         }
 
-        protected override void RootContainerInit()
+        private void ViewModelOnPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
         {
-            
+            switch (propertyChangedEventArgs.PropertyName)
+            {
+                case nameof(ViewModel.MyStatusBind):
+                    AnimeListItemStatusButton.Text = ViewModel.MyStatusBind;
+                    break;
+                case nameof(ViewModel.MyEpisodesBind):
+                    AnimeListItemWatchedButton.Text = ViewModel.MyEpisodesBind;
+                    break;
+                case nameof(ViewModel.MyScoreBind):
+                    AnimeListItemScoreButton.Text = ViewModel.MyScoreBind;
+                    break;
+                case nameof(ViewModel.IncrementEpsVisibility):
+                    AnimeListItemIncButton.Visibility = ViewModel.IncrementEpsVisibility
+                        ? ViewStates.Visible
+                        : ViewStates.Gone;
+                    break;
+                case nameof(ViewModel.DecrementEpsVisibility):
+                    AnimeListItemDecButton.Visibility = ViewModel.DecrementEpsVisibility
+                        ? ViewStates.Visible
+                        : ViewStates.Gone;
+                    break;
+                case nameof(ViewModel.LoadingUpdate):
+                    AnimeListItemUpdatingBar.Visibility = ViewModel.LoadingUpdate
+                        ? ViewStates.Visible
+                        : ViewStates.Gone;
+                    break;
+            }
         }
 
-        protected override void CreateBindings()
+        protected override void CleanupPreviousModel()
         {
-            Bindings.Add(this.SetBinding(() => ViewModel.MyStatusBindShort).WhenSourceChanges(() =>
-            {
-                AnimeListItemWatchedButton.Text = ViewModel.MyStatusBind;
-            }));
-
-            Bindings.Add(this.SetBinding(() => ViewModel.MyEpisodesBindShort).WhenSourceChanges(() =>
-            {
-                AnimeListItemStatusButton.Text = ViewModel.MyEpisodesBind;
-            }));
-
-            Bindings.Add(this.SetBinding(() => ViewModel.MyScoreBindShort).WhenSourceChanges(() =>
-            {
-                AnimeListItemScoreButton.Text = ViewModel.MyScoreBind;
-            }));
-
-            Bindings.Add(this.SetBinding(() => ViewModel.IncrementEpsVisibility).WhenSourceChanges(() =>
-            {
-                AnimeListItemIncButton.Visibility = ViewModel.IncrementEpsVisibility
-                    ? ViewStates.Visible
-                    : ViewStates.Gone;
-            }));
-
-            Bindings.Add(this.SetBinding(() => ViewModel.DecrementEpsVisibility).WhenSourceChanges(() =>
-            {
-                AnimeListItemDecButton.Visibility = ViewModel.DecrementEpsVisibility
-                    ? ViewStates.Visible
-                    : ViewStates.Gone;
-            }));
-
-            //Bindings.Add(this.SetBinding(() => ViewModel.AddToListVisibility).WhenSourceChanges(() =>
-            //{
-            //    Add.Visibility = ViewModel.AddToListVisibility ? ViewStates.Visible : ViewStates.Gone;
-            //}));
+            ViewModel.PropertyChanged -= ViewModelOnPropertyChanged;
         }
 
         #region Flyouts
 
         private void MoreButtonOnClick()
         {
-            _menu = AnimeItemFlyoutBuilder.BuildForAnimeItem(MainActivity.CurrentContext, AnimeListItemMoreButton, null,
+            _menu = AnimeItemFlyoutBuilder.BuildForAnimeItem(MainActivity.CurrentContext, AnimeListItemImgPlaceholder, null,
                 OnMoreFlyoutSelection, true);
             _menu.Show();
         }
@@ -200,9 +245,11 @@ namespace MALClient.Android.UserControls
 
         private ProgressBar _animeListItemImgPlaceholder;
         private ImageViewAsync _animeListItemImage;
-        private ImageButton _animeListItemMoreButton;
+        private ProgressBar _animeListItemUpdatingBar;
         private TextView _animeListItemTitle;
-        private TextView _animeGridItemToLeftInfo;
+        private TextView _animeListItemTopLeftInfoMain;
+        private TextView _animeListItemTopLeftInfoSub;
+        private LinearLayout _animeListItemTopLeftInfo;
         private TextView _animeListItemTypeTextView;
         private Button _animeListItemWatchedButton;
         private LinearLayout _animeListItemBtmRightSectionTop;
@@ -217,11 +264,15 @@ namespace MALClient.Android.UserControls
 
         public ImageViewAsync AnimeListItemImage => _animeListItemImage ?? (_animeListItemImage = FindViewById<ImageViewAsync>(Resource.Id.AnimeListItemImage));
 
-        public ImageButton AnimeListItemMoreButton => _animeListItemMoreButton ?? (_animeListItemMoreButton = FindViewById<ImageButton>(Resource.Id.AnimeListItemMoreButton));
+        public ProgressBar AnimeListItemUpdatingBar => _animeListItemUpdatingBar ?? (_animeListItemUpdatingBar = FindViewById<ProgressBar>(Resource.Id.AnimeListItemUpdatingBar));
 
         public TextView AnimeListItemTitle => _animeListItemTitle ?? (_animeListItemTitle = FindViewById<TextView>(Resource.Id.AnimeListItemTitle));
 
-        public TextView AnimeGridItemToLeftInfo => _animeGridItemToLeftInfo ?? (_animeGridItemToLeftInfo = FindViewById<TextView>(Resource.Id.AnimeGridItemToLeftInfo));
+        public TextView AnimeListItemTopLeftInfoMain => _animeListItemTopLeftInfoMain ?? (_animeListItemTopLeftInfoMain = FindViewById<TextView>(Resource.Id.AnimeListItemTopLeftInfoMain));
+
+        public TextView AnimeListItemTopLeftInfoSub => _animeListItemTopLeftInfoSub ?? (_animeListItemTopLeftInfoSub = FindViewById<TextView>(Resource.Id.AnimeListItemTopLeftInfoSub));
+
+        public LinearLayout AnimeListItemTopLeftInfo => _animeListItemTopLeftInfo ?? (_animeListItemTopLeftInfo = FindViewById<LinearLayout>(Resource.Id.AnimeListItemTopLeftInfo));
 
         public TextView AnimeListItemTypeTextView => _animeListItemTypeTextView ?? (_animeListItemTypeTextView = FindViewById<TextView>(Resource.Id.AnimeListItemTypeTextView));
 
@@ -240,6 +291,7 @@ namespace MALClient.Android.UserControls
         public ImageButton AnimeListItemDecButton => _animeListItemDecButton ?? (_animeListItemDecButton = FindViewById<ImageButton>(Resource.Id.AnimeListItemDecButton));
 
         public LinearLayout AnimeListItemIncDecSection => _animeListItemIncDecSection ?? (_animeListItemIncDecSection = FindViewById<LinearLayout>(Resource.Id.AnimeListItemIncDecSection));
+
 
 
         #endregion

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using HtmlAgilityPack;
 using MALClient.XShared.Utils;
 using MALClient.XShared.ViewModels;
+using ModernHttpClient;
 using HttpClient = System.Net.Http.HttpClient;
 using HttpStatusCode = System.Net.HttpStatusCode;
 
@@ -98,7 +99,7 @@ namespace MALClient.XShared.Comm.MagicalRawQueries
                 {
                     _httpClient?.ExpiredDispose();
 
-                    var httpHandler = new HttpClientHandler
+                    var httpHandler = new NativeMessageHandler
                     {
                         CookieContainer = new CookieContainer(),
                         UseCookies = true,
@@ -139,11 +140,12 @@ namespace MALClient.XShared.Comm.MagicalRawQueries
                     await Task.Delay(50);
                     return await GetHttpContextAsync(); //bug in android http client
                 }
+                if(!(e is TaskCanceledException))
                 ResourceLocator.MessageDialogProvider.ShowMessageDialog(
                     "Unable to connect to MyAnimeList, they have either changed something in html or your connection is down.",
                     "Something went wrong™");
                 _skippedFirstError = false;
-                return new CsrfHttpClient(new HttpClientHandler()) {Disabled = true};
+                return new CsrfHttpClient(new NativeMessageHandler()) {Disabled = true};
             }
             
         }

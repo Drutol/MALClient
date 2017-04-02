@@ -6,7 +6,7 @@
   <RelativeLayout
       android:layout_width="match_parent" android:background="?BrushAppBars"
       android:layout_height="match_parent">
-    <RelativeLayout android:alpha=".5"
+    <RelativeLayout android:alpha=".6"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
       <ImageView

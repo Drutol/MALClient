@@ -42,6 +42,7 @@
     <EnableProguard>False</EnableProguard>
     <JavaMaximumHeapSize>1G</JavaMaximumHeapSize>
     <Debugger>.Net (Xamarin)</Debugger>
+    <AndroidHttpClientHandlerType>System.Net.Http.HttpClientHandler</AndroidHttpClientHandlerType>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -290,6 +291,7 @@
     <Compile Include="Listeners\OnCheckedListener.cs" />
     <Compile Include="Listeners\OnClickListener.cs" />
     <Compile Include="Listeners\OnItemClickListener.cs" />
+    <Compile Include="Listeners\OnLongClickListener.cs" />
     <Compile Include="Listeners\OnPageChangedListener.cs" />
     <Compile Include="Listeners\OnTouchListener.cs" />
     <Compile Include="Listeners\OnPreparedListener.cs" />

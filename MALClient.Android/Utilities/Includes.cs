@@ -1,4 +1,5 @@
 using System.Collections.Specialized;
+using System.Security.Cryptography;
 using System.Windows.Input;
 using Android.Views;
 using Android.Widget;
@@ -54,6 +55,11 @@ namespace MALClient.Android
         public void Include(ICommand command)
         {
             command.CanExecuteChanged += (s, e) => { if (command.CanExecute(null)) command.Execute(null); };
+        }
+
+        public void Include(AesCryptoServiceProvider a)
+        {
+            System.Security.Cryptography.AesCryptoServiceProvider b = new System.Security.Cryptography.AesCryptoServiceProvider();
         }
     }
 }

@@ -85,6 +85,8 @@
     <item name="BrushFlyoutBackground">@color/DarkBrushFlyoutBackground</item>
     <item name="BrushSelectedDialogItem">@color/DarkBrushSelectedDialogItem</item>
     <item name="BrushMediaElementShadow">@color/DarkBrushMediaElementShadow</item>
+    <item name="BrushMessageBubbleMine">@color/DarkBrushMessageBubbleMine</item>
+    <item name="BrushMessageBubbleOther">@color/DarkBrushMessageBubbleOther</item>
   </style>
 
   <style name="Theme.MALClient.Light" parent="Theme.AppCompat.Light.NoActionBar">
@@ -92,7 +94,7 @@
     <item name="AccentColourDark" format="reference">@color/AccentColourDark</item>
     <item name="AccentColourLight">@color/AccentColourLight</item>
     <item name="OpaqueAccentColour" format="reference">@color/OpaqueAccentColour</item>
-    <item name="AccentColourContrast" format="reference">@color/AccentColourContrast</item>
+    <item name="AccentColourContrast" format="reference">@color/AccentColourDark</item>
 
     <item name="android:colorEdgeEffect">#2d2d2d</item>
 
@@ -134,6 +136,8 @@
     <item name="BrushFlyoutBackground">@color/LightBrushFlyoutBackground</item>
     <item name="BrushSelectedDialogItem">@color/LightBrushSelectedDialogItem</item>
     <item name="BrushMediaElementShadow">@color/LightBrushMediaElementShadow</item>
+    <item name="BrushMessageBubbleMine">@color/LightBrushMessageBubbleMine</item>
+    <item name="BrushMessageBubbleOther">@color/LightBrushMessageBubbleOther</item>
   </style>
 
   <style name="Divider">

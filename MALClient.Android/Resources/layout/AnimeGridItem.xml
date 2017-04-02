@@ -73,20 +73,33 @@
           android:id="@+id/AnimeGridItemImage"
           android:adjustViewBounds="true"
           android:scaleType="fitXY" />
-      <TextView
+      <LinearLayout
           android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:id="@+id/AnimeGridItemToLeftInfo"
-          android:layout_alignParentLeft="true"
-          android:layout_alignParentTop="true"
+                android:paddingLeft="7dp"
+                android:paddingRight="7dp"
+                android:paddingTop="3dp"
+                android:paddingBottom="3dp" android:id="@+id/AnimeGridItemTopLeftInfo"
           android:background="@color/BrushOpaqueTextView"
-          android:text="Sun"
-          android:textSize="@dimen/FontSizeMedium"
-          android:textColor="#ffffff"
-          android:paddingLeft="10dp"
-          android:paddingRight="10dp"
-          android:paddingTop="5dp"
-          android:paddingBottom="5dp" />
+          android:layout_height="wrap_content" android:gravity="center_vertical">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/AnimeGridItemTopLeftInfoMain"
+            android:text="Sun"
+            android:textSize="@dimen/FontSizeMedium"
+            android:textColor="#ffffff" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/AnimeGridItemTopLeftInfoSub"
+            android:text="Sun"
+            android:fontFamily="@string/font_family_light"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="1dp"
+            android:textStyle="italic"
+            android:textColor="@color/LightBrushNoSearchResults" />
+      </LinearLayout>
+
       <LinearLayout
           android:orientation="vertical"
           android:id="@+id/AnimeGridItemTopRightInfo"
@@ -187,19 +200,17 @@
         android:layout_width="match_parent"
         android:background="?BrushAnimeItemBackground"
         android:layout_height="55dp" android:orientation="horizontal">
-
       <TextView
           android:layout_width="0dp"
           android:layout_weight="1"
           android:id="@+id/AnimeGridItemTitle"
           android:layout_height="wrap_content"
           android:layout_margin="5dp"
-          android:textSize="18sp"
+          android:textSize="16sp"
           android:textColor="?BrushText"
           android:ellipsize="end"
           android:scrollHorizontally="false"
           android:maxLines="2" />
-
       <ImageButton android:layout_width="wrap_content"
           android:layout_height="match_parent"
           android:id="@+id/AnimeGridItemMoreButton"

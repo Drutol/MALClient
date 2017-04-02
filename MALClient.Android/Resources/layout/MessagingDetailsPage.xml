@@ -42,7 +42,7 @@
           android:layout_width="wrap_content" android:clickable="true" android:focusable="true" android:foreground="?selectableItemBackground"
           android:layout_height="wrap_content" android:background="?AccentColourDark" android:padding="5dp" android:id="@+id/MessagingDetailsPageSendButton">
         <ImageView
-            android:layout_width="wrap_content"
+            android:layout_width="wrap_content" android:tint="#fff"
             android:layout_height="wrap_content" android:src="@drawable/icon_send"/>
       </FrameLayout>
       <ProgressBar

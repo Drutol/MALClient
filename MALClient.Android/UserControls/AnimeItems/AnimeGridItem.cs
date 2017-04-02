@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
+using Android.Graphics;
 using Android.OS;
 using Android.Runtime;
 using Android.Util;
@@ -18,6 +19,7 @@ using GalaSoft.MvvmLight.Helpers;
 using MALClient.Android.DIalogs;
 using MALClient.Android.Flyouts;
 using MALClient.Android.Listeners;
+using MALClient.Android.Resources;
 using MALClient.XShared.ViewModels;
 
 namespace MALClient.Android.UserControls
@@ -85,12 +87,23 @@ namespace MALClient.Android.UserControls
 
             if (string.IsNullOrEmpty(ViewModel.TopLeftInfoBind))
             {
-                AnimeGridItemToLeftInfo.Visibility = ViewStates.Gone;
+                AnimeGridItemTopLeftInfo.Visibility = ViewStates.Gone;
             }
             else
             {
-                AnimeGridItemToLeftInfo.Visibility = ViewStates.Visible;
-                AnimeGridItemToLeftInfo.Text = ViewModel.TopLeftInfoBind;
+                AnimeGridItemTopLeftInfo.Visibility = ViewStates.Visible;
+                AnimeGridItemTopLeftInfoMain.Text = ViewModel.TopLeftInfoBind;
+                if (ViewModel.AirDayBrush == true)
+                {
+                    AnimeGridItemTopLeftInfoMain.SetTextColor(new Color(80,80,80)); //gray
+                    AnimeGridItemTopLeftInfoSub.Text = ViewModel.AirDayTillBind;
+                    AnimeGridItemTopLeftInfoSub.Visibility = ViewStates.Visible;
+                }
+                else
+                {
+                    AnimeGridItemTopLeftInfoMain.SetTextColor(new Color(255, 255, 255));
+                    AnimeGridItemTopLeftInfoSub.Visibility = ViewStates.Gone;
+                }
             }
 
             AnimeGridItemTagsButton.Visibility = ViewModel.TagsControlVisibility ? ViewStates.Visible : ViewStates.Invisible;
@@ -99,29 +112,38 @@ namespace MALClient.Android.UserControls
             AnimeGridItemTopRightInfo.Visibility = ViewModel.Auth ? ViewStates.Visible : ViewStates.Gone;
             AnimeGridItemAddToListButton.SetOnClickListener(new OnClickListener(view => ViewModel.AddAnimeCommand.Execute(null)));
             AnimeGridItemWatchedStatusButton.SetOnClickListener(new OnClickListener(view => ShowWatchedDialog()));
+            ViewModel.PropertyChanged += ViewModelOnPropertyChanged;
+
+
+            AnimeGridItemCurrentWatchingStatus.Text = ViewModel.MyStatusBindShort;
+            AnimeGridItemWatchedStatus.Text = ViewModel.MyEpisodesBindShort;
+            AnimeGridItemScore.Text = ViewModel.MyScoreBindShort;
+            AnimeGridItemAddToListButton.Visibility = ViewModel.AddToListVisibility ? ViewStates.Visible : ViewStates.Gone;
+
         }
 
-        protected override void CreateBindings()
+        private void ViewModelOnPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
         {
-            Bindings.Add(this.SetBinding(() => ViewModel.MyStatusBindShort).WhenSourceChanges(() =>
+            switch (propertyChangedEventArgs.PropertyName)
             {
-                AnimeGridItemCurrentWatchingStatus.Text = ViewModel.MyStatusBindShort;
-            }));
+                case nameof(ViewModel.MyStatusBindShort):
+                    AnimeGridItemCurrentWatchingStatus.Text = ViewModel.MyStatusBindShort;
+                    break;
+                case nameof(ViewModel.MyEpisodesBindShort):
+                    AnimeGridItemWatchedStatus.Text = ViewModel.MyEpisodesBindShort;
+                    break;
+                case nameof(ViewModel.MyScoreBindShort):
+                    AnimeGridItemScore.Text = ViewModel.MyScoreBindShort;
+                    break;
+                case nameof(ViewModel.AddToListVisibility):
+                    AnimeGridItemAddToListButton.Visibility = ViewModel.AddToListVisibility ? ViewStates.Visible : ViewStates.Gone;
+                    break;
+            }
+        }
 
-            Bindings.Add(this.SetBinding(() => ViewModel.MyEpisodesBindShort).WhenSourceChanges(() =>
-            {
-                AnimeGridItemWatchedStatus.Text = ViewModel.MyEpisodesBindShort;
-            }));
-
-            Bindings.Add(this.SetBinding(() => ViewModel.MyScoreBindShort).WhenSourceChanges(() =>
-            {
-                AnimeGridItemScore.Text = ViewModel.MyScoreBindShort;
-            }));
-
-            Bindings.Add(this.SetBinding(() => ViewModel.AddToListVisibility).WhenSourceChanges(() =>
-            {
-                AnimeGridItemAddToListButton.Visibility = ViewModel.AddToListVisibility ? ViewStates.Visible : ViewStates.Gone;
-            }));
+        protected override void CleanupPreviousModel()
+        {
+            ViewModel.PropertyChanged -= ViewModelOnPropertyChanged;
         }
 
         protected override void BindModelBasic()
@@ -277,7 +299,9 @@ namespace MALClient.Android.UserControls
         private RelativeLayout _animeGridItemBackSurfaceSubtract;
         private ProgressBar _animeGridItemImgPlaceholder;
         private ImageViewAsync _animeGridItemImage;
-        private TextView _animeGridItemToLeftInfo;
+        private TextView _animeGridItemTopLeftInfoMain;
+        private TextView _animeGridItemTopLeftInfoSub;
+        private LinearLayout _animeGridItemTopLeftInfo;
         private TextView _animeGridItemCurrentWatchingStatus;
         private TextView _animeGridItemWatchedStatus;
         private FrameLayout _animeGridItemWatchedStatusButton;
@@ -291,7 +315,6 @@ namespace MALClient.Android.UserControls
         private TextView _animeGridItemTitle;
         private ImageButton _animeGridItemMoreButton;
 
-
         public RelativeLayout AnimeGridItemBackSurfaceAdd => _animeGridItemBackSurfaceAdd ?? (_animeGridItemBackSurfaceAdd = FindViewById<RelativeLayout>(Resource.Id.AnimeGridItemBackSurfaceAdd));
 
         public RelativeLayout AnimeGridItemBackSurfaceSubtract => _animeGridItemBackSurfaceSubtract ?? (_animeGridItemBackSurfaceSubtract = FindViewById<RelativeLayout>(Resource.Id.AnimeGridItemBackSurfaceSubtract));
@@ -300,7 +323,11 @@ namespace MALClient.Android.UserControls
 
         public ImageViewAsync AnimeGridItemImage => _animeGridItemImage ?? (_animeGridItemImage = FindViewById<ImageViewAsync>(Resource.Id.AnimeGridItemImage));
 
-        public TextView AnimeGridItemToLeftInfo => _animeGridItemToLeftInfo ?? (_animeGridItemToLeftInfo = FindViewById<TextView>(Resource.Id.AnimeGridItemToLeftInfo));
+        public TextView AnimeGridItemTopLeftInfoMain => _animeGridItemTopLeftInfoMain ?? (_animeGridItemTopLeftInfoMain = FindViewById<TextView>(Resource.Id.AnimeGridItemTopLeftInfoMain));
+
+        public TextView AnimeGridItemTopLeftInfoSub => _animeGridItemTopLeftInfoSub ?? (_animeGridItemTopLeftInfoSub = FindViewById<TextView>(Resource.Id.AnimeGridItemTopLeftInfoSub));
+
+        public LinearLayout AnimeGridItemTopLeftInfo => _animeGridItemTopLeftInfo ?? (_animeGridItemTopLeftInfo = FindViewById<LinearLayout>(Resource.Id.AnimeGridItemTopLeftInfo));
 
         public TextView AnimeGridItemCurrentWatchingStatus => _animeGridItemCurrentWatchingStatus ?? (_animeGridItemCurrentWatchingStatus = FindViewById<TextView>(Resource.Id.AnimeGridItemCurrentWatchingStatus));
 
@@ -325,6 +352,8 @@ namespace MALClient.Android.UserControls
         public TextView AnimeGridItemTitle => _animeGridItemTitle ?? (_animeGridItemTitle = FindViewById<TextView>(Resource.Id.AnimeGridItemTitle));
 
         public ImageButton AnimeGridItemMoreButton => _animeGridItemMoreButton ?? (_animeGridItemMoreButton = FindViewById<ImageButton>(Resource.Id.AnimeGridItemMoreButton));
+
+
 
 
         #endregion

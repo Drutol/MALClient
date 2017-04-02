@@ -16,6 +16,7 @@ using MALClient.Android.Resources;
 using MALClient.Models.Enums;
 using MALClient.Models.Models.MalSpecific;
 using MALClient.XShared.ViewModels;
+using Orientation = Android.Content.Res.Orientation;
 
 namespace MALClient.Android.Fragments.HistoryFragments
 {
@@ -77,10 +78,25 @@ namespace MALClient.Android.Fragments.HistoryFragments
 
         private View GetTemplateDelegate(int i, MalProfileHistoryEntry malProfileHistoryEntry, View arg3)
         {
-            var view = new FrameLayout(Activity) { LayoutParameters = new ViewGroup.LayoutParams(-1, -2) };
+            ViewGroup view;
 
             var txt1params = new FrameLayout.LayoutParams(-2, -2);
-            txt1params.Gravity = GravityFlags.Start;
+            var txt2params = new FrameLayout.LayoutParams(-2, -2);
+
+            if (Context.Resources.Configuration.Orientation == Orientation.Landscape)
+            {
+                view = new FrameLayout(Context) { LayoutParameters = new ViewGroup.LayoutParams(-1, -2) };
+                txt1params.Gravity = GravityFlags.Start;
+                txt2params.Gravity = GravityFlags.End;
+            }
+            else
+            {
+                view = new LinearLayout(Context) { LayoutParameters = new ViewGroup.LayoutParams(-1, -2) };
+                
+                ((LinearLayout)view).Orientation = global::Android.Widget.Orientation.Vertical;
+                ((LinearLayout)view).SetGravity(GravityFlags.CenterHorizontal);
+            }
+
             var txt1 = new TextView(Activity)
             {
                 LayoutParameters = txt1params,
@@ -89,8 +105,6 @@ namespace MALClient.Android.Fragments.HistoryFragments
             txt1.SetTextColor(new Color(ResourceExtension.BrushText));
 
 
-            var txt2params = new FrameLayout.LayoutParams(-2, -2);
-            txt2params.Gravity = GravityFlags.End;
             var txt2 = new TextView(Activity)
             {
                 LayoutParameters = txt2params,
@@ -101,6 +115,8 @@ namespace MALClient.Android.Fragments.HistoryFragments
 
             view.AddView(txt1);
             view.AddView(txt2);
+
+
 
             return view;
         }

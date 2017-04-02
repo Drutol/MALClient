@@ -40,5 +40,7 @@
     <attr name="AccentColourLight" format="reference"/>
     <attr name="OpaqueAccentColour" format="reference"/>
     <attr name="AccentColourContrast" format="reference"/>
+    <attr name="BrushMessageBubbleMine" format="reference"/>
+    <attr name="BrushMessageBubbleOther" format="reference"/>
   </declare-styleable>
 </resources>

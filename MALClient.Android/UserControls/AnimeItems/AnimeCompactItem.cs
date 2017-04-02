@@ -87,6 +87,18 @@ namespace MALClient.Android.UserControls.AnimeItems
                 AnimeCompactItemWatchedButton.SetOnClickListener(new OnClickListener(view => ShowWatchedDialog()));
 
             RootContainer.SetOnClickListener(new OnClickListener(v => ContainerOnClick()));
+
+            ViewModel.PropertyChanged += ViewModelOnPropertyChanged;
+
+            AnimeCompactItemWatchedButton.Text = ViewModel.MyStatusBind;
+            AnimeCompactItemStatusLabel.Text = ViewModel.MyEpisodesBind;
+            AnimeCompactItemScoreLabel.Text = ViewModel.MyScoreBind;
+            AnimeCompactItemIncButton.Visibility = ViewModel.IncrementEpsVisibility
+                ? ViewStates.Visible
+                : ViewStates.Gone;
+            AnimeCompactItemDecButton.Visibility = ViewModel.DecrementEpsVisibility
+                ? ViewStates.Visible
+                : ViewStates.Gone;
         }
 
         protected override void BindModelBasic()
@@ -103,43 +115,39 @@ namespace MALClient.Android.UserControls.AnimeItems
             AnimeCompactItemTagsButton.Visibility = ViewModel.TagsControlVisibility
                 ? ViewStates.Visible
                 : ViewStates.Gone;
+
+
         }
 
-        protected override void CreateBindings()
+        private void ViewModelOnPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
         {
-            Bindings.Add(this.SetBinding(() => ViewModel.MyStatusBindShort).WhenSourceChanges(() =>
+            switch (propertyChangedEventArgs.PropertyName)
             {
-                AnimeCompactItemWatchedButton.Text = ViewModel.MyStatusBind;
-            }));
-
-            Bindings.Add(this.SetBinding(() => ViewModel.MyEpisodesBindShort).WhenSourceChanges(() =>
-            {
-                AnimeCompactItemStatusLabel.Text = ViewModel.MyEpisodesBind;
-            }));
-
-            Bindings.Add(this.SetBinding(() => ViewModel.MyScoreBindShort).WhenSourceChanges(() =>
-            {
-                AnimeCompactItemScoreLabel.Text = ViewModel.MyScoreBind;
-            }));
-
-            Bindings.Add(this.SetBinding(() => ViewModel.IncrementEpsVisibility).WhenSourceChanges(() =>
-            {
-                AnimeCompactItemIncButton.Visibility = ViewModel.IncrementEpsVisibility
-                    ? ViewStates.Visible
-                    : ViewStates.Gone;
-            }));
-
-            Bindings.Add(this.SetBinding(() => ViewModel.DecrementEpsVisibility).WhenSourceChanges(() =>
-            {
-                AnimeCompactItemDecButton.Visibility = ViewModel.DecrementEpsVisibility
-                    ? ViewStates.Visible
-                    : ViewStates.Gone;
-            }));
+                case nameof(ViewModel.MyStatusBindShort):
+                    AnimeCompactItemWatchedButton.Text = ViewModel.MyStatusBind;
+                    break;
+                case nameof(ViewModel.MyEpisodesBindShort):
+                    AnimeCompactItemStatusLabel.Text = ViewModel.MyEpisodesBind;
+                    break;
+                case nameof(ViewModel.MyScoreBindShort):
+                    AnimeCompactItemScoreLabel.Text = ViewModel.MyScoreBind;
+                    break;
+                case nameof(ViewModel.IncrementEpsVisibility):
+                    AnimeCompactItemIncButton.Visibility = ViewModel.IncrementEpsVisibility
+                        ? ViewStates.Visible
+                        : ViewStates.Gone;
+                    break;
+                case nameof(ViewModel.DecrementEpsVisibility):
+                    AnimeCompactItemDecButton.Visibility = ViewModel.DecrementEpsVisibility
+                        ? ViewStates.Visible
+                        : ViewStates.Gone;
+                    break;
+            }
         }
 
-        protected override void RootContainerInit()
+        protected override void CleanupPreviousModel()
         {
-
+            ViewModel.PropertyChanged -= ViewModelOnPropertyChanged;
         }
 
         private DroppyMenuPopup _tagsMenu;

@@ -35,30 +35,38 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
 
         protected override void InitBindings()
         {
-            
+
             Bindings.Add(
                 this.SetBinding(() => ViewModel.EmptyRecentAnimeNoticeVisibility,
                         () => ProfilePageRecentUpdatesTabAnimeListEmptyNotice.Visibility)
                     .ConvertSourceToTarget(Converters.BoolToVisibility));
 
-            
+
             Bindings.Add(
                 this.SetBinding(() => ViewModel.EmptyRecentMangaNoticeVisibility,
-                    () => ProfilePageRecentUpdatesTabMangaListEmptyNotice.Visibility)
+                        () => ProfilePageRecentUpdatesTabMangaListEmptyNotice.Visibility)
                     .ConvertSourceToTarget(Converters.BoolToVisibility));
 
-            
+
             Bindings.Add(
                 this.SetBinding(() => ViewModel.RecentAnime).WhenSourceChanges(() =>
                 {
-                    ProfilePageRecentUpdatesTabAnimeList.SetAnimeListAdapter(Context, ViewModel.RecentAnime,AnimeListDisplayModes.IndefiniteCompactList,OnItemClickAction);
+                    if (ViewModel.RecentAnime?.Any() ?? false)
+                        ProfilePageRecentUpdatesTabAnimeList.SetAnimeListAdapter(Context, ViewModel.RecentAnime,
+                            AnimeListDisplayModes.IndefiniteList, OnItemClickAction);
+                    else
+                        ProfilePageRecentUpdatesTabAnimeList.RemoveAllViews();
                 }));
 
-            
+
             Bindings.Add(
                 this.SetBinding(() => ViewModel.RecentManga).WhenSourceChanges(() =>
                 {
-                    ProfilePageRecentUpdatesTabAnimeList.SetAnimeListAdapter(Context, ViewModel.RecentManga, AnimeListDisplayModes.IndefiniteCompactList, OnItemClickAction);
+                    if (ViewModel.RecentManga?.Any() ?? false)
+                        ProfilePageRecentUpdatesTabMangaList.SetAnimeListAdapter(Context, ViewModel.RecentManga,
+                            AnimeListDisplayModes.IndefiniteList, OnItemClickAction);
+                    else
+                        ProfilePageRecentUpdatesTabMangaList.RemoveAllViews();
                 }));
         }
 

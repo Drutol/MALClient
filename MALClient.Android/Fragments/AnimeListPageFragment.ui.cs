@@ -116,7 +116,7 @@ namespace MALClient.Android.Fragments
                 Focusable = true
             };
             b1.SetImageResource(icon);
-            b1.ImageTintList = ColorStateList.ValueOf(new Color(ResourceExtension.BrushText));
+            b1.ImageTintList = ColorStateList.ValueOf(new Color(255,255,255));
             b1.BackgroundTintList = ColorStateList.ValueOf(new Color(ResourceExtension.AccentColourContrast));
             b1.SetPadding(padding, padding, padding, padding);
             b1.Tag = icon;
@@ -146,91 +146,6 @@ namespace MALClient.Android.Fragments
                     OpenTopTypeDrawer();
                     break;
             }
-        }
-
-
-        //private void ShowSeasonMenu()
-        //{
-        //    _seasonMenu = AnimeListPageFlyoutBuilder.BuildForAnimeSeasonSelection(Activity, AnimeListPageSeasonMenu,
-        //        SelectSeason, ViewModel);
-        //    _seasonMenu.Show();
-        //    var spinnerYear = _seasonMenu.MenuView.FindViewById<Spinner>(Resource.Id.SeasonSelectionPopupYearComboBox);
-        //    var spinnerSeason = _seasonMenu.MenuView.FindViewById<Spinner>(Resource.Id.SeasonSelectionPopupSeasonComboBox);
-        //    spinnerYear.Adapter = ViewModel.SeasonYears.GetAdapter((i, s, arg3) =>
-        //    {
-        //        var view = arg3 ?? BuildBaseItem(Activity, s, ResourceExtension.BrushAnimeItemInnerBackground, null, false);
-        //        view.Tag = s.Wrap();
-
-        //        return view;
-        //    });
-        //    spinnerYear.ItemSelected += (sender, args) =>
-        //    {
-        //        ViewModel.CurrentlySelectedCustomSeasonYear = (sender as Spinner).SelectedView.Tag.Unwrap<string>();
-        //    };
-        //    spinnerSeason.Adapter = ViewModel.SeasonSeasons.GetAdapter((i, s, arg3) =>
-        //    {
-        //        var view = arg3 ?? BuildBaseItem(Activity, s,ResourceExtension.BrushAnimeItemInnerBackground,null,false);
-        //        view.Tag = s.Wrap();
-
-        //        return view;
-        //    });
-        //    spinnerSeason.ItemSelected += (sender, args) =>
-        //    {
-        //        ViewModel.CurrentlySelectedCustomSeasonSeason = (sender as Spinner).SelectedView.Tag.Unwrap<string>();
-        //    };
-        //    _seasonMenu.MenuView.FindViewById(Resource.Id.SeasonSelectionPopupAcceptButton).SetCommand("Click",ViewModel.GoToCustomSeasonCommand);
-
-        //}
-
-        private void SelectSeason(int season)
-        {
-            ViewModel.SeasonalUrlsSelectedIndex = season;
-        }
-
-        private void ShowSortMenu()
-        {
-            _sortingMenu = AnimeListPageFlyoutBuilder.BuildForAnimeSortingSelection(MainActivity.CurrentContext,
-                AnimeListPageSortMenu,
-                OnSortingMenuSelectionChanged, ViewModel.SortOption);
-            _sortingMenu.Show();
-        }
-
-        private void ShowFilterMenu()
-        {
-            _filterMenu = AnimeListPageFlyoutBuilder.BuildForAnimeStatusSelection(MainActivity.CurrentContext,
-                AnimeListPageFilterMenu,
-                OnFilterMenuSelectionChanged, (AnimeStatus) ViewModel.CurrentStatus,ViewModel.IsMangaWorkMode);
-            _filterMenu.Show();
-        }
-
-        private void ShowDisplayMenu()
-        {
-            _displayMenu = AnimeListPageFlyoutBuilder.BuildForAnimeListDisplayModeSelection(MainActivity.CurrentContext,
-                AnimeListPageDisplayMenu, ViewModel.DisplayModes, OnDisplayModeSelectionChanged, ViewModel.DisplayMode);
-            _displayMenu.Show();
-        }
-
-        private void OnDisplayModeSelectionChanged(AnimeListDisplayModes animeListDisplayModes)
-        {
-            ViewModel.CurrentlySelectedDisplayMode = new Tuple<AnimeListDisplayModes, string>(animeListDisplayModes,"");
-            _displayMenu.Dismiss(true);
-            _displayMenu = null;
-        }
-
-        private void OnSortingMenuSelectionChanged(SortOptions option)
-        {
-            ViewModel.SetSortOrder(option);
-            ViewModel.RefreshList();
-            _sortingMenu.Dismiss(true);
-            _sortingMenu = null;
-        }
-
-        private void OnFilterMenuSelectionChanged(AnimeStatus status)
-        {
-            ViewModel.CurrentStatus = (int)status;
-            ViewModel.RefreshList();
-            _filterMenu.Dismiss(true);
-            _filterMenu = null;
         }
 
         private async void AnimeListOnPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)

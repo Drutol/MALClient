@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -45,25 +46,11 @@ namespace MALClient.Android
             ViewModelLocator.RegisterBase();
             AndroidViewModelLocator.RegisterDependencies();
             InitializationRoutines.InitApp();
+            //ServicePointManager.ServerCertificateValidationCallback += (o, certificate, chain, errors) => true;
+            
             base.OnCreate();
         }
 
-        private class MiniLogger : IMiniLogger
-        {
-            public void Debug(string message)
-            {
-                //System.Diagnostics.Debug.WriteLine(message);
-            }
-
-            public void Error(string errorMessage)
-            {
-                //System.Diagnostics.Debug.WriteLine(errorMessage);
-            }
-
-            public void Error(string errorMessage, Exception ex)
-            {
-
-            }
-        }
+       
     }
 }

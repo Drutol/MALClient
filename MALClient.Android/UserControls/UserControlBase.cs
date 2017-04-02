@@ -16,9 +16,6 @@ namespace MALClient.Android.UserControls
 {
     public abstract class UserControlBase<TViewModel,TViewRootType> : FrameLayout where TViewRootType : ViewGroup
     {
-        protected readonly List<Binding> Bindings = new List<Binding>();
-        protected readonly List<Binding> FlingBindings = new List<Binding>();
-
         protected TViewRootType RootContainer;
         protected TViewModel ViewModel { get; private set; }
 
@@ -53,32 +50,40 @@ namespace MALClient.Android.UserControls
 
         public void BindModel(TViewModel model,bool fling)
         {
-            bool firstRun = ViewModel == null;
+            var firstRun = false;
+            if (ViewModel == null)
+            {
+                firstRun = true;
+            }
+            else if(!fling)
+            {
+                CleanupPreviousModel();
+            }
+
             ViewModel = model;
             if (firstRun)
-            {
                 RootContainerInit();
-                CreateBindings();
-            }
-            else
-                foreach (var binding in Bindings)
-                    binding.ForceUpdateValueFromSourceToTarget();
+
             BindModelBasic();
             if (fling)
                 BindModelFling();
             else
-            {
-                foreach (var binding in FlingBindings)
-                    binding.ForceUpdateValueFromSourceToTarget();
                 BindModelFull();
-            }
         }
 
         protected abstract void BindModelFling();
         protected abstract void BindModelFull();
         protected abstract void BindModelBasic();
-        protected abstract void CreateBindings();
-        protected abstract void RootContainerInit();
+
+        protected virtual void RootContainerInit()
+        {
+
+        }
+
+        protected virtual void CleanupPreviousModel()
+        {
+            
+        }
 
         private void Init()
         {

@@ -127,9 +127,7 @@ namespace MALClient.Android.BackgroundTasks
             if (watchedTopicsUpdated)
                 ResourceLocator.HandyDataStorage.WatchedTopics.SaveData();
 
-            var allTriggeredNotifications = string.Empty;
-                //(string)
-                //(ResourceLocator.ApplicationDataService[nameof(RoamingDataTypes.ReadNotifications)] ?? string.Empty);
+            var allTriggeredNotifications = (string)(ResourceLocator.ApplicationDataService[nameof(RoamingDataTypes.ReadNotifications)] ?? string.Empty);
             var triggeredNotifications = allTriggeredNotifications.Split(';').ToList();
 
             //trigger new notifications

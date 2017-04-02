@@ -14,6 +14,7 @@ using FFImageLoading.Views;
 using GalaSoft.MvvmLight.Helpers;
 using MALClient.Android.BindingConverters;
 using MALClient.Android.CollectionAdapters;
+using MALClient.Android.UserControls.ForumItems;
 using MALClient.Models.Enums;
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Forums;
@@ -32,23 +33,24 @@ namespace MALClient.Android.Fragments.ForumFragments.Tabs
 
         protected override void InitBindings()
         {
-            ForumIndexPageBoardsTabListView.Adapter = ViewModel.Boards.GetAdapter(GetSectionTemplateDelegate);
+            ForumIndexPageBoardsTabListView.InjectFlingAdapter(ViewModel.Boards.SelectMany(group => group.Items).ToList(),DataTemplateFull, DataTemplateFling, ContainerTemplate);
         }
 
-        private View GetSectionTemplateDelegate(int i, ForumIndexViewModel.ForumBoardEntryGroup forumBoardEntryGroup, View arg3)
+        private View ContainerTemplate(int i)
         {
-            var view = arg3;
-            if (view == null)
-            {
-                view = Activity.LayoutInflater.Inflate(Resource.Layout.ForumsIndexSectionItem, null);
-            }
-
-            view.FindViewById<TextView>(Resource.Id.ForumsIndexSectionItemListHeader).Text = forumBoardEntryGroup.Group;
-            view.FindViewById<LinearLayout>(Resource.Id.ForumsIndexSectionItemList).SetAdapter(new ForumBoardListAdapter(Activity,
-                Resource.Layout.ForumIndexPageBoardItem,forumBoardEntryGroup.Items));
-
-            return view;
+            return new ForumIndexItem(Context,ViewModel);
         }
+
+        private void DataTemplateFling(View view, int i, ForumBoardEntryViewModel arg3)
+        {
+            ((ForumIndexItem)view).BindModel(arg3,true);
+        }
+
+        private void DataTemplateFull(View view, int i, ForumBoardEntryViewModel arg3)
+        {
+            ((ForumIndexItem)view).BindModel(arg3, false);
+        }
+
 
         public override int LayoutResourceId => Resource.Layout.ForumIndexPageBoardsTab;
 

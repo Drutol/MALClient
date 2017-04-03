@@ -126,7 +126,7 @@ namespace MALClient.Android.Fragments
                 (sender, args) =>
                 {
                    _menu = AnimeDetailsPageMoreFlyoutBuilder.BuildForAnimeDetailsPage(Activity, AnimeDetailsPageMoreButton,
-                        ViewModel);
+                        OnMoreFlyoutClick);
                    _menu.Show();
                 };
             AnimeDetailsPageAddButton.SetCommand("Click",ViewModel.AddAnimeCommand);
@@ -147,6 +147,33 @@ namespace MALClient.Android.Fragments
             AnimeDetailsPageReadVolumesButton.Click += AnimeDetailsPageVolumesButtonOnClick;
 
 
+        }
+
+        private void OnMoreFlyoutClick(int i)
+        {
+            switch (i)
+            {
+                case 0:
+                    ViewModel.NavigateForumBoardCommand.Execute(null);
+                    break;
+                case 1:
+                    AnimeDetailsPageDialogBuilder.BuildPromotionalVideoDialog(ViewModel);
+                    break;
+                case 2:
+                    AnimeUpdateDialogBuilder.BuildTagDialog(ViewModel);
+                    break;
+                case 3:
+                    ViewModel.CopyToClipboardCommand.Execute(null);
+                    break;
+                case 4:
+                    ViewModel.OpenInMalCommand.Execute(null);
+                    break;
+                case 5:
+                    ViewModel.RemoveAnimeCommand.Execute(null);
+                    break;
+            }
+            _menu?.Dismiss(true);
+            _menu = null;
         }
 
         private void AnimeDetailsPageWatchedButtonOnClick(object sender, EventArgs eventArgs)

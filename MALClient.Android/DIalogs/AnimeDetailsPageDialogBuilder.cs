@@ -37,7 +37,7 @@ namespace MALClient.Android.DIalogs
             var dialogBuilder = DialogPlus.NewDialog(MainActivity.CurrentContext);
             dialogBuilder.SetGravity((int) GravityFlags.Center);
             dialogBuilder.SetContentHolder(new ViewHolder(Resource.Layout.AnimeDetailsPageVideosDialog));
-            dialogBuilder.SetContentBackgroundResource(ResourceExtension.BrushFlyoutBackgroundRes);
+            dialogBuilder.SetContentBackgroundResource(Resource.Color.Transparent);
             dialogBuilder.SetOnDismissListener(
                 new DialogDismissedListener(() => ViewModelLocator.NavMgr.ResetOneTimeOverride()));
             ViewModelLocator.NavMgr.RegisterOneTimeMainOverride(new RelayCommand(CleanupVideosDialog));

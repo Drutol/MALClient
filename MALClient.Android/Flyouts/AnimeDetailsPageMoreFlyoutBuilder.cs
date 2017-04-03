@@ -18,37 +18,14 @@ namespace MALClient.Android.Flyouts
 {
     public static class AnimeDetailsPageMoreFlyoutBuilder
     {
-        public static DroppyMenuPopup BuildForAnimeDetailsPage(Context context,View parent,AnimeDetailsPageViewModel viewModel)
+        public static DroppyMenuPopup BuildForAnimeDetailsPage(Context context,View parent,Action<int> listener)
         {
             AnimeListPageFlyoutBuilder.ParamRelativeLayout = new ViewGroup.LayoutParams(DimensionsHelper.DpToPx(150), DimensionsHelper.DpToPx(38));
 
             var droppyBuilder = new DroppyMenuPopup.Builder(context, parent);
             AnimeListPageFlyoutBuilder.InjectAnimation(droppyBuilder);
 
-            Action<int> listener = i =>
-            {
-                switch (i)
-                {
-                    case 0:
-                        viewModel.NavigateForumBoardCommand.Execute(null);
-                        break;
-                    case 1:
-                        AnimeDetailsPageDialogBuilder.BuildPromotionalVideoDialog(viewModel);
-                        break;
-                    case 2:
-                        AnimeUpdateDialogBuilder.BuildTagDialog(viewModel);
-                        break;
-                    case 3:
-                        viewModel.CopyToClipboardCommand.Execute(null);
-                        break;
-                    case 4:
-                        viewModel.OpenInMalCommand.Execute(null);
-                        break;
-                    case 5:
-                        viewModel.RemoveAnimeCommand.Execute(null);
-                        break;
-                }
-            };
+            
 
             droppyBuilder.AddMenuItem(new DroppyMenuCustomItem(AnimeListPageFlyoutBuilder.BuildItem(context, "Forum board", listener, 0)));
             droppyBuilder.AddMenuItem(new DroppyMenuCustomItem(AnimeListPageFlyoutBuilder.BuildItem(context, "Promotional videos", listener, 1)));

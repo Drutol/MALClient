@@ -184,8 +184,9 @@ namespace MALClient.Android.DIalogs
             _tagsDialog = dialogBuilder.Create();
             var view = _tagsDialog.HolderView;
 
-            view.FindViewById<ListView>(Resource.Id.AnimeTagsDialogList).Adapter =
-                viewModel.MyTags.GetAdapter(GetTagItem);
+            var list = view.FindViewById<ListView>(Resource.Id.AnimeTagsDialogList);
+            list.EmptyView = view.FindViewById(Resource.Id.AnimeTagsDialogEmptyNotice);
+            list.Adapter = viewModel.MyTags.GetAdapter(GetTagItem);
             var editBox = view.FindViewById<EditText>(Resource.Id.AnimeTagsDialogEditBox);
 
             _tagsDialogBindings.Add(new Binding<string, string>(

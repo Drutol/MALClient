@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
@@ -69,7 +70,15 @@ namespace MALClient.Android.Fragments.ForumFragments
                 Resource.Animator.animation_slide_btm,
                 Resource.Animator.animation_fade_out);
             trans.Replace(Resource.Id.ForumsContentFrame, fragment);
-            trans.Commit();
+            try
+            {
+                trans.Commit();
+            }
+            catch (Exception e)
+            {
+                Debugger.Break();
+            }
+
         }
 
         protected override void InitBindings()

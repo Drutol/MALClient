@@ -1,20 +1,32 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:padding="10dp"
-              android:orientation="vertical"
-              android:background="?BrushFlyoutBackground">
-  <ListView android:layout_width="wrap_content"
-            android:layout_height="150dp" android:id="@+id/AnimeTagsDialogList" />
-  <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-                android:orientation="horizontal" android:paddingTop="10dp">
-    <EditText android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
-              android:id="@+id/AnimeTagsDialogEditBox" />
-    <ImageButton android:id="@+id/AnimeTagsDialogAddTagButton" android:layout_width="40dp" android:layout_height="40dp"
-                 android:background="?android:selectableItemBackground" android:layout_marginStart="5dp"
-                 android:src="@drawable/icon_ok" />
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="?BrushAnimeItemBackground">
+  <FrameLayout
+      android:layout_width="match_parent"
+      android:layout_height="190dp" android:layout_marginTop="20dp" >
+    <ListView android:layout_width="match_parent" android:layout_margin="10dp" android:dividerHeight="5dp"
+        android:layout_height="match_parent" android:id="@+id/AnimeTagsDialogList" android:divider="@color/Transparent" />
+    <TextView
+        android:layout_width="wrap_content" android:layout_gravity="center" android:id="@+id/AnimeTagsDialogEmptyNotice"
+        android:layout_height="wrap_content" android:text="No tags..." android:textColor="?BrushNoSearchResults"/>
+  </FrameLayout>
+  <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="10dp" android:gravity="center_vertical"
+      android:orientation="horizontal" android:paddingTop="10dp" android:background="?BrushAnimeItemInnerBackground">
+    <LinearLayout
+        android:layout_width="0dp" android:layout_weight="1"
+        android:layout_height="wrap_content" android:orientation="vertical">
+      <TextView
+          android:layout_width="wrap_content" android:textColor="?BrushText" android:fontFamily="@string/font_family_light"
+          android:layout_height="wrap_content" android:text="Add new tag:"/>
+      <EditText android:layout_width="match_parent" android:layout_height="wrap_content"
+          android:id="@+id/AnimeTagsDialogEditBox" android:maxLines="1"/>
+    </LinearLayout>
 
+    <ImageButton android:id="@+id/AnimeTagsDialogAddTagButton" android:layout_width="40dp" android:layout_height="40dp"
+        android:layout_marginStart="5dp" android:background="?AccentColourDark"
+        android:src="@drawable/icon_ok"/>
   </LinearLayout>
 </LinearLayout>

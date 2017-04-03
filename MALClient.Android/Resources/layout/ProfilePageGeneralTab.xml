@@ -1,89 +1,90 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:background="?BrushDeepBackground">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="?BrushDeepBackground">
 
   <ScrollView
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <LinearLayout
       android:layout_width="match_parent"
-      android:layout_height="wrap_content" android:orientation="vertical">
+      android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" android:orientation="vertical">
       <LinearLayout android:background="?BrushAnimeItemBackground" android:layout_gravity="center_vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-        <FFImageLoading.Views.ImageViewAsync
-          android:layout_width="150dp" android:id="@+id/ProfilePageGeneralTabAnimeUserImg"
-          android:layout_height="150dp" android:layout_margin="10dp" />
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content">
+        <FrameLayout android:layout_gravity="center_vertical"
+            android:layout_width="wrap_content" android:background="?BrushAnimeItemInnerBackground"
+            android:layout_height="wrap_content">
+          <ImageView
+              android:layout_width="wrap_content" android:id="@+id/ProfilePageGeneralTabImagePlaceholder"
+              android:layout_height="wrap_content" android:layout_gravity="center" android:src="@drawable/icon_help" android:tint="#fff"/>
+          <FFImageLoading.Views.ImageViewAsync
+              android:layout_width="130dp" android:id="@+id/ProfilePageGeneralTabAnimeUserImg"
+              android:layout_height="130dp" android:layout_margin="10dp" />
+        </FrameLayout>
         <LinearLayout
-          android:layout_width="0dp" android:layout_weight="1"
-          android:layout_height="wrap_content" android:orientation="vertical">
+            android:layout_width="0dp" android:layout_weight="1" android:padding="10dp" android:layout_marginTop="10dp"
+            android:layout_height="wrap_content" android:orientation="vertical">
           <LinearLayout
-            android:layout_width="match_parent" android:id="@+id/ProfilePageGeneralTabDetailsList"
-            android:layout_height="wrap_content" android:orientation="vertical" />
-          <LinearLayout android:layout_gravity="center_horizontal"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
-
-            <Button
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content" style="@style/AccentButtonStyle" android:layout_margin="5dp"
-              android:text="Anime list"
-              android:id="@+id/ProfilePageGeneralTabAnimeListButton" />
-
-            <Button
-              android:layout_width="wrap_content" android:id="@+id/ProfilePageGeneralTabMangaListButton"
-              android:layout_height="wrap_content" style="@style/AccentButtonStyle" android:layout_margin="5dp"
-              android:text="Manga list" />
-          </LinearLayout>
-          <LinearLayout android:layout_gravity="center_horizontal"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
-            <Button
-              android:layout_width="wrap_content" android:id="@+id/ProfilePageGeneralTabHistoryButton"
-              android:layout_height="wrap_content" style="@style/AccentButtonStyle" android:layout_margin="5dp"
-              android:text="History" />
-          </LinearLayout>
+              android:layout_width="match_parent" android:id="@+id/ProfilePageGeneralTabDetailsList"
+              android:layout_height="wrap_content" android:orientation="vertical" />
         </LinearLayout>
+
+      </LinearLayout>
+      <LinearLayout android:gravity="center_horizontal"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content" android:background="?BrushAnimeItemInnerBackground">
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" style="@style/AccentButtonStyle" android:layout_margin="5dp"
+            android:text="Anime list"
+            android:id="@+id/ProfilePageGeneralTabAnimeListButton" />
+
+        <Button
+            android:layout_width="wrap_content" android:id="@+id/ProfilePageGeneralTabMangaListButton"
+            android:layout_height="wrap_content" style="@style/AccentButtonStyle" android:layout_margin="5dp"
+            android:text="Manga list" />
+
+        <Button
+            android:layout_width="wrap_content" android:id="@+id/ProfilePageGeneralTabHistoryButton"
+            android:layout_height="wrap_content" style="@style/AccentButtonStyle" android:layout_margin="5dp"
+            android:text="History" />
       </LinearLayout>
       <LinearLayout
-        android:layout_width="match_parent" android:orientation="vertical"
-        android:layout_height="wrap_content" android:background="?BrushAnimeItemInnerBackground">
-        <RelativeLayout
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content" android:padding="10dp">
-          <TextView
-            android:layout_width="wrap_content"
+          android:layout_width="match_parent" android:orientation="vertical"
+          android:layout_height="wrap_content" android:background="?BrushAnimeItemInnerBackground">
+        <TextView
+            android:layout_width="wrap_content" android:layout_gravity="center_horizontal" android:layout_margin="5dp"
             android:layout_height="wrap_content" android:textColor="?AccentColour" android:text="Friends"
             android:textSize="@dimen/FontSizeHuge" android:fontFamily="@string/font_family_light" />
-        </RelativeLayout>
         <MALClient.Android.UserControls.ExpandableGridView android:id="@+id/ProfilePageGeneralTabFriendsGrid"
-                                                           android:layout_width="match_parent"
-                                                           android:layout_height="wrap_content"
-                                                           android:numColumns="auto_fit" />
+            android:layout_width="match_parent" android:paddingStart="5dp" android:paddingEnd="5dp"
+            android:layout_height="wrap_content"
+            android:numColumns="auto_fit" />
       </LinearLayout>
+
       <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" android:padding="10dp" android:orientation="vertical">
-        <TextView
-          android:layout_width="wrap_content" android:layout_gravity="center_horizontal"
-          android:layout_height="wrap_content" android:textColor="?AccentColour" android:text="Comments"
-          android:textSize="@dimen/FontSizeHuge" android:fontFamily="@string/font_family_light" />
-        <EditText
           android:layout_width="match_parent"
-          android:layout_height="wrap_content" android:inputType="textMultiLine" android:hint="Comment..." />
+          android:layout_height="wrap_content" android:padding="10dp" android:orientation="vertical">
+        <TextView
+            android:layout_width="wrap_content" android:layout_gravity="center_horizontal"
+            android:layout_height="wrap_content" android:textColor="?AccentColour" android:text="Comments"
+            android:textSize="@dimen/FontSizeHuge" android:fontFamily="@string/font_family_light" />
+        <EditText
+            android:layout_width="match_parent" android:textColorHint="?BrushNoSearchResults" android:id="@+id/ProfilePageGeneralTabCommentInput"
+            android:layout_height="wrap_content" android:inputType="textMultiLine" android:hint="Comment..." />
         <Button android:layout_marginTop="5dp"
-                android:layout_width="wrap_content" android:id="@+id/ProfilePageGeneralTabSendCommentButton"
-                android:layout_height="wrap_content" style="@style/AccentButtonStyle" android:text="Send Comment"
-                android:padding="5dp" />
+            android:layout_width="wrap_content" android:id="@+id/ProfilePageGeneralTabSendCommentButton"
+            android:layout_height="wrap_content" style="@style/AccentButtonStyle" android:text="Send Comment"
+            android:padding="5dp" />
       </LinearLayout>
       <LinearLayout
-        android:layout_width="match_parent" android:layout_marginTop="5dp" android:dividerPadding="5dp"
-        android:id="@+id/ProfilePageGeneralTabCommentsList"
-        android:layout_height="wrap_content" android:orientation="vertical" />
+          android:layout_width="match_parent" android:layout_marginTop="5dp" android:dividerPadding="5dp"
+          android:id="@+id/ProfilePageGeneralTabCommentsList"
+          android:layout_height="wrap_content" android:orientation="vertical" />
     </LinearLayout>
   </ScrollView>
 </RelativeLayout>

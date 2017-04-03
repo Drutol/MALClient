@@ -37,9 +37,17 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
             Bindings.Add(
                 this.SetBinding(() => ViewModel.CurrentData).WhenSourceChanges(() =>
                 {
-                    ImageService.Instance.LoadUrl(ViewModel.CurrentData.User.ImgUrl)
-                        .Success(ProfilePageGeneralTabAnimeUserImg.AnimateFadeIn)
-                        .Into(ProfilePageGeneralTabAnimeUserImg);
+                    if (string.IsNullOrEmpty(ViewModel.CurrentData.User.ImgUrl))
+                    {
+                        ProfilePageGeneralTabAnimeUserImg.Visibility = ViewStates.Invisible;
+                        ProfilePageGeneralTabImagePlaceholder.Visibility = ViewStates.Visible;
+                    }
+                    else
+                    {
+                        ProfilePageGeneralTabAnimeUserImg.Into(ViewModel.CurrentData.User.ImgUrl);
+                        ProfilePageGeneralTabImagePlaceholder.Visibility = ViewStates.Gone;
+                    }
+
 
                     ProfilePageGeneralTabDetailsList.SetAdapter(
                         ViewModel.CurrentData.Details.GetAdapter(GetDetailTemplateDelegate));
@@ -54,9 +62,14 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
                         ViewModel.CurrentData.Comments.GetAdapter(GetCommentTemplateDelegate));
                 }));
 
+            Bindings.Add(
+                this.SetBinding(() => ViewModel.CommentText,
+                    () => ProfilePageGeneralTabCommentInput.Text,BindingMode.TwoWay));
+
             ProfilePageGeneralTabAnimeListButton.SetCommand(ViewModel.NavigateAnimeListCommand);
             ProfilePageGeneralTabMangaListButton.SetCommand(ViewModel.NavigateMangaListCommand);
             ProfilePageGeneralTabHistoryButton.SetCommand(ViewModel.NavigateHistoryCommand);
+            ProfilePageGeneralTabSendCommentButton.SetCommand(ViewModel.SendCommentCommand);
         }
 
         private View GetCommentTemplateDelegate(int i, MalComment malComment, View convertView)
@@ -82,8 +95,9 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
             view.FindViewById(Resource.Id.ProfilePageGeneralTabCommentItemDeleteButton).Visibility = malComment.CanDelete ? ViewStates.Visible : ViewStates.Gone;
             view.FindViewById(Resource.Id.ProfilePageGeneralTabCommentItemDeleteButton).Visibility = string.IsNullOrEmpty(malComment.ComToCom) ? ViewStates.Gone : ViewStates.Visible;
 
-            view.Tag = malComment.Wrap();
-            
+            view.Tag =
+                view.FindViewById(Resource.Id.ProfilePageGeneralTabCommentItemDeleteButton).Tag =
+                    view.FindViewById(Resource.Id.ProfilePageGeneralTabCommentItemConvButton).Tag = malComment.Wrap();
             return view;
         }
 
@@ -123,13 +137,12 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
 
         private void OnCommentConversationClick(object sender, EventArgs eventArgs)
         {
-
+            ViewModel.NavigateConversationCommand.Execute((sender as View).Tag.Unwrap<MalComment>());
         }
 
         private void OnCommentDeleteClick(object sender, EventArgs eventArgs)
         {
-
-
+            ViewModel.DeleteCommentCommand.Execute((sender as View).Tag.Unwrap<MalComment>());
         }
 
         private void FriendButtonOnClick(object sender, EventArgs eventArgs)
@@ -141,14 +154,18 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
 
         #region Views
 
+        private ImageView _profilePageGeneralTabImagePlaceholder;
         private ImageViewAsync _profilePageGeneralTabAnimeUserImg;
         private LinearLayout _profilePageGeneralTabDetailsList;
         private Button _profilePageGeneralTabAnimeListButton;
         private Button _profilePageGeneralTabMangaListButton;
         private Button _profilePageGeneralTabHistoryButton;
         private ExpandableGridView _profilePageGeneralTabFriendsGrid;
+        private EditText _profilePageGeneralTabCommentInput;
         private Button _profilePageGeneralTabSendCommentButton;
         private LinearLayout _profilePageGeneralTabCommentsList;
+
+        public ImageView ProfilePageGeneralTabImagePlaceholder => _profilePageGeneralTabImagePlaceholder ?? (_profilePageGeneralTabImagePlaceholder = FindViewById<ImageView>(Resource.Id.ProfilePageGeneralTabImagePlaceholder));
 
         public ImageViewAsync ProfilePageGeneralTabAnimeUserImg => _profilePageGeneralTabAnimeUserImg ?? (_profilePageGeneralTabAnimeUserImg = FindViewById<ImageViewAsync>(Resource.Id.ProfilePageGeneralTabAnimeUserImg));
 
@@ -162,9 +179,12 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
 
         public ExpandableGridView ProfilePageGeneralTabFriendsGrid => _profilePageGeneralTabFriendsGrid ?? (_profilePageGeneralTabFriendsGrid = FindViewById<ExpandableGridView>(Resource.Id.ProfilePageGeneralTabFriendsGrid));
 
+        public EditText ProfilePageGeneralTabCommentInput => _profilePageGeneralTabCommentInput ?? (_profilePageGeneralTabCommentInput = FindViewById<EditText>(Resource.Id.ProfilePageGeneralTabCommentInput));
+
         public Button ProfilePageGeneralTabSendCommentButton => _profilePageGeneralTabSendCommentButton ?? (_profilePageGeneralTabSendCommentButton = FindViewById<Button>(Resource.Id.ProfilePageGeneralTabSendCommentButton));
 
         public LinearLayout ProfilePageGeneralTabCommentsList => _profilePageGeneralTabCommentsList ?? (_profilePageGeneralTabCommentsList = FindViewById<LinearLayout>(Resource.Id.ProfilePageGeneralTabCommentsList));
+
 
         #endregion
     }

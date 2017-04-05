@@ -222,3 +222,4 @@ MALClient.Desktop/BundleArtifacts/
 _pkginfo.txt
 MALClient.Android/Resources/Resource.Designer.cs
 *.targets
+/MALClient.Dekstop/BundleArtifacts

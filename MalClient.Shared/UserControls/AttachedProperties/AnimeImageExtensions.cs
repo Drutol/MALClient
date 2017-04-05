@@ -38,11 +38,12 @@ namespace MALClient.UWP.Shared.UserControls.AttachedProperties
         {
             var img = d as Image;
             var source = e.NewValue as string;
+            
             if (Settings.PullHigherQualityImages && Settings.SelectedApiType != ApiType.Hummingbird && !GetForceStandardImage(d))
             {
-                var pos = source.IndexOf(".jpg");
+                var pos = source?.IndexOf(".jpg") ?? -1;
                 if (pos == -1)
-                    pos = source.IndexOf(".webp");
+                    pos = source?.IndexOf(".webp") ?? -1;
                 if (pos != -1)
                 {
                     var uri = await ImageCache.GetFromCacheAsync(new Uri(source.Insert(pos, "l")));

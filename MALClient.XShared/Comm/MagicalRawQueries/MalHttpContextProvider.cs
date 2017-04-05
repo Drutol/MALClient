@@ -99,12 +99,22 @@ namespace MALClient.XShared.Comm.MagicalRawQueries
                 {
                     _httpClient?.ExpiredDispose();
 
+#if ANDROID
                     var httpHandler = new NativeMessageHandler
                     {
                         CookieContainer = new CookieContainer(),
                         UseCookies = true,
                         AllowAutoRedirect = false,
                     };
+#else
+                    var httpHandler = new HttpClientHandler()
+                    {
+                        CookieContainer = new CookieContainer(),
+                        UseCookies = true,
+                        AllowAutoRedirect = false,
+                    };
+#endif
+
                     //Utilities.GiveStatusBarFeedback("Performing http authentication...");
                     _httpClient = new CsrfHttpClient(httpHandler) { BaseAddress = new Uri(MalBaseUrl) };
                     await _httpClient.GetToken(); //gets token and sets cookies            
@@ -145,9 +155,13 @@ namespace MALClient.XShared.Comm.MagicalRawQueries
                     "Unable to connect to MyAnimeList, they have either changed something in html or your connection is down.",
                     "Something went wrong™");
                 _skippedFirstError = false;
-                return new CsrfHttpClient(new NativeMessageHandler()) {Disabled = true};
+#if ANDROID
+                return new CsrfHttpClient(#if ANDROID new NativeMessageHandler()) {Disabled = true};
+#else
+                return new CsrfHttpClient(new HttpClientHandler()) { Disabled = true };
+#endif
             }
-            
+
         }
 
 

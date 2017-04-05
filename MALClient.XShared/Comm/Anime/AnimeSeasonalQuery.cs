@@ -132,7 +132,10 @@ namespace MALClient.XShared.Comm.Anime
             try
             {           
                 var actualImageNode = imageNode.Descendants("img").First();
-                img = actualImageNode.Attributes["data-srcset"].Value;
+                img = actualImageNode.Attributes.Contains("srcset")
+                    ? actualImageNode.Attributes["srcset"].Value
+                    : actualImageNode.Attributes["data-srcset"].Value;
+
                 img = img.Split(',').Last();
                 img = img.Substring(0, img.Length - 3);
                 var imgParts = img.Split('/');

@@ -79,6 +79,11 @@ namespace MALClient.XShared.Comm.MagicalRawQueries
         private static bool _skippedFirstError;
 
 
+        public static void ErrorMessage(string what)
+        {
+            ResourceLocator.MessageDialogProvider.ShowMessageDialog($"Something went wrong... {what} implementation is pretty hacky so this stuff can happen from time to time, try again later or wait for next update. Sorry!", "Error");
+        }
+
         /// <summary>
         ///     Establishes connection with MAL, attempts to authenticate.
         /// </summary>
@@ -164,11 +169,5 @@ namespace MALClient.XShared.Comm.MagicalRawQueries
 
         }
 
-
-
-        public static void ErrorMessage(string what)
-        {
-             ResourceLocator.MessageDialogProvider.ShowMessageDialog($"Something went wrong... {what} implementation is pretty hacky so this stuff can happen from time to time, try again later or wait for next update. Sorry!", "Error");
-        }
     }
 }

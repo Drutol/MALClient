@@ -14,80 +14,158 @@ using Android.Views;
 using Android.Widget;
 using MALClient.Android.Activities;
 using MALClient.XShared.Utils;
+using MALClient.XShared.ViewModels;
+
 namespace MALClient.Android.Resources
 {
     public static class ResourceExtension
     {
-        public static readonly int BrushText = ResourcesCompat.GetColor(MainActivity.CurrentContext.Resources,
-            Settings.SelectedTheme == 1 ? Resource.Color.DarkBrushText : Resource.Color.LightBrushText, null);
+        static ResourceExtension()
+        {
+            if (Settings.SelectedTheme == 1)
+            {
+                BrushAnimeItemInnerBackground = ResourcesCompat.GetColor(MainActivity.CurrentContext.Resources, Resource.Color.DarkBrushAnimeItemInnerBackground,null);
+                BrushAnimeItemBackground = ResourcesCompat.GetColor(MainActivity.CurrentContext.Resources, Resource.Color.DarkBrushAnimeItemBackground, null);
+                BrushAppBars = ResourcesCompat.GetColor(MainActivity.CurrentContext.Resources, Resource.Color.DarkBrushAppBars, null);
+                BrushFlyoutBackground = ResourcesCompat.GetColor(MainActivity.CurrentContext.Resources, Resource.Color.DarkBrushFlyoutBackground, null);
+                BrushRowAlternate1 = ResourcesCompat.GetColor(MainActivity.CurrentContext.Resources, Resource.Color.DarkBrushRowAlternate1, null);
+                BrushRowAlternate2 = ResourcesCompat.GetColor(MainActivity.CurrentContext.Resources, Resource.Color.DarkBrushRowAlternate2, null);
+                //
+                BrushText = ResourcesCompat.GetColor(MainActivity.CurrentContext.Resources, Resource.Color.DarkBrushText, null);
+                BrushSelectedDialogItem = ResourcesCompat.GetColor(MainActivity.CurrentContext.Resources, Resource.Color.DarkBrushSelectedDialogItem, null);
+                BrushTextRes = Resource.Color.DarkBrushText;
+                //
+                BrushAnimeItemBackgroundRes = Resource.Color.DarkBrushAnimeItemBackground;
+                BrushNoSearchResultsRes = Resource.Color.DarkBrushNoSearchResults;
+                BrushFlyoutBackgroundRes = Resource.Color.DarkBrushFlyoutBackground;
+                BrushHamburgerBackgroundRes = Resource.Color.DarkBrushHamburgerBackground;
+                BrushRowAlternate1Res = Resource.Color.DarkBrushRowAlternate1;
+                BrushRowAlternate2Res = Resource.Color.DarkBrushRowAlternate2;
+                BrushAnimeItemInnerBackgroundRes = Resource.Color.DarkBrushAnimeItemInnerBackground;
+            }
+            else
+            {
+                BrushAnimeItemInnerBackground = ResourcesCompat.GetColor(MainActivity.CurrentContext.Resources, Resource.Color.LightBrushAnimeItemInnerBackground, null);
+                BrushAnimeItemBackground = ResourcesCompat.GetColor(MainActivity.CurrentContext.Resources, Resource.Color.LightBrushAnimeItemBackground, null);
+                BrushAppBars = ResourcesCompat.GetColor(MainActivity.CurrentContext.Resources, Resource.Color.LightBrushAppBars, null);
+                BrushFlyoutBackground = ResourcesCompat.GetColor(MainActivity.CurrentContext.Resources, Resource.Color.LightBrushFlyoutBackground, null);
+                BrushRowAlternate1 = ResourcesCompat.GetColor(MainActivity.CurrentContext.Resources, Resource.Color.LightBrushRowAlternate1, null);
+                BrushRowAlternate2 = ResourcesCompat.GetColor(MainActivity.CurrentContext.Resources, Resource.Color.LightBrushRowAlternate2, null);
+                //
+                BrushText = ResourcesCompat.GetColor(MainActivity.CurrentContext.Resources, Resource.Color.LightBrushText, null);
+                BrushSelectedDialogItem = ResourcesCompat.GetColor(MainActivity.CurrentContext.Resources, Resource.Color.LightBrushSelectedDialogItem, null);
+                BrushTextRes = Resource.Color.LightBrushText;
+                //
+                BrushAnimeItemBackgroundRes = Resource.Color.LightBrushAnimeItemBackground;
+                BrushNoSearchResultsRes = Resource.Color.LightBrushNoSearchResults;
+                BrushFlyoutBackgroundRes = Resource.Color.LightBrushFlyoutBackground;
+                BrushHamburgerBackgroundRes = Resource.Color.LightBrushHamburgerBackground;
+                BrushRowAlternate1Res = Resource.Color.LightBrushRowAlternate1;
+                BrushRowAlternate2Res = Resource.Color.LightBrushRowAlternate2;
+                BrushAnimeItemInnerBackgroundRes = Resource.Color.LightBrushAnimeItemInnerBackground;
 
-        public static readonly int AccentColour = ResourcesCompat.GetColor(MainActivity.CurrentContext.Resources,Resource.Color.AccentColour, null);
+            }
+            switch (
+                (AndroidColorThemes)
+                (ResourceLocator.ApplicationDataService[nameof(AndroidColorThemes)] ?? AndroidColorThemes.Orange))
+            {
+                case AndroidColorThemes.Orange:
+                    AccentColour = ResourcesCompat.GetColor(MainActivity.CurrentContext.Resources,
+                        Resource.Color.OrangeAccentColour, null);
+                    AccentColourDark = ResourcesCompat.GetColor(MainActivity.CurrentContext.Resources,
+                        Resource.Color.OrangeAccentColourDark, null);
+                    AccentColourContrast = Settings.SelectedTheme == 1
+                        ? ResourcesCompat.GetColor(MainActivity.CurrentContext.Resources,
+                            Resource.Color.OrangeAccentColourContrast, null)
+                        : AccentColourDark;
+                    AccentColourHex =
+                        MainActivity.CurrentContext.Resources.GetString(Resource.Color.OrangeAccentColour);
+                    AccentColourLightHex =
+                        MainActivity.CurrentContext.Resources.GetString(Resource.Color.OrangeAccentColourLight);
+                    AccentColourDarkHex =
+                        MainActivity.CurrentContext.Resources.GetString(Resource.Color.OrangeAccentColourDark);
+                    AccentColourRes = Resource.Color.OrangeAccentColour;
+                    AccentColourDarkRes = Resource.Color.OrangeAccentColourDark;
+                    break;
+                case AndroidColorThemes.Purple:
+                    AccentColour = ResourcesCompat.GetColor(MainActivity.CurrentContext.Resources,
+                        Resource.Color.PurpleAccentColour, null);
+                    AccentColourDark = ResourcesCompat.GetColor(MainActivity.CurrentContext.Resources,
+                        Resource.Color.PurpleAccentColourDark, null);
+                    AccentColourContrast = Settings.SelectedTheme == 1
+                        ? ResourcesCompat.GetColor(MainActivity.CurrentContext.Resources,
+                            Resource.Color.PurpleAccentColourContrast, null)
+                        : AccentColourDark;
+                    AccentColourHex =
+                        MainActivity.CurrentContext.Resources.GetString(Resource.Color.PurpleAccentColour);
+                    AccentColourLightHex =
+                        MainActivity.CurrentContext.Resources.GetString(Resource.Color.PurpleAccentColourLight);
+                    AccentColourDarkHex =
+                        MainActivity.CurrentContext.Resources.GetString(Resource.Color.PurpleAccentColourDark);
+                    AccentColourRes = Resource.Color.PurpleAccentColour;
+                    AccentColourDarkRes = Resource.Color.PurpleAccentColourDark;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
 
-        public static readonly int AccentColourDark = ResourcesCompat.GetColor(MainActivity.CurrentContext.Resources,Resource.Color.AccentColourDark, null);
+        #region Accents
 
-        public static readonly int AccentColourContrast = Settings.SelectedTheme == 1 ? ResourcesCompat.GetColor(MainActivity.CurrentContext.Resources,Resource.Color.AccentColourContrast, null) : AccentColourDark;
+        public static readonly int AccentColour;
+        public static readonly int AccentColourDark;
+        public static readonly int AccentColourContrast;
+        public static string AccentColourHex;
+        public static string AccentColourLightHex;
+        public static string AccentColourDarkHex;
+        public static readonly int AccentColourRes;
+        public static readonly int AccentColourDarkRes;
 
-        public static readonly int BrushAnimeItemInnerBackground = ResourcesCompat.GetColor(MainActivity.CurrentContext.Resources,
-            Settings.SelectedTheme == 1 ? Resource.Color.DarkBrushAnimeItemInnerBackground : Resource.Color.LightBrushAnimeItemInnerBackground, null);
+        #endregion
 
-        public static readonly int BrushAnimeItemInnerBackgroundRes = 
-            Settings.SelectedTheme == 1 ? Resource.Color.DarkBrushAnimeItemInnerBackground : Resource.Color.LightBrushAnimeItemInnerBackground;
+        #region Background
 
-        public static readonly int BrushAnimeItemBackground = ResourcesCompat.GetColor(MainActivity.CurrentContext.Resources,
-            Settings.SelectedTheme == 1 ? Resource.Color.DarkBrushAnimeItemBackground : Resource.Color.LightBrushAnimeItemBackground, null);
+        public static readonly int BrushAnimeItemInnerBackground;
+        public static readonly int BrushAnimeItemBackground;
+        public static readonly int BrushAppBars;
+        public static readonly int BrushFlyoutBackground;
+        public static readonly int BrushRowAlternate1;
+        public static readonly int BrushRowAlternate2;
 
-        public static readonly int BrushAppBars = ResourcesCompat.GetColor(MainActivity.CurrentContext.Resources,
-            Settings.SelectedTheme == 1 ? Resource.Color.DarkBrushAppBars : Resource.Color.LightBrushAppBars, null);
 
-        public static readonly int BrushSelectedDialogItem = ResourcesCompat.GetColor(MainActivity.CurrentContext.Resources,
-            Settings.SelectedTheme == 1 ? Resource.Color.DarkBrushSelectedDialogItem : Resource.Color.LightBrushSelectedDialogItem, null);
+        #endregion
 
-        public static readonly int BrushFlyoutBackground = ResourcesCompat.GetColor(MainActivity.CurrentContext.Resources,
-            Settings.SelectedTheme == 1 ? Resource.Color.DarkBrushFlyoutBackground : Resource.Color.LightBrushFlyoutBackground, null);
+        #region Text
 
-        public static readonly int BrushRowAlternate1 = ResourcesCompat.GetColor(MainActivity.CurrentContext.Resources,
-            Settings.SelectedTheme == 1 ? Resource.Color.DarkBrushRowAlternate1 : Resource.Color.LightBrushRowAlternate1, null);
 
-        public static readonly int BrushRowAlternate2 = ResourcesCompat.GetColor(MainActivity.CurrentContext.Resources,
-            Settings.SelectedTheme == 1 ? Resource.Color.DarkBrushRowAlternate2 : Resource.Color.LightBrushRowAlternate2, null);
-
-        public static readonly int BrushRowAlternate1Res =
-            Settings.SelectedTheme == 1 ? Resource.Color.DarkBrushRowAlternate1 : Resource.Color.LightBrushRowAlternate1;
-
-        public static readonly int BrushRowAlternate2Res =
-            Settings.SelectedTheme == 1 ? Resource.Color.DarkBrushRowAlternate2 : Resource.Color.LightBrushRowAlternate2;
+        public static readonly int BrushText;
+        public static readonly int BrushSelectedDialogItem;
 
         public static readonly string FontSizeLight =
             MainActivity.CurrentContext.Resources.GetString(Resource.String.font_family_light);
 
-        public static int BrushTextRes = Settings.SelectedTheme == 1
-            ? Resource.Color.DarkBrushText
-            : Resource.Color.LightBrushText;
+        public static int BrushTextRes;
 
-        public static int BrushAnimeItemBackgroundRes = Settings.SelectedTheme == 1
-            ? Resource.Color.DarkBrushAnimeItemBackground
-            : Resource.Color.LightBrushAnimeItemBackground;
+        #endregion
 
-        public static int BrushNoSearchResultsRes = Settings.SelectedTheme == 1
-            ? Resource.Color.DarkBrushNoSearchResults
-            : Resource.Color.LightBrushNoSearchResults;
+        #region ResourceIds
 
-        public static int BrushFlyoutBackgroundRes = Settings.SelectedTheme == 1
-            ? Resource.Color.DarkBrushFlyoutBackground
-            : Resource.Color.LightBrushFlyoutBackground;
+        public static int BrushAnimeItemBackgroundRes;
+        public static int BrushNoSearchResultsRes;
+        public static int BrushFlyoutBackgroundRes;
+        public static int BrushHamburgerBackgroundRes;
 
-        public static int BrushHamburgerBackgroundRes = Settings.SelectedTheme == 1
-            ? Resource.Color.DarkBrushHamburgerBackground
-            : Resource.Color.LightBrushHamburgerBackground;
 
-        public static string AccentColourHex =
-            MainActivity.CurrentContext.Resources.GetString(Resource.Color.AccentColour);
+        public static readonly int BrushRowAlternate1Res;
+        public static readonly int BrushRowAlternate2Res;
+        public static readonly int BrushAnimeItemInnerBackgroundRes;
 
-        public static string AccentColourLightHex =
-            MainActivity.CurrentContext.Resources.GetString(Resource.Color.AccentColourLight);
+        #endregion
 
-        public static string AccentColourDarkHex =
-            MainActivity.CurrentContext.Resources.GetString(Resource.Color.AccentColourDark);
+
+
+
+
 
         private static int? _selectableItemBackground;
 
@@ -98,7 +176,8 @@ namespace MALClient.Android.Resources
                 if (_selectableItemBackground.HasValue)
                     return _selectableItemBackground.Value;
                 TypedValue outValue = new TypedValue();
-                MainActivity.CurrentContext.Theme.ResolveAttribute(Resource.Attribute.selectableItemBackground, outValue, true);
+                MainActivity.CurrentContext.Theme.ResolveAttribute(Resource.Attribute.selectableItemBackground, outValue,
+                    true);
                 _selectableItemBackground = outValue.ResourceId;
                 return _selectableItemBackground.Value;
             }

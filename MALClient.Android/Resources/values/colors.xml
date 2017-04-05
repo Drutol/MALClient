@@ -7,7 +7,7 @@
   <color name="LightBrushDeepBackground">#E6E6E6</color>
   <color name="LightBrushAppBars">#d3d3d3</color>
   <color name="LightBrushAppBarText">#ffffff</color>
-  <color name="LightBrushAppBarUpper">#ff8c00</color>
+
   <color name="LightBrushPivotHeaderBackground">#DADADA</color>
   <color name="LightBrushHamburgerBackground">#E6E6E6</color>
   <color name="LightBrushHamburgerInnerBackground">#ffffff</color>
@@ -31,9 +31,8 @@
   <color name="LightBrushFavouriteStarBackground">#ffffff</color>
   <color name="LightBrushNoSearchResults">#b9b9b9</color>
   <color name="LightBrushMediaElementShadow">#e5f5f5f5</color>
-  <color name="LightBrushMessageBubbleMine">#eab995</color>
-  <color name="LightBrushMessageBubbleOther">#e4a787</color>
-  
+
+
   <color name="DarkBrushText">#ffffff </color>
   <color name="DarkBrushTextInverted">#000000 </color>
   <color name="DarkBrushDeepBackground">#0d0d0d </color>
@@ -63,28 +62,42 @@
   <color name="DarkBrushFavouriteStarBackground">#bd000000</color>
   <color name="DarkBrushNoSearchResults">#B9B9B9</color>
   <color name="DarkBrushMediaElementShadow">#e5000000</color>
-  <color name="DarkBrushMessageBubbleMine">#7d340e</color>
-  <color name="DarkBrushMessageBubbleOther">#6a2d0d</color>
+  <!-- Orange accent -->
+  <color name="OrangeDarkBrushMessageBubbleMine">#7d340e</color>
+  <color name="OrangeDarkBrushMessageBubbleOther">#6a2d0d</color>
 
+  <color name="OrangeLightBrushMessageBubbleMine">#eab995</color>
+  <color name="OrangeLightBrushMessageBubbleOther">#e4a787</color>
 
+  <color name="OrangeAccentColour">#ff8c00</color>
+  <color name="OrangeAccentColourDark">#cc7000</color>
+  <color name="OrangeAccentColourLight">#ffaf4d</color>
+  <color name="OrangeOpaqueAccentColour">#7fff8c00</color>
+  <color name="OrangeAccentColourContrast">#831B2A</color>
+  <!-- Purple accent -->
+  <color name="PurpleDarkBrushMessageBubbleMine">#56125f</color>
+  <color name="PurpleDarkBrushMessageBubbleOther">#491150</color>
 
-  <color name="AccentColour">#ff8c00</color>
-  <color name="AccentColourDark">#cc7000</color>
-  <color name="AccentColourLight">#ffaf4d</color>
-  <color name="OpaqueAccentColour">#7fff8c00</color>
-  <color name="AccentColourContrast">#831B2A</color>
-  
+  <color name="PurpleLightBrushMessageBubbleMine">#cfa2d6</color>
+  <color name="PurpleLightBrushMessageBubbleOther">#c38bcb</color>
+
+  <color name="PurpleAccentColour">#881798</color>
+  <color name="PurpleAccentColourDark">#5a1663</color>
+  <color name="PurpleAccentColourLight">#9e27ae</color>
+  <color name="PurpleOpaqueAccentColour">#7f881798</color>
+  <color name="PurpleAccentColourContrast">#ff8c00</color>
+
   <color name="DarkBrushButtonPressed">#50e0e0e0</color>
   <color name="DarkBrushFlyoutBackground">#2b2b2b</color>
   <color name="DarkBrushSelectedDialogItem">#1d1d1d</color>
-  
+
   <color name="LightBrushButtonPressed">#50e0e0e0</color>
   <color name="LightBrushFlyoutBackground">#f2f2f2</color>
   <color name="LightBrushSelectedDialogItem">#fff</color>
-  
+
   <color name="Transparent">#00ffffff</color>
   <color name="BrushOpaqueTextView">#bd000000</color>
-  
+
   <color name="White">#fff</color>
 
 

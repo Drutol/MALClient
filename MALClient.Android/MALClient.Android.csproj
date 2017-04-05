@@ -299,6 +299,7 @@
     <Compile Include="Managers\ImageCache.cs" />
     <Compile Include="Managers\NavMgr.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Resources\AndroidColorThemesEnum.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Resources\ResourceExtension.cs" />
     <Compile Include="UserControls\AnimeItems\AnimeCompactItem.cs" />

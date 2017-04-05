@@ -66,7 +66,7 @@
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:text="Sign In"
-              android:id="@+id/SignInButton" android:backgroundTint="@color/AccentColour" />
+              android:id="@+id/SignInButton" android:backgroundTint="?AccentColour" />
 
           <ProgressBar
               android:layout_width="wrap_content"

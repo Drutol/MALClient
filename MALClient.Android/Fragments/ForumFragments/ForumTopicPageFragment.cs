@@ -84,7 +84,7 @@ namespace MALClient.Android.Fragments.ForumFragments
 
             view.FindViewById(Resource.Id.PageIndicatorItemBackgroundPanel)
                 .SetBackgroundResource(tuple.Item2
-                    ? Resource.Color.AccentColour
+                    ? ResourceExtension.AccentColourRes
                     : ResourceExtension.BrushAnimeItemInnerBackgroundRes);
 
             view.FindViewById<TextView>(Resource.Id.PageIndicatorItemNumber).Text = tuple.Item1.ToString();
@@ -101,7 +101,7 @@ namespace MALClient.Android.Fragments.ForumFragments
             ViewModel.LoadPageCommand.Execute((int)view.Tag);
             //update it immediatelly
             view.FindViewById(Resource.Id.PageIndicatorItemBackgroundPanel)
-                .SetBackgroundResource(Resource.Color.AccentColour);
+                .SetBackgroundResource(ResourceExtension.AccentColourRes);
             _prevHighlightedPageIndicator.FindViewById(Resource.Id.PageIndicatorItemBackgroundPanel)
                 .SetBackgroundResource(ResourceExtension.BrushAnimeItemInnerBackgroundRes);
         }

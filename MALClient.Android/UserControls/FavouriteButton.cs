@@ -77,7 +77,7 @@ namespace MALClient.Android.UserControls
             {
                 if (ViewModel.IsFavourite)
                 {
-                    _favButton.SetBackgroundResource(Resource.Color.AccentColourDark);
+                    _favButton.SetBackgroundResource(ResourceExtension.AccentColourDarkRes);
                     _favButtonIcon.SetImageResource(Resource.Drawable.icon_unfavourite);
                 }
                 else

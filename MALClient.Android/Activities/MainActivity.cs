@@ -12,6 +12,7 @@ using GalaSoft.MvvmLight.Ioc;
 using HockeyApp.Android;
 using HockeyApp.Android.Metrics;
 using MALClient.Android.Fragments;
+using MALClient.Android.Resources;
 using MALClient.Android.ViewModels;
 using MALClient.Models.Enums;
 using MALClient.Models.Models.Notifications;
@@ -49,11 +50,10 @@ namespace MALClient.Android.Activities
         protected override void OnCreate(Bundle bundle)
         {
             RequestedOrientation = ScreenOrientation.Unspecified;
-            SetTheme(Settings.SelectedTheme == 1
-                ? Resource.Style.Theme_MALClient_Dark
-                : Resource.Style.Theme_MALClient_Light);
+            
             RequestWindowFeature(WindowFeatures.NoTitle);
             CurrentTheme = Settings.SelectedTheme;
+            SetRightTheme();
             base.OnCreate(bundle);
 
             if (!_addedNavHandlers)

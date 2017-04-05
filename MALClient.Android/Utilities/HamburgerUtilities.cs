@@ -12,8 +12,8 @@ namespace MALClient.Android
             btn.WithTextColorRes(ResourceExtension.BrushTextRes);
             btn.WithIconColorRes(ResourceExtension.BrushTextRes);
             btn.WithSelectedColorRes(ResourceExtension.BrushAnimeItemBackgroundRes);
-            btn.WithSelectedTextColorRes(Resource.Color.AccentColour);
-            btn.WithSelectedIconColorRes(Resource.Color.AccentColourDark);
+            btn.WithSelectedTextColorRes(ResourceExtension.AccentColourRes);
+            btn.WithSelectedIconColorRes(ResourceExtension.AccentColourDarkRes);
             return btn;
         }
 
@@ -24,8 +24,8 @@ namespace MALClient.Android
             btn.WithTextColorRes(ResourceExtension.BrushTextRes);
             btn.WithIconColorRes(ResourceExtension.BrushTextRes);
             btn.WithSelectedColorRes(ResourceExtension.BrushAnimeItemBackgroundRes);
-            btn.WithSelectedTextColorRes(Resource.Color.AccentColour);
-            btn.WithSelectedIconColorRes(Resource.Color.AccentColourDark);
+            btn.WithSelectedTextColorRes(ResourceExtension.AccentColourRes);
+            btn.WithSelectedIconColorRes(ResourceExtension.AccentColourDarkRes);
             return btn;
         }
     }

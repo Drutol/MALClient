@@ -40,6 +40,7 @@ using MALClient.XShared.ViewModels.Main;
 using Object = Java.Lang.Object;
 using SimpleCursorAdapter = Android.Support.V4.Widget.SimpleCursorAdapter;
 using SearchView = Android.Support.V7.Widget.SearchView;
+using Settings = MALClient.XShared.Utils.Settings;
 using Uri = Android.Net.Uri;
 
 namespace MALClient.Android.Activities
@@ -264,6 +265,38 @@ namespace MALClient.Android.Activities
         private void MainPageHamburgerButtonOnClick(object sender, EventArgs eventArgs)
         {
             _drawer.OpenDrawer();
+        }
+
+        private void SetRightTheme()
+        {
+            if (Settings.SelectedTheme == 1)
+            {
+                switch ((AndroidColorThemes)(ResourceLocator.ApplicationDataService[nameof(AndroidColorThemes)] ?? AndroidColorThemes.Orange))
+                {
+                    case AndroidColorThemes.Orange:
+                        SetTheme(Resource.Style.Theme_MALClient_Dark_Orange);
+                        break;
+                    case AndroidColorThemes.Purple:
+                        SetTheme(Resource.Style.Theme_MALClient_Dark_Purple);
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+            }
+            else
+            {
+                switch ((AndroidColorThemes)(ResourceLocator.ApplicationDataService[nameof(AndroidColorThemes)] ?? AndroidColorThemes.Orange))
+                {
+                    case AndroidColorThemes.Orange:
+                        SetTheme(Resource.Style.Theme_MALClient_Light_Orange);
+                        break;                                  
+                    case AndroidColorThemes.Purple:             
+                        SetTheme(Resource.Style.Theme_MALClient_Light_Purple);
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+            }
         }
 
         private ImageButton _mainPageHamburgerButton;

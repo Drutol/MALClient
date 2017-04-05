@@ -209,7 +209,7 @@ namespace MALClient.Android.Activities
                 btn.WithName("Account");
                 btn.WithTextColorRes(ResourceExtension.BrushTextRes);
                 btn.WithSelectedColorRes(ResourceExtension.BrushAnimeItemBackgroundRes);
-                btn.WithSelectedTextColorRes(Resource.Color.AccentColour);
+                btn.WithSelectedTextColorRes(ResourceExtension.AccentColourRes);
                 btn.WithIdentifier((int)PageIndex.PageProfile);
                 btn.WithIcon(Resource.Drawable.icon_account);
                 accountButton = btn;

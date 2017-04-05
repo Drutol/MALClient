@@ -75,10 +75,10 @@
           android:scaleType="fitXY" />
       <LinearLayout
           android:layout_width="wrap_content"
-                android:paddingLeft="7dp"
-                android:paddingRight="7dp"
-                android:paddingTop="3dp"
-                android:paddingBottom="3dp" android:id="@+id/AnimeGridItemTopLeftInfo"
+          android:paddingLeft="7dp"
+          android:paddingRight="7dp"
+          android:paddingTop="3dp"
+          android:paddingBottom="3dp" android:id="@+id/AnimeGridItemTopLeftInfo"
           android:background="@color/BrushOpaqueTextView"
           android:layout_height="wrap_content" android:gravity="center_vertical">
         <TextView
@@ -177,7 +177,7 @@
           android:layout_alignParentRight="true" android:layout_alignParentBottom="true">
         <ImageView android:layout_width="35dp"
             android:layout_height="35dp" android:scaleType="center"
-            android:background="@color/BrushOpaqueTextView"
+            android:background="@color/BrushOpaqueTextView" android:tint="#fff"
             android:src="@drawable/icon_tag" />
       </FrameLayout>
       <FrameLayout android:layout_width="40dp"
@@ -196,6 +196,7 @@
       </FrameLayout>
 
     </RelativeLayout>
+    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="?AccentColour"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:background="?BrushAnimeItemBackground"

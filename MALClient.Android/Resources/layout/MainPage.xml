@@ -42,7 +42,7 @@
           android:textStyle="normal"
           android:textSize="13sp"
           android:text="Score"
-          android:textColor="?BrushSettingsSubtitle"
+          android:textColor="?BrushTextAccentContrast"
           android:layout_gravity="center_vertical"
           android:layout_margin="5dp" />
     </LinearLayout>

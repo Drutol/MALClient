@@ -34,6 +34,7 @@ namespace MALClient.Android.Activities
     {
         public static Activity CurrentContext { get; private set; }
         public static int CurrentTheme { get; private set; }
+        public static AndroidColorThemes CurrentAccent { get; set; }
 
         private static bool _addedNavHandlers;
 
@@ -53,6 +54,7 @@ namespace MALClient.Android.Activities
             
             RequestWindowFeature(WindowFeatures.NoTitle);
             CurrentTheme = Settings.SelectedTheme;
+            CurrentAccent = AndroidColourThemeHelper.CurrentTheme;
             SetRightTheme();
             base.OnCreate(bundle);
 

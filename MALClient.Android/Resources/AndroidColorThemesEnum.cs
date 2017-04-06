@@ -9,6 +9,7 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using MALClient.XShared.ViewModels;
 
 namespace MALClient.Android.Resources
 {
@@ -16,5 +17,20 @@ namespace MALClient.Android.Resources
     {
         Orange,
         Purple,
+        Blue,
+    }
+
+    public static class AndroidColourThemeHelper
+    {
+        public static AndroidColorThemes CurrentTheme
+        {
+            get
+            {
+                return
+                    (AndroidColorThemes)
+                    (ResourceLocator.ApplicationDataService[nameof(AndroidColorThemes)] ?? AndroidColorThemes.Orange);
+            }
+            set { ResourceLocator.ApplicationDataService[nameof(AndroidColorThemes)] = (int) value; }
+        }
     }
 }

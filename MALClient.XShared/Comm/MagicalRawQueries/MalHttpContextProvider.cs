@@ -159,6 +159,7 @@ namespace MALClient.XShared.Comm.MagicalRawQueries
                 ResourceLocator.MessageDialogProvider.ShowMessageDialog(
                     "Unable to connect to MyAnimeList, they have either changed something in html or your connection is down.",
                     "Something went wrong™");
+
                 _skippedFirstError = false;
 #if ANDROID
                 return new CsrfHttpClient(#if ANDROID new NativeMessageHandler()) {Disabled = true};

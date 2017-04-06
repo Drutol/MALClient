@@ -4,6 +4,7 @@
   <declare-styleable name="AppTheme" >
     <attr name="BrushText" format="reference"/>
     <attr name="BrushTextInverted" format="reference"/>
+    <attr name="BrushTextAccentContrast" format="reference"/>
     <attr name="BrushDeepBackground" format="reference"/>
     <attr name="BrushAppBars" format="reference"/>
     <attr name="BrushAppBarUpper" format="reference"/>

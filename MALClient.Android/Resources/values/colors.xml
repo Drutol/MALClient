@@ -86,6 +86,26 @@
   <color name="PurpleAccentColourLight">#9e27ae</color>
   <color name="PurpleOpaqueAccentColour">#7f881798</color>
   <color name="PurpleAccentColourContrast">#ff8c00</color>
+  <!-- Blue accent -->
+  <color name="BlueDarkBrushMessageBubbleMine">#043f6e</color>
+  <color name="BlueDarkBrushMessageBubbleOther">#05375e</color>
+
+  <color name="BlueLightBrushMessageBubbleMine">#99c1e0</color>
+  <color name="BlueLightBrushMessageBubbleOther">#7fb1d8</color>
+
+  <color name="BlueAccentColour">#0063b1</color>
+  <color name="BlueAccentColourDark">#0c4674</color>
+  <color name="BlueAccentColourLight">#1474c0</color>
+  <color name="BlueOpaqueAccentColour">#7f0063b1</color>
+  <color name="BlueAccentColourContrast">#fbb000</color>
+
+
+
+
+
+
+
+
 
   <color name="DarkBrushButtonPressed">#50e0e0e0</color>
   <color name="DarkBrushFlyoutBackground">#2b2b2b</color>
@@ -97,9 +117,8 @@
 
   <color name="Transparent">#00ffffff</color>
   <color name="BrushOpaqueTextView">#bd000000</color>
+  
+  <color name="BrushTextAccentContrast">#f3f3f3</color>
 
   <color name="White">#fff</color>
-
-
-
 </resources>

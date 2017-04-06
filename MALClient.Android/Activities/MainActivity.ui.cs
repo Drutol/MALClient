@@ -271,7 +271,7 @@ namespace MALClient.Android.Activities
         {
             if (Settings.SelectedTheme == 1)
             {
-                switch ((AndroidColorThemes)(ResourceLocator.ApplicationDataService[nameof(AndroidColorThemes)] ?? AndroidColorThemes.Orange))
+                switch (AndroidColourThemeHelper.CurrentTheme)
                 {
                     case AndroidColorThemes.Orange:
                         SetTheme(Resource.Style.Theme_MALClient_Dark_Orange);
@@ -279,19 +279,25 @@ namespace MALClient.Android.Activities
                     case AndroidColorThemes.Purple:
                         SetTheme(Resource.Style.Theme_MALClient_Dark_Purple);
                         break;
+                    case AndroidColorThemes.Blue:
+                        SetTheme(Resource.Style.Theme_MALClient_Dark_Blue);
+                        break;
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
             }
             else
             {
-                switch ((AndroidColorThemes)(ResourceLocator.ApplicationDataService[nameof(AndroidColorThemes)] ?? AndroidColorThemes.Orange))
+                switch (AndroidColourThemeHelper.CurrentTheme)
                 {
                     case AndroidColorThemes.Orange:
                         SetTheme(Resource.Style.Theme_MALClient_Light_Orange);
                         break;                                  
                     case AndroidColorThemes.Purple:             
                         SetTheme(Resource.Style.Theme_MALClient_Light_Purple);
+                        break;
+                    case AndroidColorThemes.Blue:
+                        SetTheme(Resource.Style.Theme_MALClient_Light_Blue);
                         break;
                     default:
                         throw new ArgumentOutOfRangeException();

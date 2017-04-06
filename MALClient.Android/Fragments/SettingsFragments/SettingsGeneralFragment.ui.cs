@@ -21,6 +21,9 @@ namespace MALClient.Android.Fragments.SettingsFragments
         private RadioButton _settingsPageGeneralRadioDarkTheme;
         private RadioButton _settingsPageGeneralRadioLightTheme;
         private RadioGroup _settingsPageGeneralThemeRadioGroup;
+        private ImageButton _settingsPageGeneralColorOrange;
+        private ImageButton _settingsPageGeneralColorPurple;
+        private ImageButton _settingsPageGeneralColorBlue;
         private TextView _settingsPageGeneralThemeChangeNotice;
         private Switch _settingsPageGeneralPullHigherSwitch;
         private Switch _settingsPageGeneralSeasonSwitch;
@@ -70,6 +73,12 @@ namespace MALClient.Android.Fragments.SettingsFragments
         public RadioButton SettingsPageGeneralRadioLightTheme => _settingsPageGeneralRadioLightTheme ?? (_settingsPageGeneralRadioLightTheme = FindViewById<RadioButton>(Resource.Id.SettingsPageGeneralRadioLightTheme));
 
         public RadioGroup SettingsPageGeneralThemeRadioGroup => _settingsPageGeneralThemeRadioGroup ?? (_settingsPageGeneralThemeRadioGroup = FindViewById<RadioGroup>(Resource.Id.SettingsPageGeneralThemeRadioGroup));
+
+        public ImageButton SettingsPageGeneralColorOrange => _settingsPageGeneralColorOrange ?? (_settingsPageGeneralColorOrange = FindViewById<ImageButton>(Resource.Id.SettingsPageGeneralColorOrange));
+
+        public ImageButton SettingsPageGeneralColorPurple => _settingsPageGeneralColorPurple ?? (_settingsPageGeneralColorPurple = FindViewById<ImageButton>(Resource.Id.SettingsPageGeneralColorPurple));
+
+        public ImageButton SettingsPageGeneralColorBlue => _settingsPageGeneralColorBlue ?? (_settingsPageGeneralColorBlue = FindViewById<ImageButton>(Resource.Id.SettingsPageGeneralColorBlue));
 
         public TextView SettingsPageGeneralThemeChangeNotice => _settingsPageGeneralThemeChangeNotice ?? (_settingsPageGeneralThemeChangeNotice = FindViewById<TextView>(Resource.Id.SettingsPageGeneralThemeChangeNotice));
 
@@ -144,9 +153,5 @@ namespace MALClient.Android.Fragments.SettingsFragments
         public TextView SettingsPageGeneralAirDayOffsetTextView => _settingsPageGeneralAirDayOffsetTextView ?? (_settingsPageGeneralAirDayOffsetTextView = FindViewById<TextView>(Resource.Id.SettingsPageGeneralAirDayOffsetTextView));
 
         public SeekBar SettingsPageGeneralAirDayOffsetSlider => _settingsPageGeneralAirDayOffsetSlider ?? (_settingsPageGeneralAirDayOffsetSlider = FindViewById<SeekBar>(Resource.Id.SettingsPageGeneralAirDayOffsetSlider));
-
-
-
-
     }
 }

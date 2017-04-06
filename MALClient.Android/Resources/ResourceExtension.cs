@@ -65,9 +65,7 @@ namespace MALClient.Android.Resources
                 BrushAnimeItemInnerBackgroundRes = Resource.Color.LightBrushAnimeItemInnerBackground;
 
             }
-            switch (
-                (AndroidColorThemes)
-                (ResourceLocator.ApplicationDataService[nameof(AndroidColorThemes)] ?? AndroidColorThemes.Orange))
+            switch (AndroidColourThemeHelper.CurrentTheme)
             {
                 case AndroidColorThemes.Orange:
                     AccentColour = ResourcesCompat.GetColor(MainActivity.CurrentContext.Resources,
@@ -104,6 +102,24 @@ namespace MALClient.Android.Resources
                         MainActivity.CurrentContext.Resources.GetString(Resource.Color.PurpleAccentColourDark);
                     AccentColourRes = Resource.Color.PurpleAccentColour;
                     AccentColourDarkRes = Resource.Color.PurpleAccentColourDark;
+                    break;
+                case AndroidColorThemes.Blue:
+                    AccentColour = ResourcesCompat.GetColor(MainActivity.CurrentContext.Resources,
+                        Resource.Color.BlueAccentColour, null);
+                    AccentColourDark = ResourcesCompat.GetColor(MainActivity.CurrentContext.Resources,
+                        Resource.Color.BlueAccentColourDark, null);
+                    AccentColourContrast = Settings.SelectedTheme == 1
+                        ? ResourcesCompat.GetColor(MainActivity.CurrentContext.Resources,
+                            Resource.Color.BlueAccentColourContrast, null)
+                        : AccentColourDark;
+                    AccentColourHex =
+                        MainActivity.CurrentContext.Resources.GetString(Resource.Color.BlueAccentColour);
+                    AccentColourLightHex =
+                        MainActivity.CurrentContext.Resources.GetString(Resource.Color.BlueAccentColourLight);
+                    AccentColourDarkHex =
+                        MainActivity.CurrentContext.Resources.GetString(Resource.Color.BlueAccentColourDark);
+                    AccentColourRes = Resource.Color.BlueAccentColour;
+                    AccentColourDarkRes = Resource.Color.BlueAccentColourDark;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();

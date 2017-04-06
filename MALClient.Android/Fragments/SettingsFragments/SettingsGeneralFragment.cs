@@ -49,7 +49,7 @@ namespace MALClient.Android.Fragments.SettingsFragments
             {
                 Settings.SelectedTheme = i == SettingsPageGeneralRadioDarkTheme.Id ? 1 : 0;
                 SettingsPageGeneralThemeChangeNotice.Visibility =
-                    Converters.BoolToVisibility(Settings.SelectedTheme != MainActivity.CurrentTheme);
+                    Converters.BoolToVisibility(Settings.SelectedTheme != MainActivity.CurrentTheme || AndroidColourThemeHelper.CurrentTheme != MainActivity.CurrentAccent);
             }));
             //
             
@@ -183,6 +183,48 @@ namespace MALClient.Android.Fragments.SettingsFragments
                     (SettingsPageGeneralAirDayOffsetSlider.Progress - 3).ToString();
             };
 
+            UpdateColourSelection();
+
+            SettingsPageGeneralColorOrange.Tag = (int) AndroidColorThemes.Orange;
+            SettingsPageGeneralColorPurple.Tag = (int) AndroidColorThemes.Purple;
+            SettingsPageGeneralColorBlue.Tag = (int)AndroidColorThemes.Blue;
+
+            var colorListener = new OnClickListener(view =>
+            {
+                AndroidColourThemeHelper.CurrentTheme = (AndroidColorThemes) (int) view.Tag;
+                UpdateColourSelection();
+            });
+
+            SettingsPageGeneralColorOrange.SetOnClickListener(colorListener);
+            SettingsPageGeneralColorPurple.SetOnClickListener(colorListener);
+            SettingsPageGeneralColorBlue.SetOnClickListener(colorListener);
+
+        }
+
+        private void UpdateColourSelection()
+        {
+            switch (AndroidColourThemeHelper.CurrentTheme)
+            {
+                case AndroidColorThemes.Orange:
+                    SettingsPageGeneralColorOrange.SetImageResource(Resource.Drawable.icon_ok);
+                    SettingsPageGeneralColorPurple.SetImageResource(Resource.Color.Transparent);
+                    SettingsPageGeneralColorBlue.SetImageResource(Resource.Color.Transparent);
+                    break;
+                case AndroidColorThemes.Purple:
+                    SettingsPageGeneralColorPurple.SetImageResource(Resource.Drawable.icon_ok);
+                    SettingsPageGeneralColorOrange.SetImageResource(Resource.Color.Transparent);
+                    SettingsPageGeneralColorBlue.SetImageResource(Resource.Color.Transparent);
+                    break;
+                case AndroidColorThemes.Blue:
+                    SettingsPageGeneralColorBlue.SetImageResource(Resource.Drawable.icon_ok);
+                    SettingsPageGeneralColorPurple.SetImageResource(Resource.Color.Transparent);
+                    SettingsPageGeneralColorOrange.SetImageResource(Resource.Color.Transparent);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+            SettingsPageGeneralThemeChangeNotice.Visibility =
+                    Converters.BoolToVisibility(Settings.SelectedTheme != MainActivity.CurrentTheme || AndroidColourThemeHelper.CurrentTheme != MainActivity.CurrentAccent);
         }
 
         #region TemplateDelegates

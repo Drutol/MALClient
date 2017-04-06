@@ -40,7 +40,6 @@ namespace MALClient.Android.Fragments
 
         private AnimeListViewModel ViewModel => ViewModelLocator.AnimeList;
         private GridViewColumnHelper _gridViewColumnHelper;
-        private AnimeListItemsAdapter _animeListItemsAdapter;
         private static Drawer _rightDrawer;
 
 

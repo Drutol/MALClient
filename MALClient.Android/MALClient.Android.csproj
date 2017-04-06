@@ -156,7 +156,6 @@
     <Compile Include="Activities\MainActivity.ui.cs" />
     <Compile Include="Activities\SplashActivity.cs" />
     <Compile Include="Adapters\CollectionAdapters\AlternatingListCollectionAdapter.cs" />
-    <Compile Include="Adapters\CollectionAdapters\ForumPostItemsAdapter.cs" />
     <Compile Include="Adapters\CollectionAdapters\IFlingAwareAdapter.cs" />
     <Compile Include="Adapters\DialogAdapters\ScoreDialogAdapter.cs" />
     <Compile Include="Adapters\DialogAdapters\WatchedDialogAdapter.cs" />
@@ -174,15 +173,12 @@
     <Compile Include="BackgroundTasks\NotificationTaskManager.cs" />
     <Compile Include="BindingConverters\DummyFontAwesomeToRealFontAwesomeConverter.cs" />
     <Compile Include="BindingConverters\SpecializedConverters.cs" />
-    <Compile Include="Adapters\CollectionAdapters\AnimeListItemsAdapter.cs" />
     <Compile Include="BindingInformation\BindingExtension.cs" />
     <Compile Include="BindingInformation\BindingInfo.cs" />
-    <Compile Include="Adapters\CollectionAdapters\DeeplyObservableCollectionAdapter.cs" />
     <Compile Include="AndroidViewModelLocator.cs" />
     <Compile Include="App.cs" />
     <Compile Include="BindingConverters\Converters.cs" />
     <Compile Include="Adapters\DialogAdapters\StatusDialogAdapter.cs" />
-    <Compile Include="BindingInformation\ForumPostBidningInfo.cs" />
     <Compile Include="BindingInformation\StaticBindingInfo.cs" />
     <Compile Include="BindingInformation\StaticBindings\FavouriteItemBindingInfo.cs" />
     <Compile Include="DIalogs\AnimeDetailsPageDialogBuilder.cs" />
@@ -311,6 +307,7 @@
     <Compile Include="UserControls\FavouriteButton.cs" />
     <Compile Include="UserControls\FavouriteItem.cs" />
     <Compile Include="UserControls\ForumItems\ForumIndexItem.cs" />
+    <Compile Include="UserControls\ForumItems\ForumTopicItem.cs" />
     <Compile Include="UserControls\LandscapeHelpers\HeightAdjustingGridView.cs" />
     <Compile Include="UserControls\LandscapeHelpers\HeightAdjustingListView.cs" />
     <Compile Include="UserControls\LandscapeHelpers\HeightAdjustingViewPager.cs" />

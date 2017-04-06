@@ -15,9 +15,11 @@ using MALClient.Android.BindingConverters;
 using MALClient.Android.CollectionAdapters;
 using MALClient.Android.Resources;
 using MALClient.Android.UserControls;
+using MALClient.Android.UserControls.ForumItems;
 using MALClient.XShared.NavArgs;
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Forums;
+using MALClient.XShared.ViewModels.Forums.Items;
 
 namespace MALClient.Android.Fragments.ForumFragments
 {
@@ -55,7 +57,7 @@ namespace MALClient.Android.Fragments.ForumFragments
             Bindings.Add(this.SetBinding(() => ViewModel.Messages).WhenSourceChanges(() =>
             {
                 if(ViewModel.Messages != null)
-                    ForumTopicPagePostsList.Adapter = new ForumPostItemsAdapter(Activity, Resource.Layout.ForumTopicPageItem, ViewModel.Messages);
+                    ForumTopicPagePostsList.InjectFlingAdapter(ViewModel.Messages,DataTemplateFull,DataTemplateFling,ContainerTemplate   );
             }));
 
             ForumTopicPagePostsList.MakeFlingAware();
@@ -67,6 +69,21 @@ namespace MALClient.Android.Fragments.ForumFragments
             ForumTopicPageNewReplyButton.Click +=
                 (sender, args) =>
                     ForumTopicPagePostsList.SmoothScrollToPosition(ForumTopicPagePostsList.Adapter.Count - 1);
+        }
+
+        private View ContainerTemplate(int i)
+        {
+            return new ForumTopicItem(Context);
+        }
+
+        private void DataTemplateFling(View view, int i, ForumTopicMessageEntryViewModel arg3)
+        {
+            ((ForumTopicItem)view).BindModel(arg3,true);
+        }
+
+        private void DataTemplateFull(View view, int i, ForumTopicMessageEntryViewModel arg3)
+        {
+            ((ForumTopicItem)view).BindModel(arg3, false);
         }
 
         private void UpdatePageSelection()

@@ -79,14 +79,14 @@
             android:layout_width="wrap_content" android:foreground="?selectableItemBackground" android:background="?AccentColourDark"
             android:layout_height="wrap_content" android:focusable="true" android:clickable="true">
           <ImageView
-              android:layout_width="30dp" android:textColor="?BrushText"
+              android:layout_width="30dp" android:tint="?BrushText"
               android:layout_height="30dp" android:src="@drawable/icon_minus"/>
         </FrameLayout>
         <FrameLayout android:layout_marginEnd="10dp" android:id="@+id/AnimeCompactItemIncButton"
             android:layout_width="wrap_content" android:foreground="?selectableItemBackground" android:background="?AccentColourDark"
             android:layout_height="wrap_content" android:focusable="true" android:clickable="true">
           <ImageView
-              android:layout_width="30dp" android:textColor="?BrushText"
+              android:layout_width="30dp" android:tint="?BrushText"
               android:layout_height="30dp" android:src="@drawable/icon_add"/>
         </FrameLayout>
         <Button android:layout_width="wrap_content" android:minWidth="90dp"

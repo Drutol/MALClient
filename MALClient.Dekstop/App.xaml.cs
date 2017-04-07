@@ -177,8 +177,6 @@ namespace MALClient.UWP
             // Ensure the current window is active
             if (_initialized)
                 return;
-            
-            InitializationRoutines.InitApp();
 
             NotificationTaskManager.StartNotificationTask(BgTasks.ToastActivation,false);
             NotificationTaskManager.StartNotificationTask(BgTasks.Notifications,false);
@@ -218,11 +216,7 @@ namespace MALClient.UWP
 
         private void ProcessUpdate()
         {
-            if (ApplicationData.Current.LocalSettings.Values["AppVersion"] != null
-                && (string)ApplicationData.Current.LocalSettings.Values["AppVersion"] != UWPUtilities.GetAppVersion())
-            {
-                ChangeLogProvider.NewChangelog = true;
-            }
+            InitializationRoutines.InitPostUpdate();
 
             ApplicationData.Current.LocalSettings.Values["AppVersion"] = UWPUtilities.GetAppVersion();
         }

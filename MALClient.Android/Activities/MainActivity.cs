@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
 using Android.Content.PM;
@@ -11,11 +12,13 @@ using Com.Shehabic.Droppy;
 using GalaSoft.MvvmLight.Ioc;
 using HockeyApp.Android;
 using HockeyApp.Android.Metrics;
+using MALClient.Android.DIalogs;
 using MALClient.Android.Fragments;
 using MALClient.Android.Resources;
 using MALClient.Android.ViewModels;
 using MALClient.Models.Enums;
 using MALClient.Models.Models.Notifications;
+using MALClient.XShared.BL;
 using MALClient.XShared.Comm.Anime;
 using MALClient.XShared.Comm.MagicalRawQueries;
 using MALClient.XShared.Comm.Manga;
@@ -48,7 +51,7 @@ namespace MALClient.Android.Activities
             SimpleIoc.Default.Register<Activity>(() => this);
         }
 
-        protected override void OnCreate(Bundle bundle)
+        protected override async void OnCreate(Bundle bundle)
         {
             RequestedOrientation = ScreenOrientation.Unspecified;
             
@@ -78,6 +81,12 @@ namespace MALClient.Android.Activities
 
                 StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().PermitAll().Build();
                 StrictMode.SetThreadPolicy(policy);
+
+                InitializationRoutines.InitPostUpdate();
+
+                await Task.Delay(1000);
+                if (ResourceLocator.ChangelogProvider.NewChangelog)
+                    ChangelogDialog.BuildChangelogDialog(ResourceLocator.ChangelogProvider);
             }
 
 #if !DEBUG

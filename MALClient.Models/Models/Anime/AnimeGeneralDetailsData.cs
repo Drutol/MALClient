@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -33,7 +34,7 @@ namespace MALClient.Models.Models.Anime
         public void ParseXElement(XElement xmlObj, bool anime,bool preferEnglishTitle)
         {
             float score;
-            if (!float.TryParse(xmlObj.Element("score").Value, out score))
+            if (!float.TryParse(xmlObj.Element("score").Value,NumberStyles.AllowDecimalPoint,CultureInfo.InvariantCulture, out score))
                 score = 0;
             MalId = Convert.ToInt32(xmlObj.Element("id").Value);
             var title = "";

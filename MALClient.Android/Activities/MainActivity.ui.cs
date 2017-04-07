@@ -64,6 +64,7 @@ namespace MALClient.Android.Activities
             Bindings[MainPageRefreshButton.Id].Add(
                 this.SetBinding(() => ViewModel.RefreshButtonVisibility,
                     () => MainPageRefreshButton.Visibility).ConvertSourceToTarget(Converters.BoolToVisibility));
+            MainPageRefreshButton.Click += (sender, args) => ViewModel.RefreshDataCommand.Execute(null);
 
             Bindings.Add(MainPageSearchView.Id, new List<Binding>());
             Bindings[MainPageSearchView.Id].Add(

@@ -37,7 +37,7 @@ namespace MALClient.Android.Fragments.CalendarFragments
 
         protected override void InitBindings()
         {
-            CalendarPageTabContentList.InjectAnimeListAdapter(Context,_items,AnimeListDisplayModes.IndefiniteGrid,OnItemClick);
+            CalendarPageTabContentList.InjectAnimeListAdapter(Context,_items,AnimeListDisplayModes.IndefiniteGrid,OnItemClick,false);
             _gridViewColumnHelper = new GridViewColumnHelper(CalendarPageTabContentList);
         }
 

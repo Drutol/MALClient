@@ -55,7 +55,7 @@ namespace MALClient.UWP
                 DesktopViewModelLocator.Main.View = this;
                 StartAdsTimeMeasurements();
                 ViewModelLocator.Settings.OnAdsMinutesPerDayChanged += SettingsOnOnAdsMinutesPerDayChanged;
-                ViewModelLocator.GeneralMain.ChangelogVisibility = ChangeLogProvider.NewChangelog;
+                ViewModelLocator.GeneralMain.ChangelogVisibility = ResourceLocator.ChangelogProvider.NewChangelog;
             };
         }
 

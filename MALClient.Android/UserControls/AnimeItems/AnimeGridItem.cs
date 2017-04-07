@@ -281,15 +281,18 @@ namespace MALClient.Android.UserControls
         #region Dialogs
         private void ShowStatusDialog()
         {
-            AnimeUpdateDialogBuilder.BuildStatusDialog(ViewModel, ViewModel.ParentAbstraction.RepresentsAnime);
+            if (ViewModel.Auth)
+                AnimeUpdateDialogBuilder.BuildStatusDialog(ViewModel, ViewModel.ParentAbstraction.RepresentsAnime);
         }
         private void ShowWatchedDialog()
         {
-            AnimeUpdateDialogBuilder.BuildWatchedDialog(ViewModel);
+            if (ViewModel.Auth)
+                AnimeUpdateDialogBuilder.BuildWatchedDialog(ViewModel);
         }
         private void ShowRatingDialog()
         {
-            AnimeUpdateDialogBuilder.BuildScoreDialog(ViewModel);
+            if (ViewModel.Auth)
+                AnimeUpdateDialogBuilder.BuildScoreDialog(ViewModel);
         }
         #endregion
 

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Android.App;
+using Android.Graphics;
 using Android.OS;
 using Android.Views;
 using Android.Widget;
@@ -16,14 +17,12 @@ namespace MALClient.Android.Fragments.AnimeDetailsPageTabs
 {
     internal class AnimeDetailsPageDetailsTabFragment : MalFragmentBase
     {
-        private readonly Activity _activity;
 
         private readonly AnimeDetailsPageViewModel ViewModel;
 
         private AnimeDetailsPageDetailsTabFragment()
         {
             ViewModel = ViewModelLocator.AnimeDetails;
-            _activity = MainActivity.CurrentContext;
         }
 
         public override int LayoutResourceId => Resource.Layout.AnimeDetailsPageDetailsTab;
@@ -32,69 +31,55 @@ namespace MALClient.Android.Fragments.AnimeDetailsPageTabs
 
         protected override void Init(Bundle savedInstanceState)
         {
-            ViewModel.OnDetailsLoaded += CreateDetailsAdapters;
-        }
 
-        private void CreateDetailsAdapters()
-        {
-            AnimeDetailsPageDetailsTabLeftGenresList.RemoveAllViews();
-            AnimeDetailsPageDetailsTabLeftGenresList.SetAdapter(new GenresAdapter(_activity, ViewModel.LeftGenres, true));
-
-            AnimeDetailsPageDetailsTabRightGenresList.RemoveAllViews();
-            AnimeDetailsPageDetailsTabRightGenresList.SetAdapter(new GenresAdapter(_activity , ViewModel.RightGenres, true));
-
-            AnimeDetailsPageDetailsTabInformationList.RemoveAllViews();
-            AnimeDetailsPageDetailsTabInformationList.SetAdapter(new DetailsAdapter(_activity, ViewModel.Information, true));
-
-            AnimeDetailsPageDetailsTabStatsList.RemoveAllViews();
-            AnimeDetailsPageDetailsTabStatsList.SetAdapter(new DetailsAdapter(_activity, ViewModel.Stats, true));
-
-            AnimeDetailsPageDetailsTabOPsList.RemoveAllViews();
-            AnimeDetailsPageDetailsTabOPsList.SetAdapter(new GenresAdapter(_activity, ViewModel.OPs, true));
-
-            AnimeDetailsPageDetailsTabEDsList.RemoveAllViews();
-            AnimeDetailsPageDetailsTabEDsList.SetAdapter(new GenresAdapter(_activity, ViewModel.EDs, true));
         }
 
         protected override void InitBindings()
         {
-            CreateDetailsAdapters();
-
             Bindings.Add(
                 this.SetBinding(() => ViewModel.LoadingDetails,
                     () => LoadingOverlay.Visibility).ConvertSourceToTarget(Converters.BoolToVisibility));
+
+            Bindings.Add(this.SetBinding(() => ViewModel.LoadingDetails).WhenSourceChanges(() =>
+            {
+                if (ViewModel.LoadingDetails)
+                    return;
+
+                AnimeDetailsPageDetailsTabLeftGenresList.SetAdapter(
+                    ViewModel.LeftGenres.GetAdapter(GetSingleDetailTemplateDelegate));          
+                AnimeDetailsPageDetailsTabRightGenresList.SetAdapter(
+                    ViewModel.RightGenres.GetAdapter(GetSingleDetailTemplateDelegate));
+                AnimeDetailsPageDetailsTabInformationList.SetAdapter(
+                    ViewModel.Information.GetAdapter(GetDetailsTemplateDelegate));
+                AnimeDetailsPageDetailsTabStatsList.SetAdapter(ViewModel.Stats.GetAdapter(GetDetailsTemplateDelegate));
+                AnimeDetailsPageDetailsTabOPsList.SetAdapter(ViewModel.OPs.GetAdapter(GetSingleDetailTemplateDelegate));
+                AnimeDetailsPageDetailsTabEDsList.SetAdapter(ViewModel.EDs.GetAdapter(GetSingleDetailTemplateDelegate));
+
+            }));
         }
 
-        protected override void Cleanup()
+        private View GetSingleDetailTemplateDelegate(int i, string s, View arg3)
         {
-            ViewModel.OnDetailsLoaded -= CreateDetailsAdapters;
+            var view = Activity.LayoutInflater.Inflate(Resource.Layout.GenreItemView, null);
+            view.FindViewById<TextView>(Resource.Id.GenreItemTextView).Text = s;
+            view.SetBackgroundColor(
+                new Color(i % 2 == 0
+                    ? ResourceExtension.BrushRowAlternate1
+                    : ResourceExtension.BrushRowAlternate2));
+
+            return view;
         }
 
-        private class GenresAdapter : AlternatingListCollectionAdapter<string>
+        private View GetDetailsTemplateDelegate(int i, Tuple<string, string> tuple, View arg3)
         {
-            public GenresAdapter(Activity context, IEnumerable<string> items, bool startLight)
-                : base(context, Resource.Layout.GenreItemView, items, startLight)
-            {
-            }
+            var view = Activity.LayoutInflater.Inflate(Resource.Layout.DetailItemView, null);
+            view.FindViewById<TextView>(Resource.Id.DetailItemCategoryTextView).Text = tuple.Item1;
+            view.FindViewById<TextView>(Resource.Id.DetailItemContentTextView).Text = tuple.Item2;            view.SetBackgroundColor(
+                new Color(i % 2 == 0
+                    ? ResourceExtension.BrushRowAlternate1
+                    : ResourceExtension.BrushRowAlternate2));
 
-            protected override void InitializeView(View view, string model)
-            {
-                view.FindViewById<TextView>(Resource.Id.GenreItemTextView).Text = model;
-            }
-        }
-
-        private class DetailsAdapter : AlternatingListCollectionAdapter<Tuple<string, string>>
-        {
-            public DetailsAdapter(Activity context, IEnumerable<Tuple<string, string>> items, bool startLight)
-                : base(context, Resource.Layout.DetailItemView, items, startLight)
-            {
-            }
-
-            protected override void InitializeView(View view, Tuple<string, string> model)
-            {
-                view.FindViewById<TextView>(Resource.Id.DetailItemCategoryTextView).Text = model.Item1;
-                view.FindViewById<TextView>(Resource.Id.DetailItemContentTextView).Text = model.Item2;
-            }
+            return view;
         }
 
         #region Views

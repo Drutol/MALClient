@@ -7,8 +7,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
   <!--<TextView
-      android:layout_width="match_parent" android:background="?BrushAppBars" android:gravity="center_horizontal"
-      android:layout_height="wrap_content" android:text="Alpha version... かな" android:textColor="#f00"/>-->
+        android:layout_width="match_parent" android:background="?BrushAppBars" android:gravity="center_horizontal"
+        android:layout_height="wrap_content" android:text="Alpha version... かな" android:textColor="#f00"/>-->
   <LinearLayout
       android:layout_width="match_parent"
       android:layout_height="@dimen/AppBarHeight"
@@ -57,11 +57,13 @@
         android:minWidth="@dimen/AppBarBtnWidth"
         android:iconifiedByDefault="false"
         android:searchIcon="@null" />
+
     <ImageButton android:id="@+id/MainPageRefreshButton"
-        android:layout_width="50dp"
-        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent" android:layout_gravity="center_vertical"
+        android:tint="#fff"
         android:background="?android:selectableItemBackground"
-        android:src="@drawable/icon_reload" />
+        android:src="@drawable/icon_reload" android:padding="10dp" />
   </LinearLayout>
 
   <RelativeLayout

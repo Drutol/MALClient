@@ -83,9 +83,6 @@ namespace MALClient.Android.UserControls.AnimeItems
             AnimeCompactItemIncButton.SetOnClickListener(new OnClickListener(view => ViewModel.IncrementWatchedCommand.Execute(null)));
             AnimeCompactItemDecButton.SetOnClickListener(new OnClickListener(view => ViewModel.DecrementWatchedCommand.Execute(null)));
 
-            if (ViewModel.Auth)
-                AnimeCompactItemWatchedButton.SetOnClickListener(new OnClickListener(view => ShowWatchedDialog()));
-
             RootContainer.SetOnClickListener(new OnClickListener(v => ContainerOnClick()));
 
             ViewModel.PropertyChanged += ViewModelOnPropertyChanged;
@@ -99,6 +96,13 @@ namespace MALClient.Android.UserControls.AnimeItems
             AnimeCompactItemDecButton.Visibility = ViewModel.DecrementEpsVisibility
                 ? ViewStates.Visible
                 : ViewStates.Gone;
+        }
+
+        protected override void RootContainerInit()
+        {
+            AnimeCompactItemWatchedButton.SetOnClickListener(new OnClickListener(view => ShowStatusDialog()));
+            AnimeCompactItemScoreButton.SetOnClickListener(new OnClickListener(view => ShowRatingDialog()));
+            AnimeCompactItemStatusButton.SetOnClickListener(new OnClickListener(view => ShowWatchedDialog()));
         }
 
         protected override void BindModelBasic()
@@ -159,17 +163,22 @@ namespace MALClient.Android.UserControls.AnimeItems
         }
 
         #region Dialogs
+
         private void ShowStatusDialog()
         {
-            AnimeUpdateDialogBuilder.BuildStatusDialog(ViewModel, ViewModel.ParentAbstraction.RepresentsAnime);
+            if (ViewModel.Auth)
+                AnimeUpdateDialogBuilder.BuildStatusDialog(ViewModel, ViewModel.ParentAbstraction.RepresentsAnime);
         }
+
         private void ShowWatchedDialog()
         {
-            AnimeUpdateDialogBuilder.BuildWatchedDialog(ViewModel);
+            if (ViewModel.Auth)
+                AnimeUpdateDialogBuilder.BuildWatchedDialog(ViewModel);
         }
         private void ShowRatingDialog()
         {
-            AnimeUpdateDialogBuilder.BuildScoreDialog(ViewModel);
+            if (ViewModel.Auth)
+                AnimeUpdateDialogBuilder.BuildScoreDialog(ViewModel);
         }
         #endregion
 

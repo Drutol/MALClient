@@ -314,11 +314,11 @@ namespace MALClient.XShared.Utils
             set { ApplicationDataService[nameof(ForceSearchIntoOffPage)] = value; }
         }
 
-        //public static string PinnedProfiles
-        //{
-        //    get { return (string) (ApplicationDataService["PinnedProfiles"] ?? ""); }
-        //    set { ApplicationDataService["PinnedProfiles"] = value; }
-        //}
+        public static string AppVersion
+        {
+            get { return ApplicationDataService["AppVersion"] as string; }
+            set { ApplicationDataService["AppVersion"] = value; }
+        }
 
         #region Views
 

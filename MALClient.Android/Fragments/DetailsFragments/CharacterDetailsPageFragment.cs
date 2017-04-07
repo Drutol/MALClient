@@ -154,14 +154,18 @@ namespace MALClient.Android.Fragments.DetailsFragments
         private View GetTemplateDelegate(int i, FavouriteViewModel favouriteViewModel, View arg3)
         {
             var view = arg3;
+            var firstRun = false;
             if (view == null)
             {
                 view = new FavouriteItem(Activity);
-                view.Click += PersonOnClick;
+                firstRun = true;
             }
 
             (view as FavouriteItem).BindModel(favouriteViewModel,false);
-
+            if (firstRun)
+            {
+                ((FavouriteItem)view).Click += PersonOnClick;
+            }
             return view;
         }
 

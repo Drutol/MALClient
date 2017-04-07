@@ -10,7 +10,8 @@ namespace MALClient.UWP.Adapters
 {
     public class ChangeLogProvider : IChangeLogProvider
     {
-        public static bool NewChangelog { get; set; }
+        public bool NewChangelog { get; set; }
+        public string CurrentVersion => UWPUtilities.GetAppVersion();
 
         public string DateWithVersion =>  $"v{UWPUtilities.GetAppVersion()} - 06.04.2017";
 
@@ -18,6 +19,7 @@ namespace MALClient.UWP.Adapters
         {
             "Hotfix: Seasonal anime loading",
         };
+
 
     }
 }

@@ -54,6 +54,7 @@ namespace MALClient.Android.Fragments
             AnimeDetailsPageTabStrip.SetViewPager(AnimeDetailsPagePivot);
             AnimeDetailsPageTabStrip.CenterTabs();
             AnimeDetailsPagePivot.SetCurrentItem(_navArgs.SourceTabIndex,false);
+            AnimeDetailsPagePivot.OffscreenPageLimit = 7;
          
             AnimeDetailsPagePivot.AddOnPageChangeListener(new OnPageChangedListener(i => ViewModel.DetailsPivotSelectedIndex = i));
 

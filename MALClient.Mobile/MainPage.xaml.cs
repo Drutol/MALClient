@@ -43,7 +43,7 @@ namespace MALClient.UWP
                 UWPViewModelLocator.PinTileDialog.HidePinDialog += HidePinDialog;
                 StartAdsTimeMeasurements();
                 ViewModelLocator.Settings.OnAdsMinutesPerDayChanged += SettingsOnOnAdsMinutesPerDayChanged;
-                ViewModelLocator.GeneralMain.ChangelogVisibility = ChangeLogProvider.NewChangelog;
+                ViewModelLocator.GeneralMain.ChangelogVisibility = ResourceLocator.ChangelogProvider.NewChangelog;
             };
             ViewModel.MainNavigationRequested += Navigate;
         }

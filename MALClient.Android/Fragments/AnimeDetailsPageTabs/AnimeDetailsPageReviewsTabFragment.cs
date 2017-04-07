@@ -44,14 +44,13 @@ namespace MALClient.Android.Fragments.AnimeDetailsPageTabs
 
         protected override void InitBindings()
         {
+            
             AnimeDetailsPageReviewsTabsList.Adapter = ViewModel.Reviews.GetAdapter(GetTemplateDelegate);
 
             Bindings.Add(
                 this.SetBinding(() => ViewModel.LoadingReviews,
-                    () => LoadingOverlay.Visibility).ConvertSourceToTarget(Converters.BoolToVisibility));
-            
+                    () => LoadingOverlay.Visibility).ConvertSourceToTarget(Converters.BoolToVisibility));         
         }
-
 
         private Dictionary<AnimeReviewData,bool> _reviewStates = new Dictionary<AnimeReviewData, bool>();
 

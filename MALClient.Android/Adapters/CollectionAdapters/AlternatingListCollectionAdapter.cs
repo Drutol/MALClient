@@ -31,10 +31,7 @@ namespace MALClient.Android.CollectionAdapters
             if (view == null)
             {
                 view = _context.LayoutInflater.Inflate(_layoutResource,null);
-                view.SetBackgroundColor(
-                    new Color(position%2 == _alternator
-                        ? ResourceExtension.BrushRowAlternate1
-                        : ResourceExtension.BrushRowAlternate2));
+
                 InitializeView(view,_items[position]);
             }
             return view;

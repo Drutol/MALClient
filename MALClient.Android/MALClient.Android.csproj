@@ -183,6 +183,7 @@
     <Compile Include="BindingInformation\StaticBindings\FavouriteItemBindingInfo.cs" />
     <Compile Include="DIalogs\AnimeDetailsPageDialogBuilder.cs" />
     <Compile Include="DIalogs\AnimeUpdateDialogBuilder.cs" />
+    <Compile Include="DIalogs\ChangelogDialog.cs" />
     <Compile Include="Flyouts\AnimeDetailsPageMoreFlyoutBuilder.cs" />
     <Compile Include="Flyouts\AnimeItemFlyoutBuilder.cs" />
     <Compile Include="Flyouts\FlyoutMenuBuilder.cs" />
@@ -962,6 +963,9 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\dialog_corner_background.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\ChangelogDialog.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Android.Support.Vector.Drawable.23.4.0.1\build\Xamarin.Android.Support.Vector.Drawable.targets" Condition="Exists('..\packages\Xamarin.Android.Support.Vector.Drawable.23.4.0.1\build\Xamarin.Android.Support.Vector.Drawable.targets')" />

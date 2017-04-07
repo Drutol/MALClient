@@ -19,7 +19,6 @@ namespace MALClient.XShared.BL
     {
         public static void InitApp()
         {
-
             Credentials.Init();
             HtmlClassMgr.Init();
             FavouritesManager.LoadData();
@@ -31,6 +30,15 @@ namespace MALClient.XShared.BL
                     ResourceLocator.NotificationsTaskManager.CallTask(BgTasks.Notifications);
                 });
             ResourceLocator.HandyDataStorage.Init();
+        }
+
+        public static void InitPostUpdate()
+        {
+            var previousVersion = Settings.AppVersion;
+
+            ResourceLocator.ChangelogProvider.NewChangelog = previousVersion != null && previousVersion !=
+                                                             ResourceLocator.ChangelogProvider.CurrentVersion;
+            Settings.AppVersion = ResourceLocator.ChangelogProvider.CurrentVersion;
         }
     }
 }

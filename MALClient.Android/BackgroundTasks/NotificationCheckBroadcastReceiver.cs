@@ -168,6 +168,8 @@ namespace MALClient.Android.BackgroundTasks
                 .SetSmallIcon(Resource.Drawable.badge_icon)
                 .SetStyle(new NotificationCompat.BigTextStyle().BigText(notification.Content))
                 .SetContentTitle(notification.Header)
+                .SetContentText(notification.Content)
+                .SetContentInfo(notification.Content)
                 .SetAutoCancel(true)
                 .SetContentIntent(pendingIntent)
                 .SetSound(RingtoneManager.GetDefaultUri(RingtoneType.Notification));

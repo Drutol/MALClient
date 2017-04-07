@@ -64,6 +64,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationDataServiceService.cs" />
+    <Compile Include="ChangelogProvider.cs" />
     <Compile Include="ClipboardProvider.cs" />
     <Compile Include="DataCache.cs" />
     <Compile Include="ImageDownloaderService.cs" />

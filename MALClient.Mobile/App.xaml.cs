@@ -211,11 +211,7 @@ namespace MALClient.UWP
 
         private void ProcessUpdate()
         {
-            if (ApplicationData.Current.LocalSettings.Values["AppVersion"] != null
-                && (string)ApplicationData.Current.LocalSettings.Values["AppVersion"] != UWPUtilities.GetAppVersion())
-            {
-                ChangeLogProvider.NewChangelog = true;
-            }
+            InitializationRoutines.InitPostUpdate();
 
             ApplicationData.Current.LocalSettings.Values["AppVersion"] = UWPUtilities.GetAppVersion();
         }

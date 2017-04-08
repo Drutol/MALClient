@@ -47,15 +47,19 @@ namespace MALClient.Android.Fragments
         protected override void InitBindings()
         {
             var swipeRefresh = RootView as SwipeRefreshLayout;
+            var footerHolder = new FrameLayout(Context) {LayoutParameters = new ViewGroup.LayoutParams(-1,-2)};
             var footer = new Button(Context)
             {
                 Text = "Load more",
+                LayoutParameters = new ViewGroup.LayoutParams(-1,-2)
+              
             };
             footer.SetAllCaps(false);
             footer.BackgroundTintList = ColorStateList.ValueOf(new Color(ResourceExtension.AccentColourDark));
             footer.SetOnClickListener(new OnClickListener(view => ViewModel.LoadMoreCommand.Execute(null)));
-            _loadMoreFooter = footer;
-            
+            footer.SetTextColor(Color.White);
+            footerHolder.AddView(footer);
+            _loadMoreFooter = footerHolder;
 
 
             //AnimeListPageGridView.ScrollingCacheEnabled = false;
@@ -173,31 +177,53 @@ namespace MALClient.Android.Fragments
         {
             if (propertyChangedEventArgs.PropertyName == nameof(ViewModelLocator.AnimeList.AnimeGridItems))
             {
+
                 if (ViewModel.AnimeGridItems != null)
                 {
-                    AnimeListPageGridView.InjectAnimeListAdapterWithFooter(Context, ViewModel.AnimeGridItems, AnimeListDisplayModes.IndefiniteGrid,_loadMoreFooter, AnimeListPageGridViewOnItemClick);
+                    var footerParam = _loadMoreFooter.LayoutParameters;
+                    footerParam.Height = ViewGroup.LayoutParams.WrapContent;
+                    
+                    AnimeListPageGridView.InjectAnimeListAdapterWithFooter(Context, ViewModel.AnimeGridItems, AnimeListDisplayModes.IndefiniteGrid, _loadMoreFooter, AnimeListPageGridViewOnItemClick);
+                    
                     _gridViewColumnHelper = new GridViewColumnHelper(AnimeListPageGridView);
+                    //if row is not full we have to make this footer item bigger in order to avoid cutting of last row of items
+
+                    SwipeRefreshLayout.ScrollingView = AnimeListPageGridView;
+
+                    AnimeListPageListView.ClearFlingAdapter();
+                    AnimeListPageCompactListView.ClearFlingAdapter();
+
+                    await Task.Delay(250);
                     if (_prevArgs != null)
                     {
                         var pos = _prevArgs.SelectedItemIndex;
-                        await Task.Delay(300);
+                        
                         AnimeListPageGridView.RequestFocusFromTouch();
                         AnimeListPageGridView.SetSelection(pos);
                         AnimeListPageGridView.RequestFocus();
                         _prevArgs = null;
                     }
 
-                    SwipeRefreshLayout.ScrollingView = AnimeListPageGridView;
 
-                    AnimeListPageListView.Adapter = null;
-                    AnimeListPageCompactListView.Adapter = null;
+                    if (ViewModel.AnimeGridItems.Count % _gridViewColumnHelper.LastColmuns != 0)
+                    {
+                        footerParam.Height = DimensionsHelper.DpToPx(315);
+                    }
+
+                    _loadMoreFooter.LayoutParameters = footerParam;
+
                 }
             }
             else if (propertyChangedEventArgs.PropertyName == nameof(ViewModelLocator.AnimeList.AnimeListItems))
             {
+
                 if (ViewModel.AnimeListItems != null)
                 {
-                    AnimeListPageListView.InjectAnimeListAdapterWithFooter(Context,ViewModel.AnimeListItems,AnimeListDisplayModes.IndefiniteList,_loadMoreFooter,AnimeListPageGridViewOnItemClick);
+                    var footerParam = _loadMoreFooter.LayoutParameters;
+                    footerParam.Height = ViewGroup.LayoutParams.WrapContent;
+                    _loadMoreFooter.LayoutParameters = footerParam;
+                    AnimeListPageListView.InjectAnimeListAdapter(Context, ViewModel.AnimeListItems, AnimeListDisplayModes.IndefiniteList, AnimeListPageGridViewOnItemClick);
+
                     if (_prevArgs != null)
                     {
                         AnimeListPageListView.SmoothScrollToPosition(_prevArgs.SelectedItemIndex);
@@ -206,15 +232,19 @@ namespace MALClient.Android.Fragments
 
                     SwipeRefreshLayout.ScrollingView = AnimeListPageListView;
 
-                    AnimeListPageGridView.Adapter = null;
-                    AnimeListPageCompactListView.Adapter = null;
+                    AnimeListPageGridView.ClearFlingAdapter();
+                    AnimeListPageCompactListView.ClearFlingAdapter();
                 }
             }
             else if (propertyChangedEventArgs.PropertyName == nameof(ViewModelLocator.AnimeList.AnimeCompactItems))
             {
+
                 if (ViewModel.AnimeCompactItems != null)
                 {
-                    AnimeListPageCompactListView.InjectAnimeListAdapterWithFooter(Context, ViewModel.AnimeCompactItems, AnimeListDisplayModes.IndefiniteCompactList,_loadMoreFooter, AnimeListPageGridViewOnItemClick);
+                    var footerParam = _loadMoreFooter.LayoutParameters;
+                    footerParam.Height = ViewGroup.LayoutParams.WrapContent;
+                    _loadMoreFooter.LayoutParameters = footerParam;
+                    AnimeListPageCompactListView.InjectAnimeListAdapterWithFooter(Context, ViewModel.AnimeCompactItems, AnimeListDisplayModes.IndefiniteCompactList, _loadMoreFooter, AnimeListPageGridViewOnItemClick);
 
                     if (_prevArgs != null)
                     {
@@ -224,8 +254,8 @@ namespace MALClient.Android.Fragments
 
                     SwipeRefreshLayout.ScrollingView = AnimeListPageCompactListView;
 
-                    AnimeListPageListView.Adapter = null;
-                    AnimeListPageGridView.Adapter = null;
+                    AnimeListPageListView.ClearFlingAdapter();
+                    AnimeListPageGridView.ClearFlingAdapter();
                 }
             }
             else if (propertyChangedEventArgs.PropertyName == nameof(ViewModel.DisplayMode))
@@ -254,10 +284,10 @@ namespace MALClient.Android.Fragments
             }
             else if (propertyChangedEventArgs.PropertyName == nameof(ViewModel.CanLoadMore))
             {
-                if(ViewModel.CanLoadMore)
+                if (ViewModel.CanLoadMore)
                     _loadMoreFooter.Visibility = ViewStates.Visible;
                 else
-                    _loadMoreFooter.Visibility = ViewStates.Gone;
+                    _loadMoreFooter.Visibility = ViewStates.Invisible;
             }
         }
 

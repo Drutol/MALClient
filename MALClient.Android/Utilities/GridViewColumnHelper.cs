@@ -15,6 +15,8 @@ namespace MALClient.Android
         private readonly List<GridView> _grids;
         private int _prefferedItemWidth;
 
+        public int LastColmuns { get;  private set; }
+
         private int _minColumns;
         public int MinColumns
         {
@@ -56,6 +58,7 @@ namespace MALClient.Android
             var width = newConfig.ScreenWidthDp;
             var columns = width / _prefferedItemWidth;
             columns = columns < _minColumns ? _minColumns : columns;
+            LastColmuns = columns;
             return columns;
         }
 

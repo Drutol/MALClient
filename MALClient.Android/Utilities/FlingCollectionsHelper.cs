@@ -69,6 +69,7 @@ namespace MALClient.Android
             if (FlingStates.ContainsKey(container))
                 FlingStates.Remove(container);
             container.SetOnScrollListener(null);
+            container.Adapter = null;
         }
     }
 }

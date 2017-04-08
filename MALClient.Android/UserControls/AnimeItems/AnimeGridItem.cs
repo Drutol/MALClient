@@ -29,6 +29,9 @@ namespace MALClient.Android.UserControls
         private readonly bool _allowSwipeInGivenContext;
         private readonly Action<AnimeItemViewModel> _onItemClickAction;
 
+
+        private bool _propertyHandlerAttached;
+
         #region Constructors
 
         public AnimeGridItem(IntPtr javaReference, JniHandleOwnership transfer) : base(javaReference, transfer)
@@ -112,7 +115,13 @@ namespace MALClient.Android.UserControls
             AnimeGridItemTopRightInfo.Visibility = ViewModel.Auth ? ViewStates.Visible : ViewStates.Gone;
             AnimeGridItemAddToListButton.SetOnClickListener(new OnClickListener(view => ViewModel.AddAnimeCommand.Execute(null)));
             AnimeGridItemWatchedStatusButton.SetOnClickListener(new OnClickListener(view => ShowWatchedDialog()));
-            ViewModel.PropertyChanged += ViewModelOnPropertyChanged;
+
+            if (!_propertyHandlerAttached)
+            {
+                ViewModel.PropertyChanged += ViewModelOnPropertyChanged;
+                _propertyHandlerAttached = true;
+            }
+
 
 
             AnimeGridItemCurrentWatchingStatus.Text = ViewModel.MyStatusBindShort;
@@ -120,6 +129,19 @@ namespace MALClient.Android.UserControls
             AnimeGridItemScore.Text = ViewModel.MyScoreBindShort;
             AnimeGridItemAddToListButton.Visibility = ViewModel.AddToListVisibility ? ViewStates.Visible : ViewStates.Gone;
 
+
+            if (_allowSwipeInGivenContext && ViewModel.Auth)
+            {
+                RootContainer.SwipeEnabled = true;
+                RootContainer.LeftSwipeEnabled = true;
+                RootContainer.RightSwipeEnabled = true;
+            }
+            else
+            {
+                RootContainer.SwipeEnabled = false;
+                RootContainer.LeftSwipeEnabled = false;
+                RootContainer.RightSwipeEnabled = false;
+            }
         }
 
         private void ViewModelOnPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
@@ -138,12 +160,16 @@ namespace MALClient.Android.UserControls
                 case nameof(ViewModel.AddToListVisibility):
                     AnimeGridItemAddToListButton.Visibility = ViewModel.AddToListVisibility ? ViewStates.Visible : ViewStates.Gone;
                     break;
+                case nameof(ViewModel.Auth):
+                    BindModelFull();
+                    break;
             }
         }
 
         protected override void CleanupPreviousModel()
         {
             ViewModel.PropertyChanged -= ViewModelOnPropertyChanged;
+            _propertyHandlerAttached = false;
         }
 
         protected override void BindModelBasic()
@@ -166,7 +192,7 @@ namespace MALClient.Android.UserControls
 
         protected override void RootContainerInit()
         {
-            if (_allowSwipeInGivenContext && ViewModel.Auth)
+            if (_allowSwipeInGivenContext)
             {
                 RootContainer.SwipeEnabled = true;
 

@@ -63,11 +63,25 @@ namespace MALClient.Android.Fragments
 
         public override void OnConfigurationChanged(Configuration newConfig)
         {
-            //if (ViewModel.DisplayMode == AnimeListDisplayModes.IndefiniteCompactList) //update vertical
-                //_animeListItemsAdapter.BindingInfos.Cast<AnimeCompactItemBindingInfo>().ForEach(info => info.OnConfigurationChanged(newConfig));
+            var prevPosition = AnimeListPageGridView.FirstVisiblePosition;
 
             _gridViewColumnHelper?.OnConfigurationChanged(newConfig);
             base.OnConfigurationChanged(newConfig);
+
+            var footerParam = _loadMoreFooter.LayoutParameters;
+            if (ViewModel.AnimeGridItems != null)
+            {
+                if (_gridViewColumnHelper != null
+                    && ViewModel.AnimeGridItems.Count % _gridViewColumnHelper.LastColmuns != 0)
+                    footerParam.Height = DimensionsHelper.DpToPx(315);
+                AnimeListPageGridView.SetSelection(prevPosition);
+            }
+            else
+            {
+                footerParam.Height = -2;
+            }
+            _loadMoreFooter.LayoutParameters = footerParam;
+
         }
 
         public static AnimeListPageFragment BuildInstance(object args)

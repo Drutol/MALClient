@@ -9,7 +9,11 @@
     android:padding="5dp">
     <ListView android:layout_width="match_parent" android:divider="@color/Transparent"
               android:layout_height="wrap_content" android:id="@+id/AnimeDetailsPageReviewsTabsList" />
+    
   </LinearLayout>
+  <TextView android:layout_centerInParent="true" android:visibility="gone"
+      android:layout_width="wrap_content" android:id="@+id/AnimeDetailsPageReviewsTabEmptyNotice"
+      android:layout_height="wrap_content" android:fontFamily="@string/font_family_light" android:text="No reviews available..." android:layout_gravity="center_horizontal" android:textColor="?BrushNoSearchResults"/>
   <RelativeLayout android:id="@+id/AnimeDetailsPageReviewsTabLoadingOverlay" android:layout_width="match_parent"
                   android:layout_height="match_parent" android:background="?BrushLoading">
     <ProgressBar android:layout_width="wrap_content" android:indeterminateTint="?AccentColour"

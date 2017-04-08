@@ -47,7 +47,7 @@ namespace MALClient.Android.Fragments
         protected override void InitBindings()
         {
             var swipeRefresh = RootView as SwipeRefreshLayout;
-            var footerHolder = new FrameLayout(Context) {LayoutParameters = new ViewGroup.LayoutParams(-1,-2)};
+            var footerHolder = new FrameLayout(Context) {LayoutParameters = new AbsListView.LayoutParams(-1,-2)};
             var footer = new Button(Context)
             {
                 Text = "Load more",

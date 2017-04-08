@@ -60,6 +60,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
+
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="260dp" android:background="?BrushAppBars">
@@ -152,7 +153,7 @@
                     android:id="@+id/AnimeGridItemFavouriteIndicator"
                     android:layout_width="25dp"
                     android:layout_height="25dp" android:layout_gravity="center_horizontal"
-                    android:src="@drawable/icon_fav_outline" android:scaleType="center" />
+                    android:src="@drawable/icon_fav_outline" android:scaleType="center" android:tint="#fff"/>
             </LinearLayout>
             <TextView
                 android:layout_width="wrap_content"
@@ -172,7 +173,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:foreground="?android:selectableItemBackground"
-                android:clickable="true"
+                android:clickable="true" android:visibility="gone"
                 android:id="@+id/AnimeGridItemTagsButton"
                 android:focusable="true"
                 android:layout_alignParentRight="true" android:layout_alignParentBottom="true">
@@ -185,7 +186,7 @@
                 android:layout_height="40dp" android:layout_alignParentRight="true"
                 android:clickable="true" android:layout_alignParentBottom="true"
                 android:focusable="true" android:layout_gravity="center_vertical"
-                android:foreground="?android:selectableItemBackground"
+                android:foreground="?android:selectableItemBackground" android:visibility="gone"
                 android:id="@+id/AnimeGridItemAddToListButton">
 
                 <ImageView android:layout_width="35dp"
@@ -197,6 +198,7 @@
             </FrameLayout>
 
         </RelativeLayout>
+
         <View android:layout_width="match_parent" android:layout_height="1dp" android:background="?AccentColour"/>
         <LinearLayout
             android:layout_width="match_parent"

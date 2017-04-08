@@ -17,6 +17,7 @@ using MALClient.Android.BindingConverters;
 using MALClient.Android.Resources;
 using MALClient.Models.Enums;
 using MALClient.Models.Models.MalSpecific;
+using MALClient.XShared.Utils;
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Main;
 using FloatingActionButton = Android.Support.Design.Widget.FloatingActionButton;
@@ -132,6 +133,9 @@ namespace MALClient.Android.Fragments.MessagingFragments
                     break;
                 case Resource.Drawable.icon_message_alt:
                     ViewModel.DisplaySentMessages = !ViewModel.DisplaySentMessages;
+                    ViewModelLocator.GeneralMain.CurrentStatus = ViewModel.DisplaySentMessages
+                        ? $"{Credentials.UserName} - Sent Messages"
+                        : $"{Credentials.UserName} - Messages";
                     break;
             }
         }

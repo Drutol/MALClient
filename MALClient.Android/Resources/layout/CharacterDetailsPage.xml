@@ -38,7 +38,7 @@
         <ImageButton android:id="@+id/CharacterDetailsPageLinkButton"
             android:layout_width="35dp"
             android:layout_height="35dp" android:background="?selectableItemBackground" android:src="@drawable/icon_link_chain"/>
-        <Button android:id="@+id/CharacterDetailsPageSpoilerButton" android:layout_gravity="end"
+        <Button android:id="@+id/CharacterDetailsPageSpoilerButton" android:layout_gravity="end" android:textColor="#fff"
             android:layout_width="wrap_content" android:backgroundTint="?AccentColourDark" android:text="Spoiler" android:textAllCaps="false"
             android:layout_height="wrap_content" style="style/inc" android:padding="2dp" android:minHeight="40dp"/>
       </FrameLayout>

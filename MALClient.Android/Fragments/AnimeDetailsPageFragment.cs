@@ -73,21 +73,32 @@ namespace MALClient.Android.Fragments
             Bindings.Add(
                 this.SetBinding(() => ViewModel.LoadingGlobal,
                     () => AnimeDetailsPageLoadingOverlay.Visibility).ConvertSourceToTarget(Converters.BoolToVisibility));      
-            Bindings.Add(
-                this.SetBinding(() => ViewModel.AddAnimeVisibility,
-                    () => AnimeDetailsPageAddSection.Visibility).ConvertSourceToTarget(Converters.BoolToVisibility));
+
             Bindings.Add(
                 this.SetBinding(() => ViewModel.IsIncrementButtonEnabled,
                     () => AnimeDetailsPageIncrementButton.Enabled));      
             Bindings.Add(
                 this.SetBinding(() => ViewModel.IsDecrementButtonEnabled,
                     () => AnimeDetailsPageDecrementButton.Enabled));      
-            Bindings.Add(
-                this.SetBinding(() => ViewModel.AddAnimeVisibility,
-                    () => AnimeDetailsPageUpdateSection.Visibility).ConvertSourceToTarget(Converters.BoolToVisibilityInverted));      
-            Bindings.Add(
-                this.SetBinding(() => ViewModel.AddAnimeVisibility,
-                    () => AnimeDetailsPageIncDecSection.Visibility).ConvertSourceToTarget(Converters.BoolToVisibilityInverted));      
+
+            Bindings.Add(this.SetBinding(() => ViewModel.AddAnimeVisibility).WhenSourceChanges(() =>
+            {
+                if (ViewModel.AddAnimeVisibility)
+                {
+                    AnimeDetailsPageIncDecSection.Visibility = ViewStates.Gone;
+                    AnimeDetailsPageUpdateSection.Visibility = ViewStates.Gone;
+                    AnimeDetailsPageAddSection.Visibility = ViewStates.Visible;
+                    AnimeDetailsPageFavouriteButton.Visibility = ViewStates.Gone;
+                }
+                else
+                {
+                    AnimeDetailsPageIncDecSection.Visibility = ViewStates.Visible;
+                    AnimeDetailsPageUpdateSection.Visibility = ViewStates.Visible;
+                    AnimeDetailsPageAddSection.Visibility = ViewStates.Gone;
+                    AnimeDetailsPageFavouriteButton.Visibility = ViewStates.Visible;
+                }
+            }));
+
             Bindings.Add(
                 this.SetBinding(() => ViewModel.DetailsPivotSelectedIndex).WhenSourceChanges(() => AnimeDetailsPagePivot.SetCurrentItem(ViewModel.DetailsPivotSelectedIndex,true)));
 

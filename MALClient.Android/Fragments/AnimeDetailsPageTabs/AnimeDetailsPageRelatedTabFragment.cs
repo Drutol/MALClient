@@ -23,7 +23,6 @@ namespace MALClient.Android.Fragments.AnimeDetailsPageTabs
     class AnimeDetailsPageRelatedTabFragment : MalFragmentBase
     {
         private AnimeDetailsPageViewModel ViewModel;
-        private ListView _list;
 
         private AnimeDetailsPageRelatedTabFragment()
         {
@@ -37,13 +36,13 @@ namespace MALClient.Android.Fragments.AnimeDetailsPageTabs
 
         protected override void InitBindings()
         {
-            _list = FindViewById<ListView>(Resource.Id.AnimeDetailsPageRelatedTabsList);
-            _list.Adapter = ViewModel.RelatedAnime.GetAdapter(RelatedItemTemplateDelegate);
-            _list.OnItemClickListener = new OnItemClickListener<RelatedAnimeData>(data => ViewModel.NavigateDetailsCommand.Execute(data));
+            AnimeDetailsPageRelatedTabsList.Adapter = ViewModel.RelatedAnime.GetAdapter(RelatedItemTemplateDelegate);
+            AnimeDetailsPageRelatedTabsList.OnItemClickListener = new OnItemClickListener<RelatedAnimeData>(data => ViewModel.NavigateDetailsCommand.Execute(data));
+            AnimeDetailsPageRelatedTabsList.EmptyView = AnimeDetailsPageRelatedTabEmptyNotice;
 
             Bindings.Add(
                 this.SetBinding(() => ViewModel.LoadingRelated,
-                    () => LoadingOverlay.Visibility).ConvertSourceToTarget(Converters.BoolToVisibility));
+                    () => AnimeDetailsPageRelatedTabLoadingOverlay.Visibility).ConvertSourceToTarget(Converters.BoolToVisibility));
         }
 
 
@@ -65,9 +64,16 @@ namespace MALClient.Android.Fragments.AnimeDetailsPageTabs
         public override int LayoutResourceId => Resource.Layout.AnimeDetailsPageRelatedTab;
 
         #region Views
+        private ListView _animeDetailsPageRelatedTabsList;
+        private TextView _animeDetailsPageRelatedTabEmptyNotice;
+        private RelativeLayout _animeDetailsPageRelatedTabLoadingOverlay;
 
-        private RelativeLayout _loadingOverlay;
-        public RelativeLayout LoadingOverlay => _loadingOverlay ?? (_loadingOverlay = FindViewById<RelativeLayout>(Resource.Id.AnimeDetailsPageRelatedTabLoadingOverlay));
+        public ListView AnimeDetailsPageRelatedTabsList => _animeDetailsPageRelatedTabsList ?? (_animeDetailsPageRelatedTabsList = FindViewById<ListView>(Resource.Id.AnimeDetailsPageRelatedTabsList));
+
+        public TextView AnimeDetailsPageRelatedTabEmptyNotice => _animeDetailsPageRelatedTabEmptyNotice ?? (_animeDetailsPageRelatedTabEmptyNotice = FindViewById<TextView>(Resource.Id.AnimeDetailsPageRelatedTabEmptyNotice));
+
+        public RelativeLayout AnimeDetailsPageRelatedTabLoadingOverlay => _animeDetailsPageRelatedTabLoadingOverlay ?? (_animeDetailsPageRelatedTabLoadingOverlay = FindViewById<RelativeLayout>(Resource.Id.AnimeDetailsPageRelatedTabLoadingOverlay));
+
 
         #endregion
     }

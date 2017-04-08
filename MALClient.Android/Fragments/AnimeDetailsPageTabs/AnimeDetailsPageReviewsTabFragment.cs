@@ -49,7 +49,9 @@ namespace MALClient.Android.Fragments.AnimeDetailsPageTabs
 
             Bindings.Add(
                 this.SetBinding(() => ViewModel.LoadingReviews,
-                    () => LoadingOverlay.Visibility).ConvertSourceToTarget(Converters.BoolToVisibility));         
+                    () => AnimeDetailsPageReviewsTabLoadingOverlay.Visibility).ConvertSourceToTarget(Converters.BoolToVisibility));
+
+            AnimeDetailsPageReviewsTabsList.EmptyView = AnimeDetailsPageReviewsTabEmptyNotice;
         }
 
         private Dictionary<AnimeReviewData,bool> _reviewStates = new Dictionary<AnimeReviewData, bool>();
@@ -117,13 +119,14 @@ namespace MALClient.Android.Fragments.AnimeDetailsPageTabs
         #region Views
 
         private ListView _animeDetailsPageReviewsTabsList;
+        private TextView _animeDetailsPageReviewsTabEmptyNotice;
+        private RelativeLayout _animeDetailsPageReviewsTabLoadingOverlay;
 
         public ListView AnimeDetailsPageReviewsTabsList => _animeDetailsPageReviewsTabsList ?? (_animeDetailsPageReviewsTabsList = FindViewById<ListView>(Resource.Id.AnimeDetailsPageReviewsTabsList));
 
+        public TextView AnimeDetailsPageReviewsTabEmptyNotice => _animeDetailsPageReviewsTabEmptyNotice ?? (_animeDetailsPageReviewsTabEmptyNotice = FindViewById<TextView>(Resource.Id.AnimeDetailsPageReviewsTabEmptyNotice));
 
-
-        private RelativeLayout _loadingOverlay;
-        public RelativeLayout LoadingOverlay => _loadingOverlay ?? (_loadingOverlay = FindViewById<RelativeLayout>(Resource.Id.AnimeDetailsPageReviewsTabLoadingOverlay));
+        public RelativeLayout AnimeDetailsPageReviewsTabLoadingOverlay => _animeDetailsPageReviewsTabLoadingOverlay ?? (_animeDetailsPageReviewsTabLoadingOverlay = FindViewById<RelativeLayout>(Resource.Id.AnimeDetailsPageReviewsTabLoadingOverlay));
         #endregion
 
     }

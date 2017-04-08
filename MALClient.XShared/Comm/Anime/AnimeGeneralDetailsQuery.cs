@@ -96,8 +96,9 @@ namespace MALClient.XShared.Comm.Anime
                         throw new ArgumentOutOfRangeException();
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                // todo android notification nav bug
                 // probably MAl garbled response
             }
             

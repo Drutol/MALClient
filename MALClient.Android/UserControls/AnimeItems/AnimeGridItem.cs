@@ -112,7 +112,7 @@ namespace MALClient.Android.UserControls
             AnimeGridItemTagsButton.Visibility = ViewModel.TagsControlVisibility ? ViewStates.Visible : ViewStates.Invisible;
             AnimeGridItemTagsButton.SetOnClickListener(new OnClickListener(OnTagsButtonClick));
 
-            AnimeGridItemTopRightInfo.Visibility = ViewModel.Auth ? ViewStates.Visible : ViewStates.Gone;
+            AnimeGridItemTopRightInfo.Visibility = ViewModel.UpdateButtonsVisibility ? ViewStates.Visible : ViewStates.Gone;
             AnimeGridItemAddToListButton.SetOnClickListener(new OnClickListener(view => ViewModel.AddAnimeCommand.Execute(null)));
             AnimeGridItemWatchedStatusButton.SetOnClickListener(new OnClickListener(view => ShowWatchedDialog()));
 

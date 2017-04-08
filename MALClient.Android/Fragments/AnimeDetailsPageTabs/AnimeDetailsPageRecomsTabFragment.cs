@@ -20,6 +20,7 @@ using MALClient.Android;
 using MALClient.Android.BindingConverters;
 using MALClient.Android.Listeners;
 using MALClient.Android.Resources;
+using MALClient.Android.UserControls;
 using MALClient.Models.Models.AnimeScrapped;
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Details;
@@ -30,8 +31,7 @@ namespace MALClient.Android.Fragments.AnimeDetailsPageTabs
     public class AnimeDetailsPageRecomsTabFragment : MalFragmentBase
     {
         private AnimeDetailsPageViewModel ViewModel;
-        private ObservableAdapter<DirectRecommendationData> _adapter;
-        private ListView _list;
+
 
         private AnimeDetailsPageRecomsTabFragment()
         {
@@ -45,14 +45,14 @@ namespace MALClient.Android.Fragments.AnimeDetailsPageTabs
 
         protected override void InitBindings()
         {
-            _adapter = ViewModel.Recommendations.GetAdapter(RecomItemDelegate);
-            _list = FindViewById<ListView>(Resource.Id.AnimeDetailsPageRecomTabsList);
-            _list.Adapter = _adapter;
-            _list.OnItemClickListener = new OnItemClickListener<DirectRecommendationData>(data => ViewModel.NavigateDetailsCommand.Execute(data));
+
+            AnimeDetailsPageRecomTabsList.Adapter = ViewModel.Recommendations.GetAdapter(RecomItemDelegate);
+            AnimeDetailsPageRecomTabsList.OnItemClickListener = new OnItemClickListener<DirectRecommendationData>(data => ViewModel.NavigateDetailsCommand.Execute(data));
+            AnimeDetailsPageRecomTabsList.EmptyView = AnimeDetailsPageReviewsTabEmptyNotice;
 
             Bindings.Add(
                 this.SetBinding(() => ViewModel.LoadingRecommendations,
-                    () => LoadingOverlay.Visibility).ConvertSourceToTarget(Converters.BoolToVisibility));
+                    () => AnimeDetailsPageRecomTabLoadingOverlay.Visibility).ConvertSourceToTarget(Converters.BoolToVisibility));
 
             SetUpForOrientation(Activity.Resources.Configuration.Orientation);
         }
@@ -111,9 +111,15 @@ namespace MALClient.Android.Fragments.AnimeDetailsPageTabs
 
         #region Views
 
-        private RelativeLayout _loadingOverlay;
+        private HeightAdjustingListView _animeDetailsPageRecomTabsList;
+        private TextView _animeDetailsPageReviewsTabEmptyNotice;
+        private RelativeLayout _animeDetailsPageRecomTabLoadingOverlay;
 
-        public RelativeLayout LoadingOverlay => _loadingOverlay ?? (_loadingOverlay = FindViewById<RelativeLayout>(Resource.Id.AnimeDetailsPageRecomTabLoadingOverlay));
+        public HeightAdjustingListView AnimeDetailsPageRecomTabsList => _animeDetailsPageRecomTabsList ?? (_animeDetailsPageRecomTabsList = FindViewById<HeightAdjustingListView>(Resource.Id.AnimeDetailsPageRecomTabsList));
+
+        public TextView AnimeDetailsPageReviewsTabEmptyNotice => _animeDetailsPageReviewsTabEmptyNotice ?? (_animeDetailsPageReviewsTabEmptyNotice = FindViewById<TextView>(Resource.Id.AnimeDetailsPageReviewsTabEmptyNotice));
+
+        public RelativeLayout AnimeDetailsPageRecomTabLoadingOverlay => _animeDetailsPageRecomTabLoadingOverlay ?? (_animeDetailsPageRecomTabLoadingOverlay = FindViewById<RelativeLayout>(Resource.Id.AnimeDetailsPageRecomTabLoadingOverlay));
 
 
         #endregion

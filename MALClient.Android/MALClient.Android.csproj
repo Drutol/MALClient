@@ -157,6 +157,7 @@
     <Compile Include="Activities\SplashActivity.cs" />
     <Compile Include="Adapters\CollectionAdapters\AlternatingListCollectionAdapter.cs" />
     <Compile Include="Adapters\CollectionAdapters\IFlingAwareAdapter.cs" />
+    <Compile Include="Adapters\CollectionAdapters\ObservableAdapterWithFooter.cs" />
     <Compile Include="Adapters\DialogAdapters\ScoreDialogAdapter.cs" />
     <Compile Include="Adapters\DialogAdapters\WatchedDialogAdapter.cs" />
     <Compile Include="Adapters\PagerAdapters\AnimeDetailsPagerAdapter.cs" />

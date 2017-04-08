@@ -14,7 +14,7 @@ namespace MALClient.Android
 
         public static void InjectFlingAdapter<T>(this AbsListView container, IList<T> items,
             Action<View,int, T> dataTemplateFull, Action<View,int,T> dataTemplateFling,
-            Func<int,View> containerTemplate) where T : class
+            Func<int,View> containerTemplate,View footer = null) where T : class
         {
             if(!FlingStates.ContainsKey(container))
                 FlingStates.Add(container,false);
@@ -29,20 +29,39 @@ namespace MALClient.Android
                     {
                         var view = container.GetChildAt(i);
                         var item = view.Tag.Unwrap<T>();
+                        if (view.Tag?.ToString() == "Footer")
+                            continue;  
                         dataTemplateFull(view,items.IndexOf(item),item);
                     }
                 }
             });
-            container.Adapter = items.GetAdapter((i, arg2, arg3) =>
+            if (footer == null)
             {
-                var root = arg3 ?? containerTemplate(i);
-                root.Tag = arg2.Wrap();
-                if (FlingStates[container])
-                    dataTemplateFling(root,i,arg2);
-                else
-                    dataTemplateFull(root,i,arg2);
-                return root;
-            });
+                container.Adapter = items.GetAdapter((i, arg2, arg3) =>
+                {
+                    var root = arg3 ?? containerTemplate(i);
+                    root.Tag = arg2.Wrap();
+                    if (FlingStates[container])
+                        dataTemplateFling(root, i, arg2);
+                    else
+                        dataTemplateFull(root, i, arg2);
+                    return root;
+                });
+            }
+            else
+            {
+                container.Adapter = items.GetAdapter((i, arg2, arg3) =>
+                {
+                    var root = arg3 ?? containerTemplate(i);
+                    root.Tag = arg2.Wrap();
+                    if (FlingStates[container])
+                        dataTemplateFling(root, i, arg2);
+                    else
+                        dataTemplateFull(root, i, arg2);
+                    return root;
+                },footer);
+            }
+
         }
 
         public static void ClearFlingAdapter(this AbsListView container)

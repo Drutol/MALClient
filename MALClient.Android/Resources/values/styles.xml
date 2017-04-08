@@ -67,7 +67,7 @@
     <item name="android:colorControlActivated">@color/PurpleAccentColourDark</item>
   </style>
 
-  <style name="Theme.MALClient.Dark.Blue" parent="Theme.MALClient.Light">
+  <style name="Theme.MALClient.Dark.Blue" parent="Theme.MALClient.Dark">
     <item name="AccentColour">@color/BlueAccentColour</item>
     <item name="AccentColourDark">@color/BlueAccentColourDark</item>
     <item name="AccentColourLight">@color/BlueAccentColourLight</item>
@@ -75,8 +75,6 @@
     <item name="AccentColourContrast" format="reference">@color/BlueAccentColourContrast</item>
     <item name="BrushMessageBubbleMine">@color/BlueLightBrushMessageBubbleMine</item>
     <item name="BrushMessageBubbleOther">@color/BlueLightBrushMessageBubbleOther</item>
-
-    <item name="BrushAppBarUpper">@color/BlueAccentColour</item>
 
     <item name="android:colorPrimary">@color/BlueAccentColour</item>
     <item name="android:colorPrimaryDark">@color/Transparent</item>

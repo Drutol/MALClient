@@ -1,11 +1,13 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using Android.Support.V4.View.Animation;
 using Android.Views;
 using Android.Views.Animations;
 using Android.Widget;
+using GalaSoft.MvvmLight.Helpers;
 using MALClient.Android.Activities;
 using MALClient.Android.CollectionAdapters;
 using MALClient.Android.Listeners;
@@ -118,6 +120,19 @@ namespace MALClient.Android
         public static JavaObjectWrapper<TObj> Wrap<TObj>(this TObj obj) where TObj : class
         {
             return new JavaObjectWrapper<TObj>(obj);
+        }
+
+        public static ObservableAdapterWithFooter<T> GetAdapter<T>(
+            this IList<T> collection,
+            Func<int, T, View, View> getTemplateDelegate, View footer)
+        {
+            footer.Tag = "Footer";
+            return new ObservableAdapterWithFooter<T>
+            {
+                DataSource = collection,
+                GetTemplateDelegate = getTemplateDelegate,
+                Footer = footer,
+            };
         }
     }
 }

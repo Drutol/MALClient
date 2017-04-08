@@ -152,7 +152,7 @@ namespace MALClient.XShared.Comm.MagicalRawQueries
                 if (!_skippedFirstError)
                 {
                     _skippedFirstError = true;
-                    await Task.Delay(50);
+                    await Task.Delay(500);
                     return await GetHttpContextAsync(); //bug in android http client
                 }
                 if(!(e is TaskCanceledException) && !(e.InnerException is InvalidOperationException))

@@ -42,9 +42,21 @@ namespace MALClient.Android.Fragments
         private DroppyMenuPopup _filterMenu;
         private DroppyMenuPopup _displayMenu;
 
+        private View _loadMoreFooter;
+
         protected override void InitBindings()
         {
             var swipeRefresh = RootView as SwipeRefreshLayout;
+            var footer = new Button(Context)
+            {
+                Text = "Load more",
+            };
+            footer.SetAllCaps(false);
+            footer.BackgroundTintList = ColorStateList.ValueOf(new Color(ResourceExtension.AccentColourDark));
+            footer.SetOnClickListener(new OnClickListener(view => ViewModel.LoadMoreCommand.Execute(null)));
+            _loadMoreFooter = footer;
+            
+
 
             //AnimeListPageGridView.ScrollingCacheEnabled = false;
 
@@ -63,6 +75,9 @@ namespace MALClient.Android.Fragments
                     () => AnimeListPageSortMenu.Visibility).ConvertSourceToTarget(Converters.BoolToVisibility));
 
             ViewModel.PropertyChanged += AnimeListOnPropertyChanged;
+            ViewModel.ScrollIntoViewRequested += ViewModelOnScrollIntoViewRequested;
+
+
            
            // AnimeListPageFilterMenu.SetCommand("Click",new RelayCommand(ShowFilterMenu));
            // AnimeListPageSortMenu.SetCommand("Click", new RelayCommand(ShowSortMenu));
@@ -105,6 +120,12 @@ namespace MALClient.Android.Fragments
             }));
 
             InitDrawer();
+        }
+
+        private void ViewModelOnScrollIntoViewRequested(AnimeItemViewModel item, bool select)
+        {
+            var list = SwipeRefreshLayout.ScrollingView as AbsListView;
+            list?.SetSelection(ViewModel.AnimeItems.IndexOf(item));
         }
 
         private View BuildFabActionButton(ViewGroup.LayoutParams param, int padding, int icon)
@@ -154,7 +175,7 @@ namespace MALClient.Android.Fragments
             {
                 if (ViewModel.AnimeGridItems != null)
                 {
-                    AnimeListPageGridView.InjectAnimeListAdapter(Context, ViewModel.AnimeGridItems, AnimeListDisplayModes.IndefiniteGrid, AnimeListPageGridViewOnItemClick);
+                    AnimeListPageGridView.InjectAnimeListAdapterWithFooter(Context, ViewModel.AnimeGridItems, AnimeListDisplayModes.IndefiniteGrid,_loadMoreFooter, AnimeListPageGridViewOnItemClick);
                     _gridViewColumnHelper = new GridViewColumnHelper(AnimeListPageGridView);
                     if (_prevArgs != null)
                     {
@@ -166,7 +187,6 @@ namespace MALClient.Android.Fragments
                         _prevArgs = null;
                     }
 
-
                     SwipeRefreshLayout.ScrollingView = AnimeListPageGridView;
 
                     AnimeListPageListView.Adapter = null;
@@ -177,7 +197,7 @@ namespace MALClient.Android.Fragments
             {
                 if (ViewModel.AnimeListItems != null)
                 {
-                    AnimeListPageListView.InjectAnimeListAdapter(Context,ViewModel.AnimeListItems,AnimeListDisplayModes.IndefiniteList,AnimeListPageGridViewOnItemClick);
+                    AnimeListPageListView.InjectAnimeListAdapterWithFooter(Context,ViewModel.AnimeListItems,AnimeListDisplayModes.IndefiniteList,_loadMoreFooter,AnimeListPageGridViewOnItemClick);
                     if (_prevArgs != null)
                     {
                         AnimeListPageListView.SmoothScrollToPosition(_prevArgs.SelectedItemIndex);
@@ -194,7 +214,7 @@ namespace MALClient.Android.Fragments
             {
                 if (ViewModel.AnimeCompactItems != null)
                 {
-                    AnimeListPageCompactListView.InjectAnimeListAdapter(Context, ViewModel.AnimeCompactItems, AnimeListDisplayModes.IndefiniteCompactList, AnimeListPageGridViewOnItemClick);
+                    AnimeListPageCompactListView.InjectAnimeListAdapterWithFooter(Context, ViewModel.AnimeCompactItems, AnimeListDisplayModes.IndefiniteCompactList,_loadMoreFooter, AnimeListPageGridViewOnItemClick);
 
                     if (_prevArgs != null)
                     {
@@ -231,6 +251,13 @@ namespace MALClient.Android.Fragments
                         AnimeListPageGridView.Visibility = ViewStates.Gone;
                         break;
                 }
+            }
+            else if (propertyChangedEventArgs.PropertyName == nameof(ViewModel.CanLoadMore))
+            {
+                if(ViewModel.CanLoadMore)
+                    _loadMoreFooter.Visibility = ViewStates.Visible;
+                else
+                    _loadMoreFooter.Visibility = ViewStates.Gone;
             }
         }
 

@@ -279,6 +279,7 @@
     <Compile Include="Listeners\DialogListeners\DialogDismissedListener.cs" />
     <Compile Include="Listeners\DialogListeners\EnumDialogListener.cs" />
     <Compile Include="Listeners\DialogListeners\IntegerDialogListener.cs" />
+    <Compile Include="Listeners\DrawerListener.cs" />
     <Compile Include="Listeners\DroppyMenuListener.cs" />
     <Compile Include="Listeners\GenericMotionListener.cs" />
     <Compile Include="Listeners\HamburgerItemClickListener.cs" />

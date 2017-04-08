@@ -155,7 +155,7 @@ namespace MALClient.XShared.Comm.MagicalRawQueries
                     await Task.Delay(50);
                     return await GetHttpContextAsync(); //bug in android http client
                 }
-                if(!(e is TaskCanceledException))
+                if(!(e is TaskCanceledException) && !(e.InnerException is InvalidOperationException))
                 ResourceLocator.MessageDialogProvider.ShowMessageDialog(
                     "Unable to connect to MyAnimeList, they have either changed something in html or your connection is down.",
                     "Something went wrong™");

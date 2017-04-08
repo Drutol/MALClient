@@ -41,6 +41,8 @@ namespace MALClient.Android.Fragments.DetailsFragments
                 AnimeDetailsPageCharactersTabGridView.InjectFlingAdapter(ViewModel.Data.StaffPositions,DataTemplateFull,DataTemplateFling,ContainerTemplate  );
                 
             }));
+
+            AnimeDetailsPageCharactersTabGridView.EmptyView = AnimeDetailsPageCharactersTabEmptyNotice;
         }
 
         private View ContainerTemplate(int i)
@@ -88,9 +90,12 @@ namespace MALClient.Android.Fragments.DetailsFragments
         #region Views
 
         private HeightAdjustingGridView _animeDetailsPageCharactersTabGridView;
+        private TextView _animeDetailsPageCharactersTabEmptyNotice;
         private ProgressBar _animeDetailsPageCharactersTabLoadingSpinner;
 
         public HeightAdjustingGridView AnimeDetailsPageCharactersTabGridView => _animeDetailsPageCharactersTabGridView ?? (_animeDetailsPageCharactersTabGridView = FindViewById<HeightAdjustingGridView>(Resource.Id.AnimeDetailsPageCharactersTabGridView));
+
+        public TextView AnimeDetailsPageCharactersTabEmptyNotice => _animeDetailsPageCharactersTabEmptyNotice ?? (_animeDetailsPageCharactersTabEmptyNotice = FindViewById<TextView>(Resource.Id.AnimeDetailsPageCharactersTabEmptyNotice));
 
         public ProgressBar AnimeDetailsPageCharactersTabLoadingSpinner => _animeDetailsPageCharactersTabLoadingSpinner ?? (_animeDetailsPageCharactersTabLoadingSpinner = FindViewById<ProgressBar>(Resource.Id.AnimeDetailsPageCharactersTabLoadingSpinner));
 

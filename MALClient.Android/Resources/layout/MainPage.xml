@@ -56,6 +56,7 @@
         app:showAsAction="collapseActionView|always"
         android:minWidth="@dimen/AppBarBtnWidth"
         android:iconifiedByDefault="false"
+                                          android:focusable="true"
         android:searchIcon="@null" />
 
     <ImageButton android:id="@+id/MainPageRefreshButton"

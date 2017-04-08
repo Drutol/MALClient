@@ -48,7 +48,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Jars\AboutJars.txt" />
-    <None Include="Additions\AboutAdditions.txt" />
     <LibraryProjectZip Include="library-1.1.1.aar" />
     <None Include="packages.config" />
   </ItemGroup>
@@ -59,6 +58,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="GeneratedBindingInfo.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Additions\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.Bindings.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

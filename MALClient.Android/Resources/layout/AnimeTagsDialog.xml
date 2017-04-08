@@ -26,7 +26,7 @@
     </LinearLayout>
 
     <ImageButton android:id="@+id/AnimeTagsDialogAddTagButton" android:layout_width="40dp" android:layout_height="40dp"
-        android:layout_marginStart="5dp" android:background="?AccentColourDark"
-        android:src="@drawable/icon_ok"/>
+        android:layout_marginStart="5dp" android:background="?AccentColour"
+        android:src="@drawable/icon_ok" android:tint="#fff"/>
   </LinearLayout>
 </LinearLayout>

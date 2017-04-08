@@ -114,7 +114,7 @@ namespace MALClient.Android.Fragments.MessagingFragments
                 Focusable = true
             };
             b1.SetImageResource(icon);
-            b1.ImageTintList = ColorStateList.ValueOf(new Color(ResourceExtension.BrushText));
+            b1.ImageTintList = ColorStateList.ValueOf(Color.White);
             b1.BackgroundTintList = ColorStateList.ValueOf(new Color(ResourceExtension.AccentColourContrast));
             b1.SetPadding(padding, padding, padding, padding);
             b1.Tag = icon;

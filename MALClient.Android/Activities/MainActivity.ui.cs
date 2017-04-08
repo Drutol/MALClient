@@ -16,6 +16,7 @@ using Android.Support.V4.View;
 using Android.Support.V4.Widget;
 using Android.Support.V7.Widget;
 using Android.Views;
+using Android.Views.InputMethods;
 using Android.Widget;
 using Com.Astuetz;
 using Com.Mikepenz.Materialdrawer;
@@ -51,26 +52,25 @@ namespace MALClient.Android.Activities
         private SimpleCursorAdapter _searchSuggestionAdapter;
         private View _searchFrame;
         private Drawer _drawer;
-        private readonly Dictionary<int, List<Binding>> Bindings = new Dictionary<int, List<Binding>>();
+        private readonly List<Binding> Bindings = new List<Binding>();
 
         private void InitBindings()
         {
-            Bindings.Add(MainPageCurrentStatus.Id, new List<Binding>());
-            Bindings[MainPageCurrentStatus.Id].Add(
+
+            Bindings.Add(
                 this.SetBinding(() => ViewModel.CurrentStatus,
                     () => MainPageCurrentStatus.Text));
 
-            Bindings.Add(MainPageRefreshButton.Id, new List<Binding>());
-            Bindings[MainPageRefreshButton.Id].Add(
+
+            Bindings.Add(
                 this.SetBinding(() => ViewModel.RefreshButtonVisibility,
                     () => MainPageRefreshButton.Visibility).ConvertSourceToTarget(Converters.BoolToVisibility));
             MainPageRefreshButton.Click += (sender, args) => ViewModel.RefreshDataCommand.Execute(null);
 
-            Bindings.Add(MainPageSearchView.Id, new List<Binding>());
-            Bindings[MainPageSearchView.Id].Add(
+            Bindings.Add(
                 this.SetBinding(() => ViewModel.SearchToggleVisibility,
                     () => MainPageSearchView.Visibility).ConvertSourceToTarget(Converters.BoolToVisibility));
-            Bindings[MainPageSearchView.Id].Add(
+            Bindings.Add(
                 this.SetBinding(() => ViewModel.SearchInputVisibility).WhenSourceChanges(() =>
                 {
                     MainPageSearchView.Iconified = !ViewModel.SearchInputVisibility;
@@ -79,14 +79,16 @@ namespace MALClient.Android.Activities
                     MainPageSearchView.ClearFocus();
                 }));
 
-            Bindings.Add(MainPageCurrentSatusSubtitle.Id, new List<Binding>());
-            Bindings[MainPageCurrentSatusSubtitle.Id].Add(
-                this.SetBinding(() => ViewModel.CurrentStatusSub,
-                    () => MainPageCurrentSatusSubtitle.Text));
+
+            Bindings.Add(this.SetBinding(() => ViewModel.CurrentStatusSub).WhenSourceChanges(() =>
+            {
+                MainPageCurrentSatusSubtitle.Text = ViewModel.CurrentStatusSub;
+                MainPageCurrentSatusSubtitle.Visibility = string.IsNullOrEmpty(ViewModel.CurrentStatusSub) ? ViewStates.Gone : ViewStates.Visible;
+            }));
 
             _searchFrame = MainPageSearchView.FindViewById(Resource.Id.search_edit_frame);
-            
-            Bindings[MainPageSearchView.Id].Add(this.SetBinding(() => ViewModel.SearchToggleLock).WhenSourceChanges(
+
+            Bindings.Add(this.SetBinding(() => ViewModel.SearchToggleLock).WhenSourceChanges(
                 () =>
                 {
                     if (ViewModel.SearchToggleLock)
@@ -113,15 +115,31 @@ namespace MALClient.Android.Activities
                 var param = MainPageSearchView.LayoutParameters as LinearLayout.LayoutParams;
                 if (_searchFrame.Visibility == ViewStates.Visible)
                 {
+                    var diff = ViewModel.SearchToggleStatus != true;
                     ViewModel.SearchToggleStatus = true;
-                    param.Width = ViewGroup.LayoutParams.WrapContent;
+                    param.Width = ViewGroup.LayoutParams.MatchParent;
+                    param.SetMargins(0,0,DimensionsHelper.DpToPx(20),0);
                     param.Weight = 1;
+                    if (diff)
+                    {
+                        MainPageSearchView.RequestFocusFromTouch();
+                        InputMethodManager imm = (InputMethodManager)GetSystemService(Context.InputMethodService);
+                        imm.ToggleSoftInput(ShowFlags.Forced, HideSoftInputFlags.None);
+                    }
+
                 }
                 else
                 {
+                    var diff = ViewModel.SearchToggleStatus != false;
                     ViewModel.SearchToggleStatus = false;
                     param.Width = (int)DimensionsHelper.DpToPx(50);
+                    param.SetMargins(0,0,0,0);
                     param.Weight = 0;
+                    if (diff)
+                    {
+                        InputMethodManager imm = (InputMethodManager) GetSystemService(Context.InputMethodService);
+                        imm.HideSoftInputFromWindow(MainPageSearchView.WindowToken, HideSoftInputFlags.None);
+                    }
                 }
             };
                     
@@ -144,15 +162,15 @@ namespace MALClient.Android.Activities
                 }
             }));
 
-            
 
-            Bindings.Add(MainPageVideoViewContainer.Id, new List<Binding>());
-            Bindings[MainPageVideoViewContainer.Id].Add(
+
+
+            Bindings.Add(
                 this.SetBinding(() => ViewModel.MediaElementVisibility,
                     () => MainPageVideoViewContainer.Visibility).ConvertSourceToTarget(Converters.BoolToVisibility));
 
-            Bindings.Add(MainPageVideoView.Id, new List<Binding>());
-            Bindings[MainPageVideoView.Id].Add(
+
+            Bindings.Add(
                 this.SetBinding(() => ViewModel.MediaElementSource).WhenSourceChanges(() =>
                 {
                     if (string.IsNullOrEmpty(ViewModel.MediaElementSource))
@@ -170,7 +188,6 @@ namespace MALClient.Android.Activities
             MainPageSearchView.QueryTextChange += MainPageSearchViewOnQueryTextChange;
             MainPageSearchView.QueryTextSubmit += MainPageSearchViewOnQueryTextSubmit;
             MainPageSearchView.SuggestionClick += MainPageSearchViewOnSuggestionClick;
-            MainPageSearchView.QueryTextSubmit += MainPageSearchViewOnQueryTextSubmit;
             MainPageCloseVideoButton.Click += MainPageCloseVideoButtonOnClick;
             MainPageVideoView.Prepared += MainPageVideoViewOnPrepared;
             MainPageSearchView.Visibility = ViewStates.Visible;

@@ -42,7 +42,7 @@ namespace MALClient.Android.DialogAdapters
             if (view == null)
             {
                 txt = new TextView(_context);       
-                txt.SetTextColor(new Color(ResourceExtension.BrushText));        
+      
                 txt.Elevation = 2f;
                 var size = DimensionsHelper.DpToPx(40);
                 txt.LayoutParameters = new ViewGroup.LayoutParams(size,size);          
@@ -53,7 +53,17 @@ namespace MALClient.Android.DialogAdapters
 
             txt = txt ?? view as TextView;
             txt.Text = ep.ToString();
-            txt.SetBackgroundColor(ep <= _currentEpisodes ? new Color(ResourceExtension.AccentColour) : new Color(ResourceExtension.BrushAnimeItemInnerBackground));
+
+            if (ep <= _currentEpisodes)
+            {
+                txt.SetBackgroundColor(new Color(ResourceExtension.AccentColour));
+                txt.SetTextColor(Color.White);
+            }
+            else
+            {
+                txt.SetBackgroundColor(new Color(ResourceExtension.BrushAnimeItemInnerBackground));
+                txt.SetTextColor(new Color(ResourceExtension.BrushText));
+            }
 
             return txt;
         }

@@ -61,6 +61,7 @@ namespace MALClient.Android.DIalogs
             _watchedDialogAction = action;
             var dialogBuilder = DialogPlus.NewDialog(MainActivity.CurrentContext);
             dialogBuilder.SetGravity((int) GravityFlags.Top);
+            dialogBuilder.SetPadding(0, DimensionsHelper.DpToPx(20), 0, 0);
             dialogBuilder.SetContentHolder(new ViewHolder(Resource.Layout.AnimeItemWatchedDialog));
             dialogBuilder.SetContentBackgroundResource(ResourceExtension.BrushFlyoutBackgroundRes);
             dialogBuilder.SetOnDismissListener(new DialogDismissedListener(CleanupWatchedDialog));

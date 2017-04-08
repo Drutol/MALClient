@@ -9,7 +9,7 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-      <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:elevation="5dp">
+      <RelativeLayout android:layout_width="match_parent" android:layout_height="140dp" android:elevation="5dp">
         <LinearLayout android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?BrushDetailsUpperBackground"
@@ -55,7 +55,7 @@
                   android:text="Volumes"
                   android:textColor="?BrushText" android:gravity="center" />
             </LinearLayout>
-            <LinearLayout android:layout_marginLeft="20dp" android:layout_width="wrap_content"
+            <LinearLayout android:layout_marginLeft="15dp" android:layout_width="wrap_content"
                 android:layout_height="wrap_content" android:orientation="vertical">
               <Button android:layout_width="wrap_content" android:minWidth="40dp"
                   android:id="@+id/AnimeDetailsPageScoreButton"
@@ -72,7 +72,7 @@
                   android:layout_height="25dp"
                   android:textAllCaps="false"
                   android:layout_marginTop="5dp"
-                  android:text="Watching"
+                  android:text="Plan to watchhhhh"
                   android:textColor="?BrushText" />
               <Button android:layout_width="wrap_content" android:minWidth="40dp"
                   android:id="@+id/AnimeDetailsPageWatchedButton"
@@ -94,6 +94,7 @@
             </LinearLayout>
 
           </LinearLayout>
+          <!-- Inc Dec section -->
           <RelativeLayout android:layout_width="match_parent" android:layout_height="match_parent"
               android:id="@+id/AnimeDetailsPageIncDecSection">
             <LinearLayout android:layout_width="wrap_content"
@@ -122,27 +123,12 @@
               </FrameLayout>
 
             </LinearLayout>
-            <LinearLayout android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentBottom="true">
-              <ImageButton android:layout_width="40dp" android:layout_height="40dp"
-                  android:background="?android:selectableItemBackground"
-                  android:clickable="true"
-                  android:focusable="true"
-                  android:id="@+id/AnimeDetailsPageFavouriteButton" android:layout_gravity="center_vertical"
-                  android:src="@drawable/icon_favourite" android:layout_marginEnd="5dp" />
-              <ImageButton android:layout_width="40dp" android:layout_height="40dp"
-                  android:background="?android:selectableItemBackground"
-                  android:id="@+id/AnimeDetailsPageMoreButton"
-                  android:src="@drawable/icon_more_vertical" />
-
-            </LinearLayout>
           </RelativeLayout>
         </LinearLayout>
+        <!-- Add to my list section -->
         <LinearLayout android:layout_marginStart="130dp" android:layout_marginEnd="20dp"
             android:id="@+id/AnimeDetailsPageAddSection" android:layout_width="match_parent"
-            android:layout_height="wrap_content" android:orientation="vertical"
+            android:layout_height="wrap_content" android:orientation="vertical" android:visibility="gone"
             android:layout_centerVertical="true">
           <TextView android:layout_gravity="center_horizontal"
               android:textColor="?AccentColour"
@@ -176,6 +162,26 @@
                   android:fontFamily="@string/font_family_light" />
             </LinearLayout>
           </FrameLayout>
+        </LinearLayout>
+        <!--Fav More section-->
+        <LinearLayout android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true">
+          <ProgressBar android:layout_width="40dp" android:indeterminateTint="?AccentColour" android:id="@+id/AnimeDetailsPageLoadingUpdateSpinner"
+              android:indeterminateTintMode="src_in" android:layout_height="40dp" android:padding="10dp"
+              android:indeterminate="true" android:layout_centerInParent="true" />
+          <ImageButton android:layout_width="40dp" android:layout_height="40dp"
+              android:background="?android:selectableItemBackground"
+              android:clickable="true"
+              android:focusable="true"
+              android:id="@+id/AnimeDetailsPageFavouriteButton" android:layout_gravity="center_vertical"
+              android:src="@drawable/icon_favourite" android:layout_marginEnd="5dp" />
+          <ImageButton android:layout_width="40dp" android:layout_height="40dp"
+              android:background="?android:selectableItemBackground"
+              android:id="@+id/AnimeDetailsPageMoreButton"
+              android:src="@drawable/icon_more_vertical" />
+
         </LinearLayout>
       </RelativeLayout>
 

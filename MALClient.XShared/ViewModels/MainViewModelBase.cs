@@ -602,7 +602,7 @@ namespace MALClient.XShared.ViewModels
                 return;
             }
             SearchInputVisibility = SearchToggleStatus;
-            if (!SearchToggleLock && !_navigating)
+            if (!SearchToggleLock && !_navigating && SearchToggleStatus)
             {
                 OnSearchQuerySubmitted?.Invoke(CurrentSearchQuery);
             }

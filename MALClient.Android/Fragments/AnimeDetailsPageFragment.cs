@@ -120,6 +120,15 @@ namespace MALClient.Android.Fragments
                 AnimeDetailsPageShowCoverImage.Into(ViewModel.DetailImage);
             }));
 
+            Bindings.Add(
+                this.SetBinding(() => ViewModel.LoadingUpdate,
+                    () => AnimeDetailsPageLoadingUpdateSpinner.Visibility)
+                    .ConvertSourceToTarget(Converters.BoolToVisibility));
+
+            Bindings.Add(
+                this.SetBinding(() => ViewModel.IsAddAnimeButtonEnabled,
+                    () => AnimeDetailsPageAddButton.Enabled));
+
             AnimeDetailsPageFavouriteButton.SetCommand("Click",ViewModel.ToggleFavouriteCommand);
             AnimeDetailsPageIncrementButton.SetCommand("Click",ViewModel.IncrementEpsCommand);
             AnimeDetailsPageDecrementButton.SetCommand("Click",ViewModel.DecrementEpsCommand);
@@ -191,7 +200,7 @@ namespace MALClient.Android.Fragments
         {
             AnimeUpdateDialogBuilder.BuildScoreDialog(ViewModel.AnimeItemReference, i =>
             {
-                ViewModel.ChangeScoreCommand.Execute(i);
+                ViewModel.ChangeScoreCommand.Execute(i.ToString());
             });
         }
 

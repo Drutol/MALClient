@@ -23,6 +23,7 @@ using MALClient.XShared.NavArgs;
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Main;
 using Com.Mikepenz.Materialdrawer.Model.Interfaces;
+using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Helpers;
 using MALClient.Android.Activities;
 using MALClient.Android.BindingInformation;
@@ -36,6 +37,8 @@ namespace MALClient.Android.Fragments
 
     public partial class AnimeListPageFragment
     {
+        
+
         private static AnimeListPageNavigationArgs _prevArgs;
 
         private AnimeListViewModel ViewModel => ViewModelLocator.AnimeList;
@@ -88,11 +91,11 @@ namespace MALClient.Android.Fragments
 
             builder.WithStickyHeaderShadow(true);
             builder.WithStickyHeader(Resource.Layout.AnimeListPageDrawerHeader);
-         
+
             _rightDrawer = builder.Build();
             _rightDrawer.DrawerLayout.SetDrawerLockMode(DrawerLayout.LockModeLockedClosed);
             _rightDrawer.StickyHeader.SetBackgroundColor(new Color(ResourceExtension.BrushAppBars));
-
+            _rightDrawer.DrawerLayout.AddDrawerListener(new DrawerListener(() => ViewModelLocator.NavMgr.ResetOneTimeOverride()));
         }
 
         private void OpenFiltersDrawer()
@@ -136,6 +139,8 @@ namespace MALClient.Android.Fragments
                 _rightDrawer.CloseDrawer();
             });
 
+
+            ViewModelLocator.NavMgr.RegisterOneTimeMainOverride(new RelayCommand(CloseDrawer));
             _rightDrawer.OpenDrawer();
         }
 
@@ -166,6 +171,8 @@ namespace MALClient.Android.Fragments
                 _rightDrawer.OnDrawerItemClickListener = null;
                 _rightDrawer.CloseDrawer();
             });
+
+            ViewModelLocator.NavMgr.RegisterOneTimeMainOverride(new RelayCommand(CloseDrawer));
             _rightDrawer.OpenDrawer();
         }
 
@@ -197,6 +204,7 @@ namespace MALClient.Android.Fragments
                 _rightDrawer.CloseDrawer();
             });
 
+            ViewModelLocator.NavMgr.RegisterOneTimeMainOverride(new RelayCommand(CloseDrawer));
             _rightDrawer.OpenDrawer();
         }
 
@@ -223,6 +231,8 @@ namespace MALClient.Android.Fragments
                 _rightDrawer.OnDrawerItemClickListener = null;
                 _rightDrawer.CloseDrawer();
             });
+
+            ViewModelLocator.NavMgr.RegisterOneTimeMainOverride(new RelayCommand(CloseDrawer));
             _rightDrawer.OpenDrawer();
         }
 
@@ -284,11 +294,19 @@ namespace MALClient.Android.Fragments
                 _rightDrawer.CloseDrawer();
             });
 
+           
+
             _rightDrawer.StickyHeader.FindViewById<TextView>(Resource.Id.AnimeListPageDrawerHeaderText).Text = "Seasonal Selection";
             _rightDrawer.StickyHeader.FindViewById<ImageView>(Resource.Id.AnimeListPageDrawerHeaderIcon).SetImageResource(
                 Resource.Drawable.icon_calendar);
 
+            ViewModelLocator.NavMgr.RegisterOneTimeMainOverride(new RelayCommand(CloseDrawer));
             _rightDrawer.OpenDrawer();
+        }
+
+        private void CloseDrawer()
+        {
+            _rightDrawer.CloseDrawer();
         }
 
         #endregion

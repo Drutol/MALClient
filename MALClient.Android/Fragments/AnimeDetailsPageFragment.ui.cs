@@ -13,6 +13,7 @@ using Android.Widget;
 using Com.Astuetz;
 using FFImageLoading.Views;
 using MALClient.Android.Resources;
+using MALClient.Android.UserControls;
 
 namespace MALClient.Android.Fragments
 {
@@ -28,13 +29,14 @@ namespace MALClient.Android.Fragments
         private LinearLayout _animeDetailsPageUpdateSection;
         private FrameLayout _animeDetailsPageIncrementButton;
         private FrameLayout _animeDetailsPageDecrementButton;
-        private ImageButton _animeDetailsPageFavouriteButton;
-        private ImageButton _animeDetailsPageMoreButton;
         private RelativeLayout _animeDetailsPageIncDecSection;
         private FrameLayout _animeDetailsPageAddButton;
         private LinearLayout _animeDetailsPageAddSection;
+        private ProgressBar _animeDetailsPageLoadingUpdateSpinner;
+        private ImageButton _animeDetailsPageFavouriteButton;
+        private ImageButton _animeDetailsPageMoreButton;
         private PagerSlidingTabStrip _animeDetailsPageTabStrip;
-        private ViewPager _animeDetailsPagePivot;
+        private HeightAdjustingViewPager _animeDetailsPagePivot;
         private RelativeLayout _animeDetailsPageLoadingOverlay;
 
         public ImageViewAsync AnimeDetailsPageShowCoverImage => _animeDetailsPageShowCoverImage ?? (_animeDetailsPageShowCoverImage = FindViewById<ImageViewAsync>(Resource.Id.AnimeDetailsPageShowCoverImage));
@@ -57,20 +59,24 @@ namespace MALClient.Android.Fragments
 
         public FrameLayout AnimeDetailsPageDecrementButton => _animeDetailsPageDecrementButton ?? (_animeDetailsPageDecrementButton = FindViewById<FrameLayout>(Resource.Id.AnimeDetailsPageDecrementButton));
 
-        public ImageButton AnimeDetailsPageFavouriteButton => _animeDetailsPageFavouriteButton ?? (_animeDetailsPageFavouriteButton = FindViewById<ImageButton>(Resource.Id.AnimeDetailsPageFavouriteButton));
-
-        public ImageButton AnimeDetailsPageMoreButton => _animeDetailsPageMoreButton ?? (_animeDetailsPageMoreButton = FindViewById<ImageButton>(Resource.Id.AnimeDetailsPageMoreButton));
-
         public RelativeLayout AnimeDetailsPageIncDecSection => _animeDetailsPageIncDecSection ?? (_animeDetailsPageIncDecSection = FindViewById<RelativeLayout>(Resource.Id.AnimeDetailsPageIncDecSection));
 
         public FrameLayout AnimeDetailsPageAddButton => _animeDetailsPageAddButton ?? (_animeDetailsPageAddButton = FindViewById<FrameLayout>(Resource.Id.AnimeDetailsPageAddButton));
 
         public LinearLayout AnimeDetailsPageAddSection => _animeDetailsPageAddSection ?? (_animeDetailsPageAddSection = FindViewById<LinearLayout>(Resource.Id.AnimeDetailsPageAddSection));
 
+        public ProgressBar AnimeDetailsPageLoadingUpdateSpinner => _animeDetailsPageLoadingUpdateSpinner ?? (_animeDetailsPageLoadingUpdateSpinner = FindViewById<ProgressBar>(Resource.Id.AnimeDetailsPageLoadingUpdateSpinner));
+
+        public ImageButton AnimeDetailsPageFavouriteButton => _animeDetailsPageFavouriteButton ?? (_animeDetailsPageFavouriteButton = FindViewById<ImageButton>(Resource.Id.AnimeDetailsPageFavouriteButton));
+
+        public ImageButton AnimeDetailsPageMoreButton => _animeDetailsPageMoreButton ?? (_animeDetailsPageMoreButton = FindViewById<ImageButton>(Resource.Id.AnimeDetailsPageMoreButton));
+
         public PagerSlidingTabStrip AnimeDetailsPageTabStrip => _animeDetailsPageTabStrip ?? (_animeDetailsPageTabStrip = FindViewById<PagerSlidingTabStrip>(Resource.Id.AnimeDetailsPageTabStrip));
 
-        public ViewPager AnimeDetailsPagePivot => _animeDetailsPagePivot ?? (_animeDetailsPagePivot = FindViewById<ViewPager>(Resource.Id.AnimeDetailsPagePivot));
+        public HeightAdjustingViewPager AnimeDetailsPagePivot => _animeDetailsPagePivot ?? (_animeDetailsPagePivot = FindViewById<HeightAdjustingViewPager>(Resource.Id.AnimeDetailsPagePivot));
 
         public RelativeLayout AnimeDetailsPageLoadingOverlay => _animeDetailsPageLoadingOverlay ?? (_animeDetailsPageLoadingOverlay = FindViewById<RelativeLayout>(Resource.Id.AnimeDetailsPageLoadingOverlay));
+
+
     }
 }

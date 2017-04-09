@@ -37,34 +37,41 @@ namespace MALClient.XShared.Comm.MalSpecific
         {
             var tasks = _friends.Select(user => Task.Run(() =>GetUserFeed(user))).ToList();
             await Task.WhenAll(tasks);
-            return tasks.SelectMany(task => task.Result).ToList();
+            return tasks.SelectMany(task => task.Result).Where(model => model != null).ToList();
         }
 
         private async Task<List<UserFeedEntryModel>> GetUserFeed(MalUser user)
         {
-            var resp = await new FeedQuery(user.Name).GetRequestResponse();
-            var output = new List<UserFeedEntryModel>();
-
-            var xmlDoc = XElement.Parse(resp);
-            var nodes = xmlDoc.Element("channel").Elements("item").Take(Settings.FeedsMaxEntries);
-            foreach (var node in nodes)
+            try
             {
-                var current = new UserFeedEntryModel();
-                current.Date = DateTime.Parse(node.Element("pubDate").Value);
-                if (DateTime.UtcNow.Subtract(current.Date).TotalDays > Settings.FeedsMaxEntryAge)
-                    continue;
+                var resp = await new FeedQuery(user.Name).GetRequestResponse();
+                var output = new List<UserFeedEntryModel>();
 
-                current.User = user;
-                current.Header = node.Element("title").Value;
-                current.Link = node.Element("link").Value;
-                current.Description = node.Element("description").Value;
-                var linkParts = current.Link.Substring(10).Split('/');
-                current.Id = int.Parse(linkParts[2]);
-                var pos = current.Header.LastIndexOf('-');
-                current.Title = current.Header.Substring(0, pos).Trim();
-                output.Add(current);
+                var xmlDoc = XElement.Parse(resp);
+                var nodes = xmlDoc.Element("channel").Elements("item").Take(Settings.FeedsMaxEntries);
+                foreach (var node in nodes)
+                {
+                    var current = new UserFeedEntryModel();
+                    current.Date = DateTime.Parse(node.Element("pubDate").Value);
+                    if (DateTime.UtcNow.Subtract(current.Date).TotalDays > Settings.FeedsMaxEntryAge)
+                        continue;
+
+                    current.User = user;
+                    current.Header = node.Element("title").Value;
+                    current.Link = node.Element("link").Value;
+                    current.Description = node.Element("description").Value;
+                    var linkParts = current.Link.Substring(10).Split('/');
+                    current.Id = int.Parse(linkParts[2]);
+                    var pos = current.Header.LastIndexOf('-');
+                    current.Title = current.Header.Substring(0, pos).Trim();
+                    output.Add(current);
+                }
+                return output;
             }
-            return output;
+            catch (Exception)
+            {
+                return null;
+            }           
         }
     }
 }

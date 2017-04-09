@@ -73,7 +73,7 @@ namespace MALClient.Android.Activities
             animeButton.WithIcon(Resource.Drawable.icon_list);
 
             var searchButton = GetBasePrimaryItem();
-            searchButton.WithName("Anime search");
+            searchButton.WithName("Search");
             searchButton.WithIdentifier((int)PageIndex.PageSearch);
             searchButton.WithIcon(Resource.Drawable.icon_search);
 
@@ -102,7 +102,7 @@ namespace MALClient.Android.Activities
             var mangaListButton = GetBaseSecondaryItem();
             mangaListButton.WithName("Manga list");
             mangaListButton.WithIdentifier((int)PageIndex.PageMangaList);
-            mangaListButton.WithIcon(Resource.Drawable.icon_books);
+            mangaListButton.WithIcon(Resource.Drawable.icon_list);
 
             var topMangaButton = GetBaseSecondaryItem();
             topMangaButton.WithName("Top manga");
@@ -140,7 +140,6 @@ namespace MALClient.Android.Activities
             historyButton.WithIcon(Resource.Drawable.icon_clock);
 
             //
-
             var mangaSubHeader = new SectionDrawerItem();
             mangaSubHeader.WithName("Manga");
             mangaSubHeader.WithDivider(true);
@@ -153,13 +152,14 @@ namespace MALClient.Android.Activities
             othersSubHeader.WithTextColorRes(ResourceExtension.BrushTextRes);
 
 
+
             builder.WithDrawerItems(new List<IDrawerItem>()
             {
                 animeButton,
-                searchButton,
                 seasonalButton,
-                recomButton,
                 topAnimeButton,
+                searchButton,
+                recomButton,
                 calendarButton,
                 mangaSubHeader,//
                 mangaListButton,

@@ -18,16 +18,15 @@
         android:layout_width="match_parent" android:background="?BrushAnimeItemBackground"
         android:layout_height="wrap_content">
       <RelativeLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="2dp">
-        <ProgressBar android:scaleX=".7" android:scaleY=".7"
+        <ProgressBar android:scaleX=".7" android:scaleY=".7" android:alpha=".3"
             android:layout_width="wrap_content" android:id="@+id/AnimeListItemImgPlaceholder"
-            android:layout_height="wrap_content" android:indeterminateTint="?BrushAppBars"
+            android:layout_height="wrap_content" android:indeterminateTint="?BrushSettingsSubtitle"
             android:indeterminate="true" android:layout_centerInParent="true" android:indeterminateTintMode="src_in"/>
         <FFImageLoading.Views.ImageViewAsync
             android:layout_width="116dp"
             android:layout_height="match_parent"
             android:id="@+id/AnimeListItemImage"
             android:scaleType="fitXY" />
-
       </RelativeLayout>
       <RelativeLayout android:layout_width="match_parent" android:layout_height="match_parent" android:layout_weight="1">
         <ProgressBar

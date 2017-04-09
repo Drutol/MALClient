@@ -178,6 +178,7 @@ namespace MALClient.UWP
             if (_initialized)
                 return;
 
+            InitializationRoutines.InitApp();
             NotificationTaskManager.StartNotificationTask(BgTasks.ToastActivation,false);
             NotificationTaskManager.StartNotificationTask(BgTasks.Notifications,false);
             NotificationTaskManager.OnNotificationTaskRequested += NotificationTaskManagerOnOnNotificationTaskRequested;

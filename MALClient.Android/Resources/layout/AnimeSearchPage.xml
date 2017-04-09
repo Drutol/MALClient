@@ -1,22 +1,37 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="?BrushDeepBackground">
-  <ListView
-    android:id="@+id/AnimeSearchPageList"
     android:layout_width="match_parent"
-    android:layout_gravity="top"
     android:layout_height="match_parent"
-    android:choiceMode="singleChoice"
-    android:dividerHeight="5dp" android:divider="@color/Transparent" />
+    android:background="?BrushDeepBackground">
+
+  <ListView
+      android:id="@+id/AnimeSearchPageList"
+      android:layout_width="match_parent"
+      android:layout_gravity="top"
+      android:layout_height="match_parent"
+      android:choiceMode="singleChoice"
+      android:dividerHeight="5dp" android:divider="@color/Transparent" />
+
+  <TextView android:layout_centerInParent="true" android:visibility="visible"
+      android:layout_width="wrap_content" android:id="@+id/AnimeSearchPageEmptyNotice"
+      android:layout_height="wrap_content" android:fontFamily="@string/font_family_light" android:text="We have come up empty..."  android:textColor="?BrushNoSearchResults"/>
+
+  <LinearLayout
+      android:layout_width="wrap_content" android:layout_centerInParent="true" android:id="@+id/AnimeSearchPageFirstSearchSection"
+      android:layout_height="wrap_content" android:orientation="vertical" android:alpha=".8">
+    <ImageView
+        android:layout_width="100dp" android:tint="?BrushNoSearchResults"
+        android:layout_height="100dp" android:src="@drawable/icon_search_away"/>
+    <TextView
+        android:layout_width="wrap_content" android:layout_gravity="center_horizontal"
+        android:layout_height="wrap_content" android:text="Search away!" android:textColor="?BrushNoSearchResults"/>
+  </LinearLayout>
+
   <LinearLayout android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true">
-    <ProgressBar android:layout_width="wrap_content"
-                 android:layout_height="wrap_content"
-                 android:id="@+id/AnimeSearchPageLoadingSpinner" />
+      android:layout_height="wrap_content" android:layout_centerInParent="true">
+    <ProgressBar android:layout_width="wrap_content" android:backgroundTintMode="src_in"
+        android:layout_height="wrap_content" android:backgroundTint="?AccentColour" android:indeterminate="true"
+        android:id="@+id/AnimeSearchPageLoadingSpinner" />
   </LinearLayout>
 </RelativeLayout>

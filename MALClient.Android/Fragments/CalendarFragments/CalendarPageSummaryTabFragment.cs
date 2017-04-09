@@ -12,7 +12,6 @@ using Android.Views;
 using Android.Widget;
 using GalaSoft.MvvmLight.Helpers;
 using MALClient.Android.Activities;
-using MALClient.Android.BindingInformation;
 using MALClient.Android.CollectionAdapters;
 using MALClient.Android.Resources;
 using MALClient.Models.Enums;

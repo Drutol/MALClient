@@ -13,8 +13,6 @@ using Android.Views;
 using Android.Widget;
 using GalaSoft.MvvmLight.Helpers;
 using MALClient.Android.Activities;
-using MALClient.Android.BindingInformation;
-using MALClient.Android.BindingInformation.StaticBindings;
 using MALClient.Android.CollectionAdapters;
 using MALClient.Android.Listeners;
 using MALClient.Android.UserControls;

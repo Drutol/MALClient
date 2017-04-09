@@ -30,22 +30,22 @@ namespace MALClient.Android.PagerAdapters
                 ViewModelLocator.SearchPage.Init(arg);
                 if (arg.Anime)
                 {
-                    _animeSearchPageFragment = AnimeSearchPageFragment.BuildInstance();
-                    _mangaSearchPageFragment = AnimeSearchPageFragment.BuildInstance(false);
+                    _animeSearchPageFragment = new AnimeSearchPageFragment(true);
+                    _mangaSearchPageFragment = new AnimeSearchPageFragment(false);
                     targetPage = 0;
                 }
                 else
                 {
-                    _animeSearchPageFragment = AnimeSearchPageFragment.BuildInstance(false);
-                    _mangaSearchPageFragment = AnimeSearchPageFragment.BuildInstance();
+                    _animeSearchPageFragment = new AnimeSearchPageFragment(false);
+                    _mangaSearchPageFragment = new AnimeSearchPageFragment(true);
                     targetPage = 1;
                 }
                 _characterSearchPageFragment = CharacterSearchPageFragment.BuildInstance(new SearchPageNavArgsBase());
             }
             else
             {
-                _animeSearchPageFragment = AnimeSearchPageFragment.BuildInstance(false);
-                _mangaSearchPageFragment = AnimeSearchPageFragment.BuildInstance(false);
+                _animeSearchPageFragment = new AnimeSearchPageFragment(false);
+                _mangaSearchPageFragment = new AnimeSearchPageFragment(false);
 
                 ViewModelLocator.CharacterSearch.Init(args);
                 _characterSearchPageFragment = CharacterSearchPageFragment.BuildInstance(new SearchPageNavArgsBase(),true);

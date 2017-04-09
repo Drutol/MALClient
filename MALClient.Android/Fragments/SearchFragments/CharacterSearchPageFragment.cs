@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Android.Content.Res;
 using Android.OS;
@@ -6,9 +7,8 @@ using Android.Widget;
 using GalaSoft.MvvmLight.Helpers;
 using MALClient.Android.Activities;
 using MALClient.Android.BindingConverters;
-using MALClient.Android.BindingInformation;
-using MALClient.Android.BindingInformation.StaticBindings;
 using MALClient.Android.Resources;
+using MALClient.Android.UserControls;
 using MALClient.XShared.NavArgs;
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Main;
@@ -29,7 +29,8 @@ namespace MALClient.Android.Fragments.SearchFragments
 
         protected override void InitBindings()
         {
-            CharacterSearchPageList.Adapter = ViewModel.FoundCharacters.GetAdapter(GetTemplateDelegate);
+            CharacterSearchPageList.InjectFlingAdapter(ViewModel.FoundCharacters, DataTemplateFull, DataTemplateFling,
+                ContainerTemplate);
             _gridViewColumnHelper = new GridViewColumnHelper(CharacterSearchPageList);
 
             
@@ -38,26 +39,44 @@ namespace MALClient.Android.Fragments.SearchFragments
                     () => CharacterSearchPageLoadingSpinner.Visibility).ConvertSourceToTarget(Converters.BoolToVisibility));
         }
 
+        private View ContainerTemplate(int i)
+        {
+            return new FavouriteItem(Context);
+        }
+
+        private void DataTemplateFling(View view, int i, FavouriteViewModel arg3)
+        {
+            ((FavouriteItem) view).BindModel(arg3,true);
+        }
+
+        private void DataTemplateFull(View view, int i, FavouriteViewModel arg3)
+        {
+            var item = (FavouriteItem) view;
+            var firstRun = !item.Initialized;
+            item.BindModel(arg3, false);
+            if (firstRun)
+            {
+                item.Click += ItemOnClick;
+            }
+        }
+
+        private void ItemOnClick(object sender, EventArgs eventArgs)
+        {
+            ViewModel.NavigateCharacterDetailsCommand.Execute((sender as View).Tag.Unwrap<FavouriteViewModel>());
+        }
+
         protected override void Init(Bundle savedInstanceState)
         {
             ViewModel = ViewModelLocator.CharacterSearch;
             ViewModel.Init(_prevArgs);
         }
 
-        private View GetTemplateDelegate(int i, FavouriteViewModel favouriteViewModel, View convertView)
-        {
-            var view = convertView ?? MainActivity.CurrentContext.LayoutInflater.Inflate(Resource.Layout.CharacterItem,null);
-
-            view.SetBinding(FavouriteItemBindingInfo.Instance,favouriteViewModel);
-
-            return view;
-        }
 
         public override int LayoutResourceId => Resource.Layout.CharacterSearchPage;
 
         public override void OnConfigurationChanged(Configuration newConfig)
         {
-            _gridViewColumnHelper.OnConfigurationChanged(newConfig);
+            _gridViewColumnHelper?.OnConfigurationChanged(newConfig);
             base.OnConfigurationChanged(newConfig);
         }
 

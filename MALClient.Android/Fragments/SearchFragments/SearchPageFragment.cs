@@ -34,6 +34,7 @@ namespace MALClient.Android.Fragments.SearchFragments
             SearchPageViewPager.Adapter = new SearchPagePagerAdapter(FragmentManager,_args,out start);
             SearchPageTabStrip.SetViewPager(SearchPageViewPager);
             SearchPageTabStrip.CenterTabs();
+            SearchPageViewPager.OffscreenPageLimit = 5;
 
             SearchPageViewPager.SetCurrentItem(start,false);
         }

@@ -26,7 +26,6 @@ using Com.Mikepenz.Materialdrawer.Model.Interfaces;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Helpers;
 using MALClient.Android.Activities;
-using MALClient.Android.BindingInformation;
 using MALClient.Android.Flyouts;
 using MALClient.Android.Listeners;
 using MALClient.XShared.Comm.Anime;

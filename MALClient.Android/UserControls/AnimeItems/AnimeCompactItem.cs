@@ -69,16 +69,7 @@ namespace MALClient.Android.UserControls.AnimeItems
 
         protected override void BindModelFull()
         {
-            AnimeCompactItemGlobalScore.Text = ViewModel.GlobalScoreBind;
-            AnimeCompactItemTopLeftInfo.Text = ViewModel.TopLeftInfoBind;
-
-            AnimeCompactItemScoreLabel.Text = ViewModel.MyScoreBind;
-            AnimeCompactItemStatusLabel.Text = ViewModel.MyStatusBind;
-            AnimeCompactItemWatchedButton.Text = ViewModel.MyEpisodesBind;
-            AnimeCompactItemIncButton.Visibility =
-                ViewModel.IncrementEpsVisibility ? ViewStates.Visible : ViewStates.Gone;
-            AnimeCompactItemDecButton.Visibility =
-                ViewModel.DecrementEpsVisibility ? ViewStates.Visible : ViewStates.Gone;
+            
 
             AnimeCompactItemIncButton.SetOnClickListener(new OnClickListener(view => ViewModel.IncrementWatchedCommand.Execute(null)));
             AnimeCompactItemDecButton.SetOnClickListener(new OnClickListener(view => ViewModel.DecrementWatchedCommand.Execute(null)));
@@ -87,15 +78,7 @@ namespace MALClient.Android.UserControls.AnimeItems
 
             ViewModel.PropertyChanged += ViewModelOnPropertyChanged;
 
-            AnimeCompactItemWatchedButton.Text = ViewModel.MyStatusBind;
-            AnimeCompactItemStatusLabel.Text = ViewModel.MyEpisodesBind;
-            AnimeCompactItemScoreLabel.Text = ViewModel.MyScoreBind;
-            AnimeCompactItemIncButton.Visibility = ViewModel.IncrementEpsVisibility
-                ? ViewStates.Visible
-                : ViewStates.Gone;
-            AnimeCompactItemDecButton.Visibility = ViewModel.DecrementEpsVisibility
-                ? ViewStates.Visible
-                : ViewStates.Gone;
+            
         }
 
         protected override void RootContainerInit()
@@ -103,6 +86,7 @@ namespace MALClient.Android.UserControls.AnimeItems
             AnimeCompactItemWatchedButton.SetOnClickListener(new OnClickListener(view => ShowStatusDialog()));
             AnimeCompactItemScoreButton.SetOnClickListener(new OnClickListener(view => ShowRatingDialog()));
             AnimeCompactItemStatusButton.SetOnClickListener(new OnClickListener(view => ShowWatchedDialog()));
+            AnimeCompactItemTagsButton.SetOnClickListener(new OnClickListener(OnTagsButtonClick));
         }
 
         protected override void BindModelBasic()
@@ -120,7 +104,16 @@ namespace MALClient.Android.UserControls.AnimeItems
                 ? ViewStates.Visible
                 : ViewStates.Gone;
 
+            AnimeCompactItemGlobalScore.Text = ViewModel.GlobalScoreBind;
+            AnimeCompactItemTopLeftInfo.Text = ViewModel.TopLeftInfoBind;
 
+            AnimeCompactItemScoreLabel.Text = ViewModel.MyScoreBind;
+            AnimeCompactItemStatusLabel.Text = ViewModel.MyStatusBind;
+            AnimeCompactItemWatchedButton.Text = ViewModel.MyEpisodesBind;
+            AnimeCompactItemIncButton.Visibility =
+                ViewModel.IncrementEpsVisibility ? ViewStates.Visible : ViewStates.Gone;
+            AnimeCompactItemDecButton.Visibility =
+                ViewModel.DecrementEpsVisibility ? ViewStates.Visible : ViewStates.Gone;
         }
 
         private void ViewModelOnPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)

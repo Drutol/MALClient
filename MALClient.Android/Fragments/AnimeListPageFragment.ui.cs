@@ -22,7 +22,6 @@ using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Helpers;
 using MALClient.Android.Activities;
 using MALClient.Android.BindingConverters;
-using MALClient.Android.BindingInformation;
 using MALClient.Android.CollectionAdapters;
 using MALClient.Android.Flyouts;
 using MALClient.Android.Listeners;

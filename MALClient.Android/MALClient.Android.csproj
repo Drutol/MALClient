@@ -174,14 +174,10 @@
     <Compile Include="BackgroundTasks\NotificationTaskManager.cs" />
     <Compile Include="BindingConverters\DummyFontAwesomeToRealFontAwesomeConverter.cs" />
     <Compile Include="BindingConverters\SpecializedConverters.cs" />
-    <Compile Include="BindingInformation\BindingExtension.cs" />
-    <Compile Include="BindingInformation\BindingInfo.cs" />
     <Compile Include="AndroidViewModelLocator.cs" />
     <Compile Include="App.cs" />
     <Compile Include="BindingConverters\Converters.cs" />
     <Compile Include="Adapters\DialogAdapters\StatusDialogAdapter.cs" />
-    <Compile Include="BindingInformation\StaticBindingInfo.cs" />
-    <Compile Include="BindingInformation\StaticBindings\FavouriteItemBindingInfo.cs" />
     <Compile Include="DIalogs\AnimeDetailsPageDialogBuilder.cs" />
     <Compile Include="DIalogs\AnimeUpdateDialogBuilder.cs" />
     <Compile Include="DIalogs\ChangelogDialog.cs" />
@@ -299,7 +295,7 @@
     <Compile Include="Managers\NavMgr.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\AndroidColorThemesEnum.cs" />
-    <Compile Include="Resources\Resource.Designer.cs" />
+    <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Resources\ResourceExtension.cs" />
     <Compile Include="UserControls\AnimeItems\AnimeCompactItem.cs" />
     <Compile Include="UserControls\AnimeItems\AnimeGridItem.cs" />
@@ -968,6 +964,9 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\ChangelogDialog.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\icon_search_away.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Android.Support.Vector.Drawable.23.4.0.1\build\Xamarin.Android.Support.Vector.Drawable.targets" Condition="Exists('..\packages\Xamarin.Android.Support.Vector.Drawable.23.4.0.1\build\Xamarin.Android.Support.Vector.Drawable.targets')" />

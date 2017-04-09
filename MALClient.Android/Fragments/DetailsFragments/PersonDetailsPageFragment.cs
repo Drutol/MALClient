@@ -53,6 +53,9 @@ namespace MALClient.Android.Fragments.DetailsFragments
                 if(ViewModel.Data == null)
                     return;
 
+                if(!ViewModel.Data.ShowCharacterPairs.Any() && ViewModel.Data.StaffPositions.Any())
+                    PersonDetailsPagePivot.SetCurrentItem(1,false);
+
                 PersonDetailsPageDescription.Text = string.Join("\n\n", ViewModel.Data.Details);
                 PersonDetailsPageImage.Into(ViewModel.Data.ImgUrl,null,img => img.HandleScaling());
                 PersonDetailsPageFavButton.BindModel(ViewModel.FavouriteViewModel);

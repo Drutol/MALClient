@@ -110,6 +110,7 @@ namespace MALClient.Android.PagerAdapters
                     _viewModel.LoadRelatedAnime();
                     break;
                 case 5:
+                case 6:
                     _viewModel.LoadCharacters();
                     break;
             }

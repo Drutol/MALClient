@@ -93,12 +93,12 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
                 case Resource.Id.ProfilePageFavouritesTabAnimeBtn:
                     if (ViewModel.FavAnime?.Any() ?? false)
                         ProfilePageFavouritesTabGridView.InjectAnimeListAdapter(Context, ViewModel.FavAnime,
-                            AnimeListDisplayModes.IndefiniteGrid, OnItemClickAction);
+                            AnimeListDisplayModes.IndefiniteGrid, OnItemClickAction,false);
                     break;
                 case Resource.Id.ProfilePageFavouritesTabMangaBtn:
                     if (ViewModel.FavManga?.Any() ?? false)
                         ProfilePageFavouritesTabGridView.InjectAnimeListAdapter(Context, ViewModel.FavManga,
-                            AnimeListDisplayModes.IndefiniteGrid, OnItemClickAction);
+                            AnimeListDisplayModes.IndefiniteGrid, OnItemClickAction,false);
                     break;
                 case Resource.Id.ProfilePageFavouritesTabCharsBtn:
                     if (ViewModel.FavouriteCharacters?.Any() ?? false)

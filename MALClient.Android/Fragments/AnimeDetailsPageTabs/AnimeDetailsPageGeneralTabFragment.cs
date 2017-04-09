@@ -12,6 +12,7 @@ using Android.Widget;
 using GalaSoft.MvvmLight.Helpers;
 using Java.Util;
 using MALClient.Android.Activities;
+using MALClient.Android.BindingConverters;
 using MALClient.Android.Listeners;
 using MALClient.Android.Resources;
 using MALClient.XShared.ViewModels;
@@ -76,6 +77,21 @@ namespace MALClient.Android.Fragments.AnimeDetailsPageTabs
                     AnimeDetailsPageGeneralTabFragmentSynopsis.Text = ViewModel.Synopsis;
                 }
             }));
+
+            Bindings.Add(this.SetBinding(() => ViewModel.AddAnimeVisibility)
+                .WhenSourceChanges(() =>
+                {
+                    if (ViewModel.AddAnimeVisibility)
+                    {
+                        AnimeDetailsPageGeneralTabFragmentMyStartButton.Visibility =
+                            AnimeDetailsPageGeneralTabFragmentMyEndButton.Visibility = ViewStates.Gone;
+                    }
+                    else
+                    {
+                        AnimeDetailsPageGeneralTabFragmentMyStartButton.Visibility =
+                            AnimeDetailsPageGeneralTabFragmentMyEndButton.Visibility = ViewStates.Visible;
+                    }
+                }));
         }
 
 

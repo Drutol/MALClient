@@ -155,9 +155,19 @@ namespace MALClient.Android.Activities
             {
                 if (ViewModel.CurrentMainPage == PageIndex.PageAnimeList)
                 {
-                    _upperFilterMenu = AnimeListPageFlyoutBuilder.BuildForAnimeStatusSelection(this, MainPageCurrentStatus,
-                        OnUpperFlyoutStatusChanged, (AnimeStatus) ViewModelLocator.AnimeList.CurrentStatus,
-                        ViewModelLocator.AnimeList.IsMangaWorkMode);
+                    if (ViewModelLocator.AnimeList.WorkMode == AnimeListWorkModes.SeasonalAnime)
+                    {
+                        _upperFilterMenu = FlyoutMenuBuilder.BuildGenericFlyout(this, MainPageCurrentStatus,
+                            ViewModelLocator.AnimeList.SeasonSelection.Select(season => season.Name).ToList(),
+                            OnUpperStatusSeasonSelected);
+                    }
+                    else
+                    {
+                        _upperFilterMenu = AnimeListPageFlyoutBuilder.BuildForAnimeStatusSelection(this, MainPageCurrentStatus,
+                            OnUpperFlyoutStatusChanged, (AnimeStatus)ViewModelLocator.AnimeList.CurrentStatus,
+                            ViewModelLocator.AnimeList.IsMangaWorkMode);
+                    }
+
                     _upperFilterMenu.Show();
                 }
             }));
@@ -199,6 +209,8 @@ namespace MALClient.Android.Activities
             _drawer.OnDrawerItemClickListener = new HamburgerItemClickListener(OnHamburgerItemClick); 
         }
 
+
+
         private void MainPageCloseVideoButtonOnClick(object sender, EventArgs eventArgs)
         {
             ViewModel.MediaElementSource = null;
@@ -214,6 +226,13 @@ namespace MALClient.Android.Activities
         {
             ViewModelLocator.AnimeList.CurrentStatus = (int)animeStatus;
             ViewModelLocator.AnimeList.RefreshList();
+            _upperFilterMenu.Dismiss(true);
+            _upperFilterMenu = null;
+        }
+
+        private void OnUpperStatusSeasonSelected(int i1)
+        {
+            ViewModelLocator.AnimeList.SeasonalUrlsSelectedIndex = i1;
             _upperFilterMenu.Dismiss(true);
             _upperFilterMenu = null;
         }

@@ -9,6 +9,7 @@ using MALClient.Android.Activities;
 using MALClient.Android.BindingConverters;
 using MALClient.Android.Resources;
 using MALClient.Android.UserControls;
+using MALClient.Models.Enums;
 using MALClient.XShared.NavArgs;
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Main;
@@ -69,6 +70,8 @@ namespace MALClient.Android.Fragments.SearchFragments
         {
             ViewModel = ViewModelLocator.CharacterSearch;
             ViewModel.Init(_prevArgs);
+            ViewModelLocator.NavMgr.DeregisterBackNav();
+            ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageAnimeList, null);
         }
 
 

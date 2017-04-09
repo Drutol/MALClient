@@ -16,20 +16,22 @@ namespace MALClient.Android.Listeners
     public class DrawerListener : Java.Lang.Object, DrawerLayout.IDrawerListener
     {
         private readonly Action _onClose;
+        private readonly Action _onOpen;
 
-        public DrawerListener(Action onClose)
+        public DrawerListener(Action onClose,Action onOpen)
         {
             _onClose = onClose;
+            _onOpen = onOpen;
         }
 
         public void OnDrawerClosed(View drawerView)
         {
-            _onClose.Invoke();
+            _onClose?.Invoke();
         }
 
         public void OnDrawerOpened(View drawerView)
         {
-
+            _onOpen?.Invoke();
         }
 
         public void OnDrawerSlide(View drawerView, float slideOffset)

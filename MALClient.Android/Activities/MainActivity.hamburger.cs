@@ -14,6 +14,8 @@ using Com.Mikepenz.Materialdrawer;
 using Com.Mikepenz.Materialdrawer.Model;
 using Com.Mikepenz.Materialdrawer.Model.Interfaces;
 using FFImageLoading;
+using GalaSoft.MvvmLight.Command;
+using MALClient.Android.Listeners;
 using MALClient.Android.Resources;
 using MALClient.Models.Enums;
 using MALClient.XShared.Comm.Anime;
@@ -178,6 +180,18 @@ namespace MALClient.Android.Activities
             UpdateLogInLabel();
             _drawer.StickyFooter.SetBackgroundColor(new Color(ResourceExtension.BrushAnimeItemInnerBackground));
 
+            _drawer.DrawerLayout.AddDrawerListener(new DrawerListener(OnClose, OnOpen));
+
+        }
+
+        private void OnOpen()
+        {
+            ViewModelLocator.NavMgr.RegisterOneTimeMainOverride(new RelayCommand(() => _drawer.CloseDrawer()));
+        }
+
+        private void OnClose()
+        {
+            ViewModelLocator.NavMgr.ResetOneTimeMainOverride();
         }
 
         public async Task UpdateProfileImg(bool dl = true)

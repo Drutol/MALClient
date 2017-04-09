@@ -108,7 +108,7 @@ namespace MALClient.Android.Fragments
             _rightDrawer = builder.Build();
             _rightDrawer.DrawerLayout.SetDrawerLockMode(DrawerLayout.LockModeLockedClosed);
             _rightDrawer.StickyHeader.SetBackgroundColor(new Color(ResourceExtension.BrushAppBars));
-            _rightDrawer.DrawerLayout.AddDrawerListener(new DrawerListener(() => ViewModelLocator.NavMgr.ResetOneTimeOverride()));
+            _rightDrawer.DrawerLayout.AddDrawerListener(new DrawerListener(() => ViewModelLocator.NavMgr.ResetOneTimeOverride(),null));
         }
 
         private void OpenFiltersDrawer()
@@ -268,6 +268,7 @@ namespace MALClient.Android.Fragments
             spinnerYear.Adapter = ViewModel.SeasonYears.GetAdapter((i, s, arg3) =>
             {
                 var view = arg3 ?? AnimeListPageFlyoutBuilder.BuildBaseItem(MainActivity.CurrentContext, s, ResourceExtension.BrushAnimeItemInnerBackground, null, false);
+                view.FindViewById<TextView>(AnimeListPageFlyoutBuilder.TextViewTag).Text = s;
                 view.Tag = s.Wrap();
 
                 return view;

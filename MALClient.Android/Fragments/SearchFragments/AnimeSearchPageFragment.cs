@@ -11,6 +11,7 @@ using GalaSoft.MvvmLight.Helpers;
 using MALClient.Android.Activities;
 using MALClient.Android.BindingConverters;
 using MALClient.Android.Resources;
+using MALClient.Models.Enums;
 using MALClient.XShared.NavArgs;
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Main;
@@ -30,6 +31,8 @@ namespace MALClient.Android.Fragments.SearchFragments
         protected override void Init(Bundle savedInstanceState)
         {
             ViewModel = ViewModelLocator.SearchPage;
+            ViewModelLocator.NavMgr.DeregisterBackNav();
+            ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageAnimeList, null);
         }
 
         protected override void InitBindings()

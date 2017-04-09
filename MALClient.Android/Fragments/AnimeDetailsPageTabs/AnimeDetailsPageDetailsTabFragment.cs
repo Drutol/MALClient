@@ -46,15 +46,25 @@ namespace MALClient.Android.Fragments.AnimeDetailsPageTabs
                     return;
 
                 AnimeDetailsPageDetailsTabLeftGenresList.SetAdapter(
-                    ViewModel.LeftGenres.GetAdapter(GetSingleDetailTemplateDelegate));          
+                    ViewModel.RightGenres.GetAdapter(GetSingleDetailTemplateDelegate));          
                 AnimeDetailsPageDetailsTabRightGenresList.SetAdapter(
-                    ViewModel.RightGenres.GetAdapter(GetSingleDetailTemplateDelegate));
+                    ViewModel.LeftGenres.GetAdapter(GetSingleDetailTemplateDelegate));
                 AnimeDetailsPageDetailsTabInformationList.SetAdapter(
                     ViewModel.Information.GetAdapter(GetDetailsTemplateDelegate));
                 AnimeDetailsPageDetailsTabStatsList.SetAdapter(ViewModel.Stats.GetAdapter(GetDetailsTemplateDelegate));
-                AnimeDetailsPageDetailsTabOPsList.SetAdapter(ViewModel.OPs.GetAdapter(GetSingleDetailTemplateDelegate));
-                AnimeDetailsPageDetailsTabEDsList.SetAdapter(ViewModel.EDs.GetAdapter(GetSingleDetailTemplateDelegate));
 
+                if (ViewModel.AnimeMode)
+                {
+                    AnimeDetailsPageDetailsTabOPsList.Visibility =
+                        AnimeDetailsPageDetailsTabEDsList.Visibility = ViewStates.Visible;
+                    AnimeDetailsPageDetailsTabOPsList.SetAdapter(ViewModel.OPs.GetAdapter(GetSingleDetailTemplateDelegate));
+                    AnimeDetailsPageDetailsTabEDsList.SetAdapter(ViewModel.EDs.GetAdapter(GetSingleDetailTemplateDelegate));
+                }
+                else
+                {
+                    AnimeDetailsPageDetailsTabOPsList.Visibility =
+                        AnimeDetailsPageDetailsTabEDsList.Visibility = ViewStates.Gone;
+                }              
             }));
         }
 

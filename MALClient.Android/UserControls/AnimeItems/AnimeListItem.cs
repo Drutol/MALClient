@@ -58,8 +58,13 @@ namespace MALClient.Android.UserControls
 
         protected override void BindModelFling()
         {
-            AnimeListItemImage.Visibility = ViewStates.Invisible;
-            AnimeListItemImgPlaceholder.Visibility = ViewStates.Visible;
+            if (!AnimeListItemImage.AnimeIntoIfLoaded(ViewModel.ImgUrl))
+            {
+                AnimeListItemImage.Visibility = ViewStates.Invisible;
+                AnimeListItemImgPlaceholder.Visibility = ViewStates.Visible;
+            }
+            else
+                AnimeListItemImgPlaceholder.Visibility = ViewStates.Gone;
         }
 
         protected override void BindModelFull()
@@ -67,12 +72,13 @@ namespace MALClient.Android.UserControls
             if ((string)AnimeListItemImage.Tag != ViewModel.ImgUrl)
             {
                 AnimeListItemImage.AnimeInto(ViewModel.ImgUrl);
-                AnimeListItemImage.Tag = ViewModel.ImgUrl;
             }
             else
             {
                 AnimeListItemImage.Visibility = ViewStates.Visible;
             }
+
+            AnimeListItemImgPlaceholder.Visibility = ViewStates.Gone;
 
             if (string.IsNullOrEmpty(ViewModel.TopLeftInfoBind))
             {

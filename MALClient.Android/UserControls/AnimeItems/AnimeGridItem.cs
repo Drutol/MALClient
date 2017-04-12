@@ -14,6 +14,7 @@ using Android.Views;
 using Android.Widget;
 using Com.Daimajia.Swipe;
 using Com.Shehabic.Droppy;
+using FFImageLoading;
 using FFImageLoading.Views;
 using GalaSoft.MvvmLight.Helpers;
 using MALClient.Android.DIalogs;
@@ -61,9 +62,15 @@ namespace MALClient.Android.UserControls
         protected override int ResourceId => Resource.Layout.AnimeGridItem;
 
         protected override void BindModelFling()
-        {           
-            AnimeGridItemImage.Visibility = ViewStates.Invisible;
-            AnimeGridItemImgPlaceholder.Visibility = ViewStates.Visible;
+        {
+            if (!AnimeGridItemImage.AnimeIntoIfLoaded(ViewModel.ImgUrl))
+            {
+                AnimeGridItemImage.Visibility = ViewStates.Invisible;
+                AnimeGridItemImgPlaceholder.Visibility = ViewStates.Visible;
+            }
+            else
+                AnimeGridItemImgPlaceholder.Visibility = ViewStates.Gone;
+
         }
 
         protected override void BindModelFull()
@@ -71,7 +78,6 @@ namespace MALClient.Android.UserControls
             if ((string)AnimeGridItemImage.Tag != ViewModel.ImgUrl)
             {
                 AnimeGridItemImage.AnimeInto(ViewModel.ImgUrl);
-                AnimeGridItemImage.Tag = ViewModel.ImgUrl;
             }
             else
             {

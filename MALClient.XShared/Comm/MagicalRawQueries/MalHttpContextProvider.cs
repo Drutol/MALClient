@@ -162,7 +162,7 @@ namespace MALClient.XShared.Comm.MagicalRawQueries
 
                 _skippedFirstError = false;
 #if ANDROID
-                return new CsrfHttpClient(#if ANDROID new NativeMessageHandler()) {Disabled = true};
+                return new CsrfHttpClient(new NativeMessageHandler()) {Disabled = true};
 #else
                 return new CsrfHttpClient(new HttpClientHandler()) { Disabled = true };
 #endif

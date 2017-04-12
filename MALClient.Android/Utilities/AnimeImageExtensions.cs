@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 using Android.Views;
@@ -14,40 +15,70 @@ namespace MALClient.Android
 {
     public static class AnimeImageExtensions
     {
-        public static void AnimeInto(this ImageViewAsync image,string originUrl)
+        private static readonly HashSet<string> LoadedImgs = new HashSet<string>();
+
+        private static string GetImgUrl(string originUrl)
         {
             if (Settings.PullHigherQualityImages)
             {
                 var pos = originUrl.IndexOf(".jpg", StringComparison.InvariantCulture);
                 if (pos == -1)
                     pos = originUrl.IndexOf(".webp", StringComparison.InvariantCulture);
-                image.Visibility = ViewStates.Invisible;
+
                 if (pos != -1)
-                {
-                    var uri = originUrl.Insert(pos, "l");
-                    var work = ImageService.Instance.LoadUrl(uri);
+                    return originUrl.Insert(pos, "l");
+                return originUrl;
+            }
+            return originUrl;
+        }
 
-                    work = work.Success(image.AnimateFadeIn);
+        public static bool AnimeIntoIfLoaded(this ImageViewAsync image, string originUrl)
+        {
+            var url = GetImgUrl(originUrl);
+            if (LoadedImgs.Contains(url))
+            {
+                LoadImage(image,originUrl,url,true);
+                return true;
+            }
+            return false;
+        }
 
-                    image.Tag = originUrl;
-                    work.Error(exception =>
-                    {
-                        ImageService.Instance.LoadUrl((string)image.Tag)
-                            .FadeAnimation(false)
-                            .Success(image.AnimateFadeIn)
-                            .Into(image);
-                    }).FadeAnimation(false).Into(image);
-                }
-                else if (!string.IsNullOrEmpty(originUrl))
-                    ImageService.Instance.LoadUrl(originUrl)
-                        .Success(image.AnimateFadeIn)
-                        .FadeAnimation(false)
-                        .Into(image);
+        public static void AnimeInto(this ImageViewAsync image, string originUrl)
+        {
+            var url = GetImgUrl(originUrl);
+            LoadImage(image,originUrl,url,LoadedImgs.Contains(url));
+        }
+
+        private static void LoadImage(ImageViewAsync image, string originUrl, string targetUrl,
+            bool? imgLoaded)
+        {
+            if (string.IsNullOrEmpty(targetUrl) || string.IsNullOrEmpty(originUrl))
+                return;
+
+            var work = ImageService.Instance.LoadUrl(targetUrl);
+            if (imgLoaded != true || !LoadedImgs.Contains(targetUrl))
+            {
+                image.Visibility = ViewStates.Invisible;
+                work = work.Success(image.AnimateFadeIn);
+                LoadedImgs.Add(targetUrl);
+                Debug.WriteLine("Not loaded");
             }
             else
             {
-                ImageService.Instance.LoadUrl(originUrl)
-                    .Success(image.AnimateFadeIn)
+                image.Visibility = ViewStates.Visible;
+                Debug.WriteLine("Loaded");
+            }
+
+            //we can fallback to lower quality image
+            if (!originUrl.Equals(targetUrl))
+            {
+                image.Tag = originUrl;
+                work.Error(exception =>
+                    {
+                        ImageService.Instance.LoadUrl((string)image.Tag)
+                            .FadeAnimation(false)
+                            .Into(image);
+                    })
                     .FadeAnimation(false)
                     .Into(image);
             }

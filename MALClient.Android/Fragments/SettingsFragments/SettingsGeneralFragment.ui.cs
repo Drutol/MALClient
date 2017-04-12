@@ -25,6 +25,7 @@ namespace MALClient.Android.Fragments.SettingsFragments
         private ImageButton _settingsPageGeneralColorPurple;
         private ImageButton _settingsPageGeneralColorBlue;
         private TextView _settingsPageGeneralThemeChangeNotice;
+        private Switch _settingsPageGeneralEnableSwipeSwitch;
         private Switch _settingsPageGeneralPullHigherSwitch;
         private Switch _settingsPageGeneralSeasonSwitch;
         private Switch _settingsPageGeneralAutoSortSwitch;
@@ -81,6 +82,8 @@ namespace MALClient.Android.Fragments.SettingsFragments
         public ImageButton SettingsPageGeneralColorBlue => _settingsPageGeneralColorBlue ?? (_settingsPageGeneralColorBlue = FindViewById<ImageButton>(Resource.Id.SettingsPageGeneralColorBlue));
 
         public TextView SettingsPageGeneralThemeChangeNotice => _settingsPageGeneralThemeChangeNotice ?? (_settingsPageGeneralThemeChangeNotice = FindViewById<TextView>(Resource.Id.SettingsPageGeneralThemeChangeNotice));
+
+        public Switch SettingsPageGeneralEnableSwipeSwitch => _settingsPageGeneralEnableSwipeSwitch ?? (_settingsPageGeneralEnableSwipeSwitch = FindViewById<Switch>(Resource.Id.SettingsPageGeneralEnableSwipeSwitch));
 
         public Switch SettingsPageGeneralPullHigherSwitch => _settingsPageGeneralPullHigherSwitch ?? (_settingsPageGeneralPullHigherSwitch = FindViewById<Switch>(Resource.Id.SettingsPageGeneralPullHigherSwitch));
 
@@ -153,5 +156,7 @@ namespace MALClient.Android.Fragments.SettingsFragments
         public TextView SettingsPageGeneralAirDayOffsetTextView => _settingsPageGeneralAirDayOffsetTextView ?? (_settingsPageGeneralAirDayOffsetTextView = FindViewById<TextView>(Resource.Id.SettingsPageGeneralAirDayOffsetTextView));
 
         public SeekBar SettingsPageGeneralAirDayOffsetSlider => _settingsPageGeneralAirDayOffsetSlider ?? (_settingsPageGeneralAirDayOffsetSlider = FindViewById<SeekBar>(Resource.Id.SettingsPageGeneralAirDayOffsetSlider));
+
+
     }
 }

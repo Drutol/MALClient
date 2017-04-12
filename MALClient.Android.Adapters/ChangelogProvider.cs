@@ -16,18 +16,19 @@ namespace MALClient.Android.Adapters
 {
     public class ChangelogProvider : IChangeLogProvider
     {
-        public ChangelogProvider()
+        static ChangelogProvider()
         {
             var context = SimpleIoc.Default.GetInstance<Activity>();
             var package = context.PackageManager.GetPackageInfo(context.PackageName, 0);
             _currentVersion = package.VersionName;
-
         }
 
-        private string _currentVersion;
+        private static string _currentVersion;
 
 
         public string CurrentVersion => _currentVersion;
+
+        public static string Version => _currentVersion;
 
         public bool NewChangelog { get; set; }
 

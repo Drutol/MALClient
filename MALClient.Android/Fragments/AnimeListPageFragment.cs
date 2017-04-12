@@ -108,7 +108,7 @@ namespace MALClient.Android.Fragments
             _rightDrawer = builder.Build();
             _rightDrawer.DrawerLayout.SetDrawerLockMode(DrawerLayout.LockModeLockedClosed);
             _rightDrawer.StickyHeader.SetBackgroundColor(new Color(ResourceExtension.BrushAppBars));
-            _rightDrawer.DrawerLayout.AddDrawerListener(new DrawerListener(() => ViewModelLocator.NavMgr.ResetOneTimeOverride(),null));
+            _rightDrawer.DrawerLayout.AddDrawerListener(new DrawerListener(() => ViewModelLocator.NavMgr.ResetOneTimeOverride(),() => _actionMenu.Close(false)));
         }
 
         private void OpenFiltersDrawer()
@@ -155,6 +155,7 @@ namespace MALClient.Android.Fragments
 
             ViewModelLocator.NavMgr.RegisterOneTimeMainOverride(new RelayCommand(CloseDrawer));
             _rightDrawer.OpenDrawer();
+            _actionMenu.Close(true);
         }
 
         private void OpenSortingDrawer()
@@ -187,6 +188,7 @@ namespace MALClient.Android.Fragments
 
             ViewModelLocator.NavMgr.RegisterOneTimeMainOverride(new RelayCommand(CloseDrawer));
             _rightDrawer.OpenDrawer();
+            _actionMenu.Close(true);
         }
 
         private void OpenViewModeDrawer()
@@ -219,6 +221,7 @@ namespace MALClient.Android.Fragments
 
             ViewModelLocator.NavMgr.RegisterOneTimeMainOverride(new RelayCommand(CloseDrawer));
             _rightDrawer.OpenDrawer();
+            _actionMenu.Close(true);
         }
 
         private void OpenTopTypeDrawer()
@@ -247,6 +250,7 @@ namespace MALClient.Android.Fragments
 
             ViewModelLocator.NavMgr.RegisterOneTimeMainOverride(new RelayCommand(CloseDrawer));
             _rightDrawer.OpenDrawer();
+            _actionMenu.Close(true);
         }
 
         private void OpenSeasonalSelectionDrawer()
@@ -316,6 +320,7 @@ namespace MALClient.Android.Fragments
 
             ViewModelLocator.NavMgr.RegisterOneTimeMainOverride(new RelayCommand(CloseDrawer));
             _rightDrawer.OpenDrawer();
+            _actionMenu.Close(true);
         }
 
         private void CloseDrawer()

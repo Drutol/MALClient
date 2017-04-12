@@ -53,7 +53,7 @@ namespace MALClient.Android.Fragments.AnimeDetailsPageTabs
                             ViewModel.StartDateTimeOffset = new DateTimeOffset(i, i1, arg3, 0, 0, 0, TimeSpan.Zero);
                             AnimeDetailsPageGeneralTabFragmentMyStart.Text = ViewModel.MyStartDate;
                         }),
-                            date.Year, date.Month, date.Day);
+                            date.Year, date.Month-1, date.Day);
                         dpd.Show();
                     }));
 
@@ -70,7 +70,7 @@ namespace MALClient.Android.Fragments.AnimeDetailsPageTabs
                             ViewModel.EndDateTimeOffset = new DateTimeOffset(i, i1, arg3, 0, 0, 0, TimeSpan.Zero);
                             AnimeDetailsPageGeneralTabFragmentMyEnd.Text = ViewModel.MyEndDate;
                         }),
-                            date.Year, date.Month, date.Day);
+                            date.Year, date.Month-1, date.Day);
                         dpd.Show();
                     }));
                     //rest

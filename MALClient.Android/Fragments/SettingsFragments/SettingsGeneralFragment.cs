@@ -71,6 +71,9 @@ namespace MALClient.Android.Fragments.SettingsFragments
             Bindings.Add(
                 this.SetBinding(() => ViewModel.ArticlesLaunchExternalLinks,
                     () => SettingsPageGeneralExternalLinksSwitch.Checked, BindingMode.TwoWay));
+            Bindings.Add(
+                this.SetBinding(() => ViewModel.EnableSwipeToIncDec,
+                    () => SettingsPageGeneralEnableSwipeSwitch.Checked, BindingMode.TwoWay));
             //
             SettingsPageGeneralAnimeSortRadioGroup.Check(GetViewIdForAnimeSortOption(Settings.AnimeSortOrder));
             SettingsPageGeneralAnimeSortRadioGroup.SetOnCheckedChangeListener(new OnCheckedListener(i =>

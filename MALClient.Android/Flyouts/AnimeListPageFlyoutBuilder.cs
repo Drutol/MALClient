@@ -57,9 +57,9 @@ namespace MALClient.Android.Flyouts
             builder.SetYOffset(5);
         }
 
-        public static View BuildItem(Context context,string text,Action<int> callback,int id,int? background = null,int? foreground = null,bool clickable = true,GravityFlags? gravity = null)
+        public static View BuildItem(Context context,string text,Action<int> callback,int id,int? background = null,int? foreground = null,bool clickable = true,GravityFlags? gravity = null,bool wrapContentHeight = false)
         {
-            var holder = BuildBaseItem(context, text,background,foreground,clickable,gravity);
+            var holder = BuildBaseItem(context, text,background,foreground,clickable,gravity,wrapContentHeight);
 
             holder.Click += (sender, args) =>
             {
@@ -77,7 +77,7 @@ namespace MALClient.Android.Flyouts
             return holder;
         }
 
-        public static View BuildBaseItem(Context context, string text,int? background = null, int? foreground = null, bool clickable = true,GravityFlags ? gravity = null)
+        public static View BuildBaseItem(Context context, string text,int? background = null, int? foreground = null, bool clickable = true,GravityFlags ? gravity = null, bool wrapContentHeight = false)
         {
             background = background ?? ResourceExtension.BrushFlyoutBackground;
             foreground = foreground ?? ResourceExtension.BrushText;
@@ -89,7 +89,8 @@ namespace MALClient.Android.Flyouts
 
 
             top.SetBackgroundColor(new Color(background.Value));
-            var holder = new RelativeLayout(context) { LayoutParameters = ParamRelativeLayout };
+            var holder = new RelativeLayout(context) { LayoutParameters = wrapContentHeight ? new
+                ViewGroup.LayoutParams(DimensionsHelper.DpToPx(150),-2) : ParamRelativeLayout };
             holder.SetBackgroundResource(ResourceExtension.SelectableItemBackground);
 
             if (clickable)

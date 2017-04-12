@@ -54,7 +54,7 @@ namespace MALClient.Android.Flyouts
 
             droppyBuilder.AddMenuItem(new DroppyMenuCustomItem(AnimeListPageFlyoutBuilder.BuildItem(context, "Tags:", listener, 0,ResourceExtension.BrushRowAlternate2,null,false,GravityFlags.CenterHorizontal)));
             droppyBuilder.AddMenuItem(new DroppyMenuCustomItem(new DroppyMenuSeparatorView(context)));
-            droppyBuilder.AddMenuItem(new DroppyMenuCustomItem(AnimeListPageFlyoutBuilder.BuildItem(context, viewModel.Notes , listener, 1, null, null, false, GravityFlags.CenterHorizontal)));
+            droppyBuilder.AddMenuItem(new DroppyMenuCustomItem(AnimeListPageFlyoutBuilder.BuildItem(context, viewModel.Notes , listener, 1, null, null, false, GravityFlags.CenterHorizontal,true)));
 
             return droppyBuilder.Build();
         }

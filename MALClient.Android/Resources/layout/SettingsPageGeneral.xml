@@ -71,6 +71,15 @@
 
     <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="5dp"
                   android:layout_marginTop="15dp">
+      <TextView android:text="Enable swipe to increment/decrement." android:layout_width="0dp"
+                android:layout_height="wrap_content" android:layout_gravity="center_vertical"
+                android:textSize="@dimen/FontSizeMedium" android:textColor="?BrushText" android:layout_weight="1" />
+      <Switch android:id="@+id/SettingsPageGeneralEnableSwipeSwitch" android:layout_width="wrap_content"
+              android:layout_height="wrap_content" android:layout_gravity="center_vertical" />
+    </LinearLayout>    
+
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="5dp"
+                  android:layout_marginTop="15dp">
       <TextView android:text="Try to display higher quality images in relevant places" android:layout_width="0dp"
                 android:layout_height="wrap_content" android:layout_gravity="center_vertical"
                 android:textSize="@dimen/FontSizeMedium" android:textColor="?BrushText" android:layout_weight="1" />

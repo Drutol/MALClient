@@ -21,6 +21,7 @@ using MALClient.Android.DIalogs;
 using MALClient.Android.Flyouts;
 using MALClient.Android.Listeners;
 using MALClient.Android.Resources;
+using MALClient.XShared.Utils;
 using MALClient.XShared.ViewModels;
 
 namespace MALClient.Android.UserControls
@@ -41,7 +42,8 @@ namespace MALClient.Android.UserControls
 
         public AnimeGridItem(Context context,bool allowSwipeInGivenContext,Action<AnimeItemViewModel> onItemClickAction) : base(context)
         {
-            _allowSwipeInGivenContext = allowSwipeInGivenContext;
+            if(Settings.EnableSwipeToIncDec)
+                _allowSwipeInGivenContext = allowSwipeInGivenContext;
             _onItemClickAction = onItemClickAction;
         }
 

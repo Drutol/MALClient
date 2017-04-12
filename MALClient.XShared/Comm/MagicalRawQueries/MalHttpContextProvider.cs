@@ -111,6 +111,8 @@ namespace MALClient.XShared.Comm.MagicalRawQueries
                         UseCookies = true,
                         AllowAutoRedirect = false,
                     };
+                    httpHandler.CookieContainer.Add(new Uri(MalBaseUrl),new Cookie("view","sp","/", "myanimelist.net"));
+                    //httpHandler.CookieContainer.SetCookie(new HttpCookie("", , "/") { Value = "sp" });
 #else
                     var httpHandler = new HttpClientHandler()
                     {

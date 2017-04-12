@@ -2,6 +2,7 @@ using System;
 using Android.App;
 using Android.OS;
 using Android.Widget;
+using MALClient.Android.Adapters;
 using MALClient.Android.Resources;
 using MALClient.Android.ViewModels;
 using MALClient.Models.Enums;
@@ -19,6 +20,7 @@ namespace MALClient.Android.Fragments.SettingsFragments
             ViewModel.NavigationRequest += ViewModelOnNavigationRequest;
             ViewModelLocator.NavMgr.DeregisterBackNav();
             ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageAnimeList, null);
+            ViewModelLocator.GeneralMain.CurrentStatus = $"Settings - {ChangelogProvider.Version}";
         }
 
         private void ViewModelOnNavigationRequest(SettingsPageIndex page)
@@ -59,18 +61,23 @@ namespace MALClient.Android.Fragments.SettingsFragments
                 default:
                     throw new ArgumentOutOfRangeException(nameof(page), page, null);
             }
-            if (fragment == null)
+
+            try
             {
-                Toast.MakeText(Activity, "Not implemented yet, traveller!", ToastLength.Short);
-                return;
+                var trans = ChildFragmentManager.BeginTransaction();
+                trans.DisallowAddToBackStack();
+                trans.SetCustomAnimations(Resource.Animator.animation_slide_btm,
+                    Resource.Animator.animation_fade_out,
+                    Resource.Animator.animation_slide_btm,
+                    Resource.Animator.animation_fade_out);
+                trans.Replace(Resource.Id.SearchPageContentFrame, fragment);
+                trans.CommitAllowingStateLoss();
             }
-            var trans = ChildFragmentManager.BeginTransaction();
-            trans.SetCustomAnimations(Resource.Animator.animation_slide_btm,
-                Resource.Animator.animation_fade_out,
-                Resource.Animator.animation_slide_btm,
-                Resource.Animator.animation_fade_out);
-            trans.Replace(Resource.Id.SearchPageContentFrame, fragment);
-            trans.Commit();
+            catch (Exception e)
+            {
+
+            }
+
         }
 
         protected override void Cleanup()

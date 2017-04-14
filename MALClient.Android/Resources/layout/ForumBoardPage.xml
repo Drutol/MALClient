@@ -1,55 +1,55 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical"
-    xmlns:android="http://schemas.android.com/apk/res/android" android:background="?BrushDeepBackground">
+                xmlns:android="http://schemas.android.com/apk/res/android" android:background="?BrushDeepBackground">
   <LinearLayout
-      android:layout_width="match_parent" android:orientation="vertical"
-      android:layout_height="match_parent">
+    android:layout_width="match_parent" android:orientation="vertical"
+    android:layout_height="match_parent">
     <LinearLayout
-        android:layout_width="wrap_content" android:layout_gravity="center_horizontal"
-        android:layout_height="wrap_content">
-      <TextView android:id="@+id/ForumBoardPageIcon"
-          android:layout_width="wrap_content" android:textSize="@dimen/FontSizeBig"
-          android:layout_height="wrap_content" android:textColor="?BrushText"/>
+      android:layout_width="wrap_content" android:layout_gravity="center_horizontal"
+      android:layout_height="wrap_content">
+      <TextView android:id="@+id/ForumBoardPageIcon" android:layout_gravity="center_vertical"
+                android:layout_width="wrap_content" android:textSize="@dimen/FontSizeBig"
+                android:layout_height="wrap_content" android:textColor="?BrushText"/>
       <TextView android:id="@+id/ForumBoardPageTitle"
-          android:layout_width="wrap_content" android:layout_margin="5dp"
-          android:layout_height="wrap_content" android:text="Some random board" android:maxLines="1" android:ellipsize="end" android:textSize="@dimen/FontSizeHuge" android:fontFamily="@string/font_family_medium" android:textColor="?BrushText"/>
+                android:layout_width="wrap_content" android:layout_margin="5dp"
+                android:layout_height="wrap_content" android:text="Some random board" android:maxLines="1" android:ellipsize="end" android:textSize="@dimen/FontSizeHuge" android:fontFamily="@string/font_family_medium" android:textColor="?BrushText"/>
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="match_parent" android:gravity="center_vertical"
-        android:layout_height="wrap_content">
+      android:layout_width="match_parent" android:gravity="center_vertical"
+      android:layout_height="wrap_content">
       <Button android:id="@+id/ForumBoardPageNewTopicButton"
-          android:layout_width="wrap_content" android:text="New topic" android:layout_marginStart="5dp"
-          android:layout_height="wrap_content" android:background="@drawable/inc_dec_btn_backgroud" style="@style/AccentButtonStyle"/>
+              android:layout_width="wrap_content" android:text="New topic" android:layout_marginStart="5dp" android:textColor="?BrushText"
+              android:layout_height="wrap_content" android:background="@drawable/inc_dec_btn_backgroud" style="@style/AccentButtonStyle"/>
 
       <Button android:id="@+id/ForumBoardPageSearchButton"
-          android:layout_width="wrap_content" android:text="Search" android:layout_marginStart="5dp"
-          android:layout_height="wrap_content" android:background="@drawable/inc_dec_btn_backgroud" style="@style/AccentButtonStyle"/>
+              android:layout_width="wrap_content" android:text="Search" android:layout_marginStart="5dp" android:textColor="?BrushText"
+              android:layout_height="wrap_content" android:background="@drawable/inc_dec_btn_backgroud" style="@style/AccentButtonStyle"/>
       <RelativeLayout
-          android:layout_width="0dp" android:layout_weight="1" android:gravity="center_vertical"
-          android:layout_height="wrap_content">
+        android:layout_width="0dp" android:layout_weight="1" android:gravity="center_vertical"
+        android:layout_height="wrap_content">
         <ImageButton
-            android:layout_width="wrap_content" android:layout_alignParentEnd="true" android:id="@+id/ForumBoardPageGotoPageButton"
-            android:layout_height="wrap_content" android:src="@drawable/icon_go" android:background="?BrushAnimeItemInnerBackground" android:paddingStart="9dp" android:paddingEnd="9dp" android:paddingTop="6dp" android:paddingBottom="6dp" android:layout_marginEnd="5dp" android:layout_centerVertical="true"/>
+          android:layout_width="wrap_content" android:layout_alignParentEnd="true" android:id="@+id/ForumBoardPageGotoPageButton"
+          android:layout_height="wrap_content" android:src="@drawable/icon_go" android:background="?BrushAnimeItemInnerBackground" android:paddingStart="9dp" android:paddingEnd="9dp" android:paddingTop="6dp" android:paddingBottom="6dp" android:layout_marginEnd="5dp" android:layout_centerVertical="true"/>
         <LinearLayout android:id="@+id/ForumBoardPagePageList" android:layout_toLeftOf="@id/ForumBoardPageGotoPageButton"
-            android:layout_width="wrap_content" android:orientation="horizontal"
-            android:layout_height="wrap_content"/>
+                      android:layout_width="wrap_content" android:orientation="horizontal"
+                      android:layout_height="wrap_content"/>
 
       </RelativeLayout>
     </LinearLayout>
 
     <ListView
-        android:id="@+id/ForumBoardPagePostsList"
-        android:layout_width="match_parent"
-        android:layout_gravity="top"
-        android:layout_height="match_parent"
-        android:choiceMode="singleChoice"
-        android:dividerHeight="5dp" android:divider="@color/Transparent" />
+      android:id="@+id/ForumBoardPagePostsList"
+      android:layout_width="match_parent"
+      android:layout_gravity="top"
+      android:layout_height="match_parent"
+      android:choiceMode="singleChoice"
+      android:dividerHeight="5dp" android:divider="@color/Transparent" />
   </LinearLayout>
 
   <ProgressBar android:id="@+id/ForumBoardPageLoadingSpinner" android:layout_width="wrap_content"
-      android:indeterminateTint="?AccentColour" android:indeterminateTintMode="src_in"
-      android:layout_height="wrap_content"
-      android:indeterminate="true" android:layout_centerInParent="true"/>
+               android:indeterminateTint="?AccentColour" android:indeterminateTintMode="src_in"
+               android:layout_height="wrap_content"
+               android:indeterminate="true" android:layout_centerInParent="true"/>
 
 </RelativeLayout>

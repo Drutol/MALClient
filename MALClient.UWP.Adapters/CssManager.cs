@@ -23,5 +23,6 @@ namespace MALClient.UWP.Adapters
         protected override string AccentColourLight { get; }
         protected override string AccentColourDark { get; }
         protected override string NotifyFunction => "window.external.notify";
+        protected override string ShadowsDefinition => "0px 0px 67px 5px";
     }
 }

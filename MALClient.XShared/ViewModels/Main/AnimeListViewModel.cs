@@ -874,7 +874,6 @@ namespace MALClient.XShared.ViewModels.Main
                 CurrentSeason = new AnimeSeason {Name = "Airing", Url = "https://myanimelist.net/anime/season"};
                 setDefaultSeason = true;
             }
-            ViewModelLocator.GeneralMain.CurrentStatus = "Downloading data...\nThis may take a while...";
             //get top or seasonal anime
             var data = new List<ISeasonalAnimeBaseData>();
             page = page == 0 ? 1 : page;

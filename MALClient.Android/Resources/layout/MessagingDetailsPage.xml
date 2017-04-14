@@ -9,6 +9,7 @@
     <ListView
         android:id="@+id/MessagingDetailsPageList"
         android:layout_width="match_parent"
+        android:paddingTop="5dp"
         android:layout_gravity="top" android:stackFromBottom="true"
         android:layout_height="match_parent"
         android:choiceMode="none" android:layout_marginStart="5dp" android:layout_marginEnd="5dp"

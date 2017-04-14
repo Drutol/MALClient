@@ -38,23 +38,26 @@ namespace MALClient.XShared.Utils
         protected abstract string AccentColourLight { get; }
         protected abstract string AccentColourDark { get; }
         protected abstract string NotifyFunction { get; }
+        protected abstract string ShadowsDefinition { get; }
 
         private void PrepareCss()
         {
             string css = Css;
             string bodyCss = CssHtmlBodyScrollEnabled;
 
-            css = css.Replace("AccentColourBase", AccentColour).
-                Replace("AccentColourLight", AccentColourLight).
-                Replace("AccentColourDark", AccentColourDark)
+            css = css.Replace("AccentColourBase", AccentColour)
+                .Replace("AccentColourLight", AccentColourLight)
+                .Replace("AccentColourDark", AccentColourDark)
                 .Replace("BodyBackgroundThemeColor",
                     Settings.SelectedTheme == 1 ? "#2d2d2d" : "#e6e6e6")
                 .Replace("BodyForegroundThemeColor",
-                    Settings.SelectedTheme == 1 ? "white" : "black").Replace(
+                    Settings.SelectedTheme == 1 ? "white" : "black")
+                .Replace(
                     "HorizontalSeparatorColor",
                     Settings.SelectedTheme == 1 ? "#0d0d0d" : "#b3b3b3")
                 .Replace("BodyBackgroundThemeDarkerColor",
-                    Settings.SelectedTheme == 1 ? "#212121" : "#dadada");
+                    Settings.SelectedTheme == 1 ? "#212121" : "#dadada")
+                .Replace("ShadowDefinition", ShadowsDefinition);
 
             bodyCss = bodyCss.Replace("AccentColourBase", AccentColour).
                 Replace("AccentColourLight", AccentColourLight).
@@ -137,9 +140,9 @@ namespace MALClient.XShared.Utils
 		        margin: 10px auto;
 		        max-width: 100%;
 		        height: auto;
-		        -webkit-box-shadow: 0px 0px 67px 5px rgba(0,0,0,0.58);
-		        -moz-box-shadow: 0px 0px 67px 5px rgba(0,0,0,0.58);
-		        box-shadow: 0px 0px 67px 5px rgba(0,0,0,0.58);
+		        -webkit-box-shadow: ShadowDefinition rgba(0,0,0,0.58);
+		        -moz-box-shadow: ShadowDefinition rgba(0,0,0,0.58);
+		        box-shadow: ShadowDefinition rgba(0,0,0,0.58);
 	        }
 	        a
 	        {

@@ -11,5 +11,6 @@ namespace MALClient.Android
         protected override string AccentColourLight => '#'+ ResourceExtension.AccentColourLightHex.Substring(3);
         protected override string AccentColourDark => '#'+ResourceExtension.AccentColourDarkHex.Substring(3);
         protected override string NotifyFunction => "android.OnData";
+        protected override string ShadowsDefinition => "0px 0px 34px 4px";
     }
 }

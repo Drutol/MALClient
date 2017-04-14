@@ -19,7 +19,7 @@ namespace MALClient.Android.BindingConverters
         {
             switch (icon)
             {
-                    case FontAwesomeIcon.PuzzlePiece:
+                case FontAwesomeIcon.PuzzlePiece:
                     return Resource.String.fa_icon_puzzle_piece;
                 case FontAwesomeIcon.Money:
                     return Resource.String.fa_icon_money;
@@ -59,7 +59,11 @@ namespace MALClient.Android.BindingConverters
                     return Resource.String.fa_icon_bar_chart;
                 case FontAwesomeIcon.StickyNote:
                     return Resource.String.fa_icon_sticky_note;
-                    
+                case FontAwesomeIcon.Eye:
+                    return Resource.String.fa_icon_eye;
+                case FontAwesomeIcon.ClockOutline:
+                    return Resource.String.fa_icon_clock_o;
+
             }
 
             return Resource.String.fa_icon_bug;

@@ -16,10 +16,11 @@ namespace MALClient.Android
     public static class AnimeImageExtensions
     {
         private static readonly HashSet<string> LoadedImgs = new HashSet<string>();
+        private static readonly HashSet<string> FailedImgs = new HashSet<string>();
 
         private static string GetImgUrl(string originUrl)
         {
-            if (Settings.PullHigherQualityImages)
+            if (Settings.PullHigherQualityImages && !FailedImgs.Contains(originUrl))
             {
                 var pos = originUrl.IndexOf(".jpg", StringComparison.InvariantCulture);
                 if (pos == -1)
@@ -72,15 +73,17 @@ namespace MALClient.Android
             {
                 image.Tag = originUrl;
                 work.Error(exception =>
-                    {
-                        ImageService.Instance.LoadUrl((string)image.Tag)
-                            .FadeAnimation(false)
-                            .Into(image);
-                    })
-                    .FadeAnimation(false)
-                    .Into(image);
+                {
+                    var img = (string) image.Tag;
+                    ImageService.Instance.LoadUrl(img)
+                        .FadeAnimation(false)
+                        .Into(image);
+                    FailedImgs.Add(img);
+                    LoadedImgs.Add(img);
+                });
             }
 
+            work.FadeAnimation(false).Into(image);
         }
 
         public static void Into(this ImageViewAsync image, string originUrl, ITransformation transformation = null,Action<ImageViewAsync> onCompleted = null)

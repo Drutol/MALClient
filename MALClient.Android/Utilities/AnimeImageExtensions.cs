@@ -18,6 +18,8 @@ namespace MALClient.Android
         private static readonly HashSet<string> LoadedImgs = new HashSet<string>();
         private static readonly HashSet<string> FailedImgs = new HashSet<string>();
 
+        #region AnimeInto
+
         private static string GetImgUrl(string originUrl)
         {
             if (Settings.PullHigherQualityImages && !FailedImgs.Contains(originUrl))
@@ -38,7 +40,7 @@ namespace MALClient.Android
             var url = GetImgUrl(originUrl);
             if (LoadedImgs.Contains(url))
             {
-                LoadImage(image,originUrl,url,true);
+                LoadImage(image, originUrl, url, true);
                 return true;
             }
             return false;
@@ -47,7 +49,7 @@ namespace MALClient.Android
         public static void AnimeInto(this ImageViewAsync image, string originUrl)
         {
             var url = GetImgUrl(originUrl);
-            LoadImage(image,originUrl,url,LoadedImgs.Contains(url));
+            LoadImage(image, originUrl, url, LoadedImgs.Contains(url));
         }
 
         private static void LoadImage(ImageViewAsync image, string originUrl, string targetUrl,
@@ -57,7 +59,7 @@ namespace MALClient.Android
                 return;
 
             var work = ImageService.Instance.LoadUrl(targetUrl);
-            if (imgLoaded != true || !LoadedImgs.Contains(targetUrl))
+            if (imgLoaded != true && !LoadedImgs.Contains(targetUrl))
             {
                 image.Visibility = ViewStates.Invisible;
                 work = work.Success(image.AnimateFadeIn);
@@ -65,7 +67,12 @@ namespace MALClient.Android
             }
             else
             {
-                image.Visibility = ViewStates.Visible;
+                if (image.Tag == null)
+                {
+                    work = work.Success(image.AnimateFadeIn);
+                }
+                else
+                    image.Visibility = ViewStates.Visible;
             }
 
             //we can fallback to lower quality image
@@ -74,7 +81,7 @@ namespace MALClient.Android
                 image.Tag = originUrl;
                 work.Error(exception =>
                 {
-                    var img = (string) image.Tag;
+                    var img = (string)image.Tag;
                     ImageService.Instance.LoadUrl(img)
                         .FadeAnimation(false)
                         .Into(image);
@@ -86,7 +93,27 @@ namespace MALClient.Android
             work.FadeAnimation(false).Into(image);
         }
 
+
+        #endregion
+
+        public static bool IntoIfLoaded(this ImageViewAsync image, string originUrl, ITransformation transformation = null,
+            Action<ImageViewAsync> onCompleted = null)
+        {
+            if (LoadedImgs.Contains(originUrl))
+            {
+                LoadImage(image, originUrl,transformation,onCompleted,true);
+                return true;
+            }
+            return false;
+        }
+
         public static void Into(this ImageViewAsync image, string originUrl, ITransformation transformation = null,Action<ImageViewAsync> onCompleted = null)
+        {
+            LoadImage(image, originUrl, transformation, onCompleted, null);
+        }
+
+        public static void LoadImage(this ImageViewAsync image, string originUrl, ITransformation transformation,
+            Action<ImageViewAsync> onCompleted,bool? imgLoaded)
         {
             if (string.IsNullOrEmpty(originUrl))
                 return;
@@ -95,11 +122,40 @@ namespace MALClient.Android
             try
             {
                 var work = ImageService.Instance.LoadUrl(originUrl);
-                work = work.Success(() => 
+                if (imgLoaded != true && !LoadedImgs.Contains(originUrl))
                 {
-                    image.AnimateFadeIn();
-                    onCompleted?.Invoke(image);
-                });
+                    image.Visibility = ViewStates.Invisible;
+                    work = work.Success(() =>
+                    {
+                        image.AnimateFadeIn();
+                        onCompleted?.Invoke(image);
+                    });
+                    LoadedImgs.Add(originUrl);
+                }
+                else
+                {
+                    if (image.Tag == null)
+                    {
+                        image.Visibility = ViewStates.Invisible;
+                        work = work.Success(() =>
+                        {
+                            image.AnimateFadeIn();
+                            onCompleted?.Invoke(image);
+                        });
+                    }
+                    else
+                    {
+                        image.Visibility = ViewStates.Visible;
+                        if (onCompleted != null)
+                        {
+                            work = work.Success(() =>
+                            {
+                                onCompleted.Invoke(image);
+                            });
+                        }
+                    }
+                }
+                image.Tag = originUrl;
                 if (transformation == null)
                     work.FadeAnimation(false).Into(image);
                 else
@@ -109,7 +165,6 @@ namespace MALClient.Android
             {
                 //TODO Throws aggregate exception for some reason
             }
-
         }
 
         public static void HandleScaling(this ImageViewAsync image,float threshold = .4f)

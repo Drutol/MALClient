@@ -14,7 +14,7 @@ namespace MALClient.Android
 
         public static void InjectFlingAdapter<T>(this AbsListView container, IList<T> items,
             Action<View,int, T> dataTemplateFull, Action<View,int,T> dataTemplateFling,
-            Func<int,View> containerTemplate,View footer = null) where T : class
+            Func<int,View> containerTemplate,Action<View,int,T> dataTemplateBasic = null,View footer = null) where T : class
         {
             if(!FlingStates.ContainsKey(container))
                 FlingStates.Add(container,false);
@@ -41,6 +41,7 @@ namespace MALClient.Android
                 {
                     var root = arg3 ?? containerTemplate(i);
                     root.Tag = arg2.Wrap();
+                    dataTemplateBasic?.Invoke(root, i, arg2);
                     if (FlingStates[container])
                         dataTemplateFling(root, i, arg2);
                     else

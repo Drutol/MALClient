@@ -81,7 +81,7 @@ namespace MALClient.Android
                             ((AnimeListItem) view).BindModel(model, true);
                         },
                         i => new AnimeListItem(context, onClick)
-                        , footer);
+                        ,null, footer);
                     break;
                 case AnimeListDisplayModes.IndefiniteGrid:
                     listView.InjectFlingAdapter(items, (view, i, model) =>
@@ -93,7 +93,7 @@ namespace MALClient.Android
                             ((AnimeGridItem) view).BindModel(model, true);
                         },
                         i => new AnimeGridItem(context, allowGridItemSwipe, onClick)
-                        , footer);
+                        ,null, footer);
                     break;
                 case AnimeListDisplayModes.IndefiniteCompactList:
                     listView.InjectFlingAdapter(items, (view, i, model) =>
@@ -109,7 +109,7 @@ namespace MALClient.Android
                             item.BindModel(model, true);
                         },
                         i => new AnimeCompactItem(context, i, onClick)
-                        , footer);
+                        ,null, footer);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(mode), mode, null);

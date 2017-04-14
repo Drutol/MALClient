@@ -12,6 +12,7 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using FFImageLoading;
+using FFImageLoading.Transformations;
 using FFImageLoading.Views;
 using GalaSoft.MvvmLight.Helpers;
 using MALClient.Android.Activities;
@@ -45,7 +46,7 @@ namespace MALClient.Android.Fragments.AnimeDetailsPageTabs
         protected override void InitBindings()
         {
             
-            AnimeDetailsPageReviewsTabsList.Adapter = ViewModel.Reviews.GetAdapter(GetTemplateDelegate);
+            AnimeDetailsPageReviewsTabsList.InjectFlingAdapter(ViewModel.Reviews,DataTemplateFull,DataTemplateFling,ContainerTemplate,DataTemplateBasic);
 
             Bindings.Add(
                 this.SetBinding(() => ViewModel.LoadingReviews,
@@ -54,61 +55,105 @@ namespace MALClient.Android.Fragments.AnimeDetailsPageTabs
             AnimeDetailsPageReviewsTabsList.EmptyView = AnimeDetailsPageReviewsTabEmptyNotice;
         }
 
-        private Dictionary<AnimeReviewData,bool> _reviewStates = new Dictionary<AnimeReviewData, bool>();
 
-        private View GetTemplateDelegate(int i, AnimeReviewData animeReviewData, View convertView)
+
+        private View ContainerTemplate(int i)
         {
-            var view = convertView;
+            var view = MainActivity.CurrentContext.LayoutInflater.Inflate(Resource.Layout.AnimeReviewItemLayout, null);
+            view.Click += OnReviewClick;
+            return view;
+        }
 
+        private void DataTemplateBasic(View view, int i, AnimeReviewData animeReviewData)
+        {
             if(!_reviewStates.ContainsKey(animeReviewData))
-                _reviewStates.Add(animeReviewData, false);
+                _reviewStates.Add(animeReviewData,false);
 
-            if (view == null)
+            if (_reviewStates[animeReviewData])
             {
-                view = MainActivity.CurrentContext.LayoutInflater.Inflate(Resource.Layout.AnimeReviewItemLayout,null);
-                view.Click += OnReviewClick;
+                LoadScores(view, animeReviewData);
+                view.FindViewById(Resource.Id.AnimeReviewItemLayoutReviewContent).Visibility = ViewStates.Visible;
             }
-            view.Tag = new ReviewWrapperClass() { Data = animeReviewData };
+            else
+            {
+                view.FindViewById<LinearLayout>(Resource.Id.AnimeReviewItemLayoutMarksList).RemoveAllViews();
+                view.FindViewById(Resource.Id.AnimeReviewItemLayoutReviewContent).Visibility = ViewStates.Gone;
+            }
 
-            view.FindViewById(Resource.Id.AnimeReviewItemLayoutReviewContent).Visibility =
-                _reviewStates[animeReviewData] ? ViewStates.Visible : ViewStates.Gone;
 
-            view.FindViewById<ImageViewAsync>(Resource.Id.AnimeReviewItemLayoutAvatarImage)
-                .Into(animeReviewData.AuthorAvatar);
             view.FindViewById<TextView>(Resource.Id.AnimeReviewItemLayoutAuthor).Text = animeReviewData.Author;
             view.FindViewById<TextView>(Resource.Id.AnimeReviewItemLayoutDate).Text = animeReviewData.Date;
             view.FindViewById<TextView>(Resource.Id.AnimeReviewItemLayoutOverallScore).Text = animeReviewData.OverallRating;
             view.FindViewById<TextView>(Resource.Id.AnimeReviewItemLayoutEpsSeen).Text = animeReviewData.EpisodesSeen;
             view.FindViewById<TextView>(Resource.Id.AnimeReviewItemLayoutHelpfulCount).Text = animeReviewData.HelpfulCount;
-            view.FindViewById<TextView>(Resource.Id.AnimeReviewItemLayoutReviewContent).Text = animeReviewData.Review;
 
+
+        }
+
+        private void DataTemplateFling(View view, int i, AnimeReviewData animeReviewData)
+        {
+            var img = view.FindViewById<ImageViewAsync>(Resource.Id.AnimeReviewItemLayoutAvatarImage);
+            if (img.IntoIfLoaded(animeReviewData.AuthorAvatar, new CircleTransformation()))
+            {
+                view.FindViewById(Resource.Id.AnimeReviewItemImgPlaceholder).Visibility = ViewStates.Gone;
+            }
+            else
+            {
+                view.FindViewById(Resource.Id.AnimeReviewItemImgPlaceholder).Visibility = ViewStates.Visible;              
+            }
+        }
+
+        private void DataTemplateFull(View view, int i, AnimeReviewData animeReviewData)
+        {
+            var img = view.FindViewById<ImageViewAsync>(Resource.Id.AnimeReviewItemLayoutAvatarImage);
+            if (img.Tag == null || (string) img.Tag != animeReviewData.AuthorAvatar)
+            {
+                img.Into(animeReviewData.AuthorAvatar, new CircleTransformation());
+                img.Tag = animeReviewData.AuthorAvatar;
+            }
+            else
+            {
+                img.Visibility = ViewStates.Visible;
+            }
+
+            view.FindViewById(Resource.Id.AnimeReviewItemImgPlaceholder).Visibility = ViewStates.Gone;
+        }
+
+        private void LoadScores(View view,AnimeReviewData animeReviewData)
+        {
             var scores = view.FindViewById<LinearLayout>(Resource.Id.AnimeReviewItemLayoutMarksList);
             scores.RemoveAllViews();
             foreach (var score in animeReviewData.Score)
             {
-                var txt = new TextView(view.Context);
-                txt.Text = $"{score.Field} - {score.Score}";
-                txt.Typeface = Typeface.Create(ResourceExtension.FontSizeLight,TypefaceStyle.Normal);
+                var txt = new TextView(view.Context)
+                {
+                    Text = $"{score.Field} {score.Score}",
+                    Typeface = Typeface.Create(ResourceExtension.FontSizeLight, TypefaceStyle.Normal)
+                };
                 txt.SetTextColor(new Color(ResourceExtension.BrushText));
                 scores.AddView(txt);
             }
-
-            return view;
         }
+
+        private readonly Dictionary<AnimeReviewData,bool> _reviewStates = new Dictionary<AnimeReviewData, bool>();
 
         private void OnReviewClick(object sender, EventArgs eventArgs)
         {
             var view = sender as View;
-            var model = ((ReviewWrapperClass) view.Tag).Data;
+            var model = view.Tag.Unwrap<AnimeReviewData>();
             if (_reviewStates[model]) //collapse
             {
                 _reviewStates[model] = false;
+                view.FindViewById<LinearLayout>(Resource.Id.AnimeReviewItemLayoutMarksList).RemoveAllViews();
                 view.FindViewById(Resource.Id.AnimeReviewItemLayoutReviewContent).Visibility = ViewStates.Gone;
+                view.FindViewById<TextView>(Resource.Id.AnimeReviewItemLayoutReviewContent).Text = "";
             }
             else //expand
             {
                 _reviewStates[model] = true;
+                LoadScores(view, model);
                 view.FindViewById(Resource.Id.AnimeReviewItemLayoutReviewContent).Visibility = ViewStates.Visible;
+                view.FindViewById<TextView>(Resource.Id.AnimeReviewItemLayoutReviewContent).Text = model.Review;
             }
         }
 

@@ -53,119 +53,136 @@ namespace MALClient.Android.Fragments
             AnimeDetailsPagePivot.Adapter = new AnimeDetailsPagerAdapter(FragmentManager);
             AnimeDetailsPageTabStrip.SetViewPager(AnimeDetailsPagePivot);
             AnimeDetailsPageTabStrip.CenterTabs();
-            AnimeDetailsPagePivot.SetCurrentItem(_navArgs.SourceTabIndex,false);
+            AnimeDetailsPagePivot.SetCurrentItem(_navArgs.SourceTabIndex, false);
             AnimeDetailsPagePivot.OffscreenPageLimit = 7;
-         
-            AnimeDetailsPagePivot.AddOnPageChangeListener(new OnPageChangedListener(i => ViewModel.DetailsPivotSelectedIndex = i));
+
+            AnimeDetailsPagePivot.AddOnPageChangeListener(
+                new OnPageChangedListener(i => ViewModel.DetailsPivotSelectedIndex = i));
 
             Bindings.Add(
                 this.SetBinding(() => ViewModel.MyScoreBind,
-                    () => AnimeDetailsPageScoreButton.Text));        
+                    () => AnimeDetailsPageScoreButton.Text));
             Bindings.Add(
                 this.SetBinding(() => ViewModel.MyStatusBind,
-                    () => AnimeDetailsPageStatusButton.Text));         
+                    () => AnimeDetailsPageStatusButton.Text));
             Bindings.Add(
                 this.SetBinding(() => ViewModel.MyEpisodesBind,
-                    () => AnimeDetailsPageWatchedButton.Text));          
+                    () => AnimeDetailsPageWatchedButton.Text));
             Bindings.Add(
                 this.SetBinding(() => ViewModel.MyVolumesBind,
-                    () => AnimeDetailsPageReadVolumesButton.Text));         
+                    () => AnimeDetailsPageReadVolumesButton.Text));
             Bindings.Add(
                 this.SetBinding(() => ViewModel.LoadingGlobal,
-                    () => AnimeDetailsPageLoadingOverlay.Visibility).ConvertSourceToTarget(Converters.BoolToVisibility));      
+                        () => AnimeDetailsPageLoadingOverlay.Visibility)
+                    .ConvertSourceToTarget(Converters.BoolToVisibility));
 
             Bindings.Add(
                 this.SetBinding(() => ViewModel.IsIncrementButtonEnabled,
-                    () => AnimeDetailsPageIncrementButton.Enabled));      
+                    () => AnimeDetailsPageIncrementButton.Enabled));
             Bindings.Add(
                 this.SetBinding(() => ViewModel.IsDecrementButtonEnabled,
-                    () => AnimeDetailsPageDecrementButton.Enabled));      
+                    () => AnimeDetailsPageDecrementButton.Enabled));
 
-            Bindings.Add(this.SetBinding(() => ViewModel.AddAnimeVisibility).WhenSourceChanges(() =>
-            {
-                if (ViewModel.AddAnimeVisibility)
+            Bindings.Add(this.SetBinding(() => ViewModel.AddAnimeVisibility)
+                .WhenSourceChanges(() =>
                 {
-                    AnimeDetailsPageIncDecSection.Visibility = ViewStates.Gone;
-                    AnimeDetailsPageUpdateSection.Visibility = ViewStates.Gone;
-                    AnimeDetailsPageAddSection.Visibility = ViewStates.Visible;
-                    AnimeDetailsPageFavouriteButton.Visibility = ViewStates.Gone;
-                }
-                else
-                {
-                    AnimeDetailsPageIncDecSection.Visibility = ViewStates.Visible;
-                    AnimeDetailsPageUpdateSection.Visibility = ViewStates.Visible;
-                    AnimeDetailsPageAddSection.Visibility = ViewStates.Gone;
-                    AnimeDetailsPageFavouriteButton.Visibility = ViewStates.Visible;
-                }
-            }));
-
-            Bindings.Add(
-                this.SetBinding(() => ViewModel.DetailsPivotSelectedIndex).WhenSourceChanges(() => AnimeDetailsPagePivot.SetCurrentItem(ViewModel.DetailsPivotSelectedIndex,true)));
-
-            
-            Bindings.Add(
-                this.SetBinding(() => ViewModel.IsFavourite).WhenSourceChanges(() =>
-                { 
-                    AnimeDetailsPageFavouriteButton.SetImageResource(ViewModel.IsFavourite
-                        ? Resource.Drawable.icon_favourite
-                        : Resource.Drawable.icon_fav_outline);
+                    if (ViewModel.AddAnimeVisibility)
+                    {
+                        AnimeDetailsPageIncDecSection.Visibility = ViewStates.Gone;
+                        AnimeDetailsPageUpdateSection.Visibility = ViewStates.Gone;
+                        AnimeDetailsPageAddSection.Visibility = ViewStates.Visible;
+                        AnimeDetailsPageFavouriteButton.Visibility = ViewStates.Gone;
+                    }
+                    else
+                    {
+                        AnimeDetailsPageIncDecSection.Visibility = ViewStates.Visible;
+                        AnimeDetailsPageUpdateSection.Visibility = ViewStates.Visible;
+                        AnimeDetailsPageAddSection.Visibility = ViewStates.Gone;
+                        AnimeDetailsPageFavouriteButton.Visibility = ViewStates.Visible;
+                    }
                 }));
 
-            Bindings.Add(this.SetBinding(() => ViewModel.AnimeMode).WhenSourceChanges(() =>
-            {
-                if (ViewModel.AnimeMode)
-                {
-                    AnimeDetailsPageReadVolumesButton.Visibility =
-                        AnimeDetailsPageReadVolumesLabel.Visibility = ViewStates.Gone;
-                }
-                else
-                {
-                    AnimeDetailsPageReadVolumesButton.Visibility =
-                        AnimeDetailsPageReadVolumesLabel.Visibility = ViewStates.Visible;
-                }
-            }));
+            Bindings.Add(
+                this.SetBinding(() => ViewModel.DetailsPivotSelectedIndex)
+                    .WhenSourceChanges(
+                        () => AnimeDetailsPagePivot.SetCurrentItem(ViewModel.DetailsPivotSelectedIndex, true)));
 
-            Bindings.Add(this.SetBinding(() => ViewModel.DetailImage).WhenSourceChanges(() =>
-            {
-                AnimeDetailsPageShowCoverImage.Visibility = ViewStates.Invisible;
-                AnimeDetailsPageShowCoverImage.Into(ViewModel.DetailImage);
-            }));
+
+            Bindings.Add(
+                this.SetBinding(() => ViewModel.IsFavourite)
+                    .WhenSourceChanges(() =>
+                    {
+                        AnimeDetailsPageFavouriteButton.SetImageResource(ViewModel.IsFavourite
+                            ? Resource.Drawable.icon_favourite
+                            : Resource.Drawable.icon_fav_outline);
+                    }));
+
+            Bindings.Add(this.SetBinding(() => ViewModel.AnimeMode)
+                .WhenSourceChanges(() =>
+                {
+                    if (ViewModel.AnimeMode)
+                    {
+                        AnimeDetailsPageReadVolumesButton.Visibility =
+                            AnimeDetailsPageReadVolumesLabel.Visibility = ViewStates.Gone;
+                    }
+                    else
+                    {
+                        AnimeDetailsPageReadVolumesButton.Visibility =
+                            AnimeDetailsPageReadVolumesLabel.Visibility = ViewStates.Visible;
+                    }
+                }));
+
+            Bindings.Add(this.SetBinding(() => ViewModel.DetailImage)
+                .WhenSourceChanges(() =>
+                {
+                    AnimeDetailsPageShowCoverImage.Visibility = ViewStates.Invisible;
+                    AnimeDetailsPageShowCoverImage.Into(ViewModel.DetailImage);
+                }));
 
             Bindings.Add(
                 this.SetBinding(() => ViewModel.LoadingUpdate,
-                    () => AnimeDetailsPageLoadingUpdateSpinner.Visibility)
+                        () => AnimeDetailsPageLoadingUpdateSpinner.Visibility)
                     .ConvertSourceToTarget(Converters.BoolToVisibility));
 
             Bindings.Add(
                 this.SetBinding(() => ViewModel.IsAddAnimeButtonEnabled,
                     () => AnimeDetailsPageAddButton.Enabled));
 
-            AnimeDetailsPageFavouriteButton.SetCommand("Click",ViewModel.ToggleFavouriteCommand);
-            AnimeDetailsPageIncrementButton.SetCommand("Click",ViewModel.IncrementEpsCommand);
-            AnimeDetailsPageDecrementButton.SetCommand("Click",ViewModel.DecrementEpsCommand);
-            AnimeDetailsPageMoreButton.Click +=
-                (sender, args) =>
-                {
-                   _menu = AnimeDetailsPageMoreFlyoutBuilder.BuildForAnimeDetailsPage(Activity,ViewModel, AnimeDetailsPageMoreButton,
-                        OnMoreFlyoutClick);
-                   _menu.Show();
-                };
-            AnimeDetailsPageAddButton.SetCommand("Click",ViewModel.AddAnimeCommand);
+            AnimeDetailsPageFavouriteButton.SetOnClickListener(
+                new OnClickListener(view => ViewModel.ToggleFavouriteCommand.Execute(null)));
+            AnimeDetailsPageIncrementButton.SetOnClickListener(
+                new OnClickListener(view => ViewModel.IncrementEpsCommand.Execute(null)));
+            AnimeDetailsPageDecrementButton.SetOnClickListener(
+                new OnClickListener(view => ViewModel.DecrementEpsCommand.Execute(null)));
+            AnimeDetailsPageAddButton.SetOnClickListener(
+                new OnClickListener(view => ViewModel.AddAnimeCommand.Execute(null)));
+            AnimeDetailsPageMoreButton.SetOnClickListener(new OnClickListener(view =>
+            {
+                _menu = AnimeDetailsPageMoreFlyoutBuilder.BuildForAnimeDetailsPage(Activity, ViewModel,
+                    AnimeDetailsPageMoreButton,
+                    OnMoreFlyoutClick);
+                _menu.Show();
+            }));
 
-            
+
+
             //OneTime
 
             AnimeDetailsPageWatchedLabel.Text = ViewModel.WatchedEpsLabel;
-            
+
 
 
             //
 
             //Events
-            AnimeDetailsPageStatusButton.Click += AnimeDetailsPageStatusButtonOnClick;
-            AnimeDetailsPageScoreButton.Click += AnimeDetailsPageScoreButtonOnClick;
-            AnimeDetailsPageWatchedButton.Click += AnimeDetailsPageWatchedButtonOnClick;
-            AnimeDetailsPageReadVolumesButton.Click += AnimeDetailsPageVolumesButtonOnClick;
+            AnimeDetailsPageStatusButton.SetOnClickListener(
+                new OnClickListener(view => AnimeDetailsPageStatusButtonOnClick()));
+            AnimeDetailsPageScoreButton.SetOnClickListener(
+                new OnClickListener(view => AnimeDetailsPageScoreButtonOnClick()));
+            AnimeDetailsPageWatchedButton.SetOnClickListener(
+                new OnClickListener(view => AnimeDetailsPageWatchedButtonOnClick()));
+            AnimeDetailsPageReadVolumesButton.SetOnClickListener(
+                new OnClickListener(view => AnimeDetailsPageVolumesButtonOnClick()));
 
 
         }
@@ -197,7 +214,7 @@ namespace MALClient.Android.Fragments
             _menu = null;
         }
 
-        private void AnimeDetailsPageWatchedButtonOnClick(object sender, EventArgs eventArgs)
+        private void AnimeDetailsPageWatchedButtonOnClick()
         {
             AnimeUpdateDialogBuilder.BuildWatchedDialog(ViewModel.AnimeItemReference as AnimeItemViewModel,
                 (model, s) =>
@@ -207,7 +224,7 @@ namespace MALClient.Android.Fragments
                 });
         }
 
-        private void AnimeDetailsPageScoreButtonOnClick(object sender, EventArgs eventArgs)
+        private void AnimeDetailsPageScoreButtonOnClick()
         {
             AnimeUpdateDialogBuilder.BuildScoreDialog(ViewModel.AnimeItemReference, i =>
             {
@@ -215,7 +232,7 @@ namespace MALClient.Android.Fragments
             });
         }
 
-        private void AnimeDetailsPageStatusButtonOnClick(object sender, EventArgs eventArgs)
+        private void AnimeDetailsPageStatusButtonOnClick()
         {
             AnimeUpdateDialogBuilder.BuildStatusDialog(ViewModel.AnimeItemReference,ViewModel.AnimeMode, status =>
             {
@@ -223,7 +240,7 @@ namespace MALClient.Android.Fragments
             });
         }
 
-        private void AnimeDetailsPageVolumesButtonOnClick(object sender, EventArgs e)
+        private void AnimeDetailsPageVolumesButtonOnClick()
         {
             AnimeUpdateDialogBuilder.BuildWatchedDialog(ViewModel.AnimeItemReference as AnimeItemViewModel,
                 (model, s) =>
@@ -233,13 +250,6 @@ namespace MALClient.Android.Fragments
                 },true);
         }
 
-        protected override void Cleanup()
-        {
-            AnimeDetailsPageStatusButton.Click -= AnimeDetailsPageStatusButtonOnClick;
-            AnimeDetailsPageScoreButton.Click -= AnimeDetailsPageScoreButtonOnClick;
-            AnimeDetailsPageWatchedButton.Click -= AnimeDetailsPageWatchedButtonOnClick;
-            AnimeDetailsPageReadVolumesButton.Click -= AnimeDetailsPageVolumesButtonOnClick;
-        }
 
         public override int LayoutResourceId => Resource.Layout.AnimeDetailsPage;
     }

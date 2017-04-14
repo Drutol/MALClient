@@ -14,7 +14,7 @@
       android:choiceMode="singleChoice"/>
   <TextView android:layout_centerInParent="true" android:visibility="gone"
       android:layout_width="wrap_content" android:id="@+id/AnimeDetailsPageCharactersTabEmptyNotice"
-      android:layout_height="wrap_content" android:fontFamily="@string/font_family_light" android:text="We have come up empty..." android:layout_gravity="center_horizontal" android:textColor="?BrushNoSearchResults"/>
+      android:layout_height="wrap_content" android:fontFamily="@string/font_family_light" android:text="We have come up empty..." android:layout_gravity="center_horizontal" android:textColor="?AccentColour"/>
   <ProgressBar android:id="@+id/AnimeDetailsPageCharactersTabLoadingSpinner" android:layout_width="wrap_content"
       android:indeterminateTint="?AccentColour" android:indeterminateTintMode="src_in"
       android:layout_height="wrap_content"

@@ -98,8 +98,18 @@ namespace MALClient.Android.UserControls
             }
             else if (fling)
             {
-                FavouriteItemImage.Visibility = ViewStates.Invisible;
-                FavouriteItemImagePlaceholder.Visibility = ViewStates.Visible;
+                if (FavouriteItemImage.IntoIfLoaded(model.Data.ImgUrl))
+                {
+                    FavouriteItemImage.Visibility = ViewStates.Visible;
+                    FavouriteItemImagePlaceholder.Visibility = ViewStates.Gone;
+                }
+                else
+                {
+                    FavouriteItemImage.Visibility = ViewStates.Invisible;
+                    FavouriteItemImagePlaceholder.Visibility = ViewStates.Visible;
+                }
+
+
             }
 
         }

@@ -1,22 +1,30 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:paddingTop="2dp" android:paddingBottom="2dp"
               android:background="?android:selectableItemBackground">
   <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-                  android:background="@drawable/border_accent_left_wide" android:paddingTop="2dp"
-                  android:paddingBottom="2dp" android:paddingStart="10dp">
+                  android:background="@drawable/border_accent_left_wide" android:paddingTop="5dp"
+                  android:paddingBottom="5dp" android:paddingStart="10dp">
     <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
                   android:orientation="vertical">
       <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
                     android:orientation="horizontal" android:layout_marginBottom="5dp">
-        <FFImageLoading.Views.ImageViewAsync android:layout_width="35dp" android:layout_height="50dp"
-                                             android:scaleType="fitXY"
-                                             android:id="@+id/AnimeReviewItemLayoutAvatarImage" />
+        <FrameLayout
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content">
+          <ProgressBar android:scaleX=".5" android:scaleY=".5"
+                       android:layout_width="35dp" android:id="@+id/AnimeReviewItemImgPlaceholder"
+                       android:layout_height="35dp" android:indeterminateTint="?BrushAnimeItemInnerBackground"
+                       android:indeterminate="true" android:layout_gravity="center" android:indeterminateTintMode="src_in"/>
+          <FFImageLoading.Views.ImageViewAsync android:layout_width="35dp" android:layout_height="35dp"
+                                               android:scaleType="fitXY"
+                                               android:id="@+id/AnimeReviewItemLayoutAvatarImage" />
+        </FrameLayout>
+
         <LinearLayout android:layout_width="wrap_content" android:layout_gravity="center"
                       android:orientation="vertical" android:layout_height="wrap_content"
                       android:layout_marginStart="10dp">
@@ -28,9 +36,7 @@
                     android:id="@+id/AnimeReviewItemLayoutDate" />
         </LinearLayout>
       </LinearLayout>
-      <TextView android:layout_width="wrap_content" android:fontFamily="@string/font_family_light"
-                android:layout_height="wrap_content" android:textColor="?BrushText" android:text="Overall: 9"
-                android:id="@+id/AnimeReviewItemLayoutOverallScore" />
+
       <TextView android:layout_width="wrap_content" android:fontFamily="@string/font_family_light"
                 android:layout_height="wrap_content" android:textColor="?BrushText" android:text="9 of 20 eps seen"
                 android:id="@+id/AnimeReviewItemLayoutEpsSeen" />
@@ -39,10 +45,17 @@
                 android:text="12 found this helpful"
                 android:id="@+id/AnimeReviewItemLayoutHelpfulCount" />
     </LinearLayout>
+    <LinearLayout android:layout_alignParentEnd="true" android:gravity="start"
+                  android:layout_width="wrap_content" android:orientation="vertical"
+                  android:layout_height="wrap_content">
+      <TextView android:layout_width="wrap_content" android:fontFamily="@string/font_family_light" android:background="@drawable/border_accent_underline_pressed"
+                android:layout_height="wrap_content" android:textColor="?BrushText" android:textStyle="bold" android:text="Overall: 9"
+                android:id="@+id/AnimeReviewItemLayoutOverallScore" />
+      <LinearLayout android:id="@+id/AnimeReviewItemLayoutMarksList" android:layout_width="100dp"
+                    android:layout_marginTop="5dp" android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true" android:orientation="vertical" android:gravity="start" />
+    </LinearLayout>
 
-    <LinearLayout android:id="@+id/AnimeReviewItemLayoutMarksList" android:layout_width="100dp"
-                  android:layout_marginTop="5dp" android:layout_height="wrap_content"
-                  android:layout_alignParentEnd="true" android:orientation="vertical" android:gravity="start" />
   </RelativeLayout>
 
   <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="10dp"

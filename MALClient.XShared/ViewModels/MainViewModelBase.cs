@@ -98,7 +98,7 @@ namespace MALClient.XShared.ViewModels
 
         #region Properties
 
-        public bool SearchToggleLock { get; protected set; }
+        public bool SearchToggleLock { get; set; }
 
         private bool _isCurrentStatusSelectable;
 
@@ -700,21 +700,21 @@ namespace MALClient.XShared.ViewModels
             SearchFilterOptions.Clear();
         }
 
-        protected void ShowSearchStuff()
+        public void ShowSearchStuff()
         {
             SearchToggleVisibility = true;
             if (SearchToggleStatus)
                 SearchInputVisibility = true;
         }
 
-        protected void HideSearchStuff()
+        public void HideSearchStuff()
         {
             SearchToggleStatus = false;
             SearchInputVisibility = false;
             SearchToggleVisibility = false;
         }
 
-        protected void ToggleSearchStuff()
+        public void ToggleSearchStuff()
         {
             SearchToggleStatus = true;
             SearchInputVisibility = true;

@@ -17,16 +17,29 @@
     <LinearLayout
         android:layout_width="match_parent" android:background="?BrushAnimeItemBackground"
         android:layout_height="wrap_content">
-      <RelativeLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="2dp">
+      <RelativeLayout android:layout_width="116dp" android:layout_height="wrap_content" android:layout_marginStart="2dp">
         <ProgressBar android:scaleX=".7" android:scaleY=".7" android:alpha=".3"
             android:layout_width="wrap_content" android:id="@+id/AnimeListItemImgPlaceholder"
             android:layout_height="wrap_content" android:indeterminateTint="?BrushSettingsSubtitle"
             android:indeterminate="true" android:layout_centerInParent="true" android:indeterminateTintMode="src_in"/>
         <FFImageLoading.Views.ImageViewAsync
-            android:layout_width="116dp"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/AnimeListItemImage"
             android:scaleType="fitXY" />
+        <FrameLayout
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:foreground="?android:selectableItemBackground"
+          android:clickable="true" android:visibility="gone"
+          android:id="@+id/AnimeListItemTagsButton"
+          android:focusable="true"
+          android:layout_alignParentRight="true" android:layout_alignParentBottom="true">
+          <ImageView android:layout_width="35dp"
+                     android:layout_height="35dp" android:scaleType="center"
+                     android:background="@color/BrushOpaqueTextView" android:tint="#fff"
+                     android:src="@drawable/icon_tag" />
+        </FrameLayout>
       </RelativeLayout>
       <RelativeLayout android:layout_width="match_parent" android:layout_height="match_parent" android:layout_weight="1">
         <ProgressBar

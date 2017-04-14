@@ -15,6 +15,7 @@ using Android.Widget;
 using Com.Astuetz;
 using MALClient.Android.Fragments;
 using MALClient.Android.Fragments.ArticlesPageFragments;
+using MALClient.Android.Fragments.ForumFragments.Tabs;
 using MALClient.Android.Fragments.ProfilePageFragments;
 using MALClient.Android.Resources;
 using MALClient.XShared.ViewModels;
@@ -51,13 +52,13 @@ namespace MALClient.Android.PagerAdapters
             switch (p1)
             {
                 case 0:
-                    return _generalFragment;
+                    return new ProfilePageGeneralTabFragment();
                 case 1:
-                    return _favsFragment;
+                    return new ProfilePageFavouritesTabFragment();
                 case 2:
-                    return _recentsFragment;
+                    return new ProfilePageRecentUpdatesFragment();
                 case 3:
-                    return _statsFragment;
+                    return new ProfilePageStatsTabFragment();
             }
             throw new ArgumentException();
         }

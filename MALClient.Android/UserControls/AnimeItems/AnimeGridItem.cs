@@ -117,7 +117,7 @@ namespace MALClient.Android.UserControls
                 }
             }
 
-            AnimeGridItemTagsButton.Visibility = ViewModel.TagsControlVisibility ? ViewStates.Visible : ViewStates.Invisible;
+            
             AnimeGridItemTagsButton.SetOnClickListener(new OnClickListener(OnTagsButtonClick));
 
             AnimeGridItemTopRightInfo.Visibility = ViewModel.UpdateButtonsVisibility ? ViewStates.Visible : ViewStates.Gone;
@@ -196,6 +196,8 @@ namespace MALClient.Android.UserControls
                 AnimeGridItemType.Visibility = ViewStates.Visible;
                 AnimeGridItemType.Text = ViewModel.Type;
             }
+
+            AnimeGridItemTagsButton.Visibility = ViewModel.TagsControlVisibility ? ViewStates.Visible : ViewStates.Invisible;
         }
 
         protected override void RootContainerInit()

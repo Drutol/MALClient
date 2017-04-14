@@ -18,6 +18,7 @@ using MALClient.Android.Activities;
 using MALClient.Android.BindingConverters;
 using MALClient.Android.Listeners;
 using MALClient.Android.Listeners.DialogListeners;
+using MALClient.Android.Managers;
 using MALClient.Android.Resources;
 using MALClient.Models.Models.AnimeScrapped;
 using MALClient.Models.Models.Library;
@@ -39,7 +40,10 @@ namespace MALClient.Android.DIalogs
             dialogBuilder.SetContentHolder(new ViewHolder(Resource.Layout.AnimeDetailsPageVideosDialog));
             dialogBuilder.SetContentBackgroundResource(Resource.Color.Transparent);
             dialogBuilder.SetOnDismissListener(
-                new DialogDismissedListener(() => ViewModelLocator.NavMgr.ResetOneTimeOverride()));
+                new DialogDismissedListener(() =>
+                {
+                    ViewModelLocator.NavMgr.ResetOneTimeOverride();
+                }));
             ViewModelLocator.NavMgr.RegisterOneTimeMainOverride(new RelayCommand(CleanupVideosDialog));
             _videosDialog = dialogBuilder.Create();
             var dialogView = _videosDialog.HolderView;
@@ -85,13 +89,14 @@ namespace MALClient.Android.DIalogs
 
         private static void VideoItemOnClick(View view)
         {
+            (ViewModelLocator.NavMgr as NavMgr).EnqueueOneTimeOverride(
+                new RelayCommand(() => ViewModelLocator.GeneralMain.HideMediaElementCommand.Execute(null)));
             ViewModelLocator.AnimeDetails.OpenVideoCommand.Execute(view.Tag.Unwrap<AnimeVideoData>());
             CleanupVideosDialog();
         }
 
         private static void CleanupVideosDialog()
         {
-            ViewModelLocator.NavMgr.ResetOneTimeMainOverride();
             _videosDialogBindings.ForEach(binding => binding.Detach());
             _videosDialogBindings = new List<Binding>();
             _videosDialog?.Dismiss();

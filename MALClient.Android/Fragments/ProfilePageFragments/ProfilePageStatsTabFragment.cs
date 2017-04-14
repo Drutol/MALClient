@@ -26,7 +26,7 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
 
         private ProfilePageViewModel ViewModel = ViewModelLocator.ProfilePage;
 
-        public ProfilePageStatsTabFragment() : base(true, false)
+        public ProfilePageStatsTabFragment() 
         {
             
         }

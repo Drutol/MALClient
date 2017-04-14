@@ -12,6 +12,7 @@ using Android.Widget;
 using FFImageLoading.Views;
 using GalaSoft.MvvmLight.Helpers;
 using MALClient.Android.BindingConverters;
+using MALClient.Android.Listeners;
 using MALClient.Android.UserControls;
 using MALClient.Models.Models.Anime;
 using MALClient.Models.Models.Favourites;
@@ -119,6 +120,7 @@ namespace MALClient.Android.Fragments.DetailsFragments
             }));
 
             CharacterDetailsPageSpoilerButton.Click += CharacterDetailsPageSpoilerButtonOnClick;
+            CharacterDetailsPageLinkButton.SetOnClickListener(new OnClickListener(view => ViewModel.OpenInMalCommand.Execute(null)));
         }
 
         private void CharacterDetailsPageSpoilerButtonOnClick(object sender, EventArgs eventArgs)

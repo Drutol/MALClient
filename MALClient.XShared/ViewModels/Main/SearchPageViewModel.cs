@@ -39,6 +39,7 @@ namespace MALClient.XShared.ViewModels.Main
                 GenreSelectionGridVisibility = true;
                 DirectQueryInputVisibility = false;
 
+
                 if (args.ByGenre)
                 {
                     AvailableSelectionChoices = Enum.GetValues(typeof(AnimeGenres)).Cast<Enum>().OrderBy(val => val.ToString()).ToList();

@@ -18,6 +18,7 @@ using FFImageLoading.Views;
 using GalaSoft.MvvmLight.Helpers;
 using MALClient.Android.BindingConverters;
 using MALClient.Android.Resources;
+using MALClient.Models.Enums;
 using MALClient.Models.Models.AnimeScrapped;
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Details;
@@ -42,6 +43,8 @@ namespace MALClient.Android.Fragments
 
         protected override void Init(Bundle savedInstanceState)
         {
+            ViewModelLocator.NavMgr.DeregisterBackNav();
+            ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageAnimeList, null);
             ViewModel = ViewModelLocator.PopularVideos;
             ViewModel.Init();
         }
@@ -115,10 +118,6 @@ namespace MALClient.Android.Fragments
 
         public override int LayoutResourceId => Resource.Layout.PromoVideosPage;
 
-        protected override void Cleanup()
-        {
-            base.Cleanup();
-        }
 
         public override void OnConfigurationChanged(Configuration newConfig)
         {

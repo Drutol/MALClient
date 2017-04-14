@@ -30,6 +30,8 @@ namespace MALClient.Android.Activities
 {
     public partial class MainActivity : IHamburgerViewModel
     {
+        private bool _allowHamburgerNavigation;
+
         private object GetAppropriateArgsForPage(PageIndex page)
         {
             switch (page)
@@ -61,7 +63,7 @@ namespace MALClient.Android.Activities
 
 
 
-        private async void BuildDrawer()
+        private void BuildDrawer()
         {
             var builder = new DrawerBuilder().WithActivity(this);
             builder.WithSliderBackgroundColorRes(ResourceExtension.BrushHamburgerBackgroundRes);
@@ -201,7 +203,83 @@ namespace MALClient.Android.Activities
 
         public void SetActiveButton(HamburgerButtons val)
         {
-           //
+            long id;
+            switch (val)
+            {
+                case HamburgerButtons.AnimeList:
+                    id = (long) PageIndex.PageAnimeList;
+                    break;
+                case HamburgerButtons.AnimeSearch:
+                    id = (long) PageIndex.PageSearch;
+                    break;
+                case HamburgerButtons.LogIn:
+                    id = (long) PageIndex.PageLogIn;
+                    break;
+                case HamburgerButtons.Settings:
+                    id = (long) PageIndex.PageSettings;
+                    break;
+                case HamburgerButtons.Profile:
+                    id = (long) PageIndex.PageProfile;
+                    break;
+                case HamburgerButtons.Seasonal:
+                    id = (long) PageIndex.PageSeasonal;
+                    break;
+                case HamburgerButtons.About:
+                    return;
+                case HamburgerButtons.Recommendations:
+                    id = (long) PageIndex.PageRecomendations;
+                    break;
+                case HamburgerButtons.MangaList:
+                    id = (long) PageIndex.PageMangaList;
+                    break;
+                case HamburgerButtons.MangaSearch:
+                    id = (long) PageIndex.PageSearch;
+                    break;
+                case HamburgerButtons.TopAnime:
+                    id = (long) PageIndex.PageTopAnime;
+                    break;
+                case HamburgerButtons.TopManga:
+                    id = (long) PageIndex.PageTopManga;
+                    break;
+                case HamburgerButtons.Calendar:
+                    id = (long) PageIndex.PageCalendar;
+                    break;
+                case HamburgerButtons.Articles:
+                    id = (long) PageIndex.PageArticles;
+                    break;
+                case HamburgerButtons.News:
+                    id = (long) PageIndex.PageArticles;
+                    break;
+                case HamburgerButtons.Messanging:
+                    id = (long) PageIndex.PageMessanging;
+                    break;
+                case HamburgerButtons.Forums:
+                    id = (long) PageIndex.PageForumIndex;
+                    break;
+                case HamburgerButtons.History:
+                    id = (long) PageIndex.PageHistory;
+                    break;
+                case HamburgerButtons.CharacterSearch:
+                    id = (long) PageIndex.PageSearch;
+                    break;
+                case HamburgerButtons.Wallpapers:
+                    id = (long) PageIndex.PageWallpapers;
+                    break;
+                case HamburgerButtons.PopularVideos:
+                    id = (long) PageIndex.PagePopularVideos;
+                    break;
+                case HamburgerButtons.Feeds:
+                    id = (long) PageIndex.PageFeeds;
+                    break;
+                case HamburgerButtons.Notifications:
+                    id = (long) PageIndex.PageNotificationHub;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(val), val, null);
+            }
+            _allowHamburgerNavigation = false;
+            _drawer.SetSelection(id);
+            _allowHamburgerNavigation = true;
         }
 
         public void UpdateApiDependentButtons()

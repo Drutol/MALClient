@@ -40,7 +40,7 @@ namespace MALClient.Android.Fragments
 
         private static AnimeListPageNavigationArgs _prevArgs;
 
-        private AnimeListViewModel ViewModel => ViewModelLocator.AnimeList;
+        private AnimeListViewModel ViewModel = ViewModelLocator.AnimeList;
         private GridViewColumnHelper _gridViewColumnHelper;
         private static Drawer _rightDrawer;
 
@@ -49,7 +49,12 @@ namespace MALClient.Android.Fragments
 
         protected override void Init(Bundle savedInstanceState)
         {
-            ViewModelLocator.AnimeList.Init(_prevArgs);         
+            ViewModelLocator.AnimeList.Init(_prevArgs);
+            if (_prevArgs != null && _prevArgs.WorkMode == AnimeListWorkModes.Manga)
+            {
+                ViewModelLocator.NavMgr.DeregisterBackNav();
+                ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageAnimeList, null);
+            }
         }
 
         private async void AnimeListPageGridViewOnItemClick(AnimeItemViewModel model)

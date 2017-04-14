@@ -146,7 +146,7 @@ namespace MALClient.Android.Fragments
             AnimeDetailsPageMoreButton.Click +=
                 (sender, args) =>
                 {
-                   _menu = AnimeDetailsPageMoreFlyoutBuilder.BuildForAnimeDetailsPage(Activity, AnimeDetailsPageMoreButton,
+                   _menu = AnimeDetailsPageMoreFlyoutBuilder.BuildForAnimeDetailsPage(Activity,ViewModel, AnimeDetailsPageMoreButton,
                         OnMoreFlyoutClick);
                    _menu.Show();
                 };

@@ -28,6 +28,7 @@ namespace MALClient.Android.UserControls
     {
         private readonly Action<AnimeItemViewModel> _onItemClickAction;
         private DroppyMenuPopup _menu;
+        private DroppyMenuPopup _tagsMenu;
 
         #region Constructors
 
@@ -100,8 +101,8 @@ namespace MALClient.Android.UserControls
                     AnimeListItemTopLeftInfoSub.Visibility = ViewStates.Gone;
                 }
             }
- 
-            
+
+            AnimeListItemTagsButton.SetOnClickListener(new OnClickListener(OnTagsButtonClick));
             AnimeListItemStatusButton.SetCommand("Click", new RelayCommand(ShowStatusDialog));
             AnimeListItemScoreButton.SetCommand("Click", new RelayCommand(ShowRatingDialog));
 
@@ -158,6 +159,7 @@ namespace MALClient.Android.UserControls
                 AnimeListItemTypeTextView.Text = ViewModel.Type;
             }
 
+            AnimeListItemTagsButton.Visibility = ViewModel.TagsControlVisibility ? ViewStates.Visible : ViewStates.Invisible;
             AnimeListItemStatusScoreSection.Visibility = ViewModel.Auth ? ViewStates.Visible : ViewStates.Gone;
         }
 
@@ -198,6 +200,13 @@ namespace MALClient.Android.UserControls
         }
 
         #region Flyouts
+
+        private void OnTagsButtonClick(View view)
+        {
+            _tagsMenu = AnimeItemFlyoutBuilder.BuildForAnimeItemTags(Context, view, ViewModel,
+                () => _tagsMenu.Dismiss(true));
+            _tagsMenu.Show();
+        }
 
         private void MoreButtonOnClick()
         {
@@ -251,6 +260,7 @@ namespace MALClient.Android.UserControls
 
         private ProgressBar _animeListItemImgPlaceholder;
         private ImageViewAsync _animeListItemImage;
+        private FrameLayout _animeListItemTagsButton;
         private ProgressBar _animeListItemUpdatingBar;
         private TextView _animeListItemTitle;
         private TextView _animeListItemTopLeftInfoMain;
@@ -269,6 +279,8 @@ namespace MALClient.Android.UserControls
         public ProgressBar AnimeListItemImgPlaceholder => _animeListItemImgPlaceholder ?? (_animeListItemImgPlaceholder = FindViewById<ProgressBar>(Resource.Id.AnimeListItemImgPlaceholder));
 
         public ImageViewAsync AnimeListItemImage => _animeListItemImage ?? (_animeListItemImage = FindViewById<ImageViewAsync>(Resource.Id.AnimeListItemImage));
+
+        public FrameLayout AnimeListItemTagsButton => _animeListItemTagsButton ?? (_animeListItemTagsButton = FindViewById<FrameLayout>(Resource.Id.AnimeListItemTagsButton));
 
         public ProgressBar AnimeListItemUpdatingBar => _animeListItemUpdatingBar ?? (_animeListItemUpdatingBar = FindViewById<ProgressBar>(Resource.Id.AnimeListItemUpdatingBar));
 

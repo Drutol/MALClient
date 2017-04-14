@@ -9,6 +9,7 @@ using Android.OS;
 using Android.Support.V7.App;
 using Android.Views;
 using Com.Shehabic.Droppy;
+using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Ioc;
 using HockeyApp.Android;
 using HockeyApp.Android.Metrics;
@@ -52,21 +53,19 @@ namespace MALClient.Android.Activities
         }
 
         protected override async void OnCreate(Bundle bundle)
-        {
-            RequestedOrientation = ScreenOrientation.Unspecified;
-            
+        {           
             RequestWindowFeature(WindowFeatures.NoTitle);
             CurrentTheme = Settings.SelectedTheme;
             CurrentAccent = AndroidColourThemeHelper.CurrentTheme;
             SetRightTheme();
             base.OnCreate(bundle);
-
             if (!_addedNavHandlers)
             {
                 SetContentView(Resource.Layout.MainPage);
                 _addedNavHandlers = true;
                 InitBindings();
                 ViewModel.MainNavigationRequested += ViewModelOnMainNavigationRequested;
+                ViewModel.MainNavigationRequested += ViewModelOnMainNavigationRequestedFirst;
                 ViewModel.MediaElementCollapsed += ViewModelOnMediaElementCollapsed;
 
                 ViewModelLocator.AnimeList.DimensionsProvider = this;
@@ -84,6 +83,12 @@ namespace MALClient.Android.Activities
 
                 InitializationRoutines.InitPostUpdate();
 
+                DroppyMenuPopup.OverrideRequested +=
+                    (sender, action) => ViewModelLocator.NavMgr.RegisterOneTimeMainOverride(new RelayCommand(action));
+                DroppyMenuPopup.ResetOverrideRequested +=
+                    (sender, eventArgs) => ViewModelLocator.NavMgr.ResetOneTimeOverride();
+
+
                 await Task.Delay(1000);
                 if (ResourceLocator.ChangelogProvider.NewChangelog)
                     ChangelogDialog.BuildChangelogDialog(ResourceLocator.ChangelogProvider);
@@ -93,6 +98,14 @@ namespace MALClient.Android.Activities
             CrashManager.Register(this, "4bfd20dcd9ba4bdfbb1501397ec4a176");
             MetricsManager.Register(App.Current, "4bfd20dcd9ba4bdfbb1501397ec4a176");
 #endif
+        }
+
+        private async void ViewModelOnMainNavigationRequestedFirst(Fragment fragment)
+        {
+            ViewModel.MainNavigationRequested -= ViewModelOnMainNavigationRequestedFirst;
+
+            await Task.Delay(1000);
+            RequestedOrientation = ScreenOrientation.Unspecified;
         }
 
         private void ViewModelOnMediaElementCollapsed()

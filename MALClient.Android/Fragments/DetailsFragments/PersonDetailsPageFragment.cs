@@ -14,6 +14,7 @@ using Com.Astuetz;
 using FFImageLoading.Views;
 using GalaSoft.MvvmLight.Helpers;
 using MALClient.Android.BindingConverters;
+using MALClient.Android.Listeners;
 using MALClient.Android.PagerAdapters;
 using MALClient.Android.UserControls;
 using MALClient.XShared.NavArgs;
@@ -60,6 +61,8 @@ namespace MALClient.Android.Fragments.DetailsFragments
                 PersonDetailsPageImage.Into(ViewModel.Data.ImgUrl,null,img => img.HandleScaling());
                 PersonDetailsPageFavButton.BindModel(ViewModel.FavouriteViewModel);
             }));
+
+            PersonDetailsPageLinkButton.SetOnClickListener(new OnClickListener(view => ViewModel.OpenInMalCommand.Execute(null)));
         }
 
         public override int LayoutResourceId => Resource.Layout.PersonDetailsPage;

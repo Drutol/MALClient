@@ -61,12 +61,10 @@ namespace MALClient.Android
                 image.Visibility = ViewStates.Invisible;
                 work = work.Success(image.AnimateFadeIn);
                 LoadedImgs.Add(targetUrl);
-                Debug.WriteLine("Not loaded");
             }
             else
             {
                 image.Visibility = ViewStates.Visible;
-                Debug.WriteLine("Loaded");
             }
 
             //we can fallback to lower quality image

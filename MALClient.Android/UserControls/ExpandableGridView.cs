@@ -43,7 +43,7 @@ namespace MALClient.Android.UserControls
                 MeasureSpecMode.AtMost);
             base.OnMeasure(widthMeasureSpec, expandSpec);
 
-            if(Width == 0)
+            if(Width == 0 || Adapter == null)
                 return;
             ViewGroup.LayoutParams param = LayoutParameters;
             param.Height = DimensionsHelper.DpToPx(Adapter.Count/(Width/ItemWidth) * ItemHeight);

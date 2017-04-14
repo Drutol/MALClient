@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 
@@ -23,19 +24,15 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
     {
         private ProfilePageViewModel ViewModel = ViewModelLocator.ProfilePage;
 
-        public ProfilePageGeneralTabFragment() : base(true, false)
-        {
-        }
 
         protected override void Init(Bundle savedInstanceState)
         {
-
         }
 
         protected override void InitBindings()
         {
-            Bindings.Add(
-                this.SetBinding(() => ViewModel.CurrentData).WhenSourceChanges(() =>
+            Bindings.Add(this.SetBinding(() => ViewModel.CurrentData)
+                .WhenSourceChanges(() =>
                 {
                     if (string.IsNullOrEmpty(ViewModel.CurrentData.User.ImgUrl))
                     {
@@ -54,7 +51,7 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
 
                     ProfilePageGeneralTabFriendsGrid.ItemHeight =
                         ProfilePageGeneralTabFriendsGrid.ItemWidth = DimensionsHelper.DpToPx(65);
-                    ProfilePageGeneralTabFriendsGrid.SetColumnWidth((int) ProfilePageGeneralTabFriendsGrid.ItemWidth);
+                    ProfilePageGeneralTabFriendsGrid.SetColumnWidth((int)ProfilePageGeneralTabFriendsGrid.ItemWidth);
                     ProfilePageGeneralTabFriendsGrid.Adapter =
                         ViewModel.CurrentData.Friends.GetAdapter(GetFriendTemplateDelegate);
 

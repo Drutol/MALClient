@@ -7,5 +7,8 @@
   <remove-node path="/api/package[@name='android.support.v4.content']/class[@name='CursorLoader']/method[@name='loadInBackground']" />
   -->
     <attr path="/api/package[@name='com.shehabic.droppy']/class[@name='DroppyMenuPopup']/method[@name='show' and count(parameter)=0]"
-        name="managedName">ShowBase</attr>
+        name="managedName">ShowBase</attr>    
+  
+  <attr path="/api/package[@name='com.shehabic.droppy']/class[@name='DroppyMenuPopup']/method[@name='dismiss' and count(parameter)=1]"
+        name="managedName">DismissBase</attr>
 </metadata>

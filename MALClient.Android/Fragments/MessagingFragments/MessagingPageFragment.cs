@@ -31,6 +31,8 @@ namespace MALClient.Android.Fragments.MessagingFragments
 
         protected override void Init(Bundle savedInstanceState)
         {
+            ViewModelLocator.NavMgr.DeregisterBackNav();
+            ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageAnimeList, null);
             ViewModel = ViewModelLocator.MalMessaging;
             ViewModel.Init();
         }

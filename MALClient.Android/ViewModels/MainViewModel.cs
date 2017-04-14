@@ -104,7 +104,32 @@ namespace MALClient.Android.ViewModels
                         _postponedNavigationArgs = new Tuple<PageIndex, object>(originalIndex, args);
                         return;
                     }
-                    //ViewModelLocator.Hamburger.SetActiveButton(HamburgerButtons.AnimeList);
+                    switch ((args as AnimeListPageNavigationArgs)?.WorkMode ?? AnimeListWorkModes.Anime)
+                    {
+                        case AnimeListWorkModes.Anime:
+                            ViewModelLocator.GeneralHamburger.SetActiveButton(HamburgerButtons.AnimeList);
+                            break;
+                        case AnimeListWorkModes.SeasonalAnime:
+                            ViewModelLocator.GeneralHamburger.SetActiveButton(HamburgerButtons.Seasonal);
+                            break;
+                        case AnimeListWorkModes.Manga:
+                            ViewModelLocator.GeneralHamburger.SetActiveButton(HamburgerButtons.MangaList);
+                            break;
+                        case AnimeListWorkModes.TopAnime:
+                            ViewModelLocator.GeneralHamburger.SetActiveButton(HamburgerButtons.TopAnime);
+                            break;
+                        case AnimeListWorkModes.TopManga:
+                            ViewModelLocator.GeneralHamburger.SetActiveButton(HamburgerButtons.TopManga);
+                            break;
+                        case AnimeListWorkModes.AnimeByGenre:
+                            ViewModelLocator.GeneralHamburger.SetActiveButton(HamburgerButtons.AnimeList);
+                            break;
+                        case AnimeListWorkModes.AnimeByStudio:
+                            ViewModelLocator.GeneralHamburger.SetActiveButton(HamburgerButtons.AnimeList);
+                            break;
+                        default:
+                            throw new ArgumentOutOfRangeException();
+                    }
                     ShowSearchStuff();
                     if ((_searchStateBeforeNavigatingToSearch == null || !_searchStateBeforeNavigatingToSearch.Value) &&
                         (wasOnSearchPage || _wasOnDetailsFromSearch))
@@ -290,7 +315,7 @@ namespace MALClient.Android.ViewModels
                     break;
                 case PageIndex.PagePopularVideos:
                     HideSearchStuff();
-                    CurrentStatus = "Popular Videos";
+                    CurrentStatus = "Promotional Videos";
                     MainNavigationRequested?.Invoke(new PromoVideosPageFragment());
                     break;
                 case PageIndex.PageFeeds:

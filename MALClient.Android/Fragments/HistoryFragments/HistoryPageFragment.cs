@@ -14,6 +14,7 @@ using Com.Astuetz;
 using GalaSoft.MvvmLight.Helpers;
 using MALClient.Android.Adapters.PagerAdapters;
 using MALClient.Android.BindingConverters;
+using MALClient.Models.Enums;
 using MALClient.XShared.NavArgs;
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Main;
@@ -33,6 +34,8 @@ namespace MALClient.Android.Fragments.HistoryFragments
 
         protected override void Init(Bundle savedInstanceState)
         {
+            ViewModelLocator.NavMgr.DeregisterBackNav();
+            ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageAnimeList, null);
             ViewModel = ViewModelLocator.History;
             ViewModel.Init(_args);
         }

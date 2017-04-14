@@ -18,7 +18,7 @@ namespace MALClient.Android.Flyouts
 {
     public static class AnimeDetailsPageMoreFlyoutBuilder
     {
-        public static DroppyMenuPopup BuildForAnimeDetailsPage(Context context,View parent,Action<int> listener)
+        public static DroppyMenuPopup BuildForAnimeDetailsPage(Context context,AnimeDetailsPageViewModel viewModel,View parent,Action<int> listener)
         {
             AnimeListPageFlyoutBuilder.ParamRelativeLayout = new ViewGroup.LayoutParams(DimensionsHelper.DpToPx(150), DimensionsHelper.DpToPx(38));
 
@@ -29,10 +29,12 @@ namespace MALClient.Android.Flyouts
 
             droppyBuilder.AddMenuItem(new DroppyMenuCustomItem(AnimeListPageFlyoutBuilder.BuildItem(context, "Forum board", listener, 0)));
             droppyBuilder.AddMenuItem(new DroppyMenuCustomItem(AnimeListPageFlyoutBuilder.BuildItem(context, "Promotional videos", listener, 1)));
-            droppyBuilder.AddMenuItem(new DroppyMenuCustomItem(AnimeListPageFlyoutBuilder.BuildItem(context, "Tags", listener, 2)));
+            if(!viewModel.AddAnimeVisibility)
+                droppyBuilder.AddMenuItem(new DroppyMenuCustomItem(AnimeListPageFlyoutBuilder.BuildItem(context, "Tags", listener, 2)));
             droppyBuilder.AddMenuItem(new DroppyMenuCustomItem(AnimeListPageFlyoutBuilder.BuildItem(context, "Copy link", listener, 3)));
             droppyBuilder.AddMenuItem(new DroppyMenuCustomItem(AnimeListPageFlyoutBuilder.BuildItem(context, "Open in browser", listener, 4)));
-            droppyBuilder.AddMenuItem(new DroppyMenuCustomItem(AnimeListPageFlyoutBuilder.BuildItem(context, "Remove from my list", listener, 5)));
+            if (!viewModel.AddAnimeVisibility)
+                droppyBuilder.AddMenuItem(new DroppyMenuCustomItem(AnimeListPageFlyoutBuilder.BuildItem(context, "Remove from my list", listener, 5)));
 
 
             return droppyBuilder.Build();

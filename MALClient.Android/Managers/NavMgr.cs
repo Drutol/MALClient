@@ -16,9 +16,12 @@ namespace MALClient.Android.Managers
     public class NavMgr : INavMgr
     {
         private ICommand _currentOverride;
+        private ICommand _enqueuedCommand;
 
         private readonly Stack<Tuple<PageIndex, object>> _randomNavigationStackMain =
             new Stack<Tuple<PageIndex, object>>(30);
+
+
 
         private void CurrentViewOnBackRequested()
         {
@@ -97,9 +100,10 @@ namespace MALClient.Android.Managers
 
         public void ResetOneTimeOverride()
         {
-            _currentOverride = null;
+            _currentOverride = _enqueuedCommand;
+            _enqueuedCommand = null;
             if (_randomNavigationStackMain.Count == 0)
-                ViewModelLocator.GeneralMain.NavigateOffBackButtonVisibility = true;
+                ViewModelLocator.GeneralMain.NavigateMainBackButtonVisibility = true;
         }
 
         public void RegisterOneTimeMainOverride(ICommand command)
@@ -110,7 +114,8 @@ namespace MALClient.Android.Managers
 
         public void ResetOneTimeMainOverride()
         {
-            _currentOverride = null;
+            _currentOverride = _enqueuedCommand;
+            _enqueuedCommand = null;
             if (_randomNavigationStackMain.Count == 0)
                 ViewModelLocator.GeneralMain.NavigateMainBackButtonVisibility = true;
         }
@@ -123,6 +128,11 @@ namespace MALClient.Android.Managers
         public void RegisterUnmonitoredMainBackNav(PageIndex page, object args)
         {
             throw new NotImplementedException();
+        }
+
+        public void EnqueueOneTimeOverride(ICommand command)
+        {
+            _enqueuedCommand = command;
         }
     }
 

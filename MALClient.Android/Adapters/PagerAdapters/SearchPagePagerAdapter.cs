@@ -81,21 +81,30 @@ namespace MALClient.Android.PagerAdapters
             {
                 case 0:
                     _currentFragment = _animeSearchPageFragment;
+                    ShowSearchStuff();
                     ViewModelLocator.SearchPage.Init(new SearchPageNavigationArgs { Query = ViewModelLocator.GeneralMain.CurrentSearchQuery });
                     break;
                 case 1:
                     _currentFragment = _mangaSearchPageFragment;
+                    ShowSearchStuff();
                     ViewModelLocator.SearchPage.Init(new SearchPageNavigationArgs {Anime = false , Query = ViewModelLocator.GeneralMain.CurrentSearchQuery});
                     break;
                 case 2:
                     _currentFragment = _characterSearchPageFragment;
+                    ShowSearchStuff();
                     ViewModelLocator.CharacterSearch.Init(new SearchPageNavArgsBase());
                     break;
                 case 3:
                     _currentFragment = _genresSearchPageFragment;
+                    ViewModelLocator.GeneralMain.SearchToggleLock = false;
+                    ViewModelLocator.GeneralMain.HideSearchStuff();
+                    ViewModelLocator.GeneralMain.CurrentStatus = "Anime by Genre";
                     ViewModelLocator.SearchPage.Init(new SearchPageNavigationArgs { ByGenre = true});
                     break;
                 case 4:
+                    ViewModelLocator.GeneralMain.HideSearchStuff();
+                    ViewModelLocator.GeneralMain.SearchToggleLock = false;
+                    ViewModelLocator.GeneralMain.CurrentStatus = "Anime by Studio";
                     _currentFragment = _studiosSearchPageFragment;
                     ViewModelLocator.SearchPage.Init(new SearchPageNavigationArgs { ByStudio = true});
                     break;
@@ -103,7 +112,14 @@ namespace MALClient.Android.PagerAdapters
             _currentFragment?.ReattachBindings();
         }
 
-
+        private void ShowSearchStuff()
+        {
+            if(ViewModelLocator.GeneralMain.SearchToggleLock)
+                return;
+            ViewModelLocator.GeneralMain.SearchToggleLock = true;
+            ViewModelLocator.GeneralMain.ShowSearchStuff();
+            ViewModelLocator.GeneralMain.ToggleSearchStuff();
+        }
 
         public override Fragment GetItem(int p1)
         {

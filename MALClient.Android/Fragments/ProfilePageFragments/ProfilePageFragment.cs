@@ -43,6 +43,7 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
         {
             ProfilePagePivot.Adapter = new ProfilePagePagerAdapter(FragmentManager);
             ProfilePageTabStrip.SetViewPager(ProfilePagePivot);
+            ProfilePagePivot.OffscreenPageLimit = 4;
             ProfilePageTabStrip.CenterTabs();
 
             Bindings.Add(this.SetBinding(() => ViewModel.CurrentPivotIndex).WhenSourceChanges(() =>
@@ -63,11 +64,11 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
 
         #region Views
 
-        private ProgressBar _profilePageLoadingSpinner;
+        private FrameLayout _profilePageLoadingSpinner;
         private PagerSlidingTabStrip _profilePageTabStrip;
         private ViewPager _profilePagePivot;
 
-        public ProgressBar ProfilePageLoadingSpinner => _profilePageLoadingSpinner ?? (_profilePageLoadingSpinner = FindViewById<ProgressBar>(Resource.Id.ProfilePageLoadingSpinner));
+        public FrameLayout ProfilePageLoadingSpinner => _profilePageLoadingSpinner ?? (_profilePageLoadingSpinner = FindViewById<FrameLayout>(Resource.Id.ProfilePageLoadingSpinner));
 
         public PagerSlidingTabStrip ProfilePageTabStrip => _profilePageTabStrip ?? (_profilePageTabStrip = FindViewById<PagerSlidingTabStrip>(Resource.Id.ProfilePageTabStrip));
 

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 
@@ -20,20 +21,35 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
 {
     public class ProfilePageRecentUpdatesFragment : MalFragmentBase
     {
-        private readonly ProfilePageViewModel ViewModel;
-
-        public ProfilePageRecentUpdatesFragment() : base(false, false)
-        {
-            ViewModel = ViewModelLocator.ProfilePage;
-        }
+        private readonly ProfilePageViewModel ViewModel = ViewModelLocator.ProfilePage;
 
         protected override void Init(Bundle savedInstanceState)
         {
-
+            
         }
 
         protected override void InitBindings()
         {
+
+            Bindings.Add(this.SetBinding(() => ViewModel.RecentAnime)
+                .WhenSourceChanges(() =>
+                {
+                    if (ViewModel.RecentAnime?.Any() ?? false)
+                        ProfilePageRecentUpdatesTabAnimeList.SetAnimeListAdapter(Context, ViewModel.RecentAnime,
+                            AnimeListDisplayModes.IndefiniteList, OnItemClickAction);
+                    else
+                        ProfilePageRecentUpdatesTabAnimeList.RemoveAllViews();
+                }));
+
+            Bindings.Add(this.SetBinding(() => ViewModel.RecentManga)
+                .WhenSourceChanges(() =>
+                {
+                    if (ViewModel.RecentManga?.Any() ?? false)
+                        ProfilePageRecentUpdatesTabMangaList.SetAnimeListAdapter(Context, ViewModel.RecentManga,
+                            AnimeListDisplayModes.IndefiniteList, OnItemClickAction);
+                    else
+                        ProfilePageRecentUpdatesTabMangaList.RemoveAllViews();
+                }));
 
             Bindings.Add(
                 this.SetBinding(() => ViewModel.EmptyRecentAnimeNoticeVisibility,
@@ -45,28 +61,6 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
                 this.SetBinding(() => ViewModel.EmptyRecentMangaNoticeVisibility,
                         () => ProfilePageRecentUpdatesTabMangaListEmptyNotice.Visibility)
                     .ConvertSourceToTarget(Converters.BoolToVisibility));
-
-
-            Bindings.Add(
-                this.SetBinding(() => ViewModel.RecentAnime).WhenSourceChanges(() =>
-                {
-                    if (ViewModel.RecentAnime?.Any() ?? false)
-                        ProfilePageRecentUpdatesTabAnimeList.SetAnimeListAdapter(Context, ViewModel.RecentAnime,
-                            AnimeListDisplayModes.IndefiniteList, OnItemClickAction);
-                    else
-                        ProfilePageRecentUpdatesTabAnimeList.RemoveAllViews();
-                }));
-
-
-            Bindings.Add(
-                this.SetBinding(() => ViewModel.RecentManga).WhenSourceChanges(() =>
-                {
-                    if (ViewModel.RecentManga?.Any() ?? false)
-                        ProfilePageRecentUpdatesTabMangaList.SetAnimeListAdapter(Context, ViewModel.RecentManga,
-                            AnimeListDisplayModes.IndefiniteList, OnItemClickAction);
-                    else
-                        ProfilePageRecentUpdatesTabMangaList.RemoveAllViews();
-                }));
         }
 
         private void OnItemClickAction(AnimeItemViewModel animeItemViewModel)

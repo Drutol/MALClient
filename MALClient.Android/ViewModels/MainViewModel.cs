@@ -297,17 +297,6 @@ namespace MALClient.Android.ViewModels
                     else
                         MainNavigationRequested?.Invoke(new PersonDetailsPageFragment(args as StaffDetailsNaviagtionArgs));
                     break;
-                case PageIndex.PageCharacterSearch:
-                    //if (CurrentMainPage != PageIndex.PageSearch && CurrentMainPage != PageIndex.PageMangaSearch && CurrentMainPage != PageIndex.PageCharacterSearch)
-                    //    _searchStateBeforeNavigatingToSearch = SearchToggleStatus;
-                    //ShowSearchStuff();
-                    //ToggleSearchStuff();
-
-                    //SearchToggleLock = true;
-
-                    //MainNavigationRequested?.Invoke(typeof(CharacterSearchPage));
-                    //View.SearchInputFocus(FocusState.Keyboard);
-                    break;
                 case PageIndex.PageWallpapers:
                     //HideSearchStuff();
                     //RefreshButtonVisibility = false;
@@ -324,6 +313,13 @@ namespace MALClient.Android.ViewModels
                     RefreshDataCommand = new RelayCommand(() => ViewModelLocator.FriendsFeeds.Init(true));
                     CurrentStatus = "Friends Feeds";
                     MainNavigationRequested?.Invoke(new FriendsFeedsPageFragment());
+                    break;
+                case PageIndex.PageNotificationHub:
+                    HideSearchStuff();
+                    RefreshButtonVisibility = true;
+                    RefreshDataCommand = new RelayCommand(() => ViewModelLocator.NotificationsHub.Init(true));
+                    CurrentStatus = "Notifications";
+                    MainNavigationRequested?.Invoke(new NotificationHubPageFragment());
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(index), index, null);

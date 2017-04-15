@@ -262,6 +262,7 @@
     <Compile Include="Fragments\HistoryFragments\HistoryPageTabFragment.cs" />
     <Compile Include="Fragments\MessagingFragments\MessagingDetailsPageFragment.cs" />
     <Compile Include="Fragments\MessagingFragments\MessagingPageFragment.cs" />
+    <Compile Include="Fragments\NotificationHubPageFragment.cs" />
     <Compile Include="Fragments\ProfilePageFragments\ProfilePageFavouritesTabFragment.cs" />
     <Compile Include="Fragments\ProfilePageFragments\ProfilePageFragment.cs" />
     <Compile Include="Fragments\ProfilePageFragments\ProfilePageGeneralTabFragment.cs" />
@@ -998,6 +999,12 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\icon_globe.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\NotificationHubPage.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\NotificationHubPageItem.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Android.Support.Vector.Drawable.23.4.0.1\build\Xamarin.Android.Support.Vector.Drawable.targets" Condition="Exists('..\packages\Xamarin.Android.Support.Vector.Drawable.23.4.0.1\build\Xamarin.Android.Support.Vector.Drawable.targets')" />

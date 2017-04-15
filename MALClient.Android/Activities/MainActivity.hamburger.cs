@@ -143,6 +143,11 @@ namespace MALClient.Android.Activities
             historyButton.WithIdentifier((int) PageIndex.PageHistory);
             historyButton.WithIcon(Resource.Drawable.icon_clock);
 
+            var notificationHubButton = GetBaseSecondaryItem();
+            notificationHubButton.WithName("Notification Hub");
+            notificationHubButton.WithIdentifier((int) PageIndex.PageNotificationHub);
+            notificationHubButton.WithIcon(Resource.Drawable.icon_notification);
+
             //
             var mangaSubHeader = new SectionDrawerItem();
             mangaSubHeader.WithName("Manga");
@@ -174,7 +179,8 @@ namespace MALClient.Android.Activities
                 feedsButton,
                 forumsButton,
                 messagingButton,
-                historyButton
+                historyButton,
+                notificationHubButton
 
             });
 

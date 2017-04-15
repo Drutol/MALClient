@@ -1,5 +1,6 @@
 using System;
 using Android.Views;
+using MALClient.Models.Enums;
 
 namespace MALClient.Android.BindingConverters
 {
@@ -41,6 +42,43 @@ namespace MALClient.Android.BindingConverters
                     : "")} {(diff.TotalDays < 1 && diff.Minutes > 0
                     ? $"{diff.Minutes} {(diff.Hours == 1 ? "minute " : "minutes ")}"
                     : "")}ago";
+        }
+
+        public static int MalNotificationTypeToIconConverter(MalNotificationsTypes type)
+        {
+            switch (type)
+            {
+                case MalNotificationsTypes.Generic:
+                    return Resource.String.fa_icon_bug;
+                case MalNotificationsTypes.FriendRequest:
+                    return Resource.String.fa_icon_user;
+                case MalNotificationsTypes.FriendRequestAcceptDeny:
+                    return Resource.String.fa_icon_user;
+                case MalNotificationsTypes.ProfileComment:
+                    return Resource.String.fa_icon_comment;
+                case MalNotificationsTypes.BlogComment:
+                    return Resource.String.fa_icon_bug;
+                case MalNotificationsTypes.ForumQuoute:
+                    return Resource.String.fa_icon_comment_o;
+                case MalNotificationsTypes.UserMentions:
+                    return Resource.String.fa_icon_at;
+                case MalNotificationsTypes.WatchedTopics:
+                    return Resource.String.fa_icon_binoculars;
+                case MalNotificationsTypes.ClubMessages:
+                    return Resource.String.fa_icon_group;
+                case MalNotificationsTypes.NewRelatedAnime:
+                    return Resource.String.fa_icon_clone;
+                case MalNotificationsTypes.NowAiring:
+                    return Resource.String.fa_icon_camera;
+                case MalNotificationsTypes.Payment:
+                    return Resource.String.fa_icon_money;
+                case MalNotificationsTypes.Messages:
+                    return Resource.String.fa_icon_envelope_o;
+                case MalNotificationsTypes.WatchedTopic:
+                    return Resource.String.fa_icon_eye;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(type), type, null);
+            }
         }
     }
 }

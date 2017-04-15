@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="match_parent" android:clickable="true" android:focusable="true" android:foreground="?selectableItemBackground"
+  android:layout_height="wrap_content" android:background="?BrushAnimeItemBackground">
+  <LinearLayout
+    android:layout_width="match_parent" android:background="@drawable/border_accent_left"
+    android:layout_height="wrap_content" android:paddingTop="10dp" android:paddingBottom="10dp">
+    <TextView android:id="@+id/NotificationHubPageItemIcon" android:layout_gravity="center_vertical"
+              android:layout_width="wrap_content" android:textSize="@dimen/FontSizeBig" android:text="ICO" android:layout_marginStart="10dp" android:layout_marginEnd="10dp"
+              android:layout_height="wrap_content" android:textColor="?BrushText"/>
+    <TextView android:id="@+id/NotificationHubPageItemContent" android:text="Shingeki no Bahamut: Genesis - Short Story (ONA) has just been added to MAL Database!" android:layout_gravity="center_vertical"
+              android:layout_width="0dp" android:layout_weight="1"
+              android:layout_height="wrap_content" android:textColor="?BrushText"/>
+    <LinearLayout android:layout_marginStart="5dp" android:layout_marginEnd="5dp"
+                  android:layout_width="wrap_content" android:orientation="vertical"
+                  android:layout_height="wrap_content" android:gravity="center_horizontal">
+      <TextView
+        android:layout_width="wrap_content" android:id="@+id/NotificationHubPageItemDate"
+        android:layout_height="wrap_content" android:text="Apr 12, 9:43 PM" android:fontFamily="@string/font_family_light" android:textStyle="italic"/>
+      <ImageButton android:elevation="5dp" android:id="@+id/NotificationHubPageItemMarkReadButton"
+                   android:layout_width="45dp" android:src="@drawable/icon_ok" android:backgroundTint="?AccentColourDark" android:tint="#fff"
+                   android:layout_height="45dp" />
+    </LinearLayout>
+  </LinearLayout>
+</FrameLayout>

@@ -1,4 +1,5 @@
-﻿using Android.Views;
+﻿using System;
+using Android.Views;
 using GalaSoft.MvvmLight.Helpers;
 
 namespace MALClient.Android.CollectionAdapters
@@ -17,7 +18,15 @@ namespace MALClient.Android.CollectionAdapters
             }
             else
             {
-                return base.GetView(position, convertView == Footer ? null : convertView, parent);
+                try
+                {
+                    return base.GetView(position, convertView == Footer ? null : convertView, parent);
+                }
+                catch (Exception)
+                {
+                    return convertView;
+                }
+
             }
         }
     }

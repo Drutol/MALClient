@@ -38,43 +38,55 @@ namespace MALClient.Android.Fragments.AnimeDetailsPageTabs
         {
             Bindings.Add(this.SetBinding(() => ViewModel.LoadingGlobal).WhenSourceChanges(() =>
             {
-                if (!ViewModel.LoadingGlobal)
+                try
                 {
-                    //left details
-                    AnimeDetailsPageGeneralTabFragmentType.Text = ViewModel.RightDetailsRow[0].Item2;
-                    AnimeDetailsPageGeneralTabFragmentStatus.Text = ViewModel.RightDetailsRow[1].Item2;
-                    AnimeDetailsPageGeneralTabFragmentEnd.Text = ViewModel.RightDetailsRow[2].Item2;
-                    AnimeDetailsPageGeneralTabFragmentMyStart.Text = ViewModel.MyStartDate;
-                    AnimeDetailsPageGeneralTabFragmentMyStartButton.SetOnClickListener(new OnClickListener(view =>
-                    {
-                        var date = ViewModel.StartDateValid ? ViewModel.StartDateTimeOffset : DateTimeOffset.Now;
-                        DatePickerDialog dpd = new DatePickerDialog(Activity, new DateSetListener((i, i1, arg3) =>
-                        {
-                            ViewModel.StartDateTimeOffset = new DateTimeOffset(i, i1, arg3, 0, 0, 0, TimeSpan.Zero);
-                            AnimeDetailsPageGeneralTabFragmentMyStart.Text = ViewModel.MyStartDate;
-                        }),
-                            date.Year, date.Month-1, date.Day);
-                        dpd.Show();
-                    }));
 
-                    //right details
-                    AnimeDetailsPageGeneralTabFragmentEpisodes.Text = ViewModel.LeftDetailsRow[0].Item2;
-                    AnimeDetailsPageGeneralTabFragmentScore.Text = ViewModel.LeftDetailsRow[1].Item2;
-                    AnimeDetailsPageGeneralTabFragmentStart.Text = ViewModel.LeftDetailsRow[2].Item2;
-                    AnimeDetailsPageGeneralTabFragmentMyEnd.Text = ViewModel.MyEndDate;
-                    AnimeDetailsPageGeneralTabFragmentMyEndButton.SetOnClickListener(new OnClickListener(view =>
+
+                    if (!ViewModel.LoadingGlobal)
                     {
-                        var date = ViewModel.EndDateValid ? ViewModel.EndDateTimeOffset : DateTimeOffset.Now;
-                        DatePickerDialog dpd = new DatePickerDialog(Activity, new DateSetListener((i, i1, arg3) =>
+                        //left details
+                        AnimeDetailsPageGeneralTabFragmentType.Text = ViewModel.RightDetailsRow[0].Item2;
+                        AnimeDetailsPageGeneralTabFragmentStatus.Text = ViewModel.RightDetailsRow[1].Item2;
+                        AnimeDetailsPageGeneralTabFragmentEnd.Text = ViewModel.RightDetailsRow[2].Item2;
+                        AnimeDetailsPageGeneralTabFragmentMyStart.Text = ViewModel.MyStartDate;
+                        AnimeDetailsPageGeneralTabFragmentMyStartButton.SetOnClickListener(new OnClickListener(view =>
                         {
-                            ViewModel.EndDateTimeOffset = new DateTimeOffset(i, i1, arg3, 0, 0, 0, TimeSpan.Zero);
-                            AnimeDetailsPageGeneralTabFragmentMyEnd.Text = ViewModel.MyEndDate;
-                        }),
-                            date.Year, date.Month-1, date.Day);
-                        dpd.Show();
-                    }));
-                    //rest
-                    AnimeDetailsPageGeneralTabFragmentSynopsis.Text = ViewModel.Synopsis;
+                            var date = ViewModel.StartDateValid ? ViewModel.StartDateTimeOffset : DateTimeOffset.Now;
+                            DatePickerDialog dpd = new DatePickerDialog(Activity, new DateSetListener((i, i1, arg3) =>
+                                {
+                                    ViewModel.StartDateTimeOffset =
+                                        new DateTimeOffset(i, i1, arg3, 0, 0, 0, TimeSpan.Zero);
+                                    AnimeDetailsPageGeneralTabFragmentMyStart.Text = ViewModel.MyStartDate;
+                                }),
+                                date.Year, date.Month - 1, date.Day);
+                            dpd.Show();
+                        }));
+
+                        //right details
+                        AnimeDetailsPageGeneralTabFragmentEpisodes.Text = ViewModel.LeftDetailsRow[0].Item2;
+                        AnimeDetailsPageGeneralTabFragmentScore.Text = ViewModel.LeftDetailsRow[1].Item2;
+                        AnimeDetailsPageGeneralTabFragmentStart.Text = ViewModel.LeftDetailsRow[2].Item2;
+                        AnimeDetailsPageGeneralTabFragmentMyEnd.Text = ViewModel.MyEndDate;
+                        AnimeDetailsPageGeneralTabFragmentMyEndButton.SetOnClickListener(new OnClickListener(view =>
+                        {
+                            var date = ViewModel.EndDateValid ? ViewModel.EndDateTimeOffset : DateTimeOffset.Now;
+                            DatePickerDialog dpd = new DatePickerDialog(Activity, new DateSetListener((i, i1, arg3) =>
+                                {
+                                    ViewModel.EndDateTimeOffset =
+                                        new DateTimeOffset(i, i1, arg3, 0, 0, 0, TimeSpan.Zero);
+                                    AnimeDetailsPageGeneralTabFragmentMyEnd.Text = ViewModel.MyEndDate;
+                                }),
+                                date.Year, date.Month - 1, date.Day);
+                            dpd.Show();
+                        }));
+                        //rest
+                        AnimeDetailsPageGeneralTabFragmentSynopsis.Text = ViewModel.Synopsis;
+                    }
+                }
+                catch (Exception)
+                {
+                    //data loading has failed
+
                 }
             }));
 

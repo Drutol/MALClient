@@ -24,27 +24,21 @@ namespace MALClient.Android.PagerAdapters
         }
 
         private RecommendationItemFragment _currentFragment;
-        private readonly List<RecommendationItemFragment> _pageFragments;
+        private readonly Dictionary<int,RecommendationItemFragment> _pageFragments = new Dictionary<int, RecommendationItemFragment>();
         private readonly List<RecommendationItemViewModel> _items;
 
         public RecommandtionsPagerAdapter(FragmentManager fm,IEnumerable<RecommendationItemViewModel> items) : base(fm)
         {
             _items = items.ToList();
-            _pageFragments = new List<RecommendationItemFragment>
-            {
-                new RecommendationItemFragment(),
-                new RecommendationItemFragment(),
-                new RecommendationItemFragment(),
-                new RecommendationItemFragment(),
-                new RecommendationItemFragment(),
-            };
         }
 
         public override int Count => _items.Count;
 
         public override Fragment GetItem(int position)
         {
-            return _pageFragments[position % 5];
+            if(!_pageFragments.ContainsKey(position))
+                _pageFragments.Add(position,new RecommendationItemFragment());
+            return _pageFragments[position];
         }
 
         public View GetCustomTabView(ViewGroup p0, int p1)
@@ -81,8 +75,10 @@ namespace MALClient.Android.PagerAdapters
             var viewModel = _items[index];
 
             viewModel.PopulateData();
+            if(index < _items.Count-2)
+                _items[index+1].PopulateData();
 
-            _pageFragments[index%5].BindModel(viewModel);
+            _pageFragments[index].BindModel(viewModel);
         }
 
         public void TabUnselected(View p0)

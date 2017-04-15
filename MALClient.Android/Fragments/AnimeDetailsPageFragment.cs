@@ -6,6 +6,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
+using Android.Content.Res;
+using Android.Graphics;
 using Android.OS;
 using Android.Runtime;
 using Android.Util;
@@ -112,9 +114,17 @@ namespace MALClient.Android.Fragments
                 this.SetBinding(() => ViewModel.IsFavourite)
                     .WhenSourceChanges(() =>
                     {
-                        AnimeDetailsPageFavouriteButton.SetImageResource(ViewModel.IsFavourite
-                            ? Resource.Drawable.icon_favourite
-                            : Resource.Drawable.icon_fav_outline);
+                        if (ViewModel.IsFavourite)
+                        {
+                            AnimeDetailsPageFavouriteButton.ImageTintList = ColorStateList.ValueOf(new Color(ResourceExtension.AccentColour));
+                            AnimeDetailsPageFavouriteButton.SetImageResource(Resource.Drawable.icon_favourite);
+                        }
+                        else
+                        {
+                            AnimeDetailsPageFavouriteButton.ImageTintList = ColorStateList.ValueOf(new Color(ResourceExtension.BrushText));
+                            AnimeDetailsPageFavouriteButton.SetImageResource(Resource.Drawable.icon_fav_outline);          
+                        }
+
                     }));
 
             Bindings.Add(this.SetBinding(() => ViewModel.AnimeMode)

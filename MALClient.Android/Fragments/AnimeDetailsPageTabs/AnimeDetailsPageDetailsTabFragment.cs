@@ -84,7 +84,9 @@ namespace MALClient.Android.Fragments.AnimeDetailsPageTabs
         {
             var view = Activity.LayoutInflater.Inflate(Resource.Layout.DetailItemView, null);
             view.FindViewById<TextView>(Resource.Id.DetailItemCategoryTextView).Text = tuple.Item1;
-            view.FindViewById<TextView>(Resource.Id.DetailItemContentTextView).Text = tuple.Item2;            view.SetBackgroundColor(
+            view.FindViewById<TextView>(Resource.Id.DetailItemContentTextView).Text = tuple.Item2;
+
+            view.FindViewById(Resource.Id.DetailItemRootContainer).SetBackgroundColor(
                 new Color(i % 2 == 0
                     ? ResourceExtension.BrushRowAlternate1
                     : ResourceExtension.BrushRowAlternate2));

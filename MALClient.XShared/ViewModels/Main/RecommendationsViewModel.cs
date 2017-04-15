@@ -176,12 +176,10 @@ namespace MALClient.XShared.ViewModels.Main
             if (CurrentWorkMode == RecommendationsPageWorkMode.Anime ||
                 CurrentWorkMode == RecommendationsPageWorkMode.Manga)
             {               
-                Debug.WriteLine("Starting data");
                 List<RecommendationData> data = null;
                 await Task.Run(async () => data =
                     await new AnimeRecomendationsQuery(CurrentWorkMode == RecommendationsPageWorkMode.Anime)
                         .GetRecomendationsData());
-                Debug.WriteLine("Finished data");
                 if (data == null)
                 {
                     Loading = false;
@@ -190,7 +188,6 @@ namespace MALClient.XShared.ViewModels.Main
 
                 var items = new List<XPivotItem>();
                 var i = 0;
-                Debug.WriteLine("Starting gen");
                 foreach (var item in data)
                 {
                     var pivot = new XPivotItem
@@ -200,7 +197,7 @@ namespace MALClient.XShared.ViewModels.Main
                     };
                     items.Add(pivot);
                 }
-                Debug.WriteLine("Finished gen");
+
                 if (CurrentWorkMode == RecommendationsPageWorkMode.Anime)
                 {
                     RecommendationAnimeItems = items;

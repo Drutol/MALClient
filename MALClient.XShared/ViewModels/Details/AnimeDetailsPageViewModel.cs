@@ -1236,6 +1236,9 @@ namespace MALClient.XShared.ViewModels.Details
 
         public async void LoadCharacters(bool force = false)
         {
+            if(!LoadCharactersButtonVisibility)
+                return;
+
             LoadingCharactersVisibility = true;
             LoadCharactersButtonVisibility = false;
             try

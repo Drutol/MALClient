@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Android.Content;
 using Android.OS;
 using Android.Support.V4.View;
 using Android.Widget;
@@ -46,26 +47,23 @@ namespace MALClient.Android.Fragments.RecommendationsFragments
             Bindings.Add(
                 this.SetBinding(() => ViewModel.RecommendationAnimeItems).WhenSourceChanges(() =>
                 {
-                    if (ViewModel.RecommendationAnimeItems?.Any() ?? false)
-                    {
-                        RecommendationsPagePivot.Adapter = new RecommandtionsPagerAdapter(FragmentManager,
-                            ViewModel.RecommendationAnimeItems.Select(
-                                item => item.Content as RecommendationItemViewModel));
-                        RecommendationsPageTabStrip.SetViewPager(RecommendationsPagePivot);
-                        RecommendationsPagePivot.SetCurrentItem(ViewModel.PivotItemIndex, false);
-                    }
+                    BindAnimeItems();
                 }));
             Bindings.Add(
-                this.SetBinding(() => ViewModel.RecommendationAnimeItems).WhenSourceChanges(() =>
+                this.SetBinding(() => ViewModel.RecommendationMangaItems).WhenSourceChanges(() =>
                 {
-                    if (ViewModel.RecommendationMangaItems?.Any() ?? false)
-                    {
-                        RecommendationsPagePivot.Adapter = new RecommandtionsPagerAdapter(FragmentManager,
-                            ViewModel.RecommendationMangaItems.Select(item => item.Content as RecommendationItemViewModel));
-                        RecommendationsPageTabStrip.SetViewPager(RecommendationsPagePivot);
-                        RecommendationsPagePivot.SetCurrentItem(ViewModel.PivotItemIndex, false);
-                    }
+                    BindMangaItems();
                 }));
+            Bindings.Add(this.SetBinding(() => ViewModel.CurrentWorkMode)
+                .WhenSourceChanges(() =>
+                {
+                    if(ViewModel.CurrentWorkMode == RecommendationsPageWorkMode.Anime)
+                        BindAnimeItems();
+                    else if(ViewModel.CurrentWorkMode == RecommendationsPageWorkMode.Manga)
+                        BindMangaItems();
+                }));
+
+
 
 
 
@@ -76,12 +74,38 @@ namespace MALClient.Android.Fragments.RecommendationsFragments
             RecommendationsPageTypeChangeButton.SetCommand("Click",new RelayCommand(OnTypeChangeButtonClick));
         }
 
+        private void BindAnimeItems()
+        {
+            if (ViewModel.RecommendationAnimeItems?.Any() ?? false)
+            {
+                RecommendationsPagePivot.Adapter = new RecommandtionsPagerAdapter(FragmentManager,
+                    ViewModel.RecommendationAnimeItems.Select(
+                        item => item.Content as RecommendationItemViewModel));
+                RecommendationsPageTabStrip.SetViewPager(RecommendationsPagePivot);
+                RecommendationsPagePivot.SetCurrentItem(ViewModel.PivotItemIndex, false);
+            }
+        }
+
+        private void BindMangaItems()
+        {
+            if (ViewModel.RecommendationMangaItems?.Any() ?? false)
+            {
+                RecommendationsPagePivot.Adapter = new RecommandtionsPagerAdapter(FragmentManager,
+                    ViewModel.RecommendationMangaItems.Select(item => item.Content as RecommendationItemViewModel));
+                RecommendationsPageTabStrip.SetViewPager(RecommendationsPagePivot);
+                RecommendationsPagePivot.SetCurrentItem(ViewModel.PivotItemIndex, false);
+            }
+        }
+
         private void OnTypeChangeButtonClick()
         {
             _menu = RecommendationsFlyoutBuilder.BuildForRecommendationsPage(Activity, RecommendationsPageTypeChangeButton,
                 ViewModel, i =>
                {
-                   ViewModel.CurrentWorkMode = RecommendationsPageWorkMode.Anime;
+                   if(i == 0)
+                     ViewModel.CurrentWorkMode = RecommendationsPageWorkMode.Anime;
+                   else
+                       ViewModel.CurrentWorkMode = RecommendationsPageWorkMode.Manga;
                    _menu.Dismiss(true);
                });
             _menu.Show();

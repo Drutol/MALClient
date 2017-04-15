@@ -15,7 +15,7 @@ namespace MALClient.Models.Enums
         ProfileComment = 0x4,
         [EnumUtilities.Description("Blog Comment")]
         BlogComment = 0x8,
-        [EnumUtilities.Description("Forum Quoute")]
+        [EnumUtilities.Description("Forum Quote")]
         ForumQuoute = 0x10,
         [EnumUtilities.Description("User Mentions")]
         UserMentions = 0x20,

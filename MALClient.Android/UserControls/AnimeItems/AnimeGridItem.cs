@@ -21,6 +21,7 @@ using MALClient.Android.DIalogs;
 using MALClient.Android.Flyouts;
 using MALClient.Android.Listeners;
 using MALClient.Android.Resources;
+using MALClient.Models.Enums;
 using MALClient.XShared.Utils;
 using MALClient.XShared.ViewModels;
 
@@ -158,6 +159,14 @@ namespace MALClient.Android.UserControls
             {
                 case nameof(ViewModel.MyStatusBindShort):
                     AnimeGridItemCurrentWatchingStatus.Text = ViewModel.MyStatusBindShort;
+                    if (ViewModelLocator.GeneralMain.CurrentMainPageKind == PageIndex.PageAnimeList)
+                    {
+                        var targetStatus = ViewModelLocator.AnimeList.GetDesiredStatus();
+                        if (targetStatus != AnimeStatus.AllOrAiring && ViewModel.MyStatus != targetStatus)
+                            Alpha = .6f;
+                        else
+                            Alpha = 1;
+                    }
                     break;
                 case nameof(ViewModel.MyEpisodesBindShort):
                     AnimeGridItemWatchedStatus.Text = ViewModel.MyEpisodesBindShort;
@@ -186,7 +195,6 @@ namespace MALClient.Android.UserControls
 
             AnimeGridItemTitle.Text = ViewModel.Title;
 
-
             if (string.IsNullOrEmpty(ViewModel.Type))
             {
                 AnimeGridItemType.Visibility = ViewStates.Gone;
@@ -197,11 +205,26 @@ namespace MALClient.Android.UserControls
                 AnimeGridItemType.Text = ViewModel.Type;
             }
 
+            if (ViewModelLocator.GeneralMain.CurrentMainPageKind == PageIndex.PageAnimeList)
+            {
+                var targetStatus = ViewModelLocator.AnimeList.GetDesiredStatus();
+                if (targetStatus != AnimeStatus.AllOrAiring && ViewModel.MyStatus != targetStatus)
+                    Alpha = .6f;
+                else
+                    Alpha = 1;
+            }
+            else
+            {
+                Alpha = 1;
+            }
+
+
             AnimeGridItemTagsButton.Visibility = ViewModel.TagsControlVisibility ? ViewStates.Visible : ViewStates.Invisible;
         }
 
         protected override void RootContainerInit()
         {
+            
             if (_allowSwipeInGivenContext)
             {
                 RootContainer.SwipeEnabled = true;

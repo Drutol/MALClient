@@ -114,6 +114,9 @@ namespace MALClient.XShared.ViewModels.Main
             get { return _currentWorkMode; }
             set
             {
+                if(_currentWorkMode == value)
+                    return;
+
                 _currentWorkMode = value;
                 RaisePropertyChanged(() => CurrentWorkMode);
                 PopulateData();

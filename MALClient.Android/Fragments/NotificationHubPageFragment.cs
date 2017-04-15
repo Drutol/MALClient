@@ -78,7 +78,7 @@ namespace MALClient.Android.Fragments
             view.FindViewById<TextView>(Resource.Id.NotificationHubPageItemDate).Text = malNotification.Date;
 
             view.Tag = malNotification.Wrap();
-
+            view.FindViewById(Resource.Id.NotificationHubPageItemMarkReadButton).Tag = malNotification.Wrap();
             return view;
         }
 
@@ -137,7 +137,7 @@ namespace MALClient.Android.Fragments
 
             var showAllItem = HamburgerUtilities.GetBaseSecondaryItem();
             showAllItem.WithName("All");
-            showAllItem.WithIdentifier(-1);
+            showAllItem.WithIdentifier(3);
 
             items.Insert(0,showAllItem);
 
@@ -155,10 +155,10 @@ namespace MALClient.Android.Fragments
                 Resource.Drawable.icon_filter);
             _rightDrawer.OnDrawerItemClickListener = new HamburgerItemClickListener((view, i, arg3) =>
             {
-                if (arg3.Identifier != -1)
+                if (arg3.Identifier != 3)
                     ViewModel.CurrentNotificationType = (MalNotificationsTypes) arg3.Identifier;
                 else
-                    ViewModel.CurrentNotificationType = null;
+                    ViewModel.CurrentNotificationType = MalNotificationsTypes.Generic;
 
                 _rightDrawer.OnDrawerItemClickListener = null;
                 _rightDrawer.CloseDrawer();

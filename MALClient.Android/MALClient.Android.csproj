@@ -675,9 +675,6 @@
     <AndroidResource Include="Resources\layout\RecommendationItem.xml" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\layout\RecommendationItemDetailItem.xml" />
-  </ItemGroup>
-  <ItemGroup>
     <AndroidResource Include="Resources\drawable\LogInBG.png" />
   </ItemGroup>
   <ItemGroup>

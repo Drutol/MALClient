@@ -53,11 +53,158 @@
                 android:layout_height="wrap_content" android:textColor="?BrushText"
                 android:fontFamily="@string/font_family_light" android:layout_margin="5dp" />
       <LinearLayout android:id="@+id/RecommendationItemDetailsContainer" android:orientation="vertical"
-                    android:layout_width="match_parent" android:layout_height="wrap_content" />
+                    android:layout_width="match_parent" android:layout_height="wrap_content" >
+
+        <LinearLayout android:background="?BrushRowAlternate1"
+                      android:orientation="horizontal"
+                      android:layout_width="match_parent"
+                      android:layout_height="40dp">
+          <TextView android:id="@+id/RecommendationItemDetailItemType1" android:layout_gravity="center_vertical"
+                    android:padding="5dp" android:layout_width="0dp" android:layout_height="wrap_content"
+                    android:layout_weight=".2" android:text="Episodes" android:textColor="?BrushText" />
+          <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight=".4" android:layout_gravity="center_vertical"
+                        android:orientation="vertical">
+            <TextView android:id="@+id/RecommendationItemDetailItemDepValue1" android:layout_gravity="center_horizontal"
+                      android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="?BrushText"
+                      android:text="12" android:fontFamily="@string/font_family_light" />
+            <TextView android:id="@+id/RecommendationItemDetailItemMyDepValue1" android:layout_gravity="center_horizontal"
+                      android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:textColor="?AccentColour" android:text="4/12" android:fontFamily="@string/font_family_light"
+                      android:layout_marginTop="3dp" />
+          </LinearLayout>
+          <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight=".4" android:layout_gravity="center_vertical"
+                        android:orientation="vertical">
+            <TextView android:id="@+id/RecommendationItemDetailItemRecValue1" android:layout_gravity="center_horizontal"
+                      android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="?BrushText"
+                      android:text="12" android:fontFamily="@string/font_family_light" />
+            <TextView android:id="@+id/RecommendationItemDetailItemMyRecValue1" android:layout_gravity="center_horizontal"
+                      android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:textColor="?AccentColour" android:text="4/12" android:fontFamily="@string/font_family_light"
+                      android:layout_marginTop="3dp" />
+          </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout android:background="?BrushRowAlternate2"
+                      android:orientation="horizontal"
+                      android:layout_width="match_parent"
+                      android:layout_height="40dp">
+          <TextView android:id="@+id/RecommendationItemDetailItemType2" android:layout_gravity="center_vertical"
+                    android:padding="5dp" android:layout_width="0dp" android:layout_height="wrap_content"
+                    android:layout_weight=".2" android:text="Episodes" android:textColor="?BrushText" />
+          <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight=".4" android:layout_gravity="center_vertical"
+                        android:orientation="vertical">
+            <TextView android:id="@+id/RecommendationItemDetailItemDepValue2" android:layout_gravity="center_horizontal"
+                      android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="?BrushText"
+                      android:text="12" android:fontFamily="@string/font_family_light" />
+            <TextView android:id="@+id/RecommendationItemDetailItemMyDepValue2" android:layout_gravity="center_horizontal"
+                      android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:textColor="?AccentColour" android:text="4/12" android:fontFamily="@string/font_family_light"
+                      android:layout_marginTop="3dp" />
+          </LinearLayout>
+          <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight=".4" android:layout_gravity="center_vertical"
+                        android:orientation="vertical">
+            <TextView android:id="@+id/RecommendationItemDetailItemRecValue2" android:layout_gravity="center_horizontal"
+                      android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="?BrushText"
+                      android:text="12" android:fontFamily="@string/font_family_light" />
+            <TextView android:id="@+id/RecommendationItemDetailItemMyRecValue2" android:layout_gravity="center_horizontal"
+                      android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:textColor="?AccentColour" android:text="4/12" android:fontFamily="@string/font_family_light"
+                      android:layout_marginTop="3dp" />
+          </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout android:background="?BrushRowAlternate1"
+                      android:orientation="horizontal"
+                      android:layout_width="match_parent"
+                      android:layout_height="40dp">
+          <TextView android:id="@+id/RecommendationItemDetailItemType3" android:layout_gravity="center_vertical"
+                    android:padding="5dp" android:layout_width="0dp" android:layout_height="wrap_content"
+                    android:layout_weight=".2" android:text="Episodes" android:textColor="?BrushText" />
+          <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight=".4" android:layout_gravity="center_vertical"
+                        android:orientation="vertical">
+            <TextView android:id="@+id/RecommendationItemDetailItemDepValue3" android:layout_gravity="center_horizontal"
+                      android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="?BrushText"
+                      android:text="12" android:fontFamily="@string/font_family_light" />
+            <TextView android:id="@+id/RecommendationItemDetailItemMyDepValue3" android:layout_gravity="center_horizontal"
+                      android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:textColor="?AccentColour" android:text="4/12" android:fontFamily="@string/font_family_light"
+                      android:layout_marginTop="3dp" />
+          </LinearLayout>
+          <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight=".4" android:layout_gravity="center_vertical"
+                        android:orientation="vertical">
+            <TextView android:id="@+id/RecommendationItemDetailItemRecValue3" android:layout_gravity="center_horizontal"
+                      android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="?BrushText"
+                      android:text="12" android:fontFamily="@string/font_family_light" />
+            <TextView android:id="@+id/RecommendationItemDetailItemMyRecValue3" android:layout_gravity="center_horizontal"
+                      android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:textColor="?AccentColour" android:text="4/12" android:fontFamily="@string/font_family_light"
+                      android:layout_marginTop="3dp" />
+          </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout android:background="?BrushRowAlternate2"
+                      android:orientation="horizontal"
+                      android:layout_width="match_parent"
+                      android:layout_height="40dp">
+          <TextView android:id="@+id/RecommendationItemDetailItemType4" android:layout_gravity="center_vertical"
+                    android:padding="5dp" android:layout_width="0dp" android:layout_height="wrap_content"
+                    android:layout_weight=".2" android:text="Episodes" android:textColor="?BrushText" />
+          <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight=".4" android:layout_gravity="center_vertical"
+                        android:orientation="vertical">
+            <TextView android:id="@+id/RecommendationItemDetailItemDepValue4" android:layout_gravity="center_horizontal"
+                      android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="?BrushText"
+                      android:text="12" android:fontFamily="@string/font_family_light" />
+            <TextView android:id="@+id/RecommendationItemDetailItemMyDepValue4" android:layout_gravity="center_horizontal"
+                      android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:textColor="?AccentColour" android:text="4/12" android:fontFamily="@string/font_family_light"
+                      android:layout_marginTop="3dp" />
+          </LinearLayout>
+          <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight=".4" android:layout_gravity="center_vertical"
+                        android:orientation="vertical">
+            <TextView android:id="@+id/RecommendationItemDetailItemRecValue4" android:layout_gravity="center_horizontal"
+                      android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="?BrushText"
+                      android:text="12" android:fontFamily="@string/font_family_light" />
+            <TextView android:id="@+id/RecommendationItemDetailItemMyRecValue4" android:layout_gravity="center_horizontal"
+                      android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:textColor="?AccentColour" android:text="4/12" android:fontFamily="@string/font_family_light"
+                      android:layout_marginTop="3dp" />
+          </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout android:background="?BrushRowAlternate1"
+                      android:orientation="horizontal"
+                      android:layout_width="match_parent"
+                      android:layout_height="40dp">
+          <TextView android:id="@+id/RecommendationItemDetailItemType5" android:layout_gravity="center_vertical"
+                    android:padding="5dp" android:layout_width="0dp" android:layout_height="wrap_content"
+                    android:layout_weight=".2" android:text="Episodes" android:textColor="?BrushText" />
+          <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight=".4" android:layout_gravity="center_vertical"
+                        android:orientation="vertical">
+            <TextView android:id="@+id/RecommendationItemDetailItemDepValue5" android:layout_gravity="center_horizontal"
+                      android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="?BrushText"
+                      android:text="12" android:fontFamily="@string/font_family_light" />
+            <TextView android:id="@+id/RecommendationItemDetailItemMyDepValue5" android:layout_gravity="center_horizontal"
+                      android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:textColor="?AccentColour" android:text="4/12" android:fontFamily="@string/font_family_light"
+                      android:layout_marginTop="3dp" />
+          </LinearLayout>
+          <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight=".4" android:layout_gravity="center_vertical"
+                        android:orientation="vertical">
+            <TextView android:id="@+id/RecommendationItemDetailItemRecValue5" android:layout_gravity="center_horizontal"
+                      android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="?BrushText"
+                      android:text="12" android:fontFamily="@string/font_family_light" />
+            <TextView android:id="@+id/RecommendationItemDetailItemMyRecValue5" android:layout_gravity="center_horizontal"
+                      android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:textColor="?AccentColour" android:text="4/12" android:fontFamily="@string/font_family_light"
+                      android:layout_marginTop="3dp" />
+          </LinearLayout>
+        </LinearLayout>
+
+      </LinearLayout>
     </LinearLayout>
   </ScrollView>
   <RelativeLayout android:id="@+id/RecommendationItemLoading" android:layout_width="match_parent"
-                  android:layout_height="match_parent" android:background="?BrushLoading">
+                  android:layout_height="match_parent" android:background="?BrushLoading" android:visibility="gone">
     <ProgressBar android:layout_width="wrap_content" android:indeterminate="true"
                  android:indeterminateTint="?AccentColour" android:indeterminateTintMode="src_in"
                  android:layout_height="wrap_content" android:layout_centerInParent="true" />

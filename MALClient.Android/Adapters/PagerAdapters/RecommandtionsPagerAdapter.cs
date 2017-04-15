@@ -1,10 +1,13 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Threading.Tasks;
 using Android.App;
 using Android.Graphics;
 using Android.Runtime;
 using Android.Support.V13.App;
+using Android.Text;
 using Android.Views;
 using Android.Widget;
 using Com.Astuetz;
@@ -20,23 +23,28 @@ namespace MALClient.Android.PagerAdapters
         {
         }
 
-        private readonly Dictionary<int,Fragment> _pageFragments = new Dictionary<int, Fragment>();
+        private RecommendationItemFragment _currentFragment;
+        private readonly List<RecommendationItemFragment> _pageFragments;
         private readonly List<RecommendationItemViewModel> _items;
 
         public RecommandtionsPagerAdapter(FragmentManager fm,IEnumerable<RecommendationItemViewModel> items) : base(fm)
         {
             _items = items.ToList();
+            _pageFragments = new List<RecommendationItemFragment>
+            {
+                new RecommendationItemFragment(),
+                new RecommendationItemFragment(),
+                new RecommendationItemFragment(),
+                new RecommendationItemFragment(),
+                new RecommendationItemFragment(),
+            };
         }
 
         public override int Count => _items.Count;
 
         public override Fragment GetItem(int position)
         {
-            if (!_pageFragments.ContainsKey(position))
-            {
-                _pageFragments.Add(position,new RecommendationItemFragment(_items[position]));
-            }
-            return _pageFragments[position];
+            return _pageFragments[position % 5];
         }
 
         public View GetCustomTabView(ViewGroup p0, int p1)
@@ -48,15 +56,20 @@ namespace MALClient.Android.PagerAdapters
             var txt = new TextView(p0.Context);
             txt.SetTextColor(new Color(ResourceExtension.BrushText));
             txt.Text = _items[p1].Data.DependentTitle;
+            txt.SetMaxEms(13);
+            txt.SetMaxLines(1);
+            txt.Ellipsize = TextUtils.TruncateAt.End;
 
             var txt1 = new TextView(p0.Context);
             txt1.Text = _items[p1].Data.RecommendationTitle;
+            txt1.SetMaxEms(13);
+            txt1.SetMaxLines(1);
+            txt.Ellipsize = TextUtils.TruncateAt.End;
 
             holder.AddView(txt);
             holder.AddView(txt1);
 
             holder.Tag = p1;
-
             return holder;
         }
 
@@ -64,7 +77,12 @@ namespace MALClient.Android.PagerAdapters
         {
             var layout = p0 as LinearLayout;
             layout.Alpha = 1f;
-            _items[(int)p0.Tag].PopulateData();
+            var index = (int) p0.Tag;
+            var viewModel = _items[index];
+
+            viewModel.PopulateData();
+
+            _pageFragments[index%5].BindModel(viewModel);
         }
 
         public void TabUnselected(View p0)

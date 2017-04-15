@@ -42,7 +42,7 @@ namespace MALClient.Android.Fragments.RecommendationsFragments
 
         protected override void InitBindings()
         {
-            
+
             Bindings.Add(
                 this.SetBinding(() => ViewModel.RecommendationAnimeItems).WhenSourceChanges(() =>
                 {
@@ -52,7 +52,6 @@ namespace MALClient.Android.Fragments.RecommendationsFragments
                             ViewModel.RecommendationAnimeItems.Select(
                                 item => item.Content as RecommendationItemViewModel));
                         RecommendationsPageTabStrip.SetViewPager(RecommendationsPagePivot);
-                        RecommendationsPageTabStrip.CenterTabs();
                         RecommendationsPagePivot.SetCurrentItem(ViewModel.PivotItemIndex, false);
                     }
                 }));
@@ -64,13 +63,12 @@ namespace MALClient.Android.Fragments.RecommendationsFragments
                         RecommendationsPagePivot.Adapter = new RecommandtionsPagerAdapter(FragmentManager,
                             ViewModel.RecommendationMangaItems.Select(item => item.Content as RecommendationItemViewModel));
                         RecommendationsPageTabStrip.SetViewPager(RecommendationsPagePivot);
-                        RecommendationsPageTabStrip.CenterTabs();
                         RecommendationsPagePivot.SetCurrentItem(ViewModel.PivotItemIndex, false);
                     }
                 }));
 
 
-            
+
             Bindings.Add(
                 this.SetBinding(() => ViewModel.Loading,
                     () => RecommendationsPageLoading.Visibility).ConvertSourceToTarget(Converters.BoolToVisibility));

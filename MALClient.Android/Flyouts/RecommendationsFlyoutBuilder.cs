@@ -26,6 +26,8 @@ namespace MALClient.Android.Flyouts
 
             droppyBuilder.AddMenuItem(new DroppyMenuCustomItem(AnimeListPageFlyoutBuilder.BuildItem(context, "Anime recommendations", callback, 0)));
             droppyBuilder.AddMenuItem(new DroppyMenuCustomItem(AnimeListPageFlyoutBuilder.BuildItem(context, "Manga recommendations", callback, 1)));
+            droppyBuilder.AddMenuItem(new DroppyMenuCustomItem(AnimeListPageFlyoutBuilder.BuildItem(context, "Anime suggestions", callback, 2)));
+            droppyBuilder.AddMenuItem(new DroppyMenuCustomItem(AnimeListPageFlyoutBuilder.BuildItem(context, "Manga suggestions", callback, 3)));
            
 
             return droppyBuilder.Build();

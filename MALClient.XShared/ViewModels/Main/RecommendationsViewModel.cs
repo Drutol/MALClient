@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -175,10 +176,12 @@ namespace MALClient.XShared.ViewModels.Main
             if (CurrentWorkMode == RecommendationsPageWorkMode.Anime ||
                 CurrentWorkMode == RecommendationsPageWorkMode.Manga)
             {               
-                var data =
+                Debug.WriteLine("Starting data");
+                List<RecommendationData> data = null;
+                await Task.Run(async () => data =
                     await new AnimeRecomendationsQuery(CurrentWorkMode == RecommendationsPageWorkMode.Anime)
-                        .GetRecomendationsData();
-
+                        .GetRecomendationsData());
+                Debug.WriteLine("Finished data");
                 if (data == null)
                 {
                     Loading = false;
@@ -187,6 +190,7 @@ namespace MALClient.XShared.ViewModels.Main
 
                 var items = new List<XPivotItem>();
                 var i = 0;
+                Debug.WriteLine("Starting gen");
                 foreach (var item in data)
                 {
                     var pivot = new XPivotItem
@@ -196,6 +200,7 @@ namespace MALClient.XShared.ViewModels.Main
                     };
                     items.Add(pivot);
                 }
+                Debug.WriteLine("Finished gen");
                 if (CurrentWorkMode == RecommendationsPageWorkMode.Anime)
                 {
                     RecommendationAnimeItems = items;

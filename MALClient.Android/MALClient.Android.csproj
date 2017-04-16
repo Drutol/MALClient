@@ -410,6 +410,10 @@
     <None Include="Properties\AndroidManifest.xml" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\MALClient.Utilities.BBCode\MALClient.Utilities.BBCode.csproj">
+      <Project>{67f9d3a8-f71e-4428-913f-c37ae82cdb24}</Project>
+      <Name>MALClient.Utilities.BBCode</Name>
+    </ProjectReference>
     <ProjectReference Include="AndroidBindings\Binding_CircularFloatingActionMenu\Binding_CircularFloatingActionMenu.csproj">
       <Project>{1442e14c-d636-4ec0-9b0a-de7bdc7d088c}</Project>
       <Name>Binding_CircularFloatingActionMenu</Name>
@@ -1025,6 +1029,9 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\TextInputDialog.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\ForumPostTextDialog.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Android.Support.Vector.Drawable.23.4.0.1\build\Xamarin.Android.Support.Vector.Drawable.targets" Condition="Exists('..\packages\Xamarin.Android.Support.Vector.Drawable.23.4.0.1\build\Xamarin.Android.Support.Vector.Drawable.targets')" />

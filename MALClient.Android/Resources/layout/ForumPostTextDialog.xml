@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="match_parent" android:background="?BrushAnimeItemBackground"
+             android:layout_height="wrap_content"  android:orientation="vertical">
+  <LinearLayout
+    android:layout_width="match_parent" android:paddingStart="4dp" android:background="@drawable/border_accent_left_wide"
+    android:layout_height="wrap_content" android:orientation="vertical">
+    <FrameLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content" android:background="?BrushAnimeItemInnerBackground" android:elevation="5dp" android:paddingStart="10dp" android:paddingEnd="10dp">
+      <TextView android:id="@+id/ForumPostTextDialogTitle" android:layout_gravity="center_vertical"
+                android:layout_width="wrap_content" android:text="Title" android:textColor="?BrushText"
+                android:layout_height="wrap_content" android:textSize="@dimen/FontSizeHuge"/>
+      <Button android:layout_gravity="end|center_vertical" android:layout_marginTop="5dp" android:layout_margin="0dp" android:id="@+id/ForumPostTextDialogAcceptButton"
+              android:layout_width="wrap_content" android:backgroundTint="?AccentColourLight" android:drawableTint="#fff"
+              android:layout_height="wrap_content" android:drawableLeft="@drawable/icon_ok" android:text="Accept" android:textColor="#fff"/>
+    </FrameLayout>
+    <ScrollView
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content">
+      <LinearLayout
+        android:layout_width="match_parent"  android:orientation="vertical"
+        android:layout_height="wrap_content">
+        <MALClient.Android.UserControls.BBCodeEditor android:layout_marginStart="5dp" android:layout_marginEnd="5dp"
+                                                     android:id="@+id/ForumPostTextDialogTextBox"
+                                                     android:layout_width="match_parent" android:layout_marginTop="10dp"
+                                                     android:layout_height="wrap_content" />
+        <TextView
+          android:layout_width="wrap_content" android:textColor="?BrushText" android:fontFamily="@string/font_family_light" android:layout_gravity="center_horizontal" android:layout_margin="5dp"
+          android:layout_height="wrap_content" android:text="Preview"/>
+        <WebView android:layout_marginStart="5dp" android:layout_marginEnd="5dp" android:paddingBottom="10dp"
+                 android:layout_width="match_parent" android:id="@+id/ForumPostTextDialogPreview"
+                 android:layout_height="250dp" android:background="@color/Transparent"/>
+      </LinearLayout>
+    </ScrollView>
+  </LinearLayout>
+</FrameLayout>

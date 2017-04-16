@@ -220,7 +220,7 @@ namespace MALClient.XShared.ViewModels.Forums
             {
                 CurrentBackNavRegistrar.RegisterSelfBackNav();
             }          
-            ViewModelLocator.GeneralMain.Navigate(PageIndex.PageForumIndex, new ForumsTopicNavigationArgs("1499207",null));
+            ViewModelLocator.GeneralMain.Navigate(PageIndex.PageForumIndex, new ForumsTopicNavigationArgs("1586126", null));
         }
 
         private void GotoStarredMessages()

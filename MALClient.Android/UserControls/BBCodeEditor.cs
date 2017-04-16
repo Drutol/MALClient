@@ -12,6 +12,7 @@ using Android.Runtime;
 using Android.Util;
 using Android.Views;
 using Android.Widget;
+using MALClient.Android.Listeners;
 using MALClient.XShared.Utils;
 
 namespace MALClient.Android.UserControls
@@ -32,10 +33,12 @@ namespace MALClient.Android.UserControls
 
     public class BBCodeEditor : LinearLayout
     {
+        public event EventHandler<string> TextChanged; 
+
         public string Text
         {
-            get { return _contentBox.Text; }
-            set { _contentBox.Text = value; }
+            get => _contentBox.Text;
+            set => _contentBox.Text = value;
         }
 
         private View _editorView;
@@ -79,49 +82,57 @@ namespace MALClient.Android.UserControls
             LayoutParameters = new ViewGroup.LayoutParams(-1, -2);
             _editorView = (Context as Activity).LayoutInflater.Inflate(Resource.Layout.BBCodeEditor, null);
 
+            var listener = new OnClickListener(ButtonOnClick);
+
             var bold = _editorView.FindViewById(Resource.Id.BBCodeEditorBtnBold);
             bold.Tag = (int)BBCodeMarkers.Bold;
-            bold.Click += ButtonOnClick;
-            bold.FocusableInTouchMode = false;
+            bold.SetOnClickListener(listener);
 
             var italic = _editorView.FindViewById(Resource.Id.BBCodeEditorBtnItalic);
             italic.Tag = (int)BBCodeMarkers.Italic;
-            italic.Click += ButtonOnClick;
+            italic.SetOnClickListener(listener);
 
             var underline = _editorView.FindViewById(Resource.Id.BBCodeEditorBtnBoldUnderline);
             underline.Tag = (int)BBCodeMarkers.Underline;
-            underline.Click += ButtonOnClick;
+            underline.SetOnClickListener(listener);
 
             var center = _editorView.FindViewById(Resource.Id.BBCodeEditorBtnBoldCenter);
             center.Tag = (int)BBCodeMarkers.AlignCenter;
-            center.Click += ButtonOnClick;
+            center.SetOnClickListener(listener);
 
             var right = _editorView.FindViewById(Resource.Id.BBCodeEditorBtnBoldRight);
             right.Tag = (int)BBCodeMarkers.AlignRight;
-            right.Click += ButtonOnClick;
+            right.SetOnClickListener(listener);
 
             var list = _editorView.FindViewById(Resource.Id.BBCodeEditorBtnBoldList);
             list.Tag = (int)BBCodeMarkers.List;
-            list.Click += ButtonOnClick;
+            list.SetOnClickListener(listener);
 
             var spoiler = _editorView.FindViewById(Resource.Id.BBCodeEditorBtnBoldSpoiler);
             spoiler.Tag = (int)BBCodeMarkers.Spoiler;
-            spoiler.Click += ButtonOnClick;
+            spoiler.SetOnClickListener(listener);
 
             var code = _editorView.FindViewById(Resource.Id.BBCodeEditorBtnBoldCode);
             code.Tag = (int)BBCodeMarkers.Code;
-            code.Click += ButtonOnClick;
+            code.SetOnClickListener(listener);
 
             var image = _editorView.FindViewById(Resource.Id.BBCodeEditorBtnBoldImage);
             image.Tag = (int)BBCodeMarkers.Image;
-            image.Click += ButtonOnClick;
+            image.SetOnClickListener(listener);
+
+            ContentBox.TextChanged += (sender, args) => TextChanged?.Invoke(this, ContentBox.Text);
 
             AddView(_editorView);
         }
 
-        private void ButtonOnClick(object sender, EventArgs eventArgs)
+        private void BoldOnClick(object o, EventArgs eventArgs)
         {
-            EditorButtonOnClick((BBCodeMarkers)(int)(sender as View).Tag);
+            
+        }
+
+        private void ButtonOnClick(View view)
+        {
+            EditorButtonOnClick((BBCodeMarkers)(int)view.Tag);
         }
 
         private void EditorButtonOnClick(BBCodeMarkers marker)

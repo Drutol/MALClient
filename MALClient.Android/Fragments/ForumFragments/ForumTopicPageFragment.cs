@@ -14,6 +14,7 @@ using GalaSoft.MvvmLight.Helpers;
 using MALClient.Android.Activities;
 using MALClient.Android.BindingConverters;
 using MALClient.Android.CollectionAdapters;
+using MALClient.Android.DIalogs;
 using MALClient.Android.Resources;
 using MALClient.Android.UserControls;
 using MALClient.Android.UserControls.ForumItems;
@@ -71,7 +72,19 @@ namespace MALClient.Android.Fragments.ForumFragments
 
             ViewModel.AvailablePages.CollectionChanged += (sender, args) => UpdatePageSelection();
 
+            ForumTopicPageActionButton.Click += ForumTopicPageActionButtonOnClick;
+
             Bindings.Add(this.SetBinding(() => ViewModel.AvailablePages).WhenSourceChanges(UpdatePageSelection));
+        }
+
+        private async void ForumTopicPageActionButtonOnClick(object o, EventArgs eventArgs)
+        {
+            var str = await TextInputDialogBuilder.BuildForumPostTextInputDialog(Context, "New Reply", "");
+            if (!string.IsNullOrEmpty(str))
+            {
+                ViewModel.ReplyMessage = str;
+                ViewModel.CreateReplyCommand.Execute(null);
+            }
         }
 
         private View ContainerTemplate(int i)

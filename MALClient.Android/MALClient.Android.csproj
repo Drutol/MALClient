@@ -227,6 +227,7 @@
     <Compile Include="DIalogs\AnimeDetailsPageDialogBuilder.cs" />
     <Compile Include="DIalogs\AnimeUpdateDialogBuilder.cs" />
     <Compile Include="DIalogs\ChangelogDialog.cs" />
+    <Compile Include="DIalogs\TextInputDialogBuilder.cs" />
     <Compile Include="Flyouts\AnimeDetailsPageMoreFlyoutBuilder.cs" />
     <Compile Include="Flyouts\AnimeItemFlyoutBuilder.cs" />
     <Compile Include="Flyouts\FlyoutMenuBuilder.cs" />
@@ -369,6 +370,7 @@
     <Compile Include="Utilities\FontManager.cs" />
     <Compile Include="Utilities\HamburgerUtilities.cs" />
     <Compile Include="Utilities\Includes.cs" />
+    <Compile Include="Utilities\LeadingSpannableString.cs" />
     <Compile Include="Utilities\TabStripExtensions.cs" />
     <Compile Include="Utilities\Web\DataJavascriptInterface.cs" />
     <Compile Include="Utilities\Web\ListenableWebClient.cs" />
@@ -1020,6 +1022,9 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\NotificationHubPageItem.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\TextInputDialog.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Android.Support.Vector.Drawable.23.4.0.1\build\Xamarin.Android.Support.Vector.Drawable.targets" Condition="Exists('..\packages\Xamarin.Android.Support.Vector.Drawable.23.4.0.1\build\Xamarin.Android.Support.Vector.Drawable.targets')" />

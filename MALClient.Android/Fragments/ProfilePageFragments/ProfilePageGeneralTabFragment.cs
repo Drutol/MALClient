@@ -8,11 +8,13 @@ using Android.App;
 using Android.Content;
 using Android.OS;
 using Android.Runtime;
+using Android.Support.Design.Widget;
 using Android.Views;
 using Android.Widget;
 using FFImageLoading;
 using FFImageLoading.Views;
 using GalaSoft.MvvmLight.Helpers;
+using MALClient.Android.DIalogs;
 using MALClient.Android.UserControls;
 using MALClient.Models.Models;
 using MALClient.XShared.ViewModels;
@@ -67,6 +69,14 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
             ProfilePageGeneralTabMangaListButton.SetCommand(ViewModel.NavigateMangaListCommand);
             ProfilePageGeneralTabHistoryButton.SetCommand(ViewModel.NavigateHistoryCommand);
             ProfilePageGeneralTabSendCommentButton.SetCommand(ViewModel.SendCommentCommand);
+            ProfilePageGeneralTabActionButton.Click += ProfilePageGeneralTabActionButtonOnClick;
+        }
+
+        private async void ProfilePageGeneralTabActionButtonOnClick(object sender, EventArgs eventArgs)
+        {
+            var str = await TextInputDialogBuilder.BuildInputTextDialog(Context, "Find user", "username...");
+            if(!string.IsNullOrEmpty(str))
+                ViewModel.NavigateProfileCommand.Execute(new MalUser{Name = str});
         }
 
         private View GetCommentTemplateDelegate(int i, MalComment malComment, View convertView)
@@ -161,6 +171,7 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
         private EditText _profilePageGeneralTabCommentInput;
         private Button _profilePageGeneralTabSendCommentButton;
         private LinearLayout _profilePageGeneralTabCommentsList;
+        private FloatingActionButton _profilePageGeneralTabActionButton;
 
         public ImageView ProfilePageGeneralTabImagePlaceholder => _profilePageGeneralTabImagePlaceholder ?? (_profilePageGeneralTabImagePlaceholder = FindViewById<ImageView>(Resource.Id.ProfilePageGeneralTabImagePlaceholder));
 
@@ -181,6 +192,8 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
         public Button ProfilePageGeneralTabSendCommentButton => _profilePageGeneralTabSendCommentButton ?? (_profilePageGeneralTabSendCommentButton = FindViewById<Button>(Resource.Id.ProfilePageGeneralTabSendCommentButton));
 
         public LinearLayout ProfilePageGeneralTabCommentsList => _profilePageGeneralTabCommentsList ?? (_profilePageGeneralTabCommentsList = FindViewById<LinearLayout>(Resource.Id.ProfilePageGeneralTabCommentsList));
+
+        public FloatingActionButton ProfilePageGeneralTabActionButton => _profilePageGeneralTabActionButton ?? (_profilePageGeneralTabActionButton = FindViewById<FloatingActionButton>(Resource.Id.ProfilePageGeneralTabActionButton));
 
 
         #endregion

@@ -88,7 +88,7 @@ namespace MALClient.Android.Fragments.DetailsFragments
             view.FindViewById(Resource.Layout.AnimeLightItem).Tag = showCharacterPair.AnimeLightEntry.Wrap();
 
             view.FindViewById(Resource.Id.FavouriteItemImage).Visibility = ViewStates.Invisible;
-            view.FindViewById(Resource.Id.FavouriteItemImagePlaceholder).Visibility = ViewStates.Visible;
+            view.FindViewById(Resource.Id.FavouriteItemImgPlaceholder).Visibility = ViewStates.Visible;
             view.FindViewById<TextView>(Resource.Id.FavouriteItemName).Text =
                 showCharacterPair.AnimeCharacter.Name;
             view.FindViewById<TextView>(Resource.Id.FavouriteItemRole).Text =
@@ -112,7 +112,7 @@ namespace MALClient.Android.Fragments.DetailsFragments
             image = view.FindViewById<ImageViewAsync>(Resource.Id.FavouriteItemImage);
             if (image.Tag == null || (string)image.Tag != showCharacterPair.AnimeCharacter.ImgUrl)
             {
-                view.FindViewById(Resource.Id.FavouriteItemImagePlaceholder).Visibility = ViewStates.Gone;
+                view.FindViewById(Resource.Id.FavouriteItemImgPlaceholder).Visibility = ViewStates.Gone;
                 image.Into(showCharacterPair.AnimeCharacter.ImgUrl, null, img => img.HandleScaling());
                 image.Tag = showCharacterPair.AnimeCharacter.ImgUrl;
             }

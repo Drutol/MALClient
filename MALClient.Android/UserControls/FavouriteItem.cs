@@ -81,16 +81,18 @@ namespace MALClient.Android.UserControls
                 if (string.IsNullOrWhiteSpace(model.Data.ImgUrl))
                 {
                     FavouriteItemImage.Visibility = ViewStates.Invisible;
-                    FavouriteItemImagePlaceholder.Visibility = ViewStates.Visible;
+                    FavouriteItemImgPlaceholder.Visibility = ViewStates.Gone;
+                    FavouriteItemNoImageIcon.Visibility = ViewStates.Visible;
                 }
                 else
                 {
                     FavouriteItemImage.Visibility = ViewStates.Invisible;
-                    FavouriteItemImagePlaceholder.Visibility = ViewStates.Gone;
+                    FavouriteItemImgPlaceholder.Visibility = ViewStates.Gone;
                     FavouriteItemImage.Into(model.Data.ImgUrl, null, img =>
                     {
                         img.HandleScaling();
                     });
+                    FavouriteItemNoImageIcon.Visibility = ViewStates.Gone;
                 }
 
                 FavouriteItemName.Text = model.Data.Name;
@@ -98,39 +100,56 @@ namespace MALClient.Android.UserControls
             }
             else if (fling)
             {
-                if (FavouriteItemImage.IntoIfLoaded(model.Data.ImgUrl))
+                if (string.IsNullOrWhiteSpace(model.Data.ImgUrl))
                 {
-                    FavouriteItemImage.Visibility = ViewStates.Visible;
-                    FavouriteItemImagePlaceholder.Visibility = ViewStates.Gone;
+                    FavouriteItemImage.Visibility = ViewStates.Invisible;
+                    FavouriteItemImgPlaceholder.Visibility = ViewStates.Gone;
+                    FavouriteItemNoImageIcon.Visibility = ViewStates.Visible;
                 }
                 else
                 {
-                    FavouriteItemImage.Visibility = ViewStates.Invisible;
-                    FavouriteItemImagePlaceholder.Visibility = ViewStates.Visible;
+                    FavouriteItemNoImageIcon.Visibility = ViewStates.Gone;
+                    if (FavouriteItemImage.IntoIfLoaded(model.Data.ImgUrl))
+                    {
+                        FavouriteItemImage.Visibility = ViewStates.Visible;
+                        FavouriteItemImgPlaceholder.Visibility = ViewStates.Gone;
+                    }
+                    else
+                    {
+                        FavouriteItemImage.Visibility = ViewStates.Invisible;
+                        FavouriteItemImgPlaceholder.Visibility = ViewStates.Visible;
+                    }
+
                 }
 
-
+                FavouriteItemName.Text = model.Data.Name;
+                FavouriteItemRole.Text = model.Data.Notes;
             }
 
         }
 
         #region Views
 
-        private FavouriteButton _favouriteItemFavButton;
+        private ProgressBar _favouriteItemImgPlaceholder;
         private ImageViewAsync _favouriteItemImage;
-        private ImageView _favouriteItemImagePlaceholder;
+        private ImageView _favouriteItemNoImageIcon;
+        private FavouriteButton _favouriteItemFavButton;
         private TextView _favouriteItemName;
         private TextView _favouriteItemRole;
 
-        public FavouriteButton FavouriteItemFavButton => _favouriteItemFavButton ?? (_favouriteItemFavButton = _rootContainer.FindViewById<FavouriteButton>(Resource.Id.FavouriteItemFavButton));
+        public ProgressBar FavouriteItemImgPlaceholder => _favouriteItemImgPlaceholder ?? (_favouriteItemImgPlaceholder = FindViewById<ProgressBar>(Resource.Id.FavouriteItemImgPlaceholder));
 
-        public ImageViewAsync FavouriteItemImage => _favouriteItemImage ?? (_favouriteItemImage = _rootContainer.FindViewById<ImageViewAsync>(Resource.Id.FavouriteItemImage));
+        public ImageViewAsync FavouriteItemImage => _favouriteItemImage ?? (_favouriteItemImage = FindViewById<ImageViewAsync>(Resource.Id.FavouriteItemImage));
 
-        public ImageView FavouriteItemImagePlaceholder => _favouriteItemImagePlaceholder ?? (_favouriteItemImagePlaceholder = _rootContainer.FindViewById<ImageView>(Resource.Id.FavouriteItemImagePlaceholder));
+        public ImageView FavouriteItemNoImageIcon => _favouriteItemNoImageIcon ?? (_favouriteItemNoImageIcon = FindViewById<ImageView>(Resource.Id.FavouriteItemNoImageIcon));
 
-        public TextView FavouriteItemName => _favouriteItemName ?? (_favouriteItemName = _rootContainer.FindViewById<TextView>(Resource.Id.FavouriteItemName));
+        public FavouriteButton FavouriteItemFavButton => _favouriteItemFavButton ?? (_favouriteItemFavButton = FindViewById<FavouriteButton>(Resource.Id.FavouriteItemFavButton));
 
-        public TextView FavouriteItemRole => _favouriteItemRole ?? (_favouriteItemRole = _rootContainer.FindViewById<TextView>(Resource.Id.FavouriteItemRole));
+        public TextView FavouriteItemName => _favouriteItemName ?? (_favouriteItemName = FindViewById<TextView>(Resource.Id.FavouriteItemName));
+
+        public TextView FavouriteItemRole => _favouriteItemRole ?? (_favouriteItemRole = FindViewById<TextView>(Resource.Id.FavouriteItemRole));
+
+
 
         #endregion
     }

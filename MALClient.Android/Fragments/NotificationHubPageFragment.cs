@@ -118,6 +118,9 @@ namespace MALClient.Android.Fragments
 
         private void OpenFiltersDrawer()
         {
+            if(ViewModel.Loading)
+                return;
+
             var items = new List<IDrawerItem>();
             IDrawerItem activeItem = null;
             foreach (var viewModelNotificationGroup in ViewModel.NotificationGroups)

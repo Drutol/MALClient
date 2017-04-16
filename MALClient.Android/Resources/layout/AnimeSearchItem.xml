@@ -44,7 +44,7 @@
                      android:layout_height="wrap_content" android:src="@drawable/icon_favourite" android:alpha=".2"
                      android:layout_centerInParent="true" />
           <TextView android:id="@+id/AnimeSearchItemGlobalScore" android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" android:text="7.87" android:textColor="?AccentColour"
+                    android:layout_height="wrap_content" android:text="7.87" android:textColor="?BrushText"
                     android:textSize="14sp" android:textStyle="bold" android:layout_centerInParent="true" />
         </RelativeLayout>
       </RelativeLayout>

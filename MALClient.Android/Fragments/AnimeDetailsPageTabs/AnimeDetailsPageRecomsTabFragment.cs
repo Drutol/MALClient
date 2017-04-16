@@ -9,6 +9,7 @@ using Android.Content.Res;
 using Android.Graphics;
 using Android.OS;
 using Android.Runtime;
+using Android.Text;
 using Android.Util;
 using Android.Views;
 using Android.Widget;
@@ -46,7 +47,7 @@ namespace MALClient.Android.Fragments.AnimeDetailsPageTabs
         protected override void InitBindings()
         {
 
-            AnimeDetailsPageRecomTabsList.Adapter = ViewModel.Recommendations.GetAdapter(RecomItemDelegate);
+            AnimeDetailsPageRecomTabsList.InjectFlingAdapter(ViewModel.Recommendations,DataTemplateFull,DataTemplateFling,ContainerTemplate,DataTemplateBasic);
             AnimeDetailsPageRecomTabsList.OnItemClickListener = new OnItemClickListener<DirectRecommendationData>(data => ViewModel.NavigateDetailsCommand.Execute(data));
             AnimeDetailsPageRecomTabsList.EmptyView = AnimeDetailsPageReviewsTabEmptyNotice;
 
@@ -57,24 +58,51 @@ namespace MALClient.Android.Fragments.AnimeDetailsPageTabs
             SetUpForOrientation(Activity.Resources.Configuration.Orientation);
         }
 
-        private View RecomItemDelegate(int i, DirectRecommendationData animeReviewData, View convertView)
+        private void DataTemplateBasic(View view, int i, DirectRecommendationData animeRecomData)
         {
-            var view = convertView;
-            if (view == null)
-            {
-                view = MainActivity.CurrentContext.LayoutInflater.Inflate(Resource.Layout.AnimeRecomItem,null);
-            }
+            view.FindViewById<TextView>(Resource.Id.AnimeRecomItemShowTitle).Text = animeRecomData.Title;
+            view.FindViewById<TextView>(Resource.Id.AnimeRecomItemShowType).Text = animeRecomData.Type.ToString();
 
-            view.Tag = new JavaObjectWrapper<DirectRecommendationData>(animeReviewData);
+            var spannableString = new SpannableString(animeRecomData.Description);
+            spannableString.SetSpan(new LeadingSpannableString(12, DimensionsHelper.DpToPx(140)), 0, spannableString.Length(), 0);
+            view.FindViewById<TextView>(Resource.Id.AnimeRecomItemRecomContent).SetText(spannableString.SubSequenceFormatted(0, spannableString.Length()), TextView.BufferType.Spannable);
+        }
 
-            view.FindViewById<TextView>(Resource.Id.AnimeRecomItemShowTitle).Text = animeReviewData.Title;
-            view.FindViewById<TextView>(Resource.Id.AnimeRecomItemShowType).Text = animeReviewData.Type.ToString();
-            view.FindViewById<TextView>(Resource.Id.AnimeRecomItemRecomContent).Text = animeReviewData.Description; ;
-                    
+        private View ContainerTemplate(int i)
+        {
+            return Activity.LayoutInflater.Inflate(Resource.Layout.AnimeRecomItem, null);
+        }
+
+        private void DataTemplateFling(View view, int i, DirectRecommendationData animeRecomData)
+        {
             var img = view.FindViewById<ImageViewAsync>(Resource.Id.AnimeRecomItemImage);
-            img.Into(animeReviewData.ImageUrl);
-  
-            return view;
+            if (img.IntoIfLoaded(animeRecomData.ImageUrl))
+            {
+                img.Visibility = ViewStates.Visible;
+                view.FindViewById(Resource.Id.AnimeRecomItemImagePlaceholder).Visibility = ViewStates.Gone;
+            }
+            else
+            {
+                img.Visibility = ViewStates.Invisible;
+                view.FindViewById(Resource.Id.AnimeRecomItemImagePlaceholder).Visibility = ViewStates.Visible;
+            }
+           
+        }
+
+        private void DataTemplateFull(View view, int i, DirectRecommendationData animeRecomData)
+        {
+            
+            var img = view.FindViewById<ImageViewAsync>(Resource.Id.AnimeRecomItemImage);
+            if (img.Tag == null || (string) img.Tag != animeRecomData.ImageUrl)
+            {
+                img.Into(animeRecomData.ImageUrl);
+            }
+            else
+            {
+                img.Visibility = ViewStates.Visible;
+            }
+            view.FindViewById(Resource.Id.AnimeRecomItemImagePlaceholder).Visibility = ViewStates.Gone;
+
         }
 
         public override void OnConfigurationChanged(Configuration newConfig)

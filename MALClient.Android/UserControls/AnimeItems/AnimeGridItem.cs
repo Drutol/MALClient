@@ -91,37 +91,10 @@ namespace MALClient.Android.UserControls
 
             RootContainer.SetOnClickListener(new OnClickListener(view => ContainerOnClick()));
             AnimeGridItemMoreButton.SetOnClickListener(new OnClickListener(view => MoreButtonOnClick()));
-
-            AnimeGridItemFavouriteIndicator.Visibility = ViewModel.IsFavouriteVisibility
-                ? ViewStates.Visible
-                : ViewStates.Gone;
-
-
-            if (string.IsNullOrEmpty(ViewModel.TopLeftInfoBind))
-            {
-                AnimeGridItemTopLeftInfo.Visibility = ViewStates.Gone;
-            }
-            else
-            {
-                AnimeGridItemTopLeftInfo.Visibility = ViewStates.Visible;
-                AnimeGridItemTopLeftInfoMain.Text = ViewModel.TopLeftInfoBind;
-                if (ViewModel.AirDayBrush == true)
-                {
-                    AnimeGridItemTopLeftInfoMain.SetTextColor(new Color(80,80,80)); //gray
-                    AnimeGridItemTopLeftInfoSub.Text = ViewModel.AirDayTillBind;
-                    AnimeGridItemTopLeftInfoSub.Visibility = ViewStates.Visible;
-                }
-                else
-                {
-                    AnimeGridItemTopLeftInfoMain.SetTextColor(new Color(255, 255, 255));
-                    AnimeGridItemTopLeftInfoSub.Visibility = ViewStates.Gone;
-                }
-            }
-
-            
+                  
             AnimeGridItemTagsButton.SetOnClickListener(new OnClickListener(OnTagsButtonClick));
 
-            AnimeGridItemTopRightInfo.Visibility = ViewModel.UpdateButtonsVisibility ? ViewStates.Visible : ViewStates.Gone;
+
             AnimeGridItemAddToListButton.SetOnClickListener(new OnClickListener(view => ViewModel.AddAnimeCommand.Execute(null)));
             AnimeGridItemWatchedStatusButton.SetOnClickListener(new OnClickListener(view => ShowWatchedDialog()));
 
@@ -130,15 +103,7 @@ namespace MALClient.Android.UserControls
                 ViewModel.PropertyChanged += ViewModelOnPropertyChanged;
                 _propertyHandlerAttached = true;
             }
-
-
-
-            AnimeGridItemCurrentWatchingStatus.Text = ViewModel.MyStatusBindShort;
-            AnimeGridItemWatchedStatus.Text = ViewModel.MyEpisodesBindShort;
-            AnimeGridItemScore.Text = ViewModel.MyScoreBindShort;
-            AnimeGridItemAddToListButton.Visibility = ViewModel.AddToListVisibility ? ViewStates.Visible : ViewStates.Gone;
-
-
+         
             if (_allowSwipeInGivenContext && ViewModel.Auth)
             {
                 RootContainer.SwipeEnabled = true;
@@ -194,6 +159,36 @@ namespace MALClient.Android.UserControls
             ViewModel.AnimeItemDisplayContext = ViewModelLocator.AnimeList.AnimeItemsDisplayContext;
 
             AnimeGridItemTitle.Text = ViewModel.Title;
+            AnimeGridItemFavouriteIndicator.Visibility = ViewModel.IsFavouriteVisibility
+                ? ViewStates.Visible
+                : ViewStates.Gone;
+            AnimeGridItemTopRightInfo.Visibility = ViewModel.UpdateButtonsVisibility ? ViewStates.Visible : ViewStates.Gone;
+
+            AnimeGridItemCurrentWatchingStatus.Text = ViewModel.MyStatusBindShort;
+            AnimeGridItemWatchedStatus.Text = ViewModel.MyEpisodesBindShort;
+            AnimeGridItemScore.Text = ViewModel.MyScoreBindShort;
+            AnimeGridItemAddToListButton.Visibility = ViewModel.AddToListVisibility ? ViewStates.Visible : ViewStates.Gone;
+            if (string.IsNullOrEmpty(ViewModel.TopLeftInfoBind))
+            {
+                AnimeGridItemTopLeftInfo.Visibility = ViewStates.Gone;
+            }
+            else
+            {
+                AnimeGridItemTopLeftInfo.Visibility = ViewStates.Visible;
+                AnimeGridItemTopLeftInfoMain.Text = ViewModel.TopLeftInfoBind;
+                if (ViewModel.AirDayBrush == true)
+                {
+                    AnimeGridItemTopLeftInfoMain.SetTextColor(new Color(80, 80, 80)); //gray
+                    AnimeGridItemTopLeftInfoSub.Text = ViewModel.AirDayTillBind;
+                    AnimeGridItemTopLeftInfoSub.Visibility = ViewStates.Visible;
+                }
+                else
+                {
+                    AnimeGridItemTopLeftInfoMain.SetTextColor(new Color(255, 255, 255));
+                    AnimeGridItemTopLeftInfoSub.Visibility = ViewStates.Gone;
+                }
+            }
+
 
             if (string.IsNullOrEmpty(ViewModel.Type))
             {

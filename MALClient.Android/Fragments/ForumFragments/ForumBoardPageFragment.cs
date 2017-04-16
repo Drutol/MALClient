@@ -11,6 +11,7 @@ using Android.Views;
 using Android.Widget;
 using GalaSoft.MvvmLight.Helpers;
 using MALClient.Android.BindingConverters;
+using MALClient.Android.DIalogs;
 using MALClient.Android.Resources;
 using MALClient.Models.Enums;
 using MALClient.XShared.NavArgs;
@@ -55,6 +56,11 @@ namespace MALClient.Android.Fragments.ForumFragments
             }));
 
             Bindings.Add(
+                this.SetBinding(() => ViewModel.SearchButtonVisibility,
+                    () => ForumBoardPageSearchButton.Visibility)
+                    .ConvertSourceToTarget(Converters.BoolToVisibility));
+
+            Bindings.Add(
                 this.SetBinding(() => ViewModel.NewTopicButtonVisibility,
                     () => ForumBoardPageNewTopicButton.Visibility).ConvertSourceToTarget(Converters.BoolToVisibility));
 
@@ -64,6 +70,16 @@ namespace MALClient.Android.Fragments.ForumFragments
             }));
 
             ViewModel.AvailablePages.CollectionChanged += (sender, args) => UpdatePageSelection();
+
+            ForumBoardPageSearchButton.Click += async (sender, args) =>
+            {
+                var str = await TextInputDialogBuilder.BuildInputTextDialog(Context, "Search", "keyword...");
+                if (!string.IsNullOrEmpty(str))
+                {
+                    ViewModel.SearchQuery = str;
+                    ViewModel.SearchCommand.Execute(null);
+                }
+            };
 
             Bindings.Add(this.SetBinding(() => ViewModel.AvailablePages).WhenSourceChanges(UpdatePageSelection));
         }

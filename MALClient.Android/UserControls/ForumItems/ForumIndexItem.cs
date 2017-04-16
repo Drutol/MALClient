@@ -10,9 +10,11 @@ using Android.Runtime;
 using Android.Util;
 using Android.Views;
 using Android.Widget;
+using FFImageLoading.Transformations;
 using FFImageLoading.Views;
 using GalaSoft.MvvmLight.Helpers;
 using MALClient.Android.BindingConverters;
+using MALClient.Android.Flyouts;
 using MALClient.Android.Listeners;
 using MALClient.Models.Enums;
 using MALClient.XShared.ViewModels.Forums;
@@ -55,24 +57,91 @@ namespace MALClient.Android.UserControls.ForumItems
 
         protected override void BindModelFling()
         {
-            ForumIndexPageBoardItemPeekPost1Image.Visibility = ViewStates.Invisible;
-            ForumIndexPageBoardItemPeekPost2Image.Visibility = ViewStates.Invisible;
+            if (ViewModel.ArePeekPostsAvailable)
+            {
+                if (ForumIndexPageBoardItemPeekPost1Image.IntoIfLoaded(ViewModel.Entry.PeekPosts.First().User.ImgUrl, new CircleTransformation()))
+                {
+                    ForumIndexPageBoardItemPeekPost1Image.Visibility = ViewStates.Visible;
+                    ForumIndexPageBoardItemPeekPost1ImgPlaceholder.Visibility = ViewStates.Gone;
+                }
+                else
+                {
+                    ForumIndexPageBoardItemPeekPost1Image.Visibility = ViewStates.Invisible;
+                    ForumIndexPageBoardItemPeekPost1ImgPlaceholder.Visibility = ViewStates.Visible;
+                }
+
+                if (ViewModel.Entry.PeekPosts.Count() == 2)
+                {
+                    if (ForumIndexPageBoardItemPeekPost2Image.IntoIfLoaded(ViewModel.Entry.PeekPosts.Last().User.ImgUrl, new CircleTransformation()))
+                    {                                  
+                        ForumIndexPageBoardItemPeekPost2Image.Visibility = ViewStates.Visible;
+                        ForumIndexPageBoardItemPeekPost2ImgPlaceholder.Visibility = ViewStates.Gone;
+                    }                                  
+                    else                               
+                    {                                  
+                        ForumIndexPageBoardItemPeekPost2Image.Visibility = ViewStates.Invisible;
+                        ForumIndexPageBoardItemPeekPost2ImgPlaceholder.Visibility = ViewStates.Visible;
+                    }
+                }
+                else
+                {
+                    ForumIndexPageBoardItemPeekPost2Image.Visibility = ViewStates.Invisible;
+                    ForumIndexPageBoardItemPeekPost2ImgPlaceholder.Visibility = ViewStates.Visible;
+                }
+            }
+            else
+            {
+                ForumIndexPageBoardItemPeekPost1Image.Visibility = ViewStates.Invisible;
+                ForumIndexPageBoardItemPeekPost2Image.Visibility = ViewStates.Invisible;
+
+                ForumIndexPageBoardItemPeekPost1ImgPlaceholder.Visibility = ViewStates.Visible;
+                ForumIndexPageBoardItemPeekPost2ImgPlaceholder.Visibility = ViewStates.Visible;
+            }
+
         }
 
         protected override void BindModelFull()
         {
-            if (_binding == null)
-                if (_parentViewModel.LoadingSideContentVisibility)
+            if (ViewModel.ArePeekPostsAvailable)
+            {
+                var pp1 = ViewModel.Entry.PeekPosts.First();
+                if (ForumIndexPageBoardItemPeekPost1Image.Tag == null ||
+                    (string)ForumIndexPageBoardItemPeekPost1Image.Tag != pp1.User.ImgUrl)
                 {
-                    ForumIndexPageBoardItemBoardProgressBar.Visibility = ViewStates.Visible;
-                    ForumIndexPageBoardItemPeekPostSection.Visibility = ViewStates.Invisible;
+                    ForumIndexPageBoardItemPeekPost1Image.Into(pp1.User.ImgUrl, new CircleTransformation());
                 }
                 else
                 {
-                    ForumIndexPageBoardItemBoardProgressBar.Visibility = ViewStates.Gone;
-                    ForumIndexPageBoardItemPeekPostSection.Visibility = ViewStates.Visible;
-                    OnFinishedLoading();
+                    ForumIndexPageBoardItemPeekPost1Image.Visibility = ViewStates.Visible;
                 }
+
+                if (ViewModel.Entry.PeekPosts.Count() == 2)
+                {
+                    var pp2 = ViewModel.Entry.PeekPosts.Last();
+                    if (ForumIndexPageBoardItemPeekPost2Image.Tag == null ||
+                        (string)ForumIndexPageBoardItemPeekPost2Image.Tag != pp2.User.ImgUrl)
+                    {
+                        ForumIndexPageBoardItemPeekPost2Image.Into(pp2.User.ImgUrl,new CircleTransformation());
+                    }
+                    else
+                    {
+                        ForumIndexPageBoardItemPeekPost2Image.Visibility = ViewStates.Visible;
+                    }
+                }
+
+
+                ForumIndexPageBoardItemPeekPost1ImgPlaceholder.Visibility = ViewStates.Gone;
+                ForumIndexPageBoardItemPeekPost2ImgPlaceholder.Visibility = ViewStates.Gone;
+            }
+            else
+            {
+                ForumIndexPageBoardItemPeekPost1Image.Visibility = ViewStates.Invisible;
+                ForumIndexPageBoardItemPeekPost2Image.Visibility = ViewStates.Invisible;
+
+                ForumIndexPageBoardItemPeekPost1ImgPlaceholder.Visibility = ViewStates.Visible;
+                ForumIndexPageBoardItemPeekPost2ImgPlaceholder.Visibility = ViewStates.Visible;
+            }
+
 
             ForumIndexPageBoardItemRootContainer.SetOnClickListener(new OnClickListener(view =>
                 _parentViewModel.NavigateBoardCommand.Execute(ViewModel.Board)));
@@ -105,6 +174,19 @@ namespace MALClient.Android.UserControls.ForumItems
                     ForumIndexPageBoardItemListHeader.Visibility = ViewStates.Gone;
                     break;
             }
+
+            if (_binding == null)
+                if (_parentViewModel.LoadingSideContentVisibility)
+                {
+                    ForumIndexPageBoardItemBoardProgressBar.Visibility = ViewStates.Visible;
+                    ForumIndexPageBoardItemPeekPostSection.Visibility = ViewStates.Invisible;
+                }
+                else
+                {
+                    ForumIndexPageBoardItemBoardProgressBar.Visibility = ViewStates.Gone;
+                    ForumIndexPageBoardItemPeekPostSection.Visibility = ViewStates.Visible;
+                    OnFinishedLoading();
+                }
         }
 
         protected override void RootContainerInit()
@@ -123,10 +205,24 @@ namespace MALClient.Android.UserControls.ForumItems
                         ForumIndexPageBoardItemBoardProgressBar.Visibility = ViewStates.Gone;
                         ForumIndexPageBoardItemPeekPostSection.Visibility = ViewStates.Visible;
                         OnFinishedLoading();
+                        BindModelFull();
                         _binding?.Detach();
                         _binding = null;
                     }
                 });
+
+            ForumIndexPageBoardItemRootContainer.SetOnLongClickListener(new OnLongClickListener(view =>
+            {
+                var menu = FlyoutMenuBuilder.BuildGenericFlyout(Context, ForumIndexPageBoardItemRootContainer,
+                    new List<string> {"Add to favourites"}, i => ViewModel.AddToFavouritesCommand.Execute(null));
+                menu.Show();
+            }));
+
+            ForumIndexPageBoardItemPeekPost1Title.Click +=
+                (sender, args) => _parentViewModel.GoToLastPostCommand.Execute(ViewModel.Entry.PeekPosts.First());
+
+            ForumIndexPageBoardItemPeekPost2Title.Click +=
+                (sender, args) => _parentViewModel.GoToLastPostCommand.Execute(ViewModel.Entry.PeekPosts.Last());
         }
 
         private void OnFinishedLoading()
@@ -136,37 +232,20 @@ namespace MALClient.Android.UserControls.ForumItems
                 var pp1 = ViewModel.Entry.PeekPosts.First();
                 ForumIndexPageBoardItemPeekPost1Title.Text =
                     pp1.Title;
-                ForumIndexPageBoardItemPeekPost1Date.Text =
-                    $"{pp1.PostTime} by {pp1.User.Name}";
-                if (ForumIndexPageBoardItemPeekPost1Image.Tag == null ||
-                    (string) ForumIndexPageBoardItemPeekPost1Image.Tag != pp1.User.ImgUrl)
-                {
-                    ForumIndexPageBoardItemPeekPost1Image.Into(pp1.User.ImgUrl);
-                    ForumIndexPageBoardItemPeekPost1Image.Tag = pp1.User.ImgUrl;
-                }
-                else
-                {
-                    ForumIndexPageBoardItemPeekPost1Image.Visibility = ViewStates.Visible;
-                }
+                ForumIndexPageBoardItemPeekPost1Date.Text = pp1.PostTime;
+
 
                 if (ViewModel.Entry.PeekPosts.Count() == 2)
                 {
                     var pp2 = ViewModel.Entry.PeekPosts.Last();
                     ForumIndexPageBoardItemPeekPost2Title.Text =
                         pp2.Title;
-                    ForumIndexPageBoardItemPeekPost2Date.Text =
-                        $"{pp2.PostTime} by {pp2.User.Name}";
-                    if (ForumIndexPageBoardItemPeekPost2Image.Tag == null ||
-                        (string)ForumIndexPageBoardItemPeekPost2Image.Tag != pp2.User.ImgUrl)
-                    {
-                        ForumIndexPageBoardItemPeekPost2Image.Into(pp2.User.ImgUrl);
-                        ForumIndexPageBoardItemPeekPost2Image.Tag = pp2.User.ImgUrl;
-                    }
-                    else
-                    {
-                        ForumIndexPageBoardItemPeekPost2Image.Visibility = ViewStates.Visible;
-                    }
+                    ForumIndexPageBoardItemPeekPost2Date.Text = pp2.PostTime;
+
                 }
+
+                ForumIndexPageBoardItemPeekPost1ImgPlaceholder.Visibility = ViewStates.Gone;
+                ForumIndexPageBoardItemPeekPost2ImgPlaceholder.Visibility = ViewStates.Gone;
             }
         }
 
@@ -176,9 +255,11 @@ namespace MALClient.Android.UserControls.ForumItems
         private TextView _forumIndexPageBoardItemIcon;
         private TextView _forumIndexPageBoardItemBoardName;
         private TextView _forumIndexPageBoardItemDecription;
+        private ProgressBar _forumIndexPageBoardItemPeekPost1ImgPlaceholder;
         private ImageViewAsync _forumIndexPageBoardItemPeekPost1Image;
         private TextView _forumIndexPageBoardItemPeekPost1Title;
         private TextView _forumIndexPageBoardItemPeekPost1Date;
+        private ProgressBar _forumIndexPageBoardItemPeekPost2ImgPlaceholder;
         private ImageViewAsync _forumIndexPageBoardItemPeekPost2Image;
         private TextView _forumIndexPageBoardItemPeekPost2Title;
         private TextView _forumIndexPageBoardItemPeekPost2Date;
@@ -194,11 +275,15 @@ namespace MALClient.Android.UserControls.ForumItems
 
         public TextView ForumIndexPageBoardItemDecription => _forumIndexPageBoardItemDecription ?? (_forumIndexPageBoardItemDecription = FindViewById<TextView>(Resource.Id.ForumIndexPageBoardItemDecription));
 
+        public ProgressBar ForumIndexPageBoardItemPeekPost1ImgPlaceholder => _forumIndexPageBoardItemPeekPost1ImgPlaceholder ?? (_forumIndexPageBoardItemPeekPost1ImgPlaceholder = FindViewById<ProgressBar>(Resource.Id.ForumIndexPageBoardItemPeekPost1ImgPlaceholder));
+
         public ImageViewAsync ForumIndexPageBoardItemPeekPost1Image => _forumIndexPageBoardItemPeekPost1Image ?? (_forumIndexPageBoardItemPeekPost1Image = FindViewById<ImageViewAsync>(Resource.Id.ForumIndexPageBoardItemPeekPost1Image));
 
         public TextView ForumIndexPageBoardItemPeekPost1Title => _forumIndexPageBoardItemPeekPost1Title ?? (_forumIndexPageBoardItemPeekPost1Title = FindViewById<TextView>(Resource.Id.ForumIndexPageBoardItemPeekPost1Title));
 
         public TextView ForumIndexPageBoardItemPeekPost1Date => _forumIndexPageBoardItemPeekPost1Date ?? (_forumIndexPageBoardItemPeekPost1Date = FindViewById<TextView>(Resource.Id.ForumIndexPageBoardItemPeekPost1Date));
+
+        public ProgressBar ForumIndexPageBoardItemPeekPost2ImgPlaceholder => _forumIndexPageBoardItemPeekPost2ImgPlaceholder ?? (_forumIndexPageBoardItemPeekPost2ImgPlaceholder = FindViewById<ProgressBar>(Resource.Id.ForumIndexPageBoardItemPeekPost2ImgPlaceholder));
 
         public ImageViewAsync ForumIndexPageBoardItemPeekPost2Image => _forumIndexPageBoardItemPeekPost2Image ?? (_forumIndexPageBoardItemPeekPost2Image = FindViewById<ImageViewAsync>(Resource.Id.ForumIndexPageBoardItemPeekPost2Image));
 
@@ -211,6 +296,7 @@ namespace MALClient.Android.UserControls.ForumItems
         public ProgressBar ForumIndexPageBoardItemBoardProgressBar => _forumIndexPageBoardItemBoardProgressBar ?? (_forumIndexPageBoardItemBoardProgressBar = FindViewById<ProgressBar>(Resource.Id.ForumIndexPageBoardItemBoardProgressBar));
 
         public FrameLayout ForumIndexPageBoardItemRootContainer => _forumIndexPageBoardItemRootContainer ?? (_forumIndexPageBoardItemRootContainer = FindViewById<FrameLayout>(Resource.Id.ForumIndexPageBoardItemRootContainer));
+
 
         #endregion
     }

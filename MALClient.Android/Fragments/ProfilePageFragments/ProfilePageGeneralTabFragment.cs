@@ -72,6 +72,7 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
             ProfilePageGeneralTabActionButton.Click += ProfilePageGeneralTabActionButtonOnClick;
         }
 
+
         private async void ProfilePageGeneralTabActionButtonOnClick(object sender, EventArgs eventArgs)
         {
             var str = await TextInputDialogBuilder.BuildInputTextDialog(Context, "Find user", "username...");

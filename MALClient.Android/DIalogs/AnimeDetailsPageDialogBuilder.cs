@@ -47,15 +47,25 @@ namespace MALClient.Android.DIalogs
             ViewModelLocator.NavMgr.RegisterOneTimeMainOverride(new RelayCommand(CleanupVideosDialog));
             _videosDialog = dialogBuilder.Create();
             var dialogView = _videosDialog.HolderView;
-
-            var spinner = dialogView.FindViewById(Resource.Id.AnimeDetailsPageVideosDialogProgressBar);
+ 
             _videosDialogBindings = new List<Binding>
             {
                 new Binding<bool, ViewStates>(
                     viewModel,
-                    () => viewModel.LoadingVideosVisibility,
-                    spinner,
-                    () => spinner.Visibility).ConvertSourceToTarget(Converters.BoolToVisibility)
+                    () => viewModel.LoadingVideosVisibility).WhenSourceChanges(() =>
+                {
+                    if (viewModel.LoadingVideosVisibility)
+                    {
+                        dialogView.FindViewById(Resource.Id.AnimeDetailsPageVideosDialogProgressBar).Visibility = ViewStates.Visible;
+                        dialogView.FindViewById(Resource.Id.AnimeDetailsPageVideosDialogEmptyNotice).Visibility = ViewStates.Gone;
+                    }
+                    else
+                    {
+                        dialogView.FindViewById(Resource.Id.AnimeDetailsPageVideosDialogProgressBar).Visibility = ViewStates.Gone;
+                        if(!viewModel.AvailableVideos?.Any() ?? true)
+                            dialogView.FindViewById(Resource.Id.AnimeDetailsPageVideosDialogEmptyNotice).Visibility = ViewStates.Visible;
+                    }
+                })
             };
 
             dialogView.FindViewById<ListView>(Resource.Id.AnimeDetailsPageVideosDialogList).Adapter = viewModel

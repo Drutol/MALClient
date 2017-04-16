@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical"
-                xmlns:android="http://schemas.android.com/apk/res/android" android:background="?BrushDeepBackground">
+                xmlns:android="http://schemas.android.com/apk/res/android" android:background="?BrushTextInverted">
   <LinearLayout
     android:layout_width="match_parent" android:orientation="vertical"
     android:layout_height="match_parent">
@@ -8,10 +8,6 @@
     <LinearLayout
       android:layout_width="match_parent" android:gravity="center_vertical"
       android:layout_height="wrap_content" android:layout_marginTop="5dp">
-
-      <Button android:id="@+id/ForumTopicPageNewReplyButton"
-              android:layout_width="wrap_content" android:text="New reply" android:layout_marginStart="5dp" android:textColor="?BrushText"
-              android:layout_height="wrap_content" android:background="@drawable/inc_dec_btn_backgroud" style="@style/AccentButtonStyle"/>
 
       <Button android:id="@+id/ForumTopicPageToggleWatchingButton"
               android:layout_width="wrap_content" android:text="Toggle watching" android:layout_marginStart="5dp" android:textColor="?BrushText"
@@ -43,5 +39,8 @@
                android:indeterminateTint="?AccentColour" android:indeterminateTintMode="src_in"
                android:layout_height="wrap_content"
                android:indeterminate="true" android:layout_centerInParent="true"/>
-
+  <android.support.design.widget.FloatingActionButton android:id="@+id/ForumTopicPageActionButton"
+                                                      android:layout_width="wrap_content" app:backgroundTint="?AccentColourContrast" android:layout_alignParentEnd="true" android:layout_alignParentBottom="true" android:layout_margin="16dp"
+                                                      android:layout_height="wrap_content" android:src="@drawable/icon_message_new" android:clickable="true" android:focusable="true" android:tint="#fff"
+                                                      xmlns:app="http://schemas.android.com/apk/res-auto" app:fabSize="normal" />
 </RelativeLayout>

@@ -1,36 +1,40 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent"
-    android:orientation="vertical" android:background="@drawable/dialog_corner_background">
-
-  <TextView
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="match_parent" android:layout_height="match_parent"
+             android:orientation="vertical" android:background="?BrushAnimeItemBackground">
+  <LinearLayout
+    android:layout_width="match_parent" android:orientation="vertical" android:padding="20dp"
+    android:layout_height="wrap_content" android:background="@drawable/border_accent_left_wide">
+    <TextView
       android:layout_width="wrap_content"
       android:layout_height="wrap_content" android:textColor="?BrushText" android:textSize="@dimen/FontSizeHuge"
-      android:layout_gravity="center_horizontal" android:layout_marginTop="10dp" android:layout_marginBottom="10dp"
+      android:layout_gravity="center_horizontal" android:layout_marginBottom="10dp"
       android:text="Promotional videos" />
-  <View style="@style/Divider" />
-  <RelativeLayout
+    <View style="@style/Divider" />
+    <FrameLayout
       android:layout_width="match_parent"
       android:layout_height="wrap_content">
-
-
-    <ListView
-        android:gravity="center"
-        android:padding="10dp" android:divider="@color/Transparent"
+      <ListView
+        android:gravity="center" android:divider="@color/Transparent"
         android:id="@+id/AnimeDetailsPageVideosDialogList"
         android:columnWidth="80dp" android:choiceMode="singleChoice"
         android:verticalSpacing="5dp"
         android:horizontalSpacing="5dp" android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true" android:dividerHeight="10dp" />
+        android:layout_gravity="center"
+        android:dividerHeight="10dp" />
+      <TextView android:layout_gravity="center" android:visibility="gone" android:layout_margin="15dp"
+                android:layout_width="wrap_content" android:id="@+id/AnimeDetailsPageVideosDialogEmptyNotice"
+                android:layout_height="wrap_content" android:fontFamily="@string/font_family_light"
+                android:text="We have come up empty..." android:textColor="?AccentColour" />
+      <ProgressBar android:id="@+id/AnimeDetailsPageVideosDialogProgressBar"
+                   android:layout_width="wrap_content" android:layout_margin="15dp"
+                   android:layout_height="wrap_content"
+                   android:indeterminate="true"
+                   android:layout_gravity="center" />
 
-    <ProgressBar android:id="@+id/AnimeDetailsPageVideosDialogProgressBar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:indeterminate="true"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
-  </RelativeLayout>
-</LinearLayout>
+
+    </FrameLayout>
+  </LinearLayout>
+</FrameLayout>

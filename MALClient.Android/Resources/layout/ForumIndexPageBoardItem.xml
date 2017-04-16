@@ -1,82 +1,100 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content" android:orientation="vertical">
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="match_parent"
+  android:layout_height="wrap_content" android:orientation="vertical">
   <TextView android:id="@+id/ForumIndexPageBoardItemListHeader" android:visibility="gone"
-      android:layout_width="wrap_content" android:layout_marginTop="10dp" android:layout_gravity="center_horizontal"
-      android:layout_height="wrap_content" android:text="MyAnimeList" android:textSize="@dimen/FontSizeHuge" android:fontFamily="@string/font_family_light" android:textColor="?AccentColour" />
+            android:layout_width="wrap_content" android:layout_marginTop="10dp" android:layout_gravity="center_horizontal"
+            android:layout_height="wrap_content" android:text="MyAnimeList" android:textSize="@dimen/FontSizeHuge" android:fontFamily="@string/font_family_light" android:textColor="?AccentColour" />
   <FrameLayout android:id="@+id/ForumIndexPageBoardItemRootContainer"
-      android:layout_width="match_parent" android:clickable="true" android:focusable="true" android:foreground="?selectableItemBackground" android:padding="5dp" android:layout_marginTop="10dp" android:layout_marginBottom="10dp"
-      android:layout_height="wrap_content" android:background="?BrushAnimeItemBackground">
+               android:layout_width="match_parent" android:clickable="true" android:focusable="true" android:longClickable="true" android:foreground="?selectableItemBackground" android:padding="5dp" android:layout_marginTop="10dp" android:layout_marginBottom="10dp"
+               android:layout_height="wrap_content" android:background="?BrushAnimeItemBackground">
     <LinearLayout
-        android:layout_width="match_parent" android:orientation="vertical"
-        android:layout_height="wrap_content">
+      android:layout_width="match_parent" android:orientation="vertical"
+      android:layout_height="wrap_content">
       <LinearLayout
-          android:layout_width="match_parent" android:gravity="center_vertical|center_horizontal"
-          android:layout_height="wrap_content">
+        android:layout_width="match_parent" android:gravity="center_vertical|center_horizontal"
+        android:layout_height="wrap_content">
         <TextView android:id="@+id/ForumIndexPageBoardItemIcon"
-            android:layout_width="wrap_content" android:textSize="@dimen/FontSizeMedium"
-            android:layout_height="wrap_content" android:textColor="?BrushText"/>
+                  android:layout_width="wrap_content" android:textSize="@dimen/FontSizeMedium"
+                  android:layout_height="wrap_content" android:textColor="?BrushText"/>
         <TextView android:id="@+id/ForumIndexPageBoardItemBoardName"
-            android:layout_width="wrap_content" android:layout_marginStart="6dp"
-            android:layout_height="wrap_content" android:text="Some random board" android:maxLines="1" android:ellipsize="end" android:textSize="@dimen/FontSizeHuge" android:fontFamily="@string/font_family_medium" android:textColor="?BrushText"/>
+                  android:layout_width="wrap_content" android:layout_marginStart="6dp"
+                  android:layout_height="wrap_content" android:text="Some random board" android:maxLines="1" android:ellipsize="end" android:textSize="@dimen/FontSizeHuge" android:fontFamily="@string/font_family_medium" android:textColor="?BrushText"/>
       </LinearLayout>
       <TextView android:gravity="center_horizontal" android:id="@+id/ForumIndexPageBoardItemDecription"
-          android:layout_width="wrap_content" android:layout_gravity="center_horizontal" android:layout_marginTop="5dp" android:layout_marginBottom="5dp"
-          android:layout_height="wrap_content" android:text="Updates and stuff" android:ellipsize="end" android:textColor="?BrushSettingsSubtitle"/>
+                android:layout_width="wrap_content" android:layout_gravity="center_horizontal" android:layout_marginTop="5dp" android:layout_marginBottom="5dp"
+                android:layout_height="wrap_content" android:text="Updates and stuff" android:ellipsize="end" android:textColor="?BrushSettingsSubtitle"/>
       <View style="@style/Divider" android:layout_margin="5dp"/>
-      <RelativeLayout
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content">
-        <LinearLayout android:id="@+id/ForumIndexPageBoardItemPeekPostSection"
-            android:layout_width="match_parent" android:layout_marginEnd="5dp"
-            android:layout_height="70dp">
+      <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout android:id="@+id/ForumIndexPageBoardItemPeekPostSection" android:baselineAligned="false"
+                      android:layout_width="match_parent" android:layout_marginEnd="5dp"
+                      android:layout_height="wrap_content">
           <LinearLayout
-              android:layout_width="0dp"
-              android:layout_height="match_parent" android:layout_weight="1">
-            <FFImageLoading.Views.ImageViewAsync android:id="@+id/ForumIndexPageBoardItemPeekPost1Image"
-                android:layout_width="45dp" android:layout_marginEnd="5dp" android:layout_marginBottom="5dp"
-                android:layout_height="60dp"/>
+            android:layout_width="0dp"
+            android:layout_height="match_parent" android:layout_weight="1">
+            <FrameLayout
+              android:layout_width="50dp"
+              android:layout_height="50dp" android:layout_marginEnd="5dp">
+              <ProgressBar android:scaleX=".5" android:scaleY=".5"
+                           android:layout_width="match_parent" android:id="@+id/ForumIndexPageBoardItemPeekPost1ImgPlaceholder"
+                           android:layout_height="match_parent" android:indeterminateTint="?BrushAnimeItemInnerBackground"
+                           android:indeterminate="true" android:layout_gravity="center" android:indeterminateTintMode="src_in"/>
+              <FFImageLoading.Views.ImageViewAsync
+                android:layout_width="match_parent" android:id="@+id/ForumIndexPageBoardItemPeekPost1Image"
+                android:layout_height="match_parent" />
+            </FrameLayout>
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" android:orientation="vertical">
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content" android:orientation="vertical">
               <TextView android:id="@+id/ForumIndexPageBoardItemPeekPost1Title"
-                  android:layout_width="match_parent"
-                  android:layout_height="50dp" android:maxLines="2" android:ellipsize="end" android:textColor="?BrushText" android:text="Revies Tags Filters: Preliminary Reviews are"/>
+                        android:layout_width="match_parent" android:focusable="true" android:clickable="true"
+                        android:layout_height="50dp" android:maxLines="3" android:ellipsize="end" android:textColor="?BrushText" android:text="Revies Tags Filters: Preliminary Reviews are"/>
               <TextView android:id="@+id/ForumIndexPageBoardItemPeekPost1Date"
-                  android:layout_width="match_parent" android:lines="1"
-                  android:layout_height="wrap_content" android:textColor="?BrushSettingsSubtitle" android:text="May 1, 2014 1:19 PM" android:fontFamily="@string/font_family_light" android:textSize="@dimen/FontSizeSemiNormal"/>
+                        android:layout_width="match_parent" android:maxLines="2"
+                        android:layout_height="wrap_content" android:textColor="?BrushSettingsSubtitle" android:text="May 1, 2014 1:19 PM" android:fontFamily="@string/font_family_light" android:textSize="@dimen/FontSizeSemiNormal"/>
             </LinearLayout>
           </LinearLayout>
           <LinearLayout
-              android:layout_width="0dp" android:layout_marginStart="5dp"
-              android:layout_height="match_parent" android:layout_weight="1">
-            <FFImageLoading.Views.ImageViewAsync
-                android:layout_width="45dp" android:layout_marginEnd="5dp" android:layout_marginBottom="5dp" android:id="@+id/ForumIndexPageBoardItemPeekPost2Image"
-                android:layout_height="60dp" />
+            android:layout_width="0dp" android:layout_marginStart="5dp"
+            android:layout_height="match_parent" android:layout_weight="1">
+            <FrameLayout
+              android:layout_width="50dp"
+              android:layout_height="50dp" android:layout_marginEnd="5dp">
+              <ProgressBar android:scaleX=".5" android:scaleY=".5"
+                           android:layout_width="match_parent" android:id="@+id/ForumIndexPageBoardItemPeekPost2ImgPlaceholder"
+                           android:layout_height="match_parent" android:indeterminateTint="?BrushAnimeItemInnerBackground"
+                           android:indeterminate="true" android:layout_gravity="center" android:indeterminateTintMode="src_in"/>
+              <FFImageLoading.Views.ImageViewAsync
+                android:layout_width="match_parent" android:id="@+id/ForumIndexPageBoardItemPeekPost2Image"
+                android:layout_height="match_parent" />
+            </FrameLayout>
+
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" android:orientation="vertical">
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content" android:orientation="vertical">
               <TextView
-                  android:layout_width="match_parent" android:id="@+id/ForumIndexPageBoardItemPeekPost2Title"
-                  android:layout_height="50dp" android:maxLines="2" android:ellipsize="end" android:textColor="?BrushText" android:text="Revies Tags Filters: Preliminary Reviews are"/>
-              <TextView android:lines="1"
-                  android:layout_width="match_parent" android:id="@+id/ForumIndexPageBoardItemPeekPost2Date"
-                  android:layout_height="wrap_content" android:textColor="?BrushSettingsSubtitle" android:text="May 1, 2014 1:19 PM" android:fontFamily="@string/font_family_light" android:textSize="@dimen/FontSizeSemiNormal"/>
+                android:layout_width="match_parent" android:id="@+id/ForumIndexPageBoardItemPeekPost2Title" android:clickable="true" android:focusable="true"
+                android:layout_height="50dp" android:maxLines="3" android:ellipsize="end" android:textColor="?BrushText" android:text="Revies Tags Filters: Preliminary Reviews are"/>
+              <TextView android:maxLines="2"
+                        android:layout_width="match_parent" android:id="@+id/ForumIndexPageBoardItemPeekPost2Date"
+                        android:layout_height="wrap_content" android:textColor="?BrushSettingsSubtitle" android:text="May 1, 2014 1:19 PM by SomeStranger" android:fontFamily="@string/font_family_light" android:textSize="@dimen/FontSizeSemiNormal"/>
             </LinearLayout>
           </LinearLayout>
         </LinearLayout>
-
         <ProgressBar
-            android:id="@+id/ForumIndexPageBoardItemBoardProgressBar"
-            style="?android:attr/progressBarStyleHorizontal" android:visibility="gone"
-            android:indeterminateOnly="true"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" android:layout_centerInParent="true"/>
-      </RelativeLayout>
+          android:id="@+id/ForumIndexPageBoardItemBoardProgressBar"
+          style="?android:attr/progressBarStyleHorizontal" android:visibility="gone"
+          android:indeterminateOnly="true"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content" android:layout_gravity="center_vertical"/>
+      </FrameLayout>
+
     </LinearLayout>
+
   </FrameLayout>
 </LinearLayout>

@@ -2,11 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
+using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
 using Android.OS;
 using Android.Runtime;
+using Android.Support.Design.Widget;
 using Android.Views;
 using Android.Widget;
 using GalaSoft.MvvmLight.Helpers;
@@ -42,9 +43,15 @@ namespace MALClient.Android.Fragments.ForumFragments
             ViewModel.Init(_args);
         }
 
-        private void ViewModelOnRequestScroll(object sender, int i)
+        private async void ViewModelOnRequestScroll(object sender, int i)
         {
-            ForumTopicPagePostsList.SmoothScrollToPosition(i);
+            if(i < ForumTopicPagePostsList.Adapter.Count)
+                ForumTopicPagePostsList.SetSelection(i);
+            else
+            {
+                await Task.Delay(100);
+                ViewModelOnRequestScroll(sender,i);
+            }
         }
 
         protected override void InitBindings()
@@ -65,10 +72,6 @@ namespace MALClient.Android.Fragments.ForumFragments
             ViewModel.AvailablePages.CollectionChanged += (sender, args) => UpdatePageSelection();
 
             Bindings.Add(this.SetBinding(() => ViewModel.AvailablePages).WhenSourceChanges(UpdatePageSelection));
-
-            ForumTopicPageNewReplyButton.Click +=
-                (sender, args) =>
-                    ForumTopicPagePostsList.SmoothScrollToPosition(ForumTopicPagePostsList.Adapter.Count - 1);
         }
 
         private View ContainerTemplate(int i)
@@ -128,14 +131,12 @@ namespace MALClient.Android.Fragments.ForumFragments
 
         #region Views
 
-        private Button _forumTopicPageNewReplyButton;
         private Button _forumTopicPageToggleWatchingButton;
         private ImageButton _forumTopicPageGotoPageButton;
         private LinearLayout _forumTopicPageList;
         private ListView _forumTopicPagePostsList;
         private ProgressBar _forumTopicPageLoadingSpinner;
-
-        public Button ForumTopicPageNewReplyButton => _forumTopicPageNewReplyButton ?? (_forumTopicPageNewReplyButton = FindViewById<Button>(Resource.Id.ForumTopicPageNewReplyButton));
+        private FloatingActionButton _forumTopicPageActionButton;
 
         public Button ForumTopicPageToggleWatchingButton => _forumTopicPageToggleWatchingButton ?? (_forumTopicPageToggleWatchingButton = FindViewById<Button>(Resource.Id.ForumTopicPageToggleWatchingButton));
 
@@ -146,6 +147,8 @@ namespace MALClient.Android.Fragments.ForumFragments
         public ListView ForumTopicPagePostsList => _forumTopicPagePostsList ?? (_forumTopicPagePostsList = FindViewById<ListView>(Resource.Id.ForumTopicPagePostsList));
 
         public ProgressBar ForumTopicPageLoadingSpinner => _forumTopicPageLoadingSpinner ?? (_forumTopicPageLoadingSpinner = FindViewById<ProgressBar>(Resource.Id.ForumTopicPageLoadingSpinner));
+
+        public FloatingActionButton ForumTopicPageActionButton => _forumTopicPageActionButton ?? (_forumTopicPageActionButton = FindViewById<FloatingActionButton>(Resource.Id.ForumTopicPageActionButton));
 
 
 

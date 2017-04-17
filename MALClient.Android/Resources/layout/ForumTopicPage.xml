@@ -31,8 +31,8 @@
       <ListView
         android:id="@+id/ForumTopicPagePostsList"
         android:layout_width="match_parent"
-        android:layout_gravity="top"
-        android:layout_marginTop="5dp"
+        android:layout_gravity="top" android:paddingBottom="70dp"
+        android:layout_marginTop="5dp" android:clipToPadding="false"
         android:layout_height="match_parent"
         android:choiceMode="singleChoice"
         android:dividerHeight="5dp" android:divider="@color/Transparent" />

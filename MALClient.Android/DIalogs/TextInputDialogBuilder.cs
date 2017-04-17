@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
+using Android.Graphics;
 using Android.OS;
 using Android.Runtime;
 using Android.Views;
@@ -64,11 +65,17 @@ namespace MALClient.Android.DIalogs
 
         #endregion
 
+        public enum ForumPostTextInputContext
+        {
+            Reply,
+            Edit,
+        }
+
         private static DialogPlus _forumTextInputDialog;
         private static readonly SemaphoreSlim _semaphoreForumTextInput = new SemaphoreSlim(0);
         private static bool _success;
 
-        public static async Task<string> BuildForumPostTextInputDialog(Context context, string title, string content)
+        public static async Task<string> BuildForumPostTextInputDialog(Context context, ForumPostTextInputContext displayContext, string content)
         {
             var dialogBuilder = DialogPlus.NewDialog(context);
             dialogBuilder.SetGravity((int)GravityFlags.Center);
@@ -82,11 +89,30 @@ namespace MALClient.Android.DIalogs
             _forumTextInputDialog = dialogBuilder.Create();
             var dialogView = _forumTextInputDialog.HolderView;
 
-            dialogView.FindViewById<TextView>(Resource.Id.ForumPostTextDialogTitle).Text = title;
-            var textEditor = dialogView.FindViewById<BBCodeEditor>(Resource.Id.ForumPostTextDialogTextBox);
-            textEditor.TextChanged += OnTextChanged;
+            var acceptButton = dialogView.FindViewById<Button>(Resource.Id.ForumPostTextDialogAcceptButton);
+            switch (displayContext)
+            {
+                case ForumPostTextInputContext.Reply:
+                    dialogView.FindViewById<TextView>(Resource.Id.ForumPostTextDialogTitle).Text = "New Reply";
+                    acceptButton.SetCompoundDrawablesWithIntrinsicBounds(context.Resources.GetDrawable(Resource.Drawable.icon_send, context.Theme),null,null,null);
+                    acceptButton.Text = "Send";
+                    break;
+                case ForumPostTextInputContext.Edit:
+                    dialogView.FindViewById<TextView>(Resource.Id.ForumPostTextDialogTitle).Text = "Edit Message";
+                    acceptButton.Text = "Edit";
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(displayContext), displayContext, null);
+            }
+            acceptButton.SetOnClickListener(new OnClickListener(view => CleanupForumPostTextInputDialog(true)));
 
-            dialogView.FindViewById(Resource.Id.ForumPostTextDialogAcceptButton).SetOnClickListener(new OnClickListener(view => CleanupForumPostTextInputDialog(true)));
+            var textEditor = new BBCodeEditor(context);        
+            textEditor.TextChanged += OnTextChanged;
+            textEditor.Text = content;
+
+            dialogView.FindViewById<LinearLayout>(Resource.Id.ForumPostTextDialogInputSection).AddView(textEditor, 0);
+
+            dialogView.FindViewById<WebView>(Resource.Id.ForumPostTextDialogPreview).SetBackgroundColor(Color.Transparent);
 
             _forumTextInputDialog.Show();
 
@@ -108,7 +134,6 @@ namespace MALClient.Android.DIalogs
         {
             _success = success;
             _semaphoreForumTextInput.Release();
-            _forumTextInputDialog.HolderView.FindViewById<BBCodeEditor>(Resource.Id.ForumPostTextDialogTextBox).TextChanged -= OnTextChanged;
             _forumTextInputDialog.Dismiss();
             _forumTextInputDialog.Dispose();
         }

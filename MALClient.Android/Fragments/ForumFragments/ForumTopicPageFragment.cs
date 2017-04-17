@@ -79,7 +79,7 @@ namespace MALClient.Android.Fragments.ForumFragments
 
         private async void ForumTopicPageActionButtonOnClick(object o, EventArgs eventArgs)
         {
-            var str = await TextInputDialogBuilder.BuildForumPostTextInputDialog(Context, "New Reply", "");
+            var str = await TextInputDialogBuilder.BuildForumPostTextInputDialog(Context, TextInputDialogBuilder.ForumPostTextInputContext.Reply, "");
             if (!string.IsNullOrEmpty(str))
             {
                 ViewModel.ReplyMessage = str;

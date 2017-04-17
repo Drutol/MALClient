@@ -13,7 +13,7 @@
   <color name="LightBrushHamburgerInnerBackground">#ffffff</color>
   <color name="LightBrushAnimeItemBackground">#f5f5f5</color>
   <color name="LightBrushAnimeItemInnerBackground">#E5E5E5</color>
-  <color name="LightBrushLoading">#E6E6E6</color>
+  <color name="LightBrushLoading">#bdE6E6E6</color>
   <color name="LightBrushLoadingNonTransparent">#E6E6E6</color>
   <color name="LightBrushLoadingNonOpaque">#efefef</color>
   <color name="LightBrushRowAlternate1">#f5f5f5</color>

@@ -99,11 +99,16 @@ namespace MALClient.XShared.ViewModels.Forums.Items
 
         public ICommand StartEditCommand => new RelayCommand(async () =>
         {
+            await StartEdit();
+        });
+
+        public async Task StartEdit()
+        {
             Loading = true;
             BBcodeContent = await ForumTopicQueries.GetMessageBbcode(Data.Id);
             EditMode = true;
             Loading = false;
-        });
+        }
 
         public ICommand CancelEditCommand => new RelayCommand(() =>
         {

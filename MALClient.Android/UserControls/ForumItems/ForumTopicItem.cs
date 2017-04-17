@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
-
+using System.Threading;
 using Android.App;
 using Android.Content;
 using Android.Graphics;
@@ -16,6 +16,8 @@ using Android.Widget;
 using FFImageLoading.Views;
 using GalaSoft.MvvmLight.Helpers;
 using MALClient.Android.Activities;
+using MALClient.Android.DIalogs;
+using MALClient.Android.Listeners;
 using MALClient.Android.Resources;
 using MALClient.Android.Web;
 using MALClient.XShared.ViewModels;
@@ -29,7 +31,7 @@ namespace MALClient.Android.UserControls.ForumItems
         {
 
             public DataJavascriptInterface DataJavascriptInterface { get; }
-            public string ContentId { get; set; }
+            public int ContentHash { get; set; }
 
             public WebViewTag(DataJavascriptInterface dataJavascriptInterface)
             {
@@ -79,8 +81,22 @@ namespace MALClient.Android.UserControls.ForumItems
                 ForumTopicPageItemAuthorImage.Visibility = ViewStates.Gone;
             }
 
-            UpdateViewWithNewHeight(ForumTopicPageItemWebView, DimensionsHelper.DpToPx(200));
-            ForumTopicPageItemWebView.Visibility = ViewStates.Invisible;
+            if (double.IsNaN(ViewModel.ComputedHtmlHeight))
+            {
+                UpdateViewWithNewHeight(ForumTopicPageItemWebView, DimensionsHelper.DpToPx(200));
+                ForumTopicPageItemWebView.Visibility = ViewStates.Invisible;
+            }
+            else
+            {
+                var tag = ForumTopicPageItemWebView.Tag.Unwrap<WebViewTag>();
+                if (tag.ContentHash == 0 || tag.ContentHash != ViewModel.Data.HtmlContent.GetHashCode())
+                {
+                    ForumTopicPageItemWebView.LoadDataWithBaseURL(null, ResourceLocator.CssManager.WrapWithCss(ViewModel.Data.HtmlContent), "text/html; charset=utf-8", "UTF-8", null);
+                    tag.ContentHash = ViewModel.Data.HtmlContent.GetHashCode();
+                    ForumTopicPageItemWebView.Tag = tag.Wrap();
+                }
+            }
+
         }
 
         protected override void BindModelFull()
@@ -98,13 +114,13 @@ namespace MALClient.Android.UserControls.ForumItems
             ForumTopicPageItemWebView.Visibility = ViewStates.Visible;
 
 
-            _bindings.Add(this.SetBinding(() => ViewModel.Data.HtmlContent).WhenSourceChanges(() =>
+            _bindings.Add(this.SetBinding(() => ViewModel.Data).WhenSourceChanges(() =>
             {
                 var tag = ForumTopicPageItemWebView.Tag.Unwrap<WebViewTag>();
-                if (tag.ContentId == null || tag.ContentId != ViewModel.Data.Id)
+                if (tag.ContentHash == 0 || tag.ContentHash != ViewModel.Data.HtmlContent.GetHashCode())
                 {
                     ForumTopicPageItemWebView.LoadDataWithBaseURL(null, ResourceLocator.CssManager.WrapWithCss(ViewModel.Data.HtmlContent), "text/html; charset=utf-8", "UTF-8", null);
-                    tag.ContentId = ViewModel.Data.Id;
+                    tag.ContentHash = ViewModel.Data.HtmlContent.GetHashCode();
                     ForumTopicPageItemWebView.Tag = tag.Wrap();
                 }
             }));
@@ -120,6 +136,20 @@ namespace MALClient.Android.UserControls.ForumItems
                     UpdateViewWithNewHeight(ForumTopicPageItemWebView, DimensionsHelper.DpToPx(200));
                 }
             }));
+
+            _bindings.Add(this.SetBinding(() => ViewModel.Loading).WhenSourceChanges(() =>
+            {
+                if (ViewModel.Loading)
+                {
+                    ForumTopicPageItemLoadingOverlay.Visibility = ViewStates.Gone;
+                }
+                else
+                {
+                    ForumTopicPageItemLoadingOverlay.Visibility = ViewStates.Gone;
+                }
+            }));
+
+            
         }
 
 
@@ -133,6 +163,10 @@ namespace MALClient.Android.UserControls.ForumItems
             ForumTopicPageItemDetailOnline.Text = ViewModel.Data.Poster.Status;
             ForumTopicPageItemDetailsJoined.Text = ViewModel.Data.Poster.Joined;
             ForumTopicPageItemDetailsPostCount.Text = ViewModel.Data.Poster.Posts;
+
+            ForumTopicPageItemEditButton.Visibility = ViewModel.Data.CanEdit ? ViewStates.Visible : ViewStates.Gone;
+            ForumTopicPageItemDeleteButton.Visibility = ViewModel.Data.CanDelete ? ViewStates.Visible : ViewStates.Gone;
+
             if (string.IsNullOrEmpty(ViewModel.Data.EditDate))
                 ForumTopicPageItemModifiedLabel.Visibility = ViewStates.Gone;
             else
@@ -155,6 +189,44 @@ namespace MALClient.Android.UserControls.ForumItems
             _dataJavascriptInterface = jsInterface;
 
             _dataJavascriptInterface.NewResponse += DataJavascriptInterfaceOnNewResponse;
+
+            ForumTopicPageItemEditButton.SetOnClickListener(new OnClickListener(async view =>
+            {
+                await ViewModel.StartEdit();
+                var str = await TextInputDialogBuilder.BuildForumPostTextInputDialog(Context, TextInputDialogBuilder.ForumPostTextInputContext.Edit, ViewModel.BBcodeContent);
+                if (!string.IsNullOrEmpty(str))
+                {
+                    ViewModel.BBcodeContent = str;
+                    ViewModel.SubmitEditCommand.Execute(null);
+                }
+            }));
+
+            ForumTopicPageItemQuoteButton.SetOnClickListener(new OnClickListener(async view =>
+            {
+                var semaphore = new SemaphoreSlim(0);
+                var vm = ViewModelLocator.ForumsTopic;
+                var deleg = new PropertyChangedEventHandler((sender, args) =>
+                {
+                    if (args.PropertyName == nameof(vm.ReplyMessage))
+                        semaphore.Release();
+                });
+                vm.ReplyMessage = string.Empty;
+                vm.PropertyChanged += deleg;
+                ViewModel.QuoteCommand.Execute(null);
+                await semaphore.WaitAsync();
+                vm.PropertyChanged -= deleg;
+                var str = await TextInputDialogBuilder.BuildForumPostTextInputDialog(Context, TextInputDialogBuilder.ForumPostTextInputContext.Reply, vm.ReplyMessage);
+                if (!string.IsNullOrEmpty(str))
+                {
+                    vm.ReplyMessage = str;
+                    vm.CreateReplyCommand.Execute(null);
+                }
+            }));
+
+            ForumTopicPageItemDeleteButton.SetOnClickListener(new OnClickListener(view =>
+            {
+                ViewModel.DeleteCommand.Execute(null);
+            }));
         }
 
         private void DataJavascriptInterfaceOnNewResponse(object sender, string s)
@@ -182,7 +254,6 @@ namespace MALClient.Android.UserControls.ForumItems
         }
 
         #region Views
-
         private TextView _forumTopicPageItemPostDate;
         private TextView _forumTopicPageItemPostNumber;
         private TextView _forumTopicPageItemPostAuthor;
@@ -191,10 +262,11 @@ namespace MALClient.Android.UserControls.ForumItems
         private TextView _forumTopicPageItemDetailsJoined;
         private TextView _forumTopicPageItemDetailsPostCount;
         private WebView _forumTopicPageItemWebView;
+        private FrameLayout _forumTopicPageItemLoadingOverlay;
         private TextView _forumTopicPageItemModifiedLabel;
-        private TextView _forumTopicPageItemEditButton;
-        private TextView _forumTopicPageItemDeleteButton;
-        private TextView _forumTopicPageItemQuoteButton;
+        private FrameLayout _forumTopicPageItemEditButton;
+        private FrameLayout _forumTopicPageItemDeleteButton;
+        private FrameLayout _forumTopicPageItemQuoteButton;
 
         public TextView ForumTopicPageItemPostDate => _forumTopicPageItemPostDate ?? (_forumTopicPageItemPostDate = FindViewById<TextView>(Resource.Id.ForumTopicPageItemPostDate));
 
@@ -212,13 +284,16 @@ namespace MALClient.Android.UserControls.ForumItems
 
         public WebView ForumTopicPageItemWebView => _forumTopicPageItemWebView ?? (_forumTopicPageItemWebView = FindViewById<WebView>(Resource.Id.ForumTopicPageItemWebView));
 
+        public FrameLayout ForumTopicPageItemLoadingOverlay => _forumTopicPageItemLoadingOverlay ?? (_forumTopicPageItemLoadingOverlay = FindViewById<FrameLayout>(Resource.Id.ForumTopicPageItemLoadingOverlay));
+
         public TextView ForumTopicPageItemModifiedLabel => _forumTopicPageItemModifiedLabel ?? (_forumTopicPageItemModifiedLabel = FindViewById<TextView>(Resource.Id.ForumTopicPageItemModifiedLabel));
 
-        public TextView ForumTopicPageItemEditButton => _forumTopicPageItemEditButton ?? (_forumTopicPageItemEditButton = FindViewById<TextView>(Resource.Id.ForumTopicPageItemEditButton));
+        public FrameLayout ForumTopicPageItemEditButton => _forumTopicPageItemEditButton ?? (_forumTopicPageItemEditButton = FindViewById<FrameLayout>(Resource.Id.ForumTopicPageItemEditButton));
 
-        public TextView ForumTopicPageItemDeleteButton => _forumTopicPageItemDeleteButton ?? (_forumTopicPageItemDeleteButton = FindViewById<TextView>(Resource.Id.ForumTopicPageItemDeleteButton));
+        public FrameLayout ForumTopicPageItemDeleteButton => _forumTopicPageItemDeleteButton ?? (_forumTopicPageItemDeleteButton = FindViewById<FrameLayout>(Resource.Id.ForumTopicPageItemDeleteButton));
 
-        public TextView ForumTopicPageItemQuoteButton => _forumTopicPageItemQuoteButton ?? (_forumTopicPageItemQuoteButton = FindViewById<TextView>(Resource.Id.ForumTopicPageItemQuoteButton));
+        public FrameLayout ForumTopicPageItemQuoteButton => _forumTopicPageItemQuoteButton ?? (_forumTopicPageItemQuoteButton = FindViewById<FrameLayout>(Resource.Id.ForumTopicPageItemQuoteButton));
+
 
         #endregion
     }

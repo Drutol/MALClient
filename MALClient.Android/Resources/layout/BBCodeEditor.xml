@@ -6,7 +6,7 @@
   <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="35dp" android:background="?BrushAppBars">
-    <Button
+    <ImageButton
       android:layout_width="35dp" android:id="@+id/BBCodeEditorBtnBold"
       android:layout_height="35dp" android:src="@drawable/icon_bold"
       android:background="?selectableItemBackground"/>

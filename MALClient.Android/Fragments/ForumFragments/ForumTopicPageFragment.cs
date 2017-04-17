@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
+using Android.Graphics;
 using Android.OS;
 using Android.Runtime;
 using Android.Support.Design.Widget;
@@ -68,13 +69,20 @@ namespace MALClient.Android.Fragments.ForumFragments
                     ForumTopicPagePostsList.InjectFlingAdapter(ViewModel.Messages,DataTemplateFull,DataTemplateFling,ContainerTemplate   );
             }));
 
+            Bindings.Add(
+                this.SetBinding(() => ViewModel.ToggleWatchingButtonText,
+                    () => ForumTopicPageToggleWatchingButton.Text));
+
             ForumTopicPagePostsList.MakeFlingAware();
 
-            ViewModel.AvailablePages.CollectionChanged += (sender, args) => UpdatePageSelection();
-
             ForumTopicPageActionButton.Click += ForumTopicPageActionButtonOnClick;
+            ForumTopicPageToggleWatchingButton.Click += (sender, args) => ViewModel.ToggleWatchingCommand.Execute(null);
 
-            Bindings.Add(this.SetBinding(() => ViewModel.AvailablePages).WhenSourceChanges(UpdatePageSelection));
+            Bindings.Add(this.SetBinding(() => ViewModel.AvailablePages).WhenSourceChanges(() =>
+            {
+                ViewModel.AvailablePages.CollectionChanged += (sender, args) => UpdatePageSelection();
+                UpdatePageSelection();
+            }));
         }
 
         private async void ForumTopicPageActionButtonOnClick(object o, EventArgs eventArgs)
@@ -115,12 +123,20 @@ namespace MALClient.Android.Fragments.ForumFragments
             view.Click += PageItemOnClick;
             view.Tag = tuple.Item1;
 
-            view.FindViewById(Resource.Id.PageIndicatorItemBackgroundPanel)
-                .SetBackgroundResource(tuple.Item2
-                    ? ResourceExtension.AccentColourRes
-                    : ResourceExtension.BrushAnimeItemInnerBackgroundRes);
+            var backgroundPanel = view.FindViewById(Resource.Id.PageIndicatorItemBackgroundPanel);
+            var textView = view.FindViewById<TextView>(Resource.Id.PageIndicatorItemNumber);
+            if (tuple.Item2)
+            {
+                textView.SetTextColor(Color.White);
+                backgroundPanel.SetBackgroundResource(ResourceExtension.AccentColourRes);
+            }
+            else
+            {
+                textView.SetTextColor(new Color(ResourceExtension.BrushText));
+                backgroundPanel.SetBackgroundResource(ResourceExtension.BrushAnimeItemInnerBackgroundRes);
+            }
 
-            view.FindViewById<TextView>(Resource.Id.PageIndicatorItemNumber).Text = tuple.Item1.ToString();
+            textView.Text = tuple.Item1.ToString();
 
             if (tuple.Item2)
                 _prevHighlightedPageIndicator = view;

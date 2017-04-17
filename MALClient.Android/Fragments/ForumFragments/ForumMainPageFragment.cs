@@ -12,6 +12,7 @@ using Android.Views;
 using Android.Widget;
 using Com.Mikepenz.Iconics;
 using Com.Shehabic.Droppy;
+using GalaSoft.MvvmLight.Helpers;
 using MALClient.Android.Flyouts;
 using MALClient.Models.Enums;
 using MALClient.XShared.NavArgs;
@@ -86,6 +87,43 @@ namespace MALClient.Android.Fragments.ForumFragments
             ForumsMainPageMoreButton.Click += ForumsMainPageMoreButtonOnClick;
 
             ForumsMainPagePinnedPostsButton.Click += ForumsMainPagePinnedPostsButtonOnClick;
+
+            Bindings.Add(this.SetBinding(() => ViewModel.PinnedBoards)
+                .WhenSourceChanges(() =>
+                {
+                    ViewModel.PinnedBoards.CollectionChanged += (sender, args) => UpdatePinnedBoards();
+                    UpdatePinnedBoards();
+                }));
+        }
+
+        private void UpdatePinnedBoards()
+        {
+            ForumsMainPagePinnedBoardsList.RemoveAllViews();
+            ForumsMainPagePinnedBoardsList.SetAdapter(ViewModel.PinnedBoards.GetAdapter(GetTemplateDelegate));
+        }
+
+        private View GetTemplateDelegate(int i, ForumBoards forumBoards, View arg3)
+        {
+
+            var  view = Activity.LayoutInflater.Inflate(Resource.Layout.ForumMainPagePinnedBoardItem,null);
+            var root = view.FindViewById(Resource.Id.ForumMainPagePinnedBoardItemRootContainer);
+            root.Click += OnPinnedBoardClick;
+            root.Tag = (int) forumBoards;
+
+            var txt = forumBoards.GetDescription();
+            if (txt.Length > 20 && txt.Length < 23)
+            {
+               txt = txt.Substring(0, 20) + "...";
+            }
+            view.FindViewById<TextView>(Resource.Id.ForumMainPagePinnedBoardItemText).Text = txt;
+                
+
+            return view;
+        }
+
+        private void OnPinnedBoardClick(object o, EventArgs eventArgs)
+        {
+            ViewModel.GotoPinnedBoardCommand.Execute((ForumBoards)(int)(o as View).Tag);
         }
 
         private void ForumsMainPagePinnedPostsButtonOnClick(object sender, EventArgs eventArgs)
@@ -128,19 +166,19 @@ namespace MALClient.Android.Fragments.ForumFragments
 
         #region Views
 
-        private ImageButton _forumsMainPagePinnedPostsButton;
+        private FrameLayout _forumsMainPagePinnedPostsButton;
         private LinearLayout _forumsMainPagePinnedBoardsList;
-        private ImageButton _forumsMainPageMoreButton;
+        private FrameLayout _forumsMainPageMoreButton;
         private FrameLayout _forumsContentFrame;
 
-
-        public ImageButton ForumsMainPagePinnedPostsButton => _forumsMainPagePinnedPostsButton ?? (_forumsMainPagePinnedPostsButton = FindViewById<ImageButton>(Resource.Id.ForumsMainPagePinnedPostsButton));
+        public FrameLayout ForumsMainPagePinnedPostsButton => _forumsMainPagePinnedPostsButton ?? (_forumsMainPagePinnedPostsButton = FindViewById<FrameLayout>(Resource.Id.ForumsMainPagePinnedPostsButton));
 
         public LinearLayout ForumsMainPagePinnedBoardsList => _forumsMainPagePinnedBoardsList ?? (_forumsMainPagePinnedBoardsList = FindViewById<LinearLayout>(Resource.Id.ForumsMainPagePinnedBoardsList));
 
-        public ImageButton ForumsMainPageMoreButton => _forumsMainPageMoreButton ?? (_forumsMainPageMoreButton = FindViewById<ImageButton>(Resource.Id.ForumsMainPageMoreButton));
+        public FrameLayout ForumsMainPageMoreButton => _forumsMainPageMoreButton ?? (_forumsMainPageMoreButton = FindViewById<FrameLayout>(Resource.Id.ForumsMainPageMoreButton));
 
         public FrameLayout ForumsContentFrame => _forumsContentFrame ?? (_forumsContentFrame = FindViewById<FrameLayout>(Resource.Id.ForumsContentFrame));
+
 
         #endregion
     }

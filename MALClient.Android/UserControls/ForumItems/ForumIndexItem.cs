@@ -10,6 +10,7 @@ using Android.Runtime;
 using Android.Util;
 using Android.Views;
 using Android.Widget;
+using Com.Shehabic.Droppy;
 using FFImageLoading.Transformations;
 using FFImageLoading.Views;
 using GalaSoft.MvvmLight.Helpers;
@@ -17,6 +18,7 @@ using MALClient.Android.BindingConverters;
 using MALClient.Android.Flyouts;
 using MALClient.Android.Listeners;
 using MALClient.Models.Enums;
+using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Forums;
 using MALClient.XShared.ViewModels.Forums.Items;
 
@@ -26,6 +28,7 @@ namespace MALClient.Android.UserControls.ForumItems
     {
         private readonly ForumIndexViewModel _parentViewModel;
         private Binding _binding;
+        private DroppyMenuPopup _menu;
 
         #region Constructors
 
@@ -213,9 +216,22 @@ namespace MALClient.Android.UserControls.ForumItems
 
             ForumIndexPageBoardItemRootContainer.SetOnLongClickListener(new OnLongClickListener(view =>
             {
-                var menu = FlyoutMenuBuilder.BuildGenericFlyout(Context, ForumIndexPageBoardItemRootContainer,
-                    new List<string> {"Add to favourites"}, i => ViewModel.AddToFavouritesCommand.Execute(null));
-                menu.Show();
+                var pinned = ViewModelLocator.ForumsMain.PinnedBoards.Contains(ViewModel.Board);
+                _menu = FlyoutMenuBuilder.BuildGenericFlyout(Context, ForumIndexPageBoardItemRootContainer,
+                    new List<string> { pinned ? "Remove from favourites" :  "Add to favourites" }, i =>
+                    {
+                        if (pinned)
+                        {
+                            ViewModelLocator.ForumsMain.RemovePinnedBoardCommand.Execute(ViewModel.Board);
+                        }
+                        else
+                        {
+                            ViewModel.AddToFavouritesCommand.Execute(ViewModel.Board);
+                        }
+
+                        _menu.Dismiss(true);
+                    });
+                _menu.Show();
             }));
 
             ForumIndexPageBoardItemPeekPost1Title.Click +=

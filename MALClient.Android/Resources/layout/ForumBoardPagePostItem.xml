@@ -1,39 +1,44 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical"
-    xmlns:android="http://schemas.android.com/apk/res/android">
-    <FrameLayout android:id="@+id/ForumBordPagePostItemRootContainer"
-        android:layout_width="match_parent" android:clickable="true" android:focusable="true" android:foreground="?selectableItemBackground"
-        android:layout_height="wrap_content" android:layout_marginTop="2dp" android:layout_marginBottom="2dp">
-        <LinearLayout
-            android:layout_width="match_parent" android:background="@drawable/border_accent_left" android:padding="5dp"
-            android:layout_height="wrap_content" android:gravity="center_vertical">
-            <TextView
-                android:layout_width="wrap_content" android:id="@+id/ForumBordPagePostItemPollIcon"
-                android:layout_height="wrap_content" android:text="&#xf080;" android:textColor="?BrushText" android:textSize="@dimen/FontSizeMedium"/>
-            <LinearLayout
-                android:layout_width="0dp" android:layout_weight="1" android:orientation="vertical"
-                android:layout_height="wrap_content" android:layout_marginStart="5dp" android:layout_marginEnd="5dp">
-                <TextView android:id="@+id/ForumBordPagePostItemTitle" android:layout_width="match_parent"
-                    android:textColor="?BrushText"
-                    android:layout_height="wrap_content" android:text="Some ver long text" android:textSize="@dimen/FontSizeMedium"/>
-                <TextView android:layout_marginTop="5dp" android:id="@+id/ForumBordPagePostItemOpAndDate"
-                    android:layout_width="wrap_content" android:textSize="@dimen/FontSizeSemiNormal"
-                    android:layout_height="wrap_content" android:text="Drutol Feb 31" android:textColor="?BrushText"/>
-            </LinearLayout>
+              xmlns:android="http://schemas.android.com/apk/res/android">
+  <FrameLayout android:id="@+id/ForumBordPagePostItemRootContainer" android:longClickable="true"
+               android:layout_width="match_parent" android:clickable="true" android:focusable="true" android:foreground="?selectableItemBackground"
+               android:layout_height="wrap_content" android:layout_marginTop="2dp" android:layout_marginBottom="2dp">
+    <LinearLayout
+      android:layout_width="match_parent" android:background="@drawable/border_accent_left" android:padding="5dp"
+      android:layout_height="wrap_content" android:gravity="center_vertical">
+      <TextView
+        android:layout_width="wrap_content" android:id="@+id/ForumBordPagePostItemPollIcon"
+        android:layout_height="wrap_content" android:text="&#xf080;" android:textColor="?BrushText" android:textSize="@dimen/FontSizeMedium"/>
+      <LinearLayout
+        android:layout_width="0dp" android:layout_weight="1" android:orientation="vertical"
+        android:layout_height="wrap_content" android:layout_marginStart="5dp" android:layout_marginEnd="5dp">
+        <TextView android:id="@+id/ForumBordPagePostItemTitle" android:layout_width="match_parent"
+                  android:textColor="?BrushText"
+                  android:layout_height="wrap_content" android:text="Some ver long text" android:textSize="@dimen/FontSizeMedium"/>
+        <TextView android:layout_marginTop="5dp" android:id="@+id/ForumBordPagePostItemOpAndDate"
+                  android:layout_width="wrap_content" android:textSize="@dimen/FontSizeSemiNormal"
+                  android:layout_height="wrap_content" android:text="Drutol Feb 31" android:textColor="?BrushText"/>
+      </LinearLayout>
 
-            <TextView android:id="@+id/ForumBordPagePostItemReplies"
+      <TextView android:id="@+id/ForumBordPagePostItemReplies"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" android:textColor="?BrushText" android:fontFamily="@string/font_family_light" android:text="5" android:layout_marginStart="15dp" android:layout_marginEnd="15dp"/>
-            <LinearLayout android:id="@+id/ForumBordPagePostItemLastPostSection" android:minWidth="125dp"
-                android:layout_width="wrap_content" android:layout_marginStart="5dp" android:layout_marginEnd="5dp" android:orientation="vertical" android:background="@drawable/button_underline_background_style"
-                android:layout_height="wrap_content" android:gravity="center_horizontal">
-                <TextView android:id="@+id/ForumBordPagePostItemLastPostAuthor" android:clickable="true" android:focusable="true"
+      <FrameLayout
+        android:layout_width="125dp"
+        android:layout_height="wrap_content">
+        <LinearLayout android:id="@+id/ForumBordPagePostItemLastPostSection" android:layout_gravity="center_horizontal"
+                      android:layout_width="wrap_content" android:layout_marginStart="5dp" android:layout_marginEnd="5dp" android:orientation="vertical" android:background="@drawable/button_underline_background_style"
+                      android:layout_height="wrap_content" android:gravity="center_horizontal">
+          <TextView android:id="@+id/ForumBordPagePostItemLastPostAuthor" android:clickable="true" android:focusable="true"
                     android:layout_width="wrap_content" android:textColor="?BrushText"
                     android:layout_height="wrap_content" android:text="Drutol"/>
-                <TextView android:id="@+id/ForumBordPagePostItemLastPostDate"
+          <TextView android:id="@+id/ForumBordPagePostItemLastPostDate"
                     android:layout_width="wrap_content" android:textColor="?BrushText"
                     android:layout_height="wrap_content" android:text="Feb 26, 4:11PM" android:fontFamily="@string/font_family_light"/>
-            </LinearLayout>
         </LinearLayout>
-    </FrameLayout>
+      </FrameLayout>
+
+    </LinearLayout>
+  </FrameLayout>
 </LinearLayout>

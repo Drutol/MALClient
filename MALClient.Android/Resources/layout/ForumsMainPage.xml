@@ -1,28 +1,38 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:orientation="vertical"
-    android:layout_height="wrap_content" android:background="?BrushDeepBackground">
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="match_parent" android:orientation="vertical"
+  android:layout_height="wrap_content" android:background="?BrushDeepBackground">
   <LinearLayout
-      android:layout_width="match_parent" android:background="?BrushAnimeItemInnerBackground"
-      android:layout_height="35dp">
-    <ImageButton android:id="@+id/ForumsMainPagePinnedPostsButton"
-        android:layout_width="25dp" android:layout_marginStart="6dp" android:layout_gravity="center_vertical"
-        android:layout_height="25dp" android:background="@color/Transparent" android:src="@drawable/icon_list_var"/>
-    <ScrollView
-        android:layout_width="0dp" android:paddingStart="4dp" android:paddingEnd="4dp"
-        android:layout_height="match_parent" android:layout_weight="1">
+    android:layout_width="match_parent" android:background="?BrushAnimeItemInnerBackground"
+    android:layout_height="35dp">
+    <FrameLayout
+      android:layout_width="35dp" android:background="?BrushAnimeItemBackground" android:elevation="5dp" android:focusable="true"
+      android:layout_height="35dp" android:id="@+id/ForumsMainPagePinnedPostsButton" android:clickable="true" android:foreground="?selectableItemBackground">
+      <ImageView
+        android:layout_width="wrap_content" android:layout_gravity="center"
+        android:layout_height="wrap_content" android:background="@color/Transparent" android:src="@drawable/icon_list_var"/>
+    </FrameLayout>
+
+    <HorizontalScrollView
+      android:layout_width="0dp" android:scrollbarSize="0dp"
+      android:layout_height="match_parent" android:layout_weight="1" android:scrollbars="none">
       <LinearLayout android:id="@+id/ForumsMainPagePinnedBoardsList"
-          android:layout_width="wrap_content" android:orientation="horizontal"
-          android:layout_height="match_parent"/>
-    </ScrollView>
-    <ImageButton android:id="@+id/ForumsMainPageMoreButton"
-        android:layout_width="25dp" android:layout_marginEnd="6dp" android:layout_gravity="center_vertical"
-        android:layout_height="25dp" android:background="@color/Transparent" android:src="@drawable/icon_more_vertical"/>
+                    android:layout_width="wrap_content" android:orientation="horizontal"
+                    android:layout_height="match_parent" android:gravity="center_vertical"/>
+    </HorizontalScrollView>
+    <FrameLayout
+      android:layout_width="35dp" android:background="?BrushAnimeItemBackground" android:elevation="5dp" android:focusable="true"
+      android:layout_height="35dp" android:id="@+id/ForumsMainPageMoreButton" android:clickable="true" android:foreground="?selectableItemBackground">
+      <ImageView
+        android:layout_width="wrap_content" android:layout_gravity="center"
+        android:layout_height="wrap_content" android:background="@color/Transparent" android:src="@drawable/icon_more_vertical"/>
+    </FrameLayout>
+
   </LinearLayout>
   <FrameLayout
-      android:id="@+id/ForumsContentFrame"
-      android:layout_width="match_parent"
-      android:layout_height="match_parent" />
+    android:id="@+id/ForumsContentFrame"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" />
 </LinearLayout>

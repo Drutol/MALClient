@@ -5,13 +5,18 @@ using System.Text;
 
 using Android.App;
 using Android.Content;
+using Android.Graphics;
 using Android.OS;
 using Android.Runtime;
+using Android.Support.Design.Widget;
 using Android.Views;
 using Android.Widget;
+using Com.Shehabic.Droppy;
 using GalaSoft.MvvmLight.Helpers;
 using MALClient.Android.BindingConverters;
 using MALClient.Android.DIalogs;
+using MALClient.Android.Flyouts;
+using MALClient.Android.Listeners;
 using MALClient.Android.Resources;
 using MALClient.Models.Enums;
 using MALClient.XShared.NavArgs;
@@ -26,6 +31,7 @@ namespace MALClient.Android.Fragments.ForumFragments
         private ForumBoardViewModel ViewModel;
         private readonly ForumsBoardNavigationArgs _args;
         private View _prevHighlightedPageIndicator;
+        private DroppyMenuPopup _menu;
 
         public ForumBoardPageFragment(ForumsBoardNavigationArgs args)
         {
@@ -62,14 +68,14 @@ namespace MALClient.Android.Fragments.ForumFragments
 
             Bindings.Add(
                 this.SetBinding(() => ViewModel.NewTopicButtonVisibility,
-                    () => ForumBoardPageNewTopicButton.Visibility).ConvertSourceToTarget(Converters.BoolToVisibility));
+                    () => ForumBoardPageActionButton.Visibility).ConvertSourceToTarget(Converters.BoolToVisibility));
+            ForumBoardPageActionButton.Click += (sender, args) => ViewModel.CreateNewTopicCommand.Execute(null);
 
             Bindings.Add(this.SetBinding(() => ViewModel.Topics).WhenSourceChanges(() =>
             {
                 ForumBoardPagePostsList.Adapter = ViewModel.Topics.GetAdapter(GetTopicTemplateDelegate);
             }));
 
-            ViewModel.AvailablePages.CollectionChanged += (sender, args) => UpdatePageSelection();
 
             ForumBoardPageSearchButton.Click += async (sender, args) =>
             {
@@ -81,7 +87,11 @@ namespace MALClient.Android.Fragments.ForumFragments
                 }
             };
 
-            Bindings.Add(this.SetBinding(() => ViewModel.AvailablePages).WhenSourceChanges(UpdatePageSelection));
+            Bindings.Add(this.SetBinding(() => ViewModel.AvailablePages).WhenSourceChanges(() =>
+            {
+                UpdatePageSelection();
+                ViewModel.AvailablePages.CollectionChanged += (sender, args) => UpdatePageSelection();
+            }));
         }
 
         private void UpdatePageSelection()
@@ -97,12 +107,20 @@ namespace MALClient.Android.Fragments.ForumFragments
             view.Click += PageItemOnClick;
             view.Tag = tuple.Item1;
 
-            view.FindViewById(Resource.Id.PageIndicatorItemBackgroundPanel)
-                .SetBackgroundResource(tuple.Item2
-                    ? ResourceExtension.AccentColourRes
-                    : ResourceExtension.BrushAnimeItemInnerBackgroundRes);
+            var backgroundPanel = view.FindViewById(Resource.Id.PageIndicatorItemBackgroundPanel);
+            var textView = view.FindViewById<TextView>(Resource.Id.PageIndicatorItemNumber);
+            if (tuple.Item2)
+            {
+                textView.SetTextColor(Color.White);
+                backgroundPanel.SetBackgroundResource(ResourceExtension.AccentColourRes);
+            }
+            else
+            {
+                textView.SetTextColor(new Color(ResourceExtension.BrushText));
+                backgroundPanel.SetBackgroundResource(ResourceExtension.BrushAnimeItemInnerBackgroundRes);
+            }     
 
-            view.FindViewById<TextView>(Resource.Id.PageIndicatorItemNumber).Text = tuple.Item1.ToString();
+            textView.Text = tuple.Item1.ToString();
 
             if (tuple.Item2)
                 _prevHighlightedPageIndicator = view;
@@ -130,6 +148,7 @@ namespace MALClient.Android.Fragments.ForumFragments
 
                 var root = view.FindViewById(Resource.Id.ForumBordPagePostItemRootContainer);
                 root.Click += PostOnClick;
+                root.SetOnLongClickListener(new OnLongClickListener(OnLongClickAction));
                 view.FindViewById(Resource.Id.ForumBordPagePostItemLastPostSection).Click += LastPostOnClick;
                 view.FindViewById<TextView>(Resource.Id.ForumBordPagePostItemPollIcon).Typeface =
                     FontManager.GetTypeface(Activity, FontManager.TypefacePath);
@@ -158,14 +177,35 @@ namespace MALClient.Android.Fragments.ForumFragments
             view.FindViewById<TextView>(Resource.Id.ForumBordPagePostItemLastPostDate).Text =
                 forumTopicEntryViewModel.Data.LastPostDate;
 
-
+            view.FindViewById(Resource.Id.ForumBordPagePostItemLastPostSection).Tag = forumTopicEntryViewModel.Wrap();
 
             return view;
         }
 
+        private void OnLongClickAction(View view)
+        {
+           
+
+            _menu = FlyoutMenuBuilder.BuildGenericFlyout(Context, view,
+                new List<string> { "Pin", "Pin to lastpost" }, i =>
+                {
+                    var vm = (view.Parent as View).Tag.Unwrap<ForumTopicEntryViewModel>();
+                    if (i == 0)
+                    {
+                        vm.PinCommand.Execute(null);
+                    }
+                    else
+                    {
+                        vm.PinLastpostCommand.Execute(null);
+                    }
+                    _menu.Dismiss(true);
+                });
+            _menu.Show();
+        }
+
         private void LastPostOnClick(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            ViewModel.GotoLastPostCommand.Execute((sender as View).Tag.Unwrap<ForumTopicEntryViewModel>());
         }
 
         private void PostOnClick(object sender, EventArgs eventArgs)
@@ -177,31 +217,31 @@ namespace MALClient.Android.Fragments.ForumFragments
 
 
         #region Views
-
         private TextView _forumBoardPageIcon;
         private TextView _forumBoardPageTitle;
-        private Button _forumBoardPageNewTopicButton;
         private Button _forumBoardPageSearchButton;
-        private LinearLayout _forumBoardPagePageList;
         private ImageButton _forumBoardPageGotoPageButton;
+        private LinearLayout _forumBoardPagePageList;
         private ListView _forumBoardPagePostsList;
         private ProgressBar _forumBoardPageLoadingSpinner;
+        private FloatingActionButton _forumBoardPageActionButton;
 
         public TextView ForumBoardPageIcon => _forumBoardPageIcon ?? (_forumBoardPageIcon = FindViewById<TextView>(Resource.Id.ForumBoardPageIcon));
 
         public TextView ForumBoardPageTitle => _forumBoardPageTitle ?? (_forumBoardPageTitle = FindViewById<TextView>(Resource.Id.ForumBoardPageTitle));
 
-        public Button ForumBoardPageNewTopicButton => _forumBoardPageNewTopicButton ?? (_forumBoardPageNewTopicButton = FindViewById<Button>(Resource.Id.ForumBoardPageNewTopicButton));
-
         public Button ForumBoardPageSearchButton => _forumBoardPageSearchButton ?? (_forumBoardPageSearchButton = FindViewById<Button>(Resource.Id.ForumBoardPageSearchButton));
 
-        public LinearLayout ForumBoardPagePageList => _forumBoardPagePageList ?? (_forumBoardPagePageList = FindViewById<LinearLayout>(Resource.Id.ForumBoardPagePageList));
-
         public ImageButton ForumBoardPageGotoPageButton => _forumBoardPageGotoPageButton ?? (_forumBoardPageGotoPageButton = FindViewById<ImageButton>(Resource.Id.ForumBoardPageGotoPageButton));
+
+        public LinearLayout ForumBoardPagePageList => _forumBoardPagePageList ?? (_forumBoardPagePageList = FindViewById<LinearLayout>(Resource.Id.ForumBoardPagePageList));
 
         public ListView ForumBoardPagePostsList => _forumBoardPagePostsList ?? (_forumBoardPagePostsList = FindViewById<ListView>(Resource.Id.ForumBoardPagePostsList));
 
         public ProgressBar ForumBoardPageLoadingSpinner => _forumBoardPageLoadingSpinner ?? (_forumBoardPageLoadingSpinner = FindViewById<ProgressBar>(Resource.Id.ForumBoardPageLoadingSpinner));
+
+        public FloatingActionButton ForumBoardPageActionButton => _forumBoardPageActionButton ?? (_forumBoardPageActionButton = FindViewById<FloatingActionButton>(Resource.Id.ForumBoardPageActionButton));
+
 
         #endregion
     }

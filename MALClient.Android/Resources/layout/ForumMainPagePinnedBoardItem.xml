@@ -4,7 +4,7 @@
   android:layout_width="match_parent" android:orientation="vertical"
   android:layout_height="35dp" android:paddingEnd="10dp">
   <FrameLayout android:elevation="3dp" android:id="@+id/ForumMainPagePinnedBoardItemRootContainer"
-               android:layout_width="wrap_content" android:background="?BrushTextInverted" android:foreground="?selectableItemBackground"
+               android:layout_width="wrap_content" android:background="?BrushForumPinnedBoard" android:foreground="?selectableItemBackground"
                android:layout_height="wrap_content" android:clickable="true" android:focusable="true" >
     <TextView android:background="@drawable/border_accent_underline" android:padding="5dp"
               android:layout_width="match_parent" android:textColor="?AccentColourLight"

@@ -43,5 +43,6 @@
     <attr name="AccentColourContrast" format="reference"/>
     <attr name="BrushMessageBubbleMine" format="reference"/>
     <attr name="BrushMessageBubbleOther" format="reference"/>
+    <attr name="BrushForumPinnedBoard" format="reference"/>
   </declare-styleable>
 </resources>

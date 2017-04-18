@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -21,6 +22,7 @@ using MALClient.XShared.Comm.CommUtils;
 using MALClient.XShared.Utils;
 using MALClient.XShared.Utils.Managers;
 using MALClient.XShared.ViewModels;
+using ModernHttpClient;
 
 namespace MALClient.Android
 {
@@ -43,6 +45,10 @@ namespace MALClient.Android
             //    VerbosePerformanceLogging = true,
             //    Logger = new MiniLogger()
             //});
+            ImageService.Instance.Initialize(new Configuration
+            {
+                HttpClient = new HttpClient(new NativeMessageHandler { AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate }),
+            });
             ViewModelLocator.RegisterBase();
             AndroidViewModelLocator.RegisterDependencies();
             InitializationRoutines.InitApp();

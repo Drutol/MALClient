@@ -32,16 +32,14 @@ namespace MALClient.Android.Adapters
 
         public bool NewChangelog { get; set; }
 
-        public string DateWithVersion => $"{_currentVersion} - 15.04.2017";
+        public string DateWithVersion => $"{_currentVersion} - 18.04.2017";
 
         public List<string> Changelog => new List<string>
         {
-            "Fixes from @Kimod's issue (#64)",
-            "Fixes from @FoxInFlame's issue (#121)",
-            "Image loading re-invented, not everywhere yet.",
-            "Anime/Manga recommendations rework.",
-            "Added NotificationsHub page.",
-            "Tons of little fixes and such."
+            "Little improvements on anime details page.",
+            "Added \"Go to\" button in profile page",
+            "Hopefully reduced amount of various crashes.",
+            "Great cleanup in Forums... still work in progres though!"
         };
 
     }

@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="match_parent" android:background="?BrushAnimeItemBackground"
+             android:layout_height="wrap_content"  android:orientation="vertical">
+  <LinearLayout
+    android:layout_width="match_parent" android:background="@drawable/border_accent_left_wide" android:orientation="vertical"
+    android:layout_height="match_parent" android:padding="20dp">
+
+    <TextView
+      android:layout_width="wrap_content" android:text="Go to page..." android:textColor="?BrushText"
+      android:layout_height="wrap_content" android:textSize="@dimen/FontSizeHuge"/>
+
+    <EditText android:id="@+id/ForumGoToPageDialogTextBox" android:textColorHint="?BrushSettingsSubtitle"
+              android:layout_width="match_parent" android:maxLines="1" android:layout_marginTop="10dp"
+              android:layout_height="wrap_content" android:hint="page number" android:lines="1" android:inputType="numberDecimal"/>
+    <FrameLayout
+      android:layout_width="match_parent" android:layout_marginTop="5dp"
+      android:layout_height="wrap_content">
+      <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
+        <Button android:layout_gravity="end"  android:id="@+id/ForumGoToPageDialogFirstPageButton"
+                android:layout_width="wrap_content" android:backgroundTint="?AccentColourLight"
+                android:layout_height="wrap_content" android:text="First Page" android:textColor="#fff"/>
+        <Button android:layout_gravity="end"  android:id="@+id/ForumGoToPageDialogLastPageButton"
+                android:layout_width="wrap_content" android:backgroundTint="?AccentColourLight" android:visibility="gone"
+                android:layout_height="wrap_content" android:text="Last Page" android:textColor="#fff"/>
+      </LinearLayout>
+      <Button android:layout_gravity="end|center_vertical"  android:id="@+id/ForumGoToPageDialogAcceptButton" android:minWidth="60dp"
+              android:layout_width="wrap_content" android:backgroundTint="?AccentColourLight" android:drawableTint="#fff"
+              android:layout_height="wrap_content" android:text="Go" android:textColor="#fff"/>
+    </FrameLayout>
+  </LinearLayout>
+</FrameLayout>

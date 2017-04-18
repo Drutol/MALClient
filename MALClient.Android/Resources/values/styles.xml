@@ -138,7 +138,8 @@
     <item name="android:colorEdgeEffect">#e6e6e6</item>
     <item name="BrushText">@color/DarkBrushText</item>
     <item name="BrushTextInverted">@color/DarkBrushTextInverted </item>
-    <item name="BrushTextAccentContrast">@color/DarkBrushSettingsSubtitle</item> <!-- Used by CurrentStatusSub --> 
+    <item name="BrushTextAccentContrast">@color/DarkBrushSettingsSubtitle</item>
+    <!-- Used by CurrentStatusSub -->
     <item name="BrushDeepBackground">@color/DarkBrushDeepBackground </item>
     <item name="BrushAppBars">@color/DarkBrushAppBars</item>
     <item name="BrushAppBarUpper">@color/DarkBrushAppBarUpper</item>
@@ -170,6 +171,7 @@
     <item name="BrushFlyoutBackground">@color/DarkBrushFlyoutBackground</item>
     <item name="BrushSelectedDialogItem">@color/DarkBrushSelectedDialogItem</item>
     <item name="BrushMediaElementShadow">@color/DarkBrushMediaElementShadow</item>
+    <item name="BrushForumPinnedBoard">@color/DarkBrushForumPinnedBoard</item>
   </style>
 
   <style name="Theme.MALClient.Light" parent="Theme.AppCompat.Light.NoActionBar">
@@ -208,6 +210,7 @@
     <item name="BrushFlyoutBackground">@color/LightBrushFlyoutBackground</item>
     <item name="BrushSelectedDialogItem">@color/LightBrushSelectedDialogItem</item>
     <item name="BrushMediaElementShadow">@color/LightBrushMediaElementShadow</item>
+    <item name="BrushForumPinnedBoard">@color/LightBrushForumPinnedBoard</item>
   </style>
 
   <style name="Divider">
@@ -223,7 +226,7 @@
   </style>
 
   <style name="Theme.Splash"
-      parent="android:Theme">
+         parent="android:Theme">
     <item name="android:windowBackground">
       @drawable/splash
     </item>

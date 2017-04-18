@@ -1061,7 +1061,7 @@ namespace MALClient.XShared.ViewModels
                };
             ParentAbstraction.EntryData = animeItem;
             _seasonalState = false;
-            SetAuthStatus(true);
+            
             MyScore = 0;
             MyStatus = AnimeStatus.PlanToWatch;
             MyEpisodes = 0;
@@ -1076,7 +1076,8 @@ namespace MALClient.XShared.ViewModels
             await Task.Delay(10);
             RaisePropertyChanged(() => MyStatusBindShort);
             RaisePropertyChanged(() => MyStatusBind);
-
+            UpdateButtonsVisibility = true;
+            SetAuthStatus(true);
             if (ViewModelLocator.AnimeDetails.Id == Id)
                 ViewModelLocator.AnimeDetails.CurrentAnimeHasBeenAddedToList(this);
         }

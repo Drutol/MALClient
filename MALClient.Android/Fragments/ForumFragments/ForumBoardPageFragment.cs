@@ -14,6 +14,7 @@ using Android.Widget;
 using Com.Shehabic.Droppy;
 using GalaSoft.MvvmLight.Helpers;
 using MALClient.Android.BindingConverters;
+using MALClient.Android.Dialogs;
 using MALClient.Android.DIalogs;
 using MALClient.Android.Flyouts;
 using MALClient.Android.Listeners;
@@ -69,7 +70,8 @@ namespace MALClient.Android.Fragments.ForumFragments
             Bindings.Add(
                 this.SetBinding(() => ViewModel.NewTopicButtonVisibility,
                     () => ForumBoardPageActionButton.Visibility).ConvertSourceToTarget(Converters.BoolToVisibility));
-            ForumBoardPageActionButton.Click += (sender, args) => ViewModel.CreateNewTopicCommand.Execute(null);
+            //ForumBoardPageActionButton.Click += (sender, args) => ViewModel.CreateNewTopicCommand.Execute(null);
+
 
             Bindings.Add(this.SetBinding(() => ViewModel.Topics).WhenSourceChanges(() =>
             {
@@ -87,11 +89,33 @@ namespace MALClient.Android.Fragments.ForumFragments
                 }
             };
 
-            Bindings.Add(this.SetBinding(() => ViewModel.AvailablePages).WhenSourceChanges(() =>
+            ForumBoardPageGotoPageButton.SetOnClickListener(new OnClickListener(Action));
+
+            Bindings.Add(this.SetBinding(() => ViewModel.AvailablePages).WhenSourceChanges(UpdatePageSelection));
+        }
+
+        private async void Action(View view)
+        {
+            var result = await ForumDialogBuilder.BuildGoPageDialog(Context);
+            if (result == null)
+                return;
+
+            if (result == -1)
             {
-                UpdatePageSelection();
-                ViewModel.AvailablePages.CollectionChanged += (sender, args) => UpdatePageSelection();
-            }));
+                ViewModel.GotoFirstPageCommand.Execute(null);
+            }
+            else if (result == -2)
+            {
+                ViewModel.GotoLastPageCommand.Execute(null);
+            }
+            else
+            {
+                if(result == 0)
+                    ViewModel.GotoPageTextBind = result.ToString();
+                else
+                    ViewModel.GotoPageTextBind = (result-1).ToString();
+                ViewModel.LoadGotoPageCommand.Execute(null);
+            }
         }
 
         private void UpdatePageSelection()
@@ -130,13 +154,20 @@ namespace MALClient.Android.Fragments.ForumFragments
 
         private void PageItemOnClick(object sender, EventArgs eventArgs)
         {
+            if(ViewModel.LoadingTopics)
+                return;
+
             var view = sender as View;
             ViewModel.LoadPageCommand.Execute((int) view.Tag);
             //update it immediatelly
             view.FindViewById(Resource.Id.PageIndicatorItemBackgroundPanel)
                 .SetBackgroundResource(ResourceExtension.AccentColourRes);
+            view.FindViewById<TextView>(Resource.Id.PageIndicatorItemNumber)
+                .SetTextColor(Color.White);
             _prevHighlightedPageIndicator.FindViewById(Resource.Id.PageIndicatorItemBackgroundPanel)
                 .SetBackgroundResource(ResourceExtension.BrushAnimeItemInnerBackgroundRes);
+            _prevHighlightedPageIndicator.FindViewById<TextView>(Resource.Id.PageIndicatorItemNumber)
+                .SetTextColor(new Color(ResourceExtension.BrushText));
         }
 
         private View GetTopicTemplateDelegate(int i, ForumTopicEntryViewModel forumTopicEntryViewModel, View arg3)
@@ -220,11 +251,11 @@ namespace MALClient.Android.Fragments.ForumFragments
         private TextView _forumBoardPageIcon;
         private TextView _forumBoardPageTitle;
         private Button _forumBoardPageSearchButton;
-        private ImageButton _forumBoardPageGotoPageButton;
+        private FrameLayout _forumBoardPageGotoPageButton;
         private LinearLayout _forumBoardPagePageList;
         private ListView _forumBoardPagePostsList;
-        private ProgressBar _forumBoardPageLoadingSpinner;
         private FloatingActionButton _forumBoardPageActionButton;
+        private ProgressBar _forumBoardPageLoadingSpinner;
 
         public TextView ForumBoardPageIcon => _forumBoardPageIcon ?? (_forumBoardPageIcon = FindViewById<TextView>(Resource.Id.ForumBoardPageIcon));
 
@@ -232,15 +263,15 @@ namespace MALClient.Android.Fragments.ForumFragments
 
         public Button ForumBoardPageSearchButton => _forumBoardPageSearchButton ?? (_forumBoardPageSearchButton = FindViewById<Button>(Resource.Id.ForumBoardPageSearchButton));
 
-        public ImageButton ForumBoardPageGotoPageButton => _forumBoardPageGotoPageButton ?? (_forumBoardPageGotoPageButton = FindViewById<ImageButton>(Resource.Id.ForumBoardPageGotoPageButton));
+        public FrameLayout ForumBoardPageGotoPageButton => _forumBoardPageGotoPageButton ?? (_forumBoardPageGotoPageButton = FindViewById<FrameLayout>(Resource.Id.ForumBoardPageGotoPageButton));
 
         public LinearLayout ForumBoardPagePageList => _forumBoardPagePageList ?? (_forumBoardPagePageList = FindViewById<LinearLayout>(Resource.Id.ForumBoardPagePageList));
 
         public ListView ForumBoardPagePostsList => _forumBoardPagePostsList ?? (_forumBoardPagePostsList = FindViewById<ListView>(Resource.Id.ForumBoardPagePostsList));
 
-        public ProgressBar ForumBoardPageLoadingSpinner => _forumBoardPageLoadingSpinner ?? (_forumBoardPageLoadingSpinner = FindViewById<ProgressBar>(Resource.Id.ForumBoardPageLoadingSpinner));
-
         public FloatingActionButton ForumBoardPageActionButton => _forumBoardPageActionButton ?? (_forumBoardPageActionButton = FindViewById<FloatingActionButton>(Resource.Id.ForumBoardPageActionButton));
+
+        public ProgressBar ForumBoardPageLoadingSpinner => _forumBoardPageLoadingSpinner ?? (_forumBoardPageLoadingSpinner = FindViewById<ProgressBar>(Resource.Id.ForumBoardPageLoadingSpinner));
 
 
         #endregion

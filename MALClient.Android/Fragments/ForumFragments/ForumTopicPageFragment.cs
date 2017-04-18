@@ -146,13 +146,20 @@ namespace MALClient.Android.Fragments.ForumFragments
 
         private void PageItemOnClick(object sender, EventArgs eventArgs)
         {
+            if(ViewModel.LoadingTopic)
+                return;
+
             var view = sender as View;
             ViewModel.LoadPageCommand.Execute((int)view.Tag);
             //update it immediatelly
             view.FindViewById(Resource.Id.PageIndicatorItemBackgroundPanel)
                 .SetBackgroundResource(ResourceExtension.AccentColourRes);
+            view.FindViewById<TextView>(Resource.Id.PageIndicatorItemNumber)
+                .SetTextColor(Color.White);
             _prevHighlightedPageIndicator.FindViewById(Resource.Id.PageIndicatorItemBackgroundPanel)
                 .SetBackgroundResource(ResourceExtension.BrushAnimeItemInnerBackgroundRes);
+            _prevHighlightedPageIndicator.FindViewById<TextView>(Resource.Id.PageIndicatorItemNumber)
+                .SetTextColor(new Color(ResourceExtension.BrushText));
         }
 
         public override int LayoutResourceId => Resource.Layout.ForumTopicPage;

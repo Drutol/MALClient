@@ -75,9 +75,10 @@ namespace MALClient.Android.Fragments.ForumFragments
             {
                 trans.Commit();
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                Debugger.Break();
+                //random exception that does not affect anything
+                //#justandroidthings
             }
 
         }

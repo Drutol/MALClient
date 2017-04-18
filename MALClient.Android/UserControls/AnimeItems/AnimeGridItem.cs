@@ -144,6 +144,7 @@ namespace MALClient.Android.UserControls
                     break;
                 case nameof(ViewModel.Auth):
                     BindModelFull();
+                    BindModelBasic();
                     break;
             }
         }

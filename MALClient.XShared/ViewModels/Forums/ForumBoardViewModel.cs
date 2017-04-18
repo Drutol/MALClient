@@ -32,7 +32,22 @@ namespace MALClient.XShared.ViewModels.Forums
         }
 
         //page and IsActive
-        public ObservableCollection<Tuple<int,bool>> AvailablePages { get; } = new ObservableCollection<Tuple<int, bool>>();
+#if ANDROID
+        private List<Tuple<int, bool>> _availablePages;
+        public List<Tuple<int, bool>> AvailablePages
+        {
+            get { return _availablePages; }
+            set
+            {
+                _availablePages = value; 
+                RaisePropertyChanged();
+            }
+        }
+
+#else
+            public ObservableCollection<Tuple<int,bool>> AvailablePages { get; } = new ObservableCollection<Tuple<int, bool>>();
+#endif
+
 
         private string _title;
 
@@ -184,7 +199,7 @@ namespace MALClient.XShared.ViewModels.Forums
         public ICommand GotoLastPageCommand => _gotoLastPageCommand ?? (_gotoLastPageCommand = new RelayCommand(
             () =>
             {
-                LoadPage(_allPages,false);
+                LoadPage(_allPages,true);
             }));
 
         private ICommand _gotoFirstPageCommand;
@@ -199,8 +214,7 @@ namespace MALClient.XShared.ViewModels.Forums
 
         public ICommand LoadGotoPageCommand => _loadGotoPageCommand ?? (_loadGotoPageCommand = new RelayCommand(() =>
         {
-            int val;
-            if (!int.TryParse(GotoPageTextBind, out val))            
+            if (!int.TryParse(GotoPageTextBind, out int val))
                 return;
             LoadPage(val);
             GotoPageTextBind = "";
@@ -217,11 +231,20 @@ namespace MALClient.XShared.ViewModels.Forums
             {
                 _currentPage = value;
                 RaisePropertyChanged(() => CurrentPage);
-                
+
+#if ANDROID
+                var list = new List<Tuple<int, bool>>();
+                var start = value <= 2 ? 1 : value - 2;
+                for (int i = start; i <= start + 4 && i <= _allPages + 1; i++)
+                    list.Add(new Tuple<int, bool>(i, i == value + 1));
+                AvailablePages = list;
+#else
                 AvailablePages.Clear();
-                var start = value <= 2 ? 1 : value-2;
-                for (int i = start; i <= start+4 && i <= _allPages + 1; i++)
-                    AvailablePages.Add(new Tuple<int, bool>(i,i == value+1));
+                var start = value <= 2 ? 1 : value - 2;
+                for (int i = start; i <= start + 4 && i <= _allPages + 1; i++)
+                    AvailablePages.Add(new Tuple<int, bool>(i, i == value + 1));
+#endif
+
             }
         }
 
@@ -237,6 +260,7 @@ namespace MALClient.XShared.ViewModels.Forums
 
         private bool _initizalizing;
         private bool _forceReloadOnNextInit;
+
 
 
         public void Init(ForumsBoardNavigationArgs args,bool force = false)

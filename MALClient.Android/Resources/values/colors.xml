@@ -31,6 +31,7 @@
   <color name="LightBrushFavouriteStarBackground">#ffffff</color>
   <color name="LightBrushNoSearchResults">#b9b9b9</color>
   <color name="LightBrushMediaElementShadow">#e5f5f5f5</color>
+  <color name="LightBrushForumPinnedBoard">#fafafa</color>
 
 
   <color name="DarkBrushText">#ffffff </color>
@@ -62,6 +63,7 @@
   <color name="DarkBrushFavouriteStarBackground">#bd000000</color>
   <color name="DarkBrushNoSearchResults">#B9B9B9</color>
   <color name="DarkBrushMediaElementShadow">#e5000000</color>
+  <color name="DarkBrushForumPinnedBoard">#151515</color>
   <!-- Orange accent -->
   <color name="OrangeDarkBrushMessageBubbleMine">#7d340e</color>
   <color name="OrangeDarkBrushMessageBubbleOther">#6a2d0d</color>
@@ -117,7 +119,7 @@
 
   <color name="Transparent">#00ffffff</color>
   <color name="BrushOpaqueTextView">#bd000000</color>
-  
+
   <color name="BrushTextAccentContrast">#f3f3f3</color>
 
   <color name="White">#fff</color>

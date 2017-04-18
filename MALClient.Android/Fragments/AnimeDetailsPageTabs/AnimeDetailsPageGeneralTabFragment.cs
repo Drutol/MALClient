@@ -40,15 +40,12 @@ namespace MALClient.Android.Fragments.AnimeDetailsPageTabs
             {
                 try
                 {
-
-
                     if (!ViewModel.LoadingGlobal)
                     {
                         //left details
                         AnimeDetailsPageGeneralTabFragmentType.Text = ViewModel.RightDetailsRow[0].Item2;
                         AnimeDetailsPageGeneralTabFragmentStatus.Text = ViewModel.RightDetailsRow[1].Item2;
                         AnimeDetailsPageGeneralTabFragmentEnd.Text = ViewModel.RightDetailsRow[2].Item2;
-                        AnimeDetailsPageGeneralTabFragmentMyStart.Text = ViewModel.MyStartDate;
                         AnimeDetailsPageGeneralTabFragmentMyStartButton.SetOnClickListener(new OnClickListener(view =>
                         {
                             var date = ViewModel.StartDateValid ? ViewModel.StartDateTimeOffset : DateTimeOffset.Now;
@@ -66,7 +63,6 @@ namespace MALClient.Android.Fragments.AnimeDetailsPageTabs
                         AnimeDetailsPageGeneralTabFragmentEpisodes.Text = ViewModel.LeftDetailsRow[0].Item2;
                         AnimeDetailsPageGeneralTabFragmentScore.Text = ViewModel.LeftDetailsRow[1].Item2;
                         AnimeDetailsPageGeneralTabFragmentStart.Text = ViewModel.LeftDetailsRow[2].Item2;
-                        AnimeDetailsPageGeneralTabFragmentMyEnd.Text = ViewModel.MyEndDate;
                         AnimeDetailsPageGeneralTabFragmentMyEndButton.SetOnClickListener(new OnClickListener(view =>
                         {
                             var date = ViewModel.EndDateValid ? ViewModel.EndDateTimeOffset : DateTimeOffset.Now;
@@ -104,6 +100,15 @@ namespace MALClient.Android.Fragments.AnimeDetailsPageTabs
                             AnimeDetailsPageGeneralTabFragmentMyEndButton.Visibility = ViewStates.Visible;
                     }
                 }));
+
+            Bindings.Add(
+                this.SetBinding(() => ViewModel.MyStartDate,
+                    () => AnimeDetailsPageGeneralTabFragmentMyStart.Text));
+
+            Bindings.Add(
+                this.SetBinding(() => ViewModel.MyEndDate,
+                    () => AnimeDetailsPageGeneralTabFragmentMyEnd.Text));
+
         }
 
 

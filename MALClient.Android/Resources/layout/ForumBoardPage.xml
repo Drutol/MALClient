@@ -28,9 +28,14 @@
         <RelativeLayout
           android:layout_width="0dp" android:layout_weight="1" android:gravity="center_vertical"
           android:layout_height="wrap_content">
-          <ImageButton
-            android:layout_width="wrap_content" android:layout_alignParentEnd="true" android:id="@+id/ForumBoardPageGotoPageButton"
-            android:layout_height="wrap_content" android:src="@drawable/icon_go" android:background="?BrushAnimeItemInnerBackground" android:paddingStart="9dp" android:paddingEnd="9dp" android:paddingTop="6dp" android:paddingBottom="6dp" android:layout_marginEnd="5dp" android:layout_centerVertical="true"/>
+          <FrameLayout android:layout_marginStart="2dp"
+                       android:layout_width="wrap_content" android:clickable="true" android:focusable="true" android:foreground="?selectableItemBackground" android:id="@+id/ForumBoardPageGotoPageButton" android:background="?BrushAnimeItemInnerBackground"
+                       android:layout_height="wrap_content" android:layout_alignParentEnd="true" android:layout_centerVertical="true" android:paddingStart="9dp" android:paddingEnd="9dp" android:paddingTop="6dp" android:paddingBottom="6dp" android:layout_marginEnd="5dp">
+            <ImageView
+              android:layout_width="wrap_content"  android:background="@color/Transparent"
+              android:layout_height="wrap_content" android:src="@drawable/icon_go"   />
+          </FrameLayout>
+
           <LinearLayout android:id="@+id/ForumBoardPagePageList" android:layout_toLeftOf="@id/ForumBoardPageGotoPageButton"
                         android:layout_width="wrap_content" android:orientation="horizontal"
                         android:layout_height="wrap_content"/>

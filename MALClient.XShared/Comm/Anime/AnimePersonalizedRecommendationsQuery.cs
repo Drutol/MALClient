@@ -8,6 +8,7 @@ using HtmlAgilityPack;
 using MALClient.Models.Models.AnimeScrapped;
 using MALClient.XShared.Comm.MagicalRawQueries;
 using MALClient.XShared.Utils;
+using MALClient.XShared.ViewModels;
 using Newtonsoft.Json;
 
 namespace MALClient.XShared.Comm.Anime
@@ -26,7 +27,7 @@ namespace MALClient.XShared.Comm.Anime
 
         private async Task InitPlacements()
         {
-            var client = await MalHttpContextProvider.GetHttpContextAsync();
+            var client = await ResourceLocator.MalHttpContextProvider.GetHttpContextAsync();
             var raw = await (await client.GetAsync("")).Content.ReadAsStringAsync();
             var doc = new HtmlDocument();
             doc.LoadHtml(raw);
@@ -77,7 +78,7 @@ namespace MALClient.XShared.Comm.Anime
                 }
             }
 
-            var client = await MalHttpContextProvider.GetHttpContextAsync();
+            var client = await ResourceLocator.MalHttpContextProvider.GetHttpContextAsync();
 
             var raw =
                 await (await client.GetAsync(

@@ -51,6 +51,7 @@ namespace MALClient.Android
             SimpleIoc.Default.Register<ISchdeuledJobsManger, ScheduledJobsManager>();
             SimpleIoc.Default.Register<ICssManager, CssManager>();
             SimpleIoc.Default.Register<IChangeLogProvider, ChangelogProvider>();
+            SimpleIoc.Default.Register<IMalHttpContextProvider, MalHttpContextProvider>();
 
         }
 

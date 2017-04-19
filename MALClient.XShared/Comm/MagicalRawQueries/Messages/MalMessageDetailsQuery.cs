@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using HtmlAgilityPack;
 using MALClient.Models.Models.MalSpecific;
 using MALClient.XShared.Utils;
+using MALClient.XShared.ViewModels;
 
 namespace MALClient.XShared.Comm.MagicalRawQueries.Messages
 {
@@ -15,7 +16,7 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Messages
         {
             try
             {
-                var client = await MalHttpContextProvider.GetHttpContextAsync();
+                var client = await ResourceLocator.MalHttpContextProvider.GetHttpContextAsync();
                 var response = await client.GetAsync($"/mymessages.php?go=read&id={msg.Id}{(sentMessage ? "&f=1" : "")}");
                 var raw = await response.Content.ReadAsStringAsync();
 
@@ -52,7 +53,7 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Messages
             }
             catch (WebException)
             {
-                MalHttpContextProvider.ErrorMessage("Messages");
+                ResourceLocator.MalHttpContextProvider.ErrorMessage("Messages");
             }
 
             return new MalMessageModel();
@@ -62,7 +63,7 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Messages
         {
             try
             {
-                var client = await MalHttpContextProvider.GetHttpContextAsync();
+                var client = await ResourceLocator.MalHttpContextProvider.GetHttpContextAsync();
                 var response = await client.GetAsync($"/mymessages.php?go=read&id={msg.Id}&threadid={msg.ThreadId}");
                 var raw = await response.Content.ReadAsStringAsync();
 
@@ -105,7 +106,7 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Messages
             }
             catch (Exception)
             {
-                MalHttpContextProvider.ErrorMessage("Messages");
+                ResourceLocator.MalHttpContextProvider.ErrorMessage("Messages");
             }
 
             return new List<MalMessageModel>();

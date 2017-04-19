@@ -56,6 +56,7 @@
     <Compile Include="BL\HandyDataStorage.cs" />
     <Compile Include="BL\HandyDataStorageModule.cs" />
     <Compile Include="BL\InitializationRoutines.cs" />
+    <Compile Include="BL\MalHttpContextProviderBase.cs" />
     <Compile Include="Comm\Anime\AnimeAddQuery.cs" />
     <Compile Include="Comm\Anime\AnimeCharactersStaffQuery.cs" />
     <Compile Include="Comm\Anime\AnimeDetailsAnnQuery.cs" />
@@ -89,9 +90,9 @@
     <Compile Include="Comm\Forums\ForumSearchQuery.cs" />
     <Compile Include="Comm\Forums\ForumTopicMessageCountQuery.cs" />
     <Compile Include="Comm\LibraryListQuery.cs" />
+    <Compile Include="Comm\MagicalRawQueries\CsrfHttpClient.cs" />
     <Compile Include="Comm\MagicalRawQueries\Forums\ForumTopicQueries.cs" />
     <Compile Include="Comm\MagicalRawQueries\MalFavouriteQuery.cs" />
-    <Compile Include="Comm\MagicalRawQueries\MalHttpContextProvider.cs" />
     <Compile Include="Comm\MagicalRawQueries\MalNotificationsQuery.cs" />
     <Compile Include="Comm\MagicalRawQueries\Messages\AccountMessagesMangaer.cs" />
     <Compile Include="Comm\MagicalRawQueries\Messages\MalMessageDetailsQuery.cs" />
@@ -114,6 +115,7 @@
     <Compile Include="Interfaces\IHamburgerViewModel.cs" />
     <Compile Include="Interfaces\IHandyDataStorageModule.cs" />
     <Compile Include="Interfaces\IHandyDataStorageModuleBase.cs" />
+    <Compile Include="Interfaces\IMalHttpContextProvider.cs" />
     <Compile Include="Interfaces\INavMgr.cs" />
     <Compile Include="Interfaces\ISelfBackNavAware.cs" />
     <Compile Include="NavArgs\AnimeDetailsPageNavigationArgs.cs" />

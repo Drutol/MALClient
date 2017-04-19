@@ -120,7 +120,7 @@ namespace MALClient.XShared.ViewModels.Main
                         }
                         catch (WebException)
                         {
-                            MalHttpContextProvider.ErrorMessage("Messages");
+                            ResourceLocator.MalHttpContextProvider.ErrorMessage("Messages");
                         }
                     }
                     _skipLoading = false;
@@ -143,7 +143,7 @@ namespace MALClient.XShared.ViewModels.Main
                 }
                 catch (Exception)
                 {
-                    MalHttpContextProvider.ErrorMessage("Messages");
+                    ResourceLocator.MalHttpContextProvider.ErrorMessage("Messages");
                 }
 
             LoadingVisibility = false;

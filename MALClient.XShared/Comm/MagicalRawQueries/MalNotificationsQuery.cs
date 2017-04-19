@@ -12,6 +12,7 @@ using MALClient.Models.Models.ApiResponses;
 using MALClient.Models.Models.MalSpecific;
 using MALClient.Models.Models.Notifications;
 using MALClient.XShared.Utils;
+using MALClient.XShared.ViewModels;
 using Newtonsoft.Json;
 
 namespace MALClient.XShared.Comm.MagicalRawQueries
@@ -22,7 +23,7 @@ namespace MALClient.XShared.Comm.MagicalRawQueries
         {
             try
             {
-                var client = await MalHttpContextProvider.GetHttpContextAsync();
+                var client = await ResourceLocator.MalHttpContextProvider.GetHttpContextAsync();
 
                 var response =
                     await client.GetAsync("https://myanimelist.net/notification");
@@ -71,7 +72,7 @@ namespace MALClient.XShared.Comm.MagicalRawQueries
         {
             try
             {
-                var client = await MalHttpContextProvider.GetHttpContextAsync();
+                var client = await ResourceLocator.MalHttpContextProvider.GetHttpContextAsync();
 
                 var dto = new ReadNotificationDTO(notification,client.Token);
                 var content = new StringContent(JsonConvert.SerializeObject(dto));
@@ -82,7 +83,7 @@ namespace MALClient.XShared.Comm.MagicalRawQueries
             }
             catch (Exception e)
             {
-                MalHttpContextProvider.ErrorMessage("Notifications");
+                ResourceLocator.MalHttpContextProvider.ErrorMessage("Notifications");
                 return false;
             }
         }

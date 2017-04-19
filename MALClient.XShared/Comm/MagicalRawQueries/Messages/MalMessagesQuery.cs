@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using HtmlAgilityPack;
 using MALClient.Models.Models.MalSpecific;
 using MALClient.XShared.Utils;
+using MALClient.XShared.ViewModels;
 
 namespace MALClient.XShared.Comm.MagicalRawQueries.Messages
 {
@@ -13,7 +14,7 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Messages
     {
         public async Task<List<MalMessageModel>> GetMessages(int page = 1)
         {
-            var client = await MalHttpContextProvider.GetHttpContextAsync();
+            var client = await ResourceLocator.MalHttpContextProvider.GetHttpContextAsync();
             string path = $"/mymessages.php?go=&show={page*20 - 20}";
             var res = await client.GetAsync(path);
             var body = await res.Content.ReadAsStringAsync();
@@ -40,7 +41,7 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Messages
         {
             try
             {
-                var client = await MalHttpContextProvider.GetHttpContextAsync();
+                var client = await ResourceLocator.MalHttpContextProvider.GetHttpContextAsync();
                 string path = $"/mymessages.php?go=sent";
                 var res = await client.GetAsync(path);
                 var body = await res.Content.ReadAsStringAsync();
@@ -59,7 +60,7 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Messages
             }
             catch (WebException)
             {
-                MalHttpContextProvider.ErrorMessage("Messages");
+                ResourceLocator.MalHttpContextProvider.ErrorMessage("Messages");
             }
             return new List<MalMessageModel>();
         }
@@ -72,7 +73,7 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Messages
         {
             try
             {
-                var client = await MalHttpContextProvider.GetHttpContextAsync();
+                var client = await ResourceLocator.MalHttpContextProvider.GetHttpContextAsync();
                 var res = await client.GetAsync("/mymessages.php?go=sent");
                 var body = await res.Content.ReadAsStringAsync();
 
@@ -96,7 +97,7 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Messages
             }
             catch (WebException)
             {
-                MalHttpContextProvider.ErrorMessage("Messages");
+                ResourceLocator.MalHttpContextProvider.ErrorMessage("Messages");
             }
             return "0";
         }

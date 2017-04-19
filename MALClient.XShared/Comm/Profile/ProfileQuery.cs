@@ -12,6 +12,7 @@ using MALClient.XShared.Comm.CommUtils;
 using MALClient.XShared.Comm.MagicalRawQueries;
 using MALClient.XShared.Utils;
 using MALClient.XShared.Utils.Managers;
+using MALClient.XShared.ViewModels;
 using Newtonsoft.Json;
 
 namespace MALClient.XShared.Comm.Profile
@@ -54,7 +55,7 @@ namespace MALClient.XShared.Comm.Profile
             if (possibleData != null)
                 return possibleData;
             var raw = !updateFavsOnly
-                ? await (await (await MalHttpContextProvider.GetHttpContextAsync()).GetAsync($"/profile/{_userName}")).Content.ReadAsStringAsync()
+                ? await (await (await ResourceLocator.MalHttpContextProvider.GetHttpContextAsync()).GetAsync($"/profile/{_userName}")).Content.ReadAsStringAsync()
                 : await GetRequestResponse();
             var doc = new HtmlDocument();
             doc.LoadHtml(raw);
@@ -507,7 +508,7 @@ namespace MALClient.XShared.Comm.Profile
 
         public async Task<List<MalComment>> GetComments()
         {
-            var raw = await (await MalHttpContextProvider.GetHttpContextAsync()).GetAsync($"/profile/{_userName}");
+            var raw = await (await ResourceLocator.MalHttpContextProvider.GetHttpContextAsync()).GetAsync($"/profile/{_userName}");
             var doc = new HtmlDocument();
             doc.LoadHtml(await raw.Content.ReadAsStringAsync());
             var output = new List<MalComment>();

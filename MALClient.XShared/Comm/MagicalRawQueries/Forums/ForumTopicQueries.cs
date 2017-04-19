@@ -11,6 +11,7 @@ using MALClient.Models.Enums;
 using MALClient.Models.Models;
 using MALClient.Models.Models.Forums;
 using MALClient.XShared.Utils;
+using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Forums.Items;
 using Newtonsoft.Json;
 
@@ -48,7 +49,7 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Forums
         {
             try
             {
-                var client = await MalHttpContextProvider.GetHttpContextAsync();
+                var client = await ResourceLocator.MalHttpContextProvider.GetHttpContextAsync();
 
                 var data = new List<KeyValuePair<string, string>>
                 {
@@ -113,7 +114,7 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Forums
         {
             try
             {
-                var client = await MalHttpContextProvider.GetHttpContextAsync();
+                var client = await ResourceLocator.MalHttpContextProvider.GetHttpContextAsync();
 
                 var data = new List<KeyValuePair<string, string>>
                 {
@@ -159,7 +160,7 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Forums
         {
             try
             {
-                var client = await MalHttpContextProvider.GetHttpContextAsync();
+                var client = await ResourceLocator.MalHttpContextProvider.GetHttpContextAsync();
 
                 var data = new List<KeyValuePair<string, string>>
                 {
@@ -204,7 +205,7 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Forums
         {
             try
             {
-                var client = await MalHttpContextProvider.GetHttpContextAsync();
+                var client = await ResourceLocator.MalHttpContextProvider.GetHttpContextAsync();
 
                 var data = new List<KeyValuePair<string, string>>
                 {
@@ -239,7 +240,7 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Forums
         {
             try
             {
-                var client = await MalHttpContextProvider.GetHttpContextAsync();
+                var client = await ResourceLocator.MalHttpContextProvider.GetHttpContextAsync();
 
                 var data = new List<KeyValuePair<string, string>>
                 {
@@ -286,7 +287,7 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Forums
 
             try
             {
-                var client = await MalHttpContextProvider.GetHttpContextAsync();
+                var client = await ResourceLocator.MalHttpContextProvider.GetHttpContextAsync();
                 
                 var response =
                     await client.GetAsync(
@@ -515,7 +516,7 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Forums
         {
             try
             {
-                var client = await MalHttpContextProvider.GetHttpContextAsync();
+                var client = await ResourceLocator.MalHttpContextProvider.GetHttpContextAsync();
 
                 var data = new List<KeyValuePair<string, string>>
                 {
@@ -555,7 +556,7 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Forums
         {
             try
             {
-                var client = await MalHttpContextProvider.GetHttpContextAsync();
+                var client = await ResourceLocator.MalHttpContextProvider.GetHttpContextAsync();
 
                 var data = new List<KeyValuePair<string, string>>
                 {

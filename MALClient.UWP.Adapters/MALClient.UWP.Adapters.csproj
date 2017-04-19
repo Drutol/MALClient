@@ -114,6 +114,7 @@
     <Compile Include="DataCache.cs" />
     <Compile Include="ClipboardProvider.cs" />
     <Compile Include="ImageDownloaderService.cs" />
+    <Compile Include="MalHttpContextProvider.cs" />
     <Compile Include="NotificationsTaskManager.cs" />
     <Compile Include="ScheduledJobsManager.cs" />
     <Compile Include="SystemControlsLauncherService.cs" />

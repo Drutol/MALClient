@@ -44,6 +44,8 @@ namespace MALClient.XShared.ViewModels
 
         public static ICssManager CssManager => SimpleIoc.Default.GetInstance<ICssManager>();
 
+        public static IMalHttpContextProvider MalHttpContextProvider => SimpleIoc.Default.GetInstance<IMalHttpContextProvider>();
+
 
         // Purely shared interfaces
 

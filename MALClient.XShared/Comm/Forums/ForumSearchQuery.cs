@@ -7,6 +7,7 @@ using MALClient.Models.Enums;
 using MALClient.Models.Models.Forums;
 using MALClient.XShared.Comm.MagicalRawQueries;
 using MALClient.XShared.Utils;
+using MALClient.XShared.ViewModels;
 
 namespace MALClient.XShared.Comm.Forums
 {
@@ -19,7 +20,7 @@ namespace MALClient.XShared.Comm.Forums
             if (query.Length > 2)
                 try
                 {
-                    var client = await MalHttpContextProvider.GetHttpContextAsync();
+                    var client = await ResourceLocator.MalHttpContextProvider.GetHttpContextAsync();
 
                     var resp = await client.GetAsync($"/forum/search?q={query}&u=&uloc=1&loc={scope}");
 
@@ -55,7 +56,7 @@ namespace MALClient.XShared.Comm.Forums
             var output = new ForumBoardContent {Pages = 0};
                 try
                 {
-                    var client = await MalHttpContextProvider.GetHttpContextAsync();
+                    var client = await ResourceLocator.MalHttpContextProvider.GetHttpContextAsync();
 
                     var resp = await client.GetAsync($"/forum/search?u={user}&q=&uloc=1&loc=-1");
 
@@ -91,7 +92,7 @@ namespace MALClient.XShared.Comm.Forums
             var output = new ForumBoardContent {Pages = 0};
                 try
                 {
-                    var client = await MalHttpContextProvider.GetHttpContextAsync();
+                    var client = await ResourceLocator.MalHttpContextProvider.GetHttpContextAsync();
 
                     var resp = await client.GetAsync("/forum/?action=viewstarred");
 

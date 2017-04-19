@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using MALClient.XShared.ViewModels;
 
 namespace MALClient.XShared.Comm.MagicalRawQueries.Messages
 {
@@ -16,7 +17,7 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Messages
         {
             try
             {
-                var client = await MalHttpContextProvider.GetHttpContextAsync();
+                var client = await ResourceLocator.MalHttpContextProvider.GetHttpContextAsync();
 
                 var contentPairs = new List<KeyValuePair<string, string>>
             {
@@ -34,7 +35,7 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Messages
             }
             catch (WebException)
             {
-                MalHttpContextProvider.ErrorMessage("Messages");
+                ResourceLocator.MalHttpContextProvider.ErrorMessage("Messages");
                 return false;
             }
 
@@ -49,7 +50,7 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Messages
         {
             try
             {
-                var client = await MalHttpContextProvider.GetHttpContextAsync();
+                var client = await ResourceLocator.MalHttpContextProvider.GetHttpContextAsync();
 
                 var contentPairs = new List<KeyValuePair<string, string>>
                 {
@@ -70,7 +71,7 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Messages
             }
             catch (Exception)
             {
-                MalHttpContextProvider.ErrorMessage("Messages");
+                ResourceLocator.MalHttpContextProvider.ErrorMessage("Messages");
                 return false;
             }
 

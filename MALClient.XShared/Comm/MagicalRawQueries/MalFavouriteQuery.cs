@@ -4,6 +4,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using MALClient.Models.Enums;
+using MALClient.XShared.ViewModels;
 
 namespace MALClient.XShared.Comm.MagicalRawQueries
 {
@@ -37,7 +38,7 @@ namespace MALClient.XShared.Comm.MagicalRawQueries
 
             try
             {
-                var client = await MalHttpContextProvider.GetHttpContextAsync();
+                var client = await ResourceLocator.MalHttpContextProvider.GetHttpContextAsync();
 
                 var charCont = new List<KeyValuePair<string, string>>
                 {
@@ -49,7 +50,7 @@ namespace MALClient.XShared.Comm.MagicalRawQueries
             }
             catch (WebException)
             {
-                MalHttpContextProvider.ErrorMessage("Favourites");
+                ResourceLocator.MalHttpContextProvider.ErrorMessage("Favourites");
             }
 
         }

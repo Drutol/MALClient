@@ -5,7 +5,9 @@ using System.Threading.Tasks;
 using Windows.UI.Popups;
 using Windows.Web.Http;
 using Windows.Web.Http.Filters;
+using MALClient.XShared.BL;
 using MALClient.XShared.Comm.MagicalRawQueries;
+using MALClient.XShared.ViewModels;
 
 namespace MALClient.UWP.Shared.Managers
 {
@@ -24,8 +26,8 @@ namespace MALClient.UWP.Shared.Managers
             _webViewsInitialized = true;
 
             var filter = new HttpBaseProtocolFilter();
-            var httpContext = await MalHttpContextProvider.GetHttpContextAsync();
-            var cookies = httpContext.Handler.CookieContainer.GetCookies(new Uri(MalHttpContextProvider.MalBaseUrl));
+            var httpContext = await ResourceLocator.MalHttpContextProvider.GetHttpContextAsync();
+            var cookies = httpContext.Handler.CookieContainer.GetCookies(new Uri(MalHttpContextProviderBase.MalBaseUrl));
             if (mobile)
             {
                 filter.CookieManager.SetCookie(new HttpCookie("view", "myanimelist.net", "/") { Value = "sp" });

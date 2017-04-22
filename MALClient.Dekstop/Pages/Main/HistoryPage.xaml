@@ -27,7 +27,7 @@
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="*"/>
                             </Grid.RowDefinitions>
-                            <Grid Background="{ThemeResource SystemControlHighlightListAccentLowBrush}" Margin="-5">
+                            <Grid Background="{ThemeResource BrushAnimeItemInnerBackground}" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" BorderThickness="1,0" Margin="-5">
                                 <TextBlock Text="{Binding Key}" FontSize="26" Foreground="White" FontWeight="Medium" HorizontalAlignment="Center" Margin="0,5"/>
                             </Grid>
                                 
@@ -55,7 +55,7 @@
                                                 <ColumnDefinition Width="*"/>
                                             </Grid.ColumnDefinitions>
                                             <items:AnimeGridItem Margin="2,0,0,0" IsRightTapEnabled="True" RightTapped="AnimeItemOnRightClick" Width="200" Height="325" HorizontalAlignment="Left" DataContext="{Binding Item1}"/>
-                                            <ScrollViewer Grid.Column="1"  PointerPressed="HistoryScrollViewerOnPointerPressed" HorizontalAlignment="Stretch">
+                                            <ScrollViewer Grid.Column="1" VerticalScrollBarVisibility="Auto" PointerPressed="HistoryScrollViewerOnPointerPressed" HorizontalAlignment="Stretch">
                                                 <ItemsControl ItemsSource="{Binding Item2}">
                                                     <ItemsControl.ItemsPanel>
                                                         <ItemsPanelTemplate>

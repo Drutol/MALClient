@@ -412,7 +412,7 @@ namespace MALClient.XShared.Comm.Profile
                     foreach (var friend in friends)
                     {
                         var curr = new MalUser();
-                        var styleString = friend.Attributes["style"].Value.Substring(22);
+                        var styleString = friend.Attributes["data-bg"].Value;
                         curr.ImgUrl = styleString.Replace("/r/76x120", "");
                         curr.ImgUrl = curr.ImgUrl.Substring(0, curr.ImgUrl.IndexOf('?'));
 
@@ -435,7 +435,15 @@ namespace MALClient.XShared.Comm.Profile
                     foreach (var comment in commentBox.WhereOfDescendantsWithClass("div", "comment clearfix"))
                     {
                         var curr = new MalComment();
-                        curr.User.ImgUrl = comment.Descendants("img").First().Attributes["src"].Value;
+                        try
+                        {
+                            curr.User.ImgUrl = comment.Descendants("img").First().Attributes["data-src"].Value;
+                        }
+                        catch (Exception)
+                        {
+                            //image shaningansd
+                        }
+                        
                         var textBlock = comment.Descendants("div").First();
                         var header = textBlock.Descendants("div").First();
                         curr.User.Name = header.ChildNodes[1].InnerText;
@@ -518,7 +526,15 @@ namespace MALClient.XShared.Comm.Profile
                 foreach (var comment in commentBox.WhereOfDescendantsWithClass("div", "comment clearfix"))
                 {
                     var curr = new MalComment();
-                    curr.User.ImgUrl = comment.Descendants("img").First().Attributes["src"].Value;
+                    try
+                    {
+                        curr.User.ImgUrl = comment.Descendants("img").First().Attributes["data-src"].Value;
+                    }
+                    catch (Exception)
+                    {
+                        //image shenaningans
+                    }
+                   
                     var textBlock = comment.Descendants("div").First();
                     var header = textBlock.Descendants("div").First();
                     curr.User.Name = header.ChildNodes[1].InnerText;

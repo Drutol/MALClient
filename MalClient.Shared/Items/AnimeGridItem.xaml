@@ -160,16 +160,18 @@
                 </Button>
 
             </Grid>
-            <StackPanel Orientation="Horizontal" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Bottom"> 
-                <Button 
-                    Height="40" Width="40"
-                    Visibility="Visible" RenderTransformOrigin="0.5,0.5" Click="BtnMoreClick">
-                    <SymbolIcon Symbol="More" RenderTransformOrigin="0.5,0.5"
-                            Foreground="WhiteSmoke" />
-                    <Button.Background>
+            <StackPanel Orientation="Horizontal" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Bottom">
+                <Grid>
+                    <Grid.Background>
                         <SolidColorBrush Color="Black" Opacity=".75" />
-                    </Button.Background>
-                </Button>
+                    </Grid.Background>
+                    <Button  Background="Transparent"
+                        Height="40" Width="40"
+                        Visibility="Visible" RenderTransformOrigin="0.5,0.5" Click="BtnMoreClick">
+                        <SymbolIcon Symbol="More" RenderTransformOrigin="0.5,0.5"
+                                    Foreground="WhiteSmoke" />
+                    </Button>
+                </Grid>
                 <Grid x:Name="TimeTillNextAirGrid" VerticalAlignment="Bottom" Visibility="Collapsed">
                     <Grid.Background>
                         <SolidColorBrush Color="Black" Opacity=".75" />

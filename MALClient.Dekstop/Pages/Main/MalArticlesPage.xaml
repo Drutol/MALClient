@@ -54,15 +54,13 @@
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
-                            <Image Stretch="Fill" Margin="5" HorizontalAlignment="Center" VerticalAlignment="Top"
-                                   Width="{Binding Source={StaticResource Locator},Path=MalArticles.ThumbnailWidth}"
+                            <Grid Margin="5" HorizontalAlignment="Center" VerticalAlignment="Top"
+                                   Width="{Binding Source={StaticResource Locator},Path=MalArticles.ThumbnailWidth}" 
                                    Height="{Binding Source={StaticResource Locator},Path=MalArticles.ThumbnailHeight}">
-                                <Image.Source>
-                                    <BitmapImage UriSource="{Binding ImgUrl}" DecodePixelType="Logical"
-                                                 DecodePixelHeight="{Binding Source={StaticResource Locator},Path=MalArticles.ThumbnailHeight}"
-                                                 DecodePixelWidth="{Binding Source={StaticResource Locator},Path=MalArticles.ThumbnailWidth}" />
-                                </Image.Source>
-                            </Image>
+                                <Grid.Background>
+                                    <ImageBrush ImageSource="{Binding ImgUrl}" Stretch="UniformToFill"/>
+                                </Grid.Background>
+                            </Grid>
                             <Grid Grid.Row="1" Margin="0,5" MaxWidth="150">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto" />

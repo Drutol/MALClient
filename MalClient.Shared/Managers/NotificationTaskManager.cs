@@ -104,7 +104,8 @@ namespace MALClient.UWP.Shared.Managers
             {
                 if (task.Value.Name == taskName)
                 {
-                    TaskRegistration.Add(targetTask, task.Value as BackgroundTaskRegistration);
+                    if(!TaskRegistration.ContainsKey(targetTask))
+                        TaskRegistration.Add(targetTask, task.Value as BackgroundTaskRegistration);
                     return true;
                 }
             }

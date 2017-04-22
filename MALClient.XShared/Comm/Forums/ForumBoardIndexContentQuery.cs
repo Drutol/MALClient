@@ -59,7 +59,10 @@ namespace MALClient.XShared.Comm.Forums
                             current.Title = WebUtility.HtmlDecode(titleNode.InnerText);
                             current.Id = titleNode.Attributes["href"].Value.Split('=').Last();
                             var img = post.Descendants("img").First();
-                            current.User.ImgUrl = img.Attributes["data-src"].Value;
+                            if(img.Attributes.Contains("src"))
+                                current.User.ImgUrl = img.Attributes["src"].Value;
+                            else
+                                current.User.ImgUrl = img.Attributes["data-src"].Value;
                             current.User.Name = img.Attributes["alt"].Value;
                             list.Add(current);
                             if (list.Count == 2) //assume we have 2 for each board

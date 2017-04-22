@@ -233,7 +233,7 @@
                             <ToggleMenuFlyoutItem x:Name="Sort4" Text="None" Click="SelectSortOrder"
                                                   Background="{ThemeResource BrushRowAlternate2}" />
                             <MenuFlyoutSeparator />
-                            <ToggleMenuFlyoutItem x:Name="BtnDescending" Text="Decsending"
+                            <ToggleMenuFlyoutItem x:Name="BtnDescending" Text="Descending"
                                                   Click="ChangeSortOrder" />
                         </StackPanel>
                     </Grid>
@@ -255,7 +255,7 @@
                             <ToggleMenuFlyoutItem x:Name="SortM4" Text="None" Click="SelectMSortOrder"
                                                   Background="{ThemeResource BrushRowAlternate2}" />
                             <MenuFlyoutSeparator />
-                            <ToggleMenuFlyoutItem x:Name="BtnMDescending" Text="Decsending"
+                            <ToggleMenuFlyoutItem x:Name="BtnMDescending" Text="Descending"
                                                   Click="ChangeMSortOrder" />
                         </StackPanel>
                     </Grid>

@@ -10,6 +10,26 @@ namespace MALClient.Models.Models
     [DataContract]
     public class MalUser
     {
+        protected bool Equals(MalUser other)
+        {
+            return string.Equals(Name, other.Name) && string.Equals(ImgUrl, other.ImgUrl);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != this.GetType()) return false;
+            return Equals((MalUser) obj);
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                return ((Name != null ? Name.GetHashCode() : 0) * 397) ^ (ImgUrl != null ? ImgUrl.GetHashCode() : 0);
+            }
+        }
 
         [PrimaryKey]
         [DataMember]

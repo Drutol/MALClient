@@ -36,10 +36,7 @@ namespace MALClient.Android.Adapters
 
         public List<string> Changelog => new List<string>
         {
-            "Little improvements on anime details page.",
-            "Added \"Go to\" button in profile page",
-            "Hopefully reduced amount of various crashes.",
-            "Great cleanup in Forums... still work in progres though!"
+            "A few fixes from #64 and misc stuff",
         };
 
     }

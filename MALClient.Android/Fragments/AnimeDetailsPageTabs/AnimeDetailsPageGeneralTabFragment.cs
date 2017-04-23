@@ -59,6 +59,7 @@ namespace MALClient.Android.Fragments.AnimeDetailsPageTabs
                             dpd.Show();
                         }));
 
+                        AnimeDetailsPageGeneralTabFragmentEpisodesLabel.Text = ViewModel.LeftDetailsRow[0].Item1;
                         //right details
                         AnimeDetailsPageGeneralTabFragmentEpisodes.Text = ViewModel.LeftDetailsRow[0].Item2;
                         AnimeDetailsPageGeneralTabFragmentScore.Text = ViewModel.LeftDetailsRow[1].Item2;
@@ -118,6 +119,7 @@ namespace MALClient.Android.Fragments.AnimeDetailsPageTabs
 
         #region Views
 
+        private TextView _animeDetailsPageGeneralTabFragmentEpisodesLabel;
         private TextView _animeDetailsPageGeneralTabFragmentEpisodes;
         private TextView _animeDetailsPageGeneralTabFragmentScore;
         private TextView _animeDetailsPageGeneralTabFragmentStart;
@@ -129,6 +131,8 @@ namespace MALClient.Android.Fragments.AnimeDetailsPageTabs
         private TextView _animeDetailsPageGeneralTabFragmentMyEnd;
         private FrameLayout _animeDetailsPageGeneralTabFragmentMyEndButton;
         private TextView _animeDetailsPageGeneralTabFragmentSynopsis;
+
+        public TextView AnimeDetailsPageGeneralTabFragmentEpisodesLabel => _animeDetailsPageGeneralTabFragmentEpisodesLabel ?? (_animeDetailsPageGeneralTabFragmentEpisodesLabel = FindViewById<TextView>(Resource.Id.AnimeDetailsPageGeneralTabFragmentEpisodesLabel));
 
         public TextView AnimeDetailsPageGeneralTabFragmentEpisodes => _animeDetailsPageGeneralTabFragmentEpisodes ?? (_animeDetailsPageGeneralTabFragmentEpisodes = FindViewById<TextView>(Resource.Id.AnimeDetailsPageGeneralTabFragmentEpisodes));
 
@@ -151,8 +155,6 @@ namespace MALClient.Android.Fragments.AnimeDetailsPageTabs
         public FrameLayout AnimeDetailsPageGeneralTabFragmentMyEndButton => _animeDetailsPageGeneralTabFragmentMyEndButton ?? (_animeDetailsPageGeneralTabFragmentMyEndButton = FindViewById<FrameLayout>(Resource.Id.AnimeDetailsPageGeneralTabFragmentMyEndButton));
 
         public TextView AnimeDetailsPageGeneralTabFragmentSynopsis => _animeDetailsPageGeneralTabFragmentSynopsis ?? (_animeDetailsPageGeneralTabFragmentSynopsis = FindViewById<TextView>(Resource.Id.AnimeDetailsPageGeneralTabFragmentSynopsis));
-
-
 
 
         #endregion

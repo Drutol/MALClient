@@ -181,9 +181,8 @@ namespace MALClient.Android.Fragments.RecommendationsFragments
                     }
                 }));
 
-            RecommendationItemRecImageButton.SetOnClickListener(new OnClickListener(view => ViewModel.NavigateDepDetails.Execute(null)));
-            RecommendationItemDepImageButton.SetOnClickListener(new OnClickListener(view => ViewModel.NavigateRecDetails.Execute(null)));
-
+            RecommendationItemRecImageButton.SetOnClickListener(new OnClickListener(view => ViewModel.NavigateRecDetails.Execute(null)));
+            RecommendationItemDepImageButton.SetOnClickListener(new OnClickListener(view => ViewModel.NavigateDepDetails.Execute(null)));
         }
 
 

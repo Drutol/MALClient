@@ -33,14 +33,14 @@
                     android:layout_width="match_parent" android:layout_height="wrap_content" />
 
       <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                style="@style/TextViewHeaderStyle" android:text="Opening themes"
+                style="@style/TextViewHeaderStyle" android:text="Opening themes" android:id="@+id/AnimeDetailsPageDetailsTabOPsListLabel"
                 android:layout_gravity="center_horizontal" />
       <LinearLayout android:paddingStart="3dp" android:paddingEnd="3dp" android:orientation="vertical"
                     android:id="@+id/AnimeDetailsPageDetailsTabOPsList" android:scrollbars="none"
                     android:layout_width="match_parent" android:layout_height="wrap_content" />
 
       <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                style="@style/TextViewHeaderStyle" android:text="Ending themes"
+                style="@style/TextViewHeaderStyle" android:text="Ending themes" android:id="@+id/AnimeDetailsPageDetailsTabEDsListLabel"
                 android:layout_gravity="center_horizontal" />
       <LinearLayout android:paddingStart="3dp" android:paddingEnd="3dp" android:orientation="vertical"
                     android:id="@+id/AnimeDetailsPageDetailsTabEDsList" android:scrollbars="none"

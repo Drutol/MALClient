@@ -9,6 +9,7 @@ using Android.Graphics;
 using Android.OS;
 using Android.Runtime;
 using Android.Views;
+using Android.Views.InputMethods;
 using Android.Widget;
 using Com.Mikepenz.Materialdrawer;
 using Com.Mikepenz.Materialdrawer.Model;
@@ -194,6 +195,8 @@ namespace MALClient.Android.Activities
 
         private void OnOpen()
         {
+            var inputManager = (InputMethodManager)GetSystemService(Context.InputMethodService);
+            inputManager.HideSoftInputFromWindow(MainPageSearchView.WindowToken, HideSoftInputFlags.None);
             ViewModelLocator.NavMgr.RegisterOneTimeMainOverride(new RelayCommand(() => _drawer.CloseDrawer()));
         }
 

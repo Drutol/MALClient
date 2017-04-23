@@ -83,7 +83,16 @@ namespace MALClient.Android.Activities
             Bindings.Add(this.SetBinding(() => ViewModel.CurrentStatusSub).WhenSourceChanges(() =>
             {
                 MainPageCurrentSatusSubtitle.Text = ViewModel.CurrentStatusSub;
-                MainPageCurrentSatusSubtitle.Visibility = string.IsNullOrEmpty(ViewModel.CurrentStatusSub) ? ViewStates.Gone : ViewStates.Visible;
+                if (string.IsNullOrEmpty(ViewModel.CurrentStatusSub))
+                {
+                    MainPageCurrentSatusSubtitle.Visibility = ViewStates.Gone;
+                    MainPageCurrentStatus.SetMaxWidth(10000);
+                }
+                else
+                {
+                    MainPageCurrentSatusSubtitle.Visibility = ViewStates.Visible;
+                    MainPageCurrentStatus.SetMaxWidth(DimensionsHelper.DpToPx(185));
+                }
             }));
 
             _searchFrame = MainPageSearchView.FindViewById(Resource.Id.search_edit_frame);

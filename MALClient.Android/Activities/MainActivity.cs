@@ -13,6 +13,7 @@ using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Ioc;
 using HockeyApp.Android;
 using HockeyApp.Android.Metrics;
+using MALClient.Adapters;
 using MALClient.Android.DIalogs;
 using MALClient.Android.Fragments;
 using MALClient.Android.Resources;
@@ -92,8 +93,10 @@ namespace MALClient.Android.Activities
                 await Task.Delay(1000);
                 if (ResourceLocator.ChangelogProvider.NewChangelog)
                     ChangelogDialog.BuildChangelogDialog(ResourceLocator.ChangelogProvider);
-            }
 
+                
+            }
+            var test = ResourceLocator.ApplicationDataService[nameof(RoamingDataTypes.ReadNotifications)];
 #if !DEBUG
             CrashManager.Register(this, "4bfd20dcd9ba4bdfbb1501397ec4a176");
             MetricsManager.Register(App.Current, "4bfd20dcd9ba4bdfbb1501397ec4a176");
@@ -117,6 +120,13 @@ namespace MALClient.Android.Activities
 
         public override void OnBackPressed()
         {
+            if(!ViewModel.SearchToggleLock)
+                if (ViewModel.SearchToggleStatus)
+                {
+                    ViewModel.SearchToggleStatus = false;
+                    return;
+                }
+
             ViewModelLocator.NavMgr.CurrentMainViewOnBackRequested();
         }
 

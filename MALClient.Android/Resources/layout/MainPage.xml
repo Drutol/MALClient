@@ -32,7 +32,7 @@
         android:textColor="?BrushAppBarText"
         android:layout_gravity="center_vertical"
         android:id="@+id/MainPageCurrentStatus"
-        android:layout_margin="5dp" />
+        android:layout_margin="5dp" android:maxLines="2" android:ellipsize="end" />
       <TextView
         android:id="@+id/MainPageCurrentSatusSubtitle"
         android:layout_width="wrap_content"

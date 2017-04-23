@@ -133,7 +133,7 @@ namespace MALClient.Android.Flyouts
                             ResourceExtension.BrushSelectedDialogItem, ResourceExtension.AccentColour)));
                 else //highlighted
                     droppyBuilder.AddMenuItem(
-                        new DroppyMenuCustomItem(BuildItem(context, Utilities.StatusToString((int)value), listener, (int) value)));
+                        new DroppyMenuCustomItem(BuildItem(context, Utilities.StatusToString((int)value,manga), listener, (int) value)));
             }
             droppyBuilder.SetYOffset(DimensionsHelper.DpToPx(30));
             return droppyBuilder.Build();

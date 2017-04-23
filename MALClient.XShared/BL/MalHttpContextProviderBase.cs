@@ -39,7 +39,7 @@ namespace MALClient.XShared.BL
             }
             catch (Exception e)
             {
-                if (!_skippedFirstError && e.Message != "Unable to authorize")
+                if (!_skippedFirstError)
                 {
                     _skippedFirstError = true;
                     await Task.Delay(500);

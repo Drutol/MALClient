@@ -551,17 +551,22 @@ namespace MALClient.XShared.ViewModels.Details
 
         public ICommand AddTagCommand => _addTagCommand ?? (_addTagCommand = new RelayCommand(() =>
         {
-            if (!MyTags.Any(t => string.Equals(NewTagInput, t, StringComparison.CurrentCultureIgnoreCase)) &&
-                MyTags.Count < 10)
+            var sanitizedInput = NewTagInput.Trim(',');
+            foreach (var input in sanitizedInput.Split(','))
             {
-                MyTags.Add(NewTagInput);
-                _animeItemReference.Notes += "," + NewTagInput;
-                ChangeNotes();
-                if (
-                    !ViewModelLocator.GeneralMain.SearchHints.Any(
-                        t => string.Equals(NewTagInput, t, StringComparison.CurrentCultureIgnoreCase)))
-                    ViewModelLocator.GeneralMain.SearchHints.Add(NewTagInput); // add to hints
+                if (!MyTags.Any(t => string.Equals(input, t, StringComparison.CurrentCultureIgnoreCase)) &&
+                    MyTags.Count < 10)
+                {
+                    MyTags.Add(input);
+                    _animeItemReference.Notes += "," + input;
+                    ChangeNotes();
+                    if (
+                        !ViewModelLocator.GeneralMain.SearchHints.Any(
+                            t => string.Equals(input, t, StringComparison.CurrentCultureIgnoreCase)))
+                        ViewModelLocator.GeneralMain.SearchHints.Add(input); // add to hints
+                }
             }
+
             NewTagInput = "";
         }));
 

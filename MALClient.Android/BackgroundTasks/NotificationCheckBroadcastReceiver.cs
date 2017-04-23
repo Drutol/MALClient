@@ -127,6 +127,10 @@ namespace MALClient.Android.BackgroundTasks
             if (watchedTopicsUpdated)
                 ResourceLocator.HandyDataStorage.WatchedTopics.SaveData();
 
+            var dataService = (ResourceLocator.ApplicationDataService as ApplicationDataServiceService);
+
+            dataService.OverridePreferenceManager(context);
+
             var allTriggeredNotifications = (ResourceLocator.ApplicationDataService[nameof(RoamingDataTypes.ReadNotifications)] ?? string.Empty) as string;
             var triggeredNotifications = allTriggeredNotifications?.Split(';').ToList() ?? new List<string>();
 
@@ -151,6 +155,8 @@ namespace MALClient.Android.BackgroundTasks
 
             ResourceLocator.ApplicationDataService[nameof(RoamingDataTypes.ReadNotifications)] = string.Join(";",
                 presentNotifications);
+
+            dataService.ResetPreferenceManagerOverride();
         }
 
         private async void ScheduleToast(Context context, MalNotification notification)

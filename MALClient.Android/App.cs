@@ -52,7 +52,12 @@ namespace MALClient.Android
             ViewModelLocator.RegisterBase();
             AndroidViewModelLocator.RegisterDependencies();
             InitializationRoutines.InitApp();
-            //ServicePointManager.ServerCertificateValidationCallback += (o, certificate, chain, errors) => true;
+            ServicePointManager.ServerCertificateValidationCallback += (o, certificate, chain, errors) =>
+            {
+                if(certificate.Subject == "CN=*.myanimelist.net")
+                    return true;
+                return false;
+            };
             
             base.OnCreate();
         }

@@ -127,7 +127,7 @@ namespace MALClient.Android.UserControls
                     if (ViewModelLocator.GeneralMain.CurrentMainPageKind == PageIndex.PageAnimeList)
                     {
                         var targetStatus = ViewModelLocator.AnimeList.GetDesiredStatus();
-                        if (targetStatus != AnimeStatus.AllOrAiring && ViewModel.MyStatus != targetStatus)
+                        if (!ViewModel.IsRewatching && targetStatus != AnimeStatus.AllOrAiring && ViewModel.MyStatus != targetStatus)
                             Alpha = .6f;
                         else
                             Alpha = 1;
@@ -204,7 +204,7 @@ namespace MALClient.Android.UserControls
             if (ViewModelLocator.GeneralMain.CurrentMainPageKind == PageIndex.PageAnimeList)
             {
                 var targetStatus = ViewModelLocator.AnimeList.GetDesiredStatus();
-                if (targetStatus != AnimeStatus.AllOrAiring && ViewModel.MyStatus != targetStatus)
+                if (!ViewModel.IsRewatching && targetStatus != AnimeStatus.AllOrAiring && ViewModel.MyStatus != targetStatus)
                     Alpha = .6f;
                 else
                     Alpha = 1;

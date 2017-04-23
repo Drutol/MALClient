@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Android.App;
@@ -20,8 +21,9 @@ namespace MALClient.Android.Adapters
     {
         protected override async Task<CsrfHttpClient> ObtainContext()
         {
-            var httpHandler = new NativeMessageHandler(false, false, new NativeCookieHandler())
+            var httpHandler = new HttpClientHandler()
             {
+                CookieContainer = new CookieContainer(),
                 UseCookies = true,
                 AllowAutoRedirect = false,
             };

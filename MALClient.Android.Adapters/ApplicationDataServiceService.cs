@@ -9,20 +9,32 @@ namespace MALClient.Android.Adapters
 {
     public class ApplicationDataServiceService : IApplicationDataService
     {
-        private static readonly ISharedPreferences PreferenceManager;
+        private static ISharedPreferences _preferenceManager;
+        private static ISharedPreferences _preferenceManagerOriginal;
 
         static ApplicationDataServiceService()
         {
-            PreferenceManager = global::Android.Preferences.PreferenceManager.GetDefaultSharedPreferences(Application.Context);
+            _preferenceManagerOriginal = PreferenceManager.GetDefaultSharedPreferences(Application.Context);
+            _preferenceManager = _preferenceManagerOriginal;
+        }
+
+        public void OverridePreferenceManager(Context context)
+        {
+            _preferenceManager = PreferenceManager.GetDefaultSharedPreferences(context);
+        }
+
+        public void ResetPreferenceManagerOverride()
+        {
+            _preferenceManager = _preferenceManagerOriginal;
         }
 
         public object this[string key]
         {
-            get { return PreferenceManager.Contains(key) ? PreferenceManager.All[key] : null; }
+            get { return _preferenceManager.Contains(key) ? _preferenceManager.All[key] : null; }
             set
             {
                 
-                var editor =  PreferenceManager.Edit();
+                var editor =  _preferenceManager.Edit();
                 if (value != null)
                     switch (Type.GetTypeCode(value.GetType()))
                     {

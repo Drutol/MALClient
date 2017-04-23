@@ -46,9 +46,9 @@
                 android:id="@+id/AnimeReviewItemLayoutHelpfulCount" />
     </LinearLayout>
     <LinearLayout android:layout_alignParentEnd="true" android:gravity="start"
-                  android:layout_width="wrap_content" android:orientation="vertical"
+                  android:layout_width="wrap_content" android:orientation="vertical" android:paddingEnd="5dp"
                   android:layout_height="wrap_content">
-      <TextView android:layout_width="wrap_content" android:fontFamily="@string/font_family_light" android:background="@drawable/border_accent_underline_pressed"
+      <TextView android:layout_width="wrap_content" android:fontFamily="@string/font_family_light" android:background="@drawable/border_accent_underline"
                 android:layout_height="wrap_content" android:textColor="?BrushText" android:textStyle="bold" android:text="Overall: 9"
                 android:id="@+id/AnimeReviewItemLayoutOverallScore" />
       <LinearLayout android:id="@+id/AnimeReviewItemLayoutMarksList" android:layout_width="100dp"

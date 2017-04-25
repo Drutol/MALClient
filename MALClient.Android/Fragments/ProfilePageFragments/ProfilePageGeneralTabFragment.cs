@@ -15,6 +15,7 @@ using FFImageLoading;
 using FFImageLoading.Views;
 using GalaSoft.MvvmLight.Helpers;
 using MALClient.Android.DIalogs;
+using MALClient.Android.Listeners;
 using MALClient.Android.UserControls;
 using MALClient.Models.Models;
 using MALClient.XShared.ViewModels;
@@ -57,8 +58,17 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
                     ProfilePageGeneralTabFriendsGrid.Adapter =
                         ViewModel.CurrentData.Friends.GetAdapter(GetFriendTemplateDelegate);
 
-                    ProfilePageGeneralTabCommentsList.SetAdapter(
-                        ViewModel.CurrentData.Comments.GetAdapter(GetCommentTemplateDelegate));
+                    if(ProfilePageGeneralTabScrollingContainer.ScrollY > 0)
+                        PopulateComments();
+                    else
+                        ProfilePageGeneralTabScrollingContainer.SetOnScrollChangeListener(new ScrollListener(i =>
+                        {
+                            if (i > 0)
+                            {
+                                ProfilePageGeneralTabScrollingContainer.SetOnScrollChangeListener(null);
+                                PopulateComments();
+                            }
+                        }));
                 }));
 
             Bindings.Add(
@@ -72,6 +82,11 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
             ProfilePageGeneralTabActionButton.Click += ProfilePageGeneralTabActionButtonOnClick;
         }
 
+        private void PopulateComments()
+        {
+            ProfilePageGeneralTabCommentsList.SetAdapter(
+                ViewModel.CurrentData.Comments.GetAdapter(GetCommentTemplateDelegate));
+        }
 
         private async void ProfilePageGeneralTabActionButtonOnClick(object sender, EventArgs eventArgs)
         {
@@ -172,6 +187,7 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
         private EditText _profilePageGeneralTabCommentInput;
         private Button _profilePageGeneralTabSendCommentButton;
         private LinearLayout _profilePageGeneralTabCommentsList;
+        private ScrollView _profilePageGeneralTabScrollingContainer;
         private FloatingActionButton _profilePageGeneralTabActionButton;
 
         public ImageView ProfilePageGeneralTabImagePlaceholder => _profilePageGeneralTabImagePlaceholder ?? (_profilePageGeneralTabImagePlaceholder = FindViewById<ImageView>(Resource.Id.ProfilePageGeneralTabImagePlaceholder));
@@ -194,7 +210,11 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
 
         public LinearLayout ProfilePageGeneralTabCommentsList => _profilePageGeneralTabCommentsList ?? (_profilePageGeneralTabCommentsList = FindViewById<LinearLayout>(Resource.Id.ProfilePageGeneralTabCommentsList));
 
+        public ScrollView ProfilePageGeneralTabScrollingContainer => _profilePageGeneralTabScrollingContainer ?? (_profilePageGeneralTabScrollingContainer = FindViewById<ScrollView>(Resource.Id.ProfilePageGeneralTabScrollingContainer));
+
         public FloatingActionButton ProfilePageGeneralTabActionButton => _profilePageGeneralTabActionButton ?? (_profilePageGeneralTabActionButton = FindViewById<FloatingActionButton>(Resource.Id.ProfilePageGeneralTabActionButton));
+
+
 
 
         #endregion

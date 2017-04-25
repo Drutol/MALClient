@@ -12,54 +12,26 @@
     android:numColumns="auto_fit"
     android:layout_gravity="center"
     android:choiceMode="singleChoice" />
-  <RelativeLayout
+
+  <FrameLayout
     android:layout_width="match_parent"
     android:layout_height="@dimen/AppBarBtnHeight"
     android:background="?BrushAppBars">
-    <LinearLayout
-      android:layout_width="wrap_content"
-      android:layout_height="match_parent" android:layout_centerInParent="true">
-      <FrameLayout android:padding="8dp"
-                   android:layout_width="wrap_content" android:id="@+id/ProfilePageFavouritesTabAnimeBtn"
-                   android:layout_height="match_parent" android:clickable="true"
-                   android:focusable="true" android:foreground="?selectableItemBackground">
-        <TextView
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content" android:text="Anime"
-          android:layout_gravity="center"
-          android:textColor="?BrushText" />
-      </FrameLayout>
-      <FrameLayout android:padding="8dp"
-                   android:layout_width="wrap_content" android:id="@+id/ProfilePageFavouritesTabMangaBtn"
-                   android:layout_height="match_parent" android:clickable="true"
-                   android:focusable="true" android:foreground="?selectableItemBackground">
-        <TextView
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content" android:text="Manga"
-          android:layout_gravity="center"
-          android:textColor="?BrushText" />
-      </FrameLayout>
-      <FrameLayout android:padding="8dp"
-                   android:layout_width="wrap_content" android:id="@+id/ProfilePageFavouritesTabCharsBtn"
-                   android:layout_height="match_parent" android:clickable="true"
-                   android:focusable="true" android:foreground="?selectableItemBackground">
-        <TextView
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content" android:text="Characters"
-          android:layout_gravity="center"
-          android:textColor="?BrushText" />
-      </FrameLayout>
-      <FrameLayout android:padding="8dp"
-                   android:layout_width="wrap_content" android:id="@+id/ProfilePageFavouritesTabPplBtn"
-                   android:layout_height="match_parent" android:clickable="true"
-                   android:focusable="true" android:foreground="?selectableItemBackground">
-        <TextView
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content" android:text="People"
-          android:layout_gravity="center"
-          android:textColor="?BrushText" />
-      </FrameLayout>
-    </LinearLayout>
-
-  </RelativeLayout>
+    <RadioGroup
+      android:layout_width="match_parent" android:orientation="horizontal"
+      android:layout_height="wrap_content" android:gravity="center_horizontal">
+      <ToggleButton android:id="@+id/ProfilePageFavouritesTabAnimeToggleButton"
+                    android:layout_width="wrap_content" android:textOn="Anime" android:textOff="Anime" android:textAllCaps="false"
+                    android:layout_height="wrap_content" android:checked="false" android:background="@drawable/transparent_toggle_button"/>
+      <ToggleButton android:id="@+id/ProfilePageFavouritesTabMangaToggleButton"
+                    android:layout_width="wrap_content" android:textOn="Manga" android:textOff="Manga" android:textAllCaps="false"
+                    android:layout_height="wrap_content" android:checked="false" android:background="@drawable/transparent_toggle_button"/>
+      <ToggleButton android:id="@+id/ProfilePageFavouritesTabCharactersToggleButton"
+                    android:layout_width="wrap_content" android:textOn="Characters" android:textOff="Characters" android:textAllCaps="false"
+                    android:layout_height="wrap_content" android:checked="false" android:background="@drawable/transparent_toggle_button"/>
+      <ToggleButton android:id="@+id/ProfilePageFavouritesTabPeopleToggleButton"
+                    android:layout_width="wrap_content" android:textOn="People" android:textOff="People" android:textAllCaps="false"
+                    android:layout_height="wrap_content" android:checked="false" android:background="@drawable/transparent_toggle_button"/>
+    </RadioGroup>
+  </FrameLayout>
 </LinearLayout>

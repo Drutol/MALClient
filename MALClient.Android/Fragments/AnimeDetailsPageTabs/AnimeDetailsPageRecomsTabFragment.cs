@@ -64,7 +64,7 @@ namespace MALClient.Android.Fragments.AnimeDetailsPageTabs
             view.FindViewById<TextView>(Resource.Id.AnimeRecomItemShowType).Text = animeRecomData.Type.ToString();
 
             var spannableString = new SpannableString(animeRecomData.Description);
-            spannableString.SetSpan(new LeadingSpannableString(12, DimensionsHelper.DpToPx(140)), 0, spannableString.Length(), 0);
+            spannableString.SetSpan(new LeadingSpannableString(12, DimensionsHelper.DpToPx(140)), 0, spannableString.Length(), SpanTypes.Paragraph);
             view.FindViewById<TextView>(Resource.Id.AnimeRecomItemRecomContent).SetText(spannableString.SubSequenceFormatted(0, spannableString.Length()), TextView.BufferType.Spannable);
         }
 

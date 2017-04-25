@@ -435,15 +435,13 @@ namespace MALClient.XShared.Comm.Profile
                     foreach (var comment in commentBox.WhereOfDescendantsWithClass("div", "comment clearfix"))
                     {
                         var curr = new MalComment();
-                        try
-                        {
-                            curr.User.ImgUrl = comment.Descendants("img").First().Attributes["data-src"].Value;
-                        }
-                        catch (Exception)
-                        {
-                            //image shaningansd
-                        }
-                        
+                        var imgNode = comment.Descendants("img").First();
+                        if (imgNode.Attributes.Contains("srcset"))
+                            curr.User.ImgUrl = imgNode.Attributes["srcset"].Value.Split(',').Last().Replace("2x", "").Trim();
+                        else if (imgNode.Attributes.Contains("data-src"))
+                            curr.User.ImgUrl = imgNode.Attributes["data-src"].Value;
+
+
                         var textBlock = comment.Descendants("div").First();
                         var header = textBlock.Descendants("div").First();
                         curr.User.Name = header.ChildNodes[1].InnerText;
@@ -526,14 +524,12 @@ namespace MALClient.XShared.Comm.Profile
                 foreach (var comment in commentBox.WhereOfDescendantsWithClass("div", "comment clearfix"))
                 {
                     var curr = new MalComment();
-                    try
-                    {
-                        curr.User.ImgUrl = comment.Descendants("img").First().Attributes["data-src"].Value;
-                    }
-                    catch (Exception)
-                    {
-                        //image shenaningans
-                    }
+                    var imgNode = comment.Descendants("img").First();
+                    if(imgNode.Attributes.Contains("srcset"))
+                        curr.User.ImgUrl = imgNode.Attributes["srcset"].Value.Split(',').Last().Replace("2x","").Trim();
+                    else if (imgNode.Attributes.Contains("data-src"))
+                        curr.User.ImgUrl = imgNode.Attributes["data-src"].Value;
+
                    
                     var textBlock = comment.Descendants("div").First();
                     var header = textBlock.Descendants("div").First();

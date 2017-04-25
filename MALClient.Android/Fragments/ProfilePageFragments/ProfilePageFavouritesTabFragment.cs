@@ -32,7 +32,7 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
 
         public ProfilePageFavouritesTabFragment() : base(true, false)
         {
-            _currentTab = Resource.Id.ProfilePageFavouritesTabAnimeBtn;
+            _currentTab = Resource.Id.ProfilePageFavouritesTabAnimeToggleButton;
         }
 
         protected override void Init(Bundle savedInstanceState)
@@ -44,22 +44,22 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
         {
             if (propertyChangedEventArgs.PropertyName == nameof(ViewModel.FavAnime))
             {
-                if(_currentTab == Resource.Id.ProfilePageFavouritesTabAnimeBtn)
+                if(_currentTab == Resource.Id.ProfilePageFavouritesTabAnimeToggleButton)
                     UpdateGridView();
             }
             else if (propertyChangedEventArgs.PropertyName == nameof(ViewModel.FavManga))
             {
-                if (_currentTab == Resource.Id.ProfilePageFavouritesTabMangaBtn)
+                if (_currentTab == Resource.Id.ProfilePageFavouritesTabMangaToggleButton)
                     UpdateGridView();
             }
             else if (propertyChangedEventArgs.PropertyName == nameof(ViewModel.FavouriteCharacters))
             {
-                if (_currentTab == Resource.Id.ProfilePageFavouritesTabCharsBtn)
+                if (_currentTab == Resource.Id.ProfilePageFavouritesTabCharactersToggleButton)
                     UpdateGridView();
             }
             else if (propertyChangedEventArgs.PropertyName == nameof(ViewModel.FavouriteStaff))
             {
-                if (_currentTab == Resource.Id.ProfilePageFavouritesTabPplBtn)
+                if (_currentTab == Resource.Id.ProfilePageFavouritesTabPeopleToggleButton)
                     UpdateGridView();
             }
         }
@@ -69,10 +69,10 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
             _helper = new GridViewColumnHelper(ProfilePageFavouritesTabGridView);
 
             var listener = new OnClickListener(OnTabSelected);
-            ProfilePageFavouritesTabAnimeBtn.SetOnClickListener(listener);
-            ProfilePageFavouritesTabMangaBtn.SetOnClickListener(listener);
-            ProfilePageFavouritesTabCharsBtn.SetOnClickListener(listener);
-            ProfilePageFavouritesTabPplBtn.SetOnClickListener(listener);
+            ProfilePageFavouritesTabAnimeToggleButton.SetOnClickListener(listener);
+            ProfilePageFavouritesTabMangaToggleButton.SetOnClickListener(listener);
+            ProfilePageFavouritesTabCharactersToggleButton.SetOnClickListener(listener);
+            ProfilePageFavouritesTabPeopleToggleButton.SetOnClickListener(listener);
             UpdateGridView();
 
             
@@ -90,25 +90,45 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
             ProfilePageFavouritesTabGridView.ClearFlingAdapter();
             switch (_currentTab)
             {
-                case Resource.Id.ProfilePageFavouritesTabAnimeBtn:
+                case Resource.Id.ProfilePageFavouritesTabAnimeToggleButton:
                     if (ViewModel.FavAnime?.Any() ?? false)
                         ProfilePageFavouritesTabGridView.InjectAnimeListAdapter(Context, ViewModel.FavAnime,
                             AnimeListDisplayModes.IndefiniteGrid, OnItemClickAction,false);
+
+                    ProfilePageFavouritesTabAnimeToggleButton.Checked = true;
+                    ProfilePageFavouritesTabMangaToggleButton.Checked =
+                        ProfilePageFavouritesTabCharactersToggleButton.Checked =
+                            ProfilePageFavouritesTabPeopleToggleButton.Checked = false;
                     break;
-                case Resource.Id.ProfilePageFavouritesTabMangaBtn:
+                case Resource.Id.ProfilePageFavouritesTabMangaToggleButton:
                     if (ViewModel.FavManga?.Any() ?? false)
                         ProfilePageFavouritesTabGridView.InjectAnimeListAdapter(Context, ViewModel.FavManga,
                             AnimeListDisplayModes.IndefiniteGrid, OnItemClickAction,false);
+
+                    ProfilePageFavouritesTabMangaToggleButton.Checked = true;
+                    ProfilePageFavouritesTabAnimeToggleButton.Checked =
+                        ProfilePageFavouritesTabCharactersToggleButton.Checked =
+                            ProfilePageFavouritesTabPeopleToggleButton.Checked = false;
                     break;
-                case Resource.Id.ProfilePageFavouritesTabCharsBtn:
+                case Resource.Id.ProfilePageFavouritesTabCharactersToggleButton:
                     if (ViewModel.FavouriteCharacters?.Any() ?? false)
                         ProfilePageFavouritesTabGridView.Adapter =
                             ViewModel.FavouriteCharacters.GetAdapter(GetTemplateDelegate);
+
+                    ProfilePageFavouritesTabCharactersToggleButton.Checked = true;
+                    ProfilePageFavouritesTabMangaToggleButton.Checked =
+                        ProfilePageFavouritesTabAnimeToggleButton.Checked =
+                            ProfilePageFavouritesTabPeopleToggleButton.Checked = false;
                     break;
-                case Resource.Id.ProfilePageFavouritesTabPplBtn:
+                case Resource.Id.ProfilePageFavouritesTabPeopleToggleButton:
                     if (ViewModel.FavouriteStaff?.Any() ?? false)
                         ProfilePageFavouritesTabGridView.Adapter =
                             ViewModel.FavouriteStaff.GetAdapter(GetTemplateDelegate);
+
+                    ProfilePageFavouritesTabPeopleToggleButton.Checked = true;
+                    ProfilePageFavouritesTabMangaToggleButton.Checked =
+                        ProfilePageFavouritesTabCharactersToggleButton.Checked =
+                            ProfilePageFavouritesTabAnimeToggleButton.Checked = false;
                     break;
             }
         }
@@ -160,20 +180,21 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
         #region Views
 
         private GridView _profilePageFavouritesTabGridView;
-        private FrameLayout _profilePageFavouritesTabAnimeBtn;
-        private FrameLayout _profilePageFavouritesTabMangaBtn;
-        private FrameLayout _profilePageFavouritesTabCharsBtn;
-        private FrameLayout _profilePageFavouritesTabPplBtn;
+        private ToggleButton _profilePageFavouritesTabAnimeToggleButton;
+        private ToggleButton _profilePageFavouritesTabMangaToggleButton;
+        private ToggleButton _profilePageFavouritesTabCharactersToggleButton;
+        private ToggleButton _profilePageFavouritesTabPeopleToggleButton;
 
         public GridView ProfilePageFavouritesTabGridView => _profilePageFavouritesTabGridView ?? (_profilePageFavouritesTabGridView = FindViewById<GridView>(Resource.Id.ProfilePageFavouritesTabGridView));
 
-        public FrameLayout ProfilePageFavouritesTabAnimeBtn => _profilePageFavouritesTabAnimeBtn ?? (_profilePageFavouritesTabAnimeBtn = FindViewById<FrameLayout>(Resource.Id.ProfilePageFavouritesTabAnimeBtn));
+        public ToggleButton ProfilePageFavouritesTabAnimeToggleButton => _profilePageFavouritesTabAnimeToggleButton ?? (_profilePageFavouritesTabAnimeToggleButton = FindViewById<ToggleButton>(Resource.Id.ProfilePageFavouritesTabAnimeToggleButton));
 
-        public FrameLayout ProfilePageFavouritesTabMangaBtn => _profilePageFavouritesTabMangaBtn ?? (_profilePageFavouritesTabMangaBtn = FindViewById<FrameLayout>(Resource.Id.ProfilePageFavouritesTabMangaBtn));
+        public ToggleButton ProfilePageFavouritesTabMangaToggleButton => _profilePageFavouritesTabMangaToggleButton ?? (_profilePageFavouritesTabMangaToggleButton = FindViewById<ToggleButton>(Resource.Id.ProfilePageFavouritesTabMangaToggleButton));
 
-        public FrameLayout ProfilePageFavouritesTabCharsBtn => _profilePageFavouritesTabCharsBtn ?? (_profilePageFavouritesTabCharsBtn = FindViewById<FrameLayout>(Resource.Id.ProfilePageFavouritesTabCharsBtn));
+        public ToggleButton ProfilePageFavouritesTabCharactersToggleButton => _profilePageFavouritesTabCharactersToggleButton ?? (_profilePageFavouritesTabCharactersToggleButton = FindViewById<ToggleButton>(Resource.Id.ProfilePageFavouritesTabCharactersToggleButton));
 
-        public FrameLayout ProfilePageFavouritesTabPplBtn => _profilePageFavouritesTabPplBtn ?? (_profilePageFavouritesTabPplBtn = FindViewById<FrameLayout>(Resource.Id.ProfilePageFavouritesTabPplBtn));
+        public ToggleButton ProfilePageFavouritesTabPeopleToggleButton => _profilePageFavouritesTabPeopleToggleButton ?? (_profilePageFavouritesTabPeopleToggleButton = FindViewById<ToggleButton>(Resource.Id.ProfilePageFavouritesTabPeopleToggleButton));
+
 
         #endregion
     }

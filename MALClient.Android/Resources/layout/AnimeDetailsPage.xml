@@ -14,10 +14,21 @@
                       android:layout_height="wrap_content"
                       android:background="?BrushDetailsUpperBackground"
                       android:orientation="horizontal">
-          <FFImageLoading.Views.ImageViewAsync android:layout_width="@dimen/ShowImageWidthSmall"
-                                               android:layout_height="@dimen/ShowImageHeightSmall"
-                                               android:scaleType="fitXY"
-                                               android:id="@+id/AnimeDetailsPageShowCoverImage" />
+          <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="140dp">
+
+            <FFImageLoading.Views.ImageViewAsync android:layout_width="@dimen/ShowImageWidthSmall"
+                                                 android:layout_height="@dimen/ShowImageHeightSmall"
+                                                 android:scaleType="fitXY"
+                                                 android:id="@+id/AnimeDetailsPageShowCoverImage" />
+
+
+            <View
+              android:layout_width="110dp"
+              android:layout_height="1dp" android:background="?AccentColour" android:layout_gravity="bottom"/>
+
+          </FrameLayout>
           <LinearLayout android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/AnimeDetailsPageUpdateSection"
@@ -172,13 +183,13 @@
                        android:indeterminateTintMode="src_in" android:layout_height="40dp" android:padding="10dp"
                        android:indeterminate="true" android:layout_centerInParent="true" />
           <ImageButton android:layout_width="40dp" android:layout_height="40dp"
-                       android:background="?android:selectableItemBackground"
+                       android:background="?selectableItemBackground"
                        android:clickable="true"
                        android:focusable="true"
                        android:id="@+id/AnimeDetailsPageFavouriteButton" android:layout_gravity="center_vertical"
                        android:src="@drawable/icon_favourite" android:layout_marginEnd="5dp" />
           <ImageButton android:layout_width="40dp" android:layout_height="40dp"
-                       android:background="?android:selectableItemBackground"
+                       android:background="?selectableItemBackground"
                        android:id="@+id/AnimeDetailsPageMoreButton"
                        android:src="@drawable/icon_more_vertical" />
 

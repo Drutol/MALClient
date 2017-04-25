@@ -25,7 +25,9 @@ namespace MALClient.Android
 
         public int GetLeadingMargin(bool first)
         {
-            return first ? _margin : 0;
+            if (first)
+                return _margin;
+            else return 0;
 
             //Offset for all other Layout layout ) { }  
             /*Returns * the number of rows which should be applied *     indent returned by getLeadingMargin (true)   

@@ -1,22 +1,22 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:orientation="vertical"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:background="?BrushDeepBackground">
+  <MALClient.Android.UserControls.HeightAdjustingGridView
+    android:id="@+id/AnimeDetailsPageCharactersTabGridView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?BrushDeepBackground">
-  <MALClient.Android.UserControls.HeightAdjustingGridView
-      android:id="@+id/AnimeDetailsPageCharactersTabGridView"
-      android:layout_width="match_parent"
-      android:layout_centerInParent="true"
-      android:layout_height="match_parent"
-      android:numColumns="auto_fit"
-      android:gravity="center"
-      android:choiceMode="singleChoice"/>
-  <TextView android:layout_centerInParent="true" android:visibility="gone"
-      android:layout_width="wrap_content" android:id="@+id/AnimeDetailsPageCharactersTabEmptyNotice"
-      android:layout_height="wrap_content" android:fontFamily="@string/font_family_light" android:text="We have come up empty..." android:layout_gravity="center_horizontal" android:textColor="?AccentColour"/>
+    android:layout_gravity="center_horizontal|top"
+    android:numColumns="auto_fit"
+    android:gravity="center"
+    android:choiceMode="singleChoice"/>
+  <TextView android:gravity="center" android:visibility="gone"
+            android:layout_width="wrap_content" android:id="@+id/AnimeDetailsPageCharactersTabEmptyNotice"
+            android:layout_height="wrap_content" android:fontFamily="@string/font_family_light" android:text="We have come up empty..." android:layout_gravity="center_horizontal" android:textColor="?AccentColour"/>
   <ProgressBar android:id="@+id/AnimeDetailsPageCharactersTabLoadingSpinner" android:layout_width="wrap_content"
-      android:indeterminateTint="?AccentColour" android:indeterminateTintMode="src_in"
-      android:layout_height="wrap_content"
-      android:indeterminate="true" android:layout_centerInParent="true"/>
-</RelativeLayout>
+               android:indeterminateTint="?AccentColour" android:indeterminateTintMode="src_in"
+               android:layout_height="wrap_content"
+               android:indeterminate="true" android:layout_gravity="center"/>
+</FrameLayout>

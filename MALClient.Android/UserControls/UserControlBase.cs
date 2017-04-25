@@ -71,6 +71,41 @@ namespace MALClient.Android.UserControls
                 BindModelFull();
         }
 
+
+        private bool _initializedOnce;
+        private bool _boundOnceFling;
+        private bool _boundOnceFull;
+        public void BindModelOnce(TViewModel model,bool fling)
+        {
+            if (!_initializedOnce)
+            {
+                ViewModel = model;
+                RootContainerInit();
+                BindModelBasic();
+                _initializedOnce = true;
+            }
+
+            if(_boundOnceFull)
+                return;
+
+            if (!fling)
+            {
+                _boundOnceFull = true;
+                BindModelFull();
+                return;
+            }
+
+            if (!_boundOnceFling && fling)
+            {
+                BindModelBasic();
+                BindModelFling();
+                _boundOnceFling = true;
+            }
+
+            
+
+        }
+
         protected abstract void BindModelFling();
         protected abstract void BindModelFull();
         protected abstract void BindModelBasic();

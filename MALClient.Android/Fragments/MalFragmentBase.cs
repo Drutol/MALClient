@@ -79,5 +79,15 @@ namespace MALClient.Android.Fragments
         {
            
         }
+
+        public override Context Context
+        {
+            get
+            {
+                if (Build.VERSION.SdkInt < BuildVersionCodes.M)
+                    return Activity;
+                return base.Context;
+            }
+        }
     }
 }

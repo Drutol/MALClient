@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using Android.Support.V4.View.Animation;
 using Android.Views;
@@ -67,8 +68,16 @@ namespace MALClient.Android
             }
         }
 
+        private static bool _fadedIn;
         public static void AnimateFadeIn(this View view)
         {
+
+            if (!_fadedIn)
+            {
+                _fadedIn = true;
+                view.Visibility = ViewStates.Visible;
+                return;
+            }
             Animation fadeIn = new AlphaAnimation(0, 1);
             fadeIn.Interpolator = new LinearInterpolator();
             fadeIn.Duration = 500;
@@ -76,8 +85,9 @@ namespace MALClient.Android
             {            
                 MainActivity.CurrentContext.RunOnUiThread(() =>
                 {
-                    view.Visibility = ViewStates.Visible;
+
                     view.StartAnimation(fadeIn);
+                    view.Visibility = ViewStates.Visible;
                 });
             }
             catch (Exception e)

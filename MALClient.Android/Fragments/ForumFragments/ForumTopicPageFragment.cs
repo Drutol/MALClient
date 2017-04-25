@@ -65,8 +65,12 @@ namespace MALClient.Android.Fragments.ForumFragments
 
             Bindings.Add(this.SetBinding(() => ViewModel.Messages).WhenSourceChanges(() =>
             {
-                if(ViewModel.Messages != null)
-                    ForumTopicPagePostsList.InjectFlingAdapter(ViewModel.Messages,DataTemplateFull,DataTemplateFling,ContainerTemplate   );
+
+                if (ViewModel.Messages != null)
+                {
+                    _items = ViewModel.Messages.Select(model => new ForumTopicItem(Activity)).ToList();
+                    ForumTopicPagePostsList.InjectFlingAdapter(ViewModel.Messages,DataTemplateFull,DataTemplateFling,ContainerTemplate);
+                }
             }));
 
             Bindings.Add(
@@ -95,19 +99,33 @@ namespace MALClient.Android.Fragments.ForumFragments
             }
         }
 
+        private List<ForumTopicItem> _items = new List<ForumTopicItem>();
+
         private View ContainerTemplate(int i)
         {
-            return new ForumTopicItem(Context);
+            return new FrameLayout(Activity) { LayoutParameters = new ViewGroup.LayoutParams(-1,-2)};
         }
 
         private void DataTemplateFling(View view, int i, ForumTopicMessageEntryViewModel arg3)
         {
-            ((ForumTopicItem)view).BindModel(arg3,true);
+            var frame = view as FrameLayout;
+            var item = _items[i];
+
+            frame.RemoveAllViews();
+            frame.AddView(item);
+            item.BindModelOnce(arg3, true);
+            // ((ForumTopicItem)view).BindModel(arg3,true);
         }
 
         private void DataTemplateFull(View view, int i, ForumTopicMessageEntryViewModel arg3)
         {
-            ((ForumTopicItem)view).BindModel(arg3, false);
+            var frame = view as FrameLayout;
+            var item = _items[i];
+
+            frame.RemoveAllViews();
+            frame.AddView(item);
+            item.BindModelOnce(arg3, false);
+            // ((ForumTopicItem)view).BindModel(arg3, false);
         }
 
         private void UpdatePageSelection()

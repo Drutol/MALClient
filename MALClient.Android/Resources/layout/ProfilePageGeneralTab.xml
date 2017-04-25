@@ -12,6 +12,7 @@
     android:layout_alignParentTop="true"
     android:clipToPadding="false"
     android:paddingBottom="60dp"
+    android:id="@+id/ProfilePageGeneralTabScrollingContainer"
     android:layout_alignParentStart="true">
     <LinearLayout
       android:layout_width="match_parent"

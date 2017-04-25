@@ -46,9 +46,9 @@
     </LinearLayout>
 
     <android.support.v7.widget.SearchView android:id="@+id/MainPageSearchView"
-                                          android:layout_width="wrap_content"
+                                          android:layout_width="50dp"
                                           android:layout_height="match_parent"
-                                          android:layout_weight="1"
+                                          android:layout_weight="0"
                                           android:layout_gravity="end"
                                           xmlns:app="http://schemas.android.com/apk/res-auto"
                                           app:showAsAction="collapseActionView|always"
@@ -58,10 +58,10 @@
                                           android:searchIcon="@null" />
 
     <ImageButton android:id="@+id/MainPageRefreshButton"
-                 android:layout_width="wrap_content"
-                 android:layout_height="match_parent" android:layout_gravity="center_vertical"
+                 android:layout_width="40dp"
+                 android:layout_height="40dp" android:layout_gravity="center_vertical"
                  android:tint="#fff"
-                 android:background="?android:selectableItemBackground"
+                 android:background="?android:selectableItemBackgroundBorderless"
                  android:src="@drawable/icon_reload" android:padding="10dp" />
   </LinearLayout>
 

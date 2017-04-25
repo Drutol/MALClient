@@ -63,9 +63,46 @@ namespace MALClient.Android.Fragments.AnimeDetailsPageTabs
             view.FindViewById<TextView>(Resource.Id.AnimeRecomItemShowTitle).Text = animeRecomData.Title;
             view.FindViewById<TextView>(Resource.Id.AnimeRecomItemShowType).Text = animeRecomData.Type.ToString();
 
-            var spannableString = new SpannableString(animeRecomData.Description);
-            spannableString.SetSpan(new LeadingSpannableString(12, DimensionsHelper.DpToPx(140)), 0, spannableString.Length(), SpanTypes.Paragraph);
-            view.FindViewById<TextView>(Resource.Id.AnimeRecomItemRecomContent).SetText(spannableString.SubSequenceFormatted(0, spannableString.Length()), TextView.BufferType.Spannable);
+            //var spannableString = new SpannableString(animeRecomData.Description);
+            //spannableString.SetSpan(new LeadingSpannableString(12, DimensionsHelper.DpToPx(140)), 0, spannableString.Length(), SpanTypes.Paragraph);
+            //view.FindViewById<TextView>(Resource.Id.AnimeRecomItemRecomContent).SetText(spannableString.SubSequenceFormatted(0, spannableString.Length()), TextView.BufferType.Spannable);
+            var txt = view.FindViewById<TextView>(Resource.Id.AnimeRecomItemRecomContent);
+            var txtOverflow = view.FindViewById<TextView>(Resource.Id.AnimeRecomItemRecomContentOverflow);
+            txtOverflow.Text = string.Empty;
+            txt.Text = animeRecomData.Description;
+            txt.Post(() =>
+            {
+                if(txt.LineCount < 11)
+                    return;
+
+                //if (txt.Layout.Text.EndsWith("..."))
+                //{
+                //    var lastSpace = txt.Layout.Text.LastIndexOf(' ');
+                //    txt.Text = animeRecomData.Description.Substring(0, lastSpace);
+                //    txtOverflow.Text = animeRecomData.Description.Substring(lastSpace+1, animeRecomData.Description.Length);
+                //}
+
+                var ellipsis = txt.Layout.GetEllipsisStart(10);
+                if (ellipsis != -1)
+                {
+                    var chars = txt.Layout.GetLineEnd(9) + ellipsis;
+                    int lastSpaceIndex = 0;
+                    for (int j = chars - 5; j > 0 ; j--)
+                    {
+                        if (animeRecomData.Description[j] == ' ')
+                        {
+                            lastSpaceIndex = j;
+                            break;
+                        }
+                    }
+                    if(lastSpaceIndex == 0)
+                        return;
+                    txt.Text = animeRecomData.Description.Substring(0, lastSpaceIndex);
+                    txtOverflow.Text = animeRecomData.Description.Substring(lastSpaceIndex+1);
+                }
+            });
+            
+
         }
 
         private View ContainerTemplate(int i)

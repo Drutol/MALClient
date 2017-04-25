@@ -14,9 +14,9 @@
               android:layout_height="wrap_content" android:text="Anime" android:textColor="?AccentColour"
               android:fontFamily="@string/font_family_light" android:textStyle="italic" />
   </LinearLayout>
-  <FrameLayout
+  <LinearLayout
     android:layout_width="match_parent" android:layout_marginTop="5dp"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content" android:orientation="horizontal">
     <FrameLayout
       android:layout_width="wrap_content"
       android:layout_height="wrap_content" android:layout_marginRight="5dp" android:layout_marginBottom="5dp">
@@ -30,9 +30,11 @@
                                            android:layout_width="@dimen/ShowImageWidthMedium"
                                            android:layout_height="@dimen/ShowImageHeightMedium" android:scaleType="fitXY" />
     </FrameLayout>
-    <TextView
-      android:layout_width="match_parent" android:id="@+id/AnimeRecomItemRecomContent"
-      android:layout_height="wrap_content" android:textColor="?BrushText" android:layout_marginEnd="5dp"/>
-  </FrameLayout>
-
+    <TextView android:maxLines="11"
+              android:layout_width="match_parent" android:ellipsize="end" android:id="@+id/AnimeRecomItemRecomContent" android:layout_marginStart="5dp"
+              android:layout_height="wrap_content" android:textColor="?BrushText" android:layout_marginEnd="5dp"/>
+  </LinearLayout>
+  <TextView android:layout_marginTop="3dp" android:text=""
+            android:layout_width="match_parent" android:id="@+id/AnimeRecomItemRecomContentOverflow" android:layout_marginStart="5dp"
+            android:layout_height="wrap_content" android:textColor="?BrushText" android:layout_marginEnd="5dp"/>
 </LinearLayout>

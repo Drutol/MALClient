@@ -185,7 +185,7 @@ namespace MALClient.Android.Fragments
                 Resource.Drawable.icon_sort);
             _rightDrawer.OnDrawerItemClickListener = new HamburgerItemClickListener((view, i, arg3) =>
             {
-                ViewModel.SortOption = (SortOptions) arg3.Identifier;
+                ViewModel.SetSortOrder((SortOptions)arg3.Identifier);
                 ViewModel.RefreshList();
                 _rightDrawer.OnDrawerItemClickListener = null;
                 _rightDrawer.CloseDrawer();

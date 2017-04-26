@@ -27,7 +27,7 @@ namespace MALClient.Android.DIalogs
     {
         #region GenericTextInput
 
-        private static DialogPlus _changelogDialog;
+        private static DialogPlus _textInputDialog;
         private static readonly SemaphoreSlim _semaphoreTextInput = new SemaphoreSlim(0);
 
 
@@ -40,8 +40,8 @@ namespace MALClient.Android.DIalogs
             dialogBuilder.SetOnDismissListener(
                 new DialogDismissedListener(() => ViewModelLocator.NavMgr.ResetOneTimeOverride()));
             ViewModelLocator.NavMgr.RegisterOneTimeMainOverride(new RelayCommand(CleanupTextInputDialog));
-            _changelogDialog = dialogBuilder.Create();
-            var dialogView = _changelogDialog.HolderView;
+            _textInputDialog = dialogBuilder.Create();
+            var dialogView = _textInputDialog.HolderView;
 
             dialogView.FindViewById<TextView>(Resource.Id.TextInputDialogTitle).Text = title;
             var textBox = dialogView.FindViewById<EditText>(Resource.Id.TextInputDialogTextBox);
@@ -49,7 +49,7 @@ namespace MALClient.Android.DIalogs
 
             dialogView.FindViewById(Resource.Id.TextInputDialogAcceptButton).SetOnClickListener(new OnClickListener(view => CleanupTextInputDialog()));
 
-            _changelogDialog.Show();
+            _textInputDialog.Show();
 
             await _semaphoreTextInput.WaitAsync();
 
@@ -58,9 +58,13 @@ namespace MALClient.Android.DIalogs
 
         private static void CleanupTextInputDialog()
         {
+            if(_textInputDialog == null)
+                return;
+
             _semaphoreTextInput.Release();
-            _changelogDialog.Dismiss();
-            _changelogDialog.Dispose();
+            _textInputDialog.Dismiss();
+            _textInputDialog.Dispose();
+            _textInputDialog = null;
         }
 
         #endregion
@@ -132,10 +136,14 @@ namespace MALClient.Android.DIalogs
 
         private static void CleanupForumPostTextInputDialog(bool success)
         {
+            if(_forumTextInputDialog==null)
+                return;
+
             _success = success;
             _semaphoreForumTextInput.Release();
             _forumTextInputDialog.Dismiss();
             _forumTextInputDialog.Dispose();
+            _forumTextInputDialog = null;
         }
 
     }

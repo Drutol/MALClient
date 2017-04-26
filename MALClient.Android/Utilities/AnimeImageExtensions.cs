@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Android.Views;
@@ -15,6 +16,7 @@ namespace MALClient.Android
 {
     public static class AnimeImageExtensions
     {
+        //private static readonly Dictionary<View, IScheduledWork> TasksDictionary = new Dictionary<View, IScheduledWork>();
         private static readonly HashSet<string> LoadedImgs = new HashSet<string>();
         private static readonly HashSet<string> FailedImgs = new HashSet<string>();
 
@@ -55,6 +57,13 @@ namespace MALClient.Android
         private static void LoadImage(ImageViewAsync image, string originUrl, string targetUrl,
             bool? imgLoaded)
         {
+            //if (TasksDictionary.TryGetValue(image, out var task))
+            //{
+            //    Debug.WriteLine("Cancelled");
+            //    task.Cancel();
+            //    TasksDictionary.Remove(image);
+            //}
+
             try
             {
                 if (string.IsNullOrEmpty(targetUrl) || string.IsNullOrEmpty(originUrl))
@@ -65,6 +74,7 @@ namespace MALClient.Android
                 {
                     image.Visibility = ViewStates.Invisible;
                     work = work.Success(image.AnimateFadeIn);
+                    //image.SetImageDrawable(null);
                     LoadedImgs.Add(targetUrl);
                 }
                 else
@@ -93,6 +103,7 @@ namespace MALClient.Android
                 }
 
                 work.FadeAnimation(false).Into(image);
+                
             }
             catch (Exception)
             {
@@ -100,6 +111,10 @@ namespace MALClient.Android
             }
         }
 
+        //private static void OnWorkFinished(IScheduledWork scheduledWork)
+        //{
+        //    TasksDictionary.Remove(TasksDictionary.First(pair => pair.Value == scheduledWork).Key);
+        //}
 
         #endregion
 

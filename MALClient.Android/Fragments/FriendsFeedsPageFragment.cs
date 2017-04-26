@@ -46,10 +46,18 @@ namespace MALClient.Android.Fragments
             Bindings.Add(this.SetBinding(() => ViewModel.Feeds).WhenSourceChanges(() =>
             {
                 if (ViewModel.Feeds != null)
-                    FriendsFeedsPageGridView.InjectFlingAdapter(ViewModel.Feeds,DataTemplateFull,DataTemplateFling,ContainerTemplate);
+                    FriendsFeedsPageGridView.InjectFlingAdapter(ViewModel.Feeds,DataTemplateFull,DataTemplateFling,ContainerTemplate,DataTemplateBasic);
                 else
                     FriendsFeedsPageGridView.Adapter = null;
             }));
+        }
+
+        private void DataTemplateBasic(View view, int i, UserFeedEntryModel userFeedEntryModel)
+        {
+            view.FindViewById<TextView>(Resource.Id.FriendsFeedsPageItemUserName).Text = userFeedEntryModel.User.Name;
+            view.FindViewById<TextView>(Resource.Id.FriendsFeedsPageItemTitle).Text = userFeedEntryModel.Title;
+            view.FindViewById<TextView>(Resource.Id.FriendsFeedsPageItemContent).Text = userFeedEntryModel.Description;
+            view.FindViewById<TextView>(Resource.Id.FriendsFeedsPageItemDate).Text = userFeedEntryModel.Date.ToDiffString();
         }
 
         private View ContainerTemplate(int i)
@@ -64,13 +72,14 @@ namespace MALClient.Android.Fragments
 
         private void DataTemplateFling(View view, int i, UserFeedEntryModel userFeedEntryModel)
         {
-            view.FindViewById(Resource.Id.FriendsFeedsPageItemImage).Visibility = ViewStates.Invisible;
-            view.FindViewById(Resource.Id.FriendsFeedsPageItemUserImageButton).Visibility = ViewStates.Invisible;
-            view.FindViewById(Resource.Id.FriendsFeedsPageItemImgPlaceholder).Visibility = ViewStates.Visible;
-            view.FindViewById<TextView>(Resource.Id.FriendsFeedsPageItemUserName).Text = userFeedEntryModel.User.Name;
-            view.FindViewById<TextView>(Resource.Id.FriendsFeedsPageItemTitle).Text = userFeedEntryModel.Title;
-            view.FindViewById<TextView>(Resource.Id.FriendsFeedsPageItemContent).Text = userFeedEntryModel.Description;
-            view.FindViewById<TextView>(Resource.Id.FriendsFeedsPageItemDate).Text = userFeedEntryModel.Date.ToDiffString();
+            var img = view.FindViewById<ImageViewAsync>(Resource.Id.FriendsFeedsPageItemImage);
+            var accImg = view.FindViewById<ImageViewAsync>(Resource.Id.FriendsFeedsPageItemUserImage);
+            string link = null;
+            if(AnimeImageQuery.IsCached(userFeedEntryModel.Id,true, ref link))
+                img.Visibility = img.IntoIfLoaded(link) ? ViewStates.Visible : ViewStates.Gone;
+
+            if (!accImg.IntoIfLoaded(userFeedEntryModel.User.ImgUrl,new CircleTransformation()))
+                accImg.Visibility = ViewStates.Gone;
         }
 
         private void DataTemplateFull(View view, int i, UserFeedEntryModel userFeedEntryModel)
@@ -84,15 +93,16 @@ namespace MALClient.Android.Fragments
                     img.Into(imgUrl); 
                 else
                     img.IntoWithTask(AnimeImageQuery.GetImageUrl(userFeedEntryModel.Id, true));
-                view.FindViewById<ImageViewAsync>(Resource.Id.FriendsFeedsPageItemUserImage).Into(userFeedEntryModel.User.ImgUrl, new CircleTransformation());
-                view.FindViewById(Resource.Id.FriendsFeedsPageItemUserImageButton).Tag = userFeedEntryModel.User.Wrap();
-                view.FindViewById(Resource.Id.FriendsFeedsPageItemUserImageButton).Visibility = ViewStates.Visible;
-                view.FindViewById(Resource.Id.FriendsFeedsPageItemImgPlaceholder).Visibility = ViewStates.Gone;
-                view.FindViewById<TextView>(Resource.Id.FriendsFeedsPageItemUserName).Text = userFeedEntryModel.User.Name;
-                view.FindViewById<TextView>(Resource.Id.FriendsFeedsPageItemTitle).Text = userFeedEntryModel.Title;
-                view.FindViewById<TextView>(Resource.Id.FriendsFeedsPageItemContent).Text = userFeedEntryModel.Description;
-                view.FindViewById<TextView>(Resource.Id.FriendsFeedsPageItemDate).Text = userFeedEntryModel.Date.ToDiffString();
-            }           
+
+                
+                view.FindViewById(Resource.Id.FriendsFeedsPageItemUserImageButton).Tag = userFeedEntryModel.User.Wrap(); 
+            }
+
+            var accImg = view.FindViewById<ImageViewAsync>(Resource.Id.FriendsFeedsPageItemUserImage);
+            if (img.Tag == null || (string)img.Tag != userFeedEntryModel.User.ImgUrl)
+            {
+                accImg.Into(userFeedEntryModel.User.ImgUrl, new CircleTransformation());
+            }
         }
 
         private void RootFeedItemOnClick(object sender, EventArgs eventArgs)

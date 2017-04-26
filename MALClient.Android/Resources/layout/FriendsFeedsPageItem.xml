@@ -4,15 +4,11 @@
              android:layout_width="160dp"
              android:padding="2dp" android:clickable="true" android:focusable="true" android:foreground="?selectableItemBackground">
   <RelativeLayout
-    android:layout_width="match_parent" android:background="?BrushAppBars"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
     <FrameLayout
       android:layout_width="match_parent" android:foreground="#7f000000"
-      android:layout_height="match_parent">
-      <ImageView
-        android:layout_width="wrap_content" android:id="@+id/FriendsFeedsPageItemImgPlaceholder"
-        android:layout_height="wrap_content" android:layout_centerInParent="true" android:src="@drawable/icon_more"
-        android:tint="?BrushNoSearchResultsContrasting" />
+      android:layout_height="290dp">
       <FFImageLoading.Views.ImageViewAsync
         android:layout_width="match_parent" android:id="@+id/FriendsFeedsPageItemImage"
         android:layout_height="290dp" android:scaleType="fitXY"/>
@@ -36,11 +32,11 @@
                 android:layout_height="0dp" android:layout_weight="1.5"  android:layout_gravity="center_horizontal" android:text="" android:fontFamily="@string/font_family_medium" android:layout_marginTop="5dp"/>
       <TextView android:textColor="#fff" android:id="@+id/FriendsFeedsPageItemContent" android:gravity="center"
                 android:layout_width="wrap_content" android:maxLines="3" android:ellipsize="end" android:textAlignment="center"
-                android:layout_height="0dp" android:layout_weight="1"  android:layout_gravity="center_horizontal" android:text="" android:fontFamily="@string/font_family_medium" android:layout_marginTop="5dp"/>
+                android:layout_height="0dp" android:layout_weight="1"  android:layout_gravity="center_horizontal" android:text="" android:fontFamily="@string/font_family_light" android:layout_marginTop="5dp"/>
 
     </LinearLayout>
     <TextView android:id="@+id/FriendsFeedsPageItemDate" android:layout_alignParentBottom="true" android:layout_centerHorizontal="true"
-              android:layout_width="wrap_content" android:layout_marginBottom="5dp" android:textColor="#fff"  android:textAlignment="center"
+              android:layout_width="wrap_content" android:layout_marginBottom="5dp" android:textColor="#fff"  android:textAlignment="center" android:fontFamily="@string/font_family_light"
               android:layout_height="wrap_content" android:layout_margin="3dp" android:text="15 hours" android:maxLines="1" android:ellipsize="end"/>
   </RelativeLayout>
 </FrameLayout>

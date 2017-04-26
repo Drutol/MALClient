@@ -177,6 +177,7 @@ namespace MALClient.Android.BackgroundTasks
                 .SetContentText(notification.Content)
                 .SetContentInfo(notification.Content)
                 .SetAutoCancel(true)
+                .SetGroup(notification.Id)
                 .SetContentIntent(pendingIntent)
                 .SetSound(RingtoneManager.GetDefaultUri(RingtoneType.Notification));
 

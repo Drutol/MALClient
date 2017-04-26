@@ -77,8 +77,23 @@ namespace MALClient.XShared.Comm.Anime
                             current.Score.Add(new ReviewScore {Field = tds[0].InnerText,Score = tds[1].InnerText == "&nbsp;" ? "N/A" : tds[1].InnerText });
                         }
                         reviewNodeContent.ChildNodes.Remove(1);
+                        var rawReview = reviewNodeContent.ChildNodes.Where(node => node.Name == "#text")
+                            .Aggregate("", (s, node) => s += node.InnerText)
+                            .Replace("read more", "")
+                            .Replace("Helpful", "")
+                            .Trim(' ', '\n', '\r');
+
+                        var reviewSecondPart = (reviewNodeContent.ChildNodes.FirstOrDefault(node => node.Name == "span")?.InnerText ?? "")
+                            .TrimWhitespaceInside(false).Trim(' ', '\n', '\r');
+
+                        var oblivionStartIndex = reviewSecondPart.IndexOf("\r\n\r\n");
+                        if (oblivionStartIndex != -1)
+                            reviewSecondPart = reviewSecondPart.Remove(oblivionStartIndex, 4);
+
+                        rawReview += reviewSecondPart;
+
                         current.Review =
-                            WebUtility.HtmlDecode(reviewNodeContent.InnerText.Replace("read more", "").Replace("Helpful", "").Trim().TrimWhitespaceInside(false));
+                            WebUtility.HtmlDecode(rawReview.Trim(' ', '\n', '\r'));
 
                         output.Add(current);
                     }

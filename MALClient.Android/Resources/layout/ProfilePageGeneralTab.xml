@@ -19,24 +19,29 @@
       android:layout_height="wrap_content" android:orientation="vertical">
       <LinearLayout android:background="?BrushAnimeItemBackground" android:layout_gravity="center_vertical"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-        <FrameLayout android:layout_gravity="center_vertical"
-                     android:layout_width="wrap_content" android:background="?BrushAnimeItemInnerBackground"
-                     android:layout_height="wrap_content">
-          <ImageView
-            android:layout_width="wrap_content" android:id="@+id/ProfilePageGeneralTabImagePlaceholder"
-            android:layout_height="wrap_content" android:layout_gravity="center" android:src="@drawable/icon_help" android:tint="#fff"/>
-          <FFImageLoading.Views.ImageViewAsync
-            android:layout_width="130dp" android:id="@+id/ProfilePageGeneralTabAnimeUserImg"
-            android:layout_height="130dp" android:layout_margin="10dp" />
-        </FrameLayout>
-        <LinearLayout
-          android:layout_width="0dp" android:layout_weight="1" android:padding="10dp" android:layout_marginTop="10dp"
+                    android:layout_height="155dp">
+        <LinearLayout android:elevation="5dp"
+                      android:layout_width="wrap_content" android:background="?BrushAppBars"
+                      android:layout_height="match_parent" android:orientation="vertical">
+          <FrameLayout android:layout_gravity="top"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content">
+            <ImageView
+              android:layout_width="wrap_content" android:id="@+id/ProfilePageGeneralTabImagePlaceholder"
+              android:layout_height="wrap_content" android:layout_gravity="center" android:src="@drawable/icon_help" android:tint="#fff"/>
+            <FFImageLoading.Views.ImageViewAsync
+              android:layout_width="100dp" android:id="@+id/ProfilePageGeneralTabAnimeUserImg"
+              android:layout_height="100dp" android:layout_margin="10dp" />
+          </FrameLayout>
+        </LinearLayout>
+
+        <android.support.v4.widget.NestedScrollView
+          android:layout_width="0dp" android:layout_weight="1" android:paddingTop="5dp" android:paddingBottom="5dp"
           android:layout_height="wrap_content" android:orientation="vertical">
           <LinearLayout
             android:layout_width="match_parent" android:id="@+id/ProfilePageGeneralTabDetailsList"
             android:layout_height="wrap_content" android:orientation="vertical" />
-        </LinearLayout>
+        </android.support.v4.widget.NestedScrollView>
 
       </LinearLayout>
       <LinearLayout android:gravity="center_horizontal"

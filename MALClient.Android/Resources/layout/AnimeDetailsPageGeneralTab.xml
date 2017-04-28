@@ -1,8 +1,8 @@
 ﻿<MALClient.Android.UserControls.OrientationDependentScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="5dp"
-            android:background="?BrushDetailsBackground">
+                                                               android:layout_width="match_parent"
+                                                               android:layout_height="wrap_content"
+                                                               android:paddingTop="5dp"
+                                                               android:background="?BrushDetailsBackground">
 
   <LinearLayout
     android:orientation="vertical"
@@ -28,7 +28,7 @@
                       android:layout_height="wrap_content" android:textColor="?BrushText" android:text="Episodes" />
             <TextView android:textSize="@dimen/FontSizeNormal" android:fontFamily="@string/font_family_medium"
                       android:layout_alignParentEnd="true" android:layout_width="wrap_content"
-                      android:layout_height="wrap_content" android:textColor="?BrushText" android:text="23"
+                      android:layout_height="wrap_content" android:textColor="?BrushText"
                       android:id="@+id/AnimeDetailsPageGeneralTabFragmentEpisodes" />
           </RelativeLayout>
         </RelativeLayout>
@@ -45,7 +45,7 @@
                       android:layout_height="wrap_content" android:textColor="?BrushText" android:text="Score" />
             <TextView android:textSize="@dimen/FontSizeNormal" android:fontFamily="@string/font_family_medium"
                       android:layout_alignParentEnd="true" android:layout_width="wrap_content"
-                      android:layout_height="wrap_content" android:textColor="?BrushText" android:text="8.65"
+                      android:layout_height="wrap_content" android:textColor="?BrushText"
                       android:id="@+id/AnimeDetailsPageGeneralTabFragmentScore" />
           </RelativeLayout>
         </RelativeLayout>
@@ -62,7 +62,7 @@
                       android:layout_height="wrap_content" android:textColor="?BrushText" android:text="Start" />
             <TextView android:textSize="@dimen/FontSizeNormal" android:fontFamily="@string/font_family_medium"
                       android:layout_alignParentEnd="true" android:layout_width="wrap_content"
-                      android:layout_height="wrap_content" android:textColor="?BrushText" android:text="8-09-2016"
+                      android:layout_height="wrap_content" android:textColor="?BrushText"
                       android:id="@+id/AnimeDetailsPageGeneralTabFragmentStart" />
           </RelativeLayout>
         </RelativeLayout>
@@ -83,7 +83,7 @@
                         android:layout_height="wrap_content" android:textColor="?BrushText" android:text="My start" />
               <TextView android:textSize="@dimen/FontSizeNormal" android:layout_alignParentEnd="true"
                         android:layout_width="wrap_content" android:layout_height="wrap_content"
-                        android:textColor="?AccentColourDark" android:text="8-09-2016"
+                        android:textColor="?AccentColourDark"
                         android:id="@+id/AnimeDetailsPageGeneralTabFragmentMyStart" />
             </RelativeLayout>
           </RelativeLayout>
@@ -107,7 +107,7 @@
                       android:layout_height="wrap_content" android:textColor="?BrushText" android:text="Type" />
             <TextView android:textSize="@dimen/FontSizeNormal" android:fontFamily="@string/font_family_medium"
                       android:layout_alignParentEnd="true" android:layout_width="wrap_content"
-                      android:layout_height="wrap_content" android:textColor="?BrushText" android:text="TV"
+                      android:layout_height="wrap_content" android:textColor="?BrushText"
                       android:id="@+id/AnimeDetailsPageGeneralTabFragmentType" />
           </RelativeLayout>
         </RelativeLayout>
@@ -125,7 +125,7 @@
             <TextView android:textSize="@dimen/FontSizeNormal" android:fontFamily="@string/font_family_medium"
                       android:layout_alignParentEnd="true" android:layout_width="wrap_content"
                       android:layout_height="wrap_content" android:textColor="?BrushText"
-                      android:text="Currently Airing"
+
                       android:id="@+id/AnimeDetailsPageGeneralTabFragmentStatus" />
           </RelativeLayout>
         </RelativeLayout>
@@ -142,7 +142,7 @@
                       android:layout_height="wrap_content" android:textColor="?BrushText" android:text="End" />
             <TextView android:textSize="@dimen/FontSizeNormal" android:fontFamily="@string/font_family_medium"
                       android:layout_alignParentEnd="true" android:layout_width="wrap_content"
-                      android:layout_height="wrap_content" android:textColor="?BrushText" android:text="\?"
+                      android:layout_height="wrap_content" android:textColor="?BrushText"
                       android:id="@+id/AnimeDetailsPageGeneralTabFragmentEnd" />
           </RelativeLayout>
         </RelativeLayout>
@@ -162,7 +162,7 @@
                         android:layout_height="wrap_content" android:textColor="?BrushText" android:text="My end" />
               <TextView android:textSize="@dimen/FontSizeNormal" android:layout_alignParentEnd="true"
                         android:layout_width="wrap_content" android:layout_height="wrap_content"
-                        android:textColor="?AccentColourDark" android:text="Not set"
+                        android:textColor="?AccentColourDark"
                         android:id="@+id/AnimeDetailsPageGeneralTabFragmentMyEnd" />
             </RelativeLayout>
           </RelativeLayout>
@@ -175,7 +175,7 @@
               android:layout_gravity="center_horizontal" android:layout_margin="5dp" />
     <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
               android:fontFamily="@string/font_family_light" android:textSize="@dimen/FontSizeNormal"
-              android:text="Lorem" android:textColor="?BrushText" android:paddingStart="10dp" android:paddingEnd="10dp"
+              android:text="" android:textColor="?BrushText" android:paddingStart="10dp" android:paddingEnd="10dp"
               android:id="@+id/AnimeDetailsPageGeneralTabFragmentSynopsis" />
   </LinearLayout>
 </MALClient.Android.UserControls.OrientationDependentScrollView>

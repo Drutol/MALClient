@@ -6,6 +6,7 @@
   <string name="font_family_black">sans-serif-black</string>
   <string name="font_family_thin">sans-serif-thin</string>
 
+  <dimen name="FontSizeTiny">10sp</dimen>
   <dimen name="FontSizeSmall">13sp</dimen>
   <dimen name="FontSizeSemiNormal">13sp</dimen>
   <dimen name="FontSizeNormal">14sp</dimen>

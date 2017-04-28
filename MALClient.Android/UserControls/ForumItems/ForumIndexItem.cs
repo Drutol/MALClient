@@ -62,7 +62,8 @@ namespace MALClient.Android.UserControls.ForumItems
         {
             if (ViewModel.ArePeekPostsAvailable)
             {
-                if (ForumIndexPageBoardItemPeekPost1Image.IntoIfLoaded(ViewModel.Entry.PeekPosts.First().User.ImgUrl, new CircleTransformation()))
+                if (ForumIndexPageBoardItemPeekPost1Image.IntoIfLoaded(ViewModel.Entry.PeekPosts.First().User.ImgUrl, new CircleTransformation(),null,nameof(
+                    Resource.Drawable.user_circle_image_placeholder)))
                 {
                     ForumIndexPageBoardItemPeekPost1Image.Visibility = ViewStates.Visible;
                     ForumIndexPageBoardItemPeekPost1ImgPlaceholder.Visibility = ViewStates.Gone;
@@ -75,7 +76,8 @@ namespace MALClient.Android.UserControls.ForumItems
 
                 if (ViewModel.Entry.PeekPosts.Count() == 2)
                 {
-                    if (ForumIndexPageBoardItemPeekPost2Image.IntoIfLoaded(ViewModel.Entry.PeekPosts.Last().User.ImgUrl, new CircleTransformation()))
+                    if (ForumIndexPageBoardItemPeekPost2Image.IntoIfLoaded(ViewModel.Entry.PeekPosts.Last().User.ImgUrl, new CircleTransformation(), null, nameof(
+                        Resource.Drawable.user_circle_image_placeholder)))
                     {                                  
                         ForumIndexPageBoardItemPeekPost2Image.Visibility = ViewStates.Visible;
                         ForumIndexPageBoardItemPeekPost2ImgPlaceholder.Visibility = ViewStates.Gone;
@@ -111,7 +113,8 @@ namespace MALClient.Android.UserControls.ForumItems
                 if (ForumIndexPageBoardItemPeekPost1Image.Tag == null ||
                     (string)ForumIndexPageBoardItemPeekPost1Image.Tag != pp1.User.ImgUrl)
                 {
-                    ForumIndexPageBoardItemPeekPost1Image.Into(pp1.User.ImgUrl, new CircleTransformation());
+                    ForumIndexPageBoardItemPeekPost1Image.Into(pp1.User.ImgUrl, new CircleTransformation(), null, nameof(
+                        Resource.Drawable.user_circle_image_placeholder));
                 }
                 else
                 {
@@ -124,7 +127,8 @@ namespace MALClient.Android.UserControls.ForumItems
                     if (ForumIndexPageBoardItemPeekPost2Image.Tag == null ||
                         (string)ForumIndexPageBoardItemPeekPost2Image.Tag != pp2.User.ImgUrl)
                     {
-                        ForumIndexPageBoardItemPeekPost2Image.Into(pp2.User.ImgUrl,new CircleTransformation());
+                        ForumIndexPageBoardItemPeekPost2Image.Into(pp2.User.ImgUrl,new CircleTransformation(), null, nameof(
+                            Resource.Drawable.user_circle_image_placeholder));
                     }
                     else
                     {

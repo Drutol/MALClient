@@ -1,15 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" android:padding="5dp">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent" android:orientation="horizontal"
+              android:layout_height="wrap_content" android:padding="5dp">
   <TextView
     android:layout_width="wrap_content" android:text="fgd" android:textColor="?BrushText"
-    android:fontFamily="@string/font_family_light"
+    android:fontFamily="@string/font_family_light" android:minWidth="100dp"
     android:layout_height="wrap_content" android:id="@+id/ProfilePageGeneralTabDetailsItemLeft" />
   <TextView
-    android:layout_width="wrap_content" android:layout_alignParentRight="true" android:text="dgfdg"
+    android:layout_width="0dp" android:layout_marginStart="20dp" android:layout_weight="1" android:gravity="end" android:maxLines="2" android:ellipsize="end" android:text="dgfdg"
     android:textColor="?BrushText"
     android:layout_height="wrap_content" android:id="@+id/ProfilePageGeneralTabDetailsItemRight" />
-
-</RelativeLayout>
+</LinearLayout>

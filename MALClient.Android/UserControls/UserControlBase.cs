@@ -17,7 +17,7 @@ namespace MALClient.Android.UserControls
     public abstract class UserControlBase<TViewModel,TViewRootType> : FrameLayout where TViewRootType : ViewGroup
     {
         protected TViewRootType RootContainer;
-        protected TViewModel ViewModel { get; private set; }
+        public TViewModel ViewModel { get; private set; }
 
         #region Constructors
         protected UserControlBase(IntPtr javaReference, JniHandleOwnership transfer) : base(javaReference, transfer)
@@ -97,13 +97,9 @@ namespace MALClient.Android.UserControls
 
             if (!_boundOnceFling && fling)
             {
-                BindModelBasic();
-                BindModelFling();
                 _boundOnceFling = true;
-            }
-
-            
-
+                BindModelFling();
+            }       
         }
 
         protected abstract void BindModelFling();

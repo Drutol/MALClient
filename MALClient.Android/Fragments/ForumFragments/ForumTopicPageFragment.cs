@@ -110,9 +110,13 @@ namespace MALClient.Android.Fragments.ForumFragments
         {
             var frame = view as FrameLayout;
             var item = _items[i];
+            if (!(frame.ChildCount == 1 && frame.GetChildAt(0) as ForumTopicItem == item))
+            {
+                frame.RemoveAllViews();
+                frame.AddView(item);
+            }
 
-            frame.RemoveAllViews();
-            frame.AddView(item);
+
             item.BindModelOnce(arg3, true);
             // ((ForumTopicItem)view).BindModel(arg3,true);
         }
@@ -121,9 +125,11 @@ namespace MALClient.Android.Fragments.ForumFragments
         {
             var frame = view as FrameLayout;
             var item = _items[i];
-
-            frame.RemoveAllViews();
-            frame.AddView(item);
+            if (!(frame.ChildCount == 1 && frame.GetChildAt(0) as ForumTopicItem == item))
+            {
+                frame.RemoveAllViews();
+                frame.AddView(item);
+            }
             item.BindModelOnce(arg3, false);
             // ((ForumTopicItem)view).BindModel(arg3, false);
         }

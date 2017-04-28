@@ -4,7 +4,9 @@
                 android:layout_height="match_parent">
   <ScrollView
     android:layout_width="match_parent" android:fillViewport="true"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:layout_alignParentTop="true"
+    android:layout_alignParentStart="true">
     <LinearLayout
       android:orientation="vertical"
       android:layout_width="match_parent"
@@ -30,11 +32,9 @@
 
           </FrameLayout>
           <LinearLayout android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/AnimeDetailsPageUpdateSection"
-                        android:orientation="horizontal"
-                        android:padding="10dp"
-                        android:layout_gravity="top">
+                        android:layout_height="match_parent"
+                        android:id="@+id/AnimeDetailsPageUpdateSection" android:gravity="center_vertical"
+                        android:orientation="horizontal" android:paddingStart="10dp">
             <LinearLayout android:layout_width="wrap_content"
                           android:layout_height="wrap_content"
                           android:orientation="vertical">
@@ -72,7 +72,8 @@
                       android:id="@+id/AnimeDetailsPageScoreButton"
                       android:background="@drawable/button_underline_background_style"
                       android:layout_height="25dp"
-                      android:layout_marginTop="5dp"
+                      android:layout_marginTop="3dp"
+                      android:layout_marginBottom="2dp"
                       android:textAllCaps="false"
                       android:clickable="true"
                       android:text="8/10"
@@ -83,14 +84,14 @@
                       android:layout_height="25dp"
                       android:textAllCaps="false"
                       android:layout_marginTop="5dp"
-                      android:text="Plan to watchhhhh"
+                      android:text="Plan to watch"
                       android:textColor="?BrushText" />
               <Button android:layout_width="wrap_content" android:minWidth="40dp"
                       android:id="@+id/AnimeDetailsPageWatchedButton"
                       android:background="@drawable/button_underline_background_style"
                       android:layout_height="25dp"
                       android:textAllCaps="false"
-                      android:layout_marginTop="10dp"
+                      android:layout_marginTop="12dp"
                       android:text="5/23"
                       android:textColor="?BrushText" />
               <Button android:layout_width="wrap_content" android:minWidth="40dp"
@@ -99,6 +100,7 @@
                       android:layout_height="25dp"
                       android:textAllCaps="false"
                       android:layout_marginTop="5dp"
+                      android:layout_marginBottom="2dp"
                       android:text="4/44"
                       android:visibility="gone"
                       android:textColor="?BrushText" />
@@ -139,7 +141,7 @@
         <!-- Add to my list section -->
         <LinearLayout android:layout_marginStart="130dp" android:layout_marginEnd="20dp"
                       android:id="@+id/AnimeDetailsPageAddSection" android:layout_width="match_parent"
-                      android:layout_height="wrap_content" android:orientation="vertical" android:visibility="visible" android:paddingBottom="20dp"
+                      android:layout_height="wrap_content" android:orientation="vertical" android:visibility="gone" android:paddingBottom="20dp"
                       android:layout_centerVertical="true">
           <TextView android:layout_gravity="center_horizontal"
                     android:textColor="?AccentColour"

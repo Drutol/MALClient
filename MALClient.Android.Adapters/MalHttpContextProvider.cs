@@ -14,6 +14,7 @@ using Android.Widget;
 using MALClient.XShared.BL;
 using MALClient.XShared.Comm.MagicalRawQueries;
 using ModernHttpClient;
+using Xamarin.Android.Net;
 
 namespace MALClient.Android.Adapters
 {

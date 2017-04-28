@@ -39,10 +39,10 @@ namespace MALClient.XShared.BL
             }
             catch (Exception e)
             {
-                if (!_skippedFirstError)
+                if (!_skippedFirstError || e is ObjectDisposedException)
                 {
                     _skippedFirstError = true;
-                    await Task.Delay(500);
+                    await Task.Delay(250);
                     return await GetHttpContextAsync(); //bug in android http client
                 }
                 if (!(e is TaskCanceledException) && !(e.InnerException is InvalidOperationException))

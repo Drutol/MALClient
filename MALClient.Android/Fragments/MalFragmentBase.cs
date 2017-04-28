@@ -75,6 +75,12 @@ namespace MALClient.Android.Fragments
                 InitBindings();
         }
 
+        public override void OnResume()
+        {
+            ReattachBindings();
+            base.OnResume();
+        }
+
         protected virtual void Cleanup()
         {
            

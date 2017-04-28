@@ -67,7 +67,7 @@ namespace MALClient.Android.Fragments
             if (view == null)
             {
                 view = Activity.LayoutInflater.Inflate(Resource.Layout.NotificationHubPageItem,null);
-                view.Click += ViewOnClick;
+                view.FindViewById(Resource.Id.NotificationHubPageItemLeftContainer).Click += ViewOnClick;
                 view.FindViewById(Resource.Id.NotificationHubPageItemMarkReadButton).SetOnClickListener(new OnClickListener(OnMarkReadAction));
                 view.FindViewById<TextView>(Resource.Id.NotificationHubPageItemIcon).Typeface =
                     FontManager.GetTypeface(Activity, FontManager.TypefacePath);
@@ -77,7 +77,7 @@ namespace MALClient.Android.Fragments
             view.FindViewById<TextView>(Resource.Id.NotificationHubPageItemContent).Text = malNotification.Content;
             view.FindViewById<TextView>(Resource.Id.NotificationHubPageItemDate).Text = malNotification.Date;
 
-            view.Tag = malNotification.Wrap();
+            view.FindViewById(Resource.Id.NotificationHubPageItemLeftContainer).Tag = malNotification.Wrap();
             view.FindViewById(Resource.Id.NotificationHubPageItemMarkReadButton).Tag = malNotification.Wrap();
             return view;
         }

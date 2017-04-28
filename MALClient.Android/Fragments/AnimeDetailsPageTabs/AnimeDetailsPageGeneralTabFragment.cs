@@ -77,7 +77,16 @@ namespace MALClient.Android.Fragments.AnimeDetailsPageTabs
                             dpd.Show();
                         }));
                         //rest
-                        AnimeDetailsPageGeneralTabFragmentSynopsis.Text = ViewModel.Synopsis;
+                        if (!string.IsNullOrEmpty(ViewModel.Synopsis))
+                        {
+                            AnimeDetailsPageGeneralTabFragmentSynopsis.Text = ViewModel.Synopsis;
+                            AnimeDetailsPageGeneralTabFragmentSynopsis.Gravity = GravityFlags.Left;
+                        }
+                        else
+                        {
+                            AnimeDetailsPageGeneralTabFragmentSynopsis.Text = "Synopsis unavailable...";
+                            AnimeDetailsPageGeneralTabFragmentSynopsis.Gravity = GravityFlags.CenterHorizontal;
+                        }
                     }
                 }
                 catch (Exception)

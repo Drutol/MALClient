@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -88,7 +89,6 @@ namespace MALClient.Android.Activities
                     (sender, action) => ViewModelLocator.NavMgr.RegisterOneTimeMainOverride(new RelayCommand(action));
                 DroppyMenuPopup.ResetOverrideRequested +=
                     (sender, eventArgs) => ViewModelLocator.NavMgr.ResetOneTimeOverride();
-
 
                 await Task.Delay(1000);
                 if (ResourceLocator.ChangelogProvider.NewChangelog)

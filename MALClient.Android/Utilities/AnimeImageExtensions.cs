@@ -119,23 +119,23 @@ namespace MALClient.Android
         #endregion
 
         public static bool IntoIfLoaded(this ImageViewAsync image, string originUrl, ITransformation transformation = null,
-            Action<ImageViewAsync> onCompleted = null)
+            Action<ImageViewAsync> onCompleted = null,string placeHolderImageRes = null)
         {
             if (LoadedImgs.Contains(originUrl))
             {
-                LoadImage(image, originUrl,transformation,onCompleted,true);
+                LoadImage(image, originUrl,transformation,onCompleted,placeHolderImageRes,true);
                 return true;
             }
             return false;
         }
 
-        public static void Into(this ImageViewAsync image, string originUrl, ITransformation transformation = null,Action<ImageViewAsync> onCompleted = null)
+        public static void Into(this ImageViewAsync image, string originUrl, ITransformation transformation = null,Action<ImageViewAsync> onCompleted = null,string placeHolderImageRes = null)
         {
-            LoadImage(image, originUrl, transformation, onCompleted, null);
+            LoadImage(image, originUrl, transformation, onCompleted, placeHolderImageRes,null);
         }
 
         public static void LoadImage(this ImageViewAsync image, string originUrl, ITransformation transformation,
-            Action<ImageViewAsync> onCompleted,bool? imgLoaded)
+            Action<ImageViewAsync> onCompleted, string placeHolderImageRes, bool? imgLoaded)
         {
             if (string.IsNullOrEmpty(originUrl))
                 return;
@@ -144,6 +144,8 @@ namespace MALClient.Android
             try
             {
                 var work = ImageService.Instance.LoadUrl(originUrl);
+                if (placeHolderImageRes != null)
+                    work = work.LoadingPlaceholder(placeHolderImageRes, ImageSource.ApplicationBundle);
                 if (imgLoaded != true && !LoadedImgs.Contains(originUrl))
                 {
                     image.Visibility = ViewStates.Invisible;

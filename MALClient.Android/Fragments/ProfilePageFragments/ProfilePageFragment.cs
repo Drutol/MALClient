@@ -41,7 +41,7 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
 
         protected override void InitBindings()
         {
-            ProfilePagePivot.Adapter = new ProfilePagePagerAdapter(FragmentManager);
+            ProfilePagePivot.Adapter = new ProfilePagePagerAdapter(ChildFragmentManager);
             ProfilePageTabStrip.SetViewPager(ProfilePagePivot);
             ProfilePagePivot.OffscreenPageLimit = 4;
             ProfilePageTabStrip.CenterTabs();

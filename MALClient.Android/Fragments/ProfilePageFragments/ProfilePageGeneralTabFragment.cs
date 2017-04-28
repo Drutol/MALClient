@@ -37,6 +37,8 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
             Bindings.Add(this.SetBinding(() => ViewModel.CurrentData)
                 .WhenSourceChanges(() =>
                 {
+                    ProfilePageGeneralTabScrollingContainer.ScrollY = 0;
+
                     if (string.IsNullOrEmpty(ViewModel.CurrentData.User.ImgUrl))
                     {
                         ProfilePageGeneralTabAnimeUserImg.Visibility = ViewStates.Invisible;
@@ -97,30 +99,33 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
 
         private View GetCommentTemplateDelegate(int i, MalComment malComment, View convertView)
         {
-            var view = convertView;
 
+            var view = Activity.LayoutInflater.Inflate(Resource.Layout.ProfilePageGeneralTabCommentItem, null);
 
-            if (view == null)
-            {
-                view = Activity.LayoutInflater.Inflate(Resource.Layout.ProfilePageGeneralTabCommentItem, null);
-                view.FindViewById<Button>(Resource.Id.ProfilePageGeneralTabCommentItemDeleteButton).Click += OnCommentDeleteClick;
-                view.FindViewById<Button>(Resource.Id.ProfilePageGeneralTabCommentItemConvButton).Click += OnCommentConversationClick;
-            }
+            var delButton = view.FindViewById<Button>(Resource.Id.ProfilePageGeneralTabCommentItemDeleteButton);
+            var convButton = view.FindViewById<Button>(Resource.Id.ProfilePageGeneralTabCommentItemConvButton);
+            var imgButton = view.FindViewById<FrameLayout>(Resource.Id.ProfilePageGeneralTabCommentItemImgButton);
 
-            ImageService.Instance.LoadUrl(malComment.User.ImgUrl)
-                .Success(view.FindViewById(Resource.Id.ProfilePageGeneralTabCommentItemUserImg).AnimateFadeIn)
-                .Into(view.FindViewById<ImageViewAsync>(Resource.Id.ProfilePageGeneralTabCommentItemUserImg));
+            delButton.SetOnClickListener(new OnClickListener(OnCommentDeleteClick)); 
+            convButton.SetOnClickListener(new OnClickListener( OnCommentConversationClick)); 
+            imgButton.SetOnClickListener(new OnClickListener(OnCommentAuthorClick));
 
-            view.FindViewById<TextView>(Resource.Id.ProfilePageGeneralTabCommentItemUsername).Text = malComment.User.Name;
+            view.FindViewById<ImageViewAsync>(Resource.Id.ProfilePageGeneralTabCommentItemUserImg).Into(malComment.User.ImgUrl);
+
+            view.FindViewById<TextView>(Resource.Id.ProfilePageGeneralTabCommentItemUsername).Text =
+                malComment.User.Name;
             view.FindViewById<TextView>(Resource.Id.ProfilePageGeneralTabCommentItemDate).Text = malComment.Date;
             view.FindViewById<TextView>(Resource.Id.ProfilePageGeneralTabCommentItemContent).Text = malComment.Content;
 
-            view.FindViewById(Resource.Id.ProfilePageGeneralTabCommentItemDeleteButton).Visibility = malComment.CanDelete ? ViewStates.Visible : ViewStates.Gone;
-            view.FindViewById(Resource.Id.ProfilePageGeneralTabCommentItemDeleteButton).Visibility = string.IsNullOrEmpty(malComment.ComToCom) ? ViewStates.Gone : ViewStates.Visible;
+            view.FindViewById(Resource.Id.ProfilePageGeneralTabCommentItemDeleteButton).Visibility =
+                malComment.CanDelete ? ViewStates.Visible : ViewStates.Gone;
+            view.FindViewById(Resource.Id.ProfilePageGeneralTabCommentItemDeleteButton).Visibility =
+                string.IsNullOrEmpty(malComment.ComToCom) ? ViewStates.Gone : ViewStates.Visible;
 
             view.Tag =
-                view.FindViewById(Resource.Id.ProfilePageGeneralTabCommentItemDeleteButton).Tag =
-                    view.FindViewById(Resource.Id.ProfilePageGeneralTabCommentItemConvButton).Tag = malComment.Wrap();
+                delButton.Tag =
+                    convButton.Tag = 
+                        imgButton.Tag = malComment.Wrap();
             return view;
         }
 
@@ -133,7 +138,7 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
             if (view == null)
             {
                 view = Activity.LayoutInflater.Inflate(Resource.Layout.ProfilePageGeneralTabFriendItem, null);
-                view.Click += FriendButtonOnClick;
+                view.SetOnClickListener(new OnClickListener(FriendButtonOnClick));
             }
 
             var img = (view as FrameLayout).FindViewById<ImageViewAsync>(Resource.Id.ProfilePageGeneralTabFriendItemImage);
@@ -158,19 +163,25 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
         }
 
 
-        private void OnCommentConversationClick(object sender, EventArgs eventArgs)
+        private void OnCommentConversationClick(View sender)
         {
-            ViewModel.NavigateConversationCommand.Execute((sender as View).Tag.Unwrap<MalComment>());
+            ViewModel.NavigateConversationCommand.Execute(sender.Tag.Unwrap<MalComment>());
         }
 
-        private void OnCommentDeleteClick(object sender, EventArgs eventArgs)
+        private void OnCommentDeleteClick(View sender)
         {
-            ViewModel.DeleteCommentCommand.Execute((sender as View).Tag.Unwrap<MalComment>());
+            ViewModel.DeleteCommentCommand.Execute(sender.Tag.Unwrap<MalComment>());
+            ProfilePageGeneralTabCommentsList.RemoveView(sender);
         }
 
-        private void FriendButtonOnClick(object sender, EventArgs eventArgs)
+        private void FriendButtonOnClick(View sender)
         {
             ViewModel.NavigateProfileCommand.Execute((sender as View).Tag.Unwrap<MalUser>());
+        }
+
+        private void OnCommentAuthorClick(View sender)
+        {
+            ViewModel.NavigateProfileCommand.Execute((sender as View).Tag.Unwrap<MalComment>().User);
         }
 
         public override int LayoutResourceId => Resource.Layout.ProfilePageGeneralTab;

@@ -105,7 +105,11 @@
 
 
 
-
+  <color name="WatchingColour">#228b22</color>
+  <color name="CompletedColour">#1e90ff</color>
+  <color name="OnHoldColour">#ffd700</color>
+  <color name="DroppedColour">#dc143c</color>
+  <color name="PlannedColour">#808080</color>
 
 
 

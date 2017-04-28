@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
@@ -226,8 +227,8 @@ namespace MALClient.XShared.Comm.Profile
                 {
                     var animeStats = doc.FirstOfDescendantsWithClass("div", "stats anime");
                     var generalStats = animeStats.Descendants("div").First().Descendants("div");
-                    current.AnimeDays = float.Parse(generalStats.First().InnerText.Substring(5).Trim());
-                    current.AnimeMean = float.Parse(generalStats.Last().InnerText.Substring(11).Trim());
+                    current.AnimeDays = float.Parse(generalStats.First().InnerText.Substring(5).Trim(),NumberStyles.Any,CultureInfo.InvariantCulture);
+                    current.AnimeMean = float.Parse(generalStats.Last().InnerText.Substring(11).Trim(), NumberStyles.Any, CultureInfo.InvariantCulture);
                     var i = 0;
 
                     #region AnimeStats
@@ -292,8 +293,8 @@ namespace MALClient.XShared.Comm.Profile
                     i = 0;
                     animeStats = doc.FirstOfDescendantsWithClass("div", "stats manga");
                     generalStats = animeStats.Descendants("div").First().Descendants("div");
-                    current.MangaDays = float.Parse(generalStats.First().InnerText.Substring(5).Trim());
-                    current.MangaMean = float.Parse(generalStats.Last().InnerText.Substring(11).Trim());
+                    current.MangaDays = float.Parse(generalStats.First().InnerText.Substring(5).Trim(), NumberStyles.Any, CultureInfo.InvariantCulture);
+                    current.MangaMean = float.Parse(generalStats.Last().InnerText.Substring(11).Trim(), NumberStyles.Any, CultureInfo.InvariantCulture);
 
                     #region MangaStats
 
@@ -358,7 +359,7 @@ namespace MALClient.XShared.Comm.Profile
 
                     #endregion
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
                     //hatml
                 }

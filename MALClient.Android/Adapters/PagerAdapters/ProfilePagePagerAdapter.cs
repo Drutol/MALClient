@@ -43,7 +43,7 @@ namespace MALClient.Android.PagerAdapters
         private readonly MalFragmentBase _generalFragment;
         private readonly MalFragmentBase _favsFragment;
         private readonly MalFragmentBase _recentsFragment;
-        private readonly MalFragmentBase _statsFragment;
+        private readonly ProfilePageStatsTabFragment _statsFragment;
 
         public override int Count => 4;
 
@@ -52,13 +52,13 @@ namespace MALClient.Android.PagerAdapters
             switch (p1)
             {
                 case 0:
-                    return new ProfilePageGeneralTabFragment();
+                    return _generalFragment;
                 case 1:
-                    return new ProfilePageFavouritesTabFragment();
-                case 2:
-                    return new ProfilePageRecentUpdatesFragment();
+                    return _favsFragment;
+                case 2:;
+                    return _recentsFragment;
                 case 3:
-                    return new ProfilePageStatsTabFragment();
+                    return _statsFragment;
             }
             throw new ArgumentException();
         }
@@ -80,6 +80,7 @@ namespace MALClient.Android.PagerAdapters
                     break;
                 case 3:
                     _currentFragment = _statsFragment;
+                    _statsFragment.NavigatedTo();
                     break;
             }
             _currentFragment?.ReattachBindings();

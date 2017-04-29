@@ -119,7 +119,7 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
 
             view.FindViewById(Resource.Id.ProfilePageGeneralTabCommentItemDeleteButton).Visibility =
                 malComment.CanDelete ? ViewStates.Visible : ViewStates.Gone;
-            view.FindViewById(Resource.Id.ProfilePageGeneralTabCommentItemDeleteButton).Visibility =
+            view.FindViewById(Resource.Id.ProfilePageGeneralTabCommentItemConvButton).Visibility =
                 string.IsNullOrEmpty(malComment.ComToCom) ? ViewStates.Gone : ViewStates.Visible;
 
             view.Tag =

@@ -20,14 +20,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" >
         <Button android:layout_gravity="end"  android:id="@+id/ForumGoToPageDialogFirstPageButton"
-                android:layout_width="wrap_content" android:backgroundTint="?AccentColourLight"
+                android:layout_width="wrap_content" android:backgroundTint="?AccentColour"
                 android:layout_height="wrap_content" android:text="First Page" android:textColor="#fff"/>
         <Button android:layout_gravity="end"  android:id="@+id/ForumGoToPageDialogLastPageButton"
-                android:layout_width="wrap_content" android:backgroundTint="?AccentColourLight" android:visibility="gone"
+                android:layout_width="wrap_content" android:backgroundTint="?AccentColour"
                 android:layout_height="wrap_content" android:text="Last Page" android:textColor="#fff"/>
       </LinearLayout>
       <Button android:layout_gravity="end|center_vertical"  android:id="@+id/ForumGoToPageDialogAcceptButton" android:minWidth="60dp"
-              android:layout_width="wrap_content" android:backgroundTint="?AccentColourLight" android:drawableTint="#fff"
+              android:layout_width="wrap_content" android:backgroundTint="?AccentColour" android:drawableTint="#fff"
               android:layout_height="wrap_content" android:text="Go" android:textColor="#fff"/>
     </FrameLayout>
   </LinearLayout>

@@ -89,12 +89,12 @@ namespace MALClient.Android.Fragments.ForumFragments
                 }
             };
 
-            ForumBoardPageGotoPageButton.SetOnClickListener(new OnClickListener(Action));
+            ForumBoardPageGotoPageButton.SetOnClickListener(new OnClickListener(OnGotoPageButtonClick));
 
             Bindings.Add(this.SetBinding(() => ViewModel.AvailablePages).WhenSourceChanges(UpdatePageSelection));
         }
 
-        private async void Action(View view)
+        private async void OnGotoPageButtonClick(View view)
         {
             var result = await ForumDialogBuilder.BuildGoPageDialog(Context);
             if (result == null)

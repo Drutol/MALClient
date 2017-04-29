@@ -12,7 +12,7 @@
                 android:layout_width="wrap_content" android:text="Title" android:textColor="?BrushText"
                 android:layout_height="wrap_content" android:textSize="@dimen/FontSizeHuge"/>
       <Button android:layout_gravity="end|center_vertical" android:layout_marginTop="5dp" android:layout_margin="0dp" android:id="@+id/ForumPostTextDialogAcceptButton"
-              android:layout_width="wrap_content" android:backgroundTint="?AccentColourLight" android:drawableTint="#fff"
+              android:layout_width="wrap_content" android:backgroundTint="?AccentColour" android:drawableTint="#fff"
               android:layout_height="wrap_content" android:drawableLeft="@drawable/icon_ok" android:text="Accept" android:textColor="#fff"/>
     </FrameLayout>
     <ScrollView

@@ -129,8 +129,7 @@ namespace MALClient.Android.Fragments.ForumFragments
 
         private void ForumsMainPagePinnedPostsButtonOnClick(object sender, EventArgs eventArgs)
         {
-            if(_pinnedPostsFlyoutContext == null)
-                _pinnedPostsFlyoutContext = new ForumsPinnedPostsFlyoutContext(ViewModel,ForumsMainPagePinnedPostsButton);
+            _pinnedPostsFlyoutContext = new ForumsPinnedPostsFlyoutContext(ViewModel,ForumsMainPagePinnedPostsButton);
             _pinnedPostsFlyoutContext.Show();
         }
 

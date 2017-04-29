@@ -15,6 +15,7 @@ using GalaSoft.MvvmLight.Helpers;
 using MALClient.Android.Activities;
 using MALClient.Android.BindingConverters;
 using MALClient.Android.CollectionAdapters;
+using MALClient.Android.Dialogs;
 using MALClient.Android.DIalogs;
 using MALClient.Android.Resources;
 using MALClient.Android.UserControls;
@@ -79,6 +80,7 @@ namespace MALClient.Android.Fragments.ForumFragments
                     () => ForumTopicPageToggleWatchingButton.Text));
 
 
+            ForumTopicPageGotoPageButton.Click += ForumTopicPageGotoPageButtonOnClick;
             ForumTopicPageActionButton.Click += ForumTopicPageActionButtonOnClick;
             ForumTopicPageToggleWatchingButton.Click += (sender, args) => ViewModel.ToggleWatchingCommand.Execute(null);
 
@@ -87,6 +89,30 @@ namespace MALClient.Android.Fragments.ForumFragments
                 ViewModel.AvailablePages.CollectionChanged += (sender, args) => UpdatePageSelection();
                 UpdatePageSelection();
             }));
+        }
+
+        private async void ForumTopicPageGotoPageButtonOnClick(object o, EventArgs eventArgs)
+        {
+            var result = await ForumDialogBuilder.BuildGoPageDialog(Context);
+            if (result == null)
+                return;
+
+            if (result == -1)
+            {
+                ViewModel.GotoFirstPageCommand.Execute(null);
+            }
+            else if (result == -2)
+            {
+                ViewModel.GotoLastPageCommand.Execute(null);
+            }
+            else
+            {
+                if (result == 0)
+                    ViewModel.GotoPageTextBind = result.ToString();
+                else
+                    ViewModel.GotoPageTextBind = (result - 1).ToString();
+                ViewModel.LoadGotoPageCommand.Execute(null);
+            }
         }
 
         private async void ForumTopicPageActionButtonOnClick(object o, EventArgs eventArgs)

@@ -27,6 +27,7 @@ namespace MALClient.Android.Flyouts
         private readonly ForumsMainViewModel _viewModel;
         private readonly View _parent;
         private DroppyMenuPopup _menu;
+        private ListView _list;
 
         public ForumsPinnedPostsFlyoutContext(ForumsMainViewModel viewModel,View parent)
         {
@@ -51,10 +52,10 @@ namespace MALClient.Android.Flyouts
             droppyBuilder.AddMenuItem(new DroppyMenuCustomItem(AnimeListPageFlyoutBuilder.BuildItem(_parent.Context, "Pinned posts", i => { }, 0, ResourceExtension.BrushRowAlternate2, null, false, GravityFlags.CenterHorizontal)));
             droppyBuilder.AddMenuItem(new DroppyMenuCustomItem(new DroppyMenuSeparatorView(_parent.Context)));
 
-            var list = new ListView(_parent.Context) {LayoutParameters = new ViewGroup.LayoutParams(DimensionsHelper.DpToPx(250), -2)};
+            _list = new ListView(_parent.Context) {LayoutParameters = new ViewGroup.LayoutParams(DimensionsHelper.DpToPx(250), -2)};
 
-            list.Adapter = new List<ForumTopicLightEntry>{new ForumTopicLightEntry{Created = "34",Title = "Whatevvvveeeeeeeeeeeeeeeeeeeeeeeeer",Op = "LoLeere"}}.GetAdapter(GetTemplateDelegate);
-            droppyBuilder.AddMenuItem(new DroppyMenuCustomItem(list));
+            _list.Adapter = _viewModel.PinnedTopics.GetAdapter(GetTemplateDelegate);
+            droppyBuilder.AddMenuItem(new DroppyMenuCustomItem(_list));
 
             return droppyBuilder.Build();
         }
@@ -75,12 +76,16 @@ namespace MALClient.Android.Flyouts
             view.FindViewById<TextView>(Resource.Id.ForumsPinnedPostItemDate).Text = entry.Created;
             view.FindViewById<TextView>(Resource.Id.ForumsPinnedPostItemAuthor).Text = entry.Op;
 
+            view.FindViewById(Resource.Id.ForumsPinnedPostItemUnpinButton).Tag = entry.Wrap();
+
             return view;
         }
 
         private void UnpinButtonOnClick(object sender, EventArgs eventArgs)
         {
-            _viewModel.UnpinTopicCommand.Execute(((sender as View).Parent as View).Tag.Unwrap<ForumTopicLightEntry>());
+            var view = sender as View;
+            _viewModel.UnpinTopicCommand.Execute(view.Tag.Unwrap<ForumTopicLightEntry>());
+            _list.RemoveView(view);
         }
 
         private void ViewOnClick(object sender, EventArgs eventArgs)

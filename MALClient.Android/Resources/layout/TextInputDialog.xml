@@ -12,7 +12,7 @@
               android:layout_width="match_parent" android:maxLines="1" android:layout_marginTop="10dp"
               android:layout_height="wrap_content" />
     <Button android:layout_gravity="end" android:layout_marginTop="5dp" android:id="@+id/TextInputDialogAcceptButton"
-            android:layout_width="wrap_content" android:backgroundTint="?AccentColourLight" android:drawableTint="#fff"
+            android:layout_width="wrap_content" android:backgroundTint="?AccentColour" android:drawableTint="#fff"
             android:layout_height="wrap_content" android:drawableLeft="@drawable/icon_ok" android:text="Accept" android:textColor="#fff"/>
   </LinearLayout>
 </FrameLayout>

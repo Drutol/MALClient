@@ -23,6 +23,7 @@ using MALClient.Android.Flyouts;
 using MALClient.Android.Listeners;
 using MALClient.Android.PagerAdapters;
 using MALClient.Android.Resources;
+using MALClient.Android.UserControls;
 using MALClient.Models.Enums;
 using MALClient.XShared.NavArgs;
 using MALClient.XShared.ViewModels;
@@ -128,6 +129,7 @@ namespace MALClient.Android.Fragments
                         }
 
                     }));
+
 
             Bindings.Add(this.SetBinding(() => ViewModel.AnimeMode)
                 .WhenSourceChanges(() =>

@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
 using Android.Graphics;
@@ -20,6 +21,9 @@ using MALClient.Android.DIalogs;
 using MALClient.Android.Listeners;
 using MALClient.Android.Resources;
 using MALClient.Android.Web;
+using MALClient.Models.Enums;
+using MALClient.XShared.NavArgs;
+using MALClient.XShared.Utils;
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Forums.Items;
 
@@ -180,10 +184,14 @@ namespace MALClient.Android.UserControls.ForumItems
         {
             var jsInterface = new DataJavascriptInterface(Context);
             ForumTopicPageItemWebView.Settings.JavaScriptEnabled = true;
+            _client = new ListenableWebClient();
+            _client.NavigationInterceptOpportunity = NavigationInterceptOpportunity;
+            ForumTopicPageItemWebView.SetWebViewClient(_client);
             ForumTopicPageItemWebView.AddJavascriptInterface(jsInterface, "android");
             ForumTopicPageItemWebView.Tag = new WebViewTag(jsInterface).Wrap();
             ForumTopicPageItemWebView.VerticalScrollBarEnabled = false;
             ForumTopicPageItemWebView.ScrollbarFadingEnabled = true;
+            ForumTopicPageItemWebView.HorizontalScrollBarEnabled = false;
             ForumTopicPageItemWebView.ScrollBarDefaultDelayBeforeFade = 0;
             ForumTopicPageItemWebView.SetBackgroundColor(Color.Transparent);
             _dataJavascriptInterface = jsInterface;
@@ -229,6 +237,42 @@ namespace MALClient.Android.UserControls.ForumItems
             }));
         }
 
+        private async Task<string> NavigationInterceptOpportunity(string targetUrl)
+        {
+            try
+            {
+                if (targetUrl != null)
+                {
+                    var navArgs = MalLinkParser.GetNavigationParametersForUrl(targetUrl);
+                    if (navArgs != null)
+                    {
+
+
+                        if (navArgs.Item1 != PageIndex.PageAnimeDetails)
+                        {
+                            ViewModelLocator.ForumsTopic.RegisterSelfBackNav();
+                        }
+                        else
+                        {
+                            var arg = navArgs.Item2 as AnimeDetailsPageNavigationArgs;
+                            arg.Source = PageIndex.PageForumIndex;
+                            arg.PrevPageSetup = ViewModelLocator.ForumsTopic.GetSelfBackNavArgs();
+                        }
+
+                        ViewModelLocator.GeneralMain.Navigate(navArgs.Item1, navArgs.Item2);
+                    }
+                    else if (Settings.ArticlesLaunchExternalLinks)
+                    {
+                        ResourceLocator.SystemControlsLauncherService.LaunchUri(new Uri(targetUrl));
+                    }
+                }
+            }
+            catch (Exception)
+            {
+            }
+            return null;
+        }
+
         private void DataJavascriptInterfaceOnNewResponse(object sender, string s)
         {
             MainActivity.CurrentContext.RunOnUiThread(() =>
@@ -267,6 +311,7 @@ namespace MALClient.Android.UserControls.ForumItems
         private FrameLayout _forumTopicPageItemEditButton;
         private FrameLayout _forumTopicPageItemDeleteButton;
         private FrameLayout _forumTopicPageItemQuoteButton;
+        private ListenableWebClient _client;
 
         public TextView ForumTopicPageItemPostDate => _forumTopicPageItemPostDate ?? (_forumTopicPageItemPostDate = FindViewById<TextView>(Resource.Id.ForumTopicPageItemPostDate));
 

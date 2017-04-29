@@ -43,12 +43,13 @@ namespace MALClient.Android.Fragments.ArticlesPageFragments
 
         protected override void InitBindings()
         {
-            ArticlesPagePivot.Adapter = new ArticlesPagePagerAdapter(FragmentManager);
+            ArticlesPagePivot.Adapter = new ArticlesPagePagerAdapter(ChildFragmentManager);
             ArticlesPageTabStrip.SetViewPager(ArticlesPagePivot);
             ArticlesPageTabStrip.CenterTabs();
 
 
             ArticlesPageWebView.SetWebViewClient(_listenableWebClient);
+            ArticlesPageWebView.Settings.JavaScriptEnabled = true;
 
             Bindings.Add(
                 this.SetBinding(() => ViewModel.WebViewVisibility,
@@ -88,60 +89,30 @@ namespace MALClient.Android.Fragments.ArticlesPageFragments
         }
 
 
-        private async Task<string> NavigationInterceptOpportunity(string uri)
+        private async Task<string> NavigationInterceptOpportunity(string targetUrl)
         {
-            try
+            if (targetUrl != null)
             {
-                if (uri != null)
+                var navArgs = MalLinkParser.GetNavigationParametersForUrl(targetUrl);
+                if (navArgs != null)
                 {
-                    var paramIndex = uri.IndexOf('?');
-                    if (paramIndex != -1)
-                        uri = uri.Substring(0, paramIndex);
-                    if (Regex.IsMatch(uri, "anime\\/\\d") || (Settings.SelectedApiType != ApiType.Hummingbird && Regex.IsMatch(uri, "manga\\/\\d")))
+                    if (navArgs.Item1 != PageIndex.PageAnimeDetails)
                     {
-                        var link = uri.Substring(8).Split('/');
-                        if (link[3] == "")
-                        {
-                            if (Settings.ArticlesLaunchExternalLinks)
-                            {
-                                ResourceLocator.SystemControlsLauncherService.LaunchUri(new Uri(uri));
-                                return null;
-                            }
-                        }
-                        int id = int.Parse(link[2]);
-                        if (Settings.SelectedApiType == ApiType.Hummingbird) //id switch            
-                            id = await new AnimeDetailsHummingbirdQuery(id).GetHummingbirdId();
-                        var arg = MalArticlesPageNavigationArgs.Articles;
-                        arg.NewsId = _currentId;
-                        ViewModelLocator.GeneralMain.Navigate(PageIndex.PageAnimeDetails,
-                            new AnimeDetailsPageNavigationArgs(id, link[3], null, null, arg)
-                            {
-                                Source = PageIndex.PageArticles,
-                                AnimeMode = link[1] == "anime"
-                            });
+                        ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageArticles, null);
                     }
-                    else if (uri.Contains("/profile/"))
+                    else
                     {
-                        var vm = ViewModelLocator.MalArticles;
-                        ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageArticles,
-                            new MalArticlesPageNavigationArgs
-                            {
-                                NewsId = vm.CurrentNews,
-                                WorkMode = vm.PrevWorkMode.Value
-                            });
-                        ViewModelLocator.GeneralMain.Navigate(PageIndex.PageProfile,
-                            new ProfilePageNavigationArgs { TargetUser = uri.Split('/').Last() });
-                    }
-                    else if (Settings.ArticlesLaunchExternalLinks)
-                    {
-                        ResourceLocator.SystemControlsLauncherService.LaunchUri(new Uri(uri));
+                        var arg = navArgs.Item2 as AnimeDetailsPageNavigationArgs;
+                        arg.Source = PageIndex.PageArticles;
                     }
 
+
+                    ViewModelLocator.GeneralMain.Navigate(navArgs.Item1, navArgs.Item2);
                 }
-            }
-            catch (Exception)
-            {
-
+                else if (Settings.ArticlesLaunchExternalLinks)
+                {
+                    ResourceLocator.SystemControlsLauncherService.LaunchUri(new Uri(targetUrl));
+                }
             }
             return null;
         }

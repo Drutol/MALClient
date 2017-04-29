@@ -12,7 +12,7 @@ namespace MALClient.XShared.NavArgs
         public readonly AnimeGeneralDetailsData AnimeElement;
         public readonly IAnimeData AnimeItem;
         public int Id { get; private set; }
-        public readonly object PrevPageSetup;
+        public object PrevPageSetup;
         public readonly string Title;
         public bool AnimeMode = true;
         public bool RegisterBackNav = true;

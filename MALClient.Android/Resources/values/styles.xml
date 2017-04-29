@@ -49,7 +49,12 @@
     <item name="android:colorPrimary">@color/OrangeAccentColour</item>
     <item name="android:colorPrimaryDark">@color/Transparent</item>
     <item name="android:colorAccent">@color/OrangeAccentColourLight</item>
-    <item name="android:colorControlActivated">@color/OrangeAccentColourDark</item>
+    <item name="android:colorControlActivated">@color/OrangeAccentColourDark</item>    
+  
+    <item name="colorPrimary">@color/OrangeAccentColour</item>
+    <item name="colorPrimaryDark">@color/Transparent</item>
+    <item name="colorAccent">@color/OrangeAccentColourLight</item>
+    <item name="colorControlActivated">@color/OrangeAccentColourDark</item>
   </style>
 
   <style name="Theme.MALClient.Dark.Purple" parent="Theme.MALClient.Dark">
@@ -65,6 +70,11 @@
     <item name="android:colorPrimaryDark">@color/Transparent</item>
     <item name="android:colorAccent">@color/PurpleAccentColourLight</item>
     <item name="android:colorControlActivated">@color/PurpleAccentColourDark</item>
+    
+    <item name="colorPrimary">@color/PurpleAccentColour</item>
+    <item name="colorPrimaryDark">@color/Transparent</item>
+    <item name="colorAccent">@color/PurpleAccentColourLight</item>
+    <item name="colorControlActivated">@color/PurpleAccentColourDark</item>
   </style>
 
   <style name="Theme.MALClient.Dark.Blue" parent="Theme.MALClient.Dark">
@@ -80,6 +90,11 @@
     <item name="android:colorPrimaryDark">@color/Transparent</item>
     <item name="android:colorAccent">@color/BlueAccentColourLight</item>
     <item name="android:colorControlActivated">@color/BlueAccentColourDark</item>
+    
+    <item name="colorPrimary">@color/BlueAccentColour</item>
+    <item name="colorPrimaryDark">@color/Transparent</item>
+    <item name="colorAccent">@color/BlueAccentColourLight</item>
+    <item name="colorControlActivated">@color/BlueAccentColourDark</item>
   </style>
 
   <style name="Theme.MALClient.Light.Orange" parent="Theme.MALClient.Light">
@@ -97,6 +112,11 @@
     <item name="android:colorPrimaryDark">@color/OrangeAccentColourDark</item>
     <item name="android:colorAccent">@color/OrangeAccentColourLight</item>
     <item name="android:colorControlActivated">@color/OrangeAccentColourDark</item>
+    
+    <item name="colorPrimary">@color/OrangeAccentColour</item>
+    <item name="colorPrimaryDark">@color/OrangeAccentColourDark</item>
+    <item name="colorAccent">@color/OrangeAccentColourLight</item>
+    <item name="colorControlActivated">@color/OrangeAccentColourDark</item>
   </style>
 
   <style name="Theme.MALClient.Light.Purple" parent="Theme.MALClient.Light">
@@ -114,6 +134,11 @@
     <item name="android:colorPrimaryDark">@color/PurpleAccentColourDark</item>
     <item name="android:colorAccent">@color/PurpleAccentColourLight</item>
     <item name="android:colorControlActivated">@color/PurpleAccentColourDark</item>
+    
+    <item name="colorPrimary">@color/PurpleAccentColour</item>
+    <item name="colorPrimaryDark">@color/PurpleAccentColourDark</item>
+    <item name="colorAccent">@color/PurpleAccentColourLight</item>
+    <item name="colorControlActivated">@color/PurpleAccentColourDark</item>
   </style>
 
   <style name="Theme.MALClient.Light.Blue" parent="Theme.MALClient.Light">
@@ -131,6 +156,11 @@
     <item name="android:colorPrimaryDark">@color/BlueAccentColourDark</item>
     <item name="android:colorAccent">@color/BlueAccentColourLight</item>
     <item name="android:colorControlActivated">@color/BlueAccentColourDark</item>
+    
+    <item name="colorPrimary">@color/BlueAccentColour</item>
+    <item name="colorPrimaryDark">@color/BlueAccentColourDark</item>
+    <item name="colorAccent">@color/BlueAccentColourLight</item>
+    <item name="colorControlActivated">@color/BlueAccentColourDark</item>
   </style>
 
   <style name="Theme.MALClient.Dark" parent="Theme.AppCompat.NoActionBar">

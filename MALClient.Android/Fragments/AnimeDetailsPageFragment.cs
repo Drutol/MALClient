@@ -116,13 +116,15 @@ namespace MALClient.Android.Fragments
                     {
                         if (ViewModel.IsFavourite)
                         {
-                            AnimeDetailsPageFavouriteButton.ImageTintList = ColorStateList.ValueOf(new Color(ResourceExtension.AccentColour));
-                            AnimeDetailsPageFavouriteButton.SetImageResource(Resource.Drawable.icon_favourite);
+                            AnimeDetailsPageFavouriteButton.ImageTintList = ColorStateList.ValueOf(Color.White);
+                            AnimeDetailsPageFavouriteButton.SetImageResource(Resource.Drawable.icon_unfavourite);
+                            AnimeDetailsPageFavouriteButton.SetBackgroundResource(ResourceExtension.AccentColourRes);
                         }
                         else
                         {
                             AnimeDetailsPageFavouriteButton.ImageTintList = ColorStateList.ValueOf(new Color(ResourceExtension.BrushText));
-                            AnimeDetailsPageFavouriteButton.SetImageResource(Resource.Drawable.icon_fav_outline);          
+                            AnimeDetailsPageFavouriteButton.SetImageResource(Resource.Drawable.icon_fav_outline);
+                            AnimeDetailsPageFavouriteButton.SetBackgroundColor(Color.Transparent);
                         }
 
                     }));
@@ -218,6 +220,9 @@ namespace MALClient.Android.Fragments
                     break;
                 case 5:
                     ViewModel.RemoveAnimeCommand.Execute(null);
+                    break;
+                case 6:
+                    ViewModel.IsRewatching = !ViewModel.IsRewatching;
                     break;
             }
             _menu?.Dismiss(true);

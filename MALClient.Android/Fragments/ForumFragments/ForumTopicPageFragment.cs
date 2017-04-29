@@ -26,7 +26,7 @@ using MALClient.XShared.ViewModels.Forums.Items;
 
 namespace MALClient.Android.Fragments.ForumFragments
 {
-    public class ForumTopicPageFragment : MalFragmentBase
+    public class ForumTopicPageFragment : MalFragmentBase, ForumTopicViewModel.IScrollInfoProvider
     {
         private readonly ForumsTopicNavigationArgs _args;
         private ForumTopicViewModel ViewModel;
@@ -42,12 +42,13 @@ namespace MALClient.Android.Fragments.ForumFragments
         {
             ViewModel = ViewModelLocator.ForumsTopic;
             ViewModel.RequestScroll += ViewModelOnRequestScroll;
+            ViewModel.ScrollInfoProvider = this;
             ViewModel.Init(_args);
         }
 
         private async void ViewModelOnRequestScroll(object sender, int i)
         {
-            if(i < ForumTopicPagePostsList.Adapter.Count)
+            if(RootView != null && i < ForumTopicPagePostsList.Adapter.Count)
                 ForumTopicPagePostsList.SetSelection(i);
             else
             {
@@ -77,7 +78,6 @@ namespace MALClient.Android.Fragments.ForumFragments
                 this.SetBinding(() => ViewModel.ToggleWatchingButtonText,
                     () => ForumTopicPageToggleWatchingButton.Text));
 
-            ForumTopicPagePostsList.MakeFlingAware();
 
             ForumTopicPageActionButton.Click += ForumTopicPageActionButtonOnClick;
             ForumTopicPageToggleWatchingButton.Click += (sender, args) => ViewModel.ToggleWatchingCommand.Execute(null);
@@ -188,6 +188,10 @@ namespace MALClient.Android.Fragments.ForumFragments
 
         public override int LayoutResourceId => Resource.Layout.ForumTopicPage;
 
+        public int GetFirstVisibleItemIndex()
+        {
+            return ForumTopicPagePostsList.FirstVisiblePosition;
+        }
 
         #region Views
 
@@ -213,5 +217,7 @@ namespace MALClient.Android.Fragments.ForumFragments
 
 
         #endregion
+
+
     }
 }

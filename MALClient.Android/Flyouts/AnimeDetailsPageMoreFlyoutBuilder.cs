@@ -12,6 +12,7 @@ using Android.Widget;
 using Com.Orhanobut.Dialogplus;
 using Com.Shehabic.Droppy;
 using MALClient.Android.DIalogs;
+using MALClient.Android.Resources;
 using MALClient.XShared.ViewModels.Details;
 
 namespace MALClient.Android.Flyouts
@@ -31,6 +32,10 @@ namespace MALClient.Android.Flyouts
             droppyBuilder.AddMenuItem(new DroppyMenuCustomItem(AnimeListPageFlyoutBuilder.BuildItem(context, "Promotional videos", listener, 1)));
             if(!viewModel.AddAnimeVisibility)
                 droppyBuilder.AddMenuItem(new DroppyMenuCustomItem(AnimeListPageFlyoutBuilder.BuildItem(context, "Tags", listener, 2)));
+            if (viewModel.IsRewatchingButtonVisibility)
+                droppyBuilder.AddMenuItem(
+                    new DroppyMenuCustomItem(
+                        AnimeListPageFlyoutBuilder.BuildItem(context, viewModel.RewatchingLabel, listener, 6, viewModel.IsRewatching ? (int?)ResourceExtension.OpaqueAccentColour : null)));
             droppyBuilder.AddMenuItem(new DroppyMenuCustomItem(AnimeListPageFlyoutBuilder.BuildItem(context, "Copy link", listener, 3)));
             droppyBuilder.AddMenuItem(new DroppyMenuCustomItem(AnimeListPageFlyoutBuilder.BuildItem(context, "Open in browser", listener, 4)));
             if (!viewModel.AddAnimeVisibility)

@@ -444,6 +444,14 @@ namespace MALClient.XShared.ViewModels.Forums
             ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageForumIndex, _prevArgs);
         }
 
+        public ForumsTopicNavigationArgs GetSelfBackNavArgs()
+        {
+            _prevArgs.FirstVisibleItemIndex = ScrollInfoProvider.GetFirstVisibleItemIndex();
+            _prevArgs.TopicPage = CurrentPage;
+            _prevArgs.MessageId = null;
+            return _prevArgs;
+        }
+
         public async void Reload()
         {
             if(LoadingTopic)

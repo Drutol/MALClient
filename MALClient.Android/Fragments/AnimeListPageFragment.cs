@@ -13,6 +13,7 @@ using Android.Support.V4.Widget;
 using Android.Views;
 using Android.Widget;
 using Com.Mikepenz.Materialdrawer;
+using Com.Mikepenz.Materialdrawer.Interfaces;
 using Com.Mikepenz.Materialdrawer.Model;
 using MALClient.Android;
 using MALClient.Android.CollectionAdapters;
@@ -113,7 +114,7 @@ namespace MALClient.Android.Fragments
             _rightDrawer = builder.Build();
             _rightDrawer.DrawerLayout.SetDrawerLockMode(DrawerLayout.LockModeLockedClosed);
             _rightDrawer.StickyHeader.SetBackgroundColor(new Color(ResourceExtension.BrushAppBars));
-            _rightDrawer.DrawerLayout.AddDrawerListener(new DrawerListener(() => ViewModelLocator.NavMgr.ResetOneTimeOverride(),() => _actionMenu.Close(false)));
+            _rightDrawer.DrawerLayout.AddDrawerListener(new DrawerListener(() => ViewModelLocator.NavMgr.ResetOneTimeOverride(),() => _actionMenu.Close(true)));
         }
 
         private void OpenFiltersDrawer()
@@ -177,6 +178,15 @@ namespace MALClient.Android.Fragments
                 items.Add(btn);
             }
 
+            var descendingToggle = new SwitchDrawerItem();
+            descendingToggle.WithName("Descending Order");
+            descendingToggle.WithChecked(ViewModel.SortDescending);
+            descendingToggle.WithOnCheckedChangeListener(
+                new DrawerCheckedChangeListener(DescendingToggleOnCheckedChange));
+            descendingToggle.WithIdentifier(998877);
+            descendingToggle.WithTextColorRes(ResourceExtension.BrushTextRes);
+            items.Add(descendingToggle);
+
             _rightDrawer.SetItems(items);
             _rightDrawer.SetSelection((int) ViewModel.SortOption);
 
@@ -185,8 +195,17 @@ namespace MALClient.Android.Fragments
                 Resource.Drawable.icon_sort);
             _rightDrawer.OnDrawerItemClickListener = new HamburgerItemClickListener((view, i, arg3) =>
             {
-                ViewModel.SetSortOrder((SortOptions)arg3.Identifier);
-                ViewModel.RefreshList();
+                if (arg3.Identifier == 998877)
+                {
+                    ViewModel.SortDescending =! ViewModel.SortDescending;
+                    ViewModel.RefreshList();
+                }
+                else
+                {
+                    ViewModel.SetSortOrder((SortOptions)arg3.Identifier);
+                    ViewModel.RefreshList();
+                }
+
                 _rightDrawer.OnDrawerItemClickListener = null;
                 _rightDrawer.CloseDrawer();
             });
@@ -194,6 +213,12 @@ namespace MALClient.Android.Fragments
             ViewModelLocator.NavMgr.RegisterOneTimeMainOverride(new RelayCommand(CloseDrawer));
             _rightDrawer.OpenDrawer();
             _actionMenu.Close(true);
+        }
+
+        private void DescendingToggleOnCheckedChange(bool check)
+        {
+            ViewModel.SortDescending = check;
+            ViewModel.RefreshList();
         }
 
         private void OpenViewModeDrawer()

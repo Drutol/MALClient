@@ -641,7 +641,9 @@ namespace MALClient.XShared.Utils
         {
             get
             {
-                var str = (string) (ApplicationDataService[nameof(EnabledWallpaperSources)] ?? "0;1;2;3;4;5;6");
+                var str = ApplicationDataService[nameof(EnabledWallpaperSources)] as string;
+                if (string.IsNullOrEmpty(str))
+                    str = "0;1;2;3;4;5;6";
 
                 return str.Split(new [] { ";" } ,StringSplitOptions.RemoveEmptyEntries).Select(source => (WallpaperSources) int.Parse(source)).ToList();
             }

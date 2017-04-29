@@ -29,7 +29,6 @@ using MALClient.Android.Resources;
 using MALClient.Android.UserControls;
 using MALClient.Models.Enums;
 using MALClient.XShared.ViewModels;
-using Org.Zakariya.Flyoutmenu;
 using static MALClient.Android.Flyouts.AnimeListPageFlyoutBuilder;
 using FloatingActionButton = Android.Support.Design.Widget.FloatingActionButton;
 

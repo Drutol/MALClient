@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="match_parent" android:orientation="vertical"
+  android:layout_height="match_parent" android:background="?BrushTextInverted">
+  <ListView
+    android:id="@+id/WallpapersPageList"
+    android:layout_width="match_parent"
+    android:layout_gravity="top"
+    android:paddingBottom="70dp"
+    android:clipToPadding="false"
+    android:layout_height="match_parent"
+    android:choiceMode="singleChoice"
+    android:dividerHeight="5dp" android:divider="@color/Transparent" />
+  <android.support.design.widget.FloatingActionButton android:id="@+id/WallpapersPageActionButtonFilter"
+                                                      android:layout_width="wrap_content" app:backgroundTint="?AccentColourContrast"
+                                                      android:layout_height="wrap_content" android:src="@drawable/icon_filter" android:clickable="true" android:focusable="true"
+                                                      xmlns:app="http://schemas.android.com/apk/res-auto" app:fabSize="normal"
+                                                      android:tint="#fff"
+                                                      android:layout_marginBottom="16dp"
+                                                      android:layout_gravity="end|bottom"
+                                                      android:layout_marginEnd="16dp" />
+  <android.support.design.widget.FloatingActionButton android:id="@+id/WallpapersPageActionButtonLoadMore"
+                                                      android:layout_width="wrap_content" app:backgroundTint="?AccentColourContrast" android:layout_margin="16dp"
+                                                      android:layout_height="wrap_content" android:src="@drawable/icon_more" android:clickable="true" android:focusable="true"
+                                                      xmlns:app="http://schemas.android.com/apk/res-auto" app:fabSize="normal" android:layout_gravity="bottom" android:tint="#fff" />
+  <ProgressBar
+    android:layout_width="wrap_content" android:id="@+id/WallpapersPageProgressSpinner"
+    android:layout_height="wrap_content"
+    android:indeterminate="true" android:layout_gravity="center" />
+</FrameLayout>

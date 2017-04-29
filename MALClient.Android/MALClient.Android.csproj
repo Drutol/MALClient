@@ -238,11 +238,7 @@
     <Compile Include="Flyouts\AnimeDetailsPageMoreFlyoutBuilder.cs" />
     <Compile Include="Flyouts\AnimeItemFlyoutBuilder.cs" />
     <Compile Include="Flyouts\FlyoutMenuBuilder.cs" />
-    <Compile Include="Flyouts\FlyoutMenus\AnimeListFilterFlyoutItem.cs" />
-    <Compile Include="Flyouts\FlyoutMenus\AnimeListSortFlyoutItem.cs" />
     <Compile Include="Flyouts\AnimeListPageFlyoutBuilder.cs" />
-    <Compile Include="Flyouts\FlyoutMenus\TextBasedFlyoutBase.cs" />
-    <Compile Include="Flyouts\FlyoutMenus\TextFlyoutItem.cs" />
     <Compile Include="Flyouts\ForumsPinnedPostsFlyoutContext.cs" />
     <Compile Include="Flyouts\RecommendationsFlyoutBuilder.cs" />
     <Compile Include="Fragments\AnimeDetailsPageFragment.cs" />
@@ -327,6 +323,7 @@
       <DependentUpon>SettingsNotificationsFragment.cs</DependentUpon>
     </Compile>
     <Compile Include="Fragments\SettingsFragments\SettingsPageFragment.cs" />
+    <Compile Include="Fragments\WallpapersPageFragment.cs" />
     <Compile Include="Listeners\DateSetListener.cs" />
     <Compile Include="Listeners\DialogListeners\DialogDismissedListener.cs" />
     <Compile Include="Listeners\DialogListeners\EnumDialogListener.cs" />
@@ -336,12 +333,12 @@
     <Compile Include="Listeners\DroppyMenuListener.cs" />
     <Compile Include="Listeners\GenericMotionListener.cs" />
     <Compile Include="Listeners\HamburgerItemClickListener.cs" />
-    <Compile Include="Listeners\MenuFlyoutSelectionListener.cs" />
     <Compile Include="Listeners\OnCheckedListener.cs" />
     <Compile Include="Listeners\OnClickListener.cs" />
     <Compile Include="Listeners\OnItemClickListener.cs" />
     <Compile Include="Listeners\OnLongClickListener.cs" />
     <Compile Include="Listeners\OnPageChangedListener.cs" />
+    <Compile Include="Listeners\OnScrollListener.cs" />
     <Compile Include="Listeners\OnTouchListener.cs" />
     <Compile Include="Listeners\OnPreparedListener.cs" />
     <Compile Include="Listeners\ScrollChangedListener.cs" />
@@ -449,10 +446,6 @@
     <ProjectReference Include="AndroidBindings\Binding_Droppy\Binding_Droppy.csproj">
       <Project>{ADFA8AA9-1743-46F8-852A-1AB69DF0B431}</Project>
       <Name>Binding_Droppy</Name>
-    </ProjectReference>
-    <ProjectReference Include="AndroidBindings\Binding_FlyoutMenus\Binding_FlyoutMenus.csproj">
-      <Project>{C383E3F2-C48F-47C4-8118-16DA79DD62AC}</Project>
-      <Name>Binding_FlyoutMenus</Name>
     </ProjectReference>
     <ProjectReference Include="AndroidBindings\Binding_Materialtabstrip\Binding_Materialtabstrip.csproj">
       <Project>{9710E4ED-5ECF-4B60-B679-6DADC59F6474}</Project>
@@ -1061,6 +1054,12 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\ProfilePageStatsTab.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\WallpapersPage.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\WallpapersPageItem.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Android.Support.Vector.Drawable.23.4.0.1\build\Xamarin.Android.Support.Vector.Drawable.targets" Condition="Exists('..\packages\Xamarin.Android.Support.Vector.Drawable.23.4.0.1\build\Xamarin.Android.Support.Vector.Drawable.targets')" />

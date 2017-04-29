@@ -215,7 +215,7 @@ namespace MALClient.Android.Fragments
             _actionMenu.Close(true);
         }
 
-        private void DescendingToggleOnCheckedChange(bool check)
+        private void DescendingToggleOnCheckedChange(IDrawerItem item,bool check)
         {
             ViewModel.SortDescending = check;
             ViewModel.RefreshList();

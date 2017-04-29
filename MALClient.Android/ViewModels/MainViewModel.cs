@@ -298,9 +298,9 @@ namespace MALClient.Android.ViewModels
                         MainNavigationRequested?.Invoke(new PersonDetailsPageFragment(args as StaffDetailsNaviagtionArgs));
                     break;
                 case PageIndex.PageWallpapers:
-                    //HideSearchStuff();
-                    //RefreshButtonVisibility = false;
-                    //MainNavigationRequested?.Invoke(typeof(WallpapersPage), args);
+                    HideSearchStuff();
+                    RefreshButtonVisibility = false;
+                    MainNavigationRequested?.Invoke(new WallpapersPageFragment());
                     break;
                 case PageIndex.PagePopularVideos:
                     HideSearchStuff();

@@ -119,23 +119,23 @@ namespace MALClient.Android
         #endregion
 
         public static bool IntoIfLoaded(this ImageViewAsync image, string originUrl, ITransformation transformation = null,
-            Action<ImageViewAsync> onCompleted = null,string placeHolderImageRes = null)
+            Action<ImageViewAsync> onCompleted = null,int? maxHeight = null)
         {
             if (LoadedImgs.Contains(originUrl))
             {
-                LoadImage(image, originUrl,transformation,onCompleted,placeHolderImageRes,true);
+                LoadImage(image, originUrl,transformation,onCompleted,maxHeight,true);
                 return true;
             }
             return false;
         }
 
-        public static void Into(this ImageViewAsync image, string originUrl, ITransformation transformation = null,Action<ImageViewAsync> onCompleted = null,string placeHolderImageRes = null)
+        public static void Into(this ImageViewAsync image, string originUrl, ITransformation transformation = null,Action<ImageViewAsync> onCompleted = null,int? maxHeight = null)
         {
-            LoadImage(image, originUrl, transformation, onCompleted, placeHolderImageRes,null);
+            LoadImage(image, originUrl, transformation, onCompleted, maxHeight,null);
         }
 
         public static void LoadImage(this ImageViewAsync image, string originUrl, ITransformation transformation,
-            Action<ImageViewAsync> onCompleted, string placeHolderImageRes, bool? imgLoaded)
+            Action<ImageViewAsync> onCompleted, int? maxHeight, bool? imgLoaded)
         {
             if (string.IsNullOrEmpty(originUrl))
                 return;
@@ -144,8 +144,9 @@ namespace MALClient.Android
             try
             {
                 var work = ImageService.Instance.LoadUrl(originUrl);
-                if (placeHolderImageRes != null)
-                    work = work.LoadingPlaceholder(placeHolderImageRes, ImageSource.ApplicationBundle);
+                if (maxHeight != null)
+                    work = work.DownSampleInDip(0, maxHeight.Value);
+
                 if (imgLoaded != true && !LoadedImgs.Contains(originUrl))
                 {
                     image.Visibility = ViewStates.Invisible;

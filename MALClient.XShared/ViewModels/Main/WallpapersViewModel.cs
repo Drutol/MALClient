@@ -62,7 +62,12 @@ namespace MALClient.XShared.ViewModels.Main
             {
                 _currentPage = value;
                 RaisePropertyChanged(() => IsGoBackwardsButtonEnabled);
+#if ANDROID
+                ViewModelLocator.GeneralMain.CurrentStatus = "Images";
+#else
                 ViewModelLocator.GeneralMain.CurrentStatus = $"Images - Page {CurrentPage + 1}";
+#endif
+
             }
         }
 

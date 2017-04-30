@@ -39,6 +39,7 @@ namespace MALClient.Android.Fragments
         private DroppyMenuPopup _sortingMenu;
         private DroppyMenuPopup _filterMenu;
         private DroppyMenuPopup _displayMenu;
+        private FloatingActionMenu _actionMenu;
 
         private View _loadMoreFooter;
 
@@ -76,6 +77,11 @@ namespace MALClient.Android.Fragments
                 this.SetBinding(() => ViewModel.AppBtnSortingVisibility,
                     () => AnimeListPageSortMenu.Visibility).ConvertSourceToTarget(Converters.BoolToVisibility));
 
+            Bindings.Add(
+                this.SetBinding(() => ViewModel.EmptyNoticeVisibility,
+                    () => AnimeListPageEmptyNotice.Visibility)
+                    .ConvertSourceToTarget(Converters.BoolToVisibility));
+
             ViewModel.PropertyChanged += AnimeListOnPropertyChanged;
             ViewModel.ScrollIntoViewRequested += ViewModelOnScrollIntoViewRequested;
 
@@ -110,7 +116,6 @@ namespace MALClient.Android.Fragments
                         builder.SetRadius(DimensionsHelper.DpToPx(95));
                         break;
                     case AnimeListWorkModes.TopAnime:
-                    case AnimeListWorkModes.TopManga:
                         builder.AddSubActionView(BuildFabActionButton(param, padding, Resource.Drawable.icon_fav_outline));
                         builder.SetRadius(DimensionsHelper.DpToPx(95));
                         break;
@@ -307,8 +312,8 @@ namespace MALClient.Android.Fragments
         private ImageButton _animeListPageFilterMenu;
         private ImageButton _animeListPageSortMenu;
         private RelativeLayout _animeListPageLoadingSpinner;
+        private TextView _animeListPageEmptyNotice;
         private FloatingActionButton _animeListPageActionButton;
-        private FloatingActionMenu _actionMenu;
 
         public GridView AnimeListPageGridView => _animeListPageGridView ?? (_animeListPageGridView = FindViewById<GridView>(Resource.Id.AnimeListPageGridView));
 
@@ -326,7 +331,10 @@ namespace MALClient.Android.Fragments
 
         public RelativeLayout AnimeListPageLoadingSpinner => _animeListPageLoadingSpinner ?? (_animeListPageLoadingSpinner = FindViewById<RelativeLayout>(Resource.Id.AnimeListPageLoadingSpinner));
 
+        public TextView AnimeListPageEmptyNotice => _animeListPageEmptyNotice ?? (_animeListPageEmptyNotice = FindViewById<TextView>(Resource.Id.AnimeListPageEmptyNotice));
+
         public FloatingActionButton AnimeListPageActionButton => _animeListPageActionButton ?? (_animeListPageActionButton = FindViewById<FloatingActionButton>(Resource.Id.AnimeListPageActionButton));
+
 
         #endregion
 

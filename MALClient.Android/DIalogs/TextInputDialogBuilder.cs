@@ -31,7 +31,7 @@ namespace MALClient.Android.DIalogs
         private static readonly SemaphoreSlim _semaphoreTextInput = new SemaphoreSlim(0);
 
 
-        public static async Task<string> BuildInputTextDialog(Context context, string title, string hint)
+        public static async Task<string> BuildInputTextDialog(Context context, string title, string hint,string accept)
         {
             var dialogBuilder = DialogPlus.NewDialog(context);
             dialogBuilder.SetGravity((int)(GravityFlags.Center));
@@ -47,6 +47,7 @@ namespace MALClient.Android.DIalogs
             var textBox = dialogView.FindViewById<EditText>(Resource.Id.TextInputDialogTextBox);
             textBox.Hint = hint;
 
+            dialogView.FindViewById<Button>(Resource.Id.TextInputDialogAcceptButton).Text = accept;
             dialogView.FindViewById(Resource.Id.TextInputDialogAcceptButton).SetOnClickListener(new OnClickListener(view => CleanupTextInputDialog()));
 
             _textInputDialog.Show();

@@ -335,13 +335,7 @@ namespace MALClient.XShared.ViewModels.Main
                         {
                             ViewModelLocator.GeneralMain.Navigate(PageIndex.PageHistory,
                                 new HistoryNavigationArgs {Source = CurrentData.User.Name});
-                            ViewModelLocator.NavMgr.RegisterOneTimeMainOverride(
-                                new RelayCommand(
-                                    () =>
-                                    {
-                                        ViewModelLocator.GeneralMain.Navigate(PageIndex.PageProfile,
-                                            new ProfilePageNavigationArgs {TargetUser = CurrentData.User.Name});
-                                    }));
+                            ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageProfile, new ProfilePageNavigationArgs { TargetUser = CurrentData.User.Name });
                         }));
 
         private ICommand _sendCommentCommand;
@@ -552,13 +546,7 @@ namespace MALClient.XShared.ViewModels.Main
                 _navAnimeListCommand ??
                 (_navAnimeListCommand = new RelayCommand(() =>
                 {
-                    ViewModelLocator.NavMgr.RegisterOneTimeMainOverride(
-                        new RelayCommand(
-                            () =>
-                            {
-                                ViewModelLocator.GeneralMain.Navigate(PageIndex.PageProfile,
-                                    new ProfilePageNavigationArgs {TargetUser = CurrentData.User.Name});
-                            }));
+                    ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageProfile, new ProfilePageNavigationArgs { TargetUser = CurrentData.User.Name });
                     ViewModelLocator.GeneralMain.Navigate(PageIndex.PageAnimeList,
                         new AnimeListPageNavigationArgs(0, AnimeListWorkModes.Anime)
                         {
@@ -574,13 +562,7 @@ namespace MALClient.XShared.ViewModels.Main
                     new RelayCommand(
                         () =>
                         {
-                            ViewModelLocator.NavMgr.RegisterOneTimeMainOverride(
-                                new RelayCommand(
-                                    () =>
-                                    {
-                                        ViewModelLocator.GeneralMain.Navigate(PageIndex.PageProfile,
-                                            new ProfilePageNavigationArgs {TargetUser = CurrentData.User.Name});
-                                    }));
+                            ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageProfile, new ProfilePageNavigationArgs { TargetUser = CurrentData.User.Name });
                             ViewModelLocator.GeneralMain.Navigate(PageIndex.PageAnimeList,
                                 new AnimeListPageNavigationArgs(0, AnimeListWorkModes.Manga)
                                 {

@@ -225,6 +225,9 @@ namespace MALClient.Android.UserControls
                 case AnimeGridItemMoreFlyoutButtons.OpenInBrowser:
                     ViewModel.OpenInMALCommand.Execute(null);
                     break;
+                case AnimeGridItemMoreFlyoutButtons.CopyTitle:
+                    ViewModel.CopyTitleToClipboardCommand.Execute(null);
+                    break;
             }
             _menu.Dismiss(true);
         }

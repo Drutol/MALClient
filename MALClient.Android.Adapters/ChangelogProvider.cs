@@ -32,11 +32,23 @@ namespace MALClient.Android.Adapters
 
         public bool NewChangelog { get; set; }
 
-        public string DateWithVersion => $"{_currentVersion} - 18.04.2017";
+        public string DateWithVersion => $"{_currentVersion} - 30.04.2017";
 
         public List<string> Changelog => new List<string>
         {
-            "A few fixes from #64 and misc stuff",
+            "Fixes from @FoxInFlame's & @Kimod's issues.",
+            "Added stats page.",
+            "Added wallpapers page",
+            "Profile page little reorganisation.",
+            "More dialogs and clickable stuff in forums",
+            "Scrolling on forums should be more fluid, not perfect though.",
+            "Pinned topics are now working",
+            "WebViews in Forums&Articles/News will now redirect into app if possible.",
+            "Notification hub fixes and little redesign",
+            "App should now launch on Android 5.0",
+            "Ascending/Descending sorting",
+            "Rewathing support, partial because I don't know where can I squeeze more controls...",
+            "Uff, big one..."
         };
 
     }

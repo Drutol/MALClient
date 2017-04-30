@@ -96,7 +96,16 @@ namespace MALClient.Android.UserControls
 
 
             AnimeGridItemAddToListButton.SetOnClickListener(new OnClickListener(view => ViewModel.AddAnimeCommand.Execute(null)));
-            AnimeGridItemWatchedStatusButton.SetOnClickListener(new OnClickListener(view => ShowWatchedDialog()));
+            if (ViewModel.Auth)
+            {
+                AnimeGridItemWatchedStatusButton.SetOnClickListener(new OnClickListener(view => ShowWatchedDialog()));
+            }
+            else
+            {
+                AnimeGridItemWatchedStatusButton.Clickable = AnimeGridItemWatchedStatusButton.Focusable = false;
+            }
+            
+            
 
             if (!_propertyHandlerAttached)
             {
@@ -297,6 +306,9 @@ namespace MALClient.Android.UserControls
                     break;
                 case AnimeGridItemMoreFlyoutButtons.SetWatched:
                     ShowWatchedDialog();
+                    break;
+                case AnimeGridItemMoreFlyoutButtons.CopyTitle:
+                    ViewModel.CopyTitleToClipboardCommand.Execute(null);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(btn), btn, null);

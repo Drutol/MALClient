@@ -31,7 +31,8 @@ namespace MALClient.Android.Flyouts
         OpenInBrowser,
         SetStatus,
         SetRating,
-        SetWatched
+        SetWatched,
+        CopyTitle,
     }
 
     public static class AnimeListPageFlyoutBuilder

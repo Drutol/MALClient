@@ -92,7 +92,7 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
 
         private async void ProfilePageGeneralTabActionButtonOnClick(object sender, EventArgs eventArgs)
         {
-            var str = await TextInputDialogBuilder.BuildInputTextDialog(Context, "Find user", "username...");
+            var str = await TextInputDialogBuilder.BuildInputTextDialog(Context, "Find user", "username...","Go");
             if(!string.IsNullOrEmpty(str))
                 ViewModel.NavigateProfileCommand.Execute(new MalUser{Name = str});
         }

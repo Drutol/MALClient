@@ -76,6 +76,9 @@
           android:layout_height="wrap_content"
           android:indeterminate="true" android:layout_centerInParent="true" />
     </RelativeLayout>
+    <TextView android:gravity="center" android:visibility="visible" android:layout_centerInParent="true"
+              android:layout_width="wrap_content" android:id="@+id/AnimeListPageEmptyNotice"
+              android:layout_height="wrap_content" android:fontFamily="@string/font_family_light" android:text="We have come up empty..." android:textColor="?AccentColour"/>
     <android.support.design.widget.FloatingActionButton android:id="@+id/AnimeListPageActionButton"
         android:layout_width="wrap_content" app:backgroundTint="?AccentColourContrast" android:layout_alignParentEnd="true" android:layout_alignParentBottom="true" android:layout_margin="16dp"
         android:layout_height="wrap_content" android:src="@drawable/icon_more" android:clickable="true" android:focusable="true"

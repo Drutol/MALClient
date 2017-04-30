@@ -30,7 +30,8 @@ namespace MALClient.Android.Flyouts
 
             var listener = new Action<int>(i => callback.Invoke((AnimeGridItemMoreFlyoutButtons)i));
 
-            droppyBuilder.AddMenuItem(new DroppyMenuCustomItem(AnimeListPageFlyoutBuilder.BuildItem(context, "Copy to clipboard", listener, 0)));
+            droppyBuilder.AddMenuItem(new DroppyMenuCustomItem(AnimeListPageFlyoutBuilder.BuildItem(context, "Copy url", listener, 0)));
+            droppyBuilder.AddMenuItem(new DroppyMenuCustomItem(AnimeListPageFlyoutBuilder.BuildItem(context, "Copy title", listener, 5)));
             droppyBuilder.AddMenuItem(new DroppyMenuCustomItem(AnimeListPageFlyoutBuilder.BuildItem(context, "Open in browser", listener, 1)));
             if (!forceSmall && viewModel.Auth)
             {

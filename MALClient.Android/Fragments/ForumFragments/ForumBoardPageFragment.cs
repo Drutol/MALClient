@@ -81,7 +81,7 @@ namespace MALClient.Android.Fragments.ForumFragments
 
             ForumBoardPageSearchButton.Click += async (sender, args) =>
             {
-                var str = await TextInputDialogBuilder.BuildInputTextDialog(Context, "Search", "keyword...");
+                var str = await TextInputDialogBuilder.BuildInputTextDialog(Context, "Search", "keyword...","Go");
                 if (!string.IsNullOrEmpty(str))
                 {
                     ViewModel.SearchQuery = str;

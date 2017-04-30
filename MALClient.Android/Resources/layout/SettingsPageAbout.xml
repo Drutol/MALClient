@@ -1,0 +1,102 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="?BrushDeepBackground"
+            android:orientation="vertical">
+
+  <LinearLayout
+    android:layout_width="match_parent" android:orientation="vertical"
+    android:layout_height="wrap_content" android:padding="16dp">
+
+    <TextView
+      android:layout_width="wrap_content" android:layout_gravity="center_horizontal" android:textSize="@dimen/FontSizeHuge" android:text="Welcome!"
+      android:layout_height="wrap_content" android:textColor="?AccentColour" android:fontFamily="@string/font_family_light" />
+
+    <TextView android:lineSpacingExtra="2dp"
+              android:layout_width="wrap_content" android:text="Hi! Thanks for checking out this app ^^ I hope you like it. MALClient has been around since March 2016, available on Windows 10, both desktop and mobile. I'll use this opportunity to invite you to try it out :)" android:layout_marginTop="10dp"
+              android:layout_height="wrap_content" android:textColor="?BrushText"/>
+
+    <FrameLayout android:id="@+id/AboutPageGetItOnWindows"
+                 android:layout_width="wrap_content" android:layout_gravity="center_horizontal" android:clickable="true" android:focusable="true"
+                 android:layout_height="wrap_content" android:foreground="?selectableItemBackground">
+      <ImageView
+        android:layout_width="wrap_content" android:adjustViewBounds="true" android:layout_margin="30dp" android:maxWidth="300dp"
+        android:layout_height="wrap_content" android:src="@drawable/get_it_on_windows"/>
+    </FrameLayout>
+
+
+    <TextView android:lineSpacingExtra="2dp"
+              android:layout_width="wrap_content" android:text="So... with this being out of the way I'd also like to mention that this app is fully open source and the entirety of its code is hosted on GitHub." android:layout_marginTop="10dp"
+              android:layout_height="wrap_content" android:textColor="?BrushText"/>
+
+    <Button android:id="@+id/AboutPageViewSourceButton"
+            android:layout_width="wrap_content" style="@style/AccentButtonStyle"
+            android:layout_height="wrap_content" android:text="View the source!" android:layout_gravity="center_horizontal" android:layout_margin="10dp"/>
+
+    <TextView android:lineSpacingExtra="2dp"
+              android:layout_width="wrap_content" android:text="GitHub is also the best place to report bugs and feature requests." android:layout_marginTop="10dp"
+              android:layout_height="wrap_content" android:textColor="?BrushText"/>
+
+    <Button android:id="@+id/AboutPageIssuesBoard"
+            android:layout_width="wrap_content" style="@style/AccentButtonStyle"
+            android:layout_height="wrap_content" android:text="To the issues board!" android:layout_gravity="center_horizontal" android:layout_margin="10dp"/>
+
+    <TextView android:lineSpacingExtra="2dp"
+              android:layout_width="wrap_content" android:text="There are also forum topics on MAL, feel free to drop in." android:layout_marginTop="10dp"
+              android:layout_height="wrap_content" android:textColor="?BrushText"/>
+
+    <TextView android:layout_marginTop="20dp"
+              android:layout_width="wrap_content" android:layout_gravity="center_horizontal" android:textSize="@dimen/FontSizeHuge" android:text="Support"
+              android:layout_height="wrap_content" android:textColor="?AccentColour" android:fontFamily="@string/font_family_light" />
+
+    <TextView android:lineSpacingExtra="2dp"
+              android:layout_width="wrap_content" android:text="If like this app so much that you'd like to support its development you can turn ads on in settings or donate directly via PlayStore." android:layout_marginTop="10dp"
+              android:layout_height="wrap_content" android:textColor="?BrushText"/>
+
+
+    <LinearLayout
+      android:layout_width="wrap_content" android:layout_gravity="center_horizontal" android:layout_marginTop="20dp"
+      android:layout_height="wrap_content" android:orientation="horizontal">
+
+      <Button android:id="@+id/AboutPageDonate1Button"
+              android:layout_width="wrap_content" style="@style/AccentButtonStyle" android:layout_marginEnd="20dp"
+              android:layout_height="wrap_content" android:text="Donate $0.99" android:layout_gravity="center_horizontal" android:layout_margin="10dp"/>
+      <Button android:id="@+id/AboutPageDonate2Button"
+              android:layout_width="wrap_content" style="@style/AccentButtonStyle"
+              android:layout_height="wrap_content" android:text="Donate $1.99" android:layout_gravity="center_horizontal" android:layout_margin="10dp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+      android:layout_width="wrap_content" android:layout_gravity="center_horizontal"
+      android:layout_height="wrap_content" android:orientation="horizontal">
+
+      <Button android:id="@+id/AboutPageDonate3Button"
+              android:layout_width="wrap_content" style="@style/AccentButtonStyle" android:layout_marginEnd="20dp"
+              android:layout_height="wrap_content" android:text="Donate $2.99" android:layout_gravity="center_horizontal" android:layout_margin="10dp"/>
+      <Button android:id="@+id/AboutPageDonate4Button"
+              android:layout_width="wrap_content" style="@style/AccentButtonStyle"
+              android:layout_height="wrap_content" android:text="Donate $3.99" android:layout_gravity="center_horizontal" android:layout_margin="10dp"/>
+
+    </LinearLayout>
+
+    <TextView
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_gravity="center_horizontal"
+      android:fontFamily="@string/font_family_light"
+      android:text="Changelog"
+      android:textColor="?AccentColour"
+      android:textSize="@dimen/FontSizeHuge" />
+
+    <TextView android:lineSpacingExtra="2dp"
+              android:layout_width="wrap_content" android:text="Finally if you'd like to see what's new in latest update you can use the button below." android:layout_marginTop="10dp"
+              android:layout_height="wrap_content" android:textColor="?BrushText"/>
+
+    <Button android:id="@+id/AboutPageChangelogButton"
+            android:layout_width="wrap_content" style="@style/AccentButtonStyle"
+            android:layout_height="wrap_content" android:text="Give me the news!" android:layout_gravity="center_horizontal" android:layout_margin="10dp"/>
+
+  </LinearLayout>
+</ScrollView>

@@ -243,6 +243,8 @@
     <Compile Include="Adapters\PagerAdapters\ProfilePagePagerAdapter.cs" />
     <Compile Include="Adapters\PagerAdapters\RecommandtionsPagerAdapter.cs" />
     <Compile Include="Adapters\PagerAdapters\SearchPagePagerAdapter.cs" />
+    <Compile Include="Aidl\BillingConstants.cs" />
+    <Compile Include="Aidl\InAppBillingServiceConnection.cs" />
     <Compile Include="BackgroundTasks\NotificationCheckBroadcastReceiver.cs" />
     <Compile Include="BackgroundTasks\NotificationClickBroadcastReceiver.cs" />
     <Compile Include="BackgroundTasks\NotificationTaskManager.cs" />
@@ -322,6 +324,7 @@
     <Compile Include="Fragments\MalFragmentBase.cs" />
     <Compile Include="Fragments\SearchFragments\AnimeTypeSearchFragment.cs" />
     <Compile Include="Fragments\SearchFragments\SearchPageFragment.cs" />
+    <Compile Include="Fragments\SettingsFragments\SettingsAboutFragment.cs" />
     <Compile Include="Fragments\SettingsFragments\SettingsAdsFragment.cs" />
     <Compile Include="Fragments\SettingsFragments\SettingsCalendarFragment.cs" />
     <Compile Include="Fragments\SettingsFragments\SettingsCalendarFragment.ui.cs">
@@ -411,6 +414,8 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidAsset Include="Assets\fonts\fontawesome-webfont.ttf" />
+    <AndroidInterfaceDescription Include="Aidl\IInAppBillingService.aidl" />
+    <AndroidInterfaceDescription Include="Aidl\Bundle.aidl" />
     <None Include="packages.config" />
     <AndroidResource Include="Resources\layout\AnimeGridItem.xml">
       <SubType>Designer</SubType>
@@ -1083,6 +1088,12 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\WallpapersPageItem.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\SettingsPageAbout.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\get_it_on_windows.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

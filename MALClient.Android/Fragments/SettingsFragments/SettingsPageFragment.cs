@@ -41,6 +41,7 @@ namespace MALClient.Android.Fragments.SettingsFragments
                 case SettingsPageIndex.News:
                     break;
                 case SettingsPageIndex.About:
+                    fragment = new SettingsAboutFragment();
                     break;
                 case SettingsPageIndex.LogIn:
                     break;

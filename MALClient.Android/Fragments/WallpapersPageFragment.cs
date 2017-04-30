@@ -15,14 +15,17 @@ using Android.Widget;
 using Com.Mikepenz.Materialdrawer;
 using Com.Mikepenz.Materialdrawer.Model;
 using Com.Mikepenz.Materialdrawer.Model.Interfaces;
+using Com.Shehabic.Droppy;
 using FFImageLoading;
 using FFImageLoading.Transformations;
 using FFImageLoading.Views;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Helpers;
 using MALClient.Android.BindingConverters;
+using MALClient.Android.Flyouts;
 using MALClient.Android.Listeners;
 using MALClient.Android.Resources;
+using MALClient.Android.UserControls;
 using MALClient.Models.Enums;
 using MALClient.XShared.Utils;
 using MALClient.XShared.ViewModels;
@@ -35,6 +38,8 @@ namespace MALClient.Android.Fragments
     {
         private WallpapersViewModel ViewModel;
         private readonly SmartObservableCollection<WallpaperItemViewModel> _wallpapers = new SmartObservableCollection<WallpaperItemViewModel>();
+        private DroppyMenuPopup _menu;
+        private WallpaperItemViewModel _menuContext;
 
         protected override void Init(Bundle savedInstanceState)
         {
@@ -70,9 +75,24 @@ namespace MALClient.Android.Fragments
                             _wallpapers.AddRange(ViewModel.Wallpapers);
                     }
                 }));
+
+            (RootView as ScrollableSwipeToRefreshLayout).ScrollingView = WallpapersPageList;
+            (RootView as ScrollableSwipeToRefreshLayout).Refresh += OnRefresh;
+
             InitDrawer();
             WallpapersPageActionButtonFilter.Click += (sender, args) => OpenFiltersDrawer();
-            WallpapersPageActionButtonLoadMore.Click += (sender, args) => ViewModel.GoForwardCommand.Execute(null);
+            WallpapersPageActionButtonLoadMore.Click += (sender, args) =>
+            {
+                if (!ViewModel.LoadingWallpapersVisibility)
+                    ViewModel.GoForwardCommand.Execute(null);
+            };
+        }
+
+        private void OnRefresh(object o, EventArgs eventArgs)
+        {
+            _wallpapers.Clear();
+            (RootView as ScrollableSwipeToRefreshLayout).Refreshing = false;
+            ViewModel.RefreshCommand.Execute(null);
         }
 
         private void DataTemplateBasic(View view, int i2, WallpaperItemViewModel arg3)
@@ -127,9 +147,6 @@ namespace MALClient.Android.Fragments
             {
                 placeholder.Visibility = ViewStates.Gone;
             }
-
-
-
         }
 
         private void OnCompleted(ImageViewAsync imageViewAsync)
@@ -152,7 +169,36 @@ namespace MALClient.Android.Fragments
 
         private void OnLongClickAction(View view)
         {
-            
+            _menuContext = view.Tag.Unwrap<WallpaperItemViewModel>();
+            _menu = FlyoutMenuBuilder.BuildGenericFlyout(Context, view, new List<string>
+            {
+                "Save",
+                "Copy link & open waifu2x",
+                "Open on reddit",
+                "Copy link",
+            }, OnMenuSelected);
+            _menu.Show();
+        }
+
+        private void OnMenuSelected(int i)
+        {
+            switch (i)
+            {
+                case 0:
+                    _menuContext.SaveCommand.Execute(null);
+                    break;
+                case 1:
+                    _menuContext.CopyAndWaifuCommand.Execute(null);
+                    break;
+                case 2:
+                    _menuContext.OpenRedditCommand.Execute(null);
+                    break;
+                case 3:
+                    _menuContext.CopyLinkCommand.Execute(null);
+                    break;
+            }
+            _menu.Dismiss(true);
+            _menuContext = null;
         }
 
         private void OnClick(View view)
@@ -252,6 +298,7 @@ namespace MALClient.Android.Fragments
         private FloatingActionButton _wallpapersPageActionButtonFilter;
         private FloatingActionButton _wallpapersPageActionButtonLoadMore;
         private ProgressBar _wallpapersPageProgressSpinner;
+
 
         public ListView WallpapersPageList => _wallpapersPageList ?? (_wallpapersPageList = FindViewById<ListView>(Resource.Id.WallpapersPageList));
 

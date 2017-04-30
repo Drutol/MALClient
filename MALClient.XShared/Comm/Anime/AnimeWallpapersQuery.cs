@@ -72,7 +72,8 @@ namespace MALClient.XShared.Comm.Anime
             var output = new List<AnimeWallpaperData>();
             foreach (var task in tasks)
             {
-                output.AddRange(task.Result);
+                if(task.Result?.Any() ?? false)
+                    output.AddRange(task.Result);
             }
             output =
                 output.Where(data => !data.FileUrl.Contains(".gif"))

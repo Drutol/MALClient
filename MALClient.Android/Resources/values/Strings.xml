@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-<string name="fa_icon_500px" translatable="false">&#xf26e;</string>
+
+
+  <string name="banner_ad_unit_id">ca-app-pub-8220174765620095/4796408960</string>
+
+
+  <string name="fa_icon_500px" translatable="false">&#xf26e;</string>
     <string name="fa_icon_address_book" translatable="false">&#xf2b9;</string>
     <string name="fa_icon_address_book_o" translatable="false">&#xf2ba;</string>
     <string name="fa_icon_address_card" translatable="false">&#xf2bb;</string>

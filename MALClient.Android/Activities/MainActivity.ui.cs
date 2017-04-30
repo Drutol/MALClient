@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
 using Android.Database;
+using Android.Gms.Ads;
 using Android.Graphics;
 using Android.OS;
 using Android.Provider;
@@ -384,6 +385,7 @@ namespace MALClient.Android.Activities
         private ImageButton _mainPageRefreshButton;
         private LinearLayout _mainUpperNavBar;
         private FrameLayout _mainContentFrame;
+        private AdView _mainPageAdView;
         private VideoView _mainPageVideoView;
         private ImageButton _mainPageCopyVideoLinkButton;
         private ImageButton _mainPageCloseVideoButton;
@@ -403,6 +405,8 @@ namespace MALClient.Android.Activities
 
         public FrameLayout MainContentFrame => _mainContentFrame ?? (_mainContentFrame = FindViewById<FrameLayout>(Resource.Id.MainContentFrame));
 
+        public AdView MainPageAdView => _mainPageAdView ?? (_mainPageAdView = FindViewById<AdView>(Resource.Id.MainPageAdView));
+
         public VideoView MainPageVideoView => _mainPageVideoView ?? (_mainPageVideoView = FindViewById<VideoView>(Resource.Id.MainPageVideoView));
 
         public ImageButton MainPageCopyVideoLinkButton => _mainPageCopyVideoLinkButton ?? (_mainPageCopyVideoLinkButton = FindViewById<ImageButton>(Resource.Id.MainPageCopyVideoLinkButton));
@@ -410,12 +414,6 @@ namespace MALClient.Android.Activities
         public ImageButton MainPageCloseVideoButton => _mainPageCloseVideoButton ?? (_mainPageCloseVideoButton = FindViewById<ImageButton>(Resource.Id.MainPageCloseVideoButton));
 
         public RelativeLayout MainPageVideoViewContainer => _mainPageVideoViewContainer ?? (_mainPageVideoViewContainer = FindViewById<RelativeLayout>(Resource.Id.MainPageVideoViewContainer));
-
-
-
-
-
-
 
     }
 }

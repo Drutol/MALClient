@@ -63,10 +63,13 @@ namespace MALClient.Android.ViewModels
             IsCurrentStatusSelectable = false;
             if (!Credentials.Authenticated && PageUtils.PageRequiresAuth(index))
             {
-                ResourceLocator.MessageDialogProvider.ShowMessageDialog("Log in first in order to access this page.","");               
+                ResourceLocator.MessageDialogProvider.ShowMessageDialog("Log in first in order to access this page.","Log in required");               
                 return;
             }
-            ResourceLocator.TelemetryProvider.TelemetryTrackEvent(TelemetryTrackedEvents.Navigated, index.ToString());
+            if(index == PageIndex.PageForumIndex && args is ForumsNavigationArgs arg)
+                ResourceLocator.TelemetryProvider.TelemetryTrackNavigation(arg.Page);
+            else
+                ResourceLocator.TelemetryProvider.TelemetryTrackNavigation(index);
             ScrollToTopButtonVisibility = false;
             RefreshButtonVisibility = false;
             ViewModelLocator.AnimeDetails.Id = -1;

@@ -33,10 +33,12 @@ namespace MALClient.Android.Fragments.SettingsFragments
 
         protected override void InitBindings()
         {
+            SettingsPageAdsEnableAdsSwitch.Checked = ViewModel.AdsEnable;
             SettingsPageAdsEnableAdsSwitch.Click += (sender, args) =>
             {
-                ViewModel.AdsEnable = (sender as Switch).Checked;
+                ViewModel.AdsEnable = (sender as CheckBox).Checked;
             };
+
             //
             List<int> availableTimes = new List<int>() { 0, 5, 10, 15, 20, 30 };
             SettingsPageAdsMinutesDailySpinner.Adapter = availableTimes.GetAdapter((i, i1, arg3) =>
@@ -58,7 +60,7 @@ namespace MALClient.Android.Fragments.SettingsFragments
             SettingsPageAdsMinutesDailySpinner.SetSelection(availableTimes.IndexOf(ViewModel.NotificationsRefreshTime));
             SettingsPageAdsMinutesDailySpinner.ItemSelected += (sender, args) =>
             {
-                ViewModel.AdsMinutesPerDay = (int)SettingsPageAdsMinutesDailySpinner.SelectedView.Tag;
+                ViewModel.AdsSecondsPerDay = (int)SettingsPageAdsMinutesDailySpinner.SelectedView.Tag*60;
             };
         }
 
@@ -67,12 +69,13 @@ namespace MALClient.Android.Fragments.SettingsFragments
 
         #region Views
 
-        private LinearLayout _settingsPageAdsEnableAdsSwitch;
+        private CheckBox _settingsPageAdsEnableAdsSwitch;
         private Spinner _settingsPageAdsMinutesDailySpinner;
 
-        public LinearLayout SettingsPageAdsEnableAdsSwitch => _settingsPageAdsEnableAdsSwitch ?? (_settingsPageAdsEnableAdsSwitch = FindViewById<LinearLayout>(Resource.Id.SettingsPageAdsEnableAdsSwitch));
+        public CheckBox SettingsPageAdsEnableAdsSwitch => _settingsPageAdsEnableAdsSwitch ?? (_settingsPageAdsEnableAdsSwitch = FindViewById<CheckBox>(Resource.Id.SettingsPageAdsEnableAdsSwitch));
 
         public Spinner SettingsPageAdsMinutesDailySpinner => _settingsPageAdsMinutesDailySpinner ?? (_settingsPageAdsMinutesDailySpinner = FindViewById<Spinner>(Resource.Id.SettingsPageAdsMinutesDailySpinner));
+
 
         #endregion
     }

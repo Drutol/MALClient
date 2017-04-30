@@ -50,8 +50,10 @@ namespace MALClient.UWP.ViewModels
                 return;
             }
             _navigating = true;
-            ResourceLocator.TelemetryProvider.TelemetryTrackEvent(TelemetryTrackedEvents.Navigated, index.ToString());
-           
+            if (index == PageIndex.PageForumIndex && args is ForumsNavigationArgs narg)
+                ResourceLocator.TelemetryProvider.TelemetryTrackNavigation(narg.Page);
+            else
+                ResourceLocator.TelemetryProvider.TelemetryTrackNavigation(index);
 
             DesktopViewModelLocator.Hamburger.UpdateAnimeFiltersSelectedIndex();
             //prepare for some index mess

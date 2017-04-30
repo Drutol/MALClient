@@ -64,14 +64,26 @@
                  android:background="?android:selectableItemBackgroundBorderless"
                  android:src="@drawable/icon_reload" android:padding="10dp" />
   </LinearLayout>
-
+  
   <RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <FrameLayout
-      android:id="@+id/MainContentFrame"
-      android:layout_width="match_parent"
-      android:layout_height="match_parent" />
+    <LinearLayout android:layout_width="match_parent" android:orientation="vertical"
+                  android:layout_height="match_parent">
+      <FrameLayout
+        android:id="@+id/MainContentFrame"
+        android:layout_width="match_parent"
+        android:layout_height="0dp" android:layout_weight="1" />
+      <com.google.android.gms.ads.AdView
+        android:id="@+id/MainPageAdView" 
+        xmlns:ads="http://schemas.android.com/apk/res-auto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        ads:adSize="SMART_BANNER"
+        ads:adUnitId="@string/banner_ad_unit_id">
+      </com.google.android.gms.ads.AdView>
+    </LinearLayout>
+
     <RelativeLayout
       android:id="@+id/MainPageVideoViewContainer" android:clickable="true" android:focusable="true"
       android:layout_width="match_parent" android:visibility="visible" android:background="?BrushMediaElementShadow"

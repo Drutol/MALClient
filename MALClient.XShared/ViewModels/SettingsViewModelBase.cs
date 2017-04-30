@@ -727,7 +727,7 @@ namespace MALClient.XShared.ViewModels
             }
         }
 
-        public int AdsMinutesPerDay
+        public int AdsSecondsPerDay
         {
             get { return Settings.AdsSecondsPerDay; }
             set

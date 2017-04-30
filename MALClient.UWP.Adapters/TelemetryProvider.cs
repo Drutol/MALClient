@@ -42,6 +42,20 @@ namespace MALClient.UWP.Adapters
 #endif
         }
 
+        public void TelemetryTrackNavigation(PageIndex page)
+        {
+#if !DEBUG
+            HockeyClient.Current.TrackPageView(page.ToString());
+#endif
+        }
+
+        public void TelemetryTrackNavigation(ForumsPageIndex page)
+        {
+#if !DEBUG
+            HockeyClient.Current.TrackPageView(page.ToString());
+#endif
+        }
+
         public void LogEvent(string @event)
         {
 #if !DEBUG

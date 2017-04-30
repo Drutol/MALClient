@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
 using Android.Content.PM;
+using Android.Gms.Ads;
 using Android.OS;
 using Android.Support.V7.App;
 using Android.Views;
@@ -64,7 +65,9 @@ namespace MALClient.Android.Activities
             if (!_addedNavHandlers)
             {
                 SetContentView(Resource.Layout.MainPage);
-                _addedNavHandlers = true;
+                
+                InitAdContainer();
+
                 InitBindings();
                 ViewModel.MainNavigationRequested += ViewModelOnMainNavigationRequested;
                 ViewModel.MainNavigationRequested += ViewModelOnMainNavigationRequestedFirst;
@@ -94,13 +97,12 @@ namespace MALClient.Android.Activities
                 if (ResourceLocator.ChangelogProvider.NewChangelog)
                     ChangelogDialog.BuildChangelogDialog(ResourceLocator.ChangelogProvider);
 
+                RateReminderPopUp.ProcessRatePopUp();
+
                 
             }
-            var test = ResourceLocator.ApplicationDataService[nameof(RoamingDataTypes.ReadNotifications)];
-#if !DEBUG
-            CrashManager.Register(this, "4bfd20dcd9ba4bdfbb1501397ec4a176");
-            MetricsManager.Register(App.Current, "4bfd20dcd9ba4bdfbb1501397ec4a176");
-#endif
+
+            ResourceLocator.TelemetryProvider.Init();
         }
 
         private async void ViewModelOnMainNavigationRequestedFirst(Fragment fragment)

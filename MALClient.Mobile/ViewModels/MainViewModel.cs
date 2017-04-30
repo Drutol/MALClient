@@ -51,7 +51,10 @@ namespace MALClient.UWP.ViewModels
                 await msg.ShowAsync();
                 return;
             }
-            ResourceLocator.TelemetryProvider.TelemetryTrackEvent(TelemetryTrackedEvents.Navigated, index.ToString());
+            if (index == PageIndex.PageForumIndex && args is ForumsNavigationArgs arg)
+                ResourceLocator.TelemetryProvider.TelemetryTrackNavigation(arg.Page);
+            else
+                ResourceLocator.TelemetryProvider.TelemetryTrackNavigation(index);
             ScrollToTopButtonVisibility = false;
             RefreshButtonVisibility = false;
 

@@ -50,7 +50,7 @@ namespace MALClient.UWP.Pages.Off.SettingsPages
         private void LengthCombobox_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (_initialized)
-                ViewModelLocator.Settings.AdsMinutesPerDay = (int) (LengthCombobox.SelectedItem as FrameworkElement).Tag;
+                ViewModelLocator.Settings.AdsSecondsPerDay = (int) (LengthCombobox.SelectedItem as FrameworkElement).Tag;
 
         }
     }

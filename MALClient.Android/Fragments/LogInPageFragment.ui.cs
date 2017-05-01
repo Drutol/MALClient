@@ -5,13 +5,16 @@ using System.Text;
 
 using Android.App;
 using Android.Content;
+using Android.Graphics;
 using Android.OS;
 using Android.Runtime;
 using Android.Support.V4.App;
 using Android.Support.V7.App;
+using Android.Util;
 using Android.Views;
 using Android.Widget;
 using GalaSoft.MvvmLight.Helpers;
+using Java.Lang;
 using MALClient.Android.BindingConverters;
 using MALClient.Android.Resources;
 using MALClient.Models.Enums;
@@ -20,48 +23,9 @@ namespace MALClient.Android.Fragments
 {
     public partial class LogInPageFragment : MalFragmentBase
     {
-        protected override void InitBindings()
-        {
-            Bindings = new List<Binding>();
-            Bindings.Add(this.SetBinding(() => ViewModel.UserNameInput, () => UsernameInput.Text, BindingMode.TwoWay));
-            Bindings.Add(this.SetBinding(() => ViewModel.Authenticating, () => LoginPageLoadingSpinner.Visibility,
-                    BindingMode.OneWay)
-                .ConvertSourceToTarget(Converters.BoolToVisibility));
-            Bindings.Add(this.SetBinding(() => ViewModel.PasswordInput, () => PasswordInput.Text, BindingMode.TwoWay));
 
-            LoginPageRegisterButton.SetCommand(ViewModel.NavigateRegister);
-            LoginPageProblemsButton.SetCommand(ViewModel.ProblemsCommand);
 
-            UsernameInput.FocusChange += UsernameInputOnFocusChange;
-            PasswordInput.FocusChange += UsernameInputOnFocusChange;
 
-            // LoginPageButtonHum.Click += LoginPageButtonOnClick;
-            // LoginPageButtonMal.Click += LoginPageButtonOnClick;
-            SignInButton.SetCommand(ViewModel.LogInCommand);
-            LoginPageLogOutButton.SetCommand(ViewModel.LogOutCommand);
-            
-        }
-
-        private void UsernameInputOnFocusChange(object sender, View.FocusChangeEventArgs focusChangeEventArgs)
-        {
-            BottomButtonsSection.Visibility = focusChangeEventArgs.HasFocus ? ViewStates.Gone : ViewStates.Visible;
-        }
-
-        //private void LoginPageButtonOnClick(object sender, EventArgs eventArgs)
-        //{
-        //    var btn = sender as ToggleButton;
-        //    switch (btn.Id)
-        //    {
-        //        case Resource.Id.LoginPageButtonMal:
-        //            LoginPageButtonHum.Checked = false;
-        //            ViewModel.FocusMalCommand.Execute(null);
-        //            break;
-        //        case Resource.Id.LoginPageButtonHum:
-        //            LoginPageButtonMal.Checked = false;
-        //            ViewModel.FocusHumCommand.Execute(null);
-        //            break;
-        //    }
-        //}
         private EditText _usernameInput;
         private EditText _passwordInput;
         private Button _signInButton;
@@ -69,7 +33,7 @@ namespace MALClient.Android.Fragments
         private Button _loginPageRegisterButton;
         private Button _loginPageLogOutButton;
         private Button _loginPageProblemsButton;
-        private RelativeLayout _bottomButtonsSection;
+        private FrameLayout _bottomButtonsSection;
 
         public EditText UsernameInput => _usernameInput ?? (_usernameInput = FindViewById<EditText>(Resource.Id.UsernameInput));
 
@@ -85,7 +49,8 @@ namespace MALClient.Android.Fragments
 
         public Button LoginPageProblemsButton => _loginPageProblemsButton ?? (_loginPageProblemsButton = FindViewById<Button>(Resource.Id.LoginPageProblemsButton));
 
-        public RelativeLayout BottomButtonsSection => _bottomButtonsSection ?? (_bottomButtonsSection = FindViewById<RelativeLayout>(Resource.Id.BottomButtonsSection));
+        public FrameLayout BottomButtonsSection => _bottomButtonsSection ?? (_bottomButtonsSection = FindViewById<FrameLayout>(Resource.Id.BottomButtonsSection));
+
 
     }
 }

@@ -29,7 +29,7 @@ namespace MALClient.Android.Adapters
 
         public void Init()
         {
-#if DEBUG
+#if !DEBUG
             CrashManager.Register(_context, "4bfd20dcd9ba4bdfbb1501397ec4a176");
             MetricsManager.Register(_app, "4bfd20dcd9ba4bdfbb1501397ec4a176");
             MetricsManager.EnableUserMetrics();
@@ -38,17 +38,23 @@ namespace MALClient.Android.Adapters
 
         public void TelemetryTrackEvent(TelemetryTrackedEvents @event)
         {
+#if !DEBUG
             MetricsManager.TrackEvent(@event.ToString());
+#endif
         }
 
         public void TelemetryTrackEvent(TelemetryTrackedEvents @event, string arg)
         {
+#if !DEBUG
             MetricsManager.TrackEvent($"{@event} {arg}");
+#endif
         }
 
         public void LogEvent(string @event)
         {
+#if !DEBUG
             MetricsManager.TrackEvent(@event);
+#endif
         }
 
         public void TrackException(Exception e)
@@ -58,14 +64,14 @@ namespace MALClient.Android.Adapters
 
         public void TelemetryTrackNavigation(PageIndex page)
         {
-#if DEBUG
+#if !DEBUG
             MetricsManager.TrackEvent($"Navigation: {page}");
 #endif
         }
 
         public void TelemetryTrackNavigation(ForumsPageIndex page)
         {
-#if DEBUG
+#if !DEBUG
             MetricsManager.TrackEvent($"Navigation: {page}");
 #endif
         }

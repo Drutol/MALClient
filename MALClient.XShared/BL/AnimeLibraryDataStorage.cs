@@ -41,6 +41,16 @@ namespace MALClient.XShared.BL
             AnimeRemoved?.Invoke(parentAbstraction);
         }
 
+        public void Reset()
+        {
+            AllLoadedAnimeItemAbstractions.Clear();
+            AllLoadedAuthAnimeItems.Clear();
+            AllLoadedAuthMangaItems.Clear();
+            AllLoadedMangaItemAbstractions.Clear();
+            AllLoadedSeasonalAnimeItems.Clear();
+            AllLoadedSeasonalMangaItems.Clear();
+        }
+
         public event AnimeAbstractionTransaction AnimeRemoved;
     }
 }

@@ -12,7 +12,15 @@ namespace MALClient.Android.Fragments.SettingsFragments
 {
     public class SettingsPageFragment : MalFragmentBase
     {
+        private readonly SettingsPageIndex? _page;
+
+        public SettingsPageFragment(SettingsPageIndex? page = null)
+        {
+            _page = page;
+        }
+
         private SettingsViewModel ViewModel;
+        private bool _navigated;
 
         protected override void Init(Bundle savedInstanceState)
         {
@@ -46,6 +54,7 @@ namespace MALClient.Android.Fragments.SettingsFragments
                 case SettingsPageIndex.LogIn:
                     break;
                 case SettingsPageIndex.Misc:
+                    fragment = new SettingsMiscFragment();
                     break;
                 case SettingsPageIndex.Homepage:
                     fragment = new SettingsHomepageFragment();
@@ -68,9 +77,9 @@ namespace MALClient.Android.Fragments.SettingsFragments
                 var trans = ChildFragmentManager.BeginTransaction();
                 trans.DisallowAddToBackStack();
                 trans.SetCustomAnimations(Resource.Animator.animation_slide_btm,
-                    Resource.Animator.animation_fade_out,
+                    Resource.Animator.animation_sink_in,
                     Resource.Animator.animation_slide_btm,
-                    Resource.Animator.animation_fade_out);
+                    Resource.Animator.animation_sink_in);
                 trans.Replace(Resource.Id.SearchPageContentFrame, fragment);
                 trans.CommitAllowingStateLoss();
             }
@@ -78,6 +87,7 @@ namespace MALClient.Android.Fragments.SettingsFragments
             {
 
             }
+            _navigated = true;
 
         }
 
@@ -89,7 +99,16 @@ namespace MALClient.Android.Fragments.SettingsFragments
 
         protected override void InitBindings()
         {
-            ViewModelOnNavigationRequest(SettingsPageIndex.Homepage);
+            if (!_navigated)
+            {
+                if (_page == null)
+                    ViewModelOnNavigationRequest(SettingsPageIndex.Homepage);
+                else
+                {
+                    ViewModel.RequestNavigationCommand.Execute(_page);
+                }
+            }
+                
         }
 
         public override int LayoutResourceId => Resource.Layout.SettingsPage;

@@ -74,6 +74,9 @@ namespace MALClient.XShared.ViewModels.Main
         public ICommand LogOutCommand => _logOutCommand ?? (_logOutCommand = new RelayCommand(() =>
                                          {
                                              Credentials.Reset();
+                                             ResourceLocator.AnimeLibraryDataStorage.Reset();
+                                             ResourceLocator.MalHttpContextProvider.Invalidate();
+                                             ResourceLocator.DataCacheService.ClearAnimeListData();
                                              ViewModelLocator.GeneralMain.CurrentOffStatus = "Log In";
                                              ViewModelLocator.GeneralHamburger.UpdateLogInLabel();
                                              LogOutButtonVisibility = false;

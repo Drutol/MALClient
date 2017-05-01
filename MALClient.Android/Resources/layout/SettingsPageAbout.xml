@@ -6,8 +6,9 @@
             android:orientation="vertical">
 
   <LinearLayout
-    android:layout_width="match_parent" android:orientation="vertical"
-    android:layout_height="wrap_content" android:padding="16dp">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" android:padding="16dp"
+    android:orientation="vertical">
 
     <TextView
       android:layout_width="wrap_content" android:layout_gravity="center_horizontal" android:textSize="@dimen/FontSizeHuge" android:text="Welcome!"
@@ -98,5 +99,71 @@
             android:layout_width="wrap_content" style="@style/AccentButtonStyle"
             android:layout_height="wrap_content" android:text="Give me the news!" android:layout_gravity="center_horizontal" android:layout_margin="10dp"/>
 
+
+    <TextView
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_gravity="center_horizontal"
+      android:fontFamily="@string/font_family_light"
+      android:text="Credits" android:layout_marginTop="10dp"
+      android:textColor="?AccentColour"
+      android:textSize="@dimen/FontSizeHuge" />
+
+
+    <TextView android:lineSpacingExtra="2dp"
+              android:layout_width="wrap_content" android:text="Coding, design(surprise! there's design... maybe... :D), and everything else: " android:layout_marginTop="10dp"
+              android:layout_height="wrap_content" android:textColor="?BrushText"/>
+
+    <TextView
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_gravity="center_horizontal"
+      android:text="\@Drutol" android:layout_marginTop="10dp"
+      android:textColor="?AccentColourDark"
+      android:textSize="@dimen/FontSizeHuge" />
+    <TextView
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_gravity="center_horizontal"
+      android:text="Piotr Szymczak"
+      android:textColor="?AccentColourDark"
+      android:textSize="@dimen/FontSizeBig" />
+
+    <TextView android:lineSpacingExtra="2dp"
+              android:layout_width="wrap_content" android:text="Also huge thanks to these two brave bugtesters who made this app actually usable ^^ Applauze!" android:layout_marginTop="10dp"
+              android:layout_height="wrap_content" android:textColor="?BrushText"/>
+
+
+    <TextView
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_gravity="center_horizontal"
+      android:text="\@Kimod" android:layout_marginTop="10dp"
+      android:textColor="?AccentColourDark"
+      android:textSize="@dimen/FontSizeHuge" />
+    <TextView
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_gravity="center_horizontal"
+      android:text="\@FoxInFlame" android:layout_marginTop="10dp"
+      android:textColor="?AccentColourDark"
+      android:textSize="@dimen/FontSizeHuge" />
+
+    <TextView
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_gravity="center_horizontal"
+      android:fontFamily="@string/font_family_light"
+      android:text="Tech note" android:layout_marginTop="20dp"
+      android:textColor="?AccentColour"
+      android:textSize="@dimen/FontSizeHuge" />
+
+    <TextView android:lineSpacingExtra="2dp"
+              android:layout_width="wrap_content" android:text="This app was written using C# and Xamarin, with business logic shared across Windows and Android. It's a vaiable alternative to java... what isn't... かな..." android:layout_marginTop="10dp"
+              android:layout_height="wrap_content" android:textColor="?BrushText"/>
+
   </LinearLayout>
+
+
+
 </ScrollView>

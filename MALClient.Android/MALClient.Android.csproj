@@ -342,6 +342,7 @@
       <DependentUpon>SettingsGeneralFragment.cs</DependentUpon>
     </Compile>
     <Compile Include="Fragments\SettingsFragments\SettingsHomepageFragment.cs" />
+    <Compile Include="Fragments\SettingsFragments\SettingsMiscFragment.cs" />
     <Compile Include="Fragments\SettingsFragments\SettingsNotificationsFragment.cs" />
     <Compile Include="Fragments\SettingsFragments\SettingsNotificationsFragment.ui.cs">
       <SubType>Code</SubType>
@@ -726,12 +727,6 @@
     <AndroidResource Include="Resources\layout\RecommendationItem.xml" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\LogInBG.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\drawable\wideLogo.png" />
-  </ItemGroup>
-  <ItemGroup>
     <AndroidResource Include="Resources\layout\SettingsPage.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
@@ -1094,6 +1089,30 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\get_it_on_windows.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\SettingsPageMisc.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\login_bg.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\wide_logo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\icon_lock.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\animator\animation_sink_in.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\HamburgerProfileItem.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\icon_heart.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\support_me.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

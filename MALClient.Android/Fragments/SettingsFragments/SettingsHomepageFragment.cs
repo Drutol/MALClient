@@ -29,7 +29,7 @@ namespace MALClient.Android.Fragments.SettingsFragments
 
         protected override void InitBindings()
         {
-            SettingsPageHomepageList.SetAdapter(ViewModel.SettingsPages.GetAdapter(GetTemplateDelegate));
+            SettingsPageHomepageList.SetAdapter(ViewModel.SettingsPages.Where(entry => entry.PageType != SettingsPageIndex.Caching && entry.PageType != SettingsPageIndex.Articles).ToList().GetAdapter(GetTemplateDelegate));
         }
 
         private View GetTemplateDelegate(int i, SettingsPageEntry settingsPageEntry, View convertView)

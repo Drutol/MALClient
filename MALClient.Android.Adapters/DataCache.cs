@@ -7,6 +7,7 @@ using Java.IO;
 using Java.Nio;
 using MALClient.Adapters;
 using Newtonsoft.Json;
+using Console = System.Console;
 using File = Java.IO.File;
 
 namespace MALClient.Android.Adapters
@@ -135,6 +136,19 @@ namespace MALClient.Android.Adapters
             //{
             //    await listFile.DeleteAsync(StorageDeleteOption.PermanentDelete);
             //}
+            try
+            {
+                var root = new File(Application.Context.GetExternalFilesDir(null).Path);
+                foreach (var file in await root.ListFilesAsync())
+                {
+                    if (file.Name.Contains("_data_"))
+                        file.Delete();
+                }
+            }
+            catch (Exception)
+            {
+
+            }
         }
 
         private static bool CheckForOldData(DateTime date, int days = 7)

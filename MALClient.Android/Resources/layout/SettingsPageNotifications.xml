@@ -4,57 +4,114 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-  <LinearLayout android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+  <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="10dp">
 
-    <Switch android:id="@+id/SettingsPageNotificationsEnable"
-            android:text="Enable notifications"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp" />
+    <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="15dp"
+      android:padding="5dp">
 
-    <Switch android:id="@+id/SettingsPageNotificationsCheckInRuntime"
-            android:text="Pull notifications at steady rate when app is running"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp" />
+      <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="1"
+        android:text="Enable notifications"
+        android:textColor="?BrushText"
+        android:textSize="@dimen/FontSizeMedium" />
 
-    <View style="@style/Divider" android:layout_marginTop="10dp" />
-
-    <LinearLayout android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  android:orientation="vertical"
-                  android:layout_marginTop="10dp">
-
-      <TextView android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:text="Which notifications should be displayed"
-                android:textColor="?BrushText"
-                android:textSize="@dimen/FontSizeMedium"
-                android:gravity="center_horizontal" />
-
-      <LinearLayout android:layout_marginStart="5dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:layout_weight="1"
-                    android:id="@+id/NotificationsTypesCheckBoxGroup"
-                    android:layout_margin="5dp"
-                    android:layout_gravity="center_horizontal" />
+      <Switch
+        android:id="@+id/SettingsPageNotificationsEnable"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical" />
     </LinearLayout>
 
-    <View style="@style/Divider" android:layout_marginTop="10dp" />
+    <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="15dp"
+      android:padding="5dp">
 
-    <LinearLayout android:layout_width="match_parent" android:layout_height="40dp"
-                  android:background="@drawable/border_accent_left_wide" android:gravity="center_vertical">
-      <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
-                android:textColor="?BrushText" android:textSize="@dimen/FontSizeMedium"
-                android:text="Notifications pull frequency" android:layout_marginStart="10dp" />
-      <Spinner android:id="@+id/SettingsPageNotificationsFrequencySpinner" android:layout_width="wrap_content"
-               android:layout_height="wrap_content" />
+      <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="1"
+        android:text="Pull notifications at steady rate when app is running"
+        android:textColor="?BrushText"
+        android:textSize="@dimen/FontSizeMedium" />
+
+      <Switch
+        android:id="@+id/SettingsPageNotificationsCheckInRuntime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical" />
     </LinearLayout>
 
+    <View
+      style="@style/Divider"
+      android:layout_marginTop="10dp" />
+
+    <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="10dp"
+      android:orientation="vertical">
+
+      <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal"
+        android:text="Which notifications should be displayed"
+        android:textColor="?BrushText"
+        android:textSize="@dimen/FontSizeMedium" />
+
+      <LinearLayout
+        android:id="@+id/NotificationsTypesCheckBoxGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="5dp"
+        android:layout_marginStart="5dp"
+        android:layout_weight="1"
+        android:orientation="vertical" />
+    </LinearLayout>
+
+    <View
+      style="@style/Divider"
+      android:layout_marginTop="10dp" />
+
+    <FrameLayout
+      android:layout_width="match_parent" android:background="?BrushRowAlternate1"
+      android:layout_height="wrap_content">
+
+      <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" android:padding="10dp"
+        android:background="@drawable/border_accent_left"
+        android:gravity="center_vertical">
+
+        <TextView
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_marginStart="10dp"
+          android:layout_weight="1"
+          android:text="Notifications pull frequency"
+          android:textColor="?BrushText"
+          android:textSize="@dimen/FontSizeMedium" />
+
+        <Spinner
+          android:id="@+id/SettingsPageNotificationsFrequencySpinner"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content" />
+      </LinearLayout>
+    </FrameLayout>
   </LinearLayout>
 </ScrollView>

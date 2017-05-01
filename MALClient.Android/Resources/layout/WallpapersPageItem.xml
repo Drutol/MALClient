@@ -11,8 +11,8 @@
                  android:layout_height="wrap_content" android:indeterminateTint="?OpaqueAccentColour"
                  android:indeterminate="true" android:indeterminateTintMode="src_in"/>
     <FFImageLoading.Views.ImageViewAsync android:id="@+id/WallpapersPageItemImage"
-                                         android:layout_width="match_parent"
-                                         android:layout_height="300dp" android:adjustViewBounds="true"/>
+                                         android:layout_width="match_parent"  android:maxHeight="450dp"
+                                         android:layout_height="wrap_content" android:adjustViewBounds="true"/>
     <TextView android:id="@+id/WallpapersPageItemSubreddit"
               android:layout_width="wrap_content" android:text="/r/Pixiv" android:textColor="#fff" android:padding="5dp" android:fontFamily="@string/font_family_light"
               android:layout_height="wrap_content" android:background="@color/BrushOpaqueTextView"/>

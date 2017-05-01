@@ -163,7 +163,7 @@ namespace MALClient.Android.ViewModels
                     break;
                 case PageIndex.PageSettings:
                     HideSearchStuff();
-                    MainNavigationRequested?.Invoke(new SettingsPageFragment());
+                    MainNavigationRequested?.Invoke(new SettingsPageFragment(args as SettingsPageIndex?));
                     break;
                 case PageIndex.PageSearch:
                 case PageIndex.PageMangaSearch:

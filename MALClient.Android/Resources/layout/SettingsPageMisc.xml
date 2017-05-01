@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="?BrushDeepBackground"
+            android:orientation="vertical">
+
+  <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" android:padding="16dp"
+    android:orientation="vertical">
+
+
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="5dp">
+      <TextView android:text="Enable review reminder PopUp window." android:layout_width="0dp"
+                android:layout_height="wrap_content" android:layout_gravity="center_vertical"
+                android:textSize="@dimen/FontSizeMedium" android:textColor="?BrushText" android:layout_weight="1" />
+      <Switch android:id="@+id/SettingsPageMiscEnableReviewReminder" android:layout_width="wrap_content"
+              android:layout_height="wrap_content" android:layout_gravity="center_vertical" />
+    </LinearLayout>
+
+    <Button android:id="@+id/SettingsPageMiscPageRateNowButton"
+            android:layout_width="wrap_content" style="@style/AccentButtonStyle" android:layout_gravity="center_horizontal" android:layout_marginTop="10dp"
+            android:layout_height="wrap_content" android:text="Rate now!" />
+
+
+  </LinearLayout>
+
+
+
+</ScrollView>

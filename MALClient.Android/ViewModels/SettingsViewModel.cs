@@ -10,6 +10,7 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using GalaSoft.MvvmLight.Command;
+using MALClient.Android.Activities;
 using MALClient.Models.Enums;
 using MALClient.XShared.Delegates;
 using MALClient.XShared.ViewModels;
@@ -20,7 +21,11 @@ namespace MALClient.Android.ViewModels
     {
         public override event SettingsNavigationRequest NavigationRequest;
 
-        public override ICommand ReviewCommand { get; }
+        public override ICommand ReviewCommand => new RelayCommand(() =>
+        {
+            MainActivity.CurrentContext.StartActivity(new Intent(Intent.ActionView,
+                global::Android.Net.Uri.Parse($"market://details?id={MainActivity.CurrentContext.PackageName}")));
+        });
 
         public override ICommand RequestNavigationCommand
             => _requestNavigationCommand ?? (_requestNavigationCommand = new RelayCommand<SettingsPageIndex>(page =>

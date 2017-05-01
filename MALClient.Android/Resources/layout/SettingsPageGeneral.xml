@@ -76,7 +76,7 @@
                 android:textSize="@dimen/FontSizeMedium" android:textColor="?BrushText" android:layout_weight="1" />
       <Switch android:id="@+id/SettingsPageGeneralEnableSwipeSwitch" android:layout_width="wrap_content"
               android:layout_height="wrap_content" android:layout_gravity="center_vertical" />
-    </LinearLayout>    
+    </LinearLayout>
 
     <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="5dp"
                   android:layout_marginTop="15dp">
@@ -139,7 +139,7 @@
       <LinearLayout android:layout_width="0dp" android:orientation="vertical" android:layout_height="wrap_content"
                     android:layout_weight="1">
         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                  android:layout_gravity="center_horizontal" android:text="Default anime sort values:"
+                  android:layout_gravity="center_horizontal" android:text="Default anime sort\nvalues:"
                   android:textColor="?BrushText" android:textSize="@dimen/FontSizeMedium"
                   android:layout_marginTop="5dp" android:layout_marginBottom="5dp" android:gravity="center_horizontal" />
         <RadioGroup android:id="@+id/SettingsPageGeneralAnimeSortRadioGroup" android:layout_width="match_parent"
@@ -206,67 +206,67 @@
                 android:gravity="center_horizontal" />
       <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
                     android:background="?BrushRowAlternate1" android:layout_marginTop="10dp">
-        <LinearLayout android:layout_width="match_parent" android:layout_height="40dp"
-                      android:background="@drawable/border_accent_left_wide" android:gravity="center_vertical">
+        <LinearLayout android:layout_width="match_parent" android:layout_height="50dp"
+                      android:background="@drawable/border_accent_left" android:gravity="center_vertical">
           <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
                     android:textColor="?BrushText" android:textSize="@dimen/FontSizeMedium"
                     android:text="Watching/Reading" android:layout_marginStart="10dp" />
-          <Spinner android:id="@+id/SettingsPageGeneralWatchingViewModeSpinner" android:layout_width="100dp"
-                   android:layout_height="wrap_content" />
+          <Spinner android:id="@+id/SettingsPageGeneralWatchingViewModeSpinner" android:layout_width="wrap_content"
+                   android:layout_height="wrap_content" android:elevation="5dp"/>
         </LinearLayout>
       </LinearLayout>
       <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
                     android:background="?BrushRowAlternate1" android:layout_marginTop="10dp">
-        <LinearLayout android:layout_width="match_parent" android:layout_height="40dp"
-                      android:background="@drawable/border_accent_left_wide" android:gravity="center_vertical">
+        <LinearLayout android:layout_width="match_parent" android:layout_height="50dp"
+                      android:background="@drawable/border_accent_left" android:gravity="center_vertical">
           <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
                     android:textColor="?BrushText" android:textSize="@dimen/FontSizeMedium" android:text="Completed"
                     android:layout_marginStart="10dp" />
-          <Spinner android:id="@+id/SettingsPageGeneralCompletedViewModeSpinner" android:layout_width="100dp"
+          <Spinner android:id="@+id/SettingsPageGeneralCompletedViewModeSpinner" android:layout_width="wrap_content"
                    android:layout_height="wrap_content" />
         </LinearLayout>
       </LinearLayout>
       <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
                     android:background="?BrushRowAlternate1" android:layout_marginTop="10dp">
-        <LinearLayout android:layout_width="match_parent" android:layout_height="40dp"
-                      android:background="@drawable/border_accent_left_wide" android:gravity="center_vertical">
+        <LinearLayout android:layout_width="match_parent" android:layout_height="50dp"
+                      android:background="@drawable/border_accent_left" android:gravity="center_vertical">
           <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
                     android:textColor="?BrushText" android:textSize="@dimen/FontSizeMedium" android:text="On hold"
                     android:layout_marginStart="10dp" />
-          <Spinner android:id="@+id/SettingsPageGeneralOnHoldViewModeSpinner" android:layout_width="100dp"
+          <Spinner android:id="@+id/SettingsPageGeneralOnHoldViewModeSpinner" android:layout_width="wrap_content"
                    android:layout_height="wrap_content" />
         </LinearLayout>
       </LinearLayout>
       <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
                     android:background="?BrushRowAlternate1" android:layout_marginTop="10dp">
-        <LinearLayout android:layout_width="match_parent" android:layout_height="40dp"
-                      android:background="@drawable/border_accent_left_wide" android:gravity="center_vertical">
+        <LinearLayout android:layout_width="match_parent" android:layout_height="50dp"
+                      android:background="@drawable/border_accent_left" android:gravity="center_vertical">
           <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
                     android:textColor="?BrushText" android:textSize="@dimen/FontSizeMedium" android:text="Dropped"
                     android:layout_marginStart="10dp" />
-          <Spinner android:id="@+id/SettingsPageGeneralDroppedViewModeSpinner" android:layout_width="100dp"
+          <Spinner android:id="@+id/SettingsPageGeneralDroppedViewModeSpinner" android:layout_width="wrap_content"
                    android:layout_height="wrap_content" />
         </LinearLayout>
       </LinearLayout>
       <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
                     android:background="?BrushRowAlternate1" android:layout_marginTop="10dp">
-        <LinearLayout android:layout_width="match_parent" android:layout_height="40dp"
-                      android:background="@drawable/border_accent_left_wide" android:gravity="center_vertical">
+        <LinearLayout android:layout_width="match_parent" android:layout_height="50dp"
+                      android:background="@drawable/border_accent_left" android:gravity="center_vertical">
           <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
                     android:textColor="?BrushText" android:textSize="@dimen/FontSizeMedium"
                     android:text="Plan to watch/read" android:layout_marginStart="10dp" />
-          <Spinner android:id="@+id/SettingsPageGeneralPtwViewModeSpinner" android:layout_width="100dp"
+          <Spinner android:id="@+id/SettingsPageGeneralPtwViewModeSpinner" android:layout_width="wrap_content"
                    android:layout_height="wrap_content" />
         </LinearLayout>
       </LinearLayout>
       <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
                     android:background="?BrushRowAlternate1" android:layout_marginTop="10dp">
-        <LinearLayout android:layout_width="match_parent" android:layout_height="40dp"
-                      android:background="@drawable/border_accent_left_wide" android:gravity="center_vertical">
+        <LinearLayout android:layout_width="match_parent" android:layout_height="50dp"
+                      android:background="@drawable/border_accent_left" android:gravity="center_vertical">
           <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
                     android:textColor="?BrushText" android:textSize="@dimen/FontSizeMedium" android:text="All"
                     android:layout_marginStart="10dp" />
-          <Spinner android:id="@+id/SettingsPageGeneralAllViewModeSpinner" android:layout_width="100dp"
+          <Spinner android:id="@+id/SettingsPageGeneralAllViewModeSpinner" android:layout_width="wrap_content"
                    android:layout_height="wrap_content" />
         </LinearLayout>
       </LinearLayout>
@@ -282,22 +282,22 @@
 
     <View style="@style/Divider" android:layout_marginTop="10dp" />
     <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-                  android:orientation="horizontal" android:layout_marginTop="10dp">
-      <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
-                    android:orientation="vertical">
+                  android:orientation="vertical" android:layout_marginTop="10dp" android:gravity="center_horizontal">
+      <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:orientation="vertical" android:layout_gravity="center_horizontal">
         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                   android:layout_gravity="center_horizontal" android:text="Default anime filter value:"
                   android:textColor="?BrushText" android:textSize="15sp" android:gravity="center_horizontal" />
-        <Spinner android:id="@+id/SettingsPageGeneralAnimeFilterSpinner" android:layout_width="match_parent"
-                 android:layout_height="wrap_content" android:layout_marginTop="5dp" />
+        <Spinner android:id="@+id/SettingsPageGeneralAnimeFilterSpinner" android:layout_width="wrap_content"
+                 android:layout_height="wrap_content" android:layout_marginTop="15dp" android:layout_gravity="center_horizontal"/>
       </LinearLayout>
-      <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
-                    android:orientation="vertical">
+      <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:orientation="vertical" android:layout_marginTop="10dp" android:layout_gravity="center_horizontal">
         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                   android:layout_gravity="center_horizontal" android:text="Default manga filter value:"
                   android:textColor="?BrushText" android:textSize="15sp" android:gravity="center_horizontal" />
-        <Spinner android:id="@+id/SettingsPageGeneralMangaFilerSpinner" android:layout_width="match_parent"
-                 android:layout_height="wrap_content" android:layout_marginTop="5dp" />
+        <Spinner android:id="@+id/SettingsPageGeneralMangaFilerSpinner" android:layout_width="wrap_content"
+                 android:layout_height="wrap_content" android:layout_marginTop="15dp" android:layout_gravity="center_horizontal" />
       </LinearLayout>
     </LinearLayout>
     <View style="@style/Divider" android:layout_marginTop="10dp" />

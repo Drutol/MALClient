@@ -14,8 +14,12 @@ using Android.Widget;
 using Com.Mikepenz.Materialdrawer;
 using Com.Mikepenz.Materialdrawer.Model;
 using Com.Mikepenz.Materialdrawer.Model.Interfaces;
+using Com.Shehabic.Droppy;
 using FFImageLoading;
+using FFImageLoading.Transformations;
+using FFImageLoading.Views;
 using GalaSoft.MvvmLight.Command;
+using MALClient.Android.Flyouts;
 using MALClient.Android.Listeners;
 using MALClient.Android.Resources;
 using MALClient.Models.Enums;
@@ -31,7 +35,10 @@ namespace MALClient.Android.Activities
 {
     public partial class MainActivity : IHamburgerViewModel
     {
-        private bool _allowHamburgerNavigation;
+        private bool _allowHamburgerNavigation = true;
+        private View _accountHamburgerView;
+        private bool _selectedProfileItem;
+        private DroppyMenuPopup _supportMenu;
 
         private object GetAppropriateArgsForPage(PageIndex page)
         {
@@ -134,20 +141,20 @@ namespace MALClient.Android.Activities
             forumsButton.WithIdentifier((int) PageIndex.PageForumIndex);
             forumsButton.WithIcon(Resource.Drawable.icon_forum);
 
-            var messagingButton = GetBaseSecondaryItem();
-            messagingButton.WithName("Messaging");
-            messagingButton.WithIdentifier((int) PageIndex.PageMessanging);
-            messagingButton.WithIcon(Resource.Drawable.icon_message_alt);
+            //var messagingButton = GetBaseSecondaryItem();
+            //messagingButton.WithName("Messaging");
+            //messagingButton.WithIdentifier((int) PageIndex.PageMessanging);
+            //messagingButton.WithIcon(Resource.Drawable.icon_message_alt);
 
             var historyButton = GetBaseSecondaryItem();
             historyButton.WithName("History");
             historyButton.WithIdentifier((int) PageIndex.PageHistory);
             historyButton.WithIcon(Resource.Drawable.icon_clock);
 
-            var notificationHubButton = GetBaseSecondaryItem();
-            notificationHubButton.WithName("Notification Hub");
-            notificationHubButton.WithIdentifier((int) PageIndex.PageNotificationHub);
-            notificationHubButton.WithIcon(Resource.Drawable.icon_notification);
+            //var notificationHubButton = GetBaseSecondaryItem();
+            //notificationHubButton.WithName("Notification Hub");
+            //notificationHubButton.WithIdentifier((int) PageIndex.PageNotificationHub);
+            //notificationHubButton.WithIcon(Resource.Drawable.icon_notification);
 
             var wallpapersButton = GetBaseSecondaryItem();
             wallpapersButton.WithName("Images");
@@ -184,9 +191,9 @@ namespace MALClient.Android.Activities
                 videoButton,
                 feedsButton,
                 forumsButton,
-                messagingButton,
+               // messagingButton,
                 historyButton,
-                notificationHubButton,
+               // notificationHubButton,
                 wallpapersButton
 
             });
@@ -218,6 +225,16 @@ namespace MALClient.Android.Activities
 
         public void SetActiveButton(HamburgerButtons val)
         {
+            if (_selectedProfileItem)
+            {
+                if(val == HamburgerButtons.Profile)
+                    return;
+
+                _accountHamburgerView.SetBackgroundColor(Color.Transparent);
+                _accountHamburgerView.FindViewById<TextView>(Resource.Id.HamburgerProfileItemLabel).SetTextColor(new Color(ResourceExtension.BrushText));
+                _selectedProfileItem = false;
+            }
+
             long id;
             switch (val)
             {
@@ -234,8 +251,10 @@ namespace MALClient.Android.Activities
                     id = (long) PageIndex.PageSettings;
                     break;
                 case HamburgerButtons.Profile:
-                    id = (long) PageIndex.PageProfile;
-                    break;
+                    _accountHamburgerView.SetBackgroundColor(new Color(ResourceExtension.BrushAnimeItemBackground));
+                    _accountHamburgerView.FindViewById<TextView>(Resource.Id.HamburgerProfileItemLabel).SetTextColor(new Color(ResourceExtension.AccentColour));
+                    _selectedProfileItem = true;
+                    return;
                 case HamburgerButtons.Seasonal:
                     id = (long) PageIndex.PageSeasonal;
                     break;
@@ -266,8 +285,7 @@ namespace MALClient.Android.Activities
                     id = (long) PageIndex.PageArticles;
                     break;
                 case HamburgerButtons.Messanging:
-                    id = (long) PageIndex.PageMessanging;
-                    break;
+                    return;
                 case HamburgerButtons.Forums:
                     id = (long) PageIndex.PageForumIndex;
                     break;
@@ -287,8 +305,7 @@ namespace MALClient.Android.Activities
                     id = (long) PageIndex.PageFeeds;
                     break;
                 case HamburgerButtons.Notifications:
-                    id = (long) PageIndex.PageNotificationHub;
-                    break;
+                    return;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(val), val, null);
             }
@@ -312,13 +329,32 @@ namespace MALClient.Android.Activities
             IDrawerItem accountButton;
             if (Credentials.Authenticated)
             {
-                var btn = new ProfileDrawerItem();
-                btn.WithName("Account");
-                btn.WithTextColorRes(ResourceExtension.BrushTextRes);
-                btn.WithSelectedColorRes(ResourceExtension.BrushAnimeItemBackgroundRes);
-                btn.WithSelectedTextColorRes(ResourceExtension.AccentColourRes);
+                var btn = new ContainerDrawerItem();
+                if (_accountHamburgerView == null)
+                {
+                    _accountHamburgerView = LayoutInflater.Inflate(Resource.Layout.HamburgerProfileItem,null);
+                    _accountHamburgerView.Click += (sender, args) =>
+                    {
+                        SetActiveButton(HamburgerButtons.Profile);
+                        OnHamburgerItemClick(PageIndex.PageProfile);
+                    };
+                    var listener = new OnClickListener(OnProfileSubItemCLick);
+                    _accountHamburgerView.FindViewById(Resource.Id.HamburgerProfileItemNotifications).SetOnClickListener(listener);
+                    _accountHamburgerView.FindViewById(Resource.Id.HamburgerProfileItemSupport).SetOnClickListener(listener);
+                    _accountHamburgerView.FindViewById(Resource.Id.HamburgerProfileItemMessages).SetOnClickListener(listener);
+                }
+                _accountHamburgerView.FindViewById<ImageViewAsync>(Resource.Id.HamburgerProfileItemImage).Into($"https://myanimelist.cdn-dena.com/images/userimages/{Credentials.Id}.jpg", new CircleTransformation());
+                btn.WithView(_accountHamburgerView);
+                btn.WithSelectable(true);
+                btn.WithDivider(false);
+                
+                //btn.WithName("Account");
+                //btn.WithTextColorRes(ResourceExtension.BrushTextRes);
+                //btn.WithSelectedColorRes(ResourceExtension.BrushAnimeItemBackgroundRes);
+                //btn.WithSelectedTextColorRes(ResourceExtension.AccentColourRes);
                 btn.WithIdentifier((int)PageIndex.PageProfile);
-                btn.WithIcon(Resource.Drawable.icon_account);
+                //btn.WithIcon(Resource.Drawable.icon_account);
+                
                 accountButton = btn;
             }
             else
@@ -335,28 +371,65 @@ namespace MALClient.Android.Activities
             settingsButton.WithIdentifier((int)PageIndex.PageSettings);
             settingsButton.WithIcon(Resource.Drawable.icon_settings);
 
+
             _drawer.RemoveAllStickyFooterItems();
             _drawer.AddStickyFooterItem(accountButton);
             _drawer.AddStickyFooterItem(settingsButton);
 
+            var par = _accountHamburgerView.Parent as View;
+            par.SetPadding(0,0,0,0);
+
             if (Credentials.Authenticated)
             {
-                var btn = accountButton as ProfileDrawerItem;
-
                 try
                 {
-                    var bmp = await ImageService.Instance.LoadUrl(
-                            $"https://myanimelist.cdn-dena.com/images/userimages/{Credentials.Id}.jpg")
-                        .AsBitmapDrawableAsync();
-                    btn.WithIcon(bmp);
+                    //
+                   
                 }
                 catch (Exception) // no image available
                 {
-                    btn.WithIcon(Resource.Drawable.icon_account);
+                    //btn.WithIcon(Resource.Drawable.icon_account);
                 }
 
-                _drawer.UpdateStickyFooterItem(btn);
+                //_drawer.UpdateStickyFooterItem(btn);
             }
+        }
+
+        private void OnProfileSubItemCLick(View view)
+        {
+            switch (view.Id)
+            {
+                case Resource.Id.HamburgerProfileItemNotifications:
+                    OnHamburgerItemClick(PageIndex.PageNotificationHub);
+                    break;
+                case Resource.Id.HamburgerProfileItemMessages:
+                    OnHamburgerItemClick(PageIndex.PageMessanging);
+                    break;
+                case Resource.Id.HamburgerProfileItemSupport:
+                    _supportMenu = FlyoutMenuBuilder.BuildGenericFlyout(this, view,
+                        new List<string> {"Feedback","Review","Donate"}, OnSupportMenuSelection);
+                    _supportMenu.Show();
+                    break;
+            }
+        }
+
+        private void OnSupportMenuSelection(int i)
+        {
+            switch (i)
+            {
+
+                case 0:
+                    ResourceLocator.SystemControlsLauncherService.LaunchUri(
+                        new Uri("https://github.com/Drutol/MALClient/issues"));
+                    break;
+                case 1:
+                    AndroidViewModelLocator.Settings.ReviewCommand.Execute(null);
+                    break;
+                case 2:
+                    ViewModelLocator.GeneralMain.Navigate(PageIndex.PageSettings,SettingsPageIndex.About);
+                    break;
+            }
+            _supportMenu.Dismiss(true);
         }
 
         public bool MangaSectionVisbility { get; set; }

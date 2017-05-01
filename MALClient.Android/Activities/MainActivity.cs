@@ -35,7 +35,7 @@ using MALClient.XShared.ViewModels.Interfaces;
 namespace MALClient.Android.Activities
 {
     [Activity(Label = "MALClient", ScreenOrientation = ScreenOrientation.Portrait,
-        Icon = "@drawable/icon",WindowSoftInputMode = SoftInput.AdjustResize,MainLauncher = true,LaunchMode = LaunchMode.SingleInstance,
+        Icon = "@drawable/icon",WindowSoftInputMode = SoftInput.AdjustUnspecified,MainLauncher = true,LaunchMode = LaunchMode.SingleInstance,
         Theme = "@style/Theme.Splash",ConfigurationChanges = ConfigChanges.Orientation|ConfigChanges.ScreenSize)]
     public partial class MainActivity : AppCompatActivity , IDimensionsProvider
     {
@@ -110,7 +110,8 @@ namespace MALClient.Android.Activities
             ViewModel.MainNavigationRequested -= ViewModelOnMainNavigationRequestedFirst;
 
             await Task.Delay(1000);
-            RequestedOrientation = ScreenOrientation.Unspecified;
+            if(ViewModel.CurrentMainPage != PageIndex.PageLogIn)
+                RequestedOrientation = ScreenOrientation.Unspecified;
         }
 
         private void ViewModelOnMediaElementCollapsed()

@@ -327,9 +327,17 @@ namespace MALClient.Android.Activities
             if(!_allowHamburgerNavigation)
                 return;
 
-            var page = (PageIndex) arg3.Identifier;
-            ViewModelLocator.GeneralMain.Navigate(page, GetAppropriateArgsForPage(page));
+            OnHamburgerItemClick((PageIndex)arg3.Identifier);
             _drawer.SetSelection(arg3, false);
+        }
+
+        private void OnHamburgerItemClick(PageIndex page)
+        {
+            if(!_allowHamburgerNavigation)
+                return;
+
+            SetActiveButton(Utilities.GetButtonForPage(page));
+            ViewModelLocator.GeneralMain.Navigate(page, GetAppropriateArgsForPage(page));
             _drawer.CloseDrawer();
         }
 

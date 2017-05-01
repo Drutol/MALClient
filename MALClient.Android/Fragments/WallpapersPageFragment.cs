@@ -142,7 +142,7 @@ namespace MALClient.Android.Fragments
             if (img.Tag == null || (string) img.Tag != arg3.Data.FileUrl)
             {
                 img.SetImageResource(global::Android.Resource.Color.Transparent);
-                img.Into(arg3.Data.FileUrl, arg3.IsBlurred ? new BlurredTransformation(40) : null, OnCompleted, 300);
+                img.Into(arg3.Data.FileUrl, arg3.IsBlurred ? new BlurredTransformation(40) : null, OnCompleted, 350);
                 placeholder.Visibility = ViewStates.Visible;
             }
             else

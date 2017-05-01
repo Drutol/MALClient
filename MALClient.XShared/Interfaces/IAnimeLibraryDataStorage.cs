@@ -42,5 +42,6 @@ namespace MALClient.XShared.Interfaces
         void RemoveAnimeEntry(AnimeItemAbstraction parentAbstraction);
 
 
+        void Reset();
     }
 }

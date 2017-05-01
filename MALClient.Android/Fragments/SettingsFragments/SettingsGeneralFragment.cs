@@ -273,8 +273,11 @@ namespace MALClient.Android.Fragments.SettingsFragments
             var view = arg3;
             if (view == null)
             {
+                var par = AnimeListPageFlyoutBuilder.ParamRelativeLayout;
+                AnimeListPageFlyoutBuilder.ParamRelativeLayout = new ViewGroup.LayoutParams(DimensionsHelper.DpToPx(100),DimensionsHelper.DpToPx(38));
                 view = AnimeListPageFlyoutBuilder.BuildBaseItem(Activity, tuple.Item2,
                     ResourceExtension.BrushAnimeItemInnerBackground, null, false);
+                AnimeListPageFlyoutBuilder.ParamRelativeLayout = par;
             }
             else
             {

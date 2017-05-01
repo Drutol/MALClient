@@ -15,6 +15,9 @@ namespace MALClient.XShared.Utils
                 case PageIndex.PageRecomendations:
                 case PageIndex.PageMangaSearch:
                 case PageIndex.PageHistory:
+                case PageIndex.PageNotificationHub:
+                case PageIndex.PageForumIndex:
+                case PageIndex.PageFeeds:
                     return true;
                 default:
                     return false;

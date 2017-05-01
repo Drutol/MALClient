@@ -55,8 +55,14 @@ namespace MALClient.XShared.Utils
         {
             get
             {
+#if ANDROID
+                return
+                    (int)(ApplicationDataService["SelectedTheme"] ?? 0);
+#else
                 return
                     (int) (ApplicationDataService["SelectedTheme"] ?? 1);
+#endif
+
             }
             set { ApplicationDataService["SelectedTheme"] = value; }
         }

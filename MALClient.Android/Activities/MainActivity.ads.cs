@@ -33,7 +33,7 @@ namespace MALClient.Android.Activities
                         if (!_initializedAds)
                         {
                             MobileAds.Initialize(ApplicationContext, "ca-app-pub-8220174765620095~3319675764");
-                            var adRequest = new AdRequest.Builder().AddTestDevice(AdRequest.DeviceIdEmulator).Build();
+                            var adRequest = new AdRequest.Builder().Build();
                             MainPageAdView.LoadAd(adRequest);
                             _initializedAds = true;
                         }

@@ -36,19 +36,15 @@ namespace MALClient.Android.Adapters
 
         public List<string> Changelog => new List<string>
         {
-            "Fixes from @FoxInFlame's & @Kimod's issues.",
-            "Added stats page.",
-            "Added wallpapers page",
-            "Profile page little reorganisation.",
-            "More dialogs and clickable stuff in forums",
-            "Scrolling on forums should be more fluid, not perfect though.",
-            "Pinned topics are now working",
-            "WebViews in Forums&Articles/News will now redirect into app if possible.",
-            "Notification hub fixes and little redesign",
-            "App should now launch on Android 5.0",
-            "Ascending/Descending sorting",
-            "Rewathing support, partial because I don't know where can I squeeze more controls...",
-            "Uff, big one..."
+            "Added ads... yay...",
+            "Added dontations... yay...",
+            "Added about page...",
+            "Redesigned login page.",
+            "Added popup which encourages to review app on the store.",
+            "Tweaked hamburger a bit.",
+            "Wallpapers page items are now a bit smarter about their sizing.",
+            "Tweaked settings pages.",
+            "The theme of this update: let's get ready for open beta... I'm estimating 1 month at most.",
         };
 
     }

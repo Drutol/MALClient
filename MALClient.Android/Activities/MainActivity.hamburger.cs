@@ -427,6 +427,7 @@ namespace MALClient.Android.Activities
                     break;
                 case 2:
                     ViewModelLocator.GeneralMain.Navigate(PageIndex.PageSettings,SettingsPageIndex.About);
+                    _drawer.CloseDrawer();
                     break;
             }
             _supportMenu.Dismiss(true);

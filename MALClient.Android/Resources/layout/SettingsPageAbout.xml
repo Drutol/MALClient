@@ -130,7 +130,7 @@
       android:textSize="@dimen/FontSizeBig" />
 
     <TextView android:lineSpacingExtra="2dp"
-              android:layout_width="wrap_content" android:text="Also huge thanks to these two brave bugtesters who made this app actually usable ^^ Applauze!" android:layout_marginTop="10dp"
+              android:layout_width="wrap_content" android:text="Also huge thanks to these two brave testers who made this app actually usable ^^ Applauze!" android:layout_marginTop="10dp"
               android:layout_height="wrap_content" android:textColor="?BrushText"/>
 
 

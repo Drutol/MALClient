@@ -36,10 +36,9 @@ namespace MALClient.Android.DialogAdapters
 
             var txt = view.FindViewById<TextView>(Resource.Id.StatusDialogItemTextView);
             txt.Text = _desciptions[position];          
-            view.SetBackgroundColor(position == _currentScore
+            view.FindViewById(Resource.Id.StatusDialogItemRootContainer).SetBackgroundColor(position == _currentScore
                 ? new Color(ResourceExtension.BrushSelectedDialogItem)
                 : Color.Transparent);        
-            view.LayoutParameters = new ViewGroup.LayoutParams(-1, DimensionsHelper.DpToPx(40));
             view.Tag = position;
             return view;
         }

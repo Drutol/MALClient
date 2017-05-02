@@ -7,9 +7,9 @@
   <TextView android:id="@+id/AnimeItemWatchedDialogTitleTextView" android:layout_width="wrap_content"
             android:layout_height="wrap_content" style="@style/TextViewHeaderStyle" android:text="Watched eps"
             android:layout_gravity="center_horizontal" />
-  <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+  <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:paddingStart="16dp" android:paddingEnd="8dp"
                 android:orientation="horizontal">
-    <EditText android:id="@+id/AnimeItemWatchedDialogTextInput" android:layout_width="match_parent"
+    <EditText android:id="@+id/AnimeItemWatchedDialogTextInput" android:layout_width="0dp"
               android:gravity="center_horizontal"
               android:layout_height="wrap_content" android:inputType="numberDecimal" android:layout_weight="1" />
     <ImageButton android:id="@+id/AnimeItemWatchedDialogAcceptButton" android:layout_width="50dp"

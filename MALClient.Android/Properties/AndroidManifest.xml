@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.drutol.malclient" android:installLocation="auto" android:versionCode="9" android:versionName="0.0.9.0">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.drutol.malclient" android:installLocation="auto" android:versionCode="10" android:versionName="0.0.10.0">
 	<uses-sdk android:minSdkVersion="21" />
-  <uses-permission android:name="com.android.vending.BILLING" />
+	<uses-permission android:name="com.android.vending.BILLING" />
 	<application android:label="MALClient"></application>
 </manifest>

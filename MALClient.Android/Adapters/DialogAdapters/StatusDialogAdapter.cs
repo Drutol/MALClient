@@ -35,11 +35,10 @@ namespace MALClient.Android.DialogAdapters
             var view = convertView ?? _context.LayoutInflater.Inflate(Resource.Layout.StatusDialogItem, null);
 
             var txt = view.FindViewById<TextView>(Resource.Id.StatusDialogItemTextView);
-            txt.Text = MALClient.XShared.Utils.Utilities.StatusToString((int) Items[position], _manga, _rewatching);
-            view.SetBackgroundColor(Items[position] == _currentStatus
+            txt.Text = XShared.Utils.Utilities.StatusToString((int) Items[position], _manga, _rewatching);
+            view.FindViewById(Resource.Id.StatusDialogItemRootContainer).SetBackgroundColor(Items[position] == _currentStatus
                 ? new Color(ResourceExtension.BrushSelectedDialogItem)
                 : Color.Transparent);
-            view.LayoutParameters = new ViewGroup.LayoutParams(-1, DimensionsHelper.DpToPx(40));
             return view;
         }
 

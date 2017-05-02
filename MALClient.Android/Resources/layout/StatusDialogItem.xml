@@ -1,22 +1,19 @@
-﻿<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_height="80dp"
-                android:layout_width="match_parent"
-                android:orientation="horizontal">
-  <View android:layout_width="1dp"
-        android:layout_height="match_parent"
-        android:layout_marginTop="3dp"
-        android:layout_marginBottom="3dp"
-        android:background="?AccentColour" />
-  <View android:layout_width="1dp"
-        android:layout_height="match_parent"
-        android:layout_marginTop="3dp"
-        android:layout_marginBottom="3dp"
-        android:layout_alignParentEnd="true"
-        android:background="?AccentColour" />
-  <TextView android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:id="@+id/StatusDialogItemTextView"
-            android:textColor="?BrushText"
-            android:textSize="18sp" />
-</RelativeLayout>
+﻿<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_height="wrap_content"
+             android:layout_width="match_parent" android:paddingBottom="3dp">
+  <FrameLayout android:id="@+id/StatusDialogItemRootContainer"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content">
+    <FrameLayout
+      android:layout_width="match_parent" android:background="@drawable/border_accent_left"
+      android:layout_height="wrap_content" android:padding="10dp">
+      <TextView android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@string/font_family_light"
+                android:id="@+id/StatusDialogItemTextView"
+                android:textColor="?BrushText"
+                android:textSize="18sp" />
+    </FrameLayout>
+  </FrameLayout>
+</FrameLayout>

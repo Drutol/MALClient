@@ -9,6 +9,7 @@ using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Helpers;
 using MALClient.Android.Activities;
 using MALClient.Android.DialogAdapters;
+using MALClient.Android.Listeners;
 using MALClient.Android.Listeners.DialogListeners;
 using MALClient.Android.Resources;
 using MALClient.Models.Enums;
@@ -67,7 +68,6 @@ namespace MALClient.Android.DIalogs
             dialogBuilder.SetContentBackgroundResource(ResourceExtension.BrushFlyoutBackgroundRes);
             dialogBuilder.SetOnDismissListener(new DialogDismissedListener(CleanupWatchedDialog));
             dialogBuilder.SetContentBackgroundResource(ResourceExtension.AccentColourDarkRes);
-            ViewModelLocator.NavMgr.RegisterOneTimeMainOverride(new RelayCommand(CleanupWatchedDialog));
             _watchedDialog = dialogBuilder.Create();
             var view = _watchedDialog.HolderView;
 
@@ -105,6 +105,7 @@ namespace MALClient.Android.DIalogs
 
             grid.ItemClick += GridOnItemClick;
             _watchedDialog.Show();
+            MainActivity.CurrentContext.DialogToCollapseOnBack = _watchedDialog;
         }
 
         private static void GridOnItemClick(object sender, AdapterView.ItemClickEventArgs itemClickEventArgs)
@@ -125,10 +126,9 @@ namespace MALClient.Android.DIalogs
 
         private static void CleanupWatchedDialog()
         {
-            _watchedDialog.HolderView.FindViewById(Resource.Id.AnimeItemWatchedDialogTextInput).Focusable = false;
+
             var inputManager = (InputMethodManager)MainActivity.CurrentContext.GetSystemService(Context.InputMethodService);
             inputManager.HideSoftInputFromWindow(_watchedDialog.HolderView.WindowToken, HideSoftInputFlags.ImplicitOnly);
-            ViewModelLocator.NavMgr.ResetOneTimeMainOverride();
             _watchedDialogBindings.ForEach(binding => binding.Detach());
             _watchedDialogBindings = new List<Binding>();
             _watchedDialog?.Dismiss();
@@ -180,8 +180,8 @@ namespace MALClient.Android.DIalogs
             var dialogBuilder = DialogPlus.NewDialog(MainActivity.CurrentContext);
             dialogBuilder.SetContentHolder(new ViewHolder(Resource.Layout.AnimeTagsDialog));
             dialogBuilder.SetOnDismissListener(new DialogDismissedListener(CleanupTagsDialog));
+            dialogBuilder.SetOnBackPressListener(new OnBackPressListener(CleanupTagsDialog));
             dialogBuilder.SetGravity((int) GravityFlags.Top);
-            ViewModelLocator.NavMgr.RegisterOneTimeMainOverride(new RelayCommand(CleanupTagsDialog));
             _tagsDialog = dialogBuilder.Create();
             var view = _tagsDialog.HolderView;
 
@@ -196,9 +196,15 @@ namespace MALClient.Android.DIalogs
                 editBox,
                 () => editBox.Text,BindingMode.TwoWay));
 
-            view.FindViewById<ImageButton>(Resource.Id.AnimeTagsDialogAddTagButton).SetCommand("Click",viewModel.AddTagCommand);
+            view.FindViewById<ImageButton>(Resource.Id.AnimeTagsDialogAddTagButton).SetOnClickListener(new OnClickListener(
+                v =>
+                {
+                    editBox.ClearFocus();
+                    viewModel.AddTagCommand.Execute(null);
+                }));
 
             _tagsDialog.Show();
+            MainActivity.CurrentContext.DialogToCollapseOnBack = _tagsDialog;
         }
 
         private static View GetTagItem(int i, string s, View convertView)
@@ -221,8 +227,7 @@ namespace MALClient.Android.DIalogs
 
         private static void CleanupTagsDialog()
         {
-            ViewModelLocator.NavMgr.ResetOneTimeMainOverride();
-            _tagsDialogBindings.ForEach(binding => binding.Detach());
+            _tagsDialogBindings?.ForEach(binding => binding.Detach());
             _tagsDialog?.Dismiss();
             _scoreDialog = null;
         }

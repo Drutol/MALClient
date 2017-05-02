@@ -18,7 +18,7 @@
             android:textColor="?BrushText"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp" />
-  <GridView
+  <MALClient.Android.UserControls.HeightAdjustingGridView
     android:id="@+id/CalendarPageSummaryTabContentList"
     android:layout_width="match_parent"
     android:layout_gravity="center_horizontal"

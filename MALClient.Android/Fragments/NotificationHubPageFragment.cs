@@ -19,6 +19,7 @@ using GalaSoft.MvvmLight.Helpers;
 using MALClient.Android.BindingConverters;
 using MALClient.Android.Listeners;
 using MALClient.Android.Resources;
+using MALClient.Android.UserControls;
 using MALClient.Models.Enums;
 using MALClient.Models.Models.Notifications;
 using MALClient.XShared.ViewModels;
@@ -53,7 +54,17 @@ namespace MALClient.Android.Fragments
 
             NotificationHubPageActionButton.Click += NotificationHubPageActionButtonOnClick;
 
+            var scrollToRefresh = RootView as ScrollableSwipeToRefreshLayout;
+            scrollToRefresh.ScrollingView = NotificationHubPageList;
+            scrollToRefresh.Refresh += ScrollToRefreshOnRefresh;
+
             InitDrawer();
+        }
+
+        private void ScrollToRefreshOnRefresh(object sender, EventArgs eventArgs)
+        {
+            (RootView as ScrollableSwipeToRefreshLayout).Refreshing = false;
+            ViewModelLocator.GeneralMain.RefreshDataCommand.Execute(null);
         }
 
         private void NotificationHubPageActionButtonOnClick(object sender, EventArgs eventArgs)

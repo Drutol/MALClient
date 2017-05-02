@@ -103,7 +103,7 @@ namespace MALClient.Android.Fragments
             Bindings.Add(this.SetBinding(() => ViewModel.WorkMode).WhenSourceChanges(() =>
             {
                 _actionMenu?.Close(true);
-                var padding = DimensionsHelper.DpToPx(10);
+                var padding = DimensionsHelper.DpToPx(0);
                 var param = new ViewGroup.LayoutParams(DimensionsHelper.DpToPx(45), DimensionsHelper.DpToPx(45));
                 var builder = new FloatingActionMenu.Builder(Activity)
                     .AddSubActionView(BuildFabActionButton(param, padding, Resource.Drawable.icon_filter))

@@ -14,6 +14,7 @@ using GalaSoft.MvvmLight.Helpers;
 using MALClient.Android.Activities;
 using MALClient.Android.CollectionAdapters;
 using MALClient.Android.Resources;
+using MALClient.Android.UserControls;
 using MALClient.Models.Enums;
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Main;
@@ -23,7 +24,7 @@ namespace MALClient.Android.Fragments.CalendarFragments
     public class CalendarPageSummaryTabFragment : MalFragmentBase
     {
         private readonly List<Tuple<string, List<AnimeItemViewModel>>> _items;
-        private readonly GridViewColumnHelper _gridViewColumnHelper = new GridViewColumnHelper();
+        private readonly GridViewColumnHelper _gridViewColumnHelper = new GridViewColumnHelper() {MinColumns = 2};
 
         public CalendarPageSummaryTabFragment(List<Tuple<string, List<AnimeItemViewModel>>> items)
         {
@@ -51,7 +52,8 @@ namespace MALClient.Android.Fragments.CalendarFragments
             }
 
             view.FindViewById<TextView>(Resource.Id.CalendarPageSummaryTabContentHeader).Text = tuple.Item1;
-            var grid = view.FindViewById<GridView>(Resource.Id.CalendarPageSummaryTabContentList);
+            var grid = view.FindViewById<HeightAdjustingGridView>(Resource.Id.CalendarPageSummaryTabContentList);
+            grid.AlwaysAdjust = true;
             grid.InjectAnimeListAdapter(Context,tuple.Item2,AnimeListDisplayModes.IndefiniteGrid,OnItemClick,false);
             _gridViewColumnHelper.RegisterGrid(grid);
 
@@ -60,7 +62,7 @@ namespace MALClient.Android.Fragments.CalendarFragments
 
         private void OnItemClick(AnimeItemViewModel animeItemViewModel)
         {
-           //todo
+           animeItemViewModel.NavigateDetails(PageIndex.PageCalendar);
         }
 
         public override int LayoutResourceId => Resource.Layout.CalendarPageSummaryTab;

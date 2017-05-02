@@ -34,7 +34,7 @@
                     android:layout_width="wrap_content" android:textColor="?BrushText"
                     android:layout_height="wrap_content" android:text="Drutol"/>
           <TextView android:id="@+id/ForumBordPagePostItemLastPostDate"
-                    android:layout_width="wrap_content" android:textColor="?BrushText"
+                    android:layout_width="wrap_content" android:textColor="?BrushText" android:gravity="center_horizontal"
                     android:layout_height="wrap_content" android:text="Feb 26, 4:11PM" android:fontFamily="@string/font_family_light"/>
         </LinearLayout>
       </FrameLayout>

@@ -359,6 +359,7 @@
     <Compile Include="Listeners\DroppyMenuListener.cs" />
     <Compile Include="Listeners\GenericMotionListener.cs" />
     <Compile Include="Listeners\HamburgerItemClickListener.cs" />
+    <Compile Include="Listeners\OnBackPressListener.cs" />
     <Compile Include="Listeners\OnCheckedListener.cs" />
     <Compile Include="Listeners\OnClickListener.cs" />
     <Compile Include="Listeners\OnItemClickListener.cs" />
@@ -1094,9 +1095,6 @@
     <AndroidResource Include="Resources\layout\SettingsPageMisc.xml" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\login_bg.png" />
-  </ItemGroup>
-  <ItemGroup>
     <AndroidResource Include="Resources\drawable\wide_logo.png" />
   </ItemGroup>
   <ItemGroup>
@@ -1113,6 +1111,15 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\support_me.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xxhdpi\login_bg.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-xhdpi\login_bg.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable-hdpi\login_bg.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

@@ -166,12 +166,30 @@ namespace MALClient.XShared.ViewModels.Main
             List<AnimeItemAbstraction> idsToFetch = new List<AnimeItemAbstraction>();
             List<AnimeItemAbstraction> idsToFetchAiringTime = new List<AnimeItemAbstraction>();
 
-            foreach (
-                var abstraction in
-                _animeLibraryDataStorage.AllLoadedAnimeItemAbstractions.Where(
-                    abstraction => abstraction.Type == (int)AnimeType.TV &&(
-                        (Settings.CalendarIncludePlanned && abstraction.MyStatus ==  AnimeStatus.PlanToWatch) ||
-                        (Settings.CalendarIncludeWatching && abstraction.MyStatus == AnimeStatus.Watching))))
+            var abstractions = _animeLibraryDataStorage.AllLoadedAnimeItemAbstractions.Where(
+                abstraction => abstraction.Type == (int) AnimeType.TV && (
+                                   (Settings.CalendarIncludePlanned &&
+                                    abstraction.MyStatus == AnimeStatus.PlanToWatch) ||
+                                   (Settings.CalendarIncludeWatching && abstraction.MyStatus == AnimeStatus.Watching)));
+            
+            //Limit items to 20 at most
+            if (abstractions.Count() > 20)
+            {
+                var watchingCount = abstractions.Count(abstraction => abstraction.MyStatus == AnimeStatus.Watching);
+                //with currently watched ones having most priority
+                if (watchingCount > 20)
+                    abstractions = abstractions.Where(abstraction => abstraction.MyStatus == AnimeStatus.Watching).Take(20);
+                else
+                {
+                    //take all watching and add ptw to make at most 20 entries
+                    abstractions = abstractions.Where(abstraction => abstraction.MyStatus == AnimeStatus.Watching)
+                        .Concat(abstractions.Where(abstraction => abstraction.MyStatus == AnimeStatus.PlanToWatch)
+                            .Take(20 - watchingCount));
+                }
+            }
+
+
+            foreach (var abstraction in abstractions)
             {
                 try
                 {

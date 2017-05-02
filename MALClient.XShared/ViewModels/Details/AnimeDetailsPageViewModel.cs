@@ -349,6 +349,7 @@ namespace MALClient.XShared.ViewModels.Details
                 case PageIndex.PageForumIndex:
                 case PageIndex.PageStaffDetails:
                 case PageIndex.PageCharacterDetails:
+                case PageIndex.PageCalendar:
                 case PageIndex.PagePopularVideos:
                     await FetchData(false, param.Source);
                     if (PrevArgs != null)

@@ -42,7 +42,7 @@ namespace MALClient.Android.Fragments.CalendarFragments
 
         private void OnItemClick(AnimeItemViewModel animeItemViewModel)
         {
-            //todo
+            animeItemViewModel.NavigateDetails(PageIndex.PageCalendar);
         }
 
         public override void OnConfigurationChanged(Configuration newConfig)

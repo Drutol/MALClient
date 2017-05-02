@@ -52,7 +52,10 @@ namespace MALClient.Android.Fragments.AnimeDetailsPageTabs
                 this.SetBinding(() => ViewModel.LoadingReviews,
                     () => AnimeDetailsPageReviewsTabLoadingOverlay.Visibility).ConvertSourceToTarget(Converters.BoolToVisibility));
 
-            AnimeDetailsPageReviewsTabsList.EmptyView = AnimeDetailsPageReviewsTabEmptyNotice;
+            Bindings.Add(
+                this.SetBinding(() => ViewModel.NoReviewsDataNoticeVisibility,
+                    () => AnimeDetailsPageReviewsTabEmptyNotice.Visibility)
+                    .ConvertSourceToTarget(Converters.BoolToVisibility));
         }
 
 

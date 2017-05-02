@@ -15,6 +15,7 @@ using Com.Oguzdev.Circularfloatingactionmenu.Library;
 using GalaSoft.MvvmLight.Helpers;
 using MALClient.Android.BindingConverters;
 using MALClient.Android.Resources;
+using MALClient.Android.UserControls;
 using MALClient.Models.Enums;
 using MALClient.Models.Models.MalSpecific;
 using MALClient.XShared.Utils;
@@ -68,9 +69,19 @@ namespace MALClient.Android.Fragments.MessagingFragments
             }));
 
 
+            var scrollToRefresh = RootView as ScrollableSwipeToRefreshLayout;
+            scrollToRefresh.ScrollingView = MessagingPageList;
+            scrollToRefresh.Refresh += ScrollToRefreshOnRefresh;
+
             Bindings.Add(
                 this.SetBinding(() => ViewModel.LoadingVisibility,
                     () => MessagingPageProgressSpinner.Visibility).ConvertSourceToTarget(Converters.BoolToVisibility));
+        }
+
+        private void ScrollToRefreshOnRefresh(object sender, EventArgs e)
+        {
+            (RootView as ScrollableSwipeToRefreshLayout).Refreshing = false;
+            ViewModelLocator.GeneralMain.RefreshDataCommand.Execute(null);
         }
 
         private View GetMessageTemplateDelegate(int i, MalMessageModel malMessageModel, View convertView)

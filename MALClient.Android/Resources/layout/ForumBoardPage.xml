@@ -10,12 +10,12 @@
       android:layout_height="match_parent">
       <LinearLayout
         android:layout_width="wrap_content" android:layout_gravity="center_horizontal"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content" android:layout_margin="5dp">
         <TextView android:id="@+id/ForumBoardPageIcon" android:layout_gravity="center_vertical"
                   android:layout_width="wrap_content" android:textSize="@dimen/FontSizeBig"
                   android:layout_height="wrap_content" android:textColor="?BrushText"/>
         <TextView android:id="@+id/ForumBoardPageTitle"
-                  android:layout_width="wrap_content" android:layout_margin="5dp"
+                  android:layout_width="wrap_content"
                   android:layout_height="wrap_content" android:text="Some random board" android:maxLines="1" android:ellipsize="end" android:textSize="@dimen/FontSizeHuge" android:fontFamily="@string/font_family_medium" android:textColor="?BrushText"/>
       </LinearLayout>
 

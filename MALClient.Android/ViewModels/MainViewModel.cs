@@ -230,8 +230,8 @@ namespace MALClient.Android.ViewModels
                     break;
                 case PageIndex.PageMessanging:
                     HideSearchStuff();
-                    CurrentStatus = $"{Credentials.UserName} - Messages";
-                    RefreshButtonVisibility = true;
+                    CurrentStatus = $"{Credentials.UserName} - {(ViewModelLocator.MalMessaging.DisplaySentMessages ? "Sent Messages" : "Messages")}";
+                    //RefreshButtonVisibility = true;
                     RefreshDataCommand = new RelayCommand(() => { ViewModelLocator.MalMessaging.Init(true); });
                     MainNavigationRequested?.Invoke(new MessagingPageFragment());
                     break;
@@ -319,7 +319,7 @@ namespace MALClient.Android.ViewModels
                     break;
                 case PageIndex.PageNotificationHub:
                     HideSearchStuff();
-                    RefreshButtonVisibility = true;
+                    //RefreshButtonVisibility = true;
                     RefreshDataCommand = new RelayCommand(() => ViewModelLocator.NotificationsHub.Init(true));
                     CurrentStatus = "Notifications";
                     MainNavigationRequested?.Invoke(new NotificationHubPageFragment());

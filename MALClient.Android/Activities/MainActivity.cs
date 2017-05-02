@@ -10,6 +10,7 @@ using Android.Gms.Ads;
 using Android.OS;
 using Android.Support.V7.App;
 using Android.Views;
+using Com.Orhanobut.Dialogplus;
 using Com.Shehabic.Droppy;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Ioc;
@@ -39,9 +40,11 @@ namespace MALClient.Android.Activities
         Theme = "@style/Theme.Splash",ConfigurationChanges = ConfigChanges.Orientation|ConfigChanges.ScreenSize)]
     public partial class MainActivity : AppCompatActivity , IDimensionsProvider
     {
-        public static Activity CurrentContext { get; private set; }
+        public static MainActivity CurrentContext { get; private set; }
         public static int CurrentTheme { get; private set; }
         public static AndroidColorThemes CurrentAccent { get; set; }
+
+        public DialogPlus DialogToCollapseOnBack { get; set; }
 
         private static bool _addedNavHandlers;
 
@@ -123,6 +126,13 @@ namespace MALClient.Android.Activities
 
         public override void OnBackPressed()
         {
+            if (DialogToCollapseOnBack != null)
+            {
+                DialogToCollapseOnBack.Dismiss();
+                DialogToCollapseOnBack = null;
+                return;
+            }
+
             if(!ViewModel.SearchToggleLock)
                 if (ViewModel.SearchToggleStatus)
                 {

@@ -49,7 +49,12 @@ namespace MALClient.Android.Fragments.AnimeDetailsPageTabs
 
             AnimeDetailsPageRecomTabsList.InjectFlingAdapter(ViewModel.Recommendations,DataTemplateFull,DataTemplateFling,ContainerTemplate,DataTemplateBasic);
             AnimeDetailsPageRecomTabsList.OnItemClickListener = new OnItemClickListener<DirectRecommendationData>(data => ViewModel.NavigateDetailsCommand.Execute(data));
-            AnimeDetailsPageRecomTabsList.EmptyView = AnimeDetailsPageReviewsTabEmptyNotice;
+
+
+            Bindings.Add(
+                this.SetBinding(() => ViewModel.NoRecommDataNoticeVisibility,
+                    () => AnimeDetailsPageReviewsTabEmptyNotice.Visibility)
+                    .ConvertSourceToTarget(Converters.BoolToVisibility));
 
             Bindings.Add(
                 this.SetBinding(() => ViewModel.LoadingRecommendations,

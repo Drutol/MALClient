@@ -38,7 +38,12 @@ namespace MALClient.Android.Fragments.AnimeDetailsPageTabs
         {
             AnimeDetailsPageRelatedTabsList.Adapter = ViewModel.RelatedAnime.GetAdapter(RelatedItemTemplateDelegate);
             AnimeDetailsPageRelatedTabsList.OnItemClickListener = new OnItemClickListener<RelatedAnimeData>(data => ViewModel.NavigateDetailsCommand.Execute(data));
-            AnimeDetailsPageRelatedTabsList.EmptyView = AnimeDetailsPageRelatedTabEmptyNotice;
+
+
+            Bindings.Add(
+                this.SetBinding(() => ViewModel.NoRelatedDataNoticeVisibility,
+                    () => AnimeDetailsPageRelatedTabEmptyNotice.Visibility)
+                    .ConvertSourceToTarget(Converters.BoolToVisibility));
 
             Bindings.Add(
                 this.SetBinding(() => ViewModel.LoadingRelated,

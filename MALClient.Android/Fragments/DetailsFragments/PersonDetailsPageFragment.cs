@@ -41,7 +41,7 @@ namespace MALClient.Android.Fragments.DetailsFragments
 
         protected override void InitBindings()
         {
-            PersonDetailsPagePivot.Adapter = new PersonDetailsPagerAdapter(FragmentManager);
+            PersonDetailsPagePivot.Adapter = new PersonDetailsPagerAdapter(ChildFragmentManager);
             PersonDetailsPageTabStrip.SetViewPager(PersonDetailsPagePivot);
             PersonDetailsPageTabStrip.CenterTabs();
 

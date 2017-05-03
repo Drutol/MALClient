@@ -57,7 +57,7 @@ namespace MALClient.Android.Fragments.HistoryFragments
         private void DataTemplateFling(View view, int i, Tuple<AnimeItemViewModel, List<MalProfileHistoryEntry>> tuple)
         {
             var img = view.FindViewById<ImageViewAsync>(Resource.Id.AnimeLightItemImage);
-            if (img.IntoIfLoaded(tuple.Item1.ImgUrl))
+            if (img.AnimeIntoIfLoaded(tuple.Item1.ImgUrl))
             {
                 view.FindViewById(Resource.Id.AnimeLightItemImgPlaceholder).Visibility = ViewStates.Gone;
             }

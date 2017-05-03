@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
+using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
 using Android.Content.Res;
@@ -60,7 +60,7 @@ namespace MALClient.Android.Fragments.MessagingFragments
             var param = new ViewGroup.LayoutParams(DimensionsHelper.DpToPx(45), DimensionsHelper.DpToPx(45));
             var builder = new FloatingActionMenu.Builder(Activity)
                 .AddSubActionView(BuildFabActionButton(param, padding, Resource.Drawable.icon_message_new))
-                .AddSubActionView(BuildFabActionButton(param, padding, Resource.Drawable.icon_message_alt));
+                .AddSubActionView(BuildFabActionButton(param, padding, Resource.Drawable.icon_message_sent));
             builder.SetRadius(DimensionsHelper.DpToPx(75));
             _actionMenu = builder.AttachTo(MessagingPageActionButton).Build();
 
@@ -117,21 +117,36 @@ namespace MALClient.Android.Fragments.MessagingFragments
             var stateImg = view.FindViewById<ImageView>(Resource.Id.MessagingPageItemStateSymbol);
             if (malMessageModel.IsRead)
             {
-                stateImg.SetImageResource(Resource.Drawable.icon_message_alt);
+                stateImg.SetImageResource(Resource.Drawable.icon_message_read);
                 stateImg.ImageTintList = ColorStateList.ValueOf(new Color(ResourceExtension.BrushText));
             }
             else
             {
-                stateImg.SetImageResource(Resource.Drawable.icon_message_alert);
-                stateImg.ImageTintList = ColorStateList.ValueOf(new Color(ResourceExtension.AccentColourDark));
+                if (malMessageModel.IsMine)
+                {
+                    stateImg.SetImageResource(Resource.Drawable.icon_message_sent);
+                    stateImg.ImageTintList = ColorStateList.ValueOf(new Color(ResourceExtension.BrushText));
+                }
+                else
+                {
+                    stateImg.SetImageResource(Resource.Drawable.icon_message_alert);
+                    stateImg.ImageTintList = ColorStateList.ValueOf(new Color(ResourceExtension.AccentColourDark));
+                }
+
             }
 
             return view;
         }
 
-        private void MessageOnClick(object sender, EventArgs eventArgs)
+        private bool _canNavigate = true;
+        private async void MessageOnClick(object sender, EventArgs eventArgs)
         {
+            if(!_canNavigate)
+                return;
+            _canNavigate = false;
             ViewModel.NavigateMessageCommand.Execute((sender as View).Tag.Unwrap<MalMessageModel>());
+            await Task.Delay(200);
+            _canNavigate = true;
         }
 
         private View BuildFabActionButton(ViewGroup.LayoutParams param, int padding, int icon)
@@ -159,7 +174,7 @@ namespace MALClient.Android.Fragments.MessagingFragments
                 case Resource.Drawable.icon_message_new:
                     ViewModel.ComposeNewCommand.Execute(null);
                     break;
-                case Resource.Drawable.icon_message_alt:
+                case Resource.Drawable.icon_message_sent:
                     ViewModel.DisplaySentMessages = !ViewModel.DisplaySentMessages;
                     ViewModelLocator.GeneralMain.CurrentStatus = ViewModel.DisplaySentMessages
                         ? $"{Credentials.UserName} - Sent Messages"

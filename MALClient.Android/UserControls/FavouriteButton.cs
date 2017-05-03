@@ -13,6 +13,7 @@ using Android.Widget;
 using GalaSoft.MvvmLight.Helpers;
 using MALClient.Android.BindingConverters;
 using MALClient.Android.Resources;
+using MALClient.Models.Models.Favourites;
 using MALClient.XShared.Utils;
 using MALClient.XShared.ViewModels;
 
@@ -89,8 +90,12 @@ namespace MALClient.Android.UserControls
             Bindings.Add(this.SetBinding(() => ViewModel.IsFavouriteButtonEnabled).WhenSourceChanges(() =>
             {
                 _favButton.Alpha = ViewModel.IsFavouriteButtonEnabled ? 1 : .7f;
-
             }));
+
+            if (model.Data is AnimeStaffPerson person)
+                Visibility = person.IsUnknown ? ViewStates.Gone : ViewStates.Visible;
+            else
+                Visibility = ViewStates.Visible;
 
         }
 

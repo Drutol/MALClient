@@ -16,7 +16,7 @@ namespace MALClient.Android.Adapters
             dialog.SetNeutralButton("OK",(sender, args) => {});
             dialog.SetTitle(title);
             dialog.SetMessage(content);
-            dialog.SetCancelable(false);
+            dialog.SetCancelable(true);
             dialog.Show();
         }
 

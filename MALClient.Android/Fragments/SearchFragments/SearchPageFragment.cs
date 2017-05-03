@@ -31,7 +31,7 @@ namespace MALClient.Android.Fragments.SearchFragments
 
         protected override void InitBindings()
         {
-            SearchPageViewPager.Adapter = new SearchPagePagerAdapter(FragmentManager, _args, out int start);
+            SearchPageViewPager.Adapter = new SearchPagePagerAdapter(ChildFragmentManager, _args, out int start);
             SearchPageTabStrip.SetViewPager(SearchPageViewPager);
             SearchPageTabStrip.CenterTabs();
             SearchPageViewPager.OffscreenPageLimit = 5;

@@ -38,11 +38,17 @@ namespace MALClient.Android.Fragments.DetailsFragments
             {
                 if(ViewModel.Data == null)
                     return;
-                AnimeDetailsPageCharactersTabGridView.InjectFlingAdapter(ViewModel.Data.StaffPositions,DataTemplateFull,DataTemplateFling,ContainerTemplate  );
+                AnimeDetailsPageCharactersTabGridView.InjectFlingAdapter(ViewModel.Data.StaffPositions,DataTemplateFull,DataTemplateFling,ContainerTemplate,DataTemplateBasic);
                 
             }));
 
             AnimeDetailsPageCharactersTabGridView.EmptyView = AnimeDetailsPageCharactersTabEmptyNotice;
+        }
+
+        private void DataTemplateBasic(View view, int i, AnimeLightEntry animeLightEntry)
+        {
+            view.FindViewById<TextView>(Resource.Id.AnimeLightItemTitle).Text = animeLightEntry.Title;
+            view.FindViewById<TextView>(Resource.Id.AnimeLightItemNotes).Text = animeLightEntry.Notes;
         }
 
         private View ContainerTemplate(int i)
@@ -56,23 +62,22 @@ namespace MALClient.Android.Fragments.DetailsFragments
             return view;
         }
 
-        private void LightItemOnClick(object sender, EventArgs e)
-        {
-            ViewModel.NavigateAnimeDetailsCommand.Execute((sender as View).Tag.Unwrap<AnimeLightEntry>());
-        }
-
         private void DataTemplateFling(View view, int i, AnimeLightEntry animeLightEntry)
         {
-            view.FindViewById<TextView>(Resource.Id.AnimeLightItemTitle).Text = animeLightEntry.Title;
-            view.FindViewById<TextView>(Resource.Id.AnimeLightItemNotes).Text = animeLightEntry.Notes;
-            view.FindViewById<ImageViewAsync>(Resource.Id.AnimeLightItemImage).Visibility = ViewStates.Invisible;
-            view.FindViewById(Resource.Id.AnimeLightItemImgPlaceholder).Visibility = ViewStates.Visible;
+            var img = view.FindViewById<ImageViewAsync>(Resource.Id.AnimeLightItemImage);
+            if (img.IntoIfLoaded(animeLightEntry.ImgUrl))
+            {
+                view.FindViewById(Resource.Id.AnimeLightItemImgPlaceholder).Visibility = ViewStates.Gone;
+            }
+            else
+            {
+                img.Visibility = ViewStates.Invisible;
+                view.FindViewById(Resource.Id.AnimeLightItemImgPlaceholder).Visibility = ViewStates.Visible;
+            }          
         }
 
         private void DataTemplateFull(View view, int i, AnimeLightEntry animeLightEntry)
         {
-            view.FindViewById<TextView>(Resource.Id.AnimeLightItemTitle).Text = animeLightEntry.Title;
-            view.FindViewById<TextView>(Resource.Id.AnimeLightItemNotes).Text = animeLightEntry.Notes;
             view.FindViewById(Resource.Id.AnimeLightItemImgPlaceholder).Visibility = ViewStates.Gone;
             var image = view.FindViewById<ImageViewAsync>(Resource.Id.AnimeLightItemImage);
             if (image.Tag == null || (string)image.Tag != animeLightEntry.ImgUrl)
@@ -80,8 +85,11 @@ namespace MALClient.Android.Fragments.DetailsFragments
                 image.Into(animeLightEntry.ImgUrl, null, img => img.HandleScaling());
                 image.Tag = animeLightEntry.ImgUrl;
             }
+        }
 
-            view.Tag = animeLightEntry.Wrap();
+        private void LightItemOnClick(object sender, EventArgs e)
+        {
+            ViewModel.NavigateAnimeDetailsCommand.Execute((sender as View).Tag.Unwrap<AnimeLightEntry>());
         }
 
         public override int LayoutResourceId => Resource.Layout.AnimeDetailsPageCharactersTab;

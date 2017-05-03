@@ -73,7 +73,7 @@ namespace MALClient.Android.Fragments.AnimeDetailsPageTabs
 
         private void PersonOnClick(object sender, EventArgs eventArgs)
         {
-            ViewModel.NavigateStaffDetailsCommand.Execute((sender as View).Tag.Unwrap<FavouriteBase>());
+            ViewModel.NavigateStaffDetailsCommand.Execute((sender as View).Tag.Unwrap<FavouriteViewModel>().Data);
         }
 
         public override void OnConfigurationChanged(Configuration newConfig)

@@ -53,7 +53,7 @@ namespace MALClient.Android.Fragments
 
         protected override void InitBindings()
         {
-            AnimeDetailsPagePivot.Adapter = new AnimeDetailsPagerAdapter(FragmentManager);
+            AnimeDetailsPagePivot.Adapter = new AnimeDetailsPagerAdapter(ChildFragmentManager);
             AnimeDetailsPageTabStrip.SetViewPager(AnimeDetailsPagePivot);
             AnimeDetailsPageTabStrip.CenterTabs();
             AnimeDetailsPagePivot.SetCurrentItem(_navArgs.SourceTabIndex, false);

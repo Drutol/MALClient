@@ -48,7 +48,7 @@
                    android:layout_marginEnd="15dp"
                    android:background="?android:selectableItemBackgroundBorderless"
                    android:scaleType="centerInside"
-                   android:src="@drawable/icon_message_alt" />
+                   android:src="@drawable/icon_message" />
 
       <ImageButton android:id="@+id/HamburgerProfileItemSupport"
                    android:layout_width="28dp" android:tint="#FF2400"

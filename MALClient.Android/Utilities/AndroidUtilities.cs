@@ -70,16 +70,8 @@ namespace MALClient.Android
             }
         }
 
-        private static bool _fadedIn;
         public static void AnimateFadeIn(this View view)
         {
-
-            if (!_fadedIn)
-            {
-                _fadedIn = true;
-                view.Visibility = ViewStates.Visible;
-                return;
-            }
             Animation fadeIn = new AlphaAnimation(0, 1);
             fadeIn.Interpolator = new LinearInterpolator();
             fadeIn.Duration = 500;

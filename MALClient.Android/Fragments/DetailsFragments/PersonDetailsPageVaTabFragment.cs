@@ -41,10 +41,24 @@ namespace MALClient.Android.Fragments.DetailsFragments
                 if(ViewModel.Data == null)
                     return;
 
-                AnimeDetailsPageCharactersTabGridView.InjectFlingAdapter(ViewModel.Data.ShowCharacterPairs,DataTemplateFull,DataTemplateFling, ContainerTemplate );
+                AnimeDetailsPageCharactersTabGridView.InjectFlingAdapter(ViewModel.Data.ShowCharacterPairs,DataTemplateFull,DataTemplateFling, ContainerTemplate, DataTemplateBasic );
             }));
 
             AnimeDetailsPageCharactersTabGridView.EmptyView = AnimeDetailsPageCharactersTabEmptyNotice;
+        }
+
+        private void DataTemplateBasic(View view, int i, ShowCharacterPair showCharacterPair)
+        {
+
+            view.FindViewById<TextView>(Resource.Id.AnimeLightItemTitle).Text =
+                showCharacterPair.AnimeLightEntry.Title;
+            view.FindViewById(Resource.Layout.AnimeLightItem).Tag = showCharacterPair.AnimeLightEntry.Wrap();
+
+            view.FindViewById<TextView>(Resource.Id.FavouriteItemName).Text =
+                showCharacterPair.AnimeCharacter.Name;
+            view.FindViewById<TextView>(Resource.Id.FavouriteItemRole).Text =
+                showCharacterPair.AnimeCharacter.Notes;
+            view.FindViewById(Resource.Layout.FavouriteItem).Tag = showCharacterPair.AnimeCharacter.Wrap();
         }
 
         private View ContainerTemplate(int i)
@@ -81,19 +95,30 @@ namespace MALClient.Android.Fragments.DetailsFragments
 
         private void DataTemplateFling(View view, int i, ShowCharacterPair showCharacterPair)
         {
-            view.FindViewById(Resource.Id.AnimeLightItemImgPlaceholder).Visibility = ViewStates.Visible;
-            view.FindViewById(Resource.Id.AnimeLightItemImage).Visibility = ViewStates.Invisible;
-            view.FindViewById<TextView>(Resource.Id.AnimeLightItemTitle).Text =
-                showCharacterPair.AnimeLightEntry.Title;
-            view.FindViewById(Resource.Layout.AnimeLightItem).Tag = showCharacterPair.AnimeLightEntry.Wrap();
 
-            view.FindViewById(Resource.Id.FavouriteItemImage).Visibility = ViewStates.Invisible;
-            view.FindViewById(Resource.Id.FavouriteItemImgPlaceholder).Visibility = ViewStates.Visible;
-            view.FindViewById<TextView>(Resource.Id.FavouriteItemName).Text =
-                showCharacterPair.AnimeCharacter.Name;
-            view.FindViewById<TextView>(Resource.Id.FavouriteItemRole).Text =
-                showCharacterPair.AnimeCharacter.Notes;
-            view.FindViewById(Resource.Layout.FavouriteItem).Tag = showCharacterPair.AnimeCharacter.Wrap();
+            var img = view.FindViewById<ImageViewAsync>(Resource.Id.AnimeLightItemImage);
+            if (img.IntoIfLoaded(showCharacterPair.AnimeLightEntry.ImgUrl))
+            {
+                view.FindViewById(Resource.Id.AnimeLightItemImgPlaceholder).Visibility = ViewStates.Gone;
+            }
+            else
+            {
+                img.Visibility = ViewStates.Invisible;
+                view.FindViewById(Resource.Id.AnimeLightItemImgPlaceholder).Visibility = ViewStates.Visible;
+            }
+
+
+            img = view.FindViewById<ImageViewAsync>(Resource.Id.FavouriteItemImage);
+            if (img.IntoIfLoaded(showCharacterPair.AnimeCharacter.ImgUrl))
+            {
+                view.FindViewById(Resource.Id.FavouriteItemImgPlaceholder).Visibility = ViewStates.Gone;
+            }
+            else
+            {
+                img.Visibility = ViewStates.Invisible;
+                view.FindViewById(Resource.Id.FavouriteItemImgPlaceholder).Visibility = ViewStates.Visible;
+
+            }
         }
 
         private void DataTemplateFull(View view, int i, ShowCharacterPair showCharacterPair)
@@ -102,26 +127,16 @@ namespace MALClient.Android.Fragments.DetailsFragments
             if (image.Tag == null || (string) image.Tag != showCharacterPair.AnimeLightEntry.ImgUrl)
             {
                 image.Into(showCharacterPair.AnimeLightEntry.ImgUrl);
-                image.Tag = showCharacterPair.AnimeLightEntry.ImgUrl;
             }
             view.FindViewById(Resource.Id.AnimeLightItemImgPlaceholder).Visibility = ViewStates.Gone;
-            view.FindViewById<TextView>(Resource.Id.AnimeLightItemTitle).Text =
-                showCharacterPair.AnimeLightEntry.Title;
-            view.FindViewById(Resource.Layout.AnimeLightItem).Tag = showCharacterPair.AnimeLightEntry.Wrap();
+
 
             image = view.FindViewById<ImageViewAsync>(Resource.Id.FavouriteItemImage);
-            if (image.Tag == null || (string)image.Tag != showCharacterPair.AnimeCharacter.ImgUrl)
+            if (image.Tag == null || (string) image.Tag != showCharacterPair.AnimeCharacter.ImgUrl)
             {
-                view.FindViewById(Resource.Id.FavouriteItemImgPlaceholder).Visibility = ViewStates.Gone;
                 image.Into(showCharacterPair.AnimeCharacter.ImgUrl, null, img => img.HandleScaling());
-                image.Tag = showCharacterPair.AnimeCharacter.ImgUrl;
             }
-
-            view.FindViewById<TextView>(Resource.Id.FavouriteItemName).Text =
-                showCharacterPair.AnimeCharacter.Name;
-            view.FindViewById<TextView>(Resource.Id.FavouriteItemRole).Text =
-                showCharacterPair.AnimeCharacter.Notes;
-            view.FindViewById(Resource.Layout.FavouriteItem).Tag = showCharacterPair.AnimeCharacter.Wrap();
+            view.FindViewById(Resource.Id.FavouriteItemImgPlaceholder).Visibility = ViewStates.Gone;
         }
 
         public override int LayoutResourceId => Resource.Layout.AnimeDetailsPageCharactersTab;

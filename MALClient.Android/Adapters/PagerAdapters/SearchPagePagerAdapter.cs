@@ -80,11 +80,13 @@ namespace MALClient.Android.PagerAdapters
             switch ((int)p0.Tag)
             {
                 case 0:
+                    _animeSearchPageFragment.NavigatedTo();
                     _currentFragment = _animeSearchPageFragment;
                     ShowSearchStuff();
                     ViewModelLocator.SearchPage.Init(new SearchPageNavigationArgs { Query = ViewModelLocator.GeneralMain.CurrentSearchQuery });
                     break;
                 case 1:
+                    _mangaSearchPageFragment.NavigatedTo();
                     _currentFragment = _mangaSearchPageFragment;
                     ShowSearchStuff();
                     ViewModelLocator.SearchPage.Init(new SearchPageNavigationArgs {Anime = false , Query = ViewModelLocator.GeneralMain.CurrentSearchQuery});
@@ -93,6 +95,7 @@ namespace MALClient.Android.PagerAdapters
                     _currentFragment = _characterSearchPageFragment;
                     ShowSearchStuff();
                     ViewModelLocator.CharacterSearch.Init(new SearchPageNavArgsBase());
+                    _currentFragment?.ReattachBindings();
                     break;
                 case 3:
                     _currentFragment = _genresSearchPageFragment;
@@ -100,6 +103,7 @@ namespace MALClient.Android.PagerAdapters
                     ViewModelLocator.GeneralMain.HideSearchStuff();
                     ViewModelLocator.GeneralMain.CurrentStatus = "Anime by Genre";
                     ViewModelLocator.SearchPage.Init(new SearchPageNavigationArgs { ByGenre = true});
+                    _currentFragment?.ReattachBindings();
                     break;
                 case 4:
                     ViewModelLocator.GeneralMain.HideSearchStuff();
@@ -107,9 +111,10 @@ namespace MALClient.Android.PagerAdapters
                     ViewModelLocator.GeneralMain.CurrentStatus = "Anime by Studio";
                     _currentFragment = _studiosSearchPageFragment;
                     ViewModelLocator.SearchPage.Init(new SearchPageNavigationArgs { ByStudio = true});
+                    _currentFragment?.ReattachBindings();
                     break;
             }
-            _currentFragment?.ReattachBindings();
+
         }
 
         private void ShowSearchStuff()

@@ -37,7 +37,12 @@ namespace MALClient.Android.Fragments.SearchFragments
 
         protected override void InitBindings()
         {
-            AnimeSearchPageList.InjectFlingAdapter(ViewModel.AnimeSearchItemViewModels,DataTemplateFull,DataTemplateFling, ContainerTemplate,DataTemplateBasic );
+
+        }
+
+        public void NavigatedTo()
+        {
+            AnimeSearchPageList.InjectFlingAdapter(ViewModel.AnimeSearchItemViewModels, DataTemplateFull, DataTemplateFling, ContainerTemplate, DataTemplateBasic);
             AnimeSearchPageList.ItemClick += AnimeSearchPageListOnItemClick;
 
             Bindings.Add(
@@ -50,7 +55,7 @@ namespace MALClient.Android.Fragments.SearchFragments
 
             Bindings.Add(
                 this.SetBinding(() => ViewModel.IsFirstVisitGridVisible,
-                    () => AnimeSearchPageFirstSearchSection.Visibility)
+                        () => AnimeSearchPageFirstSearchSection.Visibility)
                     .ConvertSourceToTarget(Converters.BoolToVisibility));
         }
 
@@ -111,6 +116,11 @@ namespace MALClient.Android.Fragments.SearchFragments
 
         public override int LayoutResourceId => Resource.Layout.AnimeSearchPage;
 
+        protected override void Cleanup()
+        {
+            AnimeSearchPageList.ClearFlingAdapter();
+            base.Cleanup();
+        }
 
         #region Views
 

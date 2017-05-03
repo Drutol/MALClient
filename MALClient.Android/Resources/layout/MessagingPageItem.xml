@@ -15,7 +15,7 @@
           android:layout_height="wrap_content" android:text="MALCLientTestAcc" android:ellipsize="end" android:maxLines="2" android:textColor="?BrushText"/>
       <ImageView android:layout_alignParentBottom="true" android:id="@+id/MessagingPageItemStateSymbol"
           android:layout_width="20dp"
-          android:layout_height="20dp" android:src="@drawable/icon_message_alt"/>
+          android:layout_height="20dp" android:src="@drawable/icon_message"/>
     </RelativeLayout>
     <LinearLayout
         android:layout_width="0dp" android:orientation="vertical" android:layout_weight="1"
@@ -33,7 +33,7 @@
       <View style="@style/Divider" android:layout_margin="5dp"/>
       <TextView android:id="@+id/MessagingPageItemContent"
           android:layout_width="wrap_content" android:textColor="?BrushText"
-          android:layout_height="wrap_content" android:text="fdgdfgww"/>
+          android:layout_height="wrap_content"/>
     </LinearLayout>
   </LinearLayout>
 </FrameLayout>

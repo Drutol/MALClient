@@ -78,7 +78,7 @@ namespace MALClient.Android.Fragments.RecommendationsFragments
         {
             if (ViewModel.RecommendationAnimeItems?.Any() ?? false)
             {
-                RecommendationsPagePivot.Adapter = new RecommandtionsPagerAdapter(FragmentManager,
+                RecommendationsPagePivot.Adapter = new RecommandtionsPagerAdapter(ChildFragmentManager,
                     ViewModel.RecommendationAnimeItems.Select(
                         item => item.Content as RecommendationItemViewModel));
                 RecommendationsPageTabStrip.SetViewPager(RecommendationsPagePivot);
@@ -90,7 +90,7 @@ namespace MALClient.Android.Fragments.RecommendationsFragments
         {
             if (ViewModel.RecommendationMangaItems?.Any() ?? false)
             {
-                RecommendationsPagePivot.Adapter = new RecommandtionsPagerAdapter(FragmentManager,
+                RecommendationsPagePivot.Adapter = new RecommandtionsPagerAdapter(ChildFragmentManager,
                     ViewModel.RecommendationMangaItems.Select(item => item.Content as RecommendationItemViewModel));
                 RecommendationsPageTabStrip.SetViewPager(RecommendationsPagePivot);
                 RecommendationsPagePivot.SetCurrentItem(ViewModel.PivotItemIndex, false);

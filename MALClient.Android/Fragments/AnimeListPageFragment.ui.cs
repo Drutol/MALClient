@@ -61,6 +61,21 @@ namespace MALClient.Android.Fragments
             _loadMoreFooter = footerHolder;
 
 
+            RootView.ViewTreeObserver.GlobalLayout += (sender, args) =>
+            {
+                Rect r = new Rect();
+                RootView.GetWindowVisibleDisplayFrame(r);
+                int keypadHeight = RootView.RootView.Height - r.Bottom;
+
+                if (keypadHeight > RootView.Height * 0.15)
+                {
+                    AnimeListPageActionButton.Hide();
+                }
+                else
+                {
+                    AnimeListPageActionButton.Show();
+                }
+            };
             //AnimeListPageGridView.ScrollingCacheEnabled = false;
 
 

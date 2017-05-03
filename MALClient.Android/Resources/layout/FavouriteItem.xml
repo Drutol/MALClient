@@ -15,12 +15,12 @@
                    android:layout_width="wrap_content" android:id="@+id/FavouriteItemImgPlaceholder"
                    android:layout_height="wrap_content" android:indeterminateTint="?BrushAnimeItemBackground"
                    android:indeterminate="true" android:layout_centerInParent="true" android:indeterminateTintMode="src_in"/>
-      <FFImageLoading.Views.ImageViewAsync
-        android:layout_width="match_parent" android:adjustViewBounds="true" android:id="@+id/FavouriteItemImage"
-        android:layout_height="220dp" android:scaleType="centerCrop" android:maxWidth="180dp"/>
       <ImageView
         android:layout_width="wrap_content" android:src="@drawable/icon_help" android:layout_centerInParent="true"
         android:layout_height="wrap_content" android:id="@+id/FavouriteItemNoImageIcon" android:tint="#fff" />
+      <FFImageLoading.Views.ImageViewAsync
+        android:layout_width="match_parent" android:adjustViewBounds="true" android:id="@+id/FavouriteItemImage"
+        android:layout_height="220dp" android:scaleType="centerCrop" android:maxWidth="180dp"/>
       <MALClient.Android.UserControls.FavouriteButton android:layout_height="40dp" android:layout_alignParentBottom="true" android:layout_alignParentEnd="true" android:layout_width="40dp" android:id="@+id/FavouriteItemFavButton"/>
     </RelativeLayout>
     <View style="@style/Divider" android:background="?AccentColour"/>

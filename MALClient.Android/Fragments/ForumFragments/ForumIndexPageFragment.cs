@@ -30,7 +30,7 @@ namespace MALClient.Android.Fragments.ForumFragments
 
         protected override void InitBindings()
         {
-            ForumIndexPagePivot.Adapter = new ForumIndexPagerAdapter(FragmentManager);
+            ForumIndexPagePivot.Adapter = new ForumIndexPagerAdapter(ChildFragmentManager);
             ForumIndexPageTabStrip.SetViewPager(ForumIndexPagePivot);
             ForumIndexPageTabStrip.CenterTabs();
         }

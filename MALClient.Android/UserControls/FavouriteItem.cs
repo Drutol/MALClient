@@ -12,6 +12,8 @@ using Android.Views;
 using Android.Widget;
 using FFImageLoading.Views;
 using MALClient.Models.Enums;
+using MALClient.Models.Models.Favourites;
+using MALClient.Models.Models.ScrappedDetails;
 using MALClient.XShared.ViewModels;
 using static Android.Renderscripts.ScriptGroup;
 
@@ -74,7 +76,7 @@ namespace MALClient.Android.UserControls
             if (!fling && ViewModel != model)
             {
                 ViewModel = model;
-                _rootContainer.Tag = model.Data.Wrap();
+                _rootContainer.Tag = model.Wrap();
 
                 FavouriteItemFavButton.BindModel(model);
 

@@ -13,13 +13,13 @@
     android:choiceMode="singleChoice"
     android:dividerHeight="5dp" android:divider="@color/Transparent" />
 
-  <TextView android:layout_centerInParent="true" android:visibility="visible"
-            android:layout_width="wrap_content" android:id="@+id/AnimeSearchPageEmptyNotice"
+  <TextView android:layout_centerInParent="true" android:visibility="gone"
+            android:layout_width="wrap_content" android:id="@+id/AnimeSearchPageEmptyNotice" v=""
             android:layout_height="wrap_content" android:fontFamily="@string/font_family_light" android:text="We have come up empty..."  android:textColor="?BrushNoSearchResults"/>
 
   <LinearLayout
     android:layout_width="wrap_content" android:layout_centerInParent="true" android:id="@+id/AnimeSearchPageFirstSearchSection"
-    android:layout_height="wrap_content" android:orientation="vertical" android:alpha=".8">
+    android:layout_height="wrap_content" android:orientation="vertical" android:alpha=".8" android:visibility="gone">
     <ImageView
       android:layout_width="100dp" android:tint="?BrushNoSearchResults"
       android:layout_height="100dp" android:src="@drawable/icon_search_away"/>
@@ -30,7 +30,7 @@
 
   <LinearLayout android:layout_width="wrap_content"
                 android:layout_height="wrap_content" android:layout_centerInParent="true">
-    <ProgressBar android:layout_width="wrap_content" android:backgroundTintMode="src_in"
+    <ProgressBar android:layout_width="wrap_content" android:backgroundTintMode="src_in" android:visibility="gone"
                  android:layout_height="wrap_content" android:backgroundTint="?AccentColour" android:indeterminate="true"
                  android:id="@+id/AnimeSearchPageLoadingSpinner" />
   </LinearLayout>

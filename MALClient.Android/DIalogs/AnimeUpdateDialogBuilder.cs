@@ -129,7 +129,8 @@ namespace MALClient.Android.DIalogs
             if (_watchedDialog != null)
             {
                 var inputManager = (InputMethodManager)MainActivity.CurrentContext.GetSystemService(Context.InputMethodService);
-                inputManager.HideSoftInputFromWindow(_watchedDialog.HolderView.WindowToken, HideSoftInputFlags.ImplicitOnly);
+                if (inputManager.IsActive)
+                    inputManager.ToggleSoftInput(ShowFlags.Forced, 0);
                 _watchedDialog.Dismiss();
             }
             _watchedDialogBindings.ForEach(binding => binding.Detach());

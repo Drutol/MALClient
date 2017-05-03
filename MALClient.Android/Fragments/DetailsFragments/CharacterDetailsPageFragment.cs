@@ -173,7 +173,7 @@ namespace MALClient.Android.Fragments.DetailsFragments
 
         private void PersonOnClick(object sender, EventArgs eventArgs)
         {
-            ViewModel.NavigateStaffDetailsCommand.Execute((sender as View).Tag.Unwrap<FavouriteBase>());
+            ViewModel.NavigateStaffDetailsCommand.Execute((sender as View).Tag.Unwrap<FavouriteViewModel>().Data);
         }
 
         public override int LayoutResourceId => Resource.Layout.CharacterDetailsPage;

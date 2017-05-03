@@ -45,7 +45,7 @@ namespace MALClient.Android.Fragments.CalendarFragments
             
             Bindings.Add(this.SetBinding(() => ViewModel.CalendarData).WhenSourceChanges(() =>
             {
-                CalendarPageViewPager.Adapter = new CalendarPagerAdapter(FragmentManager, ViewModel.CalendarData);
+                CalendarPageViewPager.Adapter = new CalendarPagerAdapter(ChildFragmentManager, ViewModel.CalendarData);
                 CalendarPageTabStrip.SetViewPager(CalendarPageViewPager);
                 CalendarPageTabStrip.CenterTabs();
             }));

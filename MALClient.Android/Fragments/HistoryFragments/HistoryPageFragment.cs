@@ -47,7 +47,7 @@ namespace MALClient.Android.Fragments.HistoryFragments
                 if(ViewModel.History == null)
                     return;
 
-                HistoryPagePivot.Adapter = new HistoryPagerAdapter(FragmentManager,ViewModel.History);
+                HistoryPagePivot.Adapter = new HistoryPagerAdapter(ChildFragmentManager,ViewModel.History);
                 HistoryPageTabStrip.SetViewPager(HistoryPagePivot);
             }));
 

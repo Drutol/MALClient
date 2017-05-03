@@ -58,6 +58,7 @@ namespace MALClient.Android.Fragments.AnimeDetailsPageTabs
                                 date.Year, date.Month - 1, date.Day);
                             dpd.Show();
                         }));
+                        AnimeDetailsPageGeneralTabFragmentMyStartButton.SetOnLongClickListener(new OnLongClickListener(view => ViewModel.ResetStartDateCommand.Execute(null)));
 
                         AnimeDetailsPageGeneralTabFragmentEpisodesLabel.Text = ViewModel.LeftDetailsRow[0].Item1;
                         //right details
@@ -76,6 +77,7 @@ namespace MALClient.Android.Fragments.AnimeDetailsPageTabs
                                 date.Year, date.Month - 1, date.Day);
                             dpd.Show();
                         }));
+                        AnimeDetailsPageGeneralTabFragmentMyEndButton.SetOnLongClickListener(new OnLongClickListener(view => ViewModel.ResetEndDateCommand.Execute(null)));
                         //rest
                         if (!string.IsNullOrEmpty(ViewModel.Synopsis))
                         {

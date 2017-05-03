@@ -10,6 +10,7 @@ using Android.Graphics;
 using Android.OS;
 using Android.Runtime;
 using Android.Views;
+using Android.Views.InputMethods;
 using Android.Webkit;
 using Android.Widget;
 using Com.Orhanobut.Dialogplus;
@@ -37,8 +38,7 @@ namespace MALClient.Android.DIalogs
             dialogBuilder.SetGravity((int)(GravityFlags.Center));
             dialogBuilder.SetContentHolder(new ViewHolder(Resource.Layout.TextInputDialog));
             dialogBuilder.SetContentBackgroundResource(Resource.Color.Transparent);
-            dialogBuilder.SetOnDismissListener(
-                new DialogDismissedListener(() => ViewModelLocator.NavMgr.ResetOneTimeOverride()));
+            dialogBuilder.SetOnDismissListener(new DialogDismissedListener(CleanupTextInputDialog));
             ViewModelLocator.NavMgr.RegisterOneTimeMainOverride(new RelayCommand(CleanupTextInputDialog));
             _textInputDialog = dialogBuilder.Create();
             var dialogView = _textInputDialog.HolderView;
@@ -49,7 +49,6 @@ namespace MALClient.Android.DIalogs
 
             dialogView.FindViewById<Button>(Resource.Id.TextInputDialogAcceptButton).Text = accept;
             dialogView.FindViewById(Resource.Id.TextInputDialogAcceptButton).SetOnClickListener(new OnClickListener(view => CleanupTextInputDialog()));
-
             _textInputDialog.Show();
 
             await _semaphoreTextInput.WaitAsync();
@@ -61,7 +60,10 @@ namespace MALClient.Android.DIalogs
         {
             if(_textInputDialog == null)
                 return;
-
+            var inputManager = (InputMethodManager)MainActivity.CurrentContext.GetSystemService(Context.InputMethodService);
+            if(inputManager.IsActive)
+                inputManager.ToggleSoftInput(ShowFlags.Forced, 0);
+            ViewModelLocator.NavMgr.ResetOneTimeOverride();
             _semaphoreTextInput.Release();
             _textInputDialog.Dismiss();
             _textInputDialog.Dispose();
@@ -139,7 +141,9 @@ namespace MALClient.Android.DIalogs
         {
             if(_forumTextInputDialog==null)
                 return;
-
+            var inputManager = (InputMethodManager)MainActivity.CurrentContext.GetSystemService(Context.InputMethodService);
+            if (inputManager.IsActive)
+                inputManager.ToggleSoftInput(ShowFlags.Forced, 0);
             _success = success;
             _semaphoreForumTextInput.Release();
             _forumTextInputDialog.Dismiss();

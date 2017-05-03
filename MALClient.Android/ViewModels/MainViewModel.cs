@@ -167,25 +167,29 @@ namespace MALClient.Android.ViewModels
                     break;
                 case PageIndex.PageSearch:
                 case PageIndex.PageMangaSearch:
+                case PageIndex.PageCharacterSearch:
                     if (CurrentMainPage != PageIndex.PageSearch && CurrentMainPage != PageIndex.PageMangaSearch && CurrentMainPage != PageIndex.PageCharacterSearch)
                         _searchStateBeforeNavigatingToSearch = SearchToggleStatus;
 
-                    var searchArg = args as SearchPageNavigationArgs;
-                    if (string.IsNullOrWhiteSpace(searchArg.Query))
+                    if (args != null)
                     {
-                        searchArg.Query = CurrentSearchQuery;
-                    }
-                    if (!searchArg.ByGenre && !searchArg.ByStudio)
-                    {
-                        //View.SearchInputFocus(FocusState.Keyboard);
-                        SearchToggleLock = true;
-                        ShowSearchStuff();
-                        ToggleSearchStuff();
-                    }
-                    else
-                    {
-                        HideSearchStuff();
-                        CurrentStatus = searchArg.ByGenre ? "Anime by Genre" : "Anime By Studio";
+                        var searchArg = args as SearchPageNavigationArgs;
+                        if (string.IsNullOrWhiteSpace(searchArg.Query))
+                        {
+                            searchArg.Query = CurrentSearchQuery;
+                        }
+                        if (!searchArg.ByGenre && !searchArg.ByStudio)
+                        {
+                            //View.SearchInputFocus(FocusState.Keyboard);
+                            SearchToggleLock = true;
+                            ShowSearchStuff();
+                            ToggleSearchStuff();
+                        }
+                        else
+                        {
+                            HideSearchStuff();
+                            CurrentStatus = searchArg.ByGenre ? "Anime by Genre" : "Anime By Studio";
+                        }
                     }
                     MainNavigationRequested?.Invoke(SearchPageFragment.BuildInstance(args as SearchPageNavigationArgs));
                     break;
@@ -223,9 +227,9 @@ namespace MALClient.Android.ViewModels
                     HideSearchStuff();
                     RefreshButtonVisibility = true;
                     RefreshDataCommand = new RelayCommand(() => ViewModelLocator.MalArticles.Init(null));
-                    if (CurrentMainPage == PageIndex.PageArticles)
-                        ViewModelLocator.MalArticles.Init(args as MalArticlesPageNavigationArgs);
-                    else
+                    //if (CurrentMainPage == PageIndex.PageArticles)
+                    //    ViewModelLocator.MalArticles.Init(args as MalArticlesPageNavigationArgs);
+                    //else
                         MainNavigationRequested?.Invoke(new ArticlesPageFragment(args as MalArticlesPageNavigationArgs));
                     break;
                 case PageIndex.PageMessanging:

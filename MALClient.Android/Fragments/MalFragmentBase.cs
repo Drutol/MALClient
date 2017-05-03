@@ -21,6 +21,7 @@ namespace MALClient.Android.Fragments
     {
         private readonly bool _initBindings;
         private readonly bool _detachBindingOnDestroy;
+        private bool _initialized;
 
         protected MalFragmentBase(bool initBindings = true,bool detachBindingOnDestroy = true)
         {
@@ -54,6 +55,7 @@ namespace MALClient.Android.Fragments
                 RootView = inflater.Inflate(LayoutResourceId, container, false);
             if (_initBindings && !Bindings.Any())
                 InitBindings();
+            _initialized = true;
             return RootView;
         }
 
@@ -79,7 +81,8 @@ namespace MALClient.Android.Fragments
 
         public override void OnResume()
         {
-            ReattachBindings();
+            if(_initialized)
+                ReattachBindings();
             base.OnResume();
         }
 

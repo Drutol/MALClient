@@ -32,19 +32,14 @@ namespace MALClient.Android.Adapters
 
         public bool NewChangelog { get; set; }
 
-        public string DateWithVersion => $"{_currentVersion} - 30.04.2017";
+        public string DateWithVersion => $"{_currentVersion} - 04.05.2017";
 
         public List<string> Changelog => new List<string>
         {
-            "Added ads... yay...",
-            "Added dontations... yay...",
-            "Added about page...",
-            "Redesigned login page.",
-            "Added popup which encourages to review app on the store.",
-            "Tweaked hamburger a bit.",
-            "Wallpapers page items are now a bit smarter about their sizing.",
-            "Tweaked settings pages.",
-            "The theme of this update: let's get ready for open beta... I'm estimating 1 month at most.",
+            "Fixes from @Kimod's #64 issue, it's neverending story....",
+            "New message icons.",
+            "Calendar works better.",
+            "Hopefully got rid off crashes on app restore.",
         };
 
     }

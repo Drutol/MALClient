@@ -226,7 +226,7 @@ namespace MALClient.Android.ViewModels
                     if (CurrentMainPage == PageIndex.PageArticles)
                         ViewModelLocator.MalArticles.Init(args as MalArticlesPageNavigationArgs);
                     else
-                        MainNavigationRequested?.Invoke(new ArticlesPageFragment());
+                        MainNavigationRequested?.Invoke(new ArticlesPageFragment(args as MalArticlesPageNavigationArgs));
                     break;
                 case PageIndex.PageMessanging:
                     HideSearchStuff();

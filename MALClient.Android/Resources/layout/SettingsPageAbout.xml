@@ -52,7 +52,7 @@
               android:layout_height="wrap_content" android:textColor="?AccentColour" android:fontFamily="@string/font_family_light" />
 
     <TextView android:lineSpacingExtra="2dp"
-              android:layout_width="wrap_content" android:text="If like this app so much that you'd like to support its development you can turn ads on in settings or donate directly via PlayStore." android:layout_marginTop="10dp"
+              android:layout_width="wrap_content" android:text="If you like this app so much that you'd like to support its development you can turn ads on in settings or donate directly via PlayStore." android:layout_marginTop="10dp"
               android:layout_height="wrap_content" android:textColor="?BrushText"/>
 
 
@@ -62,10 +62,10 @@
 
       <Button android:id="@+id/AboutPageDonate1Button"
               android:layout_width="wrap_content" style="@style/AccentButtonStyle" android:layout_marginEnd="20dp"
-              android:layout_height="wrap_content" android:text="Donate $0.99" android:layout_gravity="center_horizontal" android:layout_margin="10dp"/>
+              android:layout_height="wrap_content" android:text="Donation 1" android:layout_gravity="center_horizontal" android:layout_margin="10dp"/>
       <Button android:id="@+id/AboutPageDonate2Button"
               android:layout_width="wrap_content" style="@style/AccentButtonStyle"
-              android:layout_height="wrap_content" android:text="Donate $1.99" android:layout_gravity="center_horizontal" android:layout_margin="10dp"/>
+              android:layout_height="wrap_content" android:text="Donation 2" android:layout_gravity="center_horizontal" android:layout_margin="10dp"/>
 
     </LinearLayout>
 
@@ -75,10 +75,10 @@
 
       <Button android:id="@+id/AboutPageDonate3Button"
               android:layout_width="wrap_content" style="@style/AccentButtonStyle" android:layout_marginEnd="20dp"
-              android:layout_height="wrap_content" android:text="Donate $2.99" android:layout_gravity="center_horizontal" android:layout_margin="10dp"/>
+              android:layout_height="wrap_content" android:text="Donation 3" android:layout_gravity="center_horizontal" android:layout_margin="10dp"/>
       <Button android:id="@+id/AboutPageDonate4Button"
               android:layout_width="wrap_content" style="@style/AccentButtonStyle"
-              android:layout_height="wrap_content" android:text="Donate $3.99" android:layout_gravity="center_horizontal" android:layout_margin="10dp"/>
+              android:layout_height="wrap_content" android:text="Donation 4" android:layout_gravity="center_horizontal" android:layout_margin="10dp"/>
 
     </LinearLayout>
 

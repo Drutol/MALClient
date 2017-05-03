@@ -26,15 +26,25 @@ namespace MALClient.Android.Fragments.ArticlesPageFragments
 {
     public class ArticlesPageFragment : MalFragmentBase
     {
+        private readonly MalArticlesPageNavigationArgs _args;
         private MalArticlesViewModel ViewModel;
         private ListenableWebClient _listenableWebClient;
+        private bool _attachedHandler;
+
+        public ArticlesPageFragment(MalArticlesPageNavigationArgs args)
+        {
+            _args = args;
+        }
 
         protected override void Init(Bundle savedInstanceState)
         {
             ViewModel = ViewModelLocator.MalArticles;
-            ViewModel.Init(MalArticlesPageNavigationArgs.Articles);
-            
-            ViewModel.OpenWebView += ViewModelOnOpenWebView;
+            if (!_attachedHandler)
+            {
+                ViewModel.OpenWebView += ViewModelOnOpenWebView;
+                _attachedHandler = true;
+            }
+            ViewModel.Init(_args);
 
             _listenableWebClient = new ListenableWebClient();
             _listenableWebClient.PageReady += PageReady;
@@ -61,31 +71,15 @@ namespace MALClient.Android.Fragments.ArticlesPageFragments
         }
 
         public override int LayoutResourceId => Resource.Layout.ArticlesPage;
-
         private int _currentId;
-        private void ViewModelOnOpenWebView(string html, int id)
+        private async void ViewModelOnOpenWebView(string html, MalNewsUnitModel item)
         {
-            //BackNav
             ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageArticles,
-                ViewModel.Articles[id].Type == MalNewsType.Article
+                item.Type == MalNewsType.Article
                     ? MalArticlesPageNavigationArgs.Articles
                     : MalArticlesPageNavigationArgs.News);
-            //
-            _currentId = id;
-            var color = '#' + ResourceExtension.AccentColourHex.Substring(3);//uiSettings.GetColorValue(Windows.UI.ViewManagement.UIColorType.Accent);
-            var color1 = '#' + ResourceExtension.AccentColourDarkHex.Substring(3);//uiSettings.GetColorValue(Windows.UI.ViewManagement.UIColorType.AccentDark2);
-            var color2 = '#' +ResourceExtension.AccentColourLightHex.Substring(3);//uiSettings.GetColorValue(Windows.UI.ViewManagement.UIColorType.AccentLight2);
-            var css = Css.Replace("AccentColourBase", color).
-                Replace("AccentColourLight", color2).
-                Replace("AccentColourDark", color1)
-                .Replace("BodyBackgroundThemeColor",
-                    Settings.SelectedTheme == 1 ? "#2d2d2d" : "#e6e6e6")
-                .Replace("BodyForegroundThemeColor",
-                    Settings.SelectedTheme == 1 ? "white" : "black").Replace(
-                "HorizontalSeparatorColor", Settings.SelectedTheme == 1 ? "#0d0d0d" : "#b3b3b3");
-            //ArticlesPageWebView.NavigateToString();
-
-            ArticlesPageWebView.LoadDataWithBaseURL(null,css + Begin + html + "</div></body></html>", "text/html; charset=utf-8", "UTF-8",null);
+            _currentId = ViewModel.Articles.IndexOf(item);
+            ArticlesPageWebView.LoadDataWithBaseURL(null,ResourceLocator.CssManager.WrapWithCss(html), "text/html; charset=utf-8", "UTF-8",null);
         }
 
 
@@ -96,14 +90,20 @@ namespace MALClient.Android.Fragments.ArticlesPageFragments
                 var navArgs = MalLinkParser.GetNavigationParametersForUrl(targetUrl);
                 if (navArgs != null)
                 {
+                    var artArg = ViewModel.PrevWorkMode == ArticlePageWorkMode.Articles
+                        ? MalArticlesPageNavigationArgs.Articles
+                        : MalArticlesPageNavigationArgs.News;
+                    artArg.NewsId = _currentId;
+
                     if (navArgs.Item1 != PageIndex.PageAnimeDetails)
                     {
-                        ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageArticles, null);
+                        ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageArticles, artArg);
                     }
                     else
                     {
                         var arg = navArgs.Item2 as AnimeDetailsPageNavigationArgs;
-                        arg.Source = PageIndex.PageArticles;
+                        arg.Source = PageIndex.PageArticles;                      
+                        arg.PrevPageSetup = artArg;
                     }
 
 
@@ -138,137 +138,6 @@ namespace MALClient.Android.Fragments.ArticlesPageFragments
 
         public ProgressBar ArticlesPageLoadingSpinner => _articlesPageLoadingSpinner ?? (_articlesPageLoadingSpinner = FindViewById<ProgressBar>(Resource.Id.ArticlesPageLoadingSpinner));
 
-        #endregion
-
-        const string Begin = @"<html><body id='root'><div id='content'>";
-        #region Css
-        const string Css =
-            @"<style type=""text/css"">@charset ""UTF-8"";
-	        html, body
-	        {
-                zoom: 100%;
-		        background-color: BodyBackgroundThemeColor;
-		        color: BodyForegroundThemeColor;
-                font-family: 'Segoe UI';
-	        }
-	        .userimg
-	        {
-		        display: block;
-		        margin: 10px auto;
-		        max-width: 100%;
-		        height: auto;
-		        -webkit-box-shadow: 0px 0px 67px 5px rgba(0,0,0,0.58);
-		        -moz-box-shadow: 0px 0px 67px 5px rgba(0,0,0,0.58);
-		        box-shadow: 0px 0px 67px 5px rgba(0,0,0,0.58);
-	        }
-	        a
-	        {
-		        font-weight: bold;
-		        text-decoration: none;
-	        }
-            a:link{color:AccentColourBase}
-            a:active{color:AccentColourBase}
-            a:visited{color:AccentColourDark}
-            a:hover{color:AccentColourLight}
-        h1 {
-	        font-family: 'Segoe UI', Frutiger, 'Frutiger Linotype', 'Dejavu Sans', 'Helvetica Neue', Arial, sans-serif;
-	        font-size: 24px;
-	        font-style: normal;
-	        font-variant: normal;
-	        font-weight: 500;
-	        line-height: 26.4px;
-        }
-        h2 {
-	        font-family: 'Segoe UI', Frutiger, 'Frutiger Linotype', 'Dejavu Sans', 'Helvetica Neue', Arial, sans-serif;
-	        font-size: 24px;
-	        font-style: normal;
-	        font-variant: normal;
-	        font-weight: 500;
-	        line-height: 26.4px;
-        }
-        h3 {
-	        font-family: 'Segoe UI', Frutiger, 'Frutiger Linotype', 'Dejavu Sans', 'Helvetica Neue', Arial, sans-serif;
-	        font-size: 18px;
-	        font-style: normal;
-	        font-variant: normal;
-	        position: relative;
-	        text-align: center;
-	        font-weight: 500;
-	        line-height: 15.4px;
-        }
-        h4 {
-	        font-family: 'Segoe UI', Frutiger, 'Frutiger Linotype', 'Dejavu Sans', 'Helvetica Neue', Arial, sans-serif;
-	        font-size: 14px;
-	        font-style: normal;
-	        font-variant: normal;
-	        font-weight: 500;
-	        line-height: 15.4px;
-        }
-        hr {
-            display: block;
-            height: 2px;
-	        background-color: HorizontalSeparatorColor;
-	        border-radius: 10px 10px 10px 10px;
-	        -moz-border-radius: 10px 10px 10px 10px;
-	        -webkit-border-radius: 10px 10px 10px 10px;
-	        border: 1px solid #1f1f1f;
-            margin: 1em 0;
-            margin-right: 20px;
-            padding-right: 0;
-        }
-        p {
-	        font-family: 'Segoe UI', Frutiger, 'Frutiger Linotype', 'Dejavu Sans', 'Helvetica Neue', Arial, sans-serif;
-	        font-size: 14px;
-	        font-style: normal;
-	        font-variant: normal;
-	        font-weight: 400;
-	        line-height: 20px;
-        }
-        blockquote {
-	        font-family: 'Segoe UI', Frutiger, 'Frutiger Linotype', 'Dejavu Sans', 'Helvetica Neue', Arial, sans-serif;
-	        font-size: 21px;
-	        font-style: normal;
-	        font-variant: normal;
-	        font-weight: 400;
-	        line-height: 30px;
-        }
-        pre {
-	        font-family: 'Segoe UI', Frutiger, 'Frutiger Linotype', 'Dejavu Sans', 'Helvetica Neue', Arial, sans-serif;
-	        font-size: 13px;
-	        font-style: normal;
-	        font-variant: normal;
-	        font-weight: 400;
-	        line-height: 18.5714px;
-        }
-
-        .tags
-        {
-	        position: absolute;
-            left: -9999px;
-        }
-        .js-sns-icon-container
-        {
-	        position: absolute;
-            left: -9999px;
-        }
-
-        .news-info-block
-        {
-	        width: 100%;
-	        border-style: solid;
-            border-width: 0px 0px 2px 0px;
-            border-color: rgba(0, 0, 0, 0);
-        }
-
-        .information
-        {
-	        font-family: 'Segoe UI', Frutiger, 'Frutiger Linotype', 'Dejavu Sans', 'Helvetica Neue', Arial, sans-serif;
-	        font-size: 12px;
-	        font-style: normal;
-	        font-variant: normal;
-	        font-weight: 500;
-	
-        }</style>";
         #endregion
     }
 }

@@ -5,6 +5,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using GalaSoft.MvvmLight.Command;
 using MALClient.Models.Enums;
+using MALClient.Models.Models.MalSpecific;
 using MALClient.UWP.Adapters;
 using MALClient.UWP.Shared.Managers;
 using MALClient.XShared.Comm.Anime;
@@ -34,7 +35,7 @@ namespace MALClient.UWP.Pages.Main
 
         public MalArticlesViewModel ViewModel => DataContext as MalArticlesViewModel;
 
-        private void ViewModelOnOpenWebView(string html,int id)
+        private void ViewModelOnOpenWebView(string html,MalNewsUnitModel id)
         {
             //back nav
             ViewModelLocator.NavMgr.RegisterOneTimeMainOverride(new RelayCommand(() =>

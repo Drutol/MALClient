@@ -166,15 +166,15 @@ namespace MALClient.UWP.Pages.Main
         }
 
         private int _currentId;
-        private void ViewModelOnOpenWebView(string html,int id)
+        private void ViewModelOnOpenWebView(string html,MalNewsUnitModel item)
         {
             //BackNav
             ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageArticles,
-                ViewModel.Articles[id].Type == MalNewsType.Article
+                item.Type == MalNewsType.Article
                     ? MalArticlesPageNavigationArgs.Articles
                     : MalArticlesPageNavigationArgs.News);
             //
-            _currentId = id;
+            _currentId = ViewModel.Articles.IndexOf(item);
             var uiSettings = new Windows.UI.ViewManagement.UISettings();
             var color = uiSettings.GetColorValue(Windows.UI.ViewManagement.UIColorType.Accent);
             var color1 = uiSettings.GetColorValue(Windows.UI.ViewManagement.UIColorType.AccentDark2);

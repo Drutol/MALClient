@@ -153,7 +153,8 @@ namespace MALClient.XShared.ViewModels.Main
 
                     winner.NavigateDetails();
                     _randomedIds.Add(winner.Id);
-                    ScrollIntoViewRequested?.Invoke(winner, true);
+                    if(!ViewModelLocator.Mobile)
+                        ScrollIntoViewRequested?.Invoke(winner, true);
                 }));
             }
         }

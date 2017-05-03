@@ -13,6 +13,7 @@ using Android.Views;
 using Android.Widget;
 using Com.Oguzdev.Circularfloatingactionmenu.Library;
 using GalaSoft.MvvmLight.Helpers;
+using MALClient.Android.Activities;
 using MALClient.Android.BindingConverters;
 using MALClient.Android.Resources;
 using MALClient.Android.UserControls;
@@ -36,6 +37,20 @@ namespace MALClient.Android.Fragments.MessagingFragments
             ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageAnimeList, null);
             ViewModel = ViewModelLocator.MalMessaging;
             ViewModel.Init();
+
+            MainActivity.CurrentContext.HamburgerOpened += CurrentContextOnHamburgerOpened;
+        }
+
+        private void CurrentContextOnHamburgerOpened(object sender, EventArgs eventArgs)
+        {
+            _actionMenu?.Close(true);
+        }
+
+        protected override void Cleanup()
+        {
+            MainActivity.CurrentContext.HamburgerOpened -= CurrentContextOnHamburgerOpened;
+            _actionMenu.Close(true);
+            base.Cleanup();
         }
 
         protected override void InitBindings()
@@ -155,11 +170,6 @@ namespace MALClient.Android.Fragments.MessagingFragments
 
         public override int LayoutResourceId => Resource.Layout.MessagingPage;
 
-        protected override void Cleanup()
-        {
-            _actionMenu.Close(true);
-            base.Cleanup();
-        }
 
         #region Views
 

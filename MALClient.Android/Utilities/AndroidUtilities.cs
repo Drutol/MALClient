@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 using Android.Support.V4.View.Animation;
 using Android.Views;
 using Android.Views.Animations;
@@ -12,6 +13,7 @@ using GalaSoft.MvvmLight.Helpers;
 using MALClient.Android.Activities;
 using MALClient.Android.CollectionAdapters;
 using MALClient.Android.Listeners;
+using MALClient.XShared.ViewModels;
 
 namespace MALClient.Android
 {
@@ -92,7 +94,8 @@ namespace MALClient.Android
             }
             catch (Exception e)
             {
-                view.Visibility = ViewStates.Visible;
+                //TODO Grab from hockey
+                ResourceLocator.TelemetryProvider.LogEvent($"Crash - animating fade in - {e.Message}");
             }
 
         }

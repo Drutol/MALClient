@@ -28,6 +28,8 @@ namespace MALClient.Android.Fragments
             _detachBindingOnDestroy = detachBindingOnDestroy;
         }
 
+        protected bool HasOnlyManualBindings { get; set; }
+
         protected View RootView { get; private set; }
 
         protected List<Binding> Bindings = new List<Binding>();
@@ -71,7 +73,7 @@ namespace MALClient.Android.Fragments
 
         public void ReattachBindings()
         {
-            if(!Bindings.Any() && RootView != null)
+            if(!Bindings.Any() && RootView != null && !HasOnlyManualBindings)
                 InitBindings();
         }
 
@@ -83,7 +85,7 @@ namespace MALClient.Android.Fragments
 
         protected virtual void Cleanup()
         {
-           
+            HasOnlyManualBindings = false;
         }
 
         public override Context Context

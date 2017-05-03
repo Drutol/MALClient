@@ -10,6 +10,7 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Java.Lang;
+using MALClient.Android.Activities;
 using MALClient.Android.Aidl;
 using MALClient.Android.DIalogs;
 using MALClient.Android.Listeners;
@@ -66,14 +67,14 @@ namespace MALClient.Android.Fragments.SettingsFragments
                     var buyIntentBundle = connection.Service.GetBuyIntent(3, Context.PackageName,
                         GetProductSku(), "inapp", "");
                     var pendingIntent = buyIntentBundle.GetParcelable("BUY_INTENT") as PendingIntent;
-                    StartIntentSenderForResult(pendingIntent.IntentSender, 1001, new Intent(), 0, 0, 0, Bundle.Empty);
+                    MainActivity.CurrentContext.StartIntentSenderForResult(pendingIntent.IntentSender, 1001, new Intent(), 0, 0, 0, Bundle.Empty);
                 }
                 else
                 {
                     throw new Exception();
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 ResourceLocator.MessageDialogProvider.ShowMessageDialog("Something went wrong, you can always try later ^^", "Something went wrong™");
             }
@@ -87,13 +88,13 @@ namespace MALClient.Android.Fragments.SettingsFragments
                 switch (view.Id)
                 {
                     case Resource.Id.AboutPageDonate1Button:
-                        return "";
+                        return "donation1";
                     case Resource.Id.AboutPageDonate2Button:
-                        return "";
+                        return "donate2";
                     case Resource.Id.AboutPageDonate3Button:
-                        return "";
+                        return "donate3";
                     case Resource.Id.AboutPageDonate4Button:
-                        return "";
+                        return "donate4";
                     default:
                         throw new ArgumentOutOfRangeException();
                 }

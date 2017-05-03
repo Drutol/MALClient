@@ -40,6 +40,8 @@ namespace MALClient.Android.Activities
         private bool _selectedProfileItem;
         private DroppyMenuPopup _supportMenu;
 
+        public event EventHandler HamburgerOpened;
+
         private object GetAppropriateArgsForPage(PageIndex page)
         {
             switch (page)
@@ -210,6 +212,7 @@ namespace MALClient.Android.Activities
         {
             var inputManager = (InputMethodManager)GetSystemService(Context.InputMethodService);
             inputManager.HideSoftInputFromWindow(MainPageSearchView.WindowToken, HideSoftInputFlags.None);
+            HamburgerOpened?.Invoke(this,EventArgs.Empty);
             ViewModelLocator.NavMgr.RegisterOneTimeMainOverride(new RelayCommand(() => _drawer.CloseDrawer()));
         }
 
@@ -248,8 +251,8 @@ namespace MALClient.Android.Activities
                     id = (long) PageIndex.PageLogIn;
                     break;
                 case HamburgerButtons.Settings:
-                    id = (long) PageIndex.PageSettings;
-                    break;
+                    _drawer.SetStickyFooterSelection((int)PageIndex.PageSettings, false);
+                    return;
                 case HamburgerButtons.Profile:
                     _accountHamburgerView.SetBackgroundColor(new Color(ResourceExtension.BrushAnimeItemBackground));
                     _accountHamburgerView.FindViewById<TextView>(Resource.Id.HamburgerProfileItemLabel).SetTextColor(new Color(ResourceExtension.AccentColour));
@@ -378,21 +381,6 @@ namespace MALClient.Android.Activities
 
             var par = _accountHamburgerView.Parent as View;
             par.SetPadding(0,0,0,0);
-
-            if (Credentials.Authenticated)
-            {
-                try
-                {
-                    //
-                   
-                }
-                catch (Exception) // no image available
-                {
-                    //btn.WithIcon(Resource.Drawable.icon_account);
-                }
-
-                //_drawer.UpdateStickyFooterItem(btn);
-            }
         }
 
         private void OnProfileSubItemCLick(View view)

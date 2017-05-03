@@ -108,7 +108,7 @@ namespace MALClient.Android.Fragments
                 var builder = new FloatingActionMenu.Builder(Activity)
                     .AddSubActionView(BuildFabActionButton(param, padding, Resource.Drawable.icon_filter))
                     .AddSubActionView(BuildFabActionButton(param, padding, Resource.Drawable.icon_sort))
-                    .AddSubActionView(BuildFabActionButton(param, padding, Resource.Drawable.icon_eye));
+                    .AddSubActionView(BuildFabActionButton(param, padding, Resource.Drawable.icon_shuffle));
                 switch (ViewModel.WorkMode)
                 {
                     case AnimeListWorkModes.SeasonalAnime:
@@ -164,8 +164,8 @@ namespace MALClient.Android.Fragments
                 case Resource.Drawable.icon_sort:
                     OpenSortingDrawer();
                     break;
-                case Resource.Drawable.icon_eye:
-                    OpenViewModeDrawer();
+                case Resource.Drawable.icon_shuffle:
+                    ViewModel.SelectAtRandomCommand.Execute(null);
                     break;
                 case Resource.Drawable.icon_calendar:
                     OpenSeasonalSelectionDrawer();
@@ -292,12 +292,6 @@ namespace MALClient.Android.Fragments
                 else
                     _loadMoreFooter.Visibility = ViewStates.Invisible;
             }
-        }
-
-        protected override void Cleanup()
-        {
-            _actionMenu.Close(false);
-            base.Cleanup();
         }
 
         public ScrollableSwipeToRefreshLayout SwipeRefreshLayout => RootView as ScrollableSwipeToRefreshLayout;

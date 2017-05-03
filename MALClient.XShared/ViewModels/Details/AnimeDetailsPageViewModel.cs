@@ -932,11 +932,19 @@ namespace MALClient.XShared.ViewModels.Details
 
             LeftDetailsRow.Add(new Tuple<string, string>("Score", GlobalScore == 0 ? "N/A" : GlobalScore.ToString("N2")));
             LeftDetailsRow.Add(new Tuple<string, string>("Start",
-                StartDate == "0000-00-00" || StartDate == "" ? "?" : StartDate));
+                StartDate == "0000-00-00" || string.IsNullOrEmpty(StartDate)
+                    ? "?"
+                    : StartDate.Contains("-00-00")
+                        ? StartDate.Substring(0, 4)
+                        : StartDate));
             RightDetailsRow.Add(new Tuple<string, string>("Type", Type));
             RightDetailsRow.Add(new Tuple<string, string>("Status", Status));
             RightDetailsRow.Add(new Tuple<string, string>("End",
-                EndDate == "0000-00-00" || EndDate == "" ? "?" : EndDate));
+                EndDate == "0000-00-00" || string.IsNullOrEmpty(EndDate)
+                    ? "?"
+                    : EndDate.Contains("-00-00")
+                        ? EndDate.Substring(0, 4)
+                        : EndDate));
 
             RaisePropertyChanged(() => LeftDetailsRow);
             RaisePropertyChanged(() => RightDetailsRow);

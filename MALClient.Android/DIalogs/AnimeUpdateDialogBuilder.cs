@@ -126,12 +126,14 @@ namespace MALClient.Android.DIalogs
 
         private static void CleanupWatchedDialog()
         {
-
-            var inputManager = (InputMethodManager)MainActivity.CurrentContext.GetSystemService(Context.InputMethodService);
-            inputManager.HideSoftInputFromWindow(_watchedDialog.HolderView.WindowToken, HideSoftInputFlags.ImplicitOnly);
+            if (_watchedDialog != null)
+            {
+                var inputManager = (InputMethodManager)MainActivity.CurrentContext.GetSystemService(Context.InputMethodService);
+                inputManager.HideSoftInputFromWindow(_watchedDialog.HolderView.WindowToken, HideSoftInputFlags.ImplicitOnly);
+                _watchedDialog.Dismiss();
+            }
             _watchedDialogBindings.ForEach(binding => binding.Detach());
             _watchedDialogBindings = new List<Binding>();
-            _watchedDialog?.Dismiss();
             _watchedDialog = null;
             _watchedDialogContext = null;
             _watchedDialogAction = null;

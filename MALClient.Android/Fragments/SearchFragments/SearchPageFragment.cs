@@ -26,17 +26,18 @@ namespace MALClient.Android.Fragments.SearchFragments
         private SearchPageFragment(SearchPageNavigationArgs args)
         {
             _args = args;
+
         }
 
         protected override void InitBindings()
         {
-            int start;
-            SearchPageViewPager.Adapter = new SearchPagePagerAdapter(FragmentManager,_args,out start);
+            SearchPageViewPager.Adapter = new SearchPagePagerAdapter(FragmentManager, _args, out int start);
             SearchPageTabStrip.SetViewPager(SearchPageViewPager);
             SearchPageTabStrip.CenterTabs();
             SearchPageViewPager.OffscreenPageLimit = 5;
 
             SearchPageViewPager.SetCurrentItem(start,false);
+            HasOnlyManualBindings = true;
         }
 
         protected override void Init(Bundle savedInstanceState)
@@ -59,7 +60,7 @@ namespace MALClient.Android.Fragments.SearchFragments
 
         public static SearchPageFragment BuildInstance(SearchPageNavigationArgs args)
         {
-            return new SearchPageFragment(args); //just so we follow the pattern
+            return new SearchPageFragment(args);
         }
 
         public override int LayoutResourceId => Resource.Layout.SearchPage;

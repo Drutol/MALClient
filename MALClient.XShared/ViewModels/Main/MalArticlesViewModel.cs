@@ -14,16 +14,12 @@ namespace MALClient.XShared.ViewModels.Main
     {
         public ArticlePageWorkMode WorkMode { get; set; }
         public int NewsId { get; set; } = -1;
-        public MalArticlesPageNavigationArgs()
-        {
-            
-        }
 
         public static MalArticlesPageNavigationArgs Articles => new MalArticlesPageNavigationArgs {WorkMode = ArticlePageWorkMode.Articles};
         public static MalArticlesPageNavigationArgs News => new MalArticlesPageNavigationArgs {WorkMode = ArticlePageWorkMode.News};
     }
 
-    public delegate void OpenWebViewRequest(string html,int id);
+    public delegate void OpenWebViewRequest(string html,MalNewsUnitModel model);
 
     public class MalArticlesViewModel : ViewModelBase
     {
@@ -176,7 +172,7 @@ namespace MALClient.XShared.ViewModels.Main
             ArticleIndexVisibility = false;
             ViewModelLocator.GeneralMain.CurrentStatus = data.Title;
             CurrentNews = Articles.IndexOf(data);
-            OpenWebView?.Invoke(await new MalArticleQuery(data.Url, data.Title,data.Type).GetArticleHtml(), Articles.IndexOf(data));
+            OpenWebView?.Invoke(await new MalArticleQuery(data.Url, data.Title,data.Type).GetArticleHtml(), data);
         }
     }
 }

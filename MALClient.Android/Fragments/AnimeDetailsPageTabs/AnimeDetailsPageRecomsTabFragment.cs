@@ -77,34 +77,36 @@ namespace MALClient.Android.Fragments.AnimeDetailsPageTabs
             txt.Text = animeRecomData.Description;
             txt.Post(() =>
             {
-                if(txt.LineCount < 11)
-                    return;
-
-                //if (txt.Layout.Text.EndsWith("..."))
-                //{
-                //    var lastSpace = txt.Layout.Text.LastIndexOf(' ');
-                //    txt.Text = animeRecomData.Description.Substring(0, lastSpace);
-                //    txtOverflow.Text = animeRecomData.Description.Substring(lastSpace+1, animeRecomData.Description.Length);
-                //}
-
-                var ellipsis = txt.Layout.GetEllipsisStart(10);
-                if (ellipsis != -1)
+                try
                 {
-                    var chars = txt.Layout.GetLineEnd(9) + ellipsis;
-                    int lastSpaceIndex = 0;
-                    for (int j = chars - 5; j > 0 ; j--)
-                    {
-                        if (animeRecomData.Description[j] == ' ')
-                        {
-                            lastSpaceIndex = j;
-                            break;
-                        }
-                    }
-                    if(lastSpaceIndex == 0)
+                    if (txt.LineCount < 11)
                         return;
-                    txt.Text = animeRecomData.Description.Substring(0, lastSpaceIndex);
-                    txtOverflow.Text = animeRecomData.Description.Substring(lastSpaceIndex+1);
+
+                    var ellipsis = txt.Layout.GetEllipsisStart(10);
+                    if (ellipsis != -1)
+                    {
+                        var chars = txt.Layout.GetLineEnd(9) + ellipsis;
+                        int lastSpaceIndex = 0;
+                        for (int j = chars - 5; j > 0; j--)
+                        {
+                            if (animeRecomData.Description[j] == ' ')
+                            {
+                                lastSpaceIndex = j;
+                                break;
+                            }
+                        }
+                        if (lastSpaceIndex == 0)
+                            return;
+                        txt.Text = animeRecomData.Description.Substring(0, lastSpaceIndex);
+                        txtOverflow.Text = animeRecomData.Description.Substring(lastSpaceIndex + 1);
+                    }
                 }
+                catch (Exception)
+                {
+                    //TODO Grab the thing from hockey
+                    ResourceLocator.TelemetryProvider.LogEvent($"Recoms wrpping crash on {ViewModel.Title} - recom {animeRecomData.Title}");
+                }
+
             });
             
 

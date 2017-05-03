@@ -56,6 +56,19 @@ namespace MALClient.Android.Fragments
                 ViewModelLocator.NavMgr.DeregisterBackNav();
                 ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageAnimeList, null);
             }
+            MainActivity.CurrentContext.HamburgerOpened += CurrentContextOnHamburgerOpened;
+        }
+
+        private void CurrentContextOnHamburgerOpened(object o, EventArgs eventArgs)
+        {
+            _actionMenu?.Close(true);
+        }
+
+        protected override void Cleanup()
+        {
+            MainActivity.CurrentContext.HamburgerOpened -= CurrentContextOnHamburgerOpened;
+            _actionMenu?.Close(false);
+            base.Cleanup();
         }
 
         private async void AnimeListPageGridViewOnItemClick(AnimeItemViewModel model)

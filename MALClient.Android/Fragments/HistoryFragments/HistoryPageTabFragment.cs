@@ -24,9 +24,11 @@ namespace MALClient.Android.Fragments.HistoryFragments
     {
         private readonly List<Tuple<AnimeItemViewModel, List<MalProfileHistoryEntry>>> _data;
 
+
         public HistoryPageTabFragment(List<Tuple<AnimeItemViewModel, List<MalProfileHistoryEntry>>> data)
         {
             _data = data;
+
         }
 
         protected override void Init(Bundle savedInstanceState)
@@ -36,7 +38,8 @@ namespace MALClient.Android.Fragments.HistoryFragments
 
         protected override void InitBindings()
         {
-            (RootView as ListView).InjectFlingAdapter(_data,DataTemplateFull,DataTemplateFling,ContainerTemplate);
+            (RootView as ListView).InjectFlingAdapter(_data,DataTemplateFull,DataTemplateFling,ContainerTemplate,DataTemplateBasic);
+            HasOnlyManualBindings = true;
         }
 
         private View ContainerTemplate(int i)
@@ -53,26 +56,37 @@ namespace MALClient.Android.Fragments.HistoryFragments
 
         private void DataTemplateFling(View view, int i, Tuple<AnimeItemViewModel, List<MalProfileHistoryEntry>> tuple)
         {
-            view.FindViewById(Resource.Id.AnimeLightItemImgPlaceholder).Visibility = ViewStates.Visible;
-            view.FindViewById(Resource.Id.AnimeLightItemImage).Visibility = ViewStates.Invisible;
+            var img = view.FindViewById<ImageViewAsync>(Resource.Id.AnimeLightItemImage);
+            if (img.IntoIfLoaded(tuple.Item1.ImgUrl))
+            {
+                view.FindViewById(Resource.Id.AnimeLightItemImgPlaceholder).Visibility = ViewStates.Gone;
+            }
+            else
+            {
+                view.FindViewById(Resource.Id.AnimeLightItemImgPlaceholder).Visibility = ViewStates.Visible;
+                img.Visibility = ViewStates.Invisible;
+            }         
+        }
+
+        private void DataTemplateBasic(View view, int i, Tuple<AnimeItemViewModel, List<MalProfileHistoryEntry>> tuple)
+        {
             view.FindViewById<TextView>(Resource.Id.AnimeLightItemTitle).Text = tuple.Item1.Title;
+            view.FindViewById<LinearLayout>(Resource.Id.HistoryPageTabItemEventsList).SetAdapter(tuple.Item2.GetAdapter(GetTemplateDelegate));
         }
 
         private void DataTemplateFull(View view, int i, Tuple<AnimeItemViewModel, List<MalProfileHistoryEntry>> tuple)
         {
             view.FindViewById(Resource.Id.AnimeLightItemImgPlaceholder).Visibility = ViewStates.Gone;
-            view.FindViewById<TextView>(Resource.Id.AnimeLightItemTitle).Text = tuple.Item1.Title;
             var image = view.FindViewById<ImageViewAsync>(Resource.Id.AnimeLightItemImage);
             if (image.Tag == null || (string)image.Tag != tuple.Item1.ImgUrl)
             {
-                image.Into(tuple.Item1.ImgUrl, null, img => img.HandleScaling());
+                image.AnimeInto(tuple.Item1.ImgUrl);
                 image.Tag = tuple.Item1.ImgUrl;
             }
             else
             {
                 view.FindViewById(Resource.Id.AnimeLightItemImage).Visibility = ViewStates.Visible;
             }
-            view.FindViewById<LinearLayout>(Resource.Id.HistoryPageTabItemEventsList).SetAdapter(tuple.Item2.GetAdapter(GetTemplateDelegate));
             view.FindViewById(Resource.Id.HistoryPageTabItemAnimeLightItem).Tag = tuple.Item1.Wrap();
         }
 

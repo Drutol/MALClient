@@ -66,9 +66,6 @@ namespace MALClient.Android.Fragments.SettingsFragments
                 this.SetBinding(() => ViewModel.MangaFocusVolumes,
                     () => SettingsPageGeneralVolsImportantSwitch.Checked,BindingMode.TwoWay));
             Bindings.Add(
-                this.SetBinding(() => ViewModel.EnsureRandomizerAlwaysSelectsWinner,
-                    () => SettingsPageGeneralRandomSelectedSwitch.Checked,BindingMode.TwoWay));
-            Bindings.Add(
                 this.SetBinding(() => ViewModel.ArticlesLaunchExternalLinks,
                     () => SettingsPageGeneralExternalLinksSwitch.Checked, BindingMode.TwoWay));
             Bindings.Add(
@@ -138,10 +135,7 @@ namespace MALClient.Android.Fragments.SettingsFragments
                 ViewModel.SelectedDefaultViewForAll = (sender as Spinner).SelectedView.Tag.Unwrap<Tuple<AnimeListDisplayModes, string>>();
             };
 
-            
-            Bindings.Add(
-                this.SetBinding(() => ViewModel.LockDisplayMode,
-                    () => SettingsGeneralPageLockDisplayModeSwitch.Checked,BindingMode.TwoWay));
+           
             //
             var filters = Enum.GetValues(typeof(AnimeStatus)).Cast<int>().ToList();
             SettingsPageGeneralMangaFilerSpinner.Adapter = filters.GetAdapter(GetMangaTemplateDelegate);

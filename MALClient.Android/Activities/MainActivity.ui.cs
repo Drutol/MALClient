@@ -259,6 +259,8 @@ namespace MALClient.Android.Activities
 
         private void OnUpperFlyoutStatusChanged(AnimeStatus animeStatus)
         {
+            if(_upperFilterMenu == null)
+                return;
             ViewModelLocator.AnimeList.CurrentStatus = (int)animeStatus;
             ViewModelLocator.AnimeList.RefreshList();
             _upperFilterMenu.Dismiss(true);
@@ -267,6 +269,8 @@ namespace MALClient.Android.Activities
 
         private void OnUpperStatusSeasonSelected(int i1)
         {
+            if (_upperFilterMenu == null)
+                return;
             ViewModelLocator.AnimeList.SeasonalUrlsSelectedIndex = i1;
             _upperFilterMenu.Dismiss(true);
             _upperFilterMenu = null;
@@ -398,6 +402,7 @@ namespace MALClient.Android.Activities
         private ImageButton _mainPageCopyVideoLinkButton;
         private ImageButton _mainPageCloseVideoButton;
         private RelativeLayout _mainPageVideoViewContainer;
+        private LinearLayout _mainPageRoot;
 
         public ImageButton MainPageHamburgerButton => _mainPageHamburgerButton ?? (_mainPageHamburgerButton = FindViewById<ImageButton>(Resource.Id.MainPageHamburgerButton));
 
@@ -422,6 +427,9 @@ namespace MALClient.Android.Activities
         public ImageButton MainPageCloseVideoButton => _mainPageCloseVideoButton ?? (_mainPageCloseVideoButton = FindViewById<ImageButton>(Resource.Id.MainPageCloseVideoButton));
 
         public RelativeLayout MainPageVideoViewContainer => _mainPageVideoViewContainer ?? (_mainPageVideoViewContainer = FindViewById<RelativeLayout>(Resource.Id.MainPageVideoViewContainer));
+
+        public LinearLayout MainPageRoot => _mainPageRoot ?? (_mainPageRoot = FindViewById<LinearLayout>(Resource.Id.MainPageRoot));
+
 
     }
 }

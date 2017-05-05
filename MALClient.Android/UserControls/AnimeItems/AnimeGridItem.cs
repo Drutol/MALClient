@@ -354,7 +354,7 @@ namespace MALClient.Android.UserControls
         private void ShowWatchedDialog()
         {
             if (ViewModel.Auth)
-                AnimeUpdateDialogBuilder.BuildWatchedDialog(ViewModel);
+                AnimeUpdateDialogBuilder.BuildWatchedDialog(ViewModel,null,ViewModel.ParentAbstraction.RepresentsAnime ? false : Settings.MangaFocusVolumes);
         }
         private void ShowRatingDialog()
         {

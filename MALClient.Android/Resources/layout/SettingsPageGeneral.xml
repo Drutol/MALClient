@@ -116,15 +116,6 @@
 
     <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="5dp"
                   android:layout_marginTop="15dp">
-      <TextView android:text="When choosing at random ensure winner to be selected" android:layout_width="0dp"
-                android:layout_height="wrap_content" android:textSize="@dimen/FontSizeMedium"
-                android:layout_gravity="center_vertical" android:textColor="?BrushText" android:layout_weight="1" />
-      <Switch android:id="@+id/SettingsPageGeneralRandomSelectedSwitch" android:layout_width="wrap_content"
-              android:layout_height="wrap_content" android:layout_gravity="center_vertical" />
-    </LinearLayout>
-
-    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="5dp"
-                  android:layout_marginTop="15dp">
       <TextView android:text="Open unsupported links in external browser" android:layout_width="0dp"
                 android:layout_height="wrap_content" android:textSize="@dimen/FontSizeMedium"
                 android:layout_gravity="center_vertical" android:textColor="?BrushText" android:layout_weight="1" />
@@ -270,14 +261,7 @@
                    android:layout_height="wrap_content" />
         </LinearLayout>
       </LinearLayout>
-      <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="5dp"
-                    android:layout_marginTop="10dp">
-        <TextView android:text="Lock display mode when changing it manually" android:layout_width="0dp"
-                  android:layout_height="wrap_content" android:textSize="@dimen/FontSizeMedium"
-                  android:layout_gravity="center_vertical" android:textColor="?BrushText" android:layout_weight="1" />
-        <Switch android:id="@+id/SettingsGeneralPageLockDisplayModeSwitch" android:layout_width="wrap_content"
-                android:layout_height="wrap_content" android:layout_gravity="center_vertical" />
-      </LinearLayout>
+
     </LinearLayout>
 
     <View style="@style/Divider" android:layout_marginTop="10dp" />

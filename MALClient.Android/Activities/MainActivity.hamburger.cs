@@ -261,6 +261,7 @@ namespace MALClient.Android.Activities
                         : Color.White);
                     _accountHamburgerView.FindViewById<TextView>(Resource.Id.HamburgerProfileItemLabel).SetTextColor(new Color(ResourceExtension.AccentColour));
                     _selectedProfileItem = true;
+                    _drawer.SetSelectionAtPosition(-1);
                     return;
                 case HamburgerButtons.Seasonal:
                     id = (long) PageIndex.PageSeasonal;
@@ -350,7 +351,10 @@ namespace MALClient.Android.Activities
                     _accountHamburgerView.FindViewById(Resource.Id.HamburgerProfileItemSupport).SetOnClickListener(listener);
                     _accountHamburgerView.FindViewById(Resource.Id.HamburgerProfileItemMessages).SetOnClickListener(listener);
                 }
-                _accountHamburgerView.FindViewById<ImageViewAsync>(Resource.Id.HamburgerProfileItemImage).Into($"https://myanimelist.cdn-dena.com/images/userimages/{Credentials.Id}.jpg", new CircleTransformation());
+                ImageService.Instance
+                    .LoadUrl($"https://myanimelist.cdn-dena.com/images/userimages/{Credentials.Id}.jpg")
+                    .FadeAnimation(false).Transform(new CircleTransformation())
+                    .Into(_accountHamburgerView.FindViewById<ImageViewAsync>(Resource.Id.HamburgerProfileItemImage));
                 btn.WithView(_accountHamburgerView);
                 btn.WithSelectable(true);
                 btn.WithDivider(false);

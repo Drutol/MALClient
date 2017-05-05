@@ -5,9 +5,12 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
+using Android.Content;
+using Android.Graphics;
 using Android.Support.V4.View.Animation;
 using Android.Views;
 using Android.Views.Animations;
+using Android.Views.InputMethods;
 using Android.Widget;
 using GalaSoft.MvvmLight.Helpers;
 using MALClient.Android.Activities;
@@ -130,6 +133,32 @@ namespace MALClient.Android
                 GetTemplateDelegate = getTemplateDelegate,
                 Footer = footer,
             };
+        }
+
+        public static bool IsKeyboardVisibile()
+        {
+            var fragmentRootView = MainActivity.CurrentContext.MainPageRoot;
+            var r = new Rect();
+            fragmentRootView.GetWindowVisibleDisplayFrame(r);
+            int keypadHeight = fragmentRootView.RootView.Height - r.Bottom;
+
+            if (keypadHeight > fragmentRootView.Height * 0.15)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public static void HideKeyboard()
+        {
+            if (IsKeyboardVisibile())
+            {
+                var inputManager = (InputMethodManager)MainActivity.CurrentContext.GetSystemService(Context.InputMethodService);
+                inputManager.ToggleSoftInput(ShowFlags.Forced, 0);
+            }
         }
     }
 }

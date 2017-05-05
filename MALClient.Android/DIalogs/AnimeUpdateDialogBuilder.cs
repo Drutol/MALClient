@@ -58,9 +58,10 @@ namespace MALClient.Android.DIalogs
         private static AnimeItemViewModel _watchedDialogContext;
         private static Action<AnimeItemViewModel,string> _watchedDialogAction;
 
-        public static void BuildWatchedDialog(AnimeItemViewModel ViewModel,Action<AnimeItemViewModel, string> action = null,bool volumes = false)
+        public static void BuildWatchedDialog(AnimeItemViewModel viewModel, Action<AnimeItemViewModel, string> action = null,bool volumes = false)
         {
-            _watchedDialogContext = ViewModel;
+
+            _watchedDialogContext = viewModel;
             _watchedDialogAction = action;
             var dialogBuilder = DialogPlus.NewDialog(MainActivity.CurrentContext);
             dialogBuilder.SetGravity((int) GravityFlags.Top);
@@ -76,8 +77,8 @@ namespace MALClient.Android.DIalogs
                 .SetCommand("Click", new RelayCommand(
                     () =>
                     {
-                        if (!volumes)
-                            ViewModel.OnFlyoutEpsKeyDown.Execute(null);
+                        if (action == null)
+                            viewModel.OnFlyoutEpsKeyDown.Execute(null);
                         else
                             action.Invoke(_watchedDialogContext, _watchedDialog.HolderView.FindViewById<TextView>(
                                 Resource.Id.AnimeItemWatchedDialogTextInput).Text);
@@ -85,23 +86,28 @@ namespace MALClient.Android.DIalogs
                     }));
 
             var grid = view.FindViewById<GridView>(Resource.Id.AnimeItemWatchedDialogEpisodesGridView);
+
             if (volumes)
             {
-
-                grid.Adapter = new WatchedDialogAdapter(MainActivity.CurrentContext, ViewModel.MyVolumes,
-                    ViewModel.AllVolumes);
+                grid.Adapter = new WatchedDialogAdapter(MainActivity.CurrentContext, viewModel.MyVolumes,
+                    viewModel.AllVolumes);
                 view.FindViewById<TextView>(Resource.Id.AnimeItemWatchedDialogTitleTextView).Text = "Read volumes";
             }
             else
             {
-                var input = view.FindViewById<EditText>(Resource.Id.AnimeItemWatchedDialogTextInput);
-                _watchedDialogBindings.Add(new Binding<string, string>(ViewModel, () => ViewModel.WatchedEpsInput, input,
-                    () => input.Text, BindingMode.TwoWay));
-                grid.Adapter = new WatchedDialogAdapter(MainActivity.CurrentContext, ViewModel.MyEpisodesFocused,
-                    ViewModel.AllEpisodesFocused);
+                grid.Adapter = new WatchedDialogAdapter(MainActivity.CurrentContext, viewModel.MyEpisodes,
+                    viewModel.AllEpisodes);
                 view.FindViewById<TextView>(Resource.Id.AnimeItemWatchedDialogTitleTextView).Text =
-                    ViewModel.WatchedEpsLabel;
-            } 
+                    viewModel.ParentAbstraction.RepresentsAnime ? "Watched episodes" : "Read chapters";
+            }
+
+            if (action == null)
+            {
+                var input = view.FindViewById<EditText>(Resource.Id.AnimeItemWatchedDialogTextInput);
+                _watchedDialogBindings.Add(new Binding<string, string>(viewModel, () => viewModel.WatchedEpsInput, input,
+                    () => input.Text, BindingMode.TwoWay));
+            }
+
 
             grid.ItemClick += GridOnItemClick;
             _watchedDialog.Show();
@@ -128,9 +134,7 @@ namespace MALClient.Android.DIalogs
         {
             if (_watchedDialog != null)
             {
-                var inputManager = (InputMethodManager)MainActivity.CurrentContext.GetSystemService(Context.InputMethodService);
-                if (inputManager.IsActive)
-                    inputManager.ToggleSoftInput(ShowFlags.Forced, 0);
+                AndroidUtilities.HideKeyboard();
                 _watchedDialog.Dismiss();
             }
             _watchedDialogBindings.ForEach(binding => binding.Detach());
@@ -138,6 +142,7 @@ namespace MALClient.Android.DIalogs
             _watchedDialog = null;
             _watchedDialogContext = null;
             _watchedDialogAction = null;
+            MainActivity.CurrentContext.DialogToCollapseOnBack = null;
         }
 
 
@@ -192,6 +197,15 @@ namespace MALClient.Android.DIalogs
             list.EmptyView = view.FindViewById(Resource.Id.AnimeTagsDialogEmptyNotice);
             list.Adapter = viewModel.MyTags.GetAdapter(GetTagItem);
             var editBox = view.FindViewById<EditText>(Resource.Id.AnimeTagsDialogEditBox);
+            //editBox.SetOnEditorActionListener(new OnEditorActionListener(action =>
+            //{
+            //    if(action == ImeAction.Done)
+            //        viewModel.AddTagCommand.Execute(null);
+            //}));
+            editBox.AddTextChangedListener(new OnTextEnterListener(() =>
+            {
+                viewModel.AddTagCommand.Execute(null);
+            }));
 
             _tagsDialogBindings.Add(new Binding<string, string>(
                 viewModel,
@@ -230,9 +244,11 @@ namespace MALClient.Android.DIalogs
 
         private static void CleanupTagsDialog()
         {
+            AndroidUtilities.HideKeyboard();
             _tagsDialogBindings?.ForEach(binding => binding.Detach());
             _tagsDialog?.Dismiss();
             _scoreDialog = null;
+            MainActivity.CurrentContext.DialogToCollapseOnBack = null;
         }
     }
 }

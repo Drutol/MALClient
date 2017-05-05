@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
+using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
 using Android.Content.PM;
@@ -11,10 +11,12 @@ using Android.OS;
 using Android.Runtime;
 using Android.Util;
 using Android.Views;
+using Android.Views.InputMethods;
 using Android.Widget;
 using GalaSoft.MvvmLight.Helpers;
 using MALClient.Android.Activities;
 using MALClient.Android.BindingConverters;
+using MALClient.Android.Listeners;
 using MALClient.Android.Resources;
 using MALClient.Models.Enums;
 using MALClient.XShared.Utils;
@@ -61,18 +63,24 @@ namespace MALClient.Android.Fragments
                 this.SetBinding(() => ViewModel.LogOutButtonVisibility,
                     () => LoginPageLogOutButton.Visibility).ConvertSourceToTarget(Converters.BoolToVisibility));
 
+            PasswordInput.SetOnEditorActionListener(new OnEditorActionListener(action =>
+            {
+                if(action == ImeAction.Done)
+                    ViewModel.LogInCommand.Execute(null);
+            }));
+
             LoginPageRegisterButton.SetCommand(ViewModel.NavigateRegister);
             LoginPageProblemsButton.SetCommand(ViewModel.ProblemsCommand);
 
             SignInButton.SetCommand(ViewModel.LogInCommand);
             LoginPageLogOutButton.SetCommand(ViewModel.LogOutCommand);
 
-            RootView.ViewTreeObserver.GlobalLayout += (sender, args) =>
+            RootView.ViewTreeObserver.GlobalLayout +=  async (sender, args) =>
             {
                 Rect r = new Rect();
                 RootView.GetWindowVisibleDisplayFrame(r);
                 int keypadHeight = RootView.RootView.Height - r.Bottom;
-
+                await Task.Delay(100);
                 if (keypadHeight > RootView.Height * 0.15)
                 {
                     BottomButtonsSection.Visibility = ViewStates.Gone;

@@ -401,18 +401,6 @@ namespace MALClient.XShared.ViewModels
             }
         }
 
-        private string _watchedEpsLabel = "Watched episodes";
-
-        public string WatchedEpsLabel
-        {
-            get { return _watchedEpsLabel; }
-            set
-            {
-                _watchedEpsLabel = value;
-                RaisePropertyChanged(() => WatchedEpsLabel);
-            }
-        }
-
         private string _updateEpsUpperLabel = "Watched episodes";
 
         public string UpdateEpsUpperLabel
@@ -941,16 +929,28 @@ namespace MALClient.XShared.ViewModels
                 LoadingUpdate = true;
                 WatchedEpsInputNoticeVisibility = false;
                 var prevWatched = MyEpisodesFocused;
+
+                var trigCompleted = true;
+                if (MyStatus == AnimeStatus.PlanToWatch || MyStatus == AnimeStatus.Dropped ||
+                    MyStatus == AnimeStatus.OnHold)
+                {
+                    if (MyEpisodesFocused + watched != AllEpisodesFocused || AllEpisodesFocused == 0) //avoid double status change when show is going to be completed immediatelly
+                    {
+                        trigCompleted = AllEpisodes > 1;
+                        PromptForStatusChange(AllEpisodes == 1 ? AnimeStatus.Completed : AnimeStatus.Watching);
+                    }
+                }
+
                 MyEpisodesFocused = watched;
                 var response = await GetAppropriateUpdateQuery().GetRequestResponse();
                 if (response != "Updated" && Settings.SelectedApiType == ApiType.Mal)
                     MyEpisodesFocused = prevWatched;
 
-                if (MyEpisodesFocused == _allEpisodes && _allEpisodes != 0)
-                    PromptForStatusChange(AnimeStatus.Completed);
-
                 AdjustIncrementButtonsVisibility();
                 ParentAbstraction.LastWatched = DateTime.Now;
+
+                if (trigCompleted && MyEpisodesFocused == AllEpisodesFocused && AllEpisodesFocused != 0)
+                    PromptForStatusChange(AnimeStatus.Completed);
 
                 LoadingUpdate = false;
                 WatchedEpsInput = "";

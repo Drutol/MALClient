@@ -60,9 +60,7 @@ namespace MALClient.Android.DIalogs
         {
             if(_textInputDialog == null)
                 return;
-            var inputManager = (InputMethodManager)MainActivity.CurrentContext.GetSystemService(Context.InputMethodService);
-            if(inputManager.IsActive)
-                inputManager.ToggleSoftInput(ShowFlags.Forced, 0);
+            AndroidUtilities.HideKeyboard();
             ViewModelLocator.NavMgr.ResetOneTimeOverride();
             _semaphoreTextInput.Release();
             _textInputDialog.Dismiss();
@@ -141,9 +139,7 @@ namespace MALClient.Android.DIalogs
         {
             if(_forumTextInputDialog==null)
                 return;
-            var inputManager = (InputMethodManager)MainActivity.CurrentContext.GetSystemService(Context.InputMethodService);
-            if (inputManager.IsActive)
-                inputManager.ToggleSoftInput(ShowFlags.Forced, 0);
+            AndroidUtilities.HideKeyboard();
             _success = success;
             _semaphoreForumTextInput.Release();
             _forumTextInputDialog.Dismiss();

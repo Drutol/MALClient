@@ -30,7 +30,6 @@ namespace MALClient.Android.Fragments.SettingsFragments
         private Switch _settingsPageGeneralSeasonSwitch;
         private Switch _settingsPageGeneralAutoSortSwitch;
         private Switch _settingsPageGeneralVolsImportantSwitch;
-        private Switch _settingsPageGeneralRandomSelectedSwitch;
         private Switch _settingsPageGeneralExternalLinksSwitch;
         private RadioButton _settingsPageGeneralAnimeSortTitleRadioBtn;
         private RadioButton _settingsPageGeneralAnimeScoreTitleRadioBtn;
@@ -52,7 +51,6 @@ namespace MALClient.Android.Fragments.SettingsFragments
         private Spinner _settingsPageGeneralDroppedViewModeSpinner;
         private Spinner _settingsPageGeneralPtwViewModeSpinner;
         private Spinner _settingsPageGeneralAllViewModeSpinner;
-        private Switch _settingsGeneralPageLockDisplayModeSwitch;
         private Spinner _settingsPageGeneralAnimeFilterSpinner;
         private Spinner _settingsPageGeneralMangaFilerSpinner;
         private CheckBox _settingsPageGeneralStartDateWhenAddCheckBox;
@@ -92,8 +90,6 @@ namespace MALClient.Android.Fragments.SettingsFragments
         public Switch SettingsPageGeneralAutoSortSwitch => _settingsPageGeneralAutoSortSwitch ?? (_settingsPageGeneralAutoSortSwitch = FindViewById<Switch>(Resource.Id.SettingsPageGeneralAutoSortSwitch));
 
         public Switch SettingsPageGeneralVolsImportantSwitch => _settingsPageGeneralVolsImportantSwitch ?? (_settingsPageGeneralVolsImportantSwitch = FindViewById<Switch>(Resource.Id.SettingsPageGeneralVolsImportantSwitch));
-
-        public Switch SettingsPageGeneralRandomSelectedSwitch => _settingsPageGeneralRandomSelectedSwitch ?? (_settingsPageGeneralRandomSelectedSwitch = FindViewById<Switch>(Resource.Id.SettingsPageGeneralRandomSelectedSwitch));
 
         public Switch SettingsPageGeneralExternalLinksSwitch => _settingsPageGeneralExternalLinksSwitch ?? (_settingsPageGeneralExternalLinksSwitch = FindViewById<Switch>(Resource.Id.SettingsPageGeneralExternalLinksSwitch));
 
@@ -136,8 +132,6 @@ namespace MALClient.Android.Fragments.SettingsFragments
         public Spinner SettingsPageGeneralPtwViewModeSpinner => _settingsPageGeneralPtwViewModeSpinner ?? (_settingsPageGeneralPtwViewModeSpinner = FindViewById<Spinner>(Resource.Id.SettingsPageGeneralPtwViewModeSpinner));
 
         public Spinner SettingsPageGeneralAllViewModeSpinner => _settingsPageGeneralAllViewModeSpinner ?? (_settingsPageGeneralAllViewModeSpinner = FindViewById<Spinner>(Resource.Id.SettingsPageGeneralAllViewModeSpinner));
-
-        public Switch SettingsGeneralPageLockDisplayModeSwitch => _settingsGeneralPageLockDisplayModeSwitch ?? (_settingsGeneralPageLockDisplayModeSwitch = FindViewById<Switch>(Resource.Id.SettingsGeneralPageLockDisplayModeSwitch));
 
         public Spinner SettingsPageGeneralAnimeFilterSpinner => _settingsPageGeneralAnimeFilterSpinner ?? (_settingsPageGeneralAnimeFilterSpinner = FindViewById<Spinner>(Resource.Id.SettingsPageGeneralAnimeFilterSpinner));
 

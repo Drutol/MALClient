@@ -228,9 +228,6 @@
     <Compile Include="Activities\MainActivity.hamburger.cs" />
     <Compile Include="Activities\MainActivity.ui.cs" />
     <Compile Include="Activities\MainActivity.ads.cs" />
-    <Compile Include="Activities\SplashActivity.cs" />
-    <Compile Include="Adapters\CollectionAdapters\AlternatingListCollectionAdapter.cs" />
-    <Compile Include="Adapters\CollectionAdapters\IFlingAwareAdapter.cs" />
     <Compile Include="Adapters\CollectionAdapters\ObservableAdapterWithFooter.cs" />
     <Compile Include="Adapters\DialogAdapters\ScoreDialogAdapter.cs" />
     <Compile Include="Adapters\DialogAdapters\WatchedDialogAdapter.cs" />
@@ -362,10 +359,12 @@
     <Compile Include="Listeners\OnBackPressListener.cs" />
     <Compile Include="Listeners\OnCheckedListener.cs" />
     <Compile Include="Listeners\OnClickListener.cs" />
+    <Compile Include="Listeners\OnEditorActionListener.cs" />
     <Compile Include="Listeners\OnItemClickListener.cs" />
     <Compile Include="Listeners\OnLongClickListener.cs" />
     <Compile Include="Listeners\OnPageChangedListener.cs" />
     <Compile Include="Listeners\OnScrollListener.cs" />
+    <Compile Include="Listeners\OnTextEnterListener.cs" />
     <Compile Include="Listeners\OnTouchListener.cs" />
     <Compile Include="Listeners\OnPreparedListener.cs" />
     <Compile Include="Listeners\ScrollChangedListener.cs" />

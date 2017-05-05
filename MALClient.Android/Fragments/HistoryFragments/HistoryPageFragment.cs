@@ -34,8 +34,11 @@ namespace MALClient.Android.Fragments.HistoryFragments
 
         protected override void Init(Bundle savedInstanceState)
         {
-            ViewModelLocator.NavMgr.DeregisterBackNav();
-            ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageAnimeList, null);
+            if (_args == null)
+            {
+                ViewModelLocator.NavMgr.DeregisterBackNav();
+                ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageAnimeList, null);
+            }       
             ViewModel = ViewModelLocator.History;
             ViewModel.Init(_args);
         }

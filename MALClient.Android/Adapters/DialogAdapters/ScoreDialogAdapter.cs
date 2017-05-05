@@ -23,7 +23,7 @@ namespace MALClient.Android.DialogAdapters
             _context = context;
             _currentScore = Settings.SelectedApiType == ApiType.Hummingbird ? currentScore*2 : currentScore;
             _desciptions = desciptions.ToList();
-            _desciptions.Add("0 - Unranked");
+            _desciptions.Add("Unranked");
             _desciptions.Reverse();
         }
 

@@ -103,8 +103,10 @@ namespace MALClient.Android.UserControls
             }
 
             AnimeListItemTagsButton.SetOnClickListener(new OnClickListener(OnTagsButtonClick));
-            AnimeListItemStatusButton.SetCommand("Click", new RelayCommand(ShowStatusDialog));
-            AnimeListItemScoreButton.SetCommand("Click", new RelayCommand(ShowRatingDialog));
+            AnimeListItemStatusButton.SetOnClickListener(
+                new OnClickListener(view => ShowStatusDialog()));
+            AnimeListItemScoreButton.SetOnClickListener(
+                new OnClickListener(view => ShowRatingDialog()));
 
             if (ViewModel.Auth)
             {
@@ -118,8 +120,10 @@ namespace MALClient.Android.UserControls
                 AnimeListItemWatchedButton.Focusable = false;
             }
 
-            AnimeListItemIncButton.SetCommand("Click", ViewModel.IncrementWatchedCommand);
-            AnimeListItemDecButton.SetCommand("Click", ViewModel.DecrementWatchedCommand);
+            AnimeListItemIncButton.SetOnClickListener(
+                new OnClickListener(view => ViewModel.IncrementWatchedCommand.Execute(null)));
+            AnimeListItemDecButton.SetOnClickListener(
+                new OnClickListener(view => ViewModel.DecrementWatchedCommand.Execute(null)));
 
             RootContainer.SetOnLongClickListener(new OnLongClickListener(view => MoreButtonOnClick()));
             RootContainer.SetOnClickListener(new OnClickListener(view => ContainerOnClick()));
@@ -160,7 +164,7 @@ namespace MALClient.Android.UserControls
             }
 
             AnimeListItemTagsButton.Visibility = ViewModel.TagsControlVisibility ? ViewStates.Visible : ViewStates.Invisible;
-            AnimeListItemStatusScoreSection.Visibility = ViewModel.Auth ? ViewStates.Visible : ViewStates.Gone;
+            AnimeListItemStatusScoreSection.Visibility = ViewModel.UpdateButtonsVisibility ? ViewStates.Visible : ViewStates.Gone;
         }
 
         private void ViewModelOnPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
@@ -239,15 +243,18 @@ namespace MALClient.Android.UserControls
 
         private void ShowStatusDialog()
         {
-            AnimeUpdateDialogBuilder.BuildStatusDialog(ViewModel, ViewModel.ParentAbstraction.RepresentsAnime);
+            if (ViewModel.Auth)
+                AnimeUpdateDialogBuilder.BuildStatusDialog(ViewModel, ViewModel.ParentAbstraction.RepresentsAnime);
         }
         private void ShowWatchedDialog()
         {
-            AnimeUpdateDialogBuilder.BuildWatchedDialog(ViewModel);
+            if (ViewModel.Auth)
+                AnimeUpdateDialogBuilder.BuildWatchedDialog(ViewModel);
         }
         private void ShowRatingDialog()
         {
-            AnimeUpdateDialogBuilder.BuildScoreDialog(ViewModel);
+            if (ViewModel.Auth)
+                AnimeUpdateDialogBuilder.BuildScoreDialog(ViewModel);
         }
         #endregion
 

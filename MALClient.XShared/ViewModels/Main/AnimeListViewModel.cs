@@ -104,7 +104,9 @@ namespace MALClient.XShared.ViewModels.Main
             set
             {
                 SetDesiredStatus(value);
-
+#if ANDROID
+                SetDisplayMode((AnimeStatus)GetDesiredStatus());
+#endif
 
             }
         }

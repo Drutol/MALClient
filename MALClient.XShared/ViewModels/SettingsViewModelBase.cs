@@ -495,18 +495,21 @@ namespace MALClient.XShared.ViewModels
             set
             {
                 Settings.MangaFocusVolumes = value;
-                foreach (var item in ResourceLocator.AnimeLibraryDataStorage.AllLoadedMangaItemAbstractions)
+                foreach (var item in ResourceLocator.AnimeLibraryDataStorage.AllLoadedMangaItemAbstractions.Concat(
+                    ResourceLocator.AnimeLibraryDataStorage.OthersAbstractions.Select(pair => pair.Value)
+                        .SelectMany(tuple => tuple.Item2)))
                 {
                     if (item.LoadedModel)
                         item.ViewModel.MangaFocusChanged(value);
                 }
-                if (ViewModelLocator.GeneralMain.CurrentMainPage == PageIndex.PageProfile)
-                {
-                    foreach (var item in ViewModelLocator.ProfilePage.FavManga.Concat(ViewModelLocator.ProfilePage.RecentManga))
+                if(!ViewModelLocator.Mobile)
+                    if (ViewModelLocator.GeneralMain.CurrentMainPage == PageIndex.PageProfile)
                     {
-                        item.MangaFocusChanged(value);
-                    }               
-                }
+                        foreach (var item in ViewModelLocator.ProfilePage.FavManga.Concat(ViewModelLocator.ProfilePage.RecentManga))
+                        {
+                            item.MangaFocusChanged(value);
+                        }               
+                    }
             }
         }
 

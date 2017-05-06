@@ -1304,7 +1304,7 @@ namespace MALClient.XShared.ViewModels.Details
                 ViewModelLocator.GeneralMain.MediaElementVisibility = true;
                 ViewModelLocator.GeneralMain.MediaElementIndirectSource = data.YtLink;
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 ResourceLocator.MessageDialogProvider.ShowMessageDialog("Something went wrong with loading this video, probably google has messed again with their api again... yay!","Unable to load youtube video!");
             }

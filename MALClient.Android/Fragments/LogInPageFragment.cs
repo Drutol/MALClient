@@ -80,13 +80,14 @@ namespace MALClient.Android.Fragments
                 Rect r = new Rect();
                 RootView.GetWindowVisibleDisplayFrame(r);
                 int keypadHeight = RootView.RootView.Height - r.Bottom;
-                await Task.Delay(100);
+
                 if (keypadHeight > RootView.Height * 0.15)
                 {
                     BottomButtonsSection.Visibility = ViewStates.Gone;
                 }
                 else
                 {
+                    await Task.Delay(100);
                     BottomButtonsSection.Visibility = ViewStates.Visible;
                 }
             };

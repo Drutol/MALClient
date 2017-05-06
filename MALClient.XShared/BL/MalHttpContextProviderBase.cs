@@ -58,7 +58,7 @@ namespace MALClient.XShared.BL
 
         public void Invalidate()
         {
-            _httpClient.ExpiredDispose();
+            _httpClient?.ExpiredDispose();
             _httpClient = null;
             _contextExpirationTime = null;
         }

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
+using Android.Content.Res;
 using Android.Graphics;
 using Android.OS;
 using Android.Runtime;
@@ -38,7 +39,10 @@ namespace MALClient.Android.Activities
         private bool _allowHamburgerNavigation = true;
         private View _accountHamburgerView;
         private bool _selectedProfileItem;
+        private bool _selectedSettingsItem;
         private DroppyMenuPopup _supportMenu;
+        private View _settingsHamburgerView;
+        private View _footerView;
 
         public event EventHandler HamburgerOpened;
 
@@ -230,16 +234,28 @@ namespace MALClient.Android.Activities
 
         public void SetActiveButton(HamburgerButtons val)
         {
-            if (_selectedProfileItem)
+            if (_footerView != null)
             {
-                if(val == HamburgerButtons.Profile)
-                    return;
+                if (_selectedProfileItem)
+                {
+                    if (val == HamburgerButtons.Profile)
+                        return;
 
-                _accountHamburgerView.SetBackgroundColor(Color.Transparent);
-                _accountHamburgerView.FindViewById<TextView>(Resource.Id.HamburgerProfileItemLabel).SetTextColor(new Color(ResourceExtension.BrushText));
-                _selectedProfileItem = false;
+                    _accountHamburgerView.SetBackgroundColor(Color.Transparent);
+                    _accountHamburgerView.FindViewById<TextView>(Resource.Id.HamburgerProfileItemLabel).SetTextColor(new Color(ResourceExtension.BrushText));
+                    _selectedProfileItem = false;
+                }
+                if (_selectedSettingsItem)
+                {
+                    if (val == HamburgerButtons.Settings)
+                        return;
+
+                    _settingsHamburgerView.SetBackgroundColor(Color.Transparent);
+                    _settingsHamburgerView.FindViewById<TextView>(Resource.Id.HamburgerSettingsItemLabel).SetTextColor(new Color(ResourceExtension.BrushText));
+                    _settingsHamburgerView.FindViewById<ImageView>(Resource.Id.HamburgerSettingsItemIcon).ImageTintList = ColorStateList.ValueOf(new Color(ResourceExtension.BrushText));
+                    _selectedSettingsItem = false;
+                }
             }
-
             long id;
             switch (val)
             {
@@ -253,7 +269,16 @@ namespace MALClient.Android.Activities
                     id = (long) PageIndex.PageLogIn;
                     break;
                 case HamburgerButtons.Settings:
-                    _drawer.SetStickyFooterSelection((int)PageIndex.PageSettings, false);
+                    if (_settingsHamburgerView != null)
+                    {
+                        _settingsHamburgerView.SetBackgroundColor(Settings.SelectedTheme == 1
+                            ? new Color(ResourceExtension.BrushAnimeItemBackground)
+                            : Color.White);
+                        _settingsHamburgerView.FindViewById<TextView>(Resource.Id.HamburgerSettingsItemLabel).SetTextColor(new Color(ResourceExtension.AccentColour));
+                        _settingsHamburgerView.FindViewById<ImageView>(Resource.Id.HamburgerSettingsItemIcon).ImageTintList = ColorStateList.ValueOf(new Color(ResourceExtension.AccentColour));
+                        _selectedSettingsItem = true;
+                    }
+                    _drawer.SetSelectionAtPosition(-1);
                     return;
                 case HamburgerButtons.Profile:
                     _accountHamburgerView.SetBackgroundColor(Settings.SelectedTheme == 1
@@ -332,63 +357,74 @@ namespace MALClient.Android.Activities
             //
         }
 
-        public async void UpdateLogInLabel()
+        public void UpdateLogInLabel()
         {
-            IDrawerItem accountButton;
             if (Credentials.Authenticated)
             {
                 var btn = new ContainerDrawerItem();
                 if (_accountHamburgerView == null)
                 {
-                    _accountHamburgerView = LayoutInflater.Inflate(Resource.Layout.HamburgerProfileItem,null);
-                    _accountHamburgerView.Click += (sender, args) =>
+                    _footerView = LayoutInflater.Inflate(Resource.Layout.HamburgerProfileItem, null);
+                    _accountHamburgerView = _footerView.FindViewById(Resource.Id.HamburgerBottomViewProfileItem);
+                    _settingsHamburgerView = _footerView.FindViewById(Resource.Id.HamburgerBottomViewSettingsItem);
+
+                    //
+                    _accountHamburgerView.SetOnClickListener(new OnClickListener(view =>
                     {
                         SetActiveButton(HamburgerButtons.Profile);
                         OnHamburgerItemClick(PageIndex.PageProfile);
-                    };
+                    }));
                     var listener = new OnClickListener(OnProfileSubItemCLick);
-                    _accountHamburgerView.FindViewById(Resource.Id.HamburgerProfileItemNotifications).SetOnClickListener(listener);
-                    _accountHamburgerView.FindViewById(Resource.Id.HamburgerProfileItemSupport).SetOnClickListener(listener);
+                    _accountHamburgerView.FindViewById(Resource.Id.HamburgerProfileItemNotifications).SetOnClickListener(listener);                  
                     _accountHamburgerView.FindViewById(Resource.Id.HamburgerProfileItemMessages).SetOnClickListener(listener);
+                    _settingsHamburgerView.FindViewById(Resource.Id.HamburgerProfileItemSupport).SetOnClickListener(listener); ;
+                    //
+                    _settingsHamburgerView.SetOnClickListener(new OnClickListener(view =>
+                    {
+                        SetActiveButton(HamburgerButtons.Settings);
+                        OnHamburgerItemClick(PageIndex.PageSettings);
+                    }));
+
                 }
                 ImageService.Instance
                     .LoadUrl($"https://myanimelist.cdn-dena.com/images/userimages/{Credentials.Id}.jpg")
                     .FadeAnimation(false).Transform(new CircleTransformation())
                     .Into(_accountHamburgerView.FindViewById<ImageViewAsync>(Resource.Id.HamburgerProfileItemImage));
-                btn.WithView(_accountHamburgerView);
-                btn.WithSelectable(true);
+                btn.WithView(_footerView);
+                btn.WithSelectable(false);
                 btn.WithDivider(false);
-                
-                //btn.WithName("Account");
-                //btn.WithTextColorRes(ResourceExtension.BrushTextRes);
-                //btn.WithSelectedColorRes(ResourceExtension.BrushAnimeItemBackgroundRes);
-                //btn.WithSelectedTextColorRes(ResourceExtension.AccentColourRes);
-                btn.WithIdentifier((int)PageIndex.PageProfile);
-                //btn.WithIcon(Resource.Drawable.icon_account);
-                
-                accountButton = btn;
+
+                _drawer.RemoveAllStickyFooterItems();
+                _drawer.AddStickyFooterItem(btn);
             }
             else
             {
-                var btn = GetBaseSecondaryItem();
-                btn.WithName("Sign in");
-                btn.WithIdentifier((int)PageIndex.PageLogIn);
-                btn.WithIcon(Resource.Drawable.icon_login);
-                accountButton = btn;
+                var accountButton = GetBaseSecondaryItem();
+                accountButton.WithName("Sign in");
+                accountButton.WithIdentifier((int)PageIndex.PageLogIn);
+                accountButton.WithIcon(Resource.Drawable.icon_login);
+
+                var settingsButton = GetBaseSecondaryItem();
+                settingsButton.WithName("Settings & more");
+                settingsButton.WithIdentifier((int)PageIndex.PageSettings);
+                settingsButton.WithIcon(Resource.Drawable.icon_settings);
+
+                _drawer.RemoveAllStickyFooterItems();
+                _drawer.AddStickyFooterItem(accountButton);
+                _drawer.AddStickyFooterItem(settingsButton);
             }
 
-            var settingsButton = GetBaseSecondaryItem();
-            settingsButton.WithName("Settings & more");
-            settingsButton.WithIdentifier((int)PageIndex.PageSettings);
-            settingsButton.WithIcon(Resource.Drawable.icon_settings);
+            //var settingsButton = new ContainerDrawerItem();
+            //settingsButton.WithSelectable(false);
+            //settingsButton.WithDivider(false);
 
 
-            _drawer.RemoveAllStickyFooterItems();
-            _drawer.AddStickyFooterItem(accountButton);
-            _drawer.AddStickyFooterItem(settingsButton);
+            if (_footerView != null)
+            {
+                var par = _footerView.Parent as View;
+                par.SetPadding(0, 0, 0, 0);
+            }
 
-            var par = _accountHamburgerView.Parent as View;
-            par.SetPadding(0,0,0,0);
         }
 
         private void OnProfileSubItemCLick(View view)
@@ -403,7 +439,7 @@ namespace MALClient.Android.Activities
                     break;
                 case Resource.Id.HamburgerProfileItemSupport:
                     _supportMenu = FlyoutMenuBuilder.BuildGenericFlyout(this, view,
-                        new List<string> {"Feedback","Review","Donate"}, OnSupportMenuSelection);
+                        new List<string> {"Feedback","Review","Donate","Trun on ads"}, OnSupportMenuSelection);
                     _supportMenu.Show();
                     break;
             }
@@ -423,6 +459,10 @@ namespace MALClient.Android.Activities
                     break;
                 case 2:
                     ViewModelLocator.GeneralMain.Navigate(PageIndex.PageSettings,SettingsPageIndex.About);
+                    _drawer.CloseDrawer();
+                    break;
+                case 3:
+                    ViewModelLocator.GeneralMain.Navigate(PageIndex.PageSettings,SettingsPageIndex.Ads);
                     _drawer.CloseDrawer();
                     break;
             }

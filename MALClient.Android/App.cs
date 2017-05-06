@@ -55,7 +55,7 @@ namespace MALClient.Android
             InitializationRoutines.InitApp();
             ServicePointManager.ServerCertificateValidationCallback += (o, certificate, chain, errors) =>
             {
-                if(certificate.Subject == "CN=*.myanimelist.net")
+                if(certificate.Subject == "CN=*.myanimelist.net" || certificate.Subject == "CN=*.google.com, O=Google Inc, L=Mountain View, S=California, C=US")
                     return true;
                 return false;
             };

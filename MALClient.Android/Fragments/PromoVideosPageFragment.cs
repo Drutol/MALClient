@@ -61,10 +61,19 @@ namespace MALClient.Android.Fragments
             {
                 if (ViewModel.Videos != null)
                     PromoVideosPageGridView.InjectFlingAdapter(ViewModel.Videos, SetItemBindingsFull,
-                        SetItemBindingsFling, GetItemContainer);
+                        SetItemBindingsFling, GetItemContainer,DataTemplateBasic);
                 else
                     PromoVideosPageGridView.Adapter = null;
             }));          
+        }
+
+        private void DataTemplateBasic(View view, int i, AnimeVideoData animeVideoData)
+        {
+            var str = new SpannableString($"{animeVideoData.Name} - {animeVideoData.AnimeTitle}");
+            str.SetSpan(PrefixStyle, 0, animeVideoData.Name.Length, SpanTypes.InclusiveInclusive);
+            str.SetSpan(PrefixColorStyle, 0, animeVideoData.Name.Length, SpanTypes.InclusiveInclusive);
+            view.FindViewById<TextView>(Resource.Id.PromoVideosPageItemSubtitle)
+                .SetText(str.SubSequenceFormatted(0, str.Length()), TextView.BufferType.Spannable);
         }
 
         private View GetItemContainer(int i)
@@ -80,30 +89,28 @@ namespace MALClient.Android.Fragments
         private void SetItemBindingsFull(View view, int i, AnimeVideoData animeVideoData)
         {
             var img = view.FindViewById<ImageViewAsync>(Resource.Id.PromoVideosPageItemImage);
-            if ((string)img.Tag != animeVideoData.YtLink)
+            if (img.Tag == null || (string)img.Tag != animeVideoData.Thumb)
             {
-                view.FindViewById(Resource.Id.PromoVideosPageItemImgPlaceholder).Visibility = ViewStates.Gone;
-                img.Tag = animeVideoData.YtLink;
                 img.Into(animeVideoData.Thumb);
             }
-
-            var str = new SpannableString($"{animeVideoData.Name} - {animeVideoData.AnimeTitle}");
-            str.SetSpan(PrefixStyle, 0, animeVideoData.Name.Length, SpanTypes.InclusiveInclusive);
-            str.SetSpan(PrefixColorStyle, 0, animeVideoData.Name.Length, SpanTypes.InclusiveInclusive);
-            view.FindViewById<TextView>(Resource.Id.PromoVideosPageItemSubtitle)
-                .SetText(str.SubSequenceFormatted(0, str.Length()), TextView.BufferType.Spannable);
+            view.FindViewById(Resource.Id.PromoVideosPageItemImgPlaceholder).Visibility = ViewStates.Gone;
         }
 
         private void SetItemBindingsFling(View view, int i, AnimeVideoData animeVideoData)
         {
-            view.FindViewById(Resource.Id.PromoVideosPageItemImgPlaceholder).Visibility = ViewStates.Visible;
-            view.FindViewById(Resource.Id.PromoVideosPageItemImage).Visibility = ViewStates.Invisible;
-
-            var str = new SpannableString($"{animeVideoData.Name} - {animeVideoData.AnimeTitle}");
-            str.SetSpan(PrefixStyle, 0, animeVideoData.Name.Length, SpanTypes.InclusiveInclusive);
-            str.SetSpan(PrefixColorStyle, 0, animeVideoData.Name.Length, SpanTypes.InclusiveInclusive);
-            view.FindViewById<TextView>(Resource.Id.PromoVideosPageItemSubtitle)
-                .SetText(str.SubSequenceFormatted(0, str.Length()), TextView.BufferType.Spannable);
+            var img = view.FindViewById<ImageViewAsync>(Resource.Id.PromoVideosPageItemImage);
+            if (img.IntoIfLoaded(animeVideoData.Thumb))
+            {
+                img.Visibility = ViewStates.Visible;
+                view.FindViewById(Resource.Id.PromoVideosPageItemImgPlaceholder).Visibility = ViewStates.Visible;
+            }
+            else
+            {
+                img.Visibility = ViewStates.Invisible;
+                view.FindViewById(Resource.Id.PromoVideosPageItemImgPlaceholder).Visibility = ViewStates.Gone;
+            }
+            
+             
         }
 
         private async void VideoItemOnClickOpenVideo(object sender, EventArgs eventArgs)

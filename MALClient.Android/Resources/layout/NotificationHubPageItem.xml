@@ -10,7 +10,7 @@
   <FrameLayout
     android:layout_width="0dp" android:background="?BrushAnimeItemBackground" android:id="@+id/NotificationHubPageItemLeftContainer"
     android:layout_height="wrap_content" android:clickable="true" android:focusable="true" android:foreground="?selectableItemBackground"
-    android:layout_gravity="center_vertical"
+    android:layout_gravity="center_vertical" android:minHeight="65dp"
     android:layout_weight="1" android:elevation="5dp">
     <LinearLayout
       android:layout_width="match_parent"
@@ -33,7 +33,7 @@
         android:layout_gravity="center_vertical"
         android:layout_marginEnd="5dp"
         android:layout_weight="1" android:paddingTop="5dp" android:paddingBottom="5dp"
-        android:text="Shingeki no Bahamut: Genesis - Short Story (ONA) has just been added to MAL Database!"
+        android:text="Shingw"
         android:textColor="?BrushText" />
     </LinearLayout>
 
@@ -51,7 +51,7 @@
       android:layout_width="match_parent"
       android:layout_height="match_parent"
       android:background="?BrushAnimeItemInnerBackground"
-      android:gravity="center"
+      android:gravity="top|center_horizontal"
       android:orientation="vertical"
       android:paddingBottom="10dp"
       android:paddingTop="10dp">

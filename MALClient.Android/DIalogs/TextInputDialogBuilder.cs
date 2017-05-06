@@ -46,6 +46,7 @@ namespace MALClient.Android.DIalogs
             dialogView.FindViewById<TextView>(Resource.Id.TextInputDialogTitle).Text = title;
             var textBox = dialogView.FindViewById<EditText>(Resource.Id.TextInputDialogTextBox);
             textBox.Hint = hint;
+            textBox.AddTextChangedListener(new OnTextEnterListener(CleanupTextInputDialog));
 
             dialogView.FindViewById<Button>(Resource.Id.TextInputDialogAcceptButton).Text = accept;
             dialogView.FindViewById(Resource.Id.TextInputDialogAcceptButton).SetOnClickListener(new OnClickListener(view => CleanupTextInputDialog()));
@@ -53,7 +54,7 @@ namespace MALClient.Android.DIalogs
 
             await _semaphoreTextInput.WaitAsync();
 
-            return textBox.Text;
+            return textBox.Text.Trim();
         }
 
         private static void CleanupTextInputDialog()

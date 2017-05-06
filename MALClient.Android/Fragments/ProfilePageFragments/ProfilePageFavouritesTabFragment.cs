@@ -157,14 +157,14 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
 
         private void FavItemOnClick(object sender, EventArgs eventArgs)
         {
-            var model = (sender as View).Tag.Unwrap<FavouriteBase>();
-            if (model.Type == FavouriteType.Character)
+            var model = (sender as View).Tag.Unwrap<FavouriteViewModel>();
+            if (model.Data.Type == FavouriteType.Character)
             {
-                ViewModel.NavigateCharacterDetailsCommand.Execute(model);
+                ViewModel.NavigateCharacterDetailsCommand.Execute(model.Data);
             }
             else
             {
-                ViewModel.NavigateStaffDetailsCommand.Execute(model);
+                ViewModel.NavigateStaffDetailsCommand.Execute(model.Data);
             }
         }
 

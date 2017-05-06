@@ -60,6 +60,7 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
                     ProfilePageGeneralTabFriendsGrid.Adapter =
                         ViewModel.CurrentData.Friends.GetAdapter(GetFriendTemplateDelegate);
 
+                    ProfilePageGeneralTabCommentsList.RemoveAllViews();
                     if(ProfilePageGeneralTabScrollingContainer.ScrollY > 0)
                         PopulateComments();
                     else

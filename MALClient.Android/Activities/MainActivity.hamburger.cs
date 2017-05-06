@@ -423,6 +423,9 @@ namespace MALClient.Android.Activities
             {
                 var par = _footerView.Parent as View;
                 par.SetPadding(0, 0, 0, 0);
+                var param = par.LayoutParameters;
+                param.Height = DimensionsHelper.DpToPx(130);
+                par.LayoutParameters = param;
             }
 
         }

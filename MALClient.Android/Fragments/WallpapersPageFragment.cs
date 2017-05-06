@@ -155,16 +155,23 @@ namespace MALClient.Android.Fragments
         {
             Activity.RunOnUiThread(() =>
             {
+                try
+                {
+                    var parent = (imageViewAsync.Parent as View);
+                    parent.FindViewById(Resource.Id.WallpapersPageItemImgPlaceholder).Visibility = ViewStates.Gone;
+                    var vm = parent.Tag.Unwrap<WallpaperItemViewModel>();
+                    if (!string.IsNullOrEmpty(vm.Resolution))
+                        return;
 
-                var parent = (imageViewAsync.Parent as View);
-                parent.FindViewById(Resource.Id.WallpapersPageItemImgPlaceholder).Visibility = ViewStates.Gone;
-                var vm = parent.Tag.Unwrap<WallpaperItemViewModel>();
-                if (!string.IsNullOrEmpty(vm.Resolution))
-                    return;
-
-                var bounds = imageViewAsync.Drawable.Bounds;
-                vm.Resolution = $"{bounds.Bottom}x{bounds.Right}";
-                parent.FindViewById<TextView>(Resource.Id.WallpapersPageItemResolution).Text = vm.Resolution;
+                    var bounds = imageViewAsync.Drawable.Bounds;
+                    vm.Resolution = $"{bounds.Bottom}x{bounds.Right}";
+                    parent.FindViewById<TextView>(Resource.Id.WallpapersPageItemResolution).Text = vm.Resolution;
+                }
+                catch (Exception)
+                {
+                    // user navigated out and image has loaded in background
+                }
+                
             });
 
         }

@@ -26,6 +26,7 @@ namespace MALClient.Android.PagerAdapters
         private RecommendationItemFragment _currentFragment;
         private readonly Dictionary<int,RecommendationItemFragment> _pageFragments = new Dictionary<int, RecommendationItemFragment>();
         private readonly List<RecommendationItemViewModel> _items;
+        private int? _fragmentWaitingForBinding;
 
         public RecommandtionsPagerAdapter(FragmentManager fm,IEnumerable<RecommendationItemViewModel> items) : base(fm)
         {
@@ -38,6 +39,13 @@ namespace MALClient.Android.PagerAdapters
         {
             if(!_pageFragments.ContainsKey(position))
                 _pageFragments.Add(position,new RecommendationItemFragment());
+
+            if (_fragmentWaitingForBinding != null)
+            {
+                _pageFragments[position].BindModel(_items[_fragmentWaitingForBinding.Value]);
+                _fragmentWaitingForBinding = null;
+            }
+
             return _pageFragments[position];
         }
 
@@ -75,9 +83,14 @@ namespace MALClient.Android.PagerAdapters
             var viewModel = _items[index];
 
             viewModel.PopulateData();
+            if (!_pageFragments.Any())
+            {
+                _fragmentWaitingForBinding = index;
+                return;
+            }
             if(index < _items.Count-2)
                 _items[index+1].PopulateData();
-
+         
             _pageFragments[index].BindModel(viewModel);
         }
 

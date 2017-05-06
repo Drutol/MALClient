@@ -35,9 +35,17 @@ namespace MALClient.XShared.Comm.MalSpecific
 
         public async Task<List<UserFeedEntryModel>> GetFeeds()
         {
-            var tasks = _friends.Select(user => Task.Run(() =>GetUserFeed(user))).ToList();
-            await Task.WhenAll(tasks);
-            return tasks.SelectMany(task => task.Result).Where(model => model != null).ToList();
+            try
+            {
+                var tasks = _friends.Select(user => Task.Run(() => GetUserFeed(user))).ToList();
+                await Task.WhenAll(tasks);
+                return tasks.SelectMany(task => task.Result).Where(model => model != null).ToList();
+            }
+            catch (Exception)
+            {
+                return new List<UserFeedEntryModel>();
+            }
+
         }
 
         private async Task<List<UserFeedEntryModel>> GetUserFeed(MalUser user)

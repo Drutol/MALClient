@@ -26,13 +26,13 @@ namespace MALClient.Android.Adapters
             var credential = new VaultCredential("MALClient",
                 ResourceLocator.ApplicationDataService["Username"] as string,
                 StringCipher.Decrypt(ResourceLocator.ApplicationDataService["Passwd"] as string));
-            return credential.Password == null || credential.UserName == null ? null : credential;
+            return string.IsNullOrEmpty(credential.Password) || string.IsNullOrEmpty(credential.UserName) ? null : credential;
         }
 
         public void Reset()
         {
-            ResourceLocator.ApplicationDataService["Username"] = null;
-            ResourceLocator.ApplicationDataService["Passwd"] = null;
+            ResourceLocator.ApplicationDataService["Username"] = "";
+            ResourceLocator.ApplicationDataService["Passwd"] = "";
             //var vault = new PasswordVault();
             //foreach (var passwordCredential in vault.RetrieveAll())
             //    vault.Remove(passwordCredential);

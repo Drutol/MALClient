@@ -79,8 +79,6 @@ namespace MALClient.XShared.Comm.Anime
                         reviewNodeContent.ChildNodes.Remove(1);
                         var rawReview = reviewNodeContent.ChildNodes.Where(node => node.Name == "#text")
                             .Aggregate("", (s, node) => s += node.InnerText)
-                            .Replace("read more", "")
-                            .Replace("Helpful", "")
                             .Trim(' ', '\n', '\r');
 
                         var reviewSecondPart = (reviewNodeContent.ChildNodes.FirstOrDefault(node => node.Name == "span")?.InnerText ?? "")
@@ -93,7 +91,8 @@ namespace MALClient.XShared.Comm.Anime
                         rawReview += reviewSecondPart;
 
                         current.Review =
-                            WebUtility.HtmlDecode(rawReview.Trim(' ', '\n', '\r'));
+                            WebUtility.HtmlDecode(rawReview.Replace("read more", "")
+                                .Replace("Helpful", "").Trim(' ', '\n', '\r'));
 
                         output.Add(current);
                     }

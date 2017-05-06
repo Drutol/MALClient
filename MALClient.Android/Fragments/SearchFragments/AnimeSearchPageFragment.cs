@@ -20,6 +20,8 @@ namespace MALClient.Android.Fragments.SearchFragments
 {
     public class AnimeSearchPageFragment : MalFragmentBase
     {
+        public bool _waitForRootView;
+
         public AnimeSearchPageFragment(bool initBindings) : base(initBindings)
         {
 
@@ -37,11 +39,20 @@ namespace MALClient.Android.Fragments.SearchFragments
 
         protected override void InitBindings()
         {
-
+            if (_waitForRootView)
+            {
+                _waitForRootView = false;
+                NavigatedTo();
+            }
         }
 
         public void NavigatedTo()
         {
+            if (RootView == null)
+            {
+                _waitForRootView = true;
+                return;
+            }
             AnimeSearchPageList.InjectFlingAdapter(ViewModel.AnimeSearchItemViewModels, DataTemplateFull, DataTemplateFling, ContainerTemplate, DataTemplateBasic);
             AnimeSearchPageList.ItemClick += AnimeSearchPageListOnItemClick;
 
@@ -118,7 +129,8 @@ namespace MALClient.Android.Fragments.SearchFragments
 
         protected override void Cleanup()
         {
-            AnimeSearchPageList.ClearFlingAdapter();
+            if(RootView != null)
+                AnimeSearchPageList?.ClearFlingAdapter();
             base.Cleanup();
         }
 

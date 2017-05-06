@@ -79,12 +79,12 @@ namespace MALClient.Android.UserControls
                 if (ViewModel.IsFavourite)
                 {
                     _favButton.SetBackgroundResource(ResourceExtension.AccentColourDarkRes);
-                    _favButtonIcon.SetImageResource(Resource.Drawable.icon_unfavourite);
+                    _favButtonIcon.SetImageResource(Resource.Drawable.icon_favourite);
                 }
                 else
                 {
                     _favButton.SetBackgroundResource(Resource.Color.BrushOpaqueTextView);
-                    _favButtonIcon.SetImageResource(Resource.Drawable.icon_favourite);
+                    _favButtonIcon.SetImageResource(Resource.Drawable.icon_unfavourite);
                 }
             }));
             Bindings.Add(this.SetBinding(() => ViewModel.IsFavouriteButtonEnabled).WhenSourceChanges(() =>

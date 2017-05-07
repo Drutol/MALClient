@@ -16,7 +16,7 @@ namespace MALClient.Android
     {
         public static void InjectAnimeListAdapter(this AbsListView listView, Context context,
             IList<AnimeItemViewModel> items,
-            AnimeListDisplayModes mode, Action<AnimeItemViewModel> onClick = null, bool allowGridItemSwipe = true)
+            AnimeListDisplayModes mode, Action<AnimeItemViewModel> onClick = null, bool allowGridItemSwipe = true, bool displayGridTimeTillAir = false)
         {
             switch (mode)
             {
@@ -41,7 +41,7 @@ namespace MALClient.Android
                         {
                             ((AnimeGridItem) view).BindModel(model, true);
                         },
-                        i => new AnimeGridItem(context, allowGridItemSwipe, onClick)
+                        i => new AnimeGridItem(context, allowGridItemSwipe, onClick, displayGridTimeTillAir)
                     );
                     break;
                 case AnimeListDisplayModes.IndefiniteCompactList:

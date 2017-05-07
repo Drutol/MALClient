@@ -36,10 +36,11 @@ namespace MALClient.Android.Adapters
 
         public List<string> Changelog => new List<string>
         {
-            "Fixes from @Kimod's #64 issue, it's neverending story....",
-            "New message icons.",
-            "Calendar works better.",
-            "Hopefully got rid off crashes on app restore.",
+            "Fixes from #64 #121 and #123 issues.",
+            "Added calendar countdown.",
+            "Hamburger footer tweaks.",
+            "More keyboard fixes.",
+            "Login issues fixes.",
         };
 
     }

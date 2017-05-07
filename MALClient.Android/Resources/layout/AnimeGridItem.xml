@@ -155,20 +155,37 @@
           android:layout_height="25dp" android:layout_gravity="center_horizontal"
           android:src="@drawable/icon_fav_outline" android:scaleType="center" android:tint="#fff"/>
       </LinearLayout>
-      <TextView
-        android:layout_width="wrap_content"
-        android:id="@+id/AnimeGridItemType"
-        android:layout_alignParentBottom="true"
-        android:layout_height="wrap_content"
-        android:paddingLeft="5dp"
-        android:paddingRight="5dp"
-        android:paddingTop="2dp"
-        android:paddingBottom="2dp"
-        android:background="@color/BrushOpaqueTextView"
-        android:text="TV"
-        android:fontFamily="@string/font_family_light"
-        android:textStyle="italic"
-        android:textColor="#ffffff" />
+      <LinearLayout
+        android:layout_width="wrap_content" android:layout_alignParentBottom="true"
+        android:layout_height="wrap_content" android:orientation="vertical">
+        <TextView
+          android:layout_width="wrap_content"
+          android:id="@+id/AnimeGridItemType"
+          android:layout_height="wrap_content"
+          android:paddingLeft="5dp"
+          android:paddingRight="5dp"
+          android:paddingTop="2dp"
+          android:paddingBottom="2dp"
+          android:background="@color/BrushOpaqueTextView"
+          android:text="TV"
+          android:fontFamily="@string/font_family_light"
+          android:textStyle="italic"
+          android:textColor="#ffffff" />
+        <TextView
+          android:layout_width="wrap_content"
+          android:id="@+id/AnimeGridItemTimeTillAir"
+          android:layout_height="wrap_content"
+          android:paddingLeft="5dp"
+          android:paddingRight="5dp"
+          android:paddingTop="2dp"
+          android:paddingBottom="2dp"
+          android:background="@color/BrushOpaqueTextView"
+          android:visibility="gone"
+          android:fontFamily="@string/font_family_light"
+          android:textStyle="italic"
+          android:textColor="#ffffff" />
+      </LinearLayout>
+
       <FrameLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

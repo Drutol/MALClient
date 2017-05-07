@@ -55,13 +55,18 @@ namespace MALClient.Android.Fragments
             {
                 ViewModelLocator.NavMgr.DeregisterBackNav();
                 ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageAnimeList, null);
-            }
-            MainActivity.CurrentContext.HamburgerOpened += CurrentContextOnHamburgerOpened;
+            }        
         }
 
         private void CurrentContextOnHamburgerOpened(object o, EventArgs eventArgs)
         {
             _actionMenu?.Close(true);
+        }
+
+        public override void OnResume()
+        {
+            MainActivity.CurrentContext.HamburgerOpened += CurrentContextOnHamburgerOpened;
+            base.OnResume();
         }
 
         protected override void Cleanup()

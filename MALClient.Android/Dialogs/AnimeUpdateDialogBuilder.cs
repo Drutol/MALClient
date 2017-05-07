@@ -116,6 +116,9 @@ namespace MALClient.Android.DIalogs
 
         private static void GridOnItemClick(object sender, AdapterView.ItemClickEventArgs itemClickEventArgs)
         {
+            if(_watchedDialog == null)
+                return;
+
             if (_watchedDialogAction == null)
             {
                 _watchedDialogContext.WatchedEpsInput = itemClickEventArgs.Id.ToString();

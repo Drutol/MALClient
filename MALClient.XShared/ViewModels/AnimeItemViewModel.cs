@@ -711,6 +711,7 @@ namespace MALClient.XShared.ViewModels
             }
         }
 
+        public string TimeTillNextAirCache { get; set; }
         public string GetTimeTillNextAir(TimeZoneInfo zoneInfo)
         {
 

@@ -31,6 +31,7 @@ namespace MALClient.Android.UserControls
     {
         private readonly bool _allowSwipeInGivenContext;
         private readonly Action<AnimeItemViewModel> _onItemClickAction;
+        private readonly bool _displayTimeTillAir;
 
 
         private bool _propertyHandlerAttached;
@@ -41,11 +42,12 @@ namespace MALClient.Android.UserControls
         {
         }
 
-        public AnimeGridItem(Context context,bool allowSwipeInGivenContext,Action<AnimeItemViewModel> onItemClickAction) : base(context)
+        public AnimeGridItem(Context context,bool allowSwipeInGivenContext,Action<AnimeItemViewModel> onItemClickAction,bool displayTimeTillAir = false) : base(context)
         {
             if(Settings.EnableSwipeToIncDec)
                 _allowSwipeInGivenContext = allowSwipeInGivenContext;
             _onItemClickAction = onItemClickAction;
+            _displayTimeTillAir = displayTimeTillAir;
         }
 
         public AnimeGridItem(Context context, IAttributeSet attrs) : base(context, attrs)
@@ -199,6 +201,18 @@ namespace MALClient.Android.UserControls
                 }
             }
 
+            if (_displayTimeTillAir)
+            {
+                if(string.IsNullOrEmpty(ViewModel.TimeTillNextAirCache))
+                   AnimeGridItemTimeTillAir.Visibility = ViewStates.Gone;
+                else
+                {
+                    AnimeGridItemTimeTillAir.Visibility = ViewStates.Visible;
+                    AnimeGridItemTimeTillAir.Text = ViewModel.TimeTillNextAirCache;
+                }
+
+            }
+
 
             if (string.IsNullOrEmpty(ViewModel.Type))
             {
@@ -229,7 +243,7 @@ namespace MALClient.Android.UserControls
 
         protected override void RootContainerInit()
         {
-            
+
             if (_allowSwipeInGivenContext)
             {
                 RootContainer.SwipeEnabled = true;
@@ -379,6 +393,7 @@ namespace MALClient.Android.UserControls
         private ImageView _animeGridItemFavouriteIndicator;
         private LinearLayout _animeGridItemTopRightInfo;
         private TextView _animeGridItemType;
+        private TextView _animeGridItemTimeTillAir;
         private FrameLayout _animeGridItemTagsButton;
         private ImageView _imageView;
         private FrameLayout _animeGridItemAddToListButton;
@@ -413,6 +428,8 @@ namespace MALClient.Android.UserControls
 
         public TextView AnimeGridItemType => _animeGridItemType ?? (_animeGridItemType = FindViewById<TextView>(Resource.Id.AnimeGridItemType));
 
+        public TextView AnimeGridItemTimeTillAir => _animeGridItemTimeTillAir ?? (_animeGridItemTimeTillAir = FindViewById<TextView>(Resource.Id.AnimeGridItemTimeTillAir));
+
         public FrameLayout AnimeGridItemTagsButton => _animeGridItemTagsButton ?? (_animeGridItemTagsButton = FindViewById<FrameLayout>(Resource.Id.AnimeGridItemTagsButton));
 
         public ImageView ImageView => _imageView ?? (_imageView = FindViewById<ImageView>(Resource.Id.imageView));
@@ -422,9 +439,6 @@ namespace MALClient.Android.UserControls
         public TextView AnimeGridItemTitle => _animeGridItemTitle ?? (_animeGridItemTitle = FindViewById<TextView>(Resource.Id.AnimeGridItemTitle));
 
         public ImageButton AnimeGridItemMoreButton => _animeGridItemMoreButton ?? (_animeGridItemMoreButton = FindViewById<ImageButton>(Resource.Id.AnimeGridItemMoreButton));
-
-
-
 
         #endregion
     }

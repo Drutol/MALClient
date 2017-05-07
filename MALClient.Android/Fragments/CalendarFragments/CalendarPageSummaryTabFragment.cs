@@ -25,6 +25,7 @@ namespace MALClient.Android.Fragments.CalendarFragments
     {
         private readonly List<Tuple<string, List<AnimeItemViewModel>>> _items;
         private readonly GridViewColumnHelper _gridViewColumnHelper = new GridViewColumnHelper() {MinColumns = 2};
+        private static readonly TimeZoneInfo _jstTimeZone = TimeZoneInfo.CreateCustomTimeZone("JST", TimeSpan.FromHours(9), "JST", "JST");
 
         public CalendarPageSummaryTabFragment(List<Tuple<string, List<AnimeItemViewModel>>> items)
         {
@@ -33,7 +34,8 @@ namespace MALClient.Android.Fragments.CalendarFragments
 
         protected override void Init(Bundle savedInstanceState)
         {
-
+            foreach (var animeItemViewModel in _items.SelectMany(tuple => tuple.Item2))
+                animeItemViewModel.TimeTillNextAirCache = animeItemViewModel.GetTimeTillNextAir(_jstTimeZone);
         }
 
         protected override void InitBindings()
@@ -54,7 +56,7 @@ namespace MALClient.Android.Fragments.CalendarFragments
             view.FindViewById<TextView>(Resource.Id.CalendarPageSummaryTabContentHeader).Text = tuple.Item1;
             var grid = view.FindViewById<HeightAdjustingGridView>(Resource.Id.CalendarPageSummaryTabContentList);
             grid.AlwaysAdjust = true;
-            grid.InjectAnimeListAdapter(Context,tuple.Item2,AnimeListDisplayModes.IndefiniteGrid,OnItemClick,false);
+            grid.InjectAnimeListAdapter(Context,tuple.Item2,AnimeListDisplayModes.IndefiniteGrid,OnItemClick,false,true);
             _gridViewColumnHelper.RegisterGrid(grid);
 
             return view;

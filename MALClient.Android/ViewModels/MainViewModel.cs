@@ -316,7 +316,7 @@ namespace MALClient.Android.ViewModels
                     break;
                 case PageIndex.PageFeeds:
                     HideSearchStuff();
-                    RefreshButtonVisibility = true;
+                    //RefreshButtonVisibility = true;
                     RefreshDataCommand = new RelayCommand(() => ViewModelLocator.FriendsFeeds.Init(true));
                     CurrentStatus = "Friends Feeds";
                     MainNavigationRequested?.Invoke(new FriendsFeedsPageFragment());

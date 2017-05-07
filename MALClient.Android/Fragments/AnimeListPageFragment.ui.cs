@@ -158,6 +158,7 @@ namespace MALClient.Android.Fragments
                 Clickable = true,
                 Focusable = true
             };
+            b1.SetScaleType(ImageView.ScaleType.FitCenter);
             b1.SetImageResource(icon);
             b1.ImageTintList = ColorStateList.ValueOf(new Color(255,255,255));
             b1.BackgroundTintList = ColorStateList.ValueOf(new Color(ResourceExtension.AccentColourContrast));

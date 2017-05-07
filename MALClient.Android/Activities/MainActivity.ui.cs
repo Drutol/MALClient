@@ -349,6 +349,7 @@ namespace MALClient.Android.Activities
 
         private void MainPageHamburgerButtonOnClick(object sender, EventArgs eventArgs)
         {
+            HamburgerOpened?.Invoke(this,EventArgs.Empty);
             _drawer.OpenDrawer();
         }
 

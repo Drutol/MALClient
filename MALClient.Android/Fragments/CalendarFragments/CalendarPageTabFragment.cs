@@ -23,6 +23,7 @@ namespace MALClient.Android.Fragments.CalendarFragments
     {
         private readonly List<AnimeItemViewModel> _items;
         private GridViewColumnHelper _gridViewColumnHelper;
+        private static readonly TimeZoneInfo _jstTimeZone = TimeZoneInfo.CreateCustomTimeZone("JST", TimeSpan.FromHours(9), "JST", "JST");
 
         public CalendarPageTabFragment(List<AnimeItemViewModel> items)
         {
@@ -31,12 +32,14 @@ namespace MALClient.Android.Fragments.CalendarFragments
 
         protected override void Init(Bundle savedInstanceState)
         {
+            foreach (var animeItemViewModel in _items)
+                animeItemViewModel.TimeTillNextAirCache = animeItemViewModel.GetTimeTillNextAir(_jstTimeZone);
 
         }
 
         protected override void InitBindings()
         {
-            CalendarPageTabContentList.InjectAnimeListAdapter(Context,_items,AnimeListDisplayModes.IndefiniteGrid,OnItemClick,false);
+            CalendarPageTabContentList.InjectAnimeListAdapter(Context,_items,AnimeListDisplayModes.IndefiniteGrid,OnItemClick,false,true);
             _gridViewColumnHelper = new GridViewColumnHelper(CalendarPageTabContentList);
         }
 

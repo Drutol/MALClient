@@ -16,6 +16,7 @@ using FFImageLoading.Transformations;
 using FFImageLoading.Views;
 using GalaSoft.MvvmLight.Helpers;
 using MALClient.Android.BindingConverters;
+using MALClient.Android.UserControls;
 using MALClient.Models.Models;
 using MALClient.Models.Models.MalSpecific;
 using MALClient.XShared.Comm.Anime;
@@ -50,6 +51,16 @@ namespace MALClient.Android.Fragments
                 else
                     FriendsFeedsPageGridView.Adapter = null;
             }));
+
+            var scrollToRefresh = RootView as ScrollableSwipeToRefreshLayout;
+            scrollToRefresh.ScrollingView = FriendsFeedsPageGridView;
+            scrollToRefresh.Refresh += ScrollToRefreshOnRefresh;
+        }
+
+        private void ScrollToRefreshOnRefresh(object sender, EventArgs e)
+        {
+            (RootView as ScrollableSwipeToRefreshLayout).Refreshing = false;
+            ViewModelLocator.GeneralMain.RefreshDataCommand.Execute(null);
         }
 
         private void DataTemplateBasic(View view, int i, UserFeedEntryModel userFeedEntryModel)

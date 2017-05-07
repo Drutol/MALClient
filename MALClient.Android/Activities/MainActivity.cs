@@ -101,8 +101,6 @@ namespace MALClient.Android.Activities
                     ChangelogDialog.BuildChangelogDialog(ResourceLocator.ChangelogProvider);
 
                 RateReminderPopUp.ProcessRatePopUp();
-
-                
             }
 
             ResourceLocator.TelemetryProvider.Init();

@@ -218,7 +218,6 @@ namespace MALClient.Android.Activities
         {
             var inputManager = (InputMethodManager)GetSystemService(Context.InputMethodService);
             inputManager.HideSoftInputFromWindow(MainPageSearchView.WindowToken, HideSoftInputFlags.None);
-            HamburgerOpened?.Invoke(this,EventArgs.Empty);
             ViewModelLocator.NavMgr.RegisterOneTimeMainOverride(new RelayCommand(() => _drawer.CloseDrawer()));
         }
 
@@ -229,7 +228,7 @@ namespace MALClient.Android.Activities
 
         public async Task UpdateProfileImg(bool dl = true)
         {
-            
+            UpdateLogInLabel();
         }
 
         public void SetActiveButton(HamburgerButtons val)
@@ -442,7 +441,7 @@ namespace MALClient.Android.Activities
                     break;
                 case Resource.Id.HamburgerProfileItemSupport:
                     _supportMenu = FlyoutMenuBuilder.BuildGenericFlyout(this, view,
-                        new List<string> {"Feedback","Review","Donate","Trun on ads"}, OnSupportMenuSelection);
+                        new List<string> {"Feedback","Review","Donate","Turn on ads"}, OnSupportMenuSelection);
                     _supportMenu.Show();
                     break;
             }

@@ -38,12 +38,18 @@ namespace MALClient.Android.Fragments.MessagingFragments
             ViewModel = ViewModelLocator.MalMessaging;
             ViewModel.Init();
 
-            MainActivity.CurrentContext.HamburgerOpened += CurrentContextOnHamburgerOpened;
+
         }
 
         private void CurrentContextOnHamburgerOpened(object sender, EventArgs eventArgs)
         {
             _actionMenu?.Close(true);
+        }
+
+        public override void OnResume()
+        {
+            MainActivity.CurrentContext.HamburgerOpened += CurrentContextOnHamburgerOpened;
+            base.OnResume();
         }
 
         protected override void Cleanup()
@@ -84,13 +90,15 @@ namespace MALClient.Android.Fragments.MessagingFragments
             }));
 
 
-            var scrollToRefresh = RootView as ScrollableSwipeToRefreshLayout;
-            scrollToRefresh.ScrollingView = MessagingPageList;
-            scrollToRefresh.Refresh += ScrollToRefreshOnRefresh;
+
 
             Bindings.Add(
                 this.SetBinding(() => ViewModel.LoadingVisibility,
                     () => MessagingPageProgressSpinner.Visibility).ConvertSourceToTarget(Converters.BoolToVisibility));
+
+            var scrollToRefresh = RootView as ScrollableSwipeToRefreshLayout;
+            scrollToRefresh.ScrollingView = MessagingPageList;
+            scrollToRefresh.Refresh += ScrollToRefreshOnRefresh;
         }
 
         private void ScrollToRefreshOnRefresh(object sender, EventArgs e)

@@ -91,7 +91,7 @@ namespace MALClient.Android.PagerAdapters
         public void TabUnselected(View p0)
         {
             var layout = p0 as LinearLayout;
-            layout.Alpha = .7f;
+            layout.Alpha = .55f;
         }
     }
 }

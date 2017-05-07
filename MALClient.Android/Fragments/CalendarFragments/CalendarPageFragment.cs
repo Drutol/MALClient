@@ -1,10 +1,12 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Android.OS;
 using GalaSoft.MvvmLight.Helpers;
 using MALClient.Android.BindingConverters;
 using MALClient.Android.PagerAdapters;
 using MALClient.Android.Resources;
 using MALClient.Models.Enums;
+using MALClient.XShared.Utils;
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Main;
 
@@ -43,14 +45,18 @@ namespace MALClient.Android.Fragments.CalendarFragments
                     () => CalendarPageProgressBarGrid.Visibility).ConvertSourceToTarget(Converters.BoolToVisibility));
 
             
-            Bindings.Add(this.SetBinding(() => ViewModel.CalendarData).WhenSourceChanges(() =>
+            Bindings.Add(this.SetBinding(() => ViewModel.CalendarData).WhenSourceChanges( async () =>
             {
                 CalendarPageViewPager.Adapter = new CalendarPagerAdapter(ChildFragmentManager, ViewModel.CalendarData);
                 CalendarPageTabStrip.SetViewPager(CalendarPageViewPager);
                 CalendarPageTabStrip.CenterTabs();
+
+                await Task.Delay(30);
+                CalendarPageViewPager.SetCurrentItem(ViewModel.CalendarPivotIndex,false);
             }));
 
-            
+            CalendarPageViewPager.OffscreenPageLimit = 7;
+
             Bindings.Add(
                 this.SetBinding(() => ViewModel.CalendarVisibility,
                     () => CalendarPageContentGrid.Visibility).ConvertSourceToTarget(Converters.BoolToVisibility));

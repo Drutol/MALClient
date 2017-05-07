@@ -70,7 +70,8 @@ namespace MALClient.Android.Fragments.ForumFragments
             Bindings.Add(
                 this.SetBinding(() => ViewModel.NewTopicButtonVisibility,
                     () => ForumBoardPageActionButton.Visibility).ConvertSourceToTarget(Converters.BoolToVisibility));
-            //ForumBoardPageActionButton.Click += (sender, args) => ViewModel.CreateNewTopicCommand.Execute(null);
+
+            ForumBoardPageActionButton.Click += (sender, args) => ViewModel.CreateNewTopicCommand.Execute(null);
 
 
             Bindings.Add(this.SetBinding(() => ViewModel.Topics).WhenSourceChanges(() =>

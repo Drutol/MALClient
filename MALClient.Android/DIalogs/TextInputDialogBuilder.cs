@@ -132,7 +132,7 @@ namespace MALClient.Android.DIalogs
         private static void OnTextChanged(object sender, string s)
         {
             _forumTextInputDialog.HolderView.FindViewById<WebView>(Resource.Id.ForumPostTextDialogPreview)
-                .LoadDataWithBaseURL(null, ResourceLocator.CssManager.WrapWithCss(BBCode.BBCode.ToHtml(s)),
+                .LoadDataWithBaseURL(null, ResourceLocator.CssManager.WrapWithCss(BBCode.BBCode.ToHtml(s).Replace("\n","<br>")),
                     "text/html; charset=utf-8", "UTF-8", null);
         }
 

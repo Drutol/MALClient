@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="match_parent" android:background="?BrushTextInverted"
+             android:layout_height="match_parent"  android:orientation="vertical">
+  <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" android:orientation="vertical">
+
+    <FrameLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:background="?BrushAnimeItemBackground"
+      android:elevation="5dp" android:padding="10dp"
+      android:paddingEnd="10dp"
+      android:paddingStart="10dp">
+
+      <TextView
+        android:id="@+id/ForumNewTopicPageTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:text="Title" android:maxLines="1" android:ellipsize="middle"
+        android:textColor="?BrushText"
+        android:textSize="@dimen/FontSizeHuge" />
+    </FrameLayout>
+
+    <ScrollView
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content">
+      <LinearLayout android:id="@+id/ForumNewTopicPageInputSection"
+                    android:layout_width="match_parent"  android:orientation="vertical"
+                    android:layout_height="wrap_content">
+
+        <TextView
+          android:layout_width="wrap_content" android:layout_gravity="start" android:layout_margin="5dp"
+          android:layout_height="wrap_content" android:textColor="?AccentColourDark" android:text="Title"
+          android:textSize="@dimen/FontSizeHuge" android:fontFamily="@string/font_family_light" />
+        <EditText
+          android:layout_width="match_parent" android:hint="Post title..."
+          android:layout_height="wrap_content" android:maxLines="4" android:id="@+id/ForumNewTopicPageTitleTextBox"/>
+
+        <TextView
+          android:layout_width="wrap_content" android:layout_gravity="start" android:layout_margin="5dp"
+          android:layout_height="wrap_content" android:textColor="?AccentColourDark" android:text="Post mesage"
+          android:textSize="@dimen/FontSizeHuge" android:fontFamily="@string/font_family_light" />
+
+        <MALClient.Android.UserControls.BBCodeEditor
+          android:layout_width="match_parent" android:id="@+id/ForumNewTopicPageEditor"
+          android:layout_height="wrap_content" android:minHeight="150dp" android:layout_marginTop="10dp"/>
+
+
+        <Button android:layout_gravity="end" android:layout_marginTop="5dp" android:layout_marginEnd="10dp" android:layout_margin="0dp" android:id="@+id/ForumNewTopicPageAcceptButton"
+                android:layout_width="wrap_content" android:backgroundTint="?AccentColour" android:drawableTint="#fff"
+                android:layout_height="wrap_content" android:drawableLeft="@drawable/icon_ok" android:text="Accept" android:textColor="#fff"/>
+
+        <TextView
+          android:layout_width="wrap_content" android:layout_gravity="start" android:layout_margin="5dp"
+          android:layout_height="wrap_content" android:textColor="?AccentColourDark" android:text="Preview"
+          android:textSize="@dimen/FontSizeHuge" android:fontFamily="@string/font_family_light" />
+
+        <WebView  android:paddingStart="5dp" android:paddingEnd="10dp" android:paddingBottom="10dp"
+                  android:layout_width="match_parent" android:id="@+id/ForumNewTopicPagePreview"
+                  android:layout_height="250dp" android:background="@color/Transparent"/>
+      </LinearLayout>
+    </ScrollView>
+  </LinearLayout>
+</FrameLayout>

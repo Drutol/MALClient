@@ -18,21 +18,25 @@
       android:layout_height="50dp"
       android:id="@+id/MainPageHamburgerButton"
       android:background="?android:selectableItemBackground" />
-    <LinearLayout android:layout_width="0dp"
+    <LinearLayout android:layout_width="0dp" android:id="@+id/MainPageStatusContainer"
                   android:layout_height="match_parent"
-                  android:layout_weight="1" android:weightSum="1"
+                  android:layout_weight="1" android:layout_gravity="center_vertical"
                   android:orientation="horizontal">
+
       <TextView
+        android:id="@+id/MainPageCurrentStatus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textStyle="normal"
-        android:textSize="15sp"
+        android:layout_gravity="center_vertical"
+        android:layout_margin="5dp"
+        android:ellipsize="end"
+        android:maxLines="2"
         android:maxWidth="185dp"
         android:text="MALClientTestAcc"
         android:textColor="?BrushAppBarText"
-        android:layout_gravity="center_vertical"
-        android:id="@+id/MainPageCurrentStatus"
-        android:layout_margin="5dp" android:maxLines="2" android:ellipsize="end" />
+        android:textSize="15sp"
+        android:textStyle="normal" />
+
       <TextView
         android:id="@+id/MainPageCurrentSatusSubtitle"
         android:layout_width="wrap_content"

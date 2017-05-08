@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
+using Android.Content.Res;
 using Android.Database;
 using Android.Gms.Ads;
 using Android.Graphics;
@@ -40,6 +41,7 @@ using MALClient.XShared.Utils;
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Main;
 using Object = Java.Lang.Object;
+using Orientation = Android.Widget.Orientation;
 using SimpleCursorAdapter = Android.Support.V4.Widget.SimpleCursorAdapter;
 using SearchView = Android.Support.V7.Widget.SearchView;
 using Settings = MALClient.XShared.Utils.Settings;
@@ -87,13 +89,12 @@ namespace MALClient.Android.Activities
                 if (string.IsNullOrEmpty(ViewModel.CurrentStatusSub))
                 {
                     MainPageCurrentSatusSubtitle.Visibility = ViewStates.Gone;
-                    MainPageCurrentStatus.SetMaxWidth(10000);
                 }
                 else
                 {
                     MainPageCurrentSatusSubtitle.Visibility = ViewStates.Visible;
-                    MainPageCurrentStatus.SetMaxWidth(DimensionsHelper.DpToPx(185));
                 }
+                UpdateCurrentStatusWidth();
             }));
 
             _searchFrame = MainPageSearchView.FindViewById(Resource.Id.search_edit_frame);
@@ -391,9 +392,81 @@ namespace MALClient.Android.Activities
             }
         }
 
+        private void UpdateCurrentStatusWidth()
+        {
+            if (Resources.Configuration.Orientation == global::Android.Content.Res.Orientation.Landscape)
+            {
+                MainPageCurrentStatus.SetMaxWidth(10000);
+            }
+            else
+            {
+                if (string.IsNullOrEmpty(ViewModel.CurrentStatusSub))
+                {
+                    MainPageCurrentStatus.SetMaxWidth(10000);
+                }
+                else
+                {
+                    var total = MainPageStatusContainer.Width;
+                    if(total == 0 || MainPageCurrentSatusSubtitle.Width == 0)
+                        MainPageCurrentStatus.SetMaxWidth(DimensionsHelper.DpToPx(185));
+                    else
+                        MainPageCurrentStatus.SetMaxWidth(total - MainPageCurrentSatusSubtitle.MeasuredWidth - DimensionsHelper.DpToPx(20));
+                }
+            }
+        }
+
+
+        public override void OnConfigurationChanged(Configuration newConfig)
+        {
+            if (newConfig.Orientation == global::Android.Content.Res.Orientation.Landscape)
+            {
+                MainPageStatusContainer.Orientation = Orientation.Vertical;
+
+                MainPageCurrentStatus.SetMaxLines(1);
+                UpdateCurrentStatusWidth();
+
+                var param = MainPageCurrentStatus.LayoutParameters as LinearLayout.LayoutParams;
+                param.SetMargins(0,0,0,0);
+                MainPageCurrentStatus.LayoutParameters = param;
+
+                param = MainPageCurrentSatusSubtitle.LayoutParameters as LinearLayout.LayoutParams;
+                param.SetMargins(0,0,0,0);
+                MainPageCurrentSatusSubtitle.LayoutParameters = param;
+
+                var cparam = MainPageStatusContainer.LayoutParameters;
+                cparam.Height = -2;
+                MainPageStatusContainer.LayoutParameters = cparam;
+            }
+            else
+            {
+                MainPageStatusContainer.Orientation = Orientation.Horizontal;
+
+                MainPageCurrentStatus.SetMaxLines(2);
+                UpdateCurrentStatusWidth();
+                var margin = DimensionsHelper.DpToPx(5);
+
+
+                var param = MainPageCurrentStatus.LayoutParameters as LinearLayout.LayoutParams;
+                param.SetMargins(margin, margin, margin, margin);
+                MainPageCurrentStatus.LayoutParameters = param;
+
+                param = MainPageCurrentSatusSubtitle.LayoutParameters as LinearLayout.LayoutParams;
+                param.SetMargins(margin, margin, margin, margin);
+                MainPageCurrentSatusSubtitle.LayoutParameters = param;
+
+                var cparam = MainPageStatusContainer.LayoutParameters;
+                cparam.Height = -1;
+                MainPageStatusContainer.LayoutParameters = cparam;
+
+            }
+            
+            base.OnConfigurationChanged(newConfig);
+        }
+
         private ImageButton _mainPageHamburgerButton;
         private TextView _mainPageCurrentStatus;
         private TextView _mainPageCurrentSatusSubtitle;
+        private LinearLayout _mainPageStatusContainer;
         private SearchView _mainPageSearchView;
         private ImageButton _mainPageRefreshButton;
         private LinearLayout _mainUpperNavBar;
@@ -410,6 +483,8 @@ namespace MALClient.Android.Activities
         public TextView MainPageCurrentStatus => _mainPageCurrentStatus ?? (_mainPageCurrentStatus = FindViewById<TextView>(Resource.Id.MainPageCurrentStatus));
 
         public TextView MainPageCurrentSatusSubtitle => _mainPageCurrentSatusSubtitle ?? (_mainPageCurrentSatusSubtitle = FindViewById<TextView>(Resource.Id.MainPageCurrentSatusSubtitle));
+
+        public LinearLayout MainPageStatusContainer => _mainPageStatusContainer ?? (_mainPageStatusContainer = FindViewById<LinearLayout>(Resource.Id.MainPageStatusContainer));
 
         public SearchView MainPageSearchView => _mainPageSearchView ?? (_mainPageSearchView = FindViewById<SearchView>(Resource.Id.MainPageSearchView));
 

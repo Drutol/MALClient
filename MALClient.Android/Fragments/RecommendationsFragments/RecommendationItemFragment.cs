@@ -178,6 +178,28 @@ namespace MALClient.Android.Fragments.RecommendationsFragments
                     {
                         RecommendationItemDetailItemMyRecValue5.Visibility = ViewStates.Visible;
                         RecommendationItemDetailItemMyRecValue5.Text = ViewModel.DetailItems[4].Item5;
+                    }                    
+                    //
+                    RecommendationItemDetailItemType6.Text = ViewModel.DetailItems[5].Item1;
+                    RecommendationItemDetailItemDepValue6.Text = ViewModel.DetailItems[5].Item2;                   
+                    if (string.IsNullOrEmpty(ViewModel.DetailItems[5].Item3))
+                    {
+                        RecommendationItemDetailItemMyDepValue6.Visibility = ViewStates.Gone;
+                    }
+                    else
+                    {
+                        RecommendationItemDetailItemMyDepValue6.Visibility = ViewStates.Visible;
+                        RecommendationItemDetailItemMyDepValue6.Text = ViewModel.DetailItems[5].Item3;
+                    }
+                    RecommendationItemDetailItemRecValue6.Text = ViewModel.DetailItems[5].Item4;
+                    if (string.IsNullOrEmpty(ViewModel.DetailItems[5].Item5))
+                    {
+                        RecommendationItemDetailItemMyRecValue6.Visibility = ViewStates.Gone;
+                    }
+                    else
+                    {
+                        RecommendationItemDetailItemMyRecValue6.Visibility = ViewStates.Visible;
+                        RecommendationItemDetailItemMyRecValue6.Text = ViewModel.DetailItems[5].Item5;
                     }
                 }));
 
@@ -239,6 +261,11 @@ namespace MALClient.Android.Fragments.RecommendationsFragments
         private TextView _recommendationItemDetailItemMyDepValue5;
         private TextView _recommendationItemDetailItemRecValue5;
         private TextView _recommendationItemDetailItemMyRecValue5;
+        private TextView _recommendationItemDetailItemType6;
+        private TextView _recommendationItemDetailItemDepValue6;
+        private TextView _recommendationItemDetailItemMyDepValue6;
+        private TextView _recommendationItemDetailItemRecValue6;
+        private TextView _recommendationItemDetailItemMyRecValue6;
         private LinearLayout _recommendationItemDetailsContainer;
         private RelativeLayout _recommendationItemLoading;
 
@@ -305,6 +332,16 @@ namespace MALClient.Android.Fragments.RecommendationsFragments
         public TextView RecommendationItemDetailItemRecValue5 => _recommendationItemDetailItemRecValue5 ?? (_recommendationItemDetailItemRecValue5 = FindViewById<TextView>(Resource.Id.RecommendationItemDetailItemRecValue5));
 
         public TextView RecommendationItemDetailItemMyRecValue5 => _recommendationItemDetailItemMyRecValue5 ?? (_recommendationItemDetailItemMyRecValue5 = FindViewById<TextView>(Resource.Id.RecommendationItemDetailItemMyRecValue5));
+
+        public TextView RecommendationItemDetailItemType6 => _recommendationItemDetailItemType6 ?? (_recommendationItemDetailItemType6 = FindViewById<TextView>(Resource.Id.RecommendationItemDetailItemType6));
+
+        public TextView RecommendationItemDetailItemDepValue6 => _recommendationItemDetailItemDepValue6 ?? (_recommendationItemDetailItemDepValue6 = FindViewById<TextView>(Resource.Id.RecommendationItemDetailItemDepValue6));
+
+        public TextView RecommendationItemDetailItemMyDepValue6 => _recommendationItemDetailItemMyDepValue6 ?? (_recommendationItemDetailItemMyDepValue6 = FindViewById<TextView>(Resource.Id.RecommendationItemDetailItemMyDepValue6));
+
+        public TextView RecommendationItemDetailItemRecValue6 => _recommendationItemDetailItemRecValue6 ?? (_recommendationItemDetailItemRecValue6 = FindViewById<TextView>(Resource.Id.RecommendationItemDetailItemRecValue6));
+
+        public TextView RecommendationItemDetailItemMyRecValue6 => _recommendationItemDetailItemMyRecValue6 ?? (_recommendationItemDetailItemMyRecValue6 = FindViewById<TextView>(Resource.Id.RecommendationItemDetailItemMyRecValue6));
 
         public LinearLayout RecommendationItemDetailsContainer => _recommendationItemDetailsContainer ?? (_recommendationItemDetailsContainer = FindViewById<LinearLayout>(Resource.Id.RecommendationItemDetailsContainer));
 

@@ -1,7 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" android:paddingTop="3dp"
-                android:background="?BrushDeepBackground" android:layout_width="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:paddingTop="3dp"
+                android:background="?BrushDeepBackground"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent">
   <ScrollView android:layout_width="match_parent" android:layout_height="match_parent">
     <LinearLayout
@@ -24,7 +27,7 @@
                                                  android:layout_height="match_parent" />
           </FrameLayout>
           <TextView android:id="@+id/RecommendationItemDepTitle" android:layout_width="match_parent"
-                    android:layout_height="40dp" android:text="Shelter" android:textColor="?BrushText"
+                    android:layout_height="40dp" tools:text="Shelter" android:textColor="?BrushText"
                     android:ellipsize="end" android:layout_margin="3dp" android:maxLines="2" android:gravity="center" />
         </LinearLayout>
         <ImageView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight=".3"
@@ -41,7 +44,7 @@
                                                  android:layout_width="match_parent" android:layout_height="190dp" />
           </FrameLayout>
           <TextView android:id="@+id/RecommendationItemRecTitle" android:layout_width="match_parent"
-                    android:layout_height="40dp" android:text="Shelter" android:textColor="?BrushText"
+                    android:layout_height="40dp" tools:text="Shelter" android:textColor="?BrushText"
                     android:ellipsize="end" android:layout_margin="3dp" android:maxLines="2" android:gravity="center" />
         </LinearLayout>
       </LinearLayout>
@@ -61,25 +64,25 @@
                       android:layout_height="40dp">
           <TextView android:id="@+id/RecommendationItemDetailItemType1" android:layout_gravity="center_vertical"
                     android:padding="5dp" android:layout_width="0dp" android:layout_height="wrap_content"
-                    android:layout_weight=".2" android:text="Episodes" android:textColor="?BrushText" />
+                    android:layout_weight=".2" tools:text="Episodes" android:textColor="?BrushText" />
           <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight=".4" android:layout_gravity="center_vertical"
                         android:orientation="vertical">
             <TextView android:id="@+id/RecommendationItemDetailItemDepValue1" android:layout_gravity="center_horizontal"
                       android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="?BrushText"
-                      android:text="12" android:fontFamily="@string/font_family_light" />
+                      tools:text="12" android:fontFamily="@string/font_family_light" />
             <TextView android:id="@+id/RecommendationItemDetailItemMyDepValue1" android:layout_gravity="center_horizontal"
                       android:layout_width="wrap_content" android:layout_height="wrap_content"
-                      android:textColor="?AccentColour" android:text="4/12" android:fontFamily="@string/font_family_light"
+                      android:textColor="?AccentColour" tools:text="4/12" android:fontFamily="@string/font_family_light"
                       android:layout_marginTop="3dp" />
           </LinearLayout>
           <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight=".4" android:layout_gravity="center_vertical"
                         android:orientation="vertical">
             <TextView android:id="@+id/RecommendationItemDetailItemRecValue1" android:layout_gravity="center_horizontal"
                       android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="?BrushText"
-                      android:text="12" android:fontFamily="@string/font_family_light" />
+                      tools:text="12" android:fontFamily="@string/font_family_light" />
             <TextView android:id="@+id/RecommendationItemDetailItemMyRecValue1" android:layout_gravity="center_horizontal"
                       android:layout_width="wrap_content" android:layout_height="wrap_content"
-                      android:textColor="?AccentColour" android:text="4/12" android:fontFamily="@string/font_family_light"
+                      android:textColor="?AccentColour" tools:text="4/12" android:fontFamily="@string/font_family_light"
                       android:layout_marginTop="3dp" />
           </LinearLayout>
         </LinearLayout>
@@ -90,25 +93,25 @@
                       android:layout_height="40dp">
           <TextView android:id="@+id/RecommendationItemDetailItemType2" android:layout_gravity="center_vertical"
                     android:padding="5dp" android:layout_width="0dp" android:layout_height="wrap_content"
-                    android:layout_weight=".2" android:text="Episodes" android:textColor="?BrushText" />
+                    android:layout_weight=".2" tools:text="Episodes" android:textColor="?BrushText" />
           <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight=".4" android:layout_gravity="center_vertical"
                         android:orientation="vertical">
             <TextView android:id="@+id/RecommendationItemDetailItemDepValue2" android:layout_gravity="center_horizontal"
                       android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="?BrushText"
-                      android:text="12" android:fontFamily="@string/font_family_light" />
+                      tools:text="12" android:fontFamily="@string/font_family_light" />
             <TextView android:id="@+id/RecommendationItemDetailItemMyDepValue2" android:layout_gravity="center_horizontal"
                       android:layout_width="wrap_content" android:layout_height="wrap_content"
-                      android:textColor="?AccentColour" android:text="4/12" android:fontFamily="@string/font_family_light"
+                      android:textColor="?AccentColour" tools:text="4/12" android:fontFamily="@string/font_family_light"
                       android:layout_marginTop="3dp" />
           </LinearLayout>
           <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight=".4" android:layout_gravity="center_vertical"
                         android:orientation="vertical">
             <TextView android:id="@+id/RecommendationItemDetailItemRecValue2" android:layout_gravity="center_horizontal"
                       android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="?BrushText"
-                      android:text="12" android:fontFamily="@string/font_family_light" />
+                      tools:text="12" android:fontFamily="@string/font_family_light" />
             <TextView android:id="@+id/RecommendationItemDetailItemMyRecValue2" android:layout_gravity="center_horizontal"
                       android:layout_width="wrap_content" android:layout_height="wrap_content"
-                      android:textColor="?AccentColour" android:text="4/12" android:fontFamily="@string/font_family_light"
+                      android:textColor="?AccentColour" tools:text="4/12" android:fontFamily="@string/font_family_light"
                       android:layout_marginTop="3dp" />
           </LinearLayout>
         </LinearLayout>
@@ -119,25 +122,25 @@
                       android:layout_height="40dp">
           <TextView android:id="@+id/RecommendationItemDetailItemType3" android:layout_gravity="center_vertical"
                     android:padding="5dp" android:layout_width="0dp" android:layout_height="wrap_content"
-                    android:layout_weight=".2" android:text="Episodes" android:textColor="?BrushText" />
+                    android:layout_weight=".2" tools:text="Episodes" android:textColor="?BrushText" />
           <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight=".4" android:layout_gravity="center_vertical"
                         android:orientation="vertical">
             <TextView android:id="@+id/RecommendationItemDetailItemDepValue3" android:layout_gravity="center_horizontal"
                       android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="?BrushText"
-                      android:text="12" android:fontFamily="@string/font_family_light" />
+                      tools:text="12" android:fontFamily="@string/font_family_light" />
             <TextView android:id="@+id/RecommendationItemDetailItemMyDepValue3" android:layout_gravity="center_horizontal"
                       android:layout_width="wrap_content" android:layout_height="wrap_content"
-                      android:textColor="?AccentColour" android:text="4/12" android:fontFamily="@string/font_family_light"
+                      android:textColor="?AccentColour" tools:text="4/12" android:fontFamily="@string/font_family_light"
                       android:layout_marginTop="3dp" />
           </LinearLayout>
           <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight=".4" android:layout_gravity="center_vertical"
                         android:orientation="vertical">
             <TextView android:id="@+id/RecommendationItemDetailItemRecValue3" android:layout_gravity="center_horizontal"
                       android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="?BrushText"
-                      android:text="12" android:fontFamily="@string/font_family_light" />
+                      tools:text="12" android:fontFamily="@string/font_family_light" />
             <TextView android:id="@+id/RecommendationItemDetailItemMyRecValue3" android:layout_gravity="center_horizontal"
                       android:layout_width="wrap_content" android:layout_height="wrap_content"
-                      android:textColor="?AccentColour" android:text="4/12" android:fontFamily="@string/font_family_light"
+                      android:textColor="?AccentColour" tools:text="4/12" android:fontFamily="@string/font_family_light"
                       android:layout_marginTop="3dp" />
           </LinearLayout>
         </LinearLayout>
@@ -148,25 +151,25 @@
                       android:layout_height="40dp">
           <TextView android:id="@+id/RecommendationItemDetailItemType4" android:layout_gravity="center_vertical"
                     android:padding="5dp" android:layout_width="0dp" android:layout_height="wrap_content"
-                    android:layout_weight=".2" android:text="Episodes" android:textColor="?BrushText" />
+                    android:layout_weight=".2" tools:text="Episodes" android:textColor="?BrushText" />
           <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight=".4" android:layout_gravity="center_vertical"
                         android:orientation="vertical">
             <TextView android:id="@+id/RecommendationItemDetailItemDepValue4" android:layout_gravity="center_horizontal"
                       android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="?BrushText"
-                      android:text="12" android:fontFamily="@string/font_family_light" />
+                      tools:text="12" android:fontFamily="@string/font_family_light" />
             <TextView android:id="@+id/RecommendationItemDetailItemMyDepValue4" android:layout_gravity="center_horizontal"
                       android:layout_width="wrap_content" android:layout_height="wrap_content"
-                      android:textColor="?AccentColour" android:text="4/12" android:fontFamily="@string/font_family_light"
+                      android:textColor="?AccentColour" tools:text="4/12" android:fontFamily="@string/font_family_light"
                       android:layout_marginTop="3dp" />
           </LinearLayout>
           <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight=".4" android:layout_gravity="center_vertical"
                         android:orientation="vertical">
             <TextView android:id="@+id/RecommendationItemDetailItemRecValue4" android:layout_gravity="center_horizontal"
                       android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="?BrushText"
-                      android:text="12" android:fontFamily="@string/font_family_light" />
+                      tools:text="12" android:fontFamily="@string/font_family_light" />
             <TextView android:id="@+id/RecommendationItemDetailItemMyRecValue4" android:layout_gravity="center_horizontal"
                       android:layout_width="wrap_content" android:layout_height="wrap_content"
-                      android:textColor="?AccentColour" android:text="4/12" android:fontFamily="@string/font_family_light"
+                      android:textColor="?AccentColour" tools:text="4/12" android:fontFamily="@string/font_family_light"
                       android:layout_marginTop="3dp" />
           </LinearLayout>
         </LinearLayout>
@@ -177,25 +180,53 @@
                       android:layout_height="40dp">
           <TextView android:id="@+id/RecommendationItemDetailItemType5" android:layout_gravity="center_vertical"
                     android:padding="5dp" android:layout_width="0dp" android:layout_height="wrap_content"
-                    android:layout_weight=".2" android:text="Episodes" android:textColor="?BrushText" />
+                    android:layout_weight=".2" tools:text="Episodes" android:textColor="?BrushText" />
           <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight=".4" android:layout_gravity="center_vertical"
                         android:orientation="vertical">
             <TextView android:id="@+id/RecommendationItemDetailItemDepValue5" android:layout_gravity="center_horizontal"
                       android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="?BrushText"
-                      android:text="12" android:fontFamily="@string/font_family_light" />
+                      tools:text="12" android:fontFamily="@string/font_family_light" />
             <TextView android:id="@+id/RecommendationItemDetailItemMyDepValue5" android:layout_gravity="center_horizontal"
                       android:layout_width="wrap_content" android:layout_height="wrap_content"
-                      android:textColor="?AccentColour" android:text="4/12" android:fontFamily="@string/font_family_light"
+                      android:textColor="?AccentColour" tools:text="4/12" android:fontFamily="@string/font_family_light"
                       android:layout_marginTop="3dp" />
           </LinearLayout>
           <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight=".4" android:layout_gravity="center_vertical"
                         android:orientation="vertical">
             <TextView android:id="@+id/RecommendationItemDetailItemRecValue5" android:layout_gravity="center_horizontal"
                       android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="?BrushText"
-                      android:text="12" android:fontFamily="@string/font_family_light" />
+                      tools:text="12" android:fontFamily="@string/font_family_light" />
             <TextView android:id="@+id/RecommendationItemDetailItemMyRecValue5" android:layout_gravity="center_horizontal"
                       android:layout_width="wrap_content" android:layout_height="wrap_content"
-                      android:textColor="?AccentColour" android:text="4/12" android:fontFamily="@string/font_family_light"
+                      android:textColor="?AccentColour" tools:text="4/12" android:fontFamily="@string/font_family_light"
+                      android:layout_marginTop="3dp" />
+          </LinearLayout>
+        </LinearLayout>
+        <LinearLayout android:background="?BrushRowAlternate2"
+                      android:orientation="horizontal"
+                      android:layout_width="match_parent"
+                      android:layout_height="40dp">
+          <TextView android:id="@+id/RecommendationItemDetailItemType6" android:layout_gravity="center_vertical"
+                    android:padding="5dp" android:layout_width="0dp" android:layout_height="wrap_content"
+                    android:layout_weight=".2" tools:text="Episodes" android:textColor="?BrushText" />
+          <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight=".4" android:layout_gravity="center_vertical"
+                        android:orientation="vertical">
+            <TextView android:id="@+id/RecommendationItemDetailItemDepValue6" android:layout_gravity="center_horizontal"
+                      android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="?BrushText"
+                      tools:text="12" android:fontFamily="@string/font_family_light" />
+            <TextView android:id="@+id/RecommendationItemDetailItemMyDepValue6" android:layout_gravity="center_horizontal"
+                      android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:textColor="?AccentColour" tools:text="4/12" android:fontFamily="@string/font_family_light"
+                      android:layout_marginTop="3dp" />
+          </LinearLayout>
+          <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight=".4" android:layout_gravity="center_vertical"
+                        android:orientation="vertical">
+            <TextView android:id="@+id/RecommendationItemDetailItemRecValue6" android:layout_gravity="center_horizontal"
+                      android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="?BrushText"
+                      tools:text="12" android:fontFamily="@string/font_family_light" />
+            <TextView android:id="@+id/RecommendationItemDetailItemMyRecValue6" android:layout_gravity="center_horizontal"
+                      android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:textColor="?AccentColour" tools:text="4/12" android:fontFamily="@string/font_family_light"
                       android:layout_marginTop="3dp" />
           </LinearLayout>
         </LinearLayout>

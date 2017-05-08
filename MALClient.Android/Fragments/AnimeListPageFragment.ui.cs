@@ -117,31 +117,37 @@ namespace MALClient.Android.Fragments
 
             Bindings.Add(this.SetBinding(() => ViewModel.WorkMode).WhenSourceChanges(() =>
             {
-                _actionMenu?.Close(true);
-                var padding = DimensionsHelper.DpToPx(0);
-                var param = new ViewGroup.LayoutParams(DimensionsHelper.DpToPx(45), DimensionsHelper.DpToPx(45));
-                var builder = new FloatingActionMenu.Builder(Activity)
-                    .AddSubActionView(BuildFabActionButton(param, padding, Resource.Drawable.icon_filter))
-                    .AddSubActionView(BuildFabActionButton(param, padding, Resource.Drawable.icon_sort))
-                    .AddSubActionView(BuildFabActionButton(param, padding, Resource.Drawable.icon_shuffle));
-                switch (ViewModel.WorkMode)
-                {
-                    case AnimeListWorkModes.SeasonalAnime:
-                        builder.AddSubActionView(BuildFabActionButton(param, padding, Resource.Drawable.icon_calendar));
-                        builder.SetRadius(DimensionsHelper.DpToPx(95));
-                        break;
-                    case AnimeListWorkModes.TopAnime:
-                        builder.AddSubActionView(BuildFabActionButton(param, padding, Resource.Drawable.icon_fav_outline));
-                        builder.SetRadius(DimensionsHelper.DpToPx(95));
-                        break;
-                    default:
-                        builder.SetRadius(DimensionsHelper.DpToPx(75));
-                        break;
-                }         
-                _actionMenu = builder.AttachTo(AnimeListPageActionButton).Build();
+                InitActionMenu();
             }));
 
             InitDrawer();
+        }
+
+
+        private void InitActionMenu()
+        {
+            _actionMenu?.Close(true);
+            var padding = DimensionsHelper.DpToPx(0);
+            var param = new ViewGroup.LayoutParams(DimensionsHelper.DpToPx(45), DimensionsHelper.DpToPx(45));
+            var builder = new FloatingActionMenu.Builder(Activity)
+                .AddSubActionView(BuildFabActionButton(param, padding, Resource.Drawable.icon_filter))
+                .AddSubActionView(BuildFabActionButton(param, padding, Resource.Drawable.icon_sort))
+                .AddSubActionView(BuildFabActionButton(param, padding, Resource.Drawable.icon_shuffle));
+            switch (ViewModel.WorkMode)
+            {
+                case AnimeListWorkModes.SeasonalAnime:
+                    builder.AddSubActionView(BuildFabActionButton(param, padding, Resource.Drawable.icon_calendar));
+                    builder.SetRadius(DimensionsHelper.DpToPx(95));
+                    break;
+                case AnimeListWorkModes.TopAnime:
+                    builder.AddSubActionView(BuildFabActionButton(param, padding, Resource.Drawable.icon_fav_outline));
+                    builder.SetRadius(DimensionsHelper.DpToPx(95));
+                    break;
+                default:
+                    builder.SetRadius(DimensionsHelper.DpToPx(75));
+                    break;
+            }
+            _actionMenu = builder.AttachTo(AnimeListPageActionButton).Build();
         }
 
         private void ViewModelOnScrollIntoViewRequested(AnimeItemViewModel item, bool select)

@@ -104,6 +104,7 @@ namespace MALClient.Android.Fragments
                 footerParam.Height = -2;
             }
             _loadMoreFooter.LayoutParameters = footerParam;
+            InitActionMenu();
 
         }
 

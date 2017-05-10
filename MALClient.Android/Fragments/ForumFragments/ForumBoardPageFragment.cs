@@ -77,8 +77,12 @@ namespace MALClient.Android.Fragments.ForumFragments
             Bindings.Add(this.SetBinding(() => ViewModel.Topics).WhenSourceChanges(() =>
             {
                 ForumBoardPagePostsList.Adapter = ViewModel.Topics.GetAdapter(GetTopicTemplateDelegate);
+               
             }));
 
+            Bindings.Add(
+                this.SetBinding(() => ViewModel.EmptyNoticeVisibility,
+                    () => ForumBoardPageEmptyNotice.Visibility).ConvertSourceToTarget(Converters.BoolToVisibility));
 
             ForumBoardPageSearchButton.Click += async (sender, args) =>
             {
@@ -121,6 +125,7 @@ namespace MALClient.Android.Fragments.ForumFragments
 
         private void UpdatePageSelection()
         {
+            ForumBoardPagePageList.RemoveAllViews();
             ForumBoardPagePageList.SetAdapter(ViewModel.AvailablePages.GetAdapter(GetPageItemTemplateDelegate));
         }
 
@@ -255,6 +260,7 @@ namespace MALClient.Android.Fragments.ForumFragments
         private FrameLayout _forumBoardPageGotoPageButton;
         private LinearLayout _forumBoardPagePageList;
         private ListView _forumBoardPagePostsList;
+        private TextView _forumBoardPageEmptyNotice;
         private FloatingActionButton _forumBoardPageActionButton;
         private ProgressBar _forumBoardPageLoadingSpinner;
 
@@ -270,9 +276,12 @@ namespace MALClient.Android.Fragments.ForumFragments
 
         public ListView ForumBoardPagePostsList => _forumBoardPagePostsList ?? (_forumBoardPagePostsList = FindViewById<ListView>(Resource.Id.ForumBoardPagePostsList));
 
+        public TextView ForumBoardPageEmptyNotice => _forumBoardPageEmptyNotice ?? (_forumBoardPageEmptyNotice = FindViewById<TextView>(Resource.Id.ForumBoardPageEmptyNotice));
+
         public FloatingActionButton ForumBoardPageActionButton => _forumBoardPageActionButton ?? (_forumBoardPageActionButton = FindViewById<FloatingActionButton>(Resource.Id.ForumBoardPageActionButton));
 
         public ProgressBar ForumBoardPageLoadingSpinner => _forumBoardPageLoadingSpinner ?? (_forumBoardPageLoadingSpinner = FindViewById<ProgressBar>(Resource.Id.ForumBoardPageLoadingSpinner));
+
 
 
         #endregion

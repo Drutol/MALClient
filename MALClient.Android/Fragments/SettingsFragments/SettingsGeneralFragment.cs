@@ -236,7 +236,7 @@ namespace MALClient.Android.Fragments.SettingsFragments
             }
             else
             {
-                view.FindViewById<TextView>(AnimeListPageFlyoutBuilder.TextViewTag).Text = Utilities.StatusToString(animeStatus);
+                view.FindViewById<TextView>(AnimeListPageFlyoutBuilder.TextViewTag).Text = Utilities.StatusToString(animeStatus,true);
             }
 
             view.Tag = animeStatus;

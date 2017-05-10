@@ -119,6 +119,8 @@ namespace MALClient.Android.Fragments.DetailsFragments
                         ViewModel.Data.Mangaography.GetAdapter(GetTemplateDelegate);
             }));
 
+            CharacterDetailsPageVoiceActorsGrid.EmptyView = CharacterDetailsPageVoiceActorsEmptyNotice;
+
             CharacterDetailsPageSpoilerButton.Click += CharacterDetailsPageSpoilerButtonOnClick;
             CharacterDetailsPageLinkButton.SetOnClickListener(new OnClickListener(view => ViewModel.OpenInMalCommand.Execute(null)));
         }
@@ -186,6 +188,7 @@ namespace MALClient.Android.Fragments.DetailsFragments
         private ImageButton _characterDetailsPageLinkButton;
         private Button _characterDetailsPageSpoilerButton;
         private HeightAdjustingGridView _characterDetailsPageVoiceActorsGrid;
+        private TextView _characterDetailsPageVoiceActorsEmptyNotice;
         private HeightAdjustingGridView _characterDetailsPageAnimeographyGrid;
         private TextView _characterDetailsPageAnimeographyEmptyNotice;
         private HeightAdjustingGridView _characterDetailsPageMangaographyGrid;
@@ -203,6 +206,8 @@ namespace MALClient.Android.Fragments.DetailsFragments
         public Button CharacterDetailsPageSpoilerButton => _characterDetailsPageSpoilerButton ?? (_characterDetailsPageSpoilerButton = FindViewById<Button>(Resource.Id.CharacterDetailsPageSpoilerButton));
 
         public HeightAdjustingGridView CharacterDetailsPageVoiceActorsGrid => _characterDetailsPageVoiceActorsGrid ?? (_characterDetailsPageVoiceActorsGrid = FindViewById<HeightAdjustingGridView>(Resource.Id.CharacterDetailsPageVoiceActorsGrid));
+
+        public TextView CharacterDetailsPageVoiceActorsEmptyNotice => _characterDetailsPageVoiceActorsEmptyNotice ?? (_characterDetailsPageVoiceActorsEmptyNotice = FindViewById<TextView>(Resource.Id.CharacterDetailsPageVoiceActorsEmptyNotice));
 
         public HeightAdjustingGridView CharacterDetailsPageAnimeographyGrid => _characterDetailsPageAnimeographyGrid ?? (_characterDetailsPageAnimeographyGrid = FindViewById<HeightAdjustingGridView>(Resource.Id.CharacterDetailsPageAnimeographyGrid));
 

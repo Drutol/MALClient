@@ -835,7 +835,7 @@
                                                                         <ColumnDefinition Width="*" />
                                                                         <ColumnDefinition Width="Auto" />
                                                                     </Grid.ColumnDefinitions>
-                                                                    <StackPanel HorizontalAlignment="Stretch">
+                                                                    <StackPanel Padding="4,0" HorizontalAlignment="Stretch">
                                                                         <TextBlock FontWeight="Medium" FontSize="15"
                                                                                    TextTrimming="CharacterEllipsis"
                                                                                    Text="{Binding AnimeCharacter.Data.Name}" />
@@ -955,7 +955,7 @@
                                                                   Background="{ThemeResource BrushAnimeItemBackground}"
                                                                   BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"
                                                                   BorderThickness="0,1,0,0">
-                                                                <StackPanel HorizontalAlignment="Stretch">
+                                                                <StackPanel HorizontalAlignment="Stretch" Padding="4,0">
                                                                     <TextBlock FontWeight="Medium"
                                                                                Text="{Binding Data.Name}" TextTrimming="CharacterEllipsis" />
                                                                     <TextBlock FontWeight="SemiLight"

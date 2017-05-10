@@ -102,9 +102,9 @@ namespace MALClient.XShared.Comm.Anime
                 // probably MAl garbled response
             }
             
-
-
             return output;
         }
+
+        
     }
 }

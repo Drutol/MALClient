@@ -29,7 +29,8 @@ namespace MALClient.Android.Flyouts
             
 
             droppyBuilder.AddMenuItem(new DroppyMenuCustomItem(AnimeListPageFlyoutBuilder.BuildItem(context, "Forum board", listener, 0)));
-            droppyBuilder.AddMenuItem(new DroppyMenuCustomItem(AnimeListPageFlyoutBuilder.BuildItem(context, "Promotional videos", listener, 1)));
+            if(viewModel.AnimeMode)
+                droppyBuilder.AddMenuItem(new DroppyMenuCustomItem(AnimeListPageFlyoutBuilder.BuildItem(context, "Promotional videos", listener, 1)));
             if(!viewModel.AddAnimeVisibility)
                 droppyBuilder.AddMenuItem(new DroppyMenuCustomItem(AnimeListPageFlyoutBuilder.BuildItem(context, "Tags", listener, 2)));
             if (viewModel.IsRewatchingButtonVisibility)

@@ -25,13 +25,13 @@
                       android:layout_height="match_parent" android:orientation="vertical">
           <FrameLayout android:layout_gravity="top"
                        android:layout_width="wrap_content"
-                       android:layout_height="wrap_content">
+                       android:layout_height="wrap_content" >
             <ImageView
               android:layout_width="wrap_content" android:id="@+id/ProfilePageGeneralTabImagePlaceholder"
               android:layout_height="wrap_content" android:layout_gravity="center" android:src="@drawable/icon_help" android:tint="#fff"/>
             <FFImageLoading.Views.ImageViewAsync
-              android:layout_width="100dp" android:id="@+id/ProfilePageGeneralTabAnimeUserImg"
-              android:layout_height="100dp" android:layout_margin="10dp" />
+              android:layout_width="100dp" android:id="@+id/ProfilePageGeneralTabAnimeUserImg" android:adjustViewBounds="true"
+              android:layout_height="wrap_content" android:layout_margin="10dp" android:maxHeight="145dp" android:layout_gravity="top"/>
           </FrameLayout>
         </LinearLayout>
 

@@ -70,7 +70,7 @@ namespace MALClient.Models.Models.Anime
                     .Replace("mdash;", "-")
                     .Replace("iuml;", "ï")
                     .Replace("<br />", "").ToString();
-            Synopsis = Regex.Replace(Synopsis, @"\[[^\]]*\]", string.Empty); //get rid of bbcode
+            Synopsis = Regex.Replace(Synopsis, @"\[[^\]]*\]", string.Empty).Trim(); //get rid of bbcode
 
 
             StartDate = xmlObj.Element("start_date").Value;

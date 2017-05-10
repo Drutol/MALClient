@@ -51,7 +51,9 @@
         android:choiceMode="singleChoice"
         android:dividerHeight="5dp" android:divider="@color/Transparent" />
     </LinearLayout>
-
+    <TextView android:gravity="center" android:visibility="visible"
+              android:layout_width="wrap_content" android:id="@+id/ForumBoardPageEmptyNotice"
+              android:layout_height="wrap_content" android:fontFamily="@string/font_family_light" android:text="We have come up empty..." android:layout_gravity="center" android:textColor="?AccentColour"/>
     <android.support.design.widget.FloatingActionButton android:id="@+id/ForumBoardPageActionButton"
                                                         android:layout_width="wrap_content" app:backgroundTint="?AccentColourContrast" android:layout_gravity="end|bottom" android:layout_margin="16dp"
                                                         android:layout_height="wrap_content" android:src="@drawable/icon_add" android:clickable="true" android:focusable="true" android:tint="#fff"

@@ -434,8 +434,7 @@ namespace MALClient.XShared.ViewModels.Main
 
         public bool LoadAllDetailsButtonVisiblity
             =>
-            Settings.SelectedApiType == ApiType.Mal && WorkMode != AnimeListWorkModes.Manga &&
-            WorkMode != AnimeListWorkModes.TopManga;
+                WorkMode == AnimeListWorkModes.Anime;
 
 
         private bool _goingCustomSeason;

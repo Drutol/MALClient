@@ -835,12 +835,12 @@
                                                                         <ColumnDefinition Width="*" />
                                                                         <ColumnDefinition Width="Auto" />
                                                                     </Grid.ColumnDefinitions>
-                                                                    <StackPanel HorizontalAlignment="Center">
+                                                                    <StackPanel HorizontalAlignment="Stretch">
                                                                         <TextBlock FontWeight="Medium" FontSize="15"
                                                                                    TextTrimming="CharacterEllipsis"
                                                                                    Text="{Binding AnimeCharacter.Data.Name}" />
                                                                         <TextBlock FontWeight="SemiLight"
-                                                                                   Text="{Binding AnimeCharacter.Data.Notes}" />
+                                                                                   Text="{Binding AnimeCharacter.Data.Notes}" TextTrimming="CharacterEllipsis" />
                                                                     </StackPanel>
                                                                 </Grid>
                                                             </Grid>
@@ -885,11 +885,11 @@
                                                                       Background="{ThemeResource BrushAnimeItemBackground}"
                                                                       BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"
                                                                       BorderThickness="0,1,0,0">
-                                                                    <StackPanel HorizontalAlignment="Center">
+                                                                    <StackPanel HorizontalAlignment="Stretch">
                                                                         <TextBlock FontWeight="Medium"
-                                                                                   Text="{Binding AnimeStaffPerson.Data.Name}" />
+                                                                                   Text="{Binding AnimeStaffPerson.Data.Name}" TextTrimming="CharacterEllipsis"/>
                                                                         <TextBlock FontWeight="SemiLight"
-                                                                                   Text="{Binding AnimeStaffPerson.Data.Notes}" />
+                                                                                   Text="{Binding AnimeStaffPerson.Data.Notes}" TextTrimming="CharacterEllipsis"/>
                                                                     </StackPanel>
                                                                 </Grid>
                                                             </Grid>
@@ -957,9 +957,9 @@
                                                                   BorderThickness="0,1,0,0">
                                                                 <StackPanel HorizontalAlignment="Stretch">
                                                                     <TextBlock FontWeight="Medium"
-                                                                               Text="{Binding Data.Name}" />
+                                                                               Text="{Binding Data.Name}" TextTrimming="CharacterEllipsis" />
                                                                     <TextBlock FontWeight="SemiLight"
-                                                                               Text="{Binding Data.Notes}" />
+                                                                               Text="{Binding Data.Notes}" TextTrimming="CharacterEllipsis" />
                                                                 </StackPanel>
                                                             </Grid>
                                                         </Grid>
@@ -1084,7 +1084,7 @@
                                                     <DataTemplate>
                                                         <Grid HorizontalAlignment="Stretch">
                                                             <Grid.ColumnDefinitions>
-                                                                <ColumnDefinition Width="70" />
+                                                                <ColumnDefinition Width="85" />
                                                                 <ColumnDefinition Width="*" />
                                                             </Grid.ColumnDefinitions>
                                                             <TextBlock Grid.Column="0" Text="{Binding Item1}"

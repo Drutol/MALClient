@@ -219,6 +219,7 @@ namespace MALClient.Android.DIalogs
             view.FindViewById<ImageButton>(Resource.Id.AnimeTagsDialogAddTagButton).SetOnClickListener(new OnClickListener(
                 v =>
                 {
+                    editBox.ClearFocus();
                     viewModel.AddTagCommand.Execute(null);
                 }));
 

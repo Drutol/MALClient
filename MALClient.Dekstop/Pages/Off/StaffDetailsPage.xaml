@@ -154,7 +154,7 @@
                     <Grid>
                         <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"
                             Visibility="{Binding IsNoProductionRolesNoticeVisible,Converter={StaticResource BoolToVisibilityConverter}}"
-                            Text="This person had no production roles yet..."
+                            Text="This person had no production roles yet..." Margin="0,30"
                             TextWrapping="WrapWholeWords" TextAlignment="Center" Foreground="#FFB9B9B9" />
                         <ScrollViewer Visibility="{Binding IsNoProductionRolesNoticeVisible,Converter={StaticResource BoolToVisibilityInvertedConverter}}"> 
                             <ItemsControl ItemsSource="{Binding  Data.StaffPositions}" VerticalAlignment="Stretch">

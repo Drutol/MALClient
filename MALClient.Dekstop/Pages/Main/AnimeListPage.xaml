@@ -25,112 +25,11 @@
         <x:String x:Key="WorkModeAnyOther">AnyWorkMode</x:String>
     </Page.Resources>
 
-    <Page.BottomAppBar>
-        <CommandBar x:Name="BottomCommandBar" Background="{ThemeResource BrushAppBars}">
-            <CommandBar.SecondaryCommands>
-                <AppBarButton
-                Visibility="{Binding AppBtnListSourceVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
-                Icon="Contact2" Label="List source">
-                    <AppBarButton.Flyout>
-                        <Flyout x:Name="FlyoutListSource" Opened="FlyoutListSource_OnOpened">
-                            <StackPanel>
-                                <TextBlock VerticalAlignment="Center" Text="Username:" />
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBox x:Name="TxtListSource" Loaded="BuggedFlyoutContentAfterAnniversaryUpdateOnLoaded"
-                                         Text="{Binding ListSource,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
-                                         Margin="5,5" KeyDown="ListSource_OnKeyDown" />
-                                    <Button Command="{Binding RefreshCommand}">
-                                        <SymbolIcon Symbol="Accept" />
-                                    </Button>
-                                </StackPanel>
-                            </StackPanel>
-                        </Flyout>
-                    </AppBarButton.Flyout>
-                </AppBarButton>
-                <AppBarButton Visibility="{Binding LoadAllDetailsButtonVisiblity,Converter={StaticResource BoolToVisibilityConverter}}" Label="Load all details" Command="{Binding LoadAllItemsDetailsCommand}"/>
-            </CommandBar.SecondaryCommands>
-            <AppBarButton Icon="Back" Label="Go back to my list" Command="{Binding GoBackToMyListCommand}"
-                          Visibility="{Binding AppBtnGoBackToMyListVisibility,Converter={StaticResource BoolToVisibilityConverter}}" />
-            <AppBarButton Icon="Refresh" Label="Reload" Command="{Binding RefreshCommand}" />
-            <AppBarButton Icon="View" Label="Display mode">
-                <AppBarButton.Flyout>
-                    <Flyout x:Name="ViewsFlyout">
-                        <ListView ItemsSource="{Binding DisplayModes}"
-                                  SelectedItem="{Binding CurrentlySelectedDisplayMode,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
-                            <ListView.ItemContainerStyle>
-                                <Style TargetType="ListViewItem">
-                                    <Setter Property="Height" Value="25" />
-                                </Style>
-                            </ListView.ItemContainerStyle>
-                            <ListView.ItemTemplate>
-                                <DataTemplate>
-                                    <TextBlock Text="{Binding Item2}" Height="25" />
-                                </DataTemplate>
-                            </ListView.ItemTemplate>
-                        </ListView>
-                    </Flyout>
-                </AppBarButton.Flyout>
-            </AppBarButton>
-            <AppBarButton Icon="Calendar" Label="Select season"
-                          Visibility="{Binding AppbarBtnPinTileVisibility,Converter={StaticResource BoolToVisibilityConverter}}">
-                <AppBarButton.Flyout>
-                    <Flyout x:Name="FlyoutSeasonSelection">
-                        <StackPanel>
-                            <ListView ItemsSource="{Binding SeasonSelection}" SelectionMode="Single"
-                                  SelectedIndex="{Binding SeasonalUrlsSelectedIndex,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
-                                <ListView.ItemContainerStyle>
-                                    <Style TargetType="ListViewItem">
-                                        <Setter Property="Background" Value="{ThemeResource BrushHamburgerInnerBackground}"/>
-                                        <Setter Property="Height" Value="30"/>
-                                        <Setter Property="MinHeight" Value="30"/>
-                                        <Setter Property="Margin" Value="0,2"/>
-                                        <Setter Property="HorizontalContentAlignment" Value="Center"/>
-                                    </Style>
-                                </ListView.ItemContainerStyle>
-                                <ListView.ItemTemplate>
-                                    <DataTemplate x:DataType="anime:AnimeSeason">
-                                        <TextBlock Text="{x:Bind Name}" />
-                                    </DataTemplate>
-                                </ListView.ItemTemplate>
-                            </ListView>
-                            <TextBlock Text="Custom season" Margin="0,5" HorizontalAlignment="Center"/>
-                            <StackPanel Orientation="Horizontal">
-                                <ComboBox Loaded="BuggedFlyoutContentAfterAnniversaryUpdateOnLoaded" ItemsSource="{Binding SeasonSeasons}" Margin="5,0" MinWidth="70" SelectedItem="{Binding CurrentlySelectedCustomSeasonSeason,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
-                                <ComboBox Loaded="BuggedFlyoutContentAfterAnniversaryUpdateOnLoaded" ItemsSource="{Binding SeasonYears}"  MinWidth="70" SelectedItem="{Binding CurrentlySelectedCustomSeasonYear,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
-                                <Button Margin="5,0" Click="ButtonCustomSeasonGo" Command="{Binding GoToCustomSeasonCommand}">
-                                    <SymbolIcon Symbol="Go"></SymbolIcon>
-                                </Button>
-                            </StackPanel>
-                        </StackPanel>
-
-                    </Flyout>
-                </AppBarButton.Flyout>
-            </AppBarButton>
-            <AppBarButton Icon="Filter" Label="Filter">
-                <AppBarButton.Flyout>
-                    <Flyout x:Name="FiltersFlyout">
-                        <ListView
-                            SelectedIndex="{Binding StatusSelectorSelectedIndex,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
-                            SelectionMode="Single">
-                            <ListView.Items>
-                                <ListViewItem Content="{Binding Filter1Label}" />
-                                <ListViewItem Content="Completed" />
-                                <ListViewItem Content="On hold" />
-                                <ListViewItem Content="Dropped" />
-                                <ListViewItem Content="{Binding Filter5Label}" />
-                                <ListViewItem Content="{Binding StatusAllLabel}" />
-                            </ListView.Items>
-                        </ListView>
-                    </Flyout>
-                </AppBarButton.Flyout>
-            </AppBarButton>
-            <AppBarButton Icon="Shuffle" Label="Select one at random" Command="{Binding SelectAtRandomCommand}" />
-        </CommandBar>
-    </Page.BottomAppBar>
     <Grid Background="{ThemeResource BrushDeepBackground}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Grid.Resources>
             <ResourceDictionary>
@@ -405,5 +304,105 @@
                 </StackPanel>
             </Grid>
         </Grid>
+        <CommandBar Grid.Row="2" x:Name="BottomCommandBar" Background="{ThemeResource BrushAppBars}">
+            <CommandBar.SecondaryCommands>
+                <AppBarButton
+                    Visibility="{Binding AppBtnListSourceVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
+                    Icon="Contact2" Label="List source">
+                    <AppBarButton.Flyout>
+                        <Flyout x:Name="FlyoutListSource" Opened="FlyoutListSource_OnOpened">
+                            <StackPanel>
+                                <TextBlock VerticalAlignment="Center" Text="Username:" />
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBox x:Name="TxtListSource" Loaded="BuggedFlyoutContentAfterAnniversaryUpdateOnLoaded"
+                                             Text="{Binding ListSource,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                             Margin="5,5" KeyDown="ListSource_OnKeyDown" />
+                                    <Button Command="{Binding RefreshCommand}">
+                                        <SymbolIcon Symbol="Accept" />
+                                    </Button>
+                                </StackPanel>
+                            </StackPanel>
+                        </Flyout>
+                    </AppBarButton.Flyout>
+                </AppBarButton>
+                <AppBarButton Visibility="{Binding LoadAllDetailsButtonVisiblity,Converter={StaticResource BoolToVisibilityConverter}}" Label="Load all details" Command="{Binding LoadAllItemsDetailsCommand}"/>
+            </CommandBar.SecondaryCommands>
+            <AppBarButton Icon="Back" Label="Go back to my list" Command="{Binding GoBackToMyListCommand}"
+                          Visibility="{Binding AppBtnGoBackToMyListVisibility,Converter={StaticResource BoolToVisibilityConverter}}" />
+            <AppBarButton Icon="Refresh" Label="Reload" Command="{Binding RefreshCommand}" />
+            <AppBarButton Icon="View" Label="Display mode">
+                <AppBarButton.Flyout>
+                    <Flyout x:Name="ViewsFlyout">
+                        <ListView ItemsSource="{Binding DisplayModes}"
+                                  SelectedItem="{Binding CurrentlySelectedDisplayMode,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                            <ListView.ItemContainerStyle>
+                                <Style TargetType="ListViewItem">
+                                    <Setter Property="Height" Value="25" />
+                                </Style>
+                            </ListView.ItemContainerStyle>
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Item2}" Height="25" />
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </Flyout>
+                </AppBarButton.Flyout>
+            </AppBarButton>
+            <AppBarButton Icon="Calendar" Label="Select season"
+                          Visibility="{Binding AppbarBtnPinTileVisibility,Converter={StaticResource BoolToVisibilityConverter}}">
+                <AppBarButton.Flyout>
+                    <Flyout x:Name="FlyoutSeasonSelection">
+                        <StackPanel>
+                            <ListView ItemsSource="{Binding SeasonSelection}" SelectionMode="Single"
+                                      SelectedIndex="{Binding SeasonalUrlsSelectedIndex,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                                <ListView.ItemContainerStyle>
+                                    <Style TargetType="ListViewItem">
+                                        <Setter Property="Background" Value="{ThemeResource BrushHamburgerInnerBackground}"/>
+                                        <Setter Property="Height" Value="30"/>
+                                        <Setter Property="MinHeight" Value="30"/>
+                                        <Setter Property="Margin" Value="0,2"/>
+                                        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                                    </Style>
+                                </ListView.ItemContainerStyle>
+                                <ListView.ItemTemplate>
+                                    <DataTemplate x:DataType="anime:AnimeSeason">
+                                        <TextBlock Text="{x:Bind Name}" />
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                            <TextBlock Text="Custom season" Margin="0,5" HorizontalAlignment="Center"/>
+                            <StackPanel Orientation="Horizontal">
+                                <ComboBox Loaded="BuggedFlyoutContentAfterAnniversaryUpdateOnLoaded" ItemsSource="{Binding SeasonSeasons}" Margin="5,0" MinWidth="70" SelectedItem="{Binding CurrentlySelectedCustomSeasonSeason,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                                <ComboBox Loaded="BuggedFlyoutContentAfterAnniversaryUpdateOnLoaded" ItemsSource="{Binding SeasonYears}"  MinWidth="70" SelectedItem="{Binding CurrentlySelectedCustomSeasonYear,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                                <Button Margin="5,0" Click="ButtonCustomSeasonGo" Command="{Binding GoToCustomSeasonCommand}">
+                                    <SymbolIcon Symbol="Go"></SymbolIcon>
+                                </Button>
+                            </StackPanel>
+                        </StackPanel>
+
+                    </Flyout>
+                </AppBarButton.Flyout>
+            </AppBarButton>
+            <AppBarButton Icon="Filter" Label="Filter">
+                <AppBarButton.Flyout>
+                    <Flyout x:Name="FiltersFlyout">
+                        <ListView
+                            SelectedIndex="{Binding StatusSelectorSelectedIndex,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                            SelectionMode="Single">
+                            <ListView.Items>
+                                <ListViewItem Content="{Binding Filter1Label}" />
+                                <ListViewItem Content="Completed" />
+                                <ListViewItem Content="On hold" />
+                                <ListViewItem Content="Dropped" />
+                                <ListViewItem Content="{Binding Filter5Label}" />
+                                <ListViewItem Content="{Binding StatusAllLabel}" />
+                            </ListView.Items>
+                        </ListView>
+                    </Flyout>
+                </AppBarButton.Flyout>
+            </AppBarButton>
+            <AppBarButton Icon="Shuffle" Label="Select one at random" Command="{Binding SelectAtRandomCommand}" />
+        </CommandBar>
     </Grid>
 </Page>

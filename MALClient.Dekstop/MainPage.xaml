@@ -258,7 +258,6 @@
                     <Grid Grid.Row="1">
                         <!--Changelog-->
                         <Frame
-                            Margin="{Binding Source={StaticResource DesktopLocator},Path=Hamburger.BottomStackPanelMargin,Converter={StaticResource BottomStackMarginToFrameMarginWithAdConverter}}"
                             x:Name="MainContent" PointerPressed="MainContent_OnPointerPressed"
                             VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
                         <Grid Visibility="Collapsed" x:Name="ChangelogGrid"
@@ -321,8 +320,7 @@
                       Height="10" />
                 <Frame Grid.Column="2" x:Name="OffContent" HorizontalAlignment="Stretch" MinWidth="420"
                        PointerPressed="OffContent_OnPointerPressed"
-                       Visibility="{Binding OffContentVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
-                       Margin="{Binding Source={StaticResource DesktopLocator} ,Path=Hamburger.BottomStackPanelMargin}" />
+                       Visibility="{Binding OffContentVisibility,Converter={StaticResource BoolToVisibilityConverter}}"/>
                 <Grid Grid.Column="0" Grid.ColumnSpan="{Binding MainContentColumnSpan}" x:Name="MediaElementGrid"
                       HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                       attachedProperties:AnimatedVisibilityExtension.AnimatedVisiblity="{Binding MediaElementVisibility,Converter={StaticResource BoolToVisibilityConverter}}"

@@ -33,18 +33,23 @@ namespace MALClient.UWP.Pages.Main
         {
             if (propertyChangedEventArgs.PropertyName == nameof(ViewModelLocator.Recommendations.CurrentWorkMode))
             {
-                InnerPivot.SelectedIndex = (int) ViewModelLocator.Recommendations.CurrentWorkMode;
-                if (ViewModelLocator.Recommendations.CurrentWorkMode == RecommendationsPageWorkMode.PersonalizedAnime ||
-                    ViewModelLocator.Recommendations.CurrentWorkMode == RecommendationsPageWorkMode.PersonalizedManga)
-                {
-                    MenuButton.HorizontalAlignment = HorizontalAlignment.Stretch;
-                    MenuButton.MaxWidth = 4000;
-                }
-                else
-                {
-                    MenuButton.HorizontalAlignment = HorizontalAlignment.Left;
-                    MenuButton.MaxWidth = 40;
-                }
+                UpdateUpperManuButton();
+            }
+        }
+
+        private void UpdateUpperManuButton()
+        {
+            InnerPivot.SelectedIndex = (int)ViewModelLocator.Recommendations.CurrentWorkMode;
+            if (ViewModelLocator.Recommendations.CurrentWorkMode == RecommendationsPageWorkMode.PersonalizedAnime ||
+                ViewModelLocator.Recommendations.CurrentWorkMode == RecommendationsPageWorkMode.PersonalizedManga)
+            {
+                MenuButton.HorizontalAlignment = HorizontalAlignment.Stretch;
+                MenuButton.MaxWidth = 4000;
+            }
+            else
+            {
+                MenuButton.HorizontalAlignment = HorizontalAlignment.Left;
+                MenuButton.MaxWidth = 40;
             }
         }
 
@@ -52,6 +57,7 @@ namespace MALClient.UWP.Pages.Main
         {
             UpdateOnSizeChanged();
             SizeChanged += (o, args) => UpdateOnSizeChanged();
+            UpdateUpperManuButton();
         }
 
         private void UpdateOnSizeChanged()

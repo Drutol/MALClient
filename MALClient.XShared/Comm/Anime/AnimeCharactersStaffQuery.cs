@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using HtmlAgilityPack;
 using MALClient.Models.Models.AnimeScrapped;
@@ -113,9 +114,31 @@ namespace MALClient.XShared.Comm.Anime
             try
             {
                 var mainContainer = doc.FirstOfDescendantsWithClass("div", "js-scrollfix-bottom-rel");
-                var tables = mainContainer.ChildNodes.Where(node => node.Name == "table").ToList();
+                List<HtmlNode> charTables = new List<HtmlNode>();
+                List<HtmlNode> staffTables = new List<HtmlNode>();
+                bool nowStaff = false;
+                int headerCount = 0;
+                foreach (var node in mainContainer.ChildNodes)
+                {
+                    if (!nowStaff)
+                    {
+                        if(node.Name == "table")
+                            charTables.Add(node);
+                        else if (node.Name == "h2")
+                        {
+                            headerCount++;
+                            if(headerCount == 2)
+                                nowStaff = true;
+                        }
+                    }
+                    else
+                    {
+                        if (node.Name == "table")
+                            staffTables.Add(node);
+                    }
+                }
                 int i = 0;
-                foreach (var table in tables.Take(tables.Count - 1))
+                foreach (var table in charTables)
                 {
                     try
                     {
@@ -128,7 +151,7 @@ namespace MALClient.XShared.Comm.Anime
                         var img = imgs[0].Attributes["data-src"].Value;
                         if (!img.Contains("questionmark"))
                         {
-                            img = img.Replace("/r/46x64", "");
+                            img = Regex.Replace(img,@"\/r\/\d+x\d+", "");
                             current.AnimeCharacter.ImgUrl = img.Substring(0, img.IndexOf('?'));
                         }
 
@@ -136,8 +159,8 @@ namespace MALClient.XShared.Comm.Anime
                         current.AnimeCharacter.ShowId = _animeId.ToString();
                         current.AnimeCharacter.Name =
                             WebUtility.HtmlDecode(imgs[0].Attributes["alt"].Value.Replace(",", ""));
-                        current.AnimeCharacter.Id = infos[1].ChildNodes[1].Attributes["href"].Value.Split('/')[2];
-                        current.AnimeCharacter.Notes = infos[1].ChildNodes[3].InnerText;
+                        current.AnimeCharacter.Id = infos[1].ChildNodes[1].Attributes["href"].Value.Split('/')[4];
+                        current.AnimeCharacter.Notes = infos[1].ChildNodes[3].InnerText.Trim();
 
                         //voiceactor
                         try
@@ -145,12 +168,12 @@ namespace MALClient.XShared.Comm.Anime
                             img = imgs[1].Attributes["data-src"].Value;
                             if (!img.Contains("questionmark"))
                             {
-                                img = img.Replace("/r/46x64", "");
+                                img = Regex.Replace(img, @"\/r\/\d+x\d+", "");
                                 current.AnimeStaffPerson.ImgUrl = img.Substring(0, img.IndexOf('?'));
                             }
                             current.AnimeStaffPerson.Name = WebUtility.HtmlDecode(imgs[1].Attributes["alt"].Value.Replace(",", ""));
-                            current.AnimeStaffPerson.Id = infos[3].ChildNodes[1].Attributes["href"].Value.Split('/')[2];
-                            current.AnimeStaffPerson.Notes = infos[3].ChildNodes[4].InnerText;
+                            current.AnimeStaffPerson.Id = infos[3].ChildNodes[1].Attributes["href"].Value.Split('/')[4];
+                            current.AnimeStaffPerson.Notes = infos[3].ChildNodes[4].InnerText.Trim();
                         }
                         catch (Exception)
                         {
@@ -171,7 +194,7 @@ namespace MALClient.XShared.Comm.Anime
 
                 }
                 i = 0;
-                foreach (var staffRow in tables.Last().Descendants("tr"))
+                foreach (var staffRow in staffTables)
                 {
                     try
                     {
@@ -182,12 +205,13 @@ namespace MALClient.XShared.Comm.Anime
                         var img = imgs[0].Attributes["data-src"].Value;
                         if (!img.Contains("questionmark"))
                         {
-                            img = img.Replace("/r/46x64", "");
+                            img = Regex.Replace(img, @"\/r\/\d+x\d+", "");
                             current.ImgUrl = img.Substring(0, img.IndexOf('?'));
                         }
-                        current.Name = WebUtility.HtmlDecode(imgs[0].Attributes["alt"].Value.Replace(",", ""));
-                        current.Id = info.ChildNodes[0].Attributes["href"].Value.Split('/')[2];
-                        current.Notes = info.ChildNodes[3].InnerText;
+                        var link = info.Descendants("a").First();
+                        current.Name = WebUtility.HtmlDecode(link.InnerText.Trim().Replace(",", ""));
+                        current.Id = link.Attributes["href"].Value.Split('/')[4];
+                        current.Notes = staffRow.FirstOfDescendantsWithClass("div", "spaceit_pad").InnerText.Trim();
 
                         output.AnimeStaff.Add(current);
                         if (i++ > 30)

@@ -103,7 +103,7 @@ namespace MALClient.UWP.ViewModels
                         currPage = index; //used by hamburger's filters
                     else
                         currPage = PageIndex.PageAnimeList;
-                    DesktopViewModelLocator.Hamburger.ChangeBottomStackPanelMargin(true);
+                    //DesktopViewModelLocator.Hamburger.ChangeBottomStackPanelMargin(true);
                     index = PageIndex.PageAnimeList;
                     break;
                 case PageIndex.PageSearch:
@@ -136,13 +136,13 @@ namespace MALClient.UWP.ViewModels
                         if ((args as SearchPageNavArgsBase).DisplayMode == SearchPageDisplayModes.Main)
                         {
                             CurrentStatusSub = "";
-                            DesktopViewModelLocator.Hamburger.ChangeBottomStackPanelMargin(index == PageIndex.PageMessanging || index == PageIndex.PageWallpapers);
+                            //DesktopViewModelLocator.Hamburger.ChangeBottomStackPanelMargin(index == PageIndex.PageMessanging || index == PageIndex.PageWallpapers);
                         }
                     }
                     else
                     {
                         CurrentStatusSub = "";
-                        DesktopViewModelLocator.Hamburger.ChangeBottomStackPanelMargin(index == PageIndex.PageMessanging || index == PageIndex.PageWallpapers);
+                        //DesktopViewModelLocator.Hamburger.ChangeBottomStackPanelMargin(index == PageIndex.PageMessanging || index == PageIndex.PageWallpapers);
                     }
                     currPage = index;
                     break;

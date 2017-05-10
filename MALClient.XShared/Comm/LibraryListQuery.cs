@@ -87,7 +87,7 @@ namespace MALClient.XShared.Comm
                                     var elem = item.Element("series_synonyms");
                                     if (!string.IsNullOrWhiteSpace(elem?.Value))
                                     {
-                                       title = elem.Value.Split(new [] {';'}, StringSplitOptions.RemoveEmptyEntries).LastOrDefault();                                   
+                                       title = elem.Value.Split(new [] {';'}, StringSplitOptions.RemoveEmptyEntries).LastOrDefault().Trim();                                   
                                     }
                                     
                                     if(string.IsNullOrEmpty(title))
@@ -125,7 +125,7 @@ namespace MALClient.XShared.Comm
                                     var elem = item.Element("series_synonyms");
                                     if (!string.IsNullOrWhiteSpace(elem?.Value))
                                     {
-                                        title = elem.Value.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries).LastOrDefault();
+                                        title = elem.Value.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries).LastOrDefault().Trim();
                                     }
 
                                     if (string.IsNullOrEmpty(title))

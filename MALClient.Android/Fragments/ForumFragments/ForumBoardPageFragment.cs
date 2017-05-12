@@ -164,7 +164,7 @@ namespace MALClient.Android.Fragments.ForumFragments
                 return;
 
             var view = sender as View;
-            ViewModel.LoadPageCommand.Execute((int) view.Tag);
+
             //update it immediatelly
             view.FindViewById(Resource.Id.PageIndicatorItemBackgroundPanel)
                 .SetBackgroundResource(ResourceExtension.AccentColourRes);
@@ -174,6 +174,9 @@ namespace MALClient.Android.Fragments.ForumFragments
                 .SetBackgroundResource(ResourceExtension.BrushAnimeItemInnerBackgroundRes);
             _prevHighlightedPageIndicator.FindViewById<TextView>(Resource.Id.PageIndicatorItemNumber)
                 .SetTextColor(new Color(ResourceExtension.BrushText));
+
+            ViewModel.LoadPageCommand.Execute((int) view.Tag);
+            
         }
 
         private View GetTopicTemplateDelegate(int i, ForumTopicEntryViewModel forumTopicEntryViewModel, View arg3)

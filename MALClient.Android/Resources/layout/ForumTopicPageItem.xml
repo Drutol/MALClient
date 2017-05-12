@@ -38,10 +38,20 @@
       <TextView android:layout_marginTop="2dp"
                 android:layout_width="wrap_content" android:id="@+id/ForumTopicPageItemDetailsPostCount"
                 android:layout_height="wrap_content" android:textColor="?BrushText" android:text="Online" android:fontFamily="@string/font_family_light"/>
+      <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <ImageButton android:id="@+id/ForumTopicPageItemSendMessageButton"
+                     android:layout_width="wrap_content" android:padding="6dp" android:background="?selectableItemBackground"
+                     android:layout_height="wrap_content" android:src="@drawable/icon_message"/>
+        <ImageButton android:id="@+id/ForumTopicPageItemSeeOtherPostsButton"
+                     android:layout_width="wrap_content" android:padding="6dp" android:background="?selectableItemBackground"
+                     android:layout_height="wrap_content" android:src="@drawable/icon_feeds"/>
+      </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
-      android:layout_width="0dp" android:minHeight="200dp" android:orientation="vertical"
+      android:layout_width="0dp" android:minHeight="225dp" android:orientation="vertical"
       android:layout_height="wrap_content" android:layout_weight="1" android:background="?BrushAnimeItemBackground">
 
       <FrameLayout

@@ -356,7 +356,7 @@ namespace MALClient.XShared.ViewModels.Forums
                    {
                        if(ViewModelLocator.Mobile)
                            RegisterSelfBackNav();
-                       ViewModelLocator.GeneralMain.Navigate(PageIndex.PageMessageDetails,new MalMessageDetailsNavArgs{WorkMode = MessageDetailsWorkMode.Message,NewMessageTarget = user.Name});
+                       ViewModelLocator.GeneralMain.Navigate(PageIndex.PageMessageDetails,new MalMessageDetailsNavArgs{WorkMode = MessageDetailsWorkMode.Message,NewMessageTarget = user.Name,BackNavHandled =  true});
                    }));
 
 

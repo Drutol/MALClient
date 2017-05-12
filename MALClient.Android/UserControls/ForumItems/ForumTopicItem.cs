@@ -44,6 +44,7 @@ namespace MALClient.Android.UserControls.ForumItems
 
         }
 
+        private ListenableWebClient _client;
         private DataJavascriptInterface _dataJavascriptInterface;
         private readonly List<Binding> _bindings = new List<Binding>();
 
@@ -164,12 +165,31 @@ namespace MALClient.Android.UserControls.ForumItems
             ForumTopicPageItemPostAuthor.Text = ViewModel.Data.Poster.MalUser.Name;
             ForumTopicPageItemPostNumber.Text = ViewModel.Data.MessageNumber;
             ForumTopicPageItemPostDate.Text = ViewModel.Data.CreateDate;
-            ForumTopicPageItemDetailOnline.Text = ViewModel.Data.Poster.Status;
-            ForumTopicPageItemDetailsJoined.Text = ViewModel.Data.Poster.Joined;
-            ForumTopicPageItemDetailsPostCount.Text = ViewModel.Data.Poster.Posts;
+            if (string.IsNullOrEmpty(ViewModel.Data.Poster.Status))
+                ForumTopicPageItemDetailOnline.Visibility = ViewStates.Gone;
+            else
+            {
+                ForumTopicPageItemDetailOnline.Visibility = ViewStates.Visible;
+                ForumTopicPageItemDetailOnline.Text = ViewModel.Data.Poster.Status;
+            }
+            if (string.IsNullOrEmpty(ViewModel.Data.Poster.Joined))
+                ForumTopicPageItemDetailsJoined.Visibility = ViewStates.Gone;
+            else
+            {
+                ForumTopicPageItemDetailsJoined.Visibility = ViewStates.Visible;
+                ForumTopicPageItemDetailsJoined.Text = ViewModel.Data.Poster.Joined;
+            }
+            if (string.IsNullOrEmpty(ViewModel.Data.Poster.Posts))
+                ForumTopicPageItemDetailsPostCount.Visibility = ViewStates.Gone;
+            else
+            {
+                ForumTopicPageItemDetailsPostCount.Visibility = ViewStates.Visible;
+                ForumTopicPageItemDetailsPostCount.Text = ViewModel.Data.Poster.Posts;
+            }
 
             ForumTopicPageItemEditButton.Visibility = ViewModel.Data.CanEdit ? ViewStates.Visible : ViewStates.Gone;
             ForumTopicPageItemDeleteButton.Visibility = ViewModel.Data.CanDelete ? ViewStates.Visible : ViewStates.Gone;
+            ForumTopicPageItemSendMessageButton.Visibility = ViewModel.MessagingVisible ? ViewStates.Visible : ViewStates.Gone;
 
             if (string.IsNullOrEmpty(ViewModel.Data.EditDate))
                 ForumTopicPageItemModifiedLabel.Visibility = ViewStates.Gone;
@@ -234,6 +254,16 @@ namespace MALClient.Android.UserControls.ForumItems
             ForumTopicPageItemDeleteButton.SetOnClickListener(new OnClickListener(view =>
             {
                 ViewModel.DeleteCommand.Execute(null);
+            }));
+
+            ForumTopicPageItemSendMessageButton.SetOnClickListener(new OnClickListener(view =>
+            {
+                ViewModelLocator.ForumsTopic.NavigateMessagingCommand.Execute(ViewModel.Data.Poster.MalUser);
+            }));
+
+            ForumTopicPageItemSeeOtherPostsButton.SetOnClickListener(new OnClickListener(view =>
+            {
+                ViewModel.GoToPostersOtherPosts.Execute(null);
             }));
         }
 
@@ -305,13 +335,14 @@ namespace MALClient.Android.UserControls.ForumItems
         private TextView _forumTopicPageItemDetailOnline;
         private TextView _forumTopicPageItemDetailsJoined;
         private TextView _forumTopicPageItemDetailsPostCount;
+        private ImageButton _forumTopicPageItemSendMessageButton;
+        private ImageButton _forumTopicPageItemSeeOtherPostsButton;
         private WebView _forumTopicPageItemWebView;
         private FrameLayout _forumTopicPageItemLoadingOverlay;
         private TextView _forumTopicPageItemModifiedLabel;
         private FrameLayout _forumTopicPageItemEditButton;
         private FrameLayout _forumTopicPageItemDeleteButton;
         private FrameLayout _forumTopicPageItemQuoteButton;
-        private ListenableWebClient _client;
 
         public TextView ForumTopicPageItemPostDate => _forumTopicPageItemPostDate ?? (_forumTopicPageItemPostDate = FindViewById<TextView>(Resource.Id.ForumTopicPageItemPostDate));
 
@@ -326,6 +357,10 @@ namespace MALClient.Android.UserControls.ForumItems
         public TextView ForumTopicPageItemDetailsJoined => _forumTopicPageItemDetailsJoined ?? (_forumTopicPageItemDetailsJoined = FindViewById<TextView>(Resource.Id.ForumTopicPageItemDetailsJoined));
 
         public TextView ForumTopicPageItemDetailsPostCount => _forumTopicPageItemDetailsPostCount ?? (_forumTopicPageItemDetailsPostCount = FindViewById<TextView>(Resource.Id.ForumTopicPageItemDetailsPostCount));
+
+        public ImageButton ForumTopicPageItemSendMessageButton => _forumTopicPageItemSendMessageButton ?? (_forumTopicPageItemSendMessageButton = FindViewById<ImageButton>(Resource.Id.ForumTopicPageItemSendMessageButton));
+
+        public ImageButton ForumTopicPageItemSeeOtherPostsButton => _forumTopicPageItemSeeOtherPostsButton ?? (_forumTopicPageItemSeeOtherPostsButton = FindViewById<ImageButton>(Resource.Id.ForumTopicPageItemSeeOtherPostsButton));
 
         public WebView ForumTopicPageItemWebView => _forumTopicPageItemWebView ?? (_forumTopicPageItemWebView = FindViewById<WebView>(Resource.Id.ForumTopicPageItemWebView));
 

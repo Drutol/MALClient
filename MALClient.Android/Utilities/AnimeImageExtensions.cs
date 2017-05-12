@@ -86,11 +86,10 @@ namespace MALClient.Android
                     else
                         image.Visibility = ViewStates.Visible;
                 }
-
+                image.Tag = originUrl;
                 //we can fallback to lower quality image
                 if (!originUrl.Equals(targetUrl))
-                {
-                    image.Tag = originUrl;
+                {                
                     work.Error(exception =>
                     {
                         var img = (string) image.Tag;

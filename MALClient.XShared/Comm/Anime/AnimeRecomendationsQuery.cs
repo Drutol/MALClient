@@ -66,7 +66,7 @@ namespace MALClient.XShared.Comm.Anime
                             RecommendationId = ids[1],
                             DependentTitle = titles[0],
                             RecommendationTitle = titles[1],
-                            Description = WebUtility.HtmlDecode(desc.InnerText)
+                            Description = WebUtility.HtmlDecode(desc.InnerText).Trim()
                         });
                     }
                 }

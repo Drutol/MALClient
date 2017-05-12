@@ -127,7 +127,7 @@ namespace MALClient.Android.Fragments
         private void InitActionMenu()
         {
             _actionMenu?.Close(true);
-            var padding = DimensionsHelper.DpToPx(0);
+            var padding = DimensionsHelper.DpToPx(8);
             var param = new ViewGroup.LayoutParams(DimensionsHelper.DpToPx(45), DimensionsHelper.DpToPx(45));
             var builder = new FloatingActionMenu.Builder(Activity)
                 .AddSubActionView(BuildFabActionButton(param, padding, Resource.Drawable.icon_filter))
@@ -164,7 +164,8 @@ namespace MALClient.Android.Fragments
                 Clickable = true,
                 Focusable = true
             };
-            b1.SetScaleType(ImageView.ScaleType.FitCenter);
+            b1.Size = FloatingActionButton.SizeMini;
+            b1.SetScaleType(ImageView.ScaleType.Center);
             b1.SetImageResource(icon);
             b1.ImageTintList = ColorStateList.ValueOf(new Color(255,255,255));
             b1.BackgroundTintList = ColorStateList.ValueOf(new Color(ResourceExtension.AccentColourContrast));

@@ -80,7 +80,7 @@
       <android.support.design.widget.FloatingActionButton  android:id="@+id/HamburgerProfileItemSupport" android:layout_marginEnd="16dp"
                                                            android:layout_width="wrap_content" app:backgroundTint="#ff4400" android:layout_gravity="end|center_vertical"
                                                            android:layout_height="wrap_content" android:tint="#fff" android:src="@drawable/icon_heart" android:clickable="true" android:focusable="true"
-                                                           xmlns:app="http://schemas.android.com/apk/res-auto" app:fabSize="mini" />
+                                                           xmlns:app="http://schemas.android.com/apk/res-auto" app:fabSize="mini" android:layout_marginBottom="6dp" />
     </FrameLayout>
   </LinearLayout>
 

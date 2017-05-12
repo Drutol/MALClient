@@ -225,7 +225,7 @@
                                         </Grid.ColumnDefinitions>
                                         <TextBox Margin="3,2" HorizontalAlignment="Stretch"
                                                  Loaded="BuggedFlyoutContentAfterAnniversaryUpdateOnLoaded"
-                                                 Text="{x:Bind ViewModel.NewTagInput,Mode=TwoWay}" />
+                                                 Text="{x:Bind ViewModel.NewTagInput,Mode=TwoWay}" MaxWidth="400" TextWrapping="Wrap"/>
                                         <Button Grid.Column="1" Padding="0" Width="32" Height="32"
                                                 Command="{x:Bind ViewModel.AddTagCommand}">
                                             <SymbolIcon Symbol="Add" />

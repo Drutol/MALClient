@@ -16,8 +16,33 @@
         <xamlConverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
         <xamlConverters:BoolInverterConverter x:Key="BoolInverterConverter" />
     </Page.Resources>
-    <Page.BottomAppBar>
-        <CommandBar>
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <GridView ItemsSource="{Binding Wallpapers}">
+            <GridView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <derived:TrueVariableWarpGrid SqeezeChildren="True" Orientation="Horizontal"/>
+                </ItemsPanelTemplate>
+            </GridView.ItemsPanel>
+            <GridView.ItemTemplate>
+                <DataTemplate>
+                    <items:WallpaperItem DataContext="{Binding}" MaxWidth="700" MaxHeight="500" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                </DataTemplate>
+            </GridView.ItemTemplate>
+            <GridView.ItemContainerStyle>
+                <Style TargetType="GridViewItem">
+                    <Setter Property="Margin" Value="2"/>
+                </Style>
+            </GridView.ItemContainerStyle>
+        </GridView>
+        <ProgressRing Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" Width="75" Height="75"
+                      IsActive="True"
+                      Visibility="{Binding LoadingWallpapersVisibility,Converter={StaticResource BoolToVisibilityConverter}}" />
+        <CommandBar Grid.Row="1">
             <CommandBar.SecondaryCommands>
                 <AppBarButton Label="Refresh" Icon="Refresh" Command="{Binding RefreshCommand}"/>
             </CommandBar.SecondaryCommands>
@@ -47,28 +72,5 @@
             <AppBarButton Label="Previous page" Icon="Previous" Command="{Binding GoBackwardsCommand}" IsEnabled="{Binding IsGoBackwardsButtonEnabled}"/>
             <AppBarButton Label="Next page" Icon="Next" Command="{Binding GoForwardCommand}" IsEnabled="{Binding LoadingWallpapersVisibility,Converter={StaticResource BoolInverterConverter}}"/>
         </CommandBar>
-    </Page.BottomAppBar>
-    
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <GridView ItemsSource="{Binding Wallpapers}">
-            <GridView.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <derived:TrueVariableWarpGrid SqeezeChildren="True" Orientation="Horizontal"/>
-                </ItemsPanelTemplate>
-            </GridView.ItemsPanel>
-            <GridView.ItemTemplate>
-                <DataTemplate>
-                    <items:WallpaperItem DataContext="{Binding}" MaxWidth="700" MaxHeight="500" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-                </DataTemplate>
-            </GridView.ItemTemplate>
-            <GridView.ItemContainerStyle>
-                <Style TargetType="GridViewItem">
-                    <Setter Property="Margin" Value="2"/>
-                </Style>
-            </GridView.ItemContainerStyle>
-        </GridView>
-        <ProgressRing HorizontalAlignment="Center" VerticalAlignment="Center" Width="75" Height="75"
-                      IsActive="True"
-                      Visibility="{Binding LoadingWallpapersVisibility,Converter={StaticResource BoolToVisibilityConverter}}" />
     </Grid>
 </Page>

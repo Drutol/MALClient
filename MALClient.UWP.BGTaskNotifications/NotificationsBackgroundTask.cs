@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel.Background;
 using Windows.Storage;
 using Windows.System;
+using Windows.System.Threading;
 using Windows.UI.Notifications;
 using MALClient.Adapters;
 using MALClient.Models.Enums;
@@ -140,7 +141,7 @@ namespace MALClient.UWP.BGTaskNotifications
             if(watchedTopicsUpdated)
                 ResourceLocator.HandyDataStorage.WatchedTopics.SaveData();
 
-            var allTriggeredNotifications = (string)(ResourceLocator.ApplicationDataService[nameof(RoamingDataTypes.ReadNotifications)] ?? string.Empty);
+            var allTriggeredNotifications = (string)(ApplicationData.Current.LocalSettings.Values[nameof(RoamingDataTypes.ReadNotifications)] ?? string.Empty);
             var triggeredNotifications = allTriggeredNotifications.Split(';').ToList();
 
             //trigger new notifications
@@ -152,7 +153,6 @@ namespace MALClient.UWP.BGTaskNotifications
                 triggeredNotifications.Add(notification.Id);
                 ScheduleToast(notification);
             }
-
             //remove old triggered entries
             var presentNotifications = new List<string>();
 
@@ -162,7 +162,7 @@ namespace MALClient.UWP.BGTaskNotifications
                     presentNotifications.Add(triggeredNotification);
             }
 
-            ResourceLocator.ApplicationDataService[nameof(RoamingDataTypes.ReadNotifications)] = string.Join(";",presentNotifications);
+            ApplicationData.Current.LocalSettings.Values[nameof(RoamingDataTypes.ReadNotifications)] = string.Join(";",presentNotifications);
         }
 
         private async void ScheduleToast(MalNotification notification)

@@ -71,7 +71,6 @@ namespace MALClient.UWP
 
         protected async void OnLaunchedOrActivated(IActivatedEventArgs e)
         {
-            ApplicationView.GetForCurrentView().SetPreferredMinSize(new Size(500, 500));
             var rootFrame = Window.Current.Content as Frame;
             Tuple<int, string> navArgs = null;
             Tuple<PageIndex, object> fullNavArgs = null;

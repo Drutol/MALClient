@@ -22,8 +22,8 @@
     </Page.Transitions>
 
     <ScrollViewer>
-        <StackPanel HorizontalAlignment="Stretch">
-            <TextBlock Text="Currently cached data:" FontWeight="Medium" HorizontalAlignment="Center" />
+        <StackPanel HorizontalAlignment="Stretch" Padding="0,20,0,0">
+            <!--<TextBlock Text="Currently cached data:" FontWeight="Medium" HorizontalAlignment="Center" />
             <userControls:AlternatingListView ItemsSource="{Binding CachedEntries}" Height="Auto"
                                               HorizontalAlignment="Stretch"
                                               SelectionMode="None" Margin="0,10,0,5">
@@ -74,15 +74,15 @@
                         </Grid>
                     </DataTemplate>
                 </ListView.ItemTemplate>
-            </userControls:AlternatingListView>
-            <Button Visibility="{Binding RemoveAllCachedDataButtonVisibility,Converter={StaticResource BoolToVisibilityConverter}}" Margin="2" Click="RemoveAllAnimeDetails"
+            </userControls:AlternatingListView>-->
+            <!--<Button Visibility="{Binding RemoveAllCachedDataButtonVisibility,Converter={StaticResource BoolToVisibilityConverter}}" Margin="2" Click="RemoveAllAnimeDetails"
                     HorizontalAlignment="Center">
                 <StackPanel Orientation="Horizontal">
                     <SymbolIcon Symbol="Delete" VerticalAlignment="Center" />
                     <TextBlock Text="{Binding TotalFilesCached}"
                                VerticalAlignment="Center" TextAlignment="Center" Margin="10,0,0,0" />
                 </StackPanel>
-            </Button>
+            </Button>-->
             <Button x:Name="BtnClearImageCache" Margin="2,5" Click="ClearImageCache" HorizontalAlignment="Center">
                 <StackPanel Orientation="Horizontal">
                     <SymbolIcon Symbol="Delete" VerticalAlignment="Center" />

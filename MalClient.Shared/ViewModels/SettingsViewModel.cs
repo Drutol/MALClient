@@ -41,36 +41,36 @@ namespace MALClient.UWP.Shared.ViewModels
 
         public override async void LoadCachedEntries()
         {
-            if (_cachedItemsLoaded)
-                return;
-            _cachedItemsLoaded = true;
-            var files = await ApplicationData.Current.LocalFolder.GetFilesAsync();
-            foreach (var file in files)
-            {
-                if (file.FileType == ".json")
-                {
-                    var data = await file.GetBasicPropertiesAsync();
-                    CachedEntries.Add(new CachedEntryModel
-                    {
-                        Date = data.DateModified.LocalDateTime.ToString("dd/MM/yyyy HH:mm"),
-                        FileName = file.Name,
-                        Size = Utilities.SizeSuffix((long)data.Size)
-                    });
-                }
-            }
-            EmptyCachedListVisiblity = files.Count == 0;
-            try
-            {
-                var folder = await ApplicationData.Current.LocalFolder.GetFolderAsync("AnimeDetails");
-                var data = await folder.GetFilesAsync();
-                TotalFilesCached = $"Remove all anime details data({data.Count}files)";
-                RemoveAllCachedDataButtonVisibility = true;
-            }
-            catch (Exception)
-            {
-                //No folder yet
-                RemoveAllCachedDataButtonVisibility = false;
-            }
+            //if (_cachedItemsLoaded)
+            //    return;
+            //_cachedItemsLoaded = true;
+            //var files = await ApplicationData.Current.LocalFolder.GetFilesAsync();
+            //foreach (var file in files)
+            //{
+            //    if (file.FileType == ".json")
+            //    {
+            //        var data = await file.GetBasicPropertiesAsync();
+            //        CachedEntries.Add(new CachedEntryModel
+            //        {
+            //            Date = data.DateModified.LocalDateTime.ToString("dd/MM/yyyy HH:mm"),
+            //            FileName = file.Name,
+            //            Size = Utilities.SizeSuffix((long)data.Size)
+            //        });
+            //    }
+            //}
+            //EmptyCachedListVisiblity = files.Count == 0;
+            //try
+            //{
+            //    var folder = await ApplicationData.Current.LocalFolder.GetFolderAsync("AnimeDetails");
+            //    var data = await folder.GetFilesAsync();
+            //    TotalFilesCached = $"Remove all anime details data({data.Count}files)";
+            //    RemoveAllCachedDataButtonVisibility = true;
+            //}
+            //catch (Exception)
+            //{
+            //    //No folder yet
+            //    RemoveAllCachedDataButtonVisibility = false;
+            //}
         }
     }
 }

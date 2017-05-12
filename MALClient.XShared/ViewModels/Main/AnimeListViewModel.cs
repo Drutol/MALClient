@@ -882,36 +882,25 @@ namespace MALClient.XShared.ViewModels.Main
             switch (WorkMode)
             {
                 case AnimeListWorkModes.SeasonalAnime:
-                    var tResponse = new List<SeasonalAnimeData>();
-                    await
-                        Task.Run(
-                            new Func<Task>(
-                                async () =>
-                                        tResponse = await new AnimeSeasonalQuery(CurrentSeason).GetSeasonalAnime(force)));
+                    var tResponse = await new AnimeSeasonalQuery(CurrentSeason).GetSeasonalAnime(force);
                     data.AddRange(tResponse ?? new List<SeasonalAnimeData>());
-                    break; 
+                    break;
                 case AnimeListWorkModes.TopAnime:
                 case AnimeListWorkModes.TopManga:
-                    var topResponse = new List<TopAnimeData>();
-                    await
-                        Task.Run(
-                            new Func<Task>(
-                                async () =>
-                                    topResponse =
-                                        await
-                                            new AnimeTopQuery(
-                                                WorkMode == AnimeListWorkModes.TopAnime
-                                                    ? TopAnimeWorkMode
-                                                    : TopAnimeType.Manga, page - 1).GetTopAnimeData(force)));
+                    var topResponse =
+                        await
+                            new AnimeTopQuery(
+                                WorkMode == AnimeListWorkModes.TopAnime
+                                    ? TopAnimeWorkMode
+                                    : TopAnimeType.Manga, page - 1).GetTopAnimeData(force);
                     data.AddRange(topResponse ?? new List<TopAnimeData>());
                     break;
                 case AnimeListWorkModes.AnimeByGenre:
                 case AnimeListWorkModes.AnimeByStudio:
-                    var sResponse = new List<SeasonalAnimeData>();
                     var query = WorkMode == AnimeListWorkModes.AnimeByStudio
-                        ? new AnimeGenreStudioQuery(Studio,page)
-                        : new AnimeGenreStudioQuery(Genre,page);
-                    await Task.Run(new Func<Task>(async () => sResponse = await query.GetAnime()));
+                        ? new AnimeGenreStudioQuery(Studio, page)
+                        : new AnimeGenreStudioQuery(Genre, page);
+                    var sResponse = await query.GetAnime();
                     data.AddRange(sResponse ?? new List<SeasonalAnimeData>());
                     break;
                 default:

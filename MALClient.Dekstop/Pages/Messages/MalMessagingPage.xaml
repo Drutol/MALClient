@@ -13,18 +13,13 @@
         <xamlConverters:MessageModelToSymbolIconConverter x:Key="MessageModelToSymbolIconConverter" />
     </Page.Resources>
 
-    <Page.BottomAppBar>
-        <CommandBar Background="{ThemeResource BrushAppBars}">
-            <AppBarButton Icon="Message" Label="New message" Command="{Binding ComposeNewCommand}" />
-            <AppBarToggleButton Icon="MailForward" Label="Sent messages"
-                                IsChecked="{Binding DisplaySentMessages,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
-            <CommandBar.SecondaryCommands>
-                <AppBarButton Label="Disclaimer" Icon="Help" Click="ButtonDisclaimer_OnClick"/>
-            </CommandBar.SecondaryCommands>
-        </CommandBar>
-    </Page.BottomAppBar>
+
 
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
         <ListView x:Name="MessagesListView" Margin="10,10,0,10" ItemsSource="{Binding MessageIndex}"
                   SelectionChanged="Selector_OnSelectionChanged"
                   ItemClick="OnMessageClick" IsItemClickEnabled="True">
@@ -85,5 +80,13 @@
             <ProgressRing IsActive="True" HorizontalAlignment="Center" VerticalAlignment="Center" Height="75"
                           Width="75" />
         </Grid>
+        <CommandBar Grid.Row="1" Background="{ThemeResource BrushAppBars}">
+            <AppBarButton Icon="Message" Label="New message" Command="{Binding ComposeNewCommand}" />
+            <AppBarToggleButton Icon="MailForward" Label="Sent messages"
+                                IsChecked="{Binding DisplaySentMessages,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+            <CommandBar.SecondaryCommands>
+                <AppBarButton Label="Disclaimer" Icon="Help" Click="ButtonDisclaimer_OnClick"/>
+            </CommandBar.SecondaryCommands>
+        </CommandBar>
     </Grid>
 </Page>

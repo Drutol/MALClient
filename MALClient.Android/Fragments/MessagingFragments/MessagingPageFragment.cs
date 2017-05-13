@@ -65,8 +65,8 @@ namespace MALClient.Android.Fragments.MessagingFragments
             var padding = DimensionsHelper.DpToPx(10);
             var param = new ViewGroup.LayoutParams(DimensionsHelper.DpToPx(45), DimensionsHelper.DpToPx(45));
             var builder = new FloatingActionMenu.Builder(Activity)
-                .AddSubActionView(BuildFabActionButton(param, padding, Resource.Drawable.icon_message_new))
-                .AddSubActionView(BuildFabActionButton(param, padding, Resource.Drawable.icon_message_sent));
+                .AddSubActionView(BuildFabActionButton(param, Resource.Drawable.icon_message_new))
+                .AddSubActionView(BuildFabActionButton(param, Resource.Drawable.icon_message_sent));
             builder.SetRadius(DimensionsHelper.DpToPx(75));
             _actionMenu = builder.AttachTo(MessagingPageActionButton).Build();
 
@@ -157,7 +157,7 @@ namespace MALClient.Android.Fragments.MessagingFragments
             _canNavigate = true;
         }
 
-        private View BuildFabActionButton(ViewGroup.LayoutParams param, int padding, int icon)
+        private View BuildFabActionButton(ViewGroup.LayoutParams param, int icon)
         {
             var b1 = new FloatingActionButton(Activity)
             {
@@ -165,10 +165,11 @@ namespace MALClient.Android.Fragments.MessagingFragments
                 Clickable = true,
                 Focusable = true
             };
+            b1.Size = FloatingActionButton.SizeMini;
+            b1.SetScaleType(ImageView.ScaleType.Center);
             b1.SetImageResource(icon);
             b1.ImageTintList = ColorStateList.ValueOf(Color.White);
             b1.BackgroundTintList = ColorStateList.ValueOf(new Color(ResourceExtension.AccentColourContrast));
-            b1.SetPadding(padding, padding, padding, padding);
             b1.Tag = icon;
             b1.Click += OnFloatingActionButtonOptionClick;
             return b1;

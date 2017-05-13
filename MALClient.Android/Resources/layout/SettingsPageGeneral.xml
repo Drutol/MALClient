@@ -116,10 +116,10 @@
 
     <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="5dp"
                   android:layout_marginTop="15dp">
-      <TextView android:text="Open unsupported links in external browser" android:layout_width="0dp"
+      <TextView android:text="Hide manga section in hamburger menu." android:layout_width="0dp"
                 android:layout_height="wrap_content" android:textSize="@dimen/FontSizeMedium"
                 android:layout_gravity="center_vertical" android:textColor="?BrushText" android:layout_weight="1" />
-      <Switch android:id="@+id/SettingsPageGeneralExternalLinksSwitch" android:layout_width="wrap_content"
+      <Switch android:id="@+id/SettingsPageGeneralHideHamburgerMangaSwitch" android:layout_width="wrap_content"
               android:layout_height="wrap_content" android:layout_gravity="center_vertical" />
     </LinearLayout>
 

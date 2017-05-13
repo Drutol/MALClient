@@ -79,12 +79,14 @@ namespace MALClient.Android.Fragments
                         () => AnimeDetailsPageLoadingOverlay.Visibility)
                     .ConvertSourceToTarget(Converters.BoolToVisibility));
 
-            Bindings.Add(
-                this.SetBinding(() => ViewModel.IsIncrementButtonEnabled,
-                    () => AnimeDetailsPageIncrementButton.Enabled));
-            Bindings.Add(
-                this.SetBinding(() => ViewModel.IsDecrementButtonEnabled,
-                    () => AnimeDetailsPageDecrementButton.Enabled));
+            Bindings.Add(this.SetBinding(() => ViewModel.IsIncrementButtonEnabled).WhenSourceChanges(() =>
+            {
+                AnimeDetailsPageIncrementButton.Alpha = ViewModel.IsIncrementButtonEnabled ? 1 : .35f;
+            }));
+            Bindings.Add(this.SetBinding(() => ViewModel.IsDecrementButtonEnabled).WhenSourceChanges(() =>
+            {
+                AnimeDetailsPageDecrementButton.Alpha = ViewModel.IsDecrementButtonEnabled ? 1 : .35f;
+            }));
 
             Bindings.Add(this.SetBinding(() => ViewModel.AddAnimeVisibility)
                 .WhenSourceChanges(() =>

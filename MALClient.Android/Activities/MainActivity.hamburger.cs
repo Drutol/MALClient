@@ -20,6 +20,7 @@ using FFImageLoading;
 using FFImageLoading.Transformations;
 using FFImageLoading.Views;
 using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.Helpers;
 using MALClient.Android.Flyouts;
 using MALClient.Android.Listeners;
 using MALClient.Android.Resources;
@@ -40,9 +41,11 @@ namespace MALClient.Android.Activities
         private View _accountHamburgerView;
         private bool _selectedProfileItem;
         private bool _selectedSettingsItem;
+        private bool _bindingInitialized;
         private DroppyMenuPopup _supportMenu;
         private View _settingsHamburgerView;
         private View _footerView;
+        private bool _mangaSectionVisbility;
 
         public event EventHandler HamburgerOpened;
 
@@ -117,15 +120,7 @@ namespace MALClient.Android.Activities
 
             //
 
-            var mangaListButton = GetBaseSecondaryItem();
-            mangaListButton.WithName("Manga list");
-            mangaListButton.WithIdentifier((int)PageIndex.PageMangaList);
-            mangaListButton.WithIcon(Resource.Drawable.icon_list);
 
-            var topMangaButton = GetBaseSecondaryItem();
-            topMangaButton.WithName("Top manga");
-            topMangaButton.WithIdentifier((int)PageIndex.PageTopManga);
-            topMangaButton.WithIcon(Resource.Drawable.icon_fav_outline);
 
             var articlesButton = GetBaseSecondaryItem();
             articlesButton.WithName("Articles & News");
@@ -168,41 +163,74 @@ namespace MALClient.Android.Activities
             wallpapersButton.WithIcon(Resource.Drawable.icon_image_alt);
 
             //
-            var mangaSubHeader = new SectionDrawerItem();
-            mangaSubHeader.WithName("Manga");
-            mangaSubHeader.WithDivider(true);
-            mangaSubHeader.WithTextColorRes(ResourceExtension.BrushTextRes);
-
-
             var othersSubHeader = new SectionDrawerItem();
             othersSubHeader.WithName("Other");
             othersSubHeader.WithDivider(true);
             othersSubHeader.WithTextColorRes(ResourceExtension.BrushTextRes);
 
-
-
-            builder.WithDrawerItems(new List<IDrawerItem>()
+            if (!Settings.HamburgerHideMangaSection)
             {
-                animeButton,
-                seasonalButton,
-                topAnimeButton,
-                searchButton,
-                recomButton,
-                calendarButton,
-                mangaSubHeader,//
-                mangaListButton,
-                topMangaButton,
-                othersSubHeader,//
-                articlesButton,
-                videoButton,
-                feedsButton,
-                forumsButton,
-               // messagingButton,
-                historyButton,
-               // notificationHubButton,
-                wallpapersButton
+                var mangaSubHeader = new SectionDrawerItem();
+                mangaSubHeader.WithName("Manga");
+                mangaSubHeader.WithDivider(true);
+                mangaSubHeader.WithIdentifier(55779988);
+                mangaSubHeader.WithTextColorRes(ResourceExtension.BrushTextRes);
 
-            });
+                var mangaListButton = GetBaseSecondaryItem();
+                mangaListButton.WithName("Manga list");
+                mangaListButton.WithIdentifier((int)PageIndex.PageMangaList);
+                mangaListButton.WithIcon(Resource.Drawable.icon_list);
+
+                var topMangaButton = GetBaseSecondaryItem();
+                topMangaButton.WithName("Top manga");
+                topMangaButton.WithIdentifier((int)PageIndex.PageTopManga);
+                topMangaButton.WithIcon(Resource.Drawable.icon_fav_outline);
+
+                builder.WithDrawerItems(new List<IDrawerItem>()
+                {
+                    animeButton,
+                    seasonalButton,
+                    topAnimeButton,
+                    searchButton,
+                    recomButton,
+                    calendarButton,
+                    mangaSubHeader,//
+                    mangaListButton,
+                    topMangaButton,
+                    othersSubHeader,//
+                    articlesButton,
+                    videoButton,
+                    feedsButton,
+                    forumsButton,
+                    // messagingButton,
+                    historyButton,
+                    // notificationHubButton,
+                    wallpapersButton
+
+                });
+            }
+            else
+            {
+                builder.WithDrawerItems(new List<IDrawerItem>()
+                {
+                    animeButton,
+                    seasonalButton,
+                    topAnimeButton,
+                    searchButton,
+                    recomButton,
+                    calendarButton,
+                    othersSubHeader,//
+                    articlesButton,
+                    videoButton,
+                    feedsButton,
+                    forumsButton,
+                    // messagingButton,
+                    historyButton,
+                    // notificationHubButton,
+                    wallpapersButton
+
+                });
+            }
 
             _drawer = builder.Build();
             UpdateLogInLabel();
@@ -211,7 +239,6 @@ namespace MALClient.Android.Activities
                 : ResourceExtension.BrushAnimeItemBackground));
 
             _drawer.DrawerLayout.AddDrawerListener(new DrawerListener(OnClose, OnOpen));
-
         }
 
         private void OnOpen()
@@ -317,6 +344,7 @@ namespace MALClient.Android.Activities
                     id = (long) PageIndex.PageArticles;
                     break;
                 case HamburgerButtons.Messanging:
+                    _drawer.SetSelectionAtPosition(-1);
                     return;
                 case HamburgerButtons.Forums:
                     id = (long) PageIndex.PageForumIndex;
@@ -337,6 +365,7 @@ namespace MALClient.Android.Activities
                     id = (long) PageIndex.PageFeeds;
                     break;
                 case HamburgerButtons.Notifications:
+                    _drawer.SetSelectionAtPosition(-1);
                     return;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(val), val, null);
@@ -471,7 +500,38 @@ namespace MALClient.Android.Activities
             _supportMenu.Dismiss(true);
         }
 
-        public bool MangaSectionVisbility { get; set; }
+        public bool MangaSectionVisbility
+        {
+            get { return _mangaSectionVisbility; }
+            set
+            {
+                _mangaSectionVisbility = value;
+                if (value)
+                {
+                    var mangaSubHeader = new SectionDrawerItem();
+                    mangaSubHeader.WithName("Manga");
+                    mangaSubHeader.WithDivider(true);
+                    mangaSubHeader.WithIdentifier(55779988);
+                    mangaSubHeader.WithTextColorRes(ResourceExtension.BrushTextRes);
+
+                    var mangaListButton = GetBaseSecondaryItem();
+                    mangaListButton.WithName("Manga list");
+                    mangaListButton.WithIdentifier((int)PageIndex.PageMangaList);
+                    mangaListButton.WithIcon(Resource.Drawable.icon_list);
+
+                    var topMangaButton = GetBaseSecondaryItem();
+                    topMangaButton.WithName("Top manga");
+                    topMangaButton.WithIdentifier((int)PageIndex.PageTopManga);
+                    topMangaButton.WithIcon(Resource.Drawable.icon_fav_outline);
+
+                    _drawer.AddItemsAtPosition(6, mangaSubHeader, mangaListButton, topMangaButton);
+                }
+                else
+                {
+                    _drawer.RemoveItems(55779988, (long)PageIndex.PageMangaList, (long)PageIndex.PageTopManga);
+                }
+            }
+        }
 
         public void SetActiveButton(TopAnimeType topType)
         {

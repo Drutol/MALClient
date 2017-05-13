@@ -199,6 +199,7 @@ namespace MALClient.Android.Activities
                         MainPageVideoView.Visibility = ViewStates.Visible;
                         MainUpperNavBar.Visibility = ViewStates.Gone;
                         MainPageVideoView.SetZOrderOnTop(true);
+                        _drawer?.DrawerLayout.SetDrawerLockMode(DrawerLayout.LockModeLockedClosed);
                     }
                     else
                     {
@@ -206,7 +207,7 @@ namespace MALClient.Android.Activities
                         MainPageVideoView.Visibility = ViewStates.Gone;
                         MainUpperNavBar.Visibility = ViewStates.Visible;
                         MainPageVideoView.SetZOrderOnTop(false);
-
+                        _drawer?.DrawerLayout.SetDrawerLockMode(DrawerLayout.LockModeUnlocked);
                         ViewModelLocator.NavMgr.ResetOneTimeOverride();
                     }
                 }));
@@ -231,6 +232,7 @@ namespace MALClient.Android.Activities
             MainPageSearchView.QueryTextSubmit += MainPageSearchViewOnQueryTextSubmit;
             MainPageSearchView.SuggestionClick += MainPageSearchViewOnSuggestionClick;
             MainPageCloseVideoButton.Click += MainPageCloseVideoButtonOnClick;
+            MainPageCopyVideoLinkButton.Click += MainPageCopyVideoLinkButtonOnClick;
             MainPageVideoView.Prepared += MainPageVideoViewOnPrepared;
             MainPageSearchView.Visibility = ViewStates.Visible;
             ((EditText)MainPageSearchView.FindViewById(Resource.Id.search_src_text)).SetTextColor(Color.White);
@@ -245,7 +247,10 @@ namespace MALClient.Android.Activities
             MainPageCopyVideoLinkButton.SetZ(0);
         }
 
-
+        private void MainPageCopyVideoLinkButtonOnClick(object o, EventArgs eventArgs)
+        {
+            ViewModel.CopyMediaElementUrlCommand.Execute(null);
+        }
 
         private void MainPageCloseVideoButtonOnClick(object sender, EventArgs eventArgs)
         {

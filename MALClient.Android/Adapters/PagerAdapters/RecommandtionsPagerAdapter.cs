@@ -80,18 +80,26 @@ namespace MALClient.Android.PagerAdapters
             var layout = p0 as LinearLayout;
             layout.Alpha = 1f;
             var index = (int) p0.Tag;
-            var viewModel = _items[index];
 
-            viewModel.PopulateData();
-            if (!_pageFragments.Any())
+            try
             {
-                _fragmentWaitingForBinding = index;
-                return;
+                var viewModel = _items[index];
+
+                viewModel.PopulateData();
+                if (!_pageFragments.Any())
+                {
+                    _fragmentWaitingForBinding = index;
+                    return;
+                }
+                if (index < _items.Count - 2)
+                    _items[index + 1].PopulateData();
+
+                _pageFragments[index].BindModel(viewModel);
             }
-            if(index < _items.Count-2)
-                _items[index+1].PopulateData();
-         
-            _pageFragments[index].BindModel(viewModel);
+            catch (Exception)
+            {
+                //it sometimes gets called at an unexpected time
+            }
         }
 
         public void TabUnselected(View p0)

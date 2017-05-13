@@ -30,7 +30,7 @@ namespace MALClient.Android.Fragments.SettingsFragments
         private Switch _settingsPageGeneralSeasonSwitch;
         private Switch _settingsPageGeneralAutoSortSwitch;
         private Switch _settingsPageGeneralVolsImportantSwitch;
-        private Switch _settingsPageGeneralExternalLinksSwitch;
+        private Switch _settingsPageGeneralHideHamburgerMangaSwitch;
         private RadioButton _settingsPageGeneralAnimeSortTitleRadioBtn;
         private RadioButton _settingsPageGeneralAnimeScoreTitleRadioBtn;
         private RadioButton _settingsPageGeneralAnimeWatchedTitleRadioBtn;
@@ -91,7 +91,7 @@ namespace MALClient.Android.Fragments.SettingsFragments
 
         public Switch SettingsPageGeneralVolsImportantSwitch => _settingsPageGeneralVolsImportantSwitch ?? (_settingsPageGeneralVolsImportantSwitch = FindViewById<Switch>(Resource.Id.SettingsPageGeneralVolsImportantSwitch));
 
-        public Switch SettingsPageGeneralExternalLinksSwitch => _settingsPageGeneralExternalLinksSwitch ?? (_settingsPageGeneralExternalLinksSwitch = FindViewById<Switch>(Resource.Id.SettingsPageGeneralExternalLinksSwitch));
+        public Switch SettingsPageGeneralHideHamburgerMangaSwitch => _settingsPageGeneralHideHamburgerMangaSwitch ?? (_settingsPageGeneralHideHamburgerMangaSwitch = FindViewById<Switch>(Resource.Id.SettingsPageGeneralHideHamburgerMangaSwitch));
 
         public RadioButton SettingsPageGeneralAnimeSortTitleRadioBtn => _settingsPageGeneralAnimeSortTitleRadioBtn ?? (_settingsPageGeneralAnimeSortTitleRadioBtn = FindViewById<RadioButton>(Resource.Id.SettingsPageGeneralAnimeSortTitleRadioBtn));
 

@@ -551,6 +551,8 @@ namespace MALClient.XShared.ViewModels.Details
 
         public ICommand AddTagCommand => _addTagCommand ?? (_addTagCommand = new RelayCommand(() =>
         {
+            if(string.IsNullOrEmpty(NewTagInput))
+                return;
             var sanitizedInput = NewTagInput.Trim(',');
             foreach (var input in sanitizedInput.Split(','))
             {

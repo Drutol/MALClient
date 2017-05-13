@@ -145,10 +145,6 @@ namespace MALClient.Android.Fragments
                 img.Into(arg3.Data.FileUrl, arg3.IsBlurred ? new BlurredTransformation(40) : null, OnCompleted, 350);
                 placeholder.Visibility = ViewStates.Visible;
             }
-            else
-            {
-                placeholder.Visibility = ViewStates.Gone;
-            }
         }
 
         private void OnCompleted(ImageViewAsync imageViewAsync)
@@ -166,6 +162,8 @@ namespace MALClient.Android.Fragments
                     var bounds = imageViewAsync.Drawable.Bounds;
                     vm.Resolution = $"{bounds.Bottom}x{bounds.Right}";
                     parent.FindViewById<TextView>(Resource.Id.WallpapersPageItemResolution).Text = vm.Resolution;
+
+                    imageViewAsync.Visibility = ViewStates.Visible;
                 }
                 catch (Exception)
                 {
@@ -191,6 +189,8 @@ namespace MALClient.Android.Fragments
 
         private void OnMenuSelected(int i)
         {
+            if(_menuContext == null)
+                return;
             switch (i)
             {
                 case 0:
@@ -206,7 +206,8 @@ namespace MALClient.Android.Fragments
                     _menuContext.CopyLinkCommand.Execute(null);
                     break;
             }
-            _menu.Dismiss(true);
+            _menu?.Dismiss(true);
+            _menu = null;
             _menuContext = null;
         }
 

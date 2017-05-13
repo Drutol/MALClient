@@ -66,8 +66,8 @@ namespace MALClient.Android.Fragments.SettingsFragments
                 this.SetBinding(() => ViewModel.MangaFocusVolumes,
                     () => SettingsPageGeneralVolsImportantSwitch.Checked,BindingMode.TwoWay));
             Bindings.Add(
-                this.SetBinding(() => ViewModel.ArticlesLaunchExternalLinks,
-                    () => SettingsPageGeneralExternalLinksSwitch.Checked, BindingMode.TwoWay));
+                this.SetBinding(() => ViewModel.HamburgerHideMangaSection,
+                    () => SettingsPageGeneralHideHamburgerMangaSwitch.Checked, BindingMode.TwoWay));
             Bindings.Add(
                 this.SetBinding(() => ViewModel.EnableSwipeToIncDec,
                     () => SettingsPageGeneralEnableSwipeSwitch.Checked, BindingMode.TwoWay));

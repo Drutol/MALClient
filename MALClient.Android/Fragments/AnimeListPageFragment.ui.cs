@@ -127,20 +127,19 @@ namespace MALClient.Android.Fragments
         private void InitActionMenu()
         {
             _actionMenu?.Close(true);
-            var padding = DimensionsHelper.DpToPx(8);
             var param = new ViewGroup.LayoutParams(DimensionsHelper.DpToPx(45), DimensionsHelper.DpToPx(45));
             var builder = new FloatingActionMenu.Builder(Activity)
-                .AddSubActionView(BuildFabActionButton(param, padding, Resource.Drawable.icon_filter))
-                .AddSubActionView(BuildFabActionButton(param, padding, Resource.Drawable.icon_sort))
-                .AddSubActionView(BuildFabActionButton(param, padding, Resource.Drawable.icon_shuffle));
+                .AddSubActionView(BuildFabActionButton(param, Resource.Drawable.icon_filter))
+                .AddSubActionView(BuildFabActionButton(param, Resource.Drawable.icon_sort))
+                .AddSubActionView(BuildFabActionButton(param, Resource.Drawable.icon_shuffle));
             switch (ViewModel.WorkMode)
             {
                 case AnimeListWorkModes.SeasonalAnime:
-                    builder.AddSubActionView(BuildFabActionButton(param, padding, Resource.Drawable.icon_calendar));
+                    builder.AddSubActionView(BuildFabActionButton(param, Resource.Drawable.icon_calendar));
                     builder.SetRadius(DimensionsHelper.DpToPx(95));
                     break;
                 case AnimeListWorkModes.TopAnime:
-                    builder.AddSubActionView(BuildFabActionButton(param, padding, Resource.Drawable.icon_fav_outline));
+                    builder.AddSubActionView(BuildFabActionButton(param, Resource.Drawable.icon_fav_outline));
                     builder.SetRadius(DimensionsHelper.DpToPx(95));
                     break;
                 default:
@@ -156,7 +155,7 @@ namespace MALClient.Android.Fragments
             list?.SetSelection(ViewModel.AnimeItems.IndexOf(item));
         }
 
-        private View BuildFabActionButton(ViewGroup.LayoutParams param, int padding, int icon)
+        private View BuildFabActionButton(ViewGroup.LayoutParams param, int icon)
         {
             var b1 = new FloatingActionButton(Activity)
             {
@@ -169,7 +168,6 @@ namespace MALClient.Android.Fragments
             b1.SetImageResource(icon);
             b1.ImageTintList = ColorStateList.ValueOf(new Color(255,255,255));
             b1.BackgroundTintList = ColorStateList.ValueOf(new Color(ResourceExtension.AccentColourContrast));
-            b1.SetPadding(padding, padding, padding, padding);
             b1.Tag = icon;
             b1.Click += OnFloatingActionButtonOptionClick;
             return b1;

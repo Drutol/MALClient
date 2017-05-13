@@ -36,11 +36,12 @@ namespace MALClient.Android.Adapters
 
         public List<string> Changelog => new List<string>
         {
-            "Fixes from #64 #121 and #123 issues.",
-            "Added calendar countdown.",
-            "Hamburger footer tweaks.",
-            "More keyboard fixes.",
-            "Login issues fixes.",
+            "Fixes from #64. Yup again... Just go and see the amount of bugs contained there...",
+            "Added new topic page.",
+            "Added message/see other posts buttons in topic itmes.",
+            "Added option to hide manga section in hamburger.",
+            "Fixed characters data scrapping.",
+            "Other big change is that Xamarin Android 7.3 is bringing new Garbage Collector, which is currently marked as 'Experimental' and I've enabled it in this build in order to well... experiment? Let me know whether you feel any difference, in theory it should work faster."
         };
 
     }

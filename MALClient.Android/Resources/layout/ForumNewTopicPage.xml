@@ -51,7 +51,7 @@
 
         <Button android:layout_gravity="end" android:layout_marginTop="5dp" android:layout_marginEnd="10dp" android:layout_margin="0dp" android:id="@+id/ForumNewTopicPageAcceptButton"
                 android:layout_width="wrap_content" android:backgroundTint="?AccentColour" android:drawableTint="#fff"
-                android:layout_height="wrap_content" android:drawableLeft="@drawable/icon_ok" android:text="Accept" android:textColor="#fff"/>
+                android:layout_height="wrap_content" android:drawableLeft="@drawable/icon_ok" android:text="Send" android:textColor="#fff"/>
 
         <TextView
           android:layout_width="wrap_content" android:layout_gravity="start" android:layout_margin="5dp"

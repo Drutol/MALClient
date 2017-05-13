@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
+using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
 using Android.Graphics;
@@ -71,7 +71,7 @@ namespace MALClient.Android.Fragments
                 {
                     if (ViewModel.Wallpapers != null)
                     {
-                        if(ViewModel.Wallpapers.Count == 0)
+                        if (ViewModel.Wallpapers.Count == 0)
                             _wallpapers.Clear();
                         else
                             _wallpapers.AddRange(ViewModel.Wallpapers);

@@ -109,7 +109,12 @@ namespace MALClient.XShared.ViewModels.Main
 
             LoadingWallpapersVisibility = true;
             Wallpapers?.Clear();
-            var wallpapers = await AnimeWallpapersQuery.GetAllWallpapers(CurrentPage);
+            List<AnimeWallpaperData> wallpapers = null;
+            await Task.Run(async () =>
+            {
+                wallpapers = await AnimeWallpapersQuery.GetAllWallpapers(CurrentPage);
+            });
+            
             if (wallpapers != null)
                 Wallpapers = new ObservableCollection<WallpaperItemViewModel>(wallpapers.Select(data => new WallpaperItemViewModel(data)));
             LoadingWallpapersVisibility = false;

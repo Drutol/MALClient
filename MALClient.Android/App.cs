@@ -48,7 +48,7 @@ namespace MALClient.Android
             ImageService.Instance.Initialize(new Configuration
             {
                 HttpClient = new HttpClient(new NativeMessageHandler { AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate}),
-                
+                ExecuteCallbacksOnUIThread = true,
             });
             ViewModelLocator.RegisterBase();
             AndroidViewModelLocator.RegisterDependencies();

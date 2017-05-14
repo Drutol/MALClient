@@ -42,20 +42,20 @@ namespace MALClient.Android
             var url = GetImgUrl(originUrl);
             if (LoadedImgs.Contains(url))
             {
-                LoadImage(image, originUrl, url, true);
+                LoadImage(image, originUrl, url, true, null);
                 return true;
             }
             return false;
         }
 
-        public static void AnimeInto(this ImageViewAsync image, string originUrl)
+        public static void AnimeInto(this ImageViewAsync image, string originUrl, View loader = null)
         {
             var url = GetImgUrl(originUrl);
-            LoadImage(image, originUrl, url, LoadedImgs.Contains(url));
+            LoadImage(image, originUrl, url, LoadedImgs.Contains(url), loader);
         }
 
         private static void LoadImage(ImageViewAsync image, string originUrl, string targetUrl,
-            bool? imgLoaded)
+            bool? imgLoaded,View loader)
         {
             //if (TasksDictionary.TryGetValue(image, out var task))
             //{
@@ -70,11 +70,12 @@ namespace MALClient.Android
                     return;
 
                 var work = ImageService.Instance.LoadUrl(targetUrl);
+                if (loader != null)
+                    work.Finish(scheduledWork => loader.Visibility = ViewStates.Gone);
                 if (imgLoaded != true && !LoadedImgs.Contains(targetUrl))
                 {
                     image.Visibility = ViewStates.Invisible;
                     work = work.Success(image.AnimateFadeIn);
-                    //image.SetImageDrawable(null);
                     LoadedImgs.Add(targetUrl);
                 }
                 else

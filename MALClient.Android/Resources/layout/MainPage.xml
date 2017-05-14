@@ -19,19 +19,17 @@
       android:id="@+id/MainPageHamburgerButton"
       android:background="?android:selectableItemBackground" />
     <LinearLayout android:layout_width="0dp" android:id="@+id/MainPageStatusContainer"
-                  android:layout_height="match_parent"
+                  android:layout_height="match_parent" android:paddingStart="5dp"
                   android:layout_weight="1" android:layout_gravity="center_vertical"
-                  android:orientation="horizontal">
+                  android:orientation="vertical" android:gravity="center_vertical" android:clickable="true" android:focusable="true">
 
       <TextView
         android:id="@+id/MainPageCurrentStatus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:layout_margin="5dp"
         android:ellipsize="end"
         android:maxLines="2"
-        android:maxWidth="185dp"
         android:text="MALClientTestAcc"
         android:textColor="?BrushAppBarText"
         android:textSize="15sp"
@@ -45,8 +43,7 @@
         android:textSize="13sp"
         android:text="Last updated"
         android:textColor="?BrushTextAccentContrast"
-        android:layout_gravity="center_vertical"
-        android:layout_margin="5dp" />
+        android:layout_gravity="center_vertical" />
     </LinearLayout>
 
     <android.support.v7.widget.SearchView android:id="@+id/MainPageSearchView"

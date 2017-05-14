@@ -16,6 +16,7 @@ using MALClient.Adapters;
 using MALClient.Android.Activities;
 using MALClient.Android.Adapters;
 using MALClient.Models.Enums;
+using MALClient.Models.Models.MalSpecific;
 using MALClient.Models.Models.Notifications;
 using MALClient.XShared.Comm.Forums;
 using MALClient.XShared.Comm.MagicalRawQueries;
@@ -63,7 +64,12 @@ namespace MALClient.Android.BackgroundTasks
                     Settings.EnabledNotificationTypes.HasFlag(MalNotificationsTypes.UserMentions) ||
                     Settings.EnabledNotificationTypes.HasFlag(MalNotificationsTypes.WatchedTopics))
                 {
-                    notifications.AddRange(await MalNotificationsQuery.GetNotifications());
+                    List<MalNotification> notifs = null;
+                    await Task.Run(async () =>
+                    {
+                        notifs = await MalNotificationsQuery.GetNotifications();
+                    });
+                    notifications.AddRange(notifs);
                     notifications =
                         notifications.Where(
                             notification =>
@@ -81,7 +87,11 @@ namespace MALClient.Android.BackgroundTasks
             {
                 try
                 {
-                    var msgs = await AccountMessagesManager.GetMessagesAsync(1);
+                    List<MalMessageModel> msgs = null;
+                    await Task.Run(async() =>
+                    {
+                        msgs = await AccountMessagesManager.GetMessagesAsync(1);
+                    });
                     foreach (var malMessageModel in msgs)
                     {
                         if (!malMessageModel.IsRead)

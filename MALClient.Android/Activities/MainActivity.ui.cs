@@ -90,12 +90,14 @@ namespace MALClient.Android.Activities
                 if (string.IsNullOrEmpty(ViewModel.CurrentStatusSub))
                 {
                     MainPageCurrentSatusSubtitle.Visibility = ViewStates.Gone;
+                    MainPageCurrentStatus.SetMaxLines(2);
                 }
                 else
                 {
                     MainPageCurrentSatusSubtitle.Visibility = ViewStates.Visible;
+                    MainPageCurrentStatus.SetMaxLines(1);
                 }
-                UpdateCurrentStatusWidth();
+
             }));
 
             _searchFrame = MainPageSearchView.FindViewById(Resource.Id.search_edit_frame);
@@ -173,8 +175,7 @@ namespace MALClient.Android.Activities
                 });
 
             //
-            MainPageCurrentStatus.Clickable = true;
-            MainPageCurrentStatus.SetOnClickListener(new OnClickListener(view =>
+            MainPageStatusContainer.SetOnClickListener(new OnClickListener(view =>
             {
                 if (ViewModel.CurrentMainPage == PageIndex.PageAnimeList)
                 {
@@ -403,73 +404,37 @@ namespace MALClient.Android.Activities
             }
         }
 
-        private void UpdateCurrentStatusWidth()
-        {
-            if (Resources.Configuration.Orientation == global::Android.Content.Res.Orientation.Landscape)
-            {
-                MainPageCurrentStatus.SetMaxWidth(10000);
-            }
-            else
-            {
-                if (string.IsNullOrEmpty(ViewModel.CurrentStatusSub))
-                {
-                    MainPageCurrentStatus.SetMaxWidth(10000);
-                }
-                else
-                {
-                    var total = MainPageStatusContainer.Width;
-                    if(total == 0 || MainPageCurrentSatusSubtitle.Width == 0)
-                        MainPageCurrentStatus.SetMaxWidth(DimensionsHelper.DpToPx(185));
-                    else
-                        MainPageCurrentStatus.SetMaxWidth(total - MainPageCurrentSatusSubtitle.MeasuredWidth - DimensionsHelper.DpToPx(20));
-                }
-            }
-        }
+
 
 
         public override void OnConfigurationChanged(Configuration newConfig)
         {
-            if (newConfig.Orientation == global::Android.Content.Res.Orientation.Landscape)
-            {
-                MainPageStatusContainer.Orientation = Orientation.Vertical;
+            //if (newConfig.Orientation == global::Android.Content.Res.Orientation.Landscape)
+            //{
 
-                MainPageCurrentStatus.SetMaxLines(1);
-                UpdateCurrentStatusWidth();
+            //}
+            //else
+            //{
+            //    MainPageStatusContainer.Orientation = Orientation.Horizontal;
 
-                var param = MainPageCurrentStatus.LayoutParameters as LinearLayout.LayoutParams;
-                param.SetMargins(0,0,0,0);
-                MainPageCurrentStatus.LayoutParameters = param;
-
-                param = MainPageCurrentSatusSubtitle.LayoutParameters as LinearLayout.LayoutParams;
-                param.SetMargins(0,0,0,0);
-                MainPageCurrentSatusSubtitle.LayoutParameters = param;
-
-                var cparam = MainPageStatusContainer.LayoutParameters;
-                cparam.Height = -2;
-                MainPageStatusContainer.LayoutParameters = cparam;
-            }
-            else
-            {
-                MainPageStatusContainer.Orientation = Orientation.Horizontal;
-
-                MainPageCurrentStatus.SetMaxLines(2);
-                UpdateCurrentStatusWidth();
-                var margin = DimensionsHelper.DpToPx(5);
+            //    MainPageCurrentStatus.SetMaxLines(2);
+            //    UpdateCurrentStatusWidth();
+            //    var margin = DimensionsHelper.DpToPx(5);
 
 
-                var param = MainPageCurrentStatus.LayoutParameters as LinearLayout.LayoutParams;
-                param.SetMargins(margin, margin, margin, margin);
-                MainPageCurrentStatus.LayoutParameters = param;
+            //    var param = MainPageCurrentStatus.LayoutParameters as LinearLayout.LayoutParams;
+            //    param.SetMargins(margin, margin, margin, margin);
+            //    MainPageCurrentStatus.LayoutParameters = param;
 
-                param = MainPageCurrentSatusSubtitle.LayoutParameters as LinearLayout.LayoutParams;
-                param.SetMargins(margin, margin, margin, margin);
-                MainPageCurrentSatusSubtitle.LayoutParameters = param;
+            //    param = MainPageCurrentSatusSubtitle.LayoutParameters as LinearLayout.LayoutParams;
+            //    param.SetMargins(margin, margin, margin, margin);
+            //    MainPageCurrentSatusSubtitle.LayoutParameters = param;
 
-                var cparam = MainPageStatusContainer.LayoutParameters;
-                cparam.Height = -1;
-                MainPageStatusContainer.LayoutParameters = cparam;
+            //    var cparam = MainPageStatusContainer.LayoutParameters;
+            //    cparam.Height = -1;
+            //    MainPageStatusContainer.LayoutParameters = cparam;
 
-            }
+            //}
             
             base.OnConfigurationChanged(newConfig);
         }

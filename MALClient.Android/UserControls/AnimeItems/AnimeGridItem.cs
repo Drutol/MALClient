@@ -82,14 +82,12 @@ namespace MALClient.Android.UserControls
         {
             if ((string)AnimeGridItemImage.Tag != ViewModel.ImgUrl)
             {
-                AnimeGridItemImage.AnimeInto(ViewModel.ImgUrl);
+                AnimeGridItemImage.AnimeInto(ViewModel.ImgUrl, AnimeGridItemImgPlaceholder);
             }
             else
             {
                 AnimeGridItemImage.Visibility = ViewStates.Visible;
             }
-
-            AnimeGridItemImgPlaceholder.Visibility = ViewStates.Gone;
 
             RootContainer.SetOnClickListener(new OnClickListener(view => ContainerOnClick()));
             AnimeGridItemMoreButton.SetOnClickListener(new OnClickListener(view => MoreButtonOnClick()));

@@ -72,14 +72,13 @@ namespace MALClient.Android.UserControls
         {
             if ((string)AnimeListItemImage.Tag != ViewModel.ImgUrl)
             {
-                AnimeListItemImage.AnimeInto(ViewModel.ImgUrl);
+                AnimeListItemImage.AnimeInto(ViewModel.ImgUrl, AnimeListItemImgPlaceholder);
             }
             else
             {
                 AnimeListItemImage.Visibility = ViewStates.Visible;
             }
 
-            AnimeListItemImgPlaceholder.Visibility = ViewStates.Gone;
 
 
 

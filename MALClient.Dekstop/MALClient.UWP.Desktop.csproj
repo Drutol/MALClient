@@ -19,7 +19,7 @@
     <PackageCertificateKeyFile>MALClient.Dekstop_StoreKey.pfx</PackageCertificateKeyFile>
     <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
     <AppxSymbolPackageEnabled>True</AppxSymbolPackageEnabled>
-    <AppxBundle>Never</AppxBundle>
+    <AppxBundle>Always</AppxBundle>
     <AppxBundlePlatforms>x86|x64</AppxBundlePlatforms>
     <AppxPackageDir>C:\Users\dogie\Documents\VsBuilds\</AppxPackageDir>
     <PackageCertificateThumbprint>12E2EA07745358740A1071A716461C53697C6A10</PackageCertificateThumbprint>

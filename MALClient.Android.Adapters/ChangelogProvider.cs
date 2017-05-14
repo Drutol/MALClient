@@ -32,16 +32,12 @@ namespace MALClient.Android.Adapters
 
         public bool NewChangelog { get; set; }
 
-        public string DateWithVersion => $"{_currentVersion} - 04.05.2017";
+        public string DateWithVersion => $"{_currentVersion} - 14.05.2017";
 
         public List<string> Changelog => new List<string>
         {
-            "Fixes from #64. Yup again... Just go and see the amount of bugs contained there...",
-            "Added new topic page.",
-            "Added message/see other posts buttons in topic itmes.",
-            "Added option to hide manga section in hamburger.",
-            "Fixed characters data scrapping.",
-            "Other big change is that Xamarin Android 7.3 is bringing new Garbage Collector, which is currently marked as 'Experimental' and I've enabled it in this build in order to well... experiment? Let me know whether you feel any difference, in theory it should work faster."
+            "A few bugfixes from #64",
+            "Spinners on anime items should be a bit more smart.",
         };
 
     }

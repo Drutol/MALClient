@@ -13,12 +13,13 @@ namespace MALClient.UWP.Adapters
         public bool NewChangelog { get; set; }
         public string CurrentVersion => UWPUtilities.GetAppVersion();
 
-        public string DateWithVersion =>  $"v{UWPUtilities.GetAppVersion()} - 23.04.2017";
+        public string DateWithVersion =>  $"v{UWPUtilities.GetAppVersion()} - 15.04.2017";
 
         public List<string> Changelog => new List<string>
         {
-            "Maintenance update, bugfixes tweaks and such. Upped SDK to Creators Update.",
-            "Sorry for such infrequent lackluster updates... Android is still in development, but on the bright side I've reached closed beta already! Once finished, updates should become more interesting :)"
+            "Mainteance, fixes to charaters query and videos.",
+            "UI tweaks in recommendations and anime details page.",
+            "Notifications should no longer duplicate while app is running"        
         };
 
 

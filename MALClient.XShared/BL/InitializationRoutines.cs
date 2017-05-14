@@ -40,6 +40,7 @@ namespace MALClient.XShared.BL
             ResourceLocator.ChangelogProvider.NewChangelog = previousVersion != null && previousVersion !=
                                                              ResourceLocator.ChangelogProvider.CurrentVersion;
 
+#if !ANDROID          
             if (!ViewModelLocator.Mobile && ResourceLocator.ApplicationDataService["AndroidInfoShown"] == null && await new NewsQuery().GetRequestResponse() == "Android Tajm!")
             {
                 ResourceLocator.ApplicationDataService["AndroidInfoShown"] = true;
@@ -49,7 +50,7 @@ namespace MALClient.XShared.BL
                     () => ResourceLocator.SystemControlsLauncherService.LaunchUri(
                         new Uri("https://play.google.com/store/apps/details?id=com.drutol.malclient")));
             }
-
+#endif
             Settings.AppVersion = ResourceLocator.ChangelogProvider.CurrentVersion;
         }
     }

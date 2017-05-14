@@ -197,13 +197,14 @@ namespace MALClient.Android
             if (bounds.Right == 0 || image.Width == 0)
             {
                 image.SetScaleType(ImageView.ScaleType.CenterCrop);
-                return;
+
             }
             if (
                 Math.Abs(image.Height / (float)image.Width -
                          bounds.Bottom / (float)bounds.Right) > threshold)
             {
                 image.SetScaleType(ImageView.ScaleType.FitCenter);
+
             }
             else
             {

@@ -2,6 +2,7 @@ using System;
 using Android.App;
 using Android.OS;
 using Android.Widget;
+using GalaSoft.MvvmLight.Command;
 using MALClient.Android.Adapters;
 using MALClient.Android.Resources;
 using MALClient.Android.ViewModels;

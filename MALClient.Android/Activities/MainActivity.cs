@@ -33,6 +33,7 @@ using MALClient.XShared.Utils;
 using MALClient.XShared.Utils.Managers;
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Interfaces;
+using Debug = System.Diagnostics.Debug;
 
 namespace MALClient.Android.Activities
 {
@@ -135,7 +136,8 @@ namespace MALClient.Android.Activities
             if(!ViewModel.SearchToggleLock)
                 if (ViewModel.SearchToggleStatus)
                 {
-                    ViewModel.SearchToggleStatus = false;
+                    MainPageSearchView.SetQuery("",false);
+                    MainPageSearchView.FindViewById(Resource.Id.search_close_btn).PerformClick();
                     return;
                 }
 

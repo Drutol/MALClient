@@ -186,7 +186,10 @@ namespace MALClient.Android.Fragments
         private void OpenSortingDrawer()
         {
             var items = new List<IDrawerItem>();
-            foreach (SortOptions sortOption in Enum.GetValues(typeof(SortOptions)))
+            var options = Enum.GetValues(typeof(SortOptions)).Cast<SortOptions>();
+            if (ViewModel.IsMangaWorkMode)
+                options = options.Except(new[] {SortOptions.SortAirDay, SortOptions.SortSeason});
+            foreach (SortOptions sortOption in options)
             {
                 var btn = HamburgerUtilities.GetBaseSecondaryItem();
                 if (sortOption == SortOptions.SortWatched)

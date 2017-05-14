@@ -40,8 +40,9 @@ namespace MALClient.XShared.BL
             ResourceLocator.ChangelogProvider.NewChangelog = previousVersion != null && previousVersion !=
                                                              ResourceLocator.ChangelogProvider.CurrentVersion;
 
-            if (await new NewsQuery().GetRequestResponse() == "Android Tajm!")
+            if (!ViewModelLocator.Mobile && ResourceLocator.ApplicationDataService["AndroidInfoShown"] == null && await new NewsQuery().GetRequestResponse() == "Android Tajm!")
             {
+                ResourceLocator.ApplicationDataService["AndroidInfoShown"] = true;
                 ResourceLocator.MessageDialogProvider.ShowMessageDialogWithInput(
                     "I've just released open beta of Android version and I'd like to invite you to try it out and help me test it :)\nAndroid has almost all features of Windows versions and UI is similar to what you are familiar with!",
                     "MALClient on Android!", "To the PlayStore!", "Nah, thanks",

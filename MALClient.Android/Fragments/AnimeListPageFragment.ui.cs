@@ -30,6 +30,7 @@ using MALClient.Android.UserControls;
 using MALClient.Models.Enums;
 using MALClient.XShared.ViewModels;
 using static MALClient.Android.Flyouts.AnimeListPageFlyoutBuilder;
+using Debug = System.Diagnostics.Debug;
 using FloatingActionButton = Android.Support.Design.Widget.FloatingActionButton;
 
 namespace MALClient.Android.Fragments
@@ -50,8 +51,7 @@ namespace MALClient.Android.Fragments
             var footer = new Button(Context)
             {
                 Text = "Load more",
-                LayoutParameters = new ViewGroup.LayoutParams(-1,-2)
-              
+                LayoutParameters = new ViewGroup.LayoutParams(-1,-2)              
             };
             footer.SetAllCaps(false);
             footer.BackgroundTintList = ColorStateList.ValueOf(new Color(ResourceExtension.AccentColourDark));
@@ -218,6 +218,8 @@ namespace MALClient.Android.Fragments
                     AnimeListPageCompactListView.ClearFlingAdapter();
 
                     await Task.Delay(250);
+                    if(ViewModel.AnimeGridItems == null)
+                        return;
                     if (_prevArgs != null)
                     {
                         var pos = _prevArgs.SelectedItemIndex;
@@ -246,7 +248,10 @@ namespace MALClient.Android.Fragments
                     var footerParam = _loadMoreFooter.LayoutParameters;
                     footerParam.Height = ViewGroup.LayoutParams.WrapContent;
                     _loadMoreFooter.LayoutParameters = footerParam;
-                    AnimeListPageListView.InjectAnimeListAdapter(Context, ViewModel.AnimeListItems, AnimeListDisplayModes.IndefiniteList, AnimeListPageGridViewOnItemClick);
+
+                    AnimeListPageListView.InjectAnimeListAdapterWithFooter(Context, ViewModel.AnimeListItems,
+                        AnimeListDisplayModes.IndefiniteList,_loadMoreFooter, AnimeListPageGridViewOnItemClick);
+
 
                     if (_prevArgs != null)
                     {

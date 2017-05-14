@@ -162,8 +162,8 @@ namespace MALClient.XShared.ViewModels.Details
 
         public ObservableCollection<AnimeReviewData> Reviews { get; } = new ObservableCollection<AnimeReviewData>();
 
-        public ObservableCollection<DirectRecommendationData> Recommendations { get; } =
-            new ObservableCollection<DirectRecommendationData>();
+        public SmartObservableCollection<DirectRecommendationData> Recommendations { get; } =
+            new SmartObservableCollection<DirectRecommendationData>();
 
         public ObservableCollection<RelatedAnimeData> RelatedAnime { get; } =
             new ObservableCollection<RelatedAnimeData>();
@@ -1215,8 +1215,7 @@ namespace MALClient.XShared.ViewModels.Details
                 NoRecommDataNoticeVisibility = true;
                 return;
             }
-            foreach (var item in recomm)
-                Recommendations.Add(item);
+                Recommendations.AddRange(recomm);
             NoRecommDataNoticeVisibility = Recommendations.Count <= 0;
             LoadingRecommendations = false;
         }

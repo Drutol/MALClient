@@ -81,26 +81,7 @@ namespace MALClient.Android.UserControls
 
             AnimeListItemImgPlaceholder.Visibility = ViewStates.Gone;
 
-            if (string.IsNullOrEmpty(ViewModel.TopLeftInfoBind))
-            {
-                AnimeListItemTopLeftInfo.Visibility = ViewStates.Gone;
-            }
-            else
-            {
-                AnimeListItemTopLeftInfo.Visibility = ViewStates.Visible;
-                AnimeListItemTopLeftInfoMain.Text = ViewModel.TopLeftInfoBind;
-                if (ViewModel.AirDayBrush == true)
-                {
-                    AnimeListItemTopLeftInfoMain.SetTextColor(new Color(80, 80, 80)); //gray
-                    AnimeListItemTopLeftInfoSub.Text = ViewModel.AirDayTillBind;
-                    AnimeListItemTopLeftInfoSub.Visibility = ViewStates.Visible;
-                }
-                else
-                {
-                    AnimeListItemTopLeftInfoMain.SetTextColor(new Color(255, 255, 255));
-                    AnimeListItemTopLeftInfoSub.Visibility = ViewStates.Gone;
-                }
-            }
+
 
             AnimeListItemTagsButton.SetOnClickListener(new OnClickListener(OnTagsButtonClick));
             AnimeListItemStatusButton.SetOnClickListener(
@@ -132,6 +113,11 @@ namespace MALClient.Android.UserControls
 
             ViewModel.PropertyChanged += ViewModelOnPropertyChanged;
 
+
+        }
+
+        protected override void BindModelBasic()
+        {
             AnimeListItemStatusButton.Text = ViewModel.MyStatusBind;
             AnimeListItemWatchedButton.Text = ViewModel.MyEpisodesBind;
             AnimeListItemScoreButton.Text = ViewModel.MyScoreBind;
@@ -144,14 +130,31 @@ namespace MALClient.Android.UserControls
             AnimeListItemUpdatingBar.Visibility = ViewModel.LoadingUpdate
                 ? ViewStates.Visible
                 : ViewStates.Gone;
-        }
 
-        protected override void BindModelBasic()
-        {
             ViewModel.AnimeItemDisplayContext = ViewModelLocator.AnimeList.AnimeItemsDisplayContext;
 
             AnimeListItemTitle.Text = ViewModel.Title;
 
+            if (string.IsNullOrEmpty(ViewModel.TopLeftInfoBind))
+            {
+                AnimeListItemTopLeftInfo.Visibility = ViewStates.Gone;
+            }
+            else
+            {
+                AnimeListItemTopLeftInfo.Visibility = ViewStates.Visible;
+                AnimeListItemTopLeftInfoMain.Text = ViewModel.TopLeftInfoBind;
+                if (ViewModel.AirDayBrush == true)
+                {
+                    AnimeListItemTopLeftInfoMain.SetTextColor(new Color(80, 80, 80)); //gray
+                    AnimeListItemTopLeftInfoSub.Text = ViewModel.AirDayTillBind;
+                    AnimeListItemTopLeftInfoSub.Visibility = ViewStates.Visible;
+                }
+                else
+                {
+                    AnimeListItemTopLeftInfoMain.SetTextColor(new Color(255, 255, 255));
+                    AnimeListItemTopLeftInfoSub.Visibility = ViewStates.Gone;
+                }
+            }
 
             if (string.IsNullOrEmpty(ViewModel.Type))
             {

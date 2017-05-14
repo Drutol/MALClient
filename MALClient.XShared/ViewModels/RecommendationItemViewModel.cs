@@ -93,9 +93,9 @@ namespace MALClient.XShared.ViewModels
                 Data.AnimeRecommendationData.AllEpisodes != 0 ? Data.AnimeRecommendationData.AllEpisodes.ToString() : "?",
                 myRecItem?.MyEpisodes == null ? "" : myRecItem.MyEpisodes + $"/{(Data.AnimeRecommendationData.AllEpisodes == 0 ? "?" : Data.AnimeRecommendationData.AllEpisodes.ToString())}"));
             DetailItems.Add(new Tuple<string, string, string, string, string>("Score:",
-                Data.AnimeDependentData.GlobalScore.ToString(),
+                Data.AnimeDependentData.GlobalScore == 0 ? "N/A" : Data.AnimeDependentData.GlobalScore.ToString(),
                 myDepItem?.MyScore == null ? "" : (myDepItem.MyScore == 0 ? "N/A" : $"{myDepItem.MyScore}/10"),
-                Data.AnimeRecommendationData.GlobalScore.ToString(),
+                Data.AnimeRecommendationData.GlobalScore == 0 ? "N/A" : Data.AnimeRecommendationData.GlobalScore.ToString(),
                 myRecItem?.MyScore == null ? "" : (myRecItem.MyScore == 0 ? "N/A" : $"{myRecItem.MyScore}/10")));
             DetailItems.Add(new Tuple<string, string, string, string, string>("Type:", Data.AnimeDependentData.Type, "",
                 Data.AnimeRecommendationData.Type, ""));

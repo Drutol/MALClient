@@ -490,10 +490,12 @@ namespace MALClient.Android.Activities
                     break;
                 case 2:
                     ViewModelLocator.GeneralMain.Navigate(PageIndex.PageSettings,SettingsPageIndex.About);
+                    SetActiveButton(HamburgerButtons.Settings);
                     _drawer.CloseDrawer();
                     break;
                 case 3:
                     ViewModelLocator.GeneralMain.Navigate(PageIndex.PageSettings,SettingsPageIndex.Ads);
+                    SetActiveButton(HamburgerButtons.Settings);
                     _drawer.CloseDrawer();
                     break;
             }

@@ -93,6 +93,9 @@ namespace MALClient.Android.Fragments.ForumFragments
 
         private async void ForumTopicPageGotoPageButtonOnClick(object o, EventArgs eventArgs)
         {
+            if (ViewModel.LoadingTopic)
+                return;
+
             var result = await ForumDialogBuilder.BuildGoPageDialog(Context);
             if (result == null)
                 return;

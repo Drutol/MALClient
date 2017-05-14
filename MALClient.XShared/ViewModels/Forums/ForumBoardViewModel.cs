@@ -199,7 +199,7 @@ namespace MALClient.XShared.ViewModels.Forums
         public ICommand GotoLastPageCommand => _gotoLastPageCommand ?? (_gotoLastPageCommand = new RelayCommand(
             () =>
             {
-                LoadPage(_allPages,true);
+                LoadPage(_allPages);
             }));
 
         private ICommand _gotoFirstPageCommand;

@@ -32,7 +32,7 @@ namespace MALClient.Android.Fragments.AnimeDetailsPageTabs
 
         protected override void InitBindings()
         {
-            _gridHelper = new GridViewColumnHelper(AnimeDetailsPageCharactersTabGridView);
+            _gridHelper = new GridViewColumnHelper(AnimeDetailsPageCharactersTabGridView,340,1);
             Bindings.Add(this.SetBinding(() => ViewModel.AnimeStaffData).WhenSourceChanges(() =>
             {
                 if (ViewModel.AnimeStaffData == null)

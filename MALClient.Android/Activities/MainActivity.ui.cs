@@ -40,6 +40,7 @@ using MALClient.XShared.NavArgs;
 using MALClient.XShared.Utils;
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Main;
+using Debug = System.Diagnostics.Debug;
 using Object = Java.Lang.Object;
 using Orientation = Android.Widget.Orientation;
 using SimpleCursorAdapter = Android.Support.V4.Widget.SimpleCursorAdapter;
@@ -126,10 +127,15 @@ namespace MALClient.Android.Activities
             //searchBtn.SetScaleType(ImageView.ScaleType.FitEnd);
             //searchBtn.SetPadding(padding, padding, padding, padding);
             var observer = _searchFrame.ViewTreeObserver;
+            var prevVisibility = _searchFrame.Visibility;
             observer.GlobalLayout += (sender, args) =>
             {
+                if(prevVisibility == _searchFrame.Visibility)
+                    return;
+                prevVisibility = _searchFrame.Visibility;
                 MainPageCurrentStatus.Visibility = Converters.VisibilityInverterConverter(_searchFrame.Visibility);
                 var param = MainPageSearchView.LayoutParameters as LinearLayout.LayoutParams;
+                Debug.WriteLine(_searchFrame.Visibility);
                 if (_searchFrame.Visibility == ViewStates.Visible)
                 {
                     var diff = ViewModel.SearchToggleStatus != true;

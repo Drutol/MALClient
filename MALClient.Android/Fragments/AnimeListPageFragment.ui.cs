@@ -127,6 +127,7 @@ namespace MALClient.Android.Fragments
         private void InitActionMenu()
         {
             _actionMenu?.Close(true);
+            _actionMenu?.Dispose();
             var param = new ViewGroup.LayoutParams(DimensionsHelper.DpToPx(45), DimensionsHelper.DpToPx(45));
             var builder = new FloatingActionMenu.Builder(Activity)
                 .AddSubActionView(BuildFabActionButton(param, Resource.Drawable.icon_filter))

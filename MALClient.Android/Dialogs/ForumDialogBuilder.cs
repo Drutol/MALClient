@@ -62,6 +62,8 @@ namespace MALClient.Android.Dialogs
 
         private static void CleanupGoPageDialog(DialogResult success)
         {
+            if(_goPageDialog == null)
+                return;
             switch (success)
             {
                 case DialogResult.Cancel:
@@ -88,6 +90,7 @@ namespace MALClient.Android.Dialogs
             GoPageSemaphore.Release();
             _goPageDialog.Dismiss();
             _goPageDialog.Dispose();
+            _goPageDialog = null;
         }
     }
 }

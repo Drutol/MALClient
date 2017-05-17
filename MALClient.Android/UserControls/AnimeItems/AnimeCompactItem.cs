@@ -19,6 +19,7 @@ using MALClient.Android.Flyouts;
 using MALClient.Android.Listeners;
 using MALClient.Android.Resources;
 using MALClient.XShared.ViewModels;
+using Orientation = Android.Content.Res.Orientation;
 
 namespace MALClient.Android.UserControls.AnimeItems
 {
@@ -69,28 +70,26 @@ namespace MALClient.Android.UserControls.AnimeItems
 
         protected override void BindModelFull()
         {
-            
-
-            AnimeCompactItemIncButton.SetOnClickListener(new OnClickListener(view => ViewModel.IncrementWatchedCommand.Execute(null)));
-            AnimeCompactItemDecButton.SetOnClickListener(new OnClickListener(view => ViewModel.DecrementWatchedCommand.Execute(null)));
-
             RootContainer.SetOnClickListener(new OnClickListener(v => ContainerOnClick()));
 
-            ViewModel.PropertyChanged += ViewModelOnPropertyChanged;
-
-            
+            ViewModel.PropertyChanged += ViewModelOnPropertyChanged;       
         }
 
         protected override void RootContainerInit()
         {
-            AnimeCompactItemWatchedButton.SetOnClickListener(new OnClickListener(view => ShowStatusDialog()));
+            AnimeCompactItemWatchedButton.SetOnClickListener(new OnClickListener(view => ShowWatchedDialog()));
             AnimeCompactItemScoreButton.SetOnClickListener(new OnClickListener(view => ShowRatingDialog()));
-            AnimeCompactItemStatusButton.SetOnClickListener(new OnClickListener(view => ShowWatchedDialog()));
+            AnimeCompactItemStatusButton.SetOnClickListener(new OnClickListener(view => ShowStatusDialog()));
             AnimeCompactItemTagsButton.SetOnClickListener(new OnClickListener(OnTagsButtonClick));
+
+            if(Context.Resources.Configuration.Orientation == Orientation.Landscape)
+                OnConfigurationChanged(Context.Resources.Configuration);
         }
 
         protected override void BindModelBasic()
         {
+            ViewModel.AnimeItemDisplayContext = ViewModelLocator.AnimeList.AnimeItemsDisplayContext;
+
             RootContainer.SetBackgroundResource(_position % 2 == 0
                 ? ResourceExtension.BrushRowAlternate1Res
                 : ResourceExtension.BrushRowAlternate2Res);
@@ -100,20 +99,25 @@ namespace MALClient.Android.UserControls.AnimeItems
 
             AnimeCompactItemFavouriteIndicator.Visibility =
                 ViewModel.IsFavouriteVisibility ? ViewStates.Visible : ViewStates.Gone;
+
             AnimeCompactItemTagsButton.Visibility = ViewModel.TagsControlVisibility
                 ? ViewStates.Visible
                 : ViewStates.Gone;
 
             AnimeCompactItemGlobalScore.Text = ViewModel.GlobalScoreBind;
-            AnimeCompactItemTopLeftInfo.Text = ViewModel.TopLeftInfoBind;
+
+            if (string.IsNullOrEmpty(ViewModel.TopLeftInfoBind))
+                AnimeCompactItemTopLeftInfo.Visibility = ViewStates.Gone;
+            else
+            {
+                AnimeCompactItemTopLeftInfo.Visibility = ViewStates.Visible;
+                AnimeCompactItemTopLeftInfo.Text = ViewModel.TopLeftInfoBind;
+            }
+
 
             AnimeCompactItemScoreLabel.Text = ViewModel.MyScoreBind;
             AnimeCompactItemStatusLabel.Text = ViewModel.MyStatusBind;
             AnimeCompactItemWatchedButton.Text = ViewModel.MyEpisodesBind;
-            AnimeCompactItemIncButton.Visibility =
-                ViewModel.IncrementEpsVisibility ? ViewStates.Visible : ViewStates.Gone;
-            AnimeCompactItemDecButton.Visibility =
-                ViewModel.DecrementEpsVisibility ? ViewStates.Visible : ViewStates.Gone;
         }
 
         private void ViewModelOnPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
@@ -128,16 +132,6 @@ namespace MALClient.Android.UserControls.AnimeItems
                     break;
                 case nameof(ViewModel.MyScoreBindShort):
                     AnimeCompactItemScoreLabel.Text = ViewModel.MyScoreBind;
-                    break;
-                case nameof(ViewModel.IncrementEpsVisibility):
-                    AnimeCompactItemIncButton.Visibility = ViewModel.IncrementEpsVisibility
-                        ? ViewStates.Visible
-                        : ViewStates.Gone;
-                    break;
-                case nameof(ViewModel.DecrementEpsVisibility):
-                    AnimeCompactItemDecButton.Visibility = ViewModel.DecrementEpsVisibility
-                        ? ViewStates.Visible
-                        : ViewStates.Gone;
                     break;
             }
         }
@@ -182,6 +176,8 @@ namespace MALClient.Android.UserControls.AnimeItems
             else
                 ViewModel.NavigateDetailsCommand.Execute(null);
         }
+
+       
 
         protected override void OnConfigurationChanged(Configuration newConfig)
         {
@@ -274,10 +270,6 @@ namespace MALClient.Android.UserControls.AnimeItems
         public FrameLayout AnimeCompactItemStatusButton => _animeCompactItemStatusButton ?? (_animeCompactItemStatusButton = FindViewById<FrameLayout>(Resource.Id.AnimeCompactItemStatusButton));
 
         public View AnimeCompactItemAdaptiveItemRight => _animeCompactItemAdaptiveItemRight ?? (_animeCompactItemAdaptiveItemRight = FindViewById<View>(Resource.Id.AnimeCompactItemAdaptiveItemRight));
-
-        public FrameLayout AnimeCompactItemDecButton => _animeCompactItemDecButton ?? (_animeCompactItemDecButton = FindViewById<FrameLayout>(Resource.Id.AnimeCompactItemDecButton));
-
-        public FrameLayout AnimeCompactItemIncButton => _animeCompactItemIncButton ?? (_animeCompactItemIncButton = FindViewById<FrameLayout>(Resource.Id.AnimeCompactItemIncButton));
 
         public Button AnimeCompactItemWatchedButton => _animeCompactItemWatchedButton ?? (_animeCompactItemWatchedButton = FindViewById<Button>(Resource.Id.AnimeCompactItemWatchedButton));
 

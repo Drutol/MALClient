@@ -14,6 +14,7 @@ using MALClient.Android.Listeners;
 using MALClient.Android.Resources;
 using MALClient.Android.ViewModels;
 using MALClient.Models.Enums;
+using MALClient.XShared.Utils;
 using MALClient.XShared.ViewModels;
 
 namespace MALClient.Android.Fragments.SettingsFragments
@@ -29,7 +30,11 @@ namespace MALClient.Android.Fragments.SettingsFragments
 
         protected override void InitBindings()
         {
-            SettingsPageHomepageList.SetAdapter(ViewModel.SettingsPages.Where(entry => entry.PageType != SettingsPageIndex.Caching && entry.PageType != SettingsPageIndex.Articles).ToList().GetAdapter(GetTemplateDelegate));
+            SettingsPageHomepageList.SetAdapter(ViewModel.SettingsPages
+                .Where(entry => entry.PageType != SettingsPageIndex.Caching &&
+                                entry.PageType != SettingsPageIndex.Articles &&
+                                (Credentials.Authenticated || entry.PageType != SettingsPageIndex.Ads)).ToList()
+                .GetAdapter(GetTemplateDelegate));
         }
 
         private View GetTemplateDelegate(int i, SettingsPageEntry settingsPageEntry, View convertView)

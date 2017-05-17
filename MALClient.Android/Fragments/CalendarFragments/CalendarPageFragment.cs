@@ -26,6 +26,7 @@ namespace MALClient.Android.Fragments.CalendarFragments
         {
             ViewModelLocator.NavMgr.DeregisterBackNav();
             ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageAnimeList, null);
+            ViewModelLocator.AnimeList.AnimeItemsDisplayContext = AnimeItemDisplayContext.AirDay;
             ViewModel = ViewModelLocator.CalendarPage;
             ViewModel.Init();
         }

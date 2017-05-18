@@ -92,12 +92,6 @@ namespace MALClient.Android.Fragments.SettingsFragments
 
         }
 
-        protected override void Cleanup()
-        {
-            ViewModelLocator.NavMgr.ResetMainBackNav();
-            base.Cleanup();
-        }
-
         protected override void InitBindings()
         {
             if (!_navigated)

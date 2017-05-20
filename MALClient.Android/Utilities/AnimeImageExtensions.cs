@@ -269,5 +269,10 @@ namespace MALClient.Android
                 //BUG Throws aggregate when hostname wasn't reseolved
             }
         }
+
+        public static void NotifyCacheWiped()
+        {
+            LoadedImgs.Clear();
+        }
     }
 }

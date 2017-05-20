@@ -32,12 +32,14 @@ namespace MALClient.Android.Adapters
 
         public bool NewChangelog { get; set; }
 
-        public string DateWithVersion => $"{_currentVersion} - 14.05.2017";
+        public string DateWithVersion => $"{_currentVersion} - 20.05.2017";
 
         public List<string> Changelog => new List<string>
         {
             "A few bugfixes from #64",
-            "Spinners on anime items should be a bit more smart.",
+            "Compact view usable?",
+            "Added used memory watching, app should no longer close for no apparent reason if this reason is lack of memory... xd. Images will start to load to memory again from storage.",
+            "I want this to be last closed beta update and release this to open beta this weekend, if there's something big that I'm not aware of this is the time to speak!"
         };
 
     }

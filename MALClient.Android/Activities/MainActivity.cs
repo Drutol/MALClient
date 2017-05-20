@@ -88,8 +88,13 @@ namespace MALClient.Android.Activities
 
                 ResourceLocator.NotificationsTaskManager.StartTask(BgTasks.Notifications);
 
-                StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().PermitAll().Build();
-                StrictMode.SetThreadPolicy(policy);
+
+                //if ((Resources.Configuration.ScreenLayout & ScreenLayout.SizeMask) == ScreenLayout.SizeSmall)
+                //{
+                //    Settings.PullHigherQualityImages = false;
+                //}
+                //StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().PermitAll().Build();
+                //StrictMode.SetThreadPolicy(policy);
 
                 InitializationRoutines.InitPostUpdate();
 
@@ -103,9 +108,11 @@ namespace MALClient.Android.Activities
                     ChangelogDialog.BuildChangelogDialog(ResourceLocator.ChangelogProvider);
 
                 RateReminderPopUp.ProcessRatePopUp();
+
+                MemoryWatcher.Watcher.Resume(true);
+                ResourceLocator.TelemetryProvider.Init();
             }
 
-            ResourceLocator.TelemetryProvider.Init();
         }
 
         private async void ViewModelOnMainNavigationRequestedFirst(Fragment fragment)
@@ -154,6 +161,7 @@ namespace MALClient.Android.Activities
             });
 
         }
+
 
         private void ViewModelOnMainNavigationRequested(Fragment fragment)
         {
@@ -227,10 +235,15 @@ namespace MALClient.Android.Activities
             }          
         }
 
-
+        protected override void OnResume()
+        {
+            MemoryWatcher.Watcher.Resume(false);
+            base.OnResume();
+        }
 
         protected override void OnPause()
         {
+            MemoryWatcher.Watcher.Pause();
 #pragma warning disable 4014
             if (Settings.IsCachingEnabled)
             {

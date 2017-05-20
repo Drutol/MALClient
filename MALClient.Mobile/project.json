@@ -4,11 +4,11 @@
     "HockeySDK.UWP": "4.1.6",
     "HtmlAgilityPack": "1.4.9.5",
     "Microsoft.Net.Http": "2.2.29",
-    "Microsoft.NETCore.UniversalWindowsPlatform": "5.3.2",
-    "Microsoft.Services.Store.SDK": "10.1703.19001",
+    "Microsoft.NETCore.UniversalWindowsPlatform": "5.3.3",
+    "Microsoft.Services.Store.SDK": "10.1705.16001",
     "MvvmLight": "5.3.0",
     "Newtonsoft.Json": "10.0.2",
-    "System.Net.Http": "4.3.1",
+    "System.Net.Http": "4.3.2",
     "WinRTXamlToolkit": "2.3.0"
   },
   "frameworks": {

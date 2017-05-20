@@ -34,6 +34,7 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
 
         protected override  void Init(Bundle savedInstanceState)
         {
+            ViewModelLocator.AnimeList.AnimeItemsDisplayContext = AnimeItemDisplayContext.AirDay;
 #pragma warning disable 4014
             ViewModel.LoadProfileData(_args);
 #pragma warning restore 4014

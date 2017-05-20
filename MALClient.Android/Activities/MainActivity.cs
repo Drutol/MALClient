@@ -93,8 +93,8 @@ namespace MALClient.Android.Activities
                 //{
                 //    Settings.PullHigherQualityImages = false;
                 //}
-                //StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().PermitAll().Build();
-                //StrictMode.SetThreadPolicy(policy);
+                StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().PermitAll().Build();
+                StrictMode.SetThreadPolicy(policy);
 
                 InitializationRoutines.InitPostUpdate();
 

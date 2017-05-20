@@ -188,7 +188,7 @@ namespace MALClient.Android.UserControls
                 AnimeGridItemTopLeftInfoMain.Text = ViewModel.TopLeftInfoBind;
                 if (ViewModel.AirDayBrush == true)
                 {
-                    AnimeGridItemTopLeftInfoMain.SetTextColor(new Color(80, 80, 80)); //gray
+                    AnimeGridItemTopLeftInfoMain.SetTextColor(new Color(110, 110, 110)); //gray
                     AnimeGridItemTopLeftInfoSub.Text = ViewModel.AirDayTillBind;
                     AnimeGridItemTopLeftInfoSub.Visibility = ViewStates.Visible;
                 }

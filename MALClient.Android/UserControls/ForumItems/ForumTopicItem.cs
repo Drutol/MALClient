@@ -165,13 +165,13 @@ namespace MALClient.Android.UserControls.ForumItems
             ForumTopicPageItemPostAuthor.Text = ViewModel.Data.Poster.MalUser.Name;
             ForumTopicPageItemPostNumber.Text = ViewModel.Data.MessageNumber;
             ForumTopicPageItemPostDate.Text = ViewModel.Data.CreateDate;
-            if (string.IsNullOrEmpty(ViewModel.Data.Poster.Status))
-                ForumTopicPageItemDetailOnline.Visibility = ViewStates.Gone;
-            else
-            {
-                ForumTopicPageItemDetailOnline.Visibility = ViewStates.Visible;
-                ForumTopicPageItemDetailOnline.Text = ViewModel.Data.Poster.Status;
-            }
+           // if (string.IsNullOrEmpty(ViewModel.Data.Poster.Status))
+           //     ForumTopicPageItemDetailOnline.Visibility = ViewStates.Gone;
+            //else
+           // {
+            //    ForumTopicPageItemDetailOnline.Visibility = ViewStates.Visible;
+            //    ForumTopicPageItemDetailOnline.Text = ViewModel.Data.Poster.Status;
+            //}
             if (string.IsNullOrEmpty(ViewModel.Data.Poster.Joined))
                 ForumTopicPageItemDetailsJoined.Visibility = ViewStates.Gone;
             else
@@ -332,7 +332,7 @@ namespace MALClient.Android.UserControls.ForumItems
         private TextView _forumTopicPageItemPostNumber;
         private TextView _forumTopicPageItemPostAuthor;
         private ImageViewAsync _forumTopicPageItemAuthorImage;
-        private TextView _forumTopicPageItemDetailOnline;
+        //private TextView _forumTopicPageItemDetailOnline;
         private TextView _forumTopicPageItemDetailsJoined;
         private TextView _forumTopicPageItemDetailsPostCount;
         private ImageButton _forumTopicPageItemSendMessageButton;
@@ -352,7 +352,7 @@ namespace MALClient.Android.UserControls.ForumItems
 
         public ImageViewAsync ForumTopicPageItemAuthorImage => _forumTopicPageItemAuthorImage ?? (_forumTopicPageItemAuthorImage = FindViewById<ImageViewAsync>(Resource.Id.ForumTopicPageItemAuthorImage));
 
-        public TextView ForumTopicPageItemDetailOnline => _forumTopicPageItemDetailOnline ?? (_forumTopicPageItemDetailOnline = FindViewById<TextView>(Resource.Id.ForumTopicPageItemDetailOnline));
+        //public TextView ForumTopicPageItemDetailOnline => _forumTopicPageItemDetailOnline ?? (_forumTopicPageItemDetailOnline = FindViewById<TextView>(Resource.Id.ForumTopicPageItemDetailOnline));
 
         public TextView ForumTopicPageItemDetailsJoined => _forumTopicPageItemDetailsJoined ?? (_forumTopicPageItemDetailsJoined = FindViewById<TextView>(Resource.Id.ForumTopicPageItemDetailsJoined));
 

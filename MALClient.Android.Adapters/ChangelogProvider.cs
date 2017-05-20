@@ -36,10 +36,7 @@ namespace MALClient.Android.Adapters
 
         public List<string> Changelog => new List<string>
         {
-            "A few bugfixes from #64",
-            "Compact view usable?",
-            "Added used memory watching, app should no longer close for no apparent reason if this reason is lack of memory... xd. Images will start to load to memory again from storage.",
-            "I want this to be last closed beta update and release this to open beta this weekend, if there's something big that I'm not aware of this is the time to speak!"
+            "Ahoy! Open beta!",       
         };
 
     }

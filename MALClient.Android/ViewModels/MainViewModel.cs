@@ -70,6 +70,7 @@ namespace MALClient.Android.ViewModels
                 ResourceLocator.TelemetryProvider.TelemetryTrackNavigation(arg.Page);
             else
                 ResourceLocator.TelemetryProvider.TelemetryTrackNavigation(index);
+
             ScrollToTopButtonVisibility = false;
             RefreshButtonVisibility = false;
             ViewModelLocator.AnimeDetails.Id = -1;

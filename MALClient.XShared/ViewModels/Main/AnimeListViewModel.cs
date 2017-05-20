@@ -882,17 +882,20 @@ namespace MALClient.XShared.ViewModels.Main
             switch (WorkMode)
             {
                 case AnimeListWorkModes.SeasonalAnime:
-                    var tResponse = await new AnimeSeasonalQuery(CurrentSeason).GetSeasonalAnime(force);
+                    List<SeasonalAnimeData> tResponse = null;
+                    await Task.Run(async () => tResponse =
+                        await new AnimeSeasonalQuery(CurrentSeason).GetSeasonalAnime(force));
                     data.AddRange(tResponse ?? new List<SeasonalAnimeData>());
                     break;
                 case AnimeListWorkModes.TopAnime:
                 case AnimeListWorkModes.TopManga:
-                    var topResponse =
-                        await
+                    List<TopAnimeData> topResponse = null;
+                    await Task.Run(async () =>
+                        topResponse = await
                             new AnimeTopQuery(
                                 WorkMode == AnimeListWorkModes.TopAnime
                                     ? TopAnimeWorkMode
-                                    : TopAnimeType.Manga, page - 1).GetTopAnimeData(force);
+                                    : TopAnimeType.Manga, page - 1).GetTopAnimeData(force));
                     data.AddRange(topResponse ?? new List<TopAnimeData>());
                     break;
                 case AnimeListWorkModes.AnimeByGenre:
@@ -900,7 +903,8 @@ namespace MALClient.XShared.ViewModels.Main
                     var query = WorkMode == AnimeListWorkModes.AnimeByStudio
                         ? new AnimeGenreStudioQuery(Studio, page)
                         : new AnimeGenreStudioQuery(Genre, page);
-                    var sResponse = await query.GetAnime();
+                    List<SeasonalAnimeData> sResponse = null;
+                    await Task.Run(async () => await query.GetAnime());
                     data.AddRange(sResponse ?? new List<SeasonalAnimeData>());
                     break;
                 default:
@@ -1095,7 +1099,8 @@ namespace MALClient.XShared.ViewModels.Main
             if (requestedMode == AnimeListWorkModes.Anime ? _animeLibraryDataStorage.AllLoadedAnimeItemAbstractions.Count == 0 : _animeLibraryDataStorage.AllLoadedMangaItemAbstractions.Count == 0)
             {
                 List<ILibraryData> data = null;
-                await Task.Run(async () => data = await new LibraryListQuery(ListSource, requestedMode).GetLibrary(force));
+                await Task.Run(async () => data =
+                    await new LibraryListQuery(ListSource, requestedMode).GetLibrary(force));
                 if (data?.Count == 0)
                 {
                     //no data?

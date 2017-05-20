@@ -53,7 +53,11 @@ namespace MALClient.Android.Fragments.RecommendationsFragments
                         RecommendationItemLoading.Visibility = ViewStates.Visible;
                         return;
                     }
-                    RecommendationItemLoading.Visibility = ViewStates.Gone;
+                    else
+                    {
+                        RecommendationItemLoading.Visibility = ViewStates.Gone;
+                    }
+
                    
 
                     RecommendationItemDescription.Text = ViewModel.Data.Description;

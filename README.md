@@ -3,7 +3,7 @@ It's rather robust MyAnimeList client application interfacing with both "officia
 
 ![](https://github.com/Drutol/MALClient/blob/master/MALClient.Dekstop/Assets/Square150x150Logo.scale-100.png)
 <a href="https://www.microsoft.com/store/apps/9nblggh5f3bl?ocid=badge"><img src="https://assets.windowsphone.com/f2f77ec7-9ba9-4850-9ebe-77e366d08adc/English_Get_it_Win_10_InvariantCulture_Default.png" width="47.5%" alt="Get it on Windows 10" /></a>
-<!--<a href='https://play.google.com/store/apps/details?id=com.drutol.malclient&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' width="47.5%" src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png'/></a>-->
+<a href='https://play.google.com/store/apps/details?id=com.drutol.malclient&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' width="47.5%" src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png'/></a>
 ### Screenshots
 
 #### UWP

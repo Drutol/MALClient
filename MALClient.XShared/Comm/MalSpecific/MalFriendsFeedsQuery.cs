@@ -39,7 +39,7 @@ namespace MALClient.XShared.Comm.MalSpecific
             {
                 var tasks = _friends.Select(user => Task.Run(() => GetUserFeed(user))).ToList();
                 await Task.WhenAll(tasks);
-                return tasks.SelectMany(task => task.Result).Where(model => model != null).ToList();
+                return tasks.Where(task => task.Result != null).SelectMany(task => task.Result).ToList();
             }
             catch (Exception)
             {

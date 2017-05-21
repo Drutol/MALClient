@@ -32,11 +32,20 @@ namespace MALClient.Android.Adapters
 
         public bool NewChangelog { get; set; }
 
-        public string DateWithVersion => $"{_currentVersion} - 20.05.2017";
+        public string DateWithVersion => $"{_currentVersion} - 21.05.2017";
 
         public List<string> Changelog => new List<string>
         {
-            "Ahoy! Open beta!",       
+            "#121 Fixes, Report No. 16:",
+            "New:",
+            "Forum topic parsing fix.",
+            "Friends feeds fix.",
+            "Old:",
+            "Articles&News scroll position fixes.",       
+            "Forums pinned items lists empty states",       
+            "Positive messgebox buttons are now where they should be.",
+            "Resolved issue with wrong tags on freshly added show.",
+            
         };
 
     }

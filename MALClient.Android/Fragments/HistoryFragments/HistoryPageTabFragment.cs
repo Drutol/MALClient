@@ -70,8 +70,9 @@ namespace MALClient.Android.Fragments.HistoryFragments
 
         private void DataTemplateBasic(View view, int i, Tuple<AnimeItemViewModel, List<MalProfileHistoryEntry>> tuple)
         {
-            view.FindViewById<TextView>(Resource.Id.AnimeLightItemTitle).Text = tuple.Item1.Title;
-            view.FindViewById<LinearLayout>(Resource.Id.HistoryPageTabItemEventsList).SetAdapter(tuple.Item2.GetAdapter(GetTemplateDelegate));
+            view.FindViewById<TextView>(Resource.Id.AnimeLightItemTitle).Text = tuple.Item1?.Title;
+            if(tuple.Item2 != null)
+                view.FindViewById<LinearLayout>(Resource.Id.HistoryPageTabItemEventsList).SetAdapter(tuple.Item2.GetAdapter(GetTemplateDelegate));
         }
 
         private void DataTemplateFull(View view, int i, Tuple<AnimeItemViewModel, List<MalProfileHistoryEntry>> tuple)

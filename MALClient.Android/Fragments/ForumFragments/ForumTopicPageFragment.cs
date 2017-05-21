@@ -49,8 +49,8 @@ namespace MALClient.Android.Fragments.ForumFragments
 
         private async void ViewModelOnRequestScroll(object sender, int i)
         {
-            if(RootView != null && i < ForumTopicPagePostsList.Adapter.Count)
-                ForumTopicPagePostsList.SetSelection(i);
+            if(RootView != null && i < ForumTopicPagePostsList?.Adapter.Count)
+                ForumTopicPagePostsList?.SetSelection(i);
             else
             {
                 await Task.Delay(100);

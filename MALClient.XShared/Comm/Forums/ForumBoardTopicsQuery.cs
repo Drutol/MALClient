@@ -169,7 +169,7 @@ namespace MALClient.XShared.Comm.Forums
             current.Type = tds[1].ChildNodes[0].InnerText;
 
             var titleLinks = tds[1].Descendants("a").ToList();
-            var titleLink = titleLinks[0].InnerText.Length == 0 ? titleLinks[1] : titleLinks[0];
+            var titleLink = titleLinks[0].InnerText.Length == 0 || titleLinks[0].InnerText.Contains("»") ? titleLinks[1] : titleLinks[0];
 
             current.Title = WebUtility.HtmlDecode(titleLink.InnerText);
             var link = titleLink.Attributes["href"].Value;

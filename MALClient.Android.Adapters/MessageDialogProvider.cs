@@ -23,7 +23,7 @@ namespace MALClient.Android.Adapters
         public void ShowMessageDialogWithInput(string content, string title,string trueCommand,string falseCommand, Action callbackOnTrue,Action callBackOnFalse = null)
         {
             var dialog = new AlertDialog.Builder(SimpleIoc.Default.GetInstance<Activity>());
-            dialog.SetNeutralButton(trueCommand, (sender, args) => callbackOnTrue.Invoke());
+            dialog.SetPositiveButton(trueCommand, (sender, args) => callbackOnTrue.Invoke());
             dialog.SetNegativeButton(falseCommand, (sender, args) => callBackOnFalse?.Invoke());
             dialog.SetTitle(title);
             dialog.SetMessage(content);

@@ -330,6 +330,7 @@ namespace MALClient.XShared.ViewModels.Details
             {
                 IsRemoveAnimeButtonEnabled = false;
                 IsAddAnimeButtonEnabled = true;
+                MyTags = new ObservableCollection<string>();
             }
 
             switch (param.Source)

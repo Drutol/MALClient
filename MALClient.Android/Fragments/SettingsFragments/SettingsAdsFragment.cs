@@ -57,7 +57,7 @@ namespace MALClient.Android.Fragments.SettingsFragments
                 view.Tag = i1;
                 return view;
             });
-            SettingsPageAdsMinutesDailySpinner.SetSelection(availableTimes.IndexOf(ViewModel.NotificationsRefreshTime));
+            SettingsPageAdsMinutesDailySpinner.SetSelection(availableTimes.IndexOf(ViewModel.AdsSecondsPerDay/60));
             SettingsPageAdsMinutesDailySpinner.ItemSelected += (sender, args) =>
             {
                 ViewModel.AdsSecondsPerDay = (int)SettingsPageAdsMinutesDailySpinner.SelectedView.Tag*60;

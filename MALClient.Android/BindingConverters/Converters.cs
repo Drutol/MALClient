@@ -11,6 +11,11 @@ namespace MALClient.Android.BindingConverters
             return arg ? ViewStates.Visible : ViewStates.Gone;
         }
 
+        public static ViewStates BoolToVisibilityLight(bool arg)
+        {
+            return arg ? ViewStates.Visible : ViewStates.Gone;
+        }
+
         public static ViewStates BoolToVisibilityInverted(bool arg)
         {
             return arg ? ViewStates.Gone : ViewStates.Visible;

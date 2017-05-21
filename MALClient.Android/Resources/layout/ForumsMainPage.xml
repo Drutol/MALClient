@@ -14,14 +14,21 @@
         android:layout_width="wrap_content" android:layout_gravity="center"
         android:layout_height="wrap_content" android:background="@color/Transparent" android:src="@drawable/icon_list_var"/>
     </FrameLayout>
+    <FrameLayout
+      android:layout_width="0dp" android:layout_weight="1"
+      android:layout_height="match_parent">
+      <HorizontalScrollView
+        android:layout_width="match_parent" android:scrollbarSize="0dp"
+        android:layout_height="match_parent"  android:scrollbars="none">
+        <LinearLayout android:id="@+id/ForumsMainPagePinnedBoardsList"
+                      android:layout_width="wrap_content" android:orientation="horizontal"
+                      android:layout_height="match_parent" android:gravity="center_vertical"/>
+      </HorizontalScrollView>
+      <TextView android:id="@+id/ForumsMAinPagePinnedBoardEmptyNotice"
+                android:layout_width="wrap_content" android:textColor="?BrushNoSearchResults" android:text="Pinned boards go here..." android:layout_gravity="center"
+                android:layout_height="wrap_content" android:fontFamily="@string/font_family_light"/>
+    </FrameLayout>
 
-    <HorizontalScrollView
-      android:layout_width="0dp" android:scrollbarSize="0dp"
-      android:layout_height="match_parent" android:layout_weight="1" android:scrollbars="none">
-      <LinearLayout android:id="@+id/ForumsMainPagePinnedBoardsList"
-                    android:layout_width="wrap_content" android:orientation="horizontal"
-                    android:layout_height="match_parent" android:gravity="center_vertical"/>
-    </HorizontalScrollView>
     <FrameLayout
       android:layout_width="35dp" android:background="?BrushAnimeItemBackground" android:elevation="5dp" android:focusable="true"
       android:layout_height="35dp" android:id="@+id/ForumsMainPageMoreButton" android:clickable="true" android:foreground="?selectableItemBackground">

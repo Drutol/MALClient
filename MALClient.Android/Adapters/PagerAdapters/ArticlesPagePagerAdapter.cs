@@ -9,6 +9,7 @@ using Com.Astuetz;
 using MALClient.Android.Fragments;
 using MALClient.Android.Fragments.ArticlesPageFragments;
 using MALClient.Android.Resources;
+using MALClient.Models.Enums;
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Main;
 
@@ -22,14 +23,14 @@ namespace MALClient.Android.PagerAdapters
 
         public ArticlesPagePagerAdapter(FragmentManager fm) : base(fm)
         {
-            _articlesFragment = new ArticlesPageTabFragment(true);
-            _newsFragment = new ArticlesPageTabFragment(false);
+            _articlesFragment = new ArticlesPageTabFragment(true,ArticlePageWorkMode.Articles);
+            _newsFragment = new ArticlesPageTabFragment(false,ArticlePageWorkMode.News);
         }
 
         private MalFragmentBase _currentFragment;
 
-        private MalFragmentBase _articlesFragment;
-        private MalFragmentBase _newsFragment;
+        private readonly MalFragmentBase _articlesFragment;
+        private readonly MalFragmentBase _newsFragment;
 
         public override int Count => 2;
 
@@ -49,7 +50,6 @@ namespace MALClient.Android.PagerAdapters
         {
             var txt = p0 as TextView;
             txt.Alpha = 1f;
-            _currentFragment?.DetachBindings();
             switch ((int)p0.Tag)
             {
                 case 0:
@@ -61,7 +61,6 @@ namespace MALClient.Android.PagerAdapters
                     ViewModelLocator.MalArticles.Init(MalArticlesPageNavigationArgs.News);
                     break;
             }
-            _currentFragment?.ReattachBindings();
         }
 
         public void TabUnselected(View p0)

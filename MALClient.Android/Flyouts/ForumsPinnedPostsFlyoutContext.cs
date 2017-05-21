@@ -5,6 +5,7 @@ using System.Text;
 
 using Android.App;
 using Android.Content;
+using Android.Graphics;
 using Android.OS;
 using Android.Runtime;
 using Android.Views;
@@ -51,11 +52,28 @@ namespace MALClient.Android.Flyouts
 
             droppyBuilder.AddMenuItem(new DroppyMenuCustomItem(AnimeListPageFlyoutBuilder.BuildItem(_parent.Context, "Pinned posts", i => { }, 0, ResourceExtension.BrushRowAlternate2, null, false, GravityFlags.CenterHorizontal)));
             droppyBuilder.AddMenuItem(new DroppyMenuCustomItem(new DroppyMenuSeparatorView(_parent.Context)));
+            if (_viewModel.PinnedTopics.Any())
+            {
+                _list = new ListView(_parent.Context) { LayoutParameters = new ViewGroup.LayoutParams(DimensionsHelper.DpToPx(250), -2) };
 
-            _list = new ListView(_parent.Context) {LayoutParameters = new ViewGroup.LayoutParams(DimensionsHelper.DpToPx(250), -2)};
+                _list.Adapter = _viewModel.PinnedTopics.GetAdapter(GetTemplateDelegate);
+                droppyBuilder.AddMenuItem(new DroppyMenuCustomItem(_list));
+            }
+            else
+            {
+                var txt = new TextView(_parent.Context)
+                {
+                    LayoutParameters = new ViewGroup.LayoutParams(-1, -2),
+                    Text = "Hold topic to pin it.",                  
+                    Gravity = GravityFlags.CenterHorizontal
+                };
+                txt.SetTypeface(Typeface.Create(ResourceExtension.FontSizeLight,TypefaceStyle.Normal),TypefaceStyle.Normal);
+                txt.SetTextColor(new Color(ResourceExtension.BrushNoSearchResults));
+                var padding = DimensionsHelper.DpToPx(10);
+                txt.SetPadding(0,padding,0,padding);
+                droppyBuilder.AddMenuItem(new DroppyMenuCustomItem(txt));
+            }
 
-            _list.Adapter = _viewModel.PinnedTopics.GetAdapter(GetTemplateDelegate);
-            droppyBuilder.AddMenuItem(new DroppyMenuCustomItem(_list));
 
             return droppyBuilder.Build();
         }

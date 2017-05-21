@@ -15,6 +15,7 @@ using GalaSoft.MvvmLight.Helpers;
 using MALClient.Android.BindingConverters;
 using MALClient.Android.Listeners;
 using MALClient.Android.Resources;
+using MALClient.Models.Enums;
 using MALClient.Models.Models.MalSpecific;
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Main;
@@ -23,10 +24,13 @@ namespace MALClient.Android.Fragments.ArticlesPageFragments
 {
     public class ArticlesPageTabFragment : MalFragmentBase
     {
+        private readonly ArticlePageWorkMode _mode;
+        private bool _dataPopulated;
         private MalArticlesViewModel ViewModel;
 
-        public ArticlesPageTabFragment(bool initBindings) : base(initBindings)
+        public ArticlesPageTabFragment(bool initBindings,ArticlePageWorkMode mode) : base(initBindings)
         {
+            _mode = mode;
             ViewModel = ViewModelLocator.MalArticles;
         }
 
@@ -37,17 +41,20 @@ namespace MALClient.Android.Fragments.ArticlesPageFragments
 
         protected override void InitBindings()
         {
+
             Bindings.Add(
                 this.SetBinding(() => ViewModel.Articles).WhenSourceChanges(() =>
                 {
-                    ArticlesPageTabItemList.Adapter = ViewModel.Articles.GetAdapter(GetTemplateDelegate);
+                    if(_mode != ViewModel.PrevWorkMode || _dataPopulated)
+                        return;
+                    _dataPopulated = ViewModel.Articles.Any();
+                    ArticlesPageTabItemList.Adapter = ViewModel.Articles.GetAdapter(GetTemplateDelegate);                   
                 }));
 
             Bindings.Add(
                 this.SetBinding(() => ViewModel.ArticleIndexVisibility,
                     () => ArticlesPageTabItemList.Visibility).ConvertSourceToTarget(Converters.BoolToVisibility));
 
-            
         }
 
         private View GetTemplateDelegate(int i, MalNewsUnitModel malNewsUnitModel, View convertView)

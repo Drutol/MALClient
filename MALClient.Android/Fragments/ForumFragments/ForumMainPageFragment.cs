@@ -95,12 +95,16 @@ namespace MALClient.Android.Fragments.ForumFragments
                     ViewModel.PinnedBoards.CollectionChanged += (sender, args) => UpdatePinnedBoards();
                     UpdatePinnedBoards();
                 }));
+
+
         }
 
         private void UpdatePinnedBoards()
         {
             ForumsMainPagePinnedBoardsList.RemoveAllViews();
             ForumsMainPagePinnedBoardsList.SetAdapter(ViewModel.PinnedBoards.GetAdapter(GetTemplateDelegate));
+            ForumsMAinPagePinnedBoardEmptyNotice.Visibility =
+                ViewModel.PinnedBoards.Any() ? ViewStates.Gone : ViewStates.Visible;
         }
 
         private View GetTemplateDelegate(int i, ForumBoards forumBoards, View arg3)
@@ -168,6 +172,7 @@ namespace MALClient.Android.Fragments.ForumFragments
 
         private FrameLayout _forumsMainPagePinnedPostsButton;
         private LinearLayout _forumsMainPagePinnedBoardsList;
+        private TextView _forumsMAinPagePinnedBoardEmptyNotice;
         private FrameLayout _forumsMainPageMoreButton;
         private FrameLayout _forumsContentFrame;
 
@@ -175,9 +180,13 @@ namespace MALClient.Android.Fragments.ForumFragments
 
         public LinearLayout ForumsMainPagePinnedBoardsList => _forumsMainPagePinnedBoardsList ?? (_forumsMainPagePinnedBoardsList = FindViewById<LinearLayout>(Resource.Id.ForumsMainPagePinnedBoardsList));
 
+        public TextView ForumsMAinPagePinnedBoardEmptyNotice => _forumsMAinPagePinnedBoardEmptyNotice ?? (_forumsMAinPagePinnedBoardEmptyNotice = FindViewById<TextView>(Resource.Id.ForumsMAinPagePinnedBoardEmptyNotice));
+
         public FrameLayout ForumsMainPageMoreButton => _forumsMainPageMoreButton ?? (_forumsMainPageMoreButton = FindViewById<FrameLayout>(Resource.Id.ForumsMainPageMoreButton));
 
         public FrameLayout ForumsContentFrame => _forumsContentFrame ?? (_forumsContentFrame = FindViewById<FrameLayout>(Resource.Id.ForumsContentFrame));
+
+
 
 
         #endregion

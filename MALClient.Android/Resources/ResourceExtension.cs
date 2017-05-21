@@ -37,6 +37,7 @@ namespace MALClient.Android.Resources
                 //
                 BrushAnimeItemBackgroundRes = Resource.Color.DarkBrushAnimeItemBackground;
                 BrushNoSearchResultsRes = Resource.Color.DarkBrushNoSearchResults;
+                BrushNoSearchResults = ResourcesCompat.GetColor(MainActivity.CurrentContext.Resources, Resource.Color.DarkBrushNoSearchResults, null);
                 BrushFlyoutBackgroundRes = Resource.Color.DarkBrushFlyoutBackground;
                 BrushHamburgerBackgroundRes = Resource.Color.DarkBrushHamburgerBackground;
                 BrushRowAlternate1Res = Resource.Color.DarkBrushRowAlternate1;
@@ -58,6 +59,7 @@ namespace MALClient.Android.Resources
                 //
                 BrushAnimeItemBackgroundRes = Resource.Color.LightBrushAnimeItemBackground;
                 BrushNoSearchResultsRes = Resource.Color.LightBrushNoSearchResults;
+                BrushNoSearchResults = ResourcesCompat.GetColor(MainActivity.CurrentContext.Resources, Resource.Color.LightBrushNoSearchResults, null);
                 BrushFlyoutBackgroundRes = Resource.Color.LightBrushFlyoutBackground;
                 BrushHamburgerBackgroundRes = Resource.Color.LightBrushHamburgerBackground;
                 BrushRowAlternate1Res = Resource.Color.LightBrushRowAlternate1;
@@ -167,6 +169,7 @@ namespace MALClient.Android.Resources
 
         public static readonly int BrushText;
         public static readonly int BrushSelectedDialogItem;
+        public static int BrushNoSearchResults;
 
         public static readonly string FontSizeLight =
             MainActivity.CurrentContext.Resources.GetString(Resource.String.font_family_light);
@@ -209,6 +212,5 @@ namespace MALClient.Android.Resources
                 return _selectableItemBackground.Value;
             }
         }
-
     }
 }

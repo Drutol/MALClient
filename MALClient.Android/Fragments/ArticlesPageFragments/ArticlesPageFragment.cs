@@ -8,6 +8,7 @@ using Android.Support.V4.View;
 using Android.Webkit;
 using Android.Widget;
 using Com.Astuetz;
+using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Helpers;
 using MALClient.Android.BindingConverters;
 using MALClient.Android.PagerAdapters;
@@ -74,10 +75,11 @@ namespace MALClient.Android.Fragments.ArticlesPageFragments
         private int _currentId;
         private async void ViewModelOnOpenWebView(string html, MalNewsUnitModel item)
         {
-            ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageArticles,
-                item.Type == MalNewsType.Article
-                    ? MalArticlesPageNavigationArgs.Articles
-                    : MalArticlesPageNavigationArgs.News);
+            ViewModelLocator.NavMgr.RegisterOneTimeOverride(new RelayCommand(() =>
+            {
+                ViewModel.WebViewVisibility = false;
+                ViewModel.ArticleIndexVisibility = true;
+            }));
             _currentId = ViewModel.Articles.IndexOf(item);
             ArticlesPageWebView.LoadDataWithBaseURL(null,ResourceLocator.CssManager.WrapWithCss(html), "text/html; charset=utf-8", "UTF-8",null);
         }

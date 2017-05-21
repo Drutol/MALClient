@@ -226,8 +226,8 @@ namespace MALClient.Android.ViewModels
                 case PageIndex.PageArticles:
                 case PageIndex.PageNews:
                     HideSearchStuff();
-                    RefreshButtonVisibility = true;
-                    RefreshDataCommand = new RelayCommand(() => ViewModelLocator.MalArticles.Init(null));
+                    //RefreshButtonVisibility = true;
+                    //RefreshDataCommand = new RelayCommand(() => ViewModelLocator.MalArticles.Init(null));
                     //if (CurrentMainPage == PageIndex.PageArticles)
                     //    ViewModelLocator.MalArticles.Init(args as MalArticlesPageNavigationArgs);
                     //else

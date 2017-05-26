@@ -53,7 +53,7 @@ namespace MALClient.XShared.ViewModels
 
         protected void AnimeListOnInitialized()
         {
-            ViewModelLocator.AnimeList.Initialized += AnimeListOnInitialized;
+            ViewModelLocator.AnimeList.Initialized -= AnimeListOnInitialized;
             _subscribed = false;
             if (_postponedNavigationArgs != null)
                 Navigate(_postponedNavigationArgs.Item1, _postponedNavigationArgs.Item2);

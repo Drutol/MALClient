@@ -61,7 +61,7 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
                         ViewModel.CurrentData.Friends.GetAdapter(GetFriendTemplateDelegate);
 
                     ProfilePageGeneralTabCommentsList.RemoveAllViews();
-                    if(ProfilePageGeneralTabScrollingContainer.ScrollY > 0)
+                    if(ProfilePageGeneralTabScrollingContainer.ScrollY > 0 || Build.VERSION.SdkInt < BuildVersionCodes.M)
                         PopulateComments();
                     else
                         ProfilePageGeneralTabScrollingContainer.SetOnScrollChangeListener(new ScrollListener(i =>

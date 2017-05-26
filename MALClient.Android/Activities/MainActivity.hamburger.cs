@@ -41,7 +41,6 @@ namespace MALClient.Android.Activities
         private View _accountHamburgerView;
         private bool _selectedProfileItem;
         private bool _selectedSettingsItem;
-        private bool _bindingInitialized;
         private DroppyMenuPopup _supportMenu;
         private View _settingsHamburgerView;
         private View _footerView;

@@ -58,13 +58,21 @@ namespace MALClient.Android.Fragments
 
             WallpapersPageList.InjectFlingAdapter(_wallpapers,DataTemplateFull,DataTemplateFling,ContainerTemplate,DataTemplateBasic  );
 
-            WallpapersPageList.SetOnScrollChangeListener(new ScrollListener(i =>
+            if (Build.VERSION.SdkInt < BuildVersionCodes.M)
             {
-                if(WallpapersPageList.Adapter.Count - WallpapersPageList.FirstVisiblePosition <= 2)
-                    WallpapersPageActionButtonLoadMore.Show();
-                else
-                    WallpapersPageActionButtonLoadMore.Hide();
-            }));
+                WallpapersPageActionButtonLoadMore.Show();
+            }
+            else
+            {
+                WallpapersPageList.SetOnScrollChangeListener(new ScrollListener(i =>
+                {
+                    if (WallpapersPageList.Adapter.Count - WallpapersPageList.FirstVisiblePosition <= 2)
+                        WallpapersPageActionButtonLoadMore.Show();
+                    else
+                        WallpapersPageActionButtonLoadMore.Hide();
+                }));
+            }
+
                         
             Bindings.Add(this.SetBinding(() => ViewModel.Wallpapers)
                 .WhenSourceChanges(() =>

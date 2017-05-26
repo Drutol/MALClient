@@ -192,24 +192,26 @@ namespace MALClient.Android
             }
         }
 
-        public static void HandleScaling(this ImageViewAsync image,float threshold = .4f)
+        public static ImageView.ScaleType HandleScaling(this ImageViewAsync image,float threshold = .4f)
         {
             var bounds = image.Drawable.Bounds;
             if (bounds.Right == 0 || image.Width == 0)
             {
                 image.SetScaleType(ImageView.ScaleType.CenterCrop);
-
+                return  ImageView.ScaleType.CenterCrop;
             }
             if (
                 Math.Abs(image.Height / (float)image.Width -
                          bounds.Bottom / (float)bounds.Right) > threshold)
             {
                 image.SetScaleType(ImageView.ScaleType.FitCenter);
+                return ImageView.ScaleType.FitCenter;
 
             }
             else
             {
                 image.SetScaleType(ImageView.ScaleType.CenterCrop);
+                return ImageView.ScaleType.CenterCrop;
             }
         }
 

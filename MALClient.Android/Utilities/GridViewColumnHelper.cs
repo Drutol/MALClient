@@ -6,6 +6,7 @@ using Android.Views;
 using Android.Widget;
 using MALClient.Android.Activities;
 using MALClient.XShared.Comm.Anime;
+using Orientation = Android.Content.Res.Orientation;
 
 namespace MALClient.Android
 {
@@ -13,34 +14,27 @@ namespace MALClient.Android
     {
         private static readonly int DefaultPrefferedItemWidth = MainActivity.CurrentContext.Resources.DisplayMetrics.Density >= 2 ? 190 : 200;
         private readonly List<GridView> _grids;
-        private int _prefferedItemWidth;
 
         public int LastColmuns { get;  private set; }
 
-        private int _minColumns;
-        public int MinColumns
-        {
-            get { return _minColumns; }
-            set { _minColumns = value; }
-        }
+        public int MinColumns { get; set; }
+        public int? MinColumnsLandscape { get; set; }
+        public int MinColumnsPortrait { get; set; }
 
-        public int PrefferedItemWidth
-        {
-            get { return _prefferedItemWidth; }
-            set { _prefferedItemWidth = value; }
-        }
+        public int PrefferedItemWidth { get; set; }
 
-        public GridViewColumnHelper(GridView view,int? prefferedWidthDp = null,int? minCollumns = null)
+        public GridViewColumnHelper(GridView view,int? prefferedWidthDp = null,int? minColumnsPortrait = null,int? minColumnsInLandscape = null)
         {
-            _prefferedItemWidth = prefferedWidthDp ?? DefaultPrefferedItemWidth;
-            _minColumns = minCollumns ?? 2;
+            PrefferedItemWidth = prefferedWidthDp ?? DefaultPrefferedItemWidth;
+            MinColumnsPortrait = minColumnsPortrait ?? 2;
+            MinColumnsLandscape = minColumnsInLandscape;
             _grids = new List<GridView> {view};
             OnConfigurationChanged(MainActivity.CurrentContext.Resources.Configuration);
         }
 
         public GridViewColumnHelper(int? prefferedWidthDp = null)
         {
-            _prefferedItemWidth = prefferedWidthDp ?? DefaultPrefferedItemWidth;
+            PrefferedItemWidth = prefferedWidthDp ?? DefaultPrefferedItemWidth;
             _grids = new List<GridView>();
         }
 
@@ -56,8 +50,8 @@ namespace MALClient.Android
         private int GetColumns(Configuration newConfig)
         {
             var width = newConfig.ScreenWidthDp;
-            var columns = width / _prefferedItemWidth;
-            columns = columns < _minColumns ? _minColumns : columns;
+            var columns = width / PrefferedItemWidth;
+            columns = columns < MinColumns ? MinColumns : columns;
             LastColmuns = columns;
             return columns;
         }
@@ -66,7 +60,7 @@ namespace MALClient.Android
         {
             grid.SetNumColumns(columns);
             var param = grid.LayoutParameters;
-            param.Width = DimensionsHelper.DpToPx(_prefferedItemWidth) * columns;
+            param.Width = DimensionsHelper.DpToPx(PrefferedItemWidth) * columns;
             if (param.Width < 0)
                 param.Width = ViewGroup.LayoutParams.MatchParent;
             if(param.Width > DimensionsHelper.DpToPx(config.ScreenWidthDp))
@@ -76,6 +70,11 @@ namespace MALClient.Android
 
         public void OnConfigurationChanged(Configuration newConfig)
         {
+            if (newConfig.Orientation == Orientation.Landscape && MinColumnsLandscape.HasValue)
+                MinColumns = MinColumnsLandscape.Value;
+            else
+                MinColumns = MinColumnsPortrait;
+
             var columns = GetColumns(newConfig);
             _grids.ForEach(grid =>
             {

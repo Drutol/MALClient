@@ -55,7 +55,7 @@ namespace MALClient.Android.Fragments
                 this.SetBinding(() => ViewModel.Loading,
                     () => PromoVideosPageLoadingSpinner.Visibility).ConvertSourceToTarget(Converters.BoolToVisibility));
 
-            _helper = new GridViewColumnHelper(PromoVideosPageGridView);
+            _helper = new GridViewColumnHelper(PromoVideosPageGridView,null,2,3);
 
             Bindings.Add(this.SetBinding(() => ViewModel.Videos).WhenSourceChanges(() =>
             {

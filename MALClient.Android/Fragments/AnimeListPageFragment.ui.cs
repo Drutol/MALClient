@@ -210,7 +210,7 @@ namespace MALClient.Android.Fragments
                     
                     AnimeListPageGridView.InjectAnimeListAdapterWithFooter(Context, ViewModel.AnimeGridItems, AnimeListDisplayModes.IndefiniteGrid, _loadMoreFooter, AnimeListPageGridViewOnItemClick);
                     
-                    _gridViewColumnHelper = new GridViewColumnHelper(AnimeListPageGridView);
+                    _gridViewColumnHelper = new GridViewColumnHelper(AnimeListPageGridView,null,2,3);
                     //if row is not full we have to make this footer item bigger in order to avoid cutting of last row of items
 
                     SwipeRefreshLayout.ScrollingView = AnimeListPageGridView;

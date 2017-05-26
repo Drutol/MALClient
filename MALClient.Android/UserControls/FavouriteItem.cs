@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -31,6 +32,8 @@ namespace MALClient.Android.UserControls
 
         private FrameLayout _rootContainer;
         private FavouriteViewModel ViewModel;
+
+        private static readonly ConcurrentDictionary<string, ImageView.ScaleType> ScaleTypes = new ConcurrentDictionary<string, ImageView.ScaleType>();
 
         #region Contructors
 
@@ -90,10 +93,19 @@ namespace MALClient.Android.UserControls
                 {
                     FavouriteItemImage.Visibility = ViewStates.Invisible;
                     FavouriteItemImgPlaceholder.Visibility = ViewStates.Gone;
-                    FavouriteItemImage.Into(model.Data.ImgUrl, null, img =>
+                    if (ScaleTypes.TryGetValue(model.Data.ImgUrl, out ImageView.ScaleType type))
                     {
-                        img.HandleScaling();
-                    });
+                        FavouriteItemImage.SetScaleType(type);
+                        FavouriteItemImage.Into(model.Data.ImgUrl);
+                    }
+                    else
+                    {
+                        FavouriteItemImage.Into(model.Data.ImgUrl, null, img =>
+                        {
+                            ScaleTypes[model.Data.ImgUrl] = img.HandleScaling();
+                        });
+                    }
+  
                     FavouriteItemNoImageIcon.Visibility = ViewStates.Gone;
                 }
 
@@ -115,17 +127,19 @@ namespace MALClient.Android.UserControls
                     {
                         FavouriteItemImage.Visibility = ViewStates.Visible;
                         FavouriteItemImgPlaceholder.Visibility = ViewStates.Gone;
-                    }
-                    else
-                    {
-                        FavouriteItemImage.Visibility = ViewStates.Invisible;
-                        FavouriteItemImgPlaceholder.Visibility = ViewStates.Visible;
+                        if (ScaleTypes.TryGetValue(model.Data.ImgUrl, out ImageView.ScaleType type))
+                            FavouriteItemImage.SetScaleType(type);
+                        else
+                        {
+                            FavouriteItemImage.Visibility = ViewStates.Invisible;
+                            FavouriteItemImgPlaceholder.Visibility = ViewStates.Visible;
+                        }
+
                     }
 
+                    FavouriteItemName.Text = model.Data.Name;
+                    FavouriteItemRole.Text = model.Data.Notes;
                 }
-
-                FavouriteItemName.Text = model.Data.Name;
-                FavouriteItemRole.Text = model.Data.Notes;
             }
 
         }

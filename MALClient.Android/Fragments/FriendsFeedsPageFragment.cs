@@ -42,7 +42,7 @@ namespace MALClient.Android.Fragments
                 this.SetBinding(() => ViewModel.Loading,
                     () => FriendsFeedsPageLoadingSpinner.Visibility).ConvertSourceToTarget(Converters.BoolToVisibility));
 
-            _gridViewColumnHelper = new GridViewColumnHelper(FriendsFeedsPageGridView);
+            _gridViewColumnHelper = new GridViewColumnHelper(FriendsFeedsPageGridView,null,2,3);
 
             Bindings.Add(this.SetBinding(() => ViewModel.Feeds).WhenSourceChanges(() =>
             {

@@ -24,7 +24,7 @@ namespace MALClient.Android.Fragments.CalendarFragments
     public class CalendarPageSummaryTabFragment : MalFragmentBase
     {
         private readonly List<Tuple<string, List<AnimeItemViewModel>>> _items;
-        private readonly GridViewColumnHelper _gridViewColumnHelper = new GridViewColumnHelper() {MinColumns = 2};
+        private readonly GridViewColumnHelper _gridViewColumnHelper = new GridViewColumnHelper {MinColumnsLandscape = 3, MinColumnsPortrait = 2};
         private static readonly TimeZoneInfo _jstTimeZone = TimeZoneInfo.CreateCustomTimeZone("JST", TimeSpan.FromHours(9), "JST", "JST");
 
         public CalendarPageSummaryTabFragment(List<Tuple<string, List<AnimeItemViewModel>>> items)

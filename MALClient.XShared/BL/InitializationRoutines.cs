@@ -20,6 +20,7 @@ namespace MALClient.XShared.BL
     {
         public static void InitApp()
         {
+            ResourceLocator.ConnectionInfoProvider.Init();
             Credentials.Init();
             HtmlClassMgr.Init();
             FavouritesManager.LoadData();

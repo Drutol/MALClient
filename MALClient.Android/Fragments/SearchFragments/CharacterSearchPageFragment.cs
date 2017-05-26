@@ -32,7 +32,7 @@ namespace MALClient.Android.Fragments.SearchFragments
         {
             CharacterSearchPageList.InjectFlingAdapter(ViewModel.FoundCharacters, DataTemplateFull, DataTemplateFling,
                 ContainerTemplate);
-            _gridViewColumnHelper = new GridViewColumnHelper(CharacterSearchPageList);
+            _gridViewColumnHelper = new GridViewColumnHelper(CharacterSearchPageList,null,2,3);
 
             
             Bindings.Add(

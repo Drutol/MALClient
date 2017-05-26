@@ -25,6 +25,7 @@ using MALClient.Android.UserControls;
 using MALClient.Models.Models.AnimeScrapped;
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Details;
+using Debug = System.Diagnostics.Debug;
 using Orientation = Android.Content.Res.Orientation;
 
 namespace MALClient.Android.Fragments.AnimeDetailsPageTabs
@@ -139,6 +140,7 @@ namespace MALClient.Android.Fragments.AnimeDetailsPageTabs
             var img = view.FindViewById<ImageViewAsync>(Resource.Id.AnimeRecomItemImage);
             if (img.Tag == null || (string) img.Tag != animeRecomData.ImageUrl)
             {
+                Debug.WriteLine(animeRecomData.ImageUrl);
                 img.Into(animeRecomData.ImageUrl);
             }
             else

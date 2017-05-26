@@ -35,11 +35,13 @@ namespace MALClient.XShared.Utils
     {
         private static readonly IDataCache DataCacheService;
         private static readonly IApplicationDataService ApplicationDataService;
+        private static readonly IConnectionInfoProvider ConnectionInfoProvider;
 
         static DataCache()
         {
             DataCacheService = ResourceLocator.DataCacheService;
             ApplicationDataService = ResourceLocator.ApplicationDataService;
+            ConnectionInfoProvider = ResourceLocator.ConnectionInfoProvider;
             LoadVolatileData();
             LoadSeasonalurls();
             RetrieveHumMalIdDictionary();      
@@ -165,17 +167,12 @@ namespace MALClient.XShared.Utils
 
         private static bool CheckForOldData(DateTime timestamp)
         {
+            if (!ConnectionInfoProvider.HasInternetConnection)
+                return true;
+
             var diff = DateTime.Now.ToUniversalTime().Subtract(timestamp);
             var roamingUpdate = ApplicationDataService[RoamingDataTypes.LastLibraryUpdate] as long?;
             if (diff.TotalSeconds > Settings.CachePersitence || (roamingUpdate != null && timestamp < DateTime.FromBinary(roamingUpdate.Value)))
-                return false;
-            return true;
-        }
-
-        private static bool CheckForOldDataSeason(DateTime date)
-        {
-            var diff = DateTime.Now.ToUniversalTime().Subtract(date);
-            if (diff.TotalSeconds > 86400) //1day
                 return false;
             return true;
         }
@@ -337,14 +334,6 @@ namespace MALClient.XShared.Utils
                 //No file
             }
             return null;
-        }
-
-        private static bool CheckForOldDataDetails(DateTime date, int days = 7)
-        {
-            var diff = DateTime.Now.ToUniversalTime().Subtract(date);
-            if (diff.TotalDays >= days)
-                return false;
-            return true;
         }
 
         #endregion

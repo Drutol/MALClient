@@ -166,7 +166,7 @@ namespace MALClient.XShared.ViewModels.Main
             List<AnimeItemAbstraction> idsToFetch = new List<AnimeItemAbstraction>();
             List<AnimeItemAbstraction> idsToFetchAiringTime = new List<AnimeItemAbstraction>();
 
-            var abstractions = _animeLibraryDataStorage.AllLoadedAnimeItemAbstractions.Where(
+            var abstractions = _animeLibraryDataStorage.AllLoadedAuthAnimeItems.Where(
                 abstraction => abstraction.Type == (int) AnimeType.TV && (
                                    (Settings.CalendarIncludePlanned &&
                                     abstraction.MyStatus == AnimeStatus.PlanToWatch) ||

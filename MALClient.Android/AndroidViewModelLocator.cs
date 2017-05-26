@@ -53,6 +53,8 @@ namespace MALClient.Android
             SimpleIoc.Default.Register<ICssManager, CssManager>();
             SimpleIoc.Default.Register<IChangeLogProvider, ChangelogProvider>();
             SimpleIoc.Default.Register<IMalHttpContextProvider, MalHttpContextProvider>();
+            SimpleIoc.Default.Register<ISnackbarProvider, SnackbarProvider>();
+            SimpleIoc.Default.Register<IConnectionInfoProvider, ConnectionInfoProvider>();
 
         }
 

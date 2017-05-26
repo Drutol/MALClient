@@ -46,6 +46,10 @@ namespace MALClient.XShared.ViewModels
 
         public static IMalHttpContextProvider MalHttpContextProvider => SimpleIoc.Default.GetInstance<IMalHttpContextProvider>();
 
+        public static ISnackbarProvider SnackbarProvider => SimpleIoc.Default.GetInstance<ISnackbarProvider>();
+
+        public static IConnectionInfoProvider ConnectionInfoProvider => SimpleIoc.Default.GetInstance<IConnectionInfoProvider>();
+
 
         // Purely shared interfaces
 

@@ -57,6 +57,7 @@
     <Compile Include="ICalendarExportProvider.cs" />
     <Compile Include="IChangeLogProvider.cs" />
     <Compile Include="IClipboardProvider.cs" />
+    <Compile Include="IConnectionInfoProvider.cs" />
     <Compile Include="ICssManager.cs" />
     <Compile Include="IDataCache.cs" />
     <Compile Include="IImageDownloaderService.cs" />
@@ -65,6 +66,7 @@
     <Compile Include="INotificationsTaskManager.cs" />
     <Compile Include="IPinTileService.cs" />
     <Compile Include="ISchdeuledJobsManger.cs" />
+    <Compile Include="ISnackbarProvider.cs" />
     <Compile Include="ISyetemControlLuancherService.cs" />
     <Compile Include="ITelemetryProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

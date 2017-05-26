@@ -14,6 +14,13 @@ namespace MALClient.Android.Adapters
 {
     public class DataCache : IDataCache
     {
+        private readonly IConnectionInfoProvider _connectionInfoProvider;
+
+        public DataCache(IConnectionInfoProvider connectionInfoProvider)
+        {
+            _connectionInfoProvider = connectionInfoProvider;
+        }
+
         public async Task SaveData<T>(T data, string filename, string targetFolder)
         {
             try
@@ -65,9 +72,9 @@ namespace MALClient.Android.Adapters
 
 
                 var tuple = JsonConvert.DeserializeObject<Tuple<DateTime, T>>(text.ToString());
-                
-                return tuple.Item2;
-               
+                return expiration >= 1
+                    ? CheckForOldData(tuple.Item1, expiration) ? tuple.Item2 : default(T)
+                    : tuple.Item2;       
             }
             catch (Exception e)
             {
@@ -131,11 +138,6 @@ namespace MALClient.Android.Adapters
 
         public async Task ClearAnimeListData()
         {
-            //var files = await ApplicationData.Current.LocalFolder.GetFilesAsync(CommonFileQuery.DefaultQuery);
-            //foreach (var listFile in files.Where(storageFile => storageFile.Name.Contains("_data_")))
-            //{
-            //    await listFile.DeleteAsync(StorageDeleteOption.PermanentDelete);
-            //}
             try
             {
                 var root = new File(Application.Context.GetExternalFilesDir(null).Path);
@@ -151,15 +153,16 @@ namespace MALClient.Android.Adapters
             }
         }
 
-        private static bool CheckForOldData(DateTime date, int days = 7)
+        private  bool CheckForOldData(DateTime date, int days = 7)
         {
+            if (!_connectionInfoProvider?.HasInternetConnection ?? false)
+                return true;
+
             var diff = DateTime.Now.ToUniversalTime().Subtract(date);
             if (diff.TotalDays >= days)
                 return false;
             return true;
         }
-
-
         
     }
 }

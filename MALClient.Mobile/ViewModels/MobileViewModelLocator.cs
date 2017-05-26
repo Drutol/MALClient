@@ -40,6 +40,7 @@ namespace MALClient.UWP.ViewModels
             SimpleIoc.Default.Register<ISchdeuledJobsManger, ScheduledJobsManager>();
             SimpleIoc.Default.Register<ICssManager, CssManager>();
             SimpleIoc.Default.Register<IMalHttpContextProvider, MalHttpContextProvider>();
+            SimpleIoc.Default.Register<IConnectionInfoProvider, ConnectionInfoProvider>();
 
             ViewModelLocator.Mobile = true;
         }

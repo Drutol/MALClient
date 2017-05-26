@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using MALClient.Models.Enums;
 using MALClient.XShared.Comm.MagicalRawQueries;
 using MALClient.XShared.Utils;
+using MALClient.XShared.ViewModels;
 using ModernHttpClient;
 
 namespace MALClient.XShared.Comm
@@ -61,8 +62,13 @@ namespace MALClient.XShared.Comm
             }
             catch (Exception e)
             {
+                ResourceLocator.ConnectionInfoProvider.HasInternetConnection = false;
 
+#if ANDROID
+                ResourceLocator.SnackbarProvider.ShowText("Operation failed, check your internet connection...");
+#endif
             }
+            ResourceLocator.ConnectionInfoProvider.HasInternetConnection = true;
             return responseString;
         }
     }

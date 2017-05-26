@@ -10,6 +10,13 @@ namespace MALClient.UWP.Adapters
 {
     public class DataCache : IDataCache
     {
+        private readonly IConnectionInfoProvider _connectionInfoProvider;
+
+        public DataCache(IConnectionInfoProvider connectionInfoProvider)
+        {
+            _connectionInfoProvider = connectionInfoProvider;
+        }
+
         public async Task SaveData<T>(T data, string filename, string targetFolder)
         {
             var folder = string.IsNullOrEmpty(targetFolder)
@@ -93,8 +100,11 @@ namespace MALClient.UWP.Adapters
             }
         }
 
-        private static bool CheckForOldData(DateTime date, int days = 7)
+        private bool CheckForOldData(DateTime date, int days = 7)
         {
+            if (!_connectionInfoProvider?.HasInternetConnection ?? false)
+                return true;
+
             var diff = DateTime.Now.ToUniversalTime().Subtract(date);
             if (diff.TotalDays >= days)
                 return false;

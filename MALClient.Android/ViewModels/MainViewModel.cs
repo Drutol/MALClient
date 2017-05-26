@@ -142,10 +142,20 @@ namespace MALClient.Android.ViewModels
                         _wasOnDetailsFromSearch = false;
                         UnToggleSearchStuff();
                     }
+
+                    var alargs = args as AnimeListPageNavigationArgs;
+
                     if (CurrentMainPage == PageIndex.PageAnimeList)
                         ViewModelLocator.AnimeList.Init(args as AnimeListPageNavigationArgs);
                     else
-                        MainNavigationRequested?.Invoke(AnimeListPageFragment.BuildInstance(args));
+                        MainNavigationRequested?.Invoke(new AnimeListPageFragment(args as AnimeListPageNavigationArgs));
+
+                    if (alargs != null && (alargs.WorkMode == AnimeListWorkModes.Manga && alargs.ResetBackNav))
+                    {
+                        ViewModelLocator.NavMgr.DeregisterBackNav();
+                        ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageAnimeList, null);
+                    }
+
                     break;
                 case PageIndex.PageAnimeDetails:
                     HideSearchStuff();

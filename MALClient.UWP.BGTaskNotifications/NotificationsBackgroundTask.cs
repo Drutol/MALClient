@@ -51,7 +51,7 @@ namespace MALClient.UWP.BGTaskNotifications
                     ResourceLocator.RegisterAppDataServiceAdapter(new ApplicationDataServiceService());
                     ResourceLocator.RegisterPasswordVaultAdapter(new PasswordVaultProvider());
                     ResourceLocator.RegisterMessageDialogAdapter(new MessageDialogProvider());
-                    ResourceLocator.RegisterDataCacheAdapter(new Adapters.DataCache());
+                    ResourceLocator.RegisterDataCacheAdapter(new Adapters.DataCache(null));
                     Credentials.Init();
                 }
             }

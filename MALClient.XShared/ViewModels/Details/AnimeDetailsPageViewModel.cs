@@ -1216,7 +1216,7 @@ namespace MALClient.XShared.ViewModels.Details
                 NoRecommDataNoticeVisibility = true;
                 return;
             }
-                Recommendations.AddRange(recomm);
+            Recommendations.AddRange(recomm);
             NoRecommDataNoticeVisibility = Recommendations.Count <= 0;
             LoadingRecommendations = false;
         }

@@ -36,26 +36,23 @@ namespace MALClient.Android.Fragments
 {
 
     public partial class AnimeListPageFragment
-    {
-        
-
-        private static AnimeListPageNavigationArgs _prevArgs;
+    {      
+        private AnimeListPageNavigationArgs _prevArgs;
 
         private AnimeListViewModel ViewModel = ViewModelLocator.AnimeList;
         private GridViewColumnHelper _gridViewColumnHelper;
         private static Drawer _rightDrawer;
 
+        public AnimeListPageFragment(AnimeListPageNavigationArgs args)
+        {
+            _prevArgs = args;
+        }
 
         public override int LayoutResourceId => Resource.Layout.AnimeListPage;
 
         protected override void Init(Bundle savedInstanceState)
         {
-            ViewModelLocator.AnimeList.Init(_prevArgs);
-            if (_prevArgs != null && _prevArgs.WorkMode == AnimeListWorkModes.Manga)
-            {
-                ViewModelLocator.NavMgr.DeregisterBackNav();
-                ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageAnimeList, null);
-            }        
+            ViewModelLocator.AnimeList.Init(_prevArgs);     
         }
 
         private void CurrentContextOnHamburgerOpened(object o, EventArgs eventArgs)
@@ -106,12 +103,6 @@ namespace MALClient.Android.Fragments
             _loadMoreFooter.LayoutParameters = footerParam;
             InitActionMenu();
 
-        }
-
-        public static AnimeListPageFragment BuildInstance(object args)
-        {
-            _prevArgs = args as AnimeListPageNavigationArgs;
-            return new AnimeListPageFragment();
         }
 
         #region SortingFilterHamburgers

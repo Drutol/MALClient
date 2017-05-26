@@ -312,11 +312,15 @@ namespace MALClient.XShared.ViewModels.Main
                         {
                             AppbarBtnPinTileVisibility = false;
                             AppBtnSortingVisibility = true;
+                            AnimeItemsDisplayContext = AnimeItemDisplayContext.Index;
                         }
                         else
+                        {
                             AppbarBtnPinTileVisibility = AppBtnSortingVisibility = true;
+                            AnimeItemsDisplayContext = AnimeItemDisplayContext.AirDay;
+                        }
 
-                        AnimeItemsDisplayContext = AnimeItemDisplayContext.AirDay;
+                        
                     }
                     break;
                 default:
@@ -904,7 +908,7 @@ namespace MALClient.XShared.ViewModels.Main
                         ? new AnimeGenreStudioQuery(Studio, page)
                         : new AnimeGenreStudioQuery(Genre, page);
                     List<SeasonalAnimeData> sResponse = null;
-                    await Task.Run(async () => await query.GetAnime());
+                    await Task.Run(async () => sResponse = await query.GetAnime());
                     data.AddRange(sResponse ?? new List<SeasonalAnimeData>());
                     break;
                 default:
@@ -1187,9 +1191,9 @@ namespace MALClient.XShared.ViewModels.Main
                 else if (WorkMode == AnimeListWorkModes.TopManga)
                     page.CurrentStatus = $"Top Manga - {Utils.Utilities.StatusToString((int)GetDesiredStatus(), WorkMode == AnimeListWorkModes.Manga)}";
                 else if (WorkMode == AnimeListWorkModes.AnimeByStudio)
-                    page.CurrentStatus = $"Studio - {Studio.GetDescription()} Page 1 - {CurrentPage}";
+                    page.CurrentStatus = $"Studio - {Studio.GetDescription()}"; //Page 1 - {CurrentPage}
                 else if (WorkMode == AnimeListWorkModes.AnimeByGenre)
-                    page.CurrentStatus = $"Genre - {Genre.GetDescription()} Page 1 - {CurrentPage}";
+                    page.CurrentStatus = $"Genre - {Genre.GetDescription()}"; //Page 1 - {CurrentPage}
                 else if (!string.IsNullOrWhiteSpace(ListSource))
                     page.CurrentStatus = $"{ListSource} - {Utils.Utilities.StatusToString((int)GetDesiredStatus(), WorkMode == AnimeListWorkModes.Manga)}";
                 else

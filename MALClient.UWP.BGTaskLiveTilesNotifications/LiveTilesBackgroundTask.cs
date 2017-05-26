@@ -19,7 +19,7 @@ namespace MALClient.UWP.BGTaskLiveTilesNotifications
             try
             {
                 ResourceLocator.RegisterAppDataServiceAdapter(new ApplicationDataServiceService());
-                ResourceLocator.RegisterDataCacheAdapter(new DataCache());
+                ResourceLocator.RegisterDataCacheAdapter(new DataCache(null));
                 ResourceLocator.RegisterMessageDialogAdapter(new MessageDialogProvider());
             }
             catch (Exception)

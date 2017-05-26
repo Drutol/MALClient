@@ -7,6 +7,7 @@ namespace Com.Shehabic.Droppy
     {
         public static event EventHandler<Action> OverrideRequested;
         public static event EventHandler ResetOverrideRequested;
+        public event EventHandler OnHiddenWithoutSelection;
 
         class FlyoutDismissListener : Java.Lang.Object, IOnDismissCallback
         {
@@ -25,17 +26,23 @@ namespace Com.Shehabic.Droppy
 
         public static float RequestedElevation { get; set; } = 0;
 
+
         public void Show()
         {
             ShowBase();
             MenuView.Elevation = RequestedElevation;
-            OverrideRequested.Invoke(this,() => Dismiss(true));
+            OverrideRequested.Invoke(this, () =>
+            {
+                Dismiss(true);
+                OnHiddenWithoutSelection?.Invoke(this,EventArgs.Empty);
+            });
             MOnDismissCallback = new FlyoutDismissListener(() => ResetOverrideRequested.Invoke(this,EventArgs.Empty));
         }
 
         public void Dismiss(bool animated)
         {
-            ResetOverrideRequested.Invoke(this,EventArgs.Empty);
+            if(OnHiddenWithoutSelection == null)
+                ResetOverrideRequested.Invoke(this,EventArgs.Empty);
             DismissBase(animated);
         }
 

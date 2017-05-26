@@ -45,6 +45,7 @@ namespace MALClient.Android.Fragments
 
         public override void OnResume()
         {
+            RootView.ViewTreeObserver.GlobalLayout += ViewTreeObserverOnGlobalLayout;
             MainActivity.CurrentContext.RequestedOrientation = ScreenOrientation.Portrait;
             base.OnResume();
         }
@@ -69,32 +70,34 @@ namespace MALClient.Android.Fragments
                     ViewModel.LogInCommand.Execute(null);
             }));
 
-            LoginPageRegisterButton.SetCommand(ViewModel.NavigateRegister);
-            LoginPageProblemsButton.SetCommand(ViewModel.ProblemsCommand);
+            LoginPageRegisterButton.SetOnClickListener(new OnClickListener(v => ViewModel.NavigateRegister.Execute(null)));
+            LoginPageProblemsButton.SetOnClickListener(new OnClickListener(v => ViewModel.ProblemsCommand.Execute(null)));
 
-            SignInButton.SetCommand(ViewModel.LogInCommand);
-            LoginPageLogOutButton.SetCommand(ViewModel.LogOutCommand);
-
-            RootView.ViewTreeObserver.GlobalLayout +=  async (sender, args) =>
-            {
-                Rect r = new Rect();
-                RootView.GetWindowVisibleDisplayFrame(r);
-                int keypadHeight = RootView.RootView.Height - r.Bottom;
-
-                if (keypadHeight > RootView.Height * 0.15)
-                {
-                    BottomButtonsSection.Visibility = ViewStates.Gone;
-                }
-                else
-                {
-                    await Task.Delay(100);
-                    BottomButtonsSection.Visibility = ViewStates.Visible;
-                }
-            };
+            SignInButton.SetOnClickListener(new OnClickListener(v=>ViewModel.LogInCommand.Execute(null)));
+            LoginPageLogOutButton.SetOnClickListener(new OnClickListener(v=>ViewModel.LogOutCommand.Execute(null)));
         }
+
+        private async void ViewTreeObserverOnGlobalLayout(object sender, EventArgs eventArgs)
+        {
+            Rect r = new Rect();
+            RootView.GetWindowVisibleDisplayFrame(r);
+            int keypadHeight = RootView.RootView.Height - r.Bottom;
+
+            if (keypadHeight > RootView.Height * 0.15)
+            {
+                BottomButtonsSection.Visibility = ViewStates.Gone;
+            }
+            else
+            {
+                await Task.Delay(100);
+                BottomButtonsSection.Visibility = ViewStates.Visible;
+            }
+        }
+
 
         protected override void Cleanup()
         {
+            RootView.ViewTreeObserver.GlobalLayout -= ViewTreeObserverOnGlobalLayout;
             MainActivity.CurrentContext.RequestedOrientation = ScreenOrientation.Unspecified;
             base.Cleanup();
         }

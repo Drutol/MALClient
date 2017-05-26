@@ -691,6 +691,19 @@ namespace MALClient.XShared.ViewModels.Details
             }
         }
 
+        private ICommand _copyToTitleClipboardCommand;
+
+        public ICommand CopyTitleToClipboardCommand
+        {
+            get
+            {
+                return _copyToTitleClipboardCommand ?? (_copyToTitleClipboardCommand = new RelayCommand(() =>
+                {
+                    _clipboardProvider.SetText(Title);
+                }));
+            }
+        }
+
         private string _detailImage;
 
         public string DetailImage

@@ -27,8 +27,10 @@ namespace MALClient.Android.Managers
         {
             if (_currentOverride != null)
             {
+                var over = _currentOverride;
                 _currentOverride.Execute(null);
-                _currentOverride = null;
+                if(_currentOverride == over)
+                    _currentOverride = null;
                 if (_randomNavigationStackMain.Count == 0)
                     ViewModelLocator.GeneralMain.NavigateMainBackButtonVisibility = false;
                 return;

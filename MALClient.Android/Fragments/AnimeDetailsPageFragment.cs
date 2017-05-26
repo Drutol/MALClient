@@ -228,6 +228,9 @@ namespace MALClient.Android.Fragments
                 case 6:
                     ViewModel.IsRewatching = !ViewModel.IsRewatching;
                     break;
+                case 7:
+                    ViewModel.CopyTitleToClipboardCommand.Execute(null);
+                    break;
             }
             _menu?.Dismiss(true);
             _menu = null;

@@ -109,7 +109,7 @@ namespace MALClient.XShared.ViewModels
             new SettingsPageEntry
             {
                 Header = "Notifications",
-                Subtitle = "Notifications types, pooling frequency...",
+                Subtitle = "Notifications types, polling frequency...",
                 Symbol = SettingsSymbolsEnum.Important,
                 PageType = SettingsPageIndex.Notifications
             },

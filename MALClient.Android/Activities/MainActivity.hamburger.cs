@@ -471,6 +471,10 @@ namespace MALClient.Android.Activities
                     _supportMenu = FlyoutMenuBuilder.BuildGenericFlyout(this, view,
                         new List<string> {"Feedback","Review","Donate","Turn on ads"}, OnSupportMenuSelection);
                     _supportMenu.Show();
+                    _supportMenu.OnHiddenWithoutSelection += (sender, args) =>
+                    {
+                        ViewModelLocator.NavMgr.RegisterOneTimeOverride(new RelayCommand(() => _drawer.CloseDrawer()));
+                    };
                     break;
             }
         }

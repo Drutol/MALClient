@@ -5,6 +5,7 @@ using System.Text;
 
 using Android.App;
 using Android.Content;
+using Android.Content.Res;
 using Android.OS;
 using Android.Runtime;
 using Android.Views;
@@ -32,7 +33,7 @@ namespace MALClient.Android.Fragments.DetailsFragments
         {
             AnimeDetailsPageCharactersTabGridView.DisableAdjust = true;
             AnimeDetailsPageCharactersTabLoadingSpinner.Visibility = ViewStates.Gone;
-            _gridViewColumnHelper = new GridViewColumnHelper(AnimeDetailsPageCharactersTabGridView,170);
+            _gridViewColumnHelper = new GridViewColumnHelper(AnimeDetailsPageCharactersTabGridView,170,2,3);
 
             Bindings.Add(this.SetBinding(() => ViewModel.Data).WhenSourceChanges(() =>
             {
@@ -94,6 +95,11 @@ namespace MALClient.Android.Fragments.DetailsFragments
 
         public override int LayoutResourceId => Resource.Layout.AnimeDetailsPageCharactersTab;
 
+        public override void OnConfigurationChanged(Configuration newConfig)
+        {
+            _gridViewColumnHelper.OnConfigurationChanged(newConfig);
+            base.OnConfigurationChanged(newConfig);
+        }
 
         #region Views
 

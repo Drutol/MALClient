@@ -57,7 +57,9 @@ namespace MALClient.UWP.BGTaskNotifications
             }
             catch (Exception)
             {
-               //may be already registered... voodoo I guess
+               //app is running so we don't check, checks are conducted in runtime manually
+               Defferal?.Complete();
+               return;
             }
 
 
@@ -143,7 +145,7 @@ namespace MALClient.UWP.BGTaskNotifications
 
             var allTriggeredNotifications = (string)(ApplicationData.Current.LocalSettings.Values[nameof(RoamingDataTypes.ReadNotifications)] ?? string.Empty);
             var triggeredNotifications = allTriggeredNotifications.Split(';').ToList();
-
+            var triggeredAny = false;
             //trigger new notifications
             foreach (var notification in notifications)
             {
@@ -151,6 +153,7 @@ namespace MALClient.UWP.BGTaskNotifications
                     continue;
 
                 triggeredNotifications.Add(notification.Id);
+                triggeredAny = true;
                 ScheduleToast(notification);
             }
             //remove old triggered entries
@@ -163,6 +166,9 @@ namespace MALClient.UWP.BGTaskNotifications
             }
 
             ApplicationData.Current.LocalSettings.Values[nameof(RoamingDataTypes.ReadNotifications)] = string.Join(";",presentNotifications);
+
+            if(triggeredAny)
+                Defferal?.Complete();
         }
 
         private async void ScheduleToast(MalNotification notification)

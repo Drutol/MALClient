@@ -41,7 +41,7 @@
                 </Style>
             </ResourceDictionary>
         </Grid.Resources>
-        <Grid Grid.Row="0" Margin="0,0,-16,0"
+        <Grid Grid.Row="0"
                     Visibility="Visible" Background="{ThemeResource BrushPivotInnerHeaderBarBackground}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>

@@ -30,7 +30,7 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Pivot x:Name="UpperNavBarPivot" Style="{StaticResource PivotHamburgerStyle}" HorizontalAlignment="Stretch"
-                   SelectionChanged="UpperNavBarPivotOnSelectionChanged">
+                   SelectionChanged="UpperNavBarPivotOnSelectionChanged" Background="{ThemeResource BrushPivotInnerHeaderBarBackground}">
             <Pivot.Resources>
                 <Style TargetType="PivotHeaderItem" BasedOn="{StaticResource PivotHeaderItemHamburgerStyle}" />
             </Pivot.Resources>

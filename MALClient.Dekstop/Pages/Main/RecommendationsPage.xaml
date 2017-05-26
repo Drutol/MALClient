@@ -105,7 +105,7 @@
                     </StackPanel>
                 </PivotItem.Header>
                 <Grid>
-                    <Pivot x:Name="InnerPivotAnime" Style="{StaticResource PivotStyleRecomm}" ItemsSource="{Binding RecommendationAnimeItems}"
+                    <Pivot x:Name="InnerPivotAnime" Style="{StaticResource PivotStyleRecomm}" ItemsSource="{Binding RecommendationAnimeItems}" Background="{ThemeResource BrushPivotInnerHeaderBarBackground}"
                            SelectedIndex="{Binding PivotItemIndex}" PivotItemLoading="Pivot_OnPivotItemLoading">
                         <Pivot.Resources>
                             <Style TargetType="PivotHeaderItem" BasedOn="{StaticResource PivotHeaderItemRecommStyle}" />
@@ -123,7 +123,7 @@
                         </Pivot.HeaderTemplate>
                         <Pivot.ItemTemplate>
                             <DataTemplate>
-                                <items:RecommendationItem DataContext="{Binding Content}" />
+                                <items:RecommendationItem  Margin="0,8,0,0" DataContext="{Binding Content}" />
                             </DataTemplate>
                         </Pivot.ItemTemplate>
                     </Pivot>
@@ -138,7 +138,7 @@
                     </StackPanel>
                 </PivotItem.Header>
                 <Grid>
-                    <Pivot x:Name="InnerPivotManga" Style="{StaticResource PivotStyleRecomm}" ItemsSource="{Binding RecommendationMangaItems}"
+                    <Pivot x:Name="InnerPivotManga" Style="{StaticResource PivotStyleRecomm}" ItemsSource="{Binding RecommendationMangaItems}" Background="{ThemeResource BrushPivotInnerHeaderBarBackground}"
                            SelectedIndex="{Binding PivotItemIndex}" PivotItemLoading="Pivot_OnPivotItemLoading" Loaded="InnerPivotManga_OnLoaded">
                         <Pivot.Resources>
                             <Style TargetType="PivotHeaderItem" BasedOn="{StaticResource PivotHeaderItemRecommStyle}" />
@@ -156,7 +156,7 @@
                         </Pivot.HeaderTemplate>
                         <Pivot.ItemTemplate>
                             <DataTemplate>
-                                <items:RecommendationItem DataContext="{Binding Content}" />
+                                <items:RecommendationItem Margin="0,8,0,0" DataContext="{Binding Content}" />
                             </DataTemplate>
                         </Pivot.ItemTemplate>
                     </Pivot>

@@ -51,14 +51,20 @@ namespace MALClient.Android.Fragments.DetailsFragments
 
             Bindings.Add(this.SetBinding(() => ViewModel.Data).WhenSourceChanges(() =>
             {
-                if(ViewModel.Data == null)
+                if (ViewModel.Data == null)
                     return;
 
-                if(!ViewModel.Data.ShowCharacterPairs.Any() && ViewModel.Data.StaffPositions.Any())
-                    PersonDetailsPagePivot.SetCurrentItem(1,false);
+                if (!ViewModel.Data.ShowCharacterPairs.Any() && ViewModel.Data.StaffPositions.Any())
+                    PersonDetailsPagePivot.SetCurrentItem(1, false);
 
                 PersonDetailsPageDescription.Text = string.Join("\n\n", ViewModel.Data.Details);
-                PersonDetailsPageImage.Into(ViewModel.Data.ImgUrl,null,img => img.HandleScaling());
+                if (string.IsNullOrWhiteSpace(ViewModel.Data.ImgUrl))
+                    PersonDetailsPageNoImgNotice.Visibility = ViewStates.Visible;
+                else
+                {
+                    PersonDetailsPageNoImgNotice.Visibility = ViewStates.Gone;
+                    PersonDetailsPageImage.Into(ViewModel.Data.ImgUrl, null, img => img.HandleScaling());
+                }
                 PersonDetailsPageFavButton.BindModel(ViewModel.FavouriteViewModel);
             }));
 
@@ -69,6 +75,7 @@ namespace MALClient.Android.Fragments.DetailsFragments
 
         #region Views
 
+        private ImageView _personDetailsPageNoImgNotice;
         private ImageViewAsync _personDetailsPageImage;
         private FavouriteButton _personDetailsPageFavButton;
         private ImageButton _personDetailsPageLinkButton;
@@ -76,6 +83,8 @@ namespace MALClient.Android.Fragments.DetailsFragments
         private PagerSlidingTabStrip _personDetailsPageTabStrip;
         private ViewPager _personDetailsPagePivot;
         private RelativeLayout _personDetailsPageLoadingSpinner;
+
+        public ImageView PersonDetailsPageNoImgNotice => _personDetailsPageNoImgNotice ?? (_personDetailsPageNoImgNotice = FindViewById<ImageView>(Resource.Id.PersonDetailsPageNoImgNotice));
 
         public ImageViewAsync PersonDetailsPageImage => _personDetailsPageImage ?? (_personDetailsPageImage = FindViewById<ImageViewAsync>(Resource.Id.PersonDetailsPageImage));
 
@@ -90,7 +99,6 @@ namespace MALClient.Android.Fragments.DetailsFragments
         public ViewPager PersonDetailsPagePivot => _personDetailsPagePivot ?? (_personDetailsPagePivot = FindViewById<ViewPager>(Resource.Id.PersonDetailsPagePivot));
 
         public RelativeLayout PersonDetailsPageLoadingSpinner => _personDetailsPageLoadingSpinner ?? (_personDetailsPageLoadingSpinner = FindViewById<RelativeLayout>(Resource.Id.PersonDetailsPageLoadingSpinner));
-
 
 
         #endregion

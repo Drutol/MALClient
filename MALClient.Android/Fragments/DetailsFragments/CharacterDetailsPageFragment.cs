@@ -5,6 +5,7 @@ using System.Text;
 
 using Android.App;
 using Android.Content;
+using Android.Content.Res;
 using Android.OS;
 using Android.Runtime;
 using Android.Views;
@@ -108,7 +109,13 @@ namespace MALClient.Android.Fragments.DetailsFragments
                     return;
 
                 CharacterDetailsPageDescription.Text = ViewModel.Data.Content;
-                CharacterDetailsPageImage.Into(ViewModel.Data.ImgUrl);
+                if (string.IsNullOrWhiteSpace(ViewModel.Data.ImgUrl))
+                    CharactersDetailsPageNoImgNotice.Visibility = ViewStates.Visible;
+                else
+                {
+                    CharactersDetailsPageNoImgNotice.Visibility = ViewStates.Gone;
+                    CharacterDetailsPageImage.Into(ViewModel.Data.ImgUrl, null, img => img.HandleScaling());
+                }
                 CharactersPageFavButton.BindModel(ViewModel.FavouriteViewModel);
 
                 if(ViewModel.Data.Animeography.Any())
@@ -180,12 +187,19 @@ namespace MALClient.Android.Fragments.DetailsFragments
 
         public override int LayoutResourceId => Resource.Layout.CharacterDetailsPage;
 
+        public override void OnConfigurationChanged(Configuration newConfig)
+        {
+            _gridViewColumnHelper.OnConfigurationChanged(newConfig);
+            base.OnConfigurationChanged(newConfig);
+        }
+
         #region Views
 
+        private ImageView _charactersDetailsPageNoImgNotice;
         private ImageViewAsync _characterDetailsPageImage;
+        private ImageButton _characterDetailsPageLinkButton;
         private FavouriteButton _charactersPageFavButton;
         private TextView _characterDetailsPageDescription;
-        private ImageButton _characterDetailsPageLinkButton;
         private Button _characterDetailsPageSpoilerButton;
         private HeightAdjustingGridView _characterDetailsPageVoiceActorsGrid;
         private TextView _characterDetailsPageVoiceActorsEmptyNotice;
@@ -195,13 +209,15 @@ namespace MALClient.Android.Fragments.DetailsFragments
         private TextView _characterDetailsPageMangaographyEmptyNotice;
         private RelativeLayout _characterDetailsPageLoadingSpinner;
 
+        public ImageView CharactersDetailsPageNoImgNotice => _charactersDetailsPageNoImgNotice ?? (_charactersDetailsPageNoImgNotice = FindViewById<ImageView>(Resource.Id.CharactersDetailsPageNoImgNotice));
+
         public ImageViewAsync CharacterDetailsPageImage => _characterDetailsPageImage ?? (_characterDetailsPageImage = FindViewById<ImageViewAsync>(Resource.Id.CharacterDetailsPageImage));
+
+        public ImageButton CharacterDetailsPageLinkButton => _characterDetailsPageLinkButton ?? (_characterDetailsPageLinkButton = FindViewById<ImageButton>(Resource.Id.CharacterDetailsPageLinkButton));
 
         public FavouriteButton CharactersPageFavButton => _charactersPageFavButton ?? (_charactersPageFavButton = FindViewById<FavouriteButton>(Resource.Id.CharactersPageFavButton));
 
         public TextView CharacterDetailsPageDescription => _characterDetailsPageDescription ?? (_characterDetailsPageDescription = FindViewById<TextView>(Resource.Id.CharacterDetailsPageDescription));
-
-        public ImageButton CharacterDetailsPageLinkButton => _characterDetailsPageLinkButton ?? (_characterDetailsPageLinkButton = FindViewById<ImageButton>(Resource.Id.CharacterDetailsPageLinkButton));
 
         public Button CharacterDetailsPageSpoilerButton => _characterDetailsPageSpoilerButton ?? (_characterDetailsPageSpoilerButton = FindViewById<Button>(Resource.Id.CharacterDetailsPageSpoilerButton));
 
@@ -218,6 +234,7 @@ namespace MALClient.Android.Fragments.DetailsFragments
         public TextView CharacterDetailsPageMangaographyEmptyNotice => _characterDetailsPageMangaographyEmptyNotice ?? (_characterDetailsPageMangaographyEmptyNotice = FindViewById<TextView>(Resource.Id.CharacterDetailsPageMangaographyEmptyNotice));
 
         public RelativeLayout CharacterDetailsPageLoadingSpinner => _characterDetailsPageLoadingSpinner ?? (_characterDetailsPageLoadingSpinner = FindViewById<RelativeLayout>(Resource.Id.CharacterDetailsPageLoadingSpinner));
+
 
 
         #endregion

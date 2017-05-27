@@ -11,6 +11,7 @@ using Android.Support.V4.View;
 using Android.Views;
 using Android.Widget;
 using Com.Astuetz;
+using MALClient.Android.Listeners;
 using MALClient.Android.PagerAdapters;
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Forums;
@@ -20,7 +21,7 @@ namespace MALClient.Android.Fragments.ForumFragments
     public class ForumIndexPageFragment : MalFragmentBase
     {
         private ForumIndexViewModel ViewModel;
-
+        private int _currentTab = -1;
 
         protected override void Init(Bundle savedInstanceState)
         {
@@ -33,6 +34,11 @@ namespace MALClient.Android.Fragments.ForumFragments
             ForumIndexPagePivot.Adapter = new ForumIndexPagerAdapter(ChildFragmentManager);
             ForumIndexPageTabStrip.SetViewPager(ForumIndexPagePivot);
             ForumIndexPageTabStrip.CenterTabs();
+            
+            if(_currentTab == 1)
+                ForumIndexPagePivot.SetCurrentItem(1,false);
+
+            ForumIndexPagePivot.AddOnPageChangeListener(new OnPageChangedListener(i => _currentTab = i));
         }
 
         public override int LayoutResourceId => Resource.Layout.ForumIndexPage;

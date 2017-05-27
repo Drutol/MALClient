@@ -48,6 +48,11 @@ namespace MALClient.Android.Fragments
                 }));
 
             Bindings.Add(
+                this.SetBinding(() => ViewModel.EmptyNoticeVisibility,
+                    () => ANotificationHubPageTabEmptyNotice.Visibility)
+                    .ConvertSourceToTarget(Converters.BoolToVisibility));
+
+            Bindings.Add(
                 this.SetBinding(() => ViewModel.Loading,
                     () => NotificationHubPageLoadingSpinner.Visibility)
                     .ConvertSourceToTarget(Converters.BoolToVisibility));
@@ -197,12 +202,16 @@ namespace MALClient.Android.Fragments
         private ListView _notificationHubPageList;
         private ProgressBar _notificationHubPageLoadingSpinner;
         private FloatingActionButton _notificationHubPageActionButton;
+        private TextView _aNotificationHubPageTabEmptyNotice;
 
         public ListView NotificationHubPageList => _notificationHubPageList ?? (_notificationHubPageList = FindViewById<ListView>(Resource.Id.NotificationHubPageList));
 
         public ProgressBar NotificationHubPageLoadingSpinner => _notificationHubPageLoadingSpinner ?? (_notificationHubPageLoadingSpinner = FindViewById<ProgressBar>(Resource.Id.NotificationHubPageLoadingSpinner));
 
         public FloatingActionButton NotificationHubPageActionButton => _notificationHubPageActionButton ?? (_notificationHubPageActionButton = FindViewById<FloatingActionButton>(Resource.Id.NotificationHubPageActionButton));
+
+        public TextView ANotificationHubPageTabEmptyNotice => _aNotificationHubPageTabEmptyNotice ?? (_aNotificationHubPageTabEmptyNotice = FindViewById<TextView>(Resource.Id.ANotificationHubPageTabEmptyNotice));
+
 
         #endregion
     }

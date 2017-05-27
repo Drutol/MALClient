@@ -24,5 +24,8 @@
                                                         android:layout_width="wrap_content" app:backgroundTint="?AccentColourContrast" android:layout_alignParentEnd="true" android:layout_alignParentBottom="true" android:layout_margin="16dp"
                                                         android:layout_height="wrap_content" android:src="@drawable/icon_filter" android:tint="#fff" android:clickable="true" android:focusable="true"
                                                         xmlns:app="http://schemas.android.com/apk/res-auto" app:fabSize="normal" />
+    <TextView android:gravity="center" android:visibility="gone"
+              android:layout_width="wrap_content" android:id="@+id/ANotificationHubPageTabEmptyNotice"
+              android:layout_height="wrap_content" android:fontFamily="@string/font_family_light" android:text="Nothing to show here..." android:layout_centerInParent="true" android:textColor="?AccentColour"/>
   </RelativeLayout>
 </MALClient.Android.UserControls.ScrollableSwipeToRefreshLayout>

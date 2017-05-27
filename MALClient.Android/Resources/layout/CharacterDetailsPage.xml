@@ -24,14 +24,18 @@
         <RelativeLayout
           android:layout_width="135dp"
           android:layout_height="wrap_content"
-          android:elevation="5dp">
-
+          android:elevation="5dp" android:background="?BrushAnimeItemInnerBackground">
+          <ImageView
+            android:layout_width="wrap_content" android:id="@+id/CharactersDetailsPageNoImgNotice"
+            android:layout_height="wrap_content" android:src="@drawable/icon_help" android:layout_centerInParent="true"/>
           <FFImageLoading.Views.ImageViewAsync
             android:id="@+id/CharacterDetailsPageImage"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="fitEnd" />
-
+          <ImageButton android:id="@+id/CharacterDetailsPageLinkButton"
+                       android:layout_width="40dp" android:layout_alignParentBottom="true" android:tint="#fff"
+                       android:layout_height="40dp" android:background="@color/BrushOpaqueTextView" android:src="@drawable/icon_globe"/>
           <MALClient.Android.UserControls.FavouriteButton
             android:id="@+id/CharactersPageFavButton"
             android:layout_width="40dp"
@@ -62,34 +66,18 @@
         </LinearLayout>
       </LinearLayout>
 
-      <FrameLayout
-        android:layout_width="match_parent"
+      <Button
+        android:id="@+id/CharacterDetailsPageSpoilerButton"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="end"
-        android:background="?BrushAppBars"
-        android:gravity="center_vertical">
-
-        <ImageButton
-          android:id="@+id/CharacterDetailsPageLinkButton"
-          android:layout_width="35dp"
-          android:layout_height="35dp"
-          android:layout_gravity="center_vertical"
-          android:background="?selectableItemBackground"
-          android:src="@drawable/icon_globe" />
-
-        <Button
-          android:id="@+id/CharacterDetailsPageSpoilerButton"
-          style="style/inc"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:layout_gravity="end"
-          android:backgroundTint="?AccentColourDark"
-          android:minHeight="40dp"
-          android:padding="2dp"
-          android:text="Spoiler"
-          android:textAllCaps="false"
-          android:textColor="#fff" />
-      </FrameLayout>
+        android:layout_gravity="center"
+        android:backgroundTint="?AccentColourDark"
+        android:minHeight="40dp"
+        android:layout_marginTop="5dp"
+        android:padding="2dp"
+        android:text="Spoiler"
+        android:textAllCaps="false"
+        android:textColor="#fff" />
 
       <TextView
         android:layout_width="wrap_content"

@@ -8,7 +8,10 @@
     <LinearLayout
       android:layout_width="match_parent" android:background="?BrushDetailsUpperBackground"
       android:layout_height="175dp" android:orientation="horizontal">
-      <RelativeLayout android:layout_width="115dp" android:layout_height="wrap_content" android:elevation="5dp">
+      <RelativeLayout android:layout_width="135dp" android:layout_height="wrap_content" android:background="?BrushAnimeItemInnerBackground" android:elevation="5dp">
+        <ImageView
+          android:layout_width="wrap_content" android:id="@+id/PersonDetailsPageNoImgNotice"
+          android:layout_height="wrap_content" android:src="@drawable/icon_help" android:layout_centerInParent="true"/>
         <FFImageLoading.Views.ImageViewAsync android:id="@+id/PersonDetailsPageImage"
                                              android:layout_width="match_parent" android:scaleType="fitEnd"
                                              android:layout_height="match_parent" />

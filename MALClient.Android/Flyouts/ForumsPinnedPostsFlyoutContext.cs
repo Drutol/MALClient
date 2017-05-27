@@ -71,6 +71,7 @@ namespace MALClient.Android.Flyouts
                 txt.SetTextColor(new Color(ResourceExtension.BrushNoSearchResults));
                 var padding = DimensionsHelper.DpToPx(10);
                 txt.SetPadding(0,padding,0,padding);
+                txt.SetBackgroundColor(new Color(ResourceExtension.BrushAnimeItemInnerBackground));
                 droppyBuilder.AddMenuItem(new DroppyMenuCustomItem(txt));
             }
 
@@ -103,7 +104,7 @@ namespace MALClient.Android.Flyouts
         {
             var view = sender as View;
             _viewModel.UnpinTopicCommand.Execute(view.Tag.Unwrap<ForumTopicLightEntry>());
-            _list.RemoveView(view.Parent.Parent as View);
+            (view.Parent.Parent as View).Visibility = ViewStates.Gone;
         }
 
         private void ViewOnClick(object sender, EventArgs eventArgs)

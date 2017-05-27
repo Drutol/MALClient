@@ -52,7 +52,7 @@ namespace MALClient.Android.Dialogs
             dialogView.FindViewById(Resource.Id.ForumGoToPageDialogAcceptButton).SetOnClickListener(new OnClickListener(view => CleanupGoPageDialog(DialogResult.InputPage)));
             dialogView.FindViewById(Resource.Id.ForumGoToPageDialogFirstPageButton).SetOnClickListener(new OnClickListener(view => CleanupGoPageDialog(DialogResult.FirstPage)));
             dialogView.FindViewById(Resource.Id.ForumGoToPageDialogLastPageButton).SetOnClickListener(new OnClickListener(view => CleanupGoPageDialog(DialogResult.LastPage)));
-
+            dialogView.FindViewById<EditText>(Resource.Id.ForumGoToPageDialogTextBox).SetOnEditorActionListener(new OnEditorActionListener(action => CleanupGoPageDialog(DialogResult.InputPage)));
             _goPageDialog.Show();
 
             await GoPageSemaphore.WaitAsync();
@@ -64,6 +64,7 @@ namespace MALClient.Android.Dialogs
         {
             if(_goPageDialog == null)
                 return;
+            AndroidUtilities.HideKeyboard();
             switch (success)
             {
                 case DialogResult.Cancel:

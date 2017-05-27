@@ -18,10 +18,10 @@
         android:id="@+id/ForumNewTopicPageTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:text="Title" android:maxLines="1" android:ellipsize="middle"
+        android:layout_gravity="center_vertical" android:maxLines="2"
+        android:text="Title" android:ellipsize="end"
         android:textColor="?BrushText"
-        android:textSize="@dimen/FontSizeHuge" />
+        android:textSize="@dimen/FontSizeBig" />
     </FrameLayout>
 
     <ScrollView

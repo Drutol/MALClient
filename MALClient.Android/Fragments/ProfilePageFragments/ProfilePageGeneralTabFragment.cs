@@ -14,6 +14,7 @@ using Android.Widget;
 using FFImageLoading;
 using FFImageLoading.Views;
 using GalaSoft.MvvmLight.Helpers;
+using MALClient.Android.BindingConverters;
 using MALClient.Android.DIalogs;
 using MALClient.Android.Listeners;
 using MALClient.Android.UserControls;
@@ -57,8 +58,14 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
                     ProfilePageGeneralTabFriendsGrid.ItemHeight =
                         ProfilePageGeneralTabFriendsGrid.ItemWidth = DimensionsHelper.DpToPx(65);
                     ProfilePageGeneralTabFriendsGrid.SetColumnWidth((int)ProfilePageGeneralTabFriendsGrid.ItemWidth);
-                    ProfilePageGeneralTabFriendsGrid.Adapter =
-                        ViewModel.CurrentData.Friends.GetAdapter(GetFriendTemplateDelegate);
+                    if(ViewModel.CurrentData.Friends.Any())
+                    {
+                        ProfilePageGeneralTabFriendsGrid.Adapter =
+                            ViewModel.CurrentData.Friends.GetAdapter(GetFriendTemplateDelegate);
+                        ProfilePageGeneralTabFriendsEmptyNotice.Visibility = ViewStates.Gone;
+                    }
+                    else
+                        ProfilePageGeneralTabFriendsEmptyNotice.Visibility = ViewStates.Visible;
 
                     ProfilePageGeneralTabCommentsList.RemoveAllViews();
                     if(ProfilePageGeneralTabScrollingContainer.ScrollY > 0 || Build.VERSION.SdkInt < BuildVersionCodes.M)
@@ -73,6 +80,16 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
                             }
                         }));
                 }));
+
+            Bindings.Add(
+                this.SetBinding(() => ViewModel.EmptyCommentsNoticeVisibility,
+                    () => ProfilePageGeneralTabCommentsEmptyNotice.Visibility)
+                    .ConvertSourceToTarget(Converters.BoolToVisibility));
+
+            Bindings.Add(
+                this.SetBinding(() => ViewModel.CommentInputBoxVisibility,
+                    () => ProfilePageGeneralTabCommentInput.Visibility)
+                    .ConvertSourceToTarget(Converters.BoolToVisibility));
 
             Bindings.Add(
                 this.SetBinding(() => ViewModel.CommentText,
@@ -188,7 +205,6 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
         public override int LayoutResourceId => Resource.Layout.ProfilePageGeneralTab;
 
         #region Views
-
         private ImageView _profilePageGeneralTabImagePlaceholder;
         private ImageViewAsync _profilePageGeneralTabAnimeUserImg;
         private LinearLayout _profilePageGeneralTabDetailsList;
@@ -196,8 +212,11 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
         private Button _profilePageGeneralTabMangaListButton;
         private Button _profilePageGeneralTabHistoryButton;
         private ExpandableGridView _profilePageGeneralTabFriendsGrid;
+        private TextView _profilePageGeneralTabFriendsEmptyNotice;
         private EditText _profilePageGeneralTabCommentInput;
         private Button _profilePageGeneralTabSendCommentButton;
+        private LinearLayout _profilePageGeneralTabCommentSection;
+        private TextView _profilePageGeneralTabCommentsEmptyNotice;
         private LinearLayout _profilePageGeneralTabCommentsList;
         private ScrollView _profilePageGeneralTabScrollingContainer;
         private FloatingActionButton _profilePageGeneralTabActionButton;
@@ -216,17 +235,21 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
 
         public ExpandableGridView ProfilePageGeneralTabFriendsGrid => _profilePageGeneralTabFriendsGrid ?? (_profilePageGeneralTabFriendsGrid = FindViewById<ExpandableGridView>(Resource.Id.ProfilePageGeneralTabFriendsGrid));
 
+        public TextView ProfilePageGeneralTabFriendsEmptyNotice => _profilePageGeneralTabFriendsEmptyNotice ?? (_profilePageGeneralTabFriendsEmptyNotice = FindViewById<TextView>(Resource.Id.ProfilePageGeneralTabFriendsEmptyNotice));
+
         public EditText ProfilePageGeneralTabCommentInput => _profilePageGeneralTabCommentInput ?? (_profilePageGeneralTabCommentInput = FindViewById<EditText>(Resource.Id.ProfilePageGeneralTabCommentInput));
 
         public Button ProfilePageGeneralTabSendCommentButton => _profilePageGeneralTabSendCommentButton ?? (_profilePageGeneralTabSendCommentButton = FindViewById<Button>(Resource.Id.ProfilePageGeneralTabSendCommentButton));
+
+        public LinearLayout ProfilePageGeneralTabCommentSection => _profilePageGeneralTabCommentSection ?? (_profilePageGeneralTabCommentSection = FindViewById<LinearLayout>(Resource.Id.ProfilePageGeneralTabCommentSection));
+
+        public TextView ProfilePageGeneralTabCommentsEmptyNotice => _profilePageGeneralTabCommentsEmptyNotice ?? (_profilePageGeneralTabCommentsEmptyNotice = FindViewById<TextView>(Resource.Id.ProfilePageGeneralTabCommentsEmptyNotice));
 
         public LinearLayout ProfilePageGeneralTabCommentsList => _profilePageGeneralTabCommentsList ?? (_profilePageGeneralTabCommentsList = FindViewById<LinearLayout>(Resource.Id.ProfilePageGeneralTabCommentsList));
 
         public ScrollView ProfilePageGeneralTabScrollingContainer => _profilePageGeneralTabScrollingContainer ?? (_profilePageGeneralTabScrollingContainer = FindViewById<ScrollView>(Resource.Id.ProfilePageGeneralTabScrollingContainer));
 
         public FloatingActionButton ProfilePageGeneralTabActionButton => _profilePageGeneralTabActionButton ?? (_profilePageGeneralTabActionButton = FindViewById<FloatingActionButton>(Resource.Id.ProfilePageGeneralTabActionButton));
-
-
 
 
         #endregion

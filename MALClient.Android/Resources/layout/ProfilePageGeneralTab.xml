@@ -74,10 +74,13 @@
                                                            android:layout_width="match_parent" android:paddingStart="5dp" android:paddingEnd="5dp"
                                                            android:layout_height="wrap_content"
                                                            android:numColumns="auto_fit" />
+        <TextView android:gravity="center" android:visibility="gone"
+                  android:layout_width="wrap_content" android:id="@+id/ProfilePageGeneralTabFriendsEmptyNotice" android:text="Nothing to show here..."
+                  android:layout_height="wrap_content" android:fontFamily="@string/font_family_light" android:layout_gravity="center_horizontal" android:textColor="?BrushNoSearchResults"/>
       </LinearLayout>
 
       <LinearLayout
-        android:layout_width="match_parent" android:focusableInTouchMode="true"
+        android:layout_width="match_parent" android:focusableInTouchMode="true" android:id="@+id/ProfilePageGeneralTabCommentSection"
         android:layout_height="wrap_content" android:padding="10dp" android:orientation="vertical">
         <TextView
           android:layout_width="wrap_content" android:layout_gravity="center_horizontal"
@@ -91,6 +94,9 @@
                 android:layout_height="wrap_content" style="@style/AccentButtonStyle" android:text="Send Comment"
                 android:padding="5dp" />
       </LinearLayout>
+      <TextView android:gravity="center" android:visibility="gone"
+                android:layout_width="wrap_content" android:id="@+id/ProfilePageGeneralTabCommentsEmptyNotice" android:text="No comments found..."
+                android:layout_height="wrap_content" android:fontFamily="@string/font_family_light" android:layout_gravity="center_horizontal" android:textColor="?BrushNoSearchResults"/>
       <LinearLayout
         android:layout_width="match_parent" android:layout_marginTop="5dp" android:dividerPadding="5dp"
         android:id="@+id/ProfilePageGeneralTabCommentsList"

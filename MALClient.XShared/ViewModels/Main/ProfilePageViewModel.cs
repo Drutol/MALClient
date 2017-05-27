@@ -736,7 +736,10 @@ namespace MALClient.XShared.ViewModels.Main
                         entry =>
                         {
                             if (ViewModelLocator.Mobile)
+                            {
+                                PrevArgs.DesiredPivotIndex = CurrentPivotIndex;
                                 ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageProfile, PrevArgs);
+                            }
                             else if (ViewModelLocator.GeneralMain.OffContentVisibility)
                                 if (ViewModelLocator.GeneralMain.CurrentOffPage == PageIndex.PageStaffDetails)
                                     ViewModelLocator.StaffDetails.RegisterSelfBackNav(int.Parse(entry.Id));
@@ -753,8 +756,12 @@ namespace MALClient.XShared.ViewModels.Main
                     new RelayCommand<FavouriteBase>(
                         entry =>
                         {
+
                             if (ViewModelLocator.Mobile)
+                            {
+                                PrevArgs.DesiredPivotIndex = CurrentPivotIndex;
                                 ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageProfile, PrevArgs);
+                            }
                             else if (ViewModelLocator.GeneralMain.OffContentVisibility)
                                 if (ViewModelLocator.GeneralMain.CurrentOffPage == PageIndex.PageStaffDetails)
                                     ViewModelLocator.StaffDetails.RegisterSelfBackNav(int.Parse(entry.Id));

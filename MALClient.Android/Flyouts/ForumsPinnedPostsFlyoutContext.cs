@@ -103,7 +103,7 @@ namespace MALClient.Android.Flyouts
         {
             var view = sender as View;
             _viewModel.UnpinTopicCommand.Execute(view.Tag.Unwrap<ForumTopicLightEntry>());
-            _list.RemoveView(view);
+            _list.RemoveView(view.Parent.Parent as View);
         }
 
         private void ViewOnClick(object sender, EventArgs eventArgs)

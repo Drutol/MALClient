@@ -9,6 +9,7 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using FFImageLoading.Transformations;
 using FFImageLoading.Views;
 using GalaSoft.MvvmLight.Helpers;
 using MALClient.Android.BindingConverters;
@@ -83,14 +84,14 @@ namespace MALClient.Android.Fragments.ForumFragments.Tabs
             if (view == null)
             {
                 view = Activity.LayoutInflater.Inflate(Resource.Layout.ForumIndexPageRecentPostItem, null);
-                view.Click += RecentPostOnClick;
+                view.FindViewById(Resource.Id.ForumIndexPageRecentPostItemRootContainer).Click += RecentPostOnClick;
             }
 
-            view.Tag = forumPostEntry.Wrap();
+            view.FindViewById(Resource.Id.ForumIndexPageRecentPostItemRootContainer).Tag = forumPostEntry.Wrap();
 
             view.FindViewById<TextView>(Resource.Id.ForumIndexPageRecentPostItemTitle).Text = forumPostEntry.Title;
             view.FindViewById<TextView>(Resource.Id.ForumIndexPageRecentPostItemDate).Text = $"{forumPostEntry.Created} by {forumPostEntry.Op}";
-            view.FindViewById<ImageViewAsync>(Resource.Id.ForumIndexPageRecentPostItemImage).Into(forumPostEntry.ImgUrl);
+            view.FindViewById<ImageViewAsync>(Resource.Id.ForumIndexPageRecentPostItemImage).Into(forumPostEntry.ImgUrl,new CircleTransformation());
 
 
             return view;

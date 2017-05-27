@@ -381,6 +381,9 @@ namespace MALClient.Android.Activities
                     case AndroidColorThemes.Blue:
                         SetTheme(Resource.Style.Theme_MALClient_Dark_Blue);
                         break;
+                    case AndroidColorThemes.Lime:
+                        SetTheme(Resource.Style.Theme_MALClient_Dark_Lime);
+                        break;
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
@@ -397,6 +400,9 @@ namespace MALClient.Android.Activities
                         break;
                     case AndroidColorThemes.Blue:
                         SetTheme(Resource.Style.Theme_MALClient_Light_Blue);
+                        break;
+                    case AndroidColorThemes.Lime:
+                        SetTheme(Resource.Style.Theme_MALClient_Light_Lime);
                         break;
                     default:
                         throw new ArgumentOutOfRangeException();

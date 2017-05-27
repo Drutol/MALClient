@@ -132,6 +132,27 @@ namespace MALClient.Android.Resources
                     OpaqueAccentColour = ResourcesCompat.GetColor(MainActivity.CurrentContext.Resources,
                         Resource.Color.BlueOpaqueAccentColour, null);
                     break;
+                case AndroidColorThemes.Lime:
+                    AccentColour = ResourcesCompat.GetColor(MainActivity.CurrentContext.Resources,
+                        Resource.Color.LimeAccentColour, null);
+                    AccentColourDark = ResourcesCompat.GetColor(MainActivity.CurrentContext.Resources,
+                        Resource.Color.LimeAccentColourDark, null);
+                    AccentColourContrast = Settings.SelectedTheme == 1
+                        ? ResourcesCompat.GetColor(MainActivity.CurrentContext.Resources,
+                            Resource.Color.LimeAccentColourContrast, null)
+                        : AccentColourDark;
+                    AccentColourHex =
+                        MainActivity.CurrentContext.Resources.GetString(Resource.Color.LimeAccentColour);
+                    AccentColourLightHex =
+                        MainActivity.CurrentContext.Resources.GetString(Resource.Color.LimeAccentColourLight);
+                    AccentColourDarkHex =
+                        MainActivity.CurrentContext.Resources.GetString(Resource.Color.LimeAccentColourDark);
+                    AccentColourRes = Resource.Color.LimeAccentColour;
+                    AccentColourDarkRes = Resource.Color.LimeAccentColourDark;
+                    OpaqueAccentColourRes = Resource.Color.LimeOpaqueAccentColour;
+                    OpaqueAccentColour = ResourcesCompat.GetColor(MainActivity.CurrentContext.Resources,
+                        Resource.Color.LimeOpaqueAccentColour, null);
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }

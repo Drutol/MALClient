@@ -71,6 +71,9 @@ namespace MALClient.Android.Fragments.SettingsFragments
             Bindings.Add(
                 this.SetBinding(() => ViewModel.EnableSwipeToIncDec,
                     () => SettingsPageGeneralEnableSwipeSwitch.Checked, BindingMode.TwoWay));
+            Bindings.Add(
+                this.SetBinding(() => ViewModel.PreferEnglishTitles,
+                    () => SettingsPageGeneralPreferEnglishTitleSwitch.Checked, BindingMode.TwoWay));
             //
             SettingsPageGeneralAnimeSortRadioGroup.Check(GetViewIdForAnimeSortOption(Settings.AnimeSortOrder));
             SettingsPageGeneralAnimeSortRadioGroup.SetOnCheckedChangeListener(new OnCheckedListener(i =>
@@ -185,6 +188,7 @@ namespace MALClient.Android.Fragments.SettingsFragments
             SettingsPageGeneralColorOrange.Tag = (int) AndroidColorThemes.Orange;
             SettingsPageGeneralColorPurple.Tag = (int) AndroidColorThemes.Purple;
             SettingsPageGeneralColorBlue.Tag = (int)AndroidColorThemes.Blue;
+            SettingsPageGeneralColorLime.Tag = (int)AndroidColorThemes.Lime;
 
             var colorListener = new OnClickListener(view =>
             {
@@ -195,6 +199,7 @@ namespace MALClient.Android.Fragments.SettingsFragments
             SettingsPageGeneralColorOrange.SetOnClickListener(colorListener);
             SettingsPageGeneralColorPurple.SetOnClickListener(colorListener);
             SettingsPageGeneralColorBlue.SetOnClickListener(colorListener);
+            SettingsPageGeneralColorLime.SetOnClickListener(colorListener);
 
         }
 
@@ -206,16 +211,25 @@ namespace MALClient.Android.Fragments.SettingsFragments
                     SettingsPageGeneralColorOrange.SetImageResource(Resource.Drawable.icon_ok);
                     SettingsPageGeneralColorPurple.SetImageResource(Resource.Color.Transparent);
                     SettingsPageGeneralColorBlue.SetImageResource(Resource.Color.Transparent);
+                    SettingsPageGeneralColorLime.SetImageResource(Resource.Color.Transparent);
                     break;
                 case AndroidColorThemes.Purple:
                     SettingsPageGeneralColorPurple.SetImageResource(Resource.Drawable.icon_ok);
                     SettingsPageGeneralColorOrange.SetImageResource(Resource.Color.Transparent);
                     SettingsPageGeneralColorBlue.SetImageResource(Resource.Color.Transparent);
+                    SettingsPageGeneralColorLime.SetImageResource(Resource.Color.Transparent);
                     break;
                 case AndroidColorThemes.Blue:
                     SettingsPageGeneralColorBlue.SetImageResource(Resource.Drawable.icon_ok);
                     SettingsPageGeneralColorPurple.SetImageResource(Resource.Color.Transparent);
                     SettingsPageGeneralColorOrange.SetImageResource(Resource.Color.Transparent);
+                    SettingsPageGeneralColorLime.SetImageResource(Resource.Color.Transparent);
+                    break;
+                case AndroidColorThemes.Lime:
+                    SettingsPageGeneralColorLime.SetImageResource(Resource.Drawable.icon_ok);
+                    SettingsPageGeneralColorPurple.SetImageResource(Resource.Color.Transparent);
+                    SettingsPageGeneralColorOrange.SetImageResource(Resource.Color.Transparent);
+                    SettingsPageGeneralColorBlue.SetImageResource(Resource.Color.Transparent);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();

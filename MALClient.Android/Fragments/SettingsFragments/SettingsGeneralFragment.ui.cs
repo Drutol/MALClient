@@ -24,6 +24,7 @@ namespace MALClient.Android.Fragments.SettingsFragments
         private ImageButton _settingsPageGeneralColorOrange;
         private ImageButton _settingsPageGeneralColorPurple;
         private ImageButton _settingsPageGeneralColorBlue;
+        private ImageButton _settingsPageGeneralColorLime;
         private TextView _settingsPageGeneralThemeChangeNotice;
         private Switch _settingsPageGeneralEnableSwipeSwitch;
         private Switch _settingsPageGeneralPullHigherSwitch;
@@ -31,6 +32,7 @@ namespace MALClient.Android.Fragments.SettingsFragments
         private Switch _settingsPageGeneralAutoSortSwitch;
         private Switch _settingsPageGeneralVolsImportantSwitch;
         private Switch _settingsPageGeneralHideHamburgerMangaSwitch;
+        private Switch _settingsPageGeneralPreferEnglishTitleSwitch;
         private RadioButton _settingsPageGeneralAnimeSortTitleRadioBtn;
         private RadioButton _settingsPageGeneralAnimeScoreTitleRadioBtn;
         private RadioButton _settingsPageGeneralAnimeWatchedTitleRadioBtn;
@@ -79,6 +81,8 @@ namespace MALClient.Android.Fragments.SettingsFragments
 
         public ImageButton SettingsPageGeneralColorBlue => _settingsPageGeneralColorBlue ?? (_settingsPageGeneralColorBlue = FindViewById<ImageButton>(Resource.Id.SettingsPageGeneralColorBlue));
 
+        public ImageButton SettingsPageGeneralColorLime => _settingsPageGeneralColorLime ?? (_settingsPageGeneralColorLime = FindViewById<ImageButton>(Resource.Id.SettingsPageGeneralColorLime));
+
         public TextView SettingsPageGeneralThemeChangeNotice => _settingsPageGeneralThemeChangeNotice ?? (_settingsPageGeneralThemeChangeNotice = FindViewById<TextView>(Resource.Id.SettingsPageGeneralThemeChangeNotice));
 
         public Switch SettingsPageGeneralEnableSwipeSwitch => _settingsPageGeneralEnableSwipeSwitch ?? (_settingsPageGeneralEnableSwipeSwitch = FindViewById<Switch>(Resource.Id.SettingsPageGeneralEnableSwipeSwitch));
@@ -92,6 +96,8 @@ namespace MALClient.Android.Fragments.SettingsFragments
         public Switch SettingsPageGeneralVolsImportantSwitch => _settingsPageGeneralVolsImportantSwitch ?? (_settingsPageGeneralVolsImportantSwitch = FindViewById<Switch>(Resource.Id.SettingsPageGeneralVolsImportantSwitch));
 
         public Switch SettingsPageGeneralHideHamburgerMangaSwitch => _settingsPageGeneralHideHamburgerMangaSwitch ?? (_settingsPageGeneralHideHamburgerMangaSwitch = FindViewById<Switch>(Resource.Id.SettingsPageGeneralHideHamburgerMangaSwitch));
+
+        public Switch SettingsPageGeneralPreferEnglishTitleSwitch => _settingsPageGeneralPreferEnglishTitleSwitch ?? (_settingsPageGeneralPreferEnglishTitleSwitch = FindViewById<Switch>(Resource.Id.SettingsPageGeneralPreferEnglishTitleSwitch));
 
         public RadioButton SettingsPageGeneralAnimeSortTitleRadioBtn => _settingsPageGeneralAnimeSortTitleRadioBtn ?? (_settingsPageGeneralAnimeSortTitleRadioBtn = FindViewById<RadioButton>(Resource.Id.SettingsPageGeneralAnimeSortTitleRadioBtn));
 

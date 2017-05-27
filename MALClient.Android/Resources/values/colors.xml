@@ -99,7 +99,20 @@
   <color name="BlueAccentColourDark">#0c4674</color>
   <color name="BlueAccentColourLight">#1474c0</color>
   <color name="BlueOpaqueAccentColour">#7f0063b1</color>
-  <color name="BlueAccentColourContrast">#fbb000</color>
+  <color name="BlueAccentColourContrast">#fbb000</color>  
+  
+  <!-- Lime accent -->
+  <color name="LimeDarkBrushMessageBubbleMine">#5f7c1a</color>
+  <color name="LimeDarkBrushMessageBubbleOther">#516918</color>
+
+  <color name="LimeLightBrushMessageBubbleMine">#d5e9a8</color>
+  <color name="LimeLightBrushMessageBubbleOther">#cce493</color>
+
+  <color name="LimeAccentColour">#98c926</color>
+  <color name="LimeAccentColourDark">#6e8e21</color>
+  <color name="LimeAccentColourLight">#87e049</color>
+  <color name="LimeOpaqueAccentColour">#7f98c926</color>
+  <color name="LimeAccentColourContrast">#a3218e</color>
 
 
 

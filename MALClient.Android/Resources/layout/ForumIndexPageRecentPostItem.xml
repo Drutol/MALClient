@@ -1,26 +1,26 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-    xmlns:android="http://schemas.android.com/apk/res/android"  >
-  <FrameLayout
-      android:layout_width="match_parent" android:orientation="horizontal" android:padding="10dp" android:layout_marginTop="10dp" android:layout_marginBottom="10dp"
-      android:layout_height="wrap_content" android:background="?BrushAnimeItemBackground" android:clickable="true" android:focusable="true" android:foreground="?selectableItemBackground">
+<FrameLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+             xmlns:android="http://schemas.android.com/apk/res/android"  android:paddingTop="8dp" >
+  <FrameLayout android:background="?BrushAnimeItemBackground"
+               android:layout_width="match_parent" android:orientation="horizontal" android:id="@+id/ForumIndexPageRecentPostItemRootContainer"
+               android:layout_height="wrap_content"  android:clickable="true" android:focusable="true" android:foreground="?selectableItemBackground">
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+      android:layout_width="match_parent" android:background="@drawable/border_accent_left"
+      android:layout_height="wrap_content" android:padding="12dp">
       <FFImageLoading.Views.ImageViewAsync
-          android:layout_width="45dp" android:layout_marginEnd="5dp" android:layout_marginBottom="5dp" android:id="@+id/ForumIndexPageRecentPostItemImage"
-          android:layout_height="60dp" />
+        android:layout_width="45dp" android:layout_marginEnd="8dp" android:id="@+id/ForumIndexPageRecentPostItemImage"
+        android:layout_height="45dp" />
 
       <LinearLayout
-          android:layout_width="match_parent"
-          android:layout_height="match_parent" android:orientation="vertical">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" android:orientation="vertical">
         <TextView
-            android:layout_width="match_parent" android:id="@+id/ForumIndexPageRecentPostItemTitle"
-            android:layout_height="50dp" android:maxLines="3" android:ellipsize="end" android:textColor="?BrushText" android:text="Revies Tags Filters: Preliminary Reviews are"/>
+          android:layout_width="match_parent" android:id="@+id/ForumIndexPageRecentPostItemTitle"
+          android:layout_height="wrap_content" android:minHeight="30dp" android:maxLines="3" android:ellipsize="end" android:textColor="?BrushText" android:text="Revies Tags Filters: Preliminary Reviews are"/>
         <TextView android:lines="1"
-            android:layout_width="match_parent" android:id="@+id/ForumIndexPageRecentPostItemDate"
-            android:layout_height="wrap_content" android:textColor="?BrushSettingsSubtitle" android:text="May 1, 2014 1:19 PM" android:fontFamily="@string/font_family_light" android:textSize="@dimen/FontSizeSemiNormal"/>
+                  android:layout_width="match_parent" android:id="@+id/ForumIndexPageRecentPostItemDate"
+                  android:layout_height="wrap_content" android:textColor="?BrushSettingsSubtitle" android:text="May 1, 2014 1:19 PM" android:fontFamily="@string/font_family_light" android:textSize="@dimen/FontSizeSemiNormal"/>
       </LinearLayout>
     </LinearLayout>
   </FrameLayout>
-</LinearLayout>
+</FrameLayout>

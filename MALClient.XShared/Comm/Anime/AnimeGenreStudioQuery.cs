@@ -59,7 +59,8 @@ namespace MALClient.XShared.Comm.Anime
 
             var doc = new HtmlDocument();
             doc.LoadHtml(raw);
-            int i = 0;
+            int i = 1 + 100*(_page-1);
+            i = i < 1 ? 1 : i;
             try
             {
                 foreach (var htmlNode in doc.WhereOfDescendantsWithClass("div", "seasonal-anime js-seasonal-anime"))

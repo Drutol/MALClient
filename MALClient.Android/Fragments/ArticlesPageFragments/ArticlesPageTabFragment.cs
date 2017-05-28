@@ -45,7 +45,7 @@ namespace MALClient.Android.Fragments.ArticlesPageFragments
             Bindings.Add(
                 this.SetBinding(() => ViewModel.Articles).WhenSourceChanges(() =>
                 {
-                    if(_mode != ViewModel.PrevWorkMode || _dataPopulated)
+                    if(_mode != ViewModel.PrevWorkMode || _dataPopulated || ViewModel.Articles == null)
                         return;
                     _dataPopulated = ViewModel.Articles.Any();
                     ArticlesPageTabItemList.Adapter = ViewModel.Articles.GetAdapter(GetTemplateDelegate);                   

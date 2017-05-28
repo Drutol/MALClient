@@ -29,6 +29,7 @@ namespace MALClient.XShared.ViewModels.Main
         private const int ItemPrefferedWidth = 385;
         private const int LastIndexPositionOnRefresh = -10; //just a constant
         private const int ItemsPerPage = 50; //just a constant
+        private const int ItemsPerGenereStudioPage = 100; //just a constant
 
         private SmartObservableCollection<AnimeItemViewModel> _animeItems =
             new SmartObservableCollection<AnimeItemViewModel>();
@@ -470,8 +471,9 @@ namespace MALClient.XShared.ViewModels.Main
 
                 }
 
-            }            
-            if (WorkMode == AnimeListWorkModes.TopAnime || WorkMode == AnimeListWorkModes.TopManga)
+            }
+            if (WorkMode == AnimeListWorkModes.TopAnime || WorkMode == AnimeListWorkModes.TopManga ||
+                WorkMode == AnimeListWorkModes.AnimeByGenre || WorkMode == AnimeListWorkModes.AnimeByStudio)
                 items = items.OrderBy(item => item.Index);
             else
                 switch (SortOption)
@@ -734,7 +736,11 @@ namespace MALClient.XShared.ViewModels.Main
                 CurrentIndexPosition = -1;
             }
             ViewModelLocator.GeneralMain.ScrollToTopButtonVisibility = CurrentIndexPosition > minItems;
-            CurrentPage = (int)Math.Ceiling((double)allItems / ItemsPerPage);
+            CurrentPage = (int) Math.Ceiling((double) allItems /
+                                             (WorkMode == AnimeListWorkModes.AnimeByGenre ||
+                                              WorkMode == AnimeListWorkModes.AnimeByStudio
+                                                 ? ItemsPerGenereStudioPage
+                                                 : ItemsPerPage));
             Loading = false;
             _randomedIds = new List<int>();
         }

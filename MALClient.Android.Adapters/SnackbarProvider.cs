@@ -9,6 +9,7 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using GalaSoft.MvvmLight.Ioc;
 using MALClient.Adapters;
 
 namespace MALClient.Android.Adapters
@@ -17,8 +18,11 @@ namespace MALClient.Android.Adapters
     {
         public void ShowText(string text)
         {
-            var t = Toast.MakeText(Application.Context, text, ToastLength.Short);
-            t.Show();
+            SimpleIoc.Default.GetInstance<Activity>().RunOnUiThread(() =>
+            {
+                var t = Toast.MakeText(Application.Context, text, ToastLength.Short);
+                t.Show();
+            });
         }
     }
 }

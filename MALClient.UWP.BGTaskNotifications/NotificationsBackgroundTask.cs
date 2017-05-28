@@ -51,6 +51,7 @@ namespace MALClient.UWP.BGTaskNotifications
                     ResourceLocator.RegisterAppDataServiceAdapter(new ApplicationDataServiceService());
                     ResourceLocator.RegisterPasswordVaultAdapter(new PasswordVaultProvider());
                     ResourceLocator.RegisterMessageDialogAdapter(new MessageDialogProvider());
+                    ResourceLocator.RegisterHttpContextAdapter(new MalHttpContextProvider());
                     ResourceLocator.RegisterDataCacheAdapter(new Adapters.DataCache(null));
                     Credentials.Init();
                 }
@@ -58,8 +59,8 @@ namespace MALClient.UWP.BGTaskNotifications
             catch (Exception)
             {
                //app is running so we don't check, checks are conducted in runtime manually
-               Defferal?.Complete();
-               return;
+               //Defferal?.Complete();
+               //return;
             }
 
 
@@ -167,7 +168,7 @@ namespace MALClient.UWP.BGTaskNotifications
 
             ApplicationData.Current.LocalSettings.Values[nameof(RoamingDataTypes.ReadNotifications)] = string.Join(";",presentNotifications);
 
-            if(triggeredAny)
+            if(!triggeredAny)
                 Defferal?.Complete();
         }
 

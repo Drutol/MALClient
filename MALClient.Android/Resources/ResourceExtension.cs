@@ -137,10 +137,7 @@ namespace MALClient.Android.Resources
                         Resource.Color.LimeAccentColour, null);
                     AccentColourDark = ResourcesCompat.GetColor(MainActivity.CurrentContext.Resources,
                         Resource.Color.LimeAccentColourDark, null);
-                    AccentColourContrast = Settings.SelectedTheme == 1
-                        ? ResourcesCompat.GetColor(MainActivity.CurrentContext.Resources,
-                            Resource.Color.LimeAccentColourContrast, null)
-                        : AccentColourDark;
+                    AccentColourContrast = AccentColourDark;
                     AccentColourHex =
                         MainActivity.CurrentContext.Resources.GetString(Resource.Color.LimeAccentColour);
                     AccentColourLightHex =

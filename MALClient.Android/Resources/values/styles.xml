@@ -102,7 +102,7 @@
     <item name="AccentColourDark">@color/LimeAccentColourDark</item>
     <item name="AccentColourLight">@color/LimeAccentColourLight</item>
     <item name="OpaqueAccentColour">@color/LimeOpaqueAccentColour</item>
-    <item name="AccentColourContrast">@color/LimeAccentColourContrast</item>
+    <item name="AccentColourContrast">@color/LimeAccentColour</item>
     <item name="BrushMessageBubbleMine">@color/LimeLightBrushMessageBubbleMine</item>
     <item name="BrushMessageBubbleOther">@color/LimeLightBrushMessageBubbleOther</item>
 

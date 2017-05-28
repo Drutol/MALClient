@@ -39,6 +39,7 @@ namespace MALClient.Android.BackgroundTasks
                 ResourceLocator.RegisterAppDataServiceAdapter(new ApplicationDataServiceService());
                 ResourceLocator.RegisterPasswordVaultAdapter(new PasswordVaultProvider());
                 ResourceLocator.RegisterMessageDialogAdapter(new MessageDialogProvider());
+                ResourceLocator.RegisterHttpContextAdapter(new MalHttpContextProvider());
                 ResourceLocator.RegisterDataCacheAdapter(new Adapters.DataCache(null));
                 Credentials.Init();
             }

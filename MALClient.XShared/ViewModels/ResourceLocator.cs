@@ -78,6 +78,11 @@ namespace MALClient.XShared.ViewModels
             SimpleIoc.Default.Register<IMessageDialogProvider>(() => msgDialog);
         }
 
+        public static void RegisterHttpContextAdapter(IMalHttpContextProvider httpContext)
+        {
+            SimpleIoc.Default.Register<IMalHttpContextProvider>(() => httpContext);
+        }
+
         public static void RegisterDataCacheAdapter(IDataCache dataCache)
         {
             SimpleIoc.Default.Register<IDataCache>(() => dataCache);

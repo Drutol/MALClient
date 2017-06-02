@@ -3,11 +3,18 @@ using System.Security.Cryptography;
 using System.Windows.Input;
 using Android.Views;
 using Android.Widget;
+using MALClient.Android.Adapters;
+using MALClient.Android.BackgroundTasks;
+using MALClient.XShared.BL;
+using MALClient.XShared.ViewModels.Details;
+using MALClient.XShared.ViewModels.Forums;
+using MALClient.XShared.ViewModels.Main;
 
 namespace MALClient.Android
 {
     // This class is never actually executed, but when Xamarin linking is enabled it does how to ensure types and properties
     // are preserved in the deployed app
+    [global::Android.Runtime.Preserve(AllMembers = true)]
     public class LinkerPleaseInclude
     {
         public void Include(Button button)
@@ -61,5 +68,53 @@ namespace MALClient.Android
         {
             System.Security.Cryptography.AesCryptoServiceProvider b = new System.Security.Cryptography.AesCryptoServiceProvider();
         }
+
+        public void Include(RecommendationsViewModel vm)
+        {
+            vm.PopulateData();
+            var vm1 = new RecommendationsViewModel();
+        }
+
+        public void Include(SearchPageViewModel vm) { var vm1 = new SearchPageViewModel(); }
+        public void Include(HummingbirdProfilePageViewModel vm) { var vm1 = new HummingbirdProfilePageViewModel(); }
+        public void Include(CalendarPageViewModel vm) { var vm1 = new CalendarPageViewModel(null); }
+        public void Include(MalArticlesViewModel vm) { var vm1 = new MalArticlesViewModel(); }
+        public void Include(MalMessagingViewModel vm) { var vm1 = new MalMessagingViewModel(); }
+        public void Include(MalMessageDetailsViewModel vm) { var vm1 = new MalMessageDetailsViewModel(); }
+        public void Include(AnimeDetailsPageViewModel vm) { var vm1 = new AnimeDetailsPageViewModel(null,null,null); }
+        public void Include(AnimeListViewModel vm) { var vm1 = new AnimeListViewModel(null); }
+        public void Include(ForumIndexViewModel vm) { var vm1 = new ForumIndexViewModel(); }
+        public void Include(ForumsMainViewModel vm) { var vm1 = new ForumsMainViewModel(); }
+        public void Include(ForumBoardViewModel vm) { var vm1 = new ForumBoardViewModel(); }
+        public void Include(ForumTopicViewModel vm) { var vm1 = new ForumTopicViewModel(null); }
+        public void Include(ForumsStarredMessagesViewModel vm) { var vm1 = new ForumsStarredMessagesViewModel(null); }
+        public void Include(ForumNewTopicViewModel vm) { var vm1 = new ForumNewTopicViewModel(); }
+        public void Include(HistoryViewModel vm) { var vm1 = new HistoryViewModel(null); }
+        public void Include(CharacterDetailsViewModel vm) { var vm1 = new CharacterDetailsViewModel(); }
+        public void Include(StaffDetailsViewModel vm) { var vm1 = new StaffDetailsViewModel(); }
+        public void Include(CharacterSearchViewModel vm) { var vm1 = new CharacterSearchViewModel(); }
+        public void Include(ProfilePageViewModel vm) { var vm1 = new ProfilePageViewModel(null); }
+        public void Include(LogInViewModel vm) { var vm1 = new LogInViewModel(); }
+        public void Include(WallpapersViewModel vm) { var vm1 = new WallpapersViewModel(); }
+        public void Include(PopularVideosViewModel vm) { var vm1 = new PopularVideosViewModel(); }
+        public void Include(FriendsFeedsViewModel vm) { var vm1 = new FriendsFeedsViewModel(); }
+        public void Include(NotificationsHubViewModel vm) { var vm1 = new NotificationsHubViewModel(); }
+
+        public void Include(AnimeLibraryDataStorage vm) { var vm1 = new AnimeLibraryDataStorage(); }
+        public void Include(HandyDataStorage vm) { var vm1 = new HandyDataStorage(null,null); }
+
+        public void Include(ClipboardProvider vm) { var vm1 = new ClipboardProvider(); }
+        public void Include(SystemControlLauncherService vm) { var vm1 = new SystemControlLauncherService(); }
+        public void Include(MessageDialogProvider vm) { var vm1 = new MessageDialogProvider(); }
+        public void Include(ImageDownloaderService vm) { var vm1 = new ImageDownloaderService(); }
+        public void Include(TelemetryProvider vm) { var vm1 = new TelemetryProvider(null,null); }
+        public void Include(NotificationTaskManager vm) { var vm1 = new NotificationTaskManager(); }
+        public void Include(ScheduledJobsManager vm) { var vm1 = new ScheduledJobsManager(); }
+        public void Include(CssManager vm) { var vm1 = new CssManager(); }
+        public void Include(ChangelogProvider vm) { var vm1 = new ChangelogProvider(); }
+        public void Include(MalHttpContextProvider vm) { var vm1 = new MalHttpContextProvider(); }
+        public void Include(SnackbarProvider vm) { var vm1 = new SnackbarProvider(); }
+        public void Include(ConnectionInfoProvider vm) { var vm1 = new ConnectionInfoProvider(); }
+
     }
 }

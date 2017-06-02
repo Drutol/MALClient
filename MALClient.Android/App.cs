@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -45,14 +46,24 @@ namespace MALClient.Android
             //    VerbosePerformanceLogging = true,
             //    Logger = new MiniLogger()
             //});
+            var sp = new Stopwatch();
+            sp.Start();
             ImageService.Instance.Initialize(new Configuration
             {
                 HttpClient = new HttpClient(new NativeMessageHandler { AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate}),
                 ExecuteCallbacksOnUIThread = true,
             });
+            System.Diagnostics.Debug.WriteLine($"ImgSer init {sp.ElapsedMilliseconds}");
+            sp.Restart();
             ViewModelLocator.RegisterBase();
+            System.Diagnostics.Debug.WriteLine($"RegBase {sp.ElapsedMilliseconds}");
+            sp.Restart();
             AndroidViewModelLocator.RegisterDependencies();
+            System.Diagnostics.Debug.WriteLine($"RegDep {sp.ElapsedMilliseconds}");
+            sp.Restart();
             InitializationRoutines.InitApp();
+            System.Diagnostics.Debug.WriteLine($"App init {sp.ElapsedMilliseconds}");
+            sp.Restart();
             ServicePointManager.ServerCertificateValidationCallback += (o, certificate, chain, errors) =>
             {
                 if(certificate.Subject == "CN=*.myanimelist.net" || certificate.Subject == "CN=*.google.com, O=Google Inc, L=Mountain View, S=California, C=US")

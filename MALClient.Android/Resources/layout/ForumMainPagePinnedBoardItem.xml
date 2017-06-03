@@ -7,7 +7,7 @@
                android:layout_width="wrap_content" android:background="?BrushForumPinnedBoard" android:foreground="?selectableItemBackground"
                android:layout_height="wrap_content" android:clickable="true" android:focusable="true" >
     <TextView android:background="@drawable/border_accent_underline" android:padding="5dp"
-              android:layout_width="match_parent" android:textColor="?AccentColourLight"
+              android:layout_width="match_parent" android:textColor="?BrushText"
               android:layout_height="match_parent" android:text="Creative Corner" android:id="@+id/ForumMainPagePinnedBoardItemText"/>
   </FrameLayout>
 </FrameLayout>

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
-
+using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
 using Android.OS;
@@ -36,7 +36,7 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
         protected override void InitBindings()
         {
             Bindings.Add(this.SetBinding(() => ViewModel.CurrentData)
-                .WhenSourceChanges(() =>
+                .WhenSourceChanges( async () =>
                 {
                     ProfilePageGeneralTabScrollingContainer.ScrollY = 0;
 
@@ -68,17 +68,8 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
                         ProfilePageGeneralTabFriendsEmptyNotice.Visibility = ViewStates.Visible;
 
                     ProfilePageGeneralTabCommentsList.RemoveAllViews();
-                    if(ProfilePageGeneralTabScrollingContainer.ScrollY > 0 || Build.VERSION.SdkInt < BuildVersionCodes.M)
-                        PopulateComments();
-                    else
-                        ProfilePageGeneralTabScrollingContainer.SetOnScrollChangeListener(new ScrollListener(i =>
-                        {
-                            if (i > 0)
-                            {
-                                ProfilePageGeneralTabScrollingContainer.SetOnScrollChangeListener(null);
-                                PopulateComments();
-                            }
-                        }));
+                    await Task.Delay(500);
+                    PopulateComments();
                 }));
 
             Bindings.Add(
@@ -86,20 +77,30 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
                     () => ProfilePageGeneralTabCommentsEmptyNotice.Visibility)
                     .ConvertSourceToTarget(Converters.BoolToVisibility));
 
-            Bindings.Add(
-                this.SetBinding(() => ViewModel.CommentInputBoxVisibility,
-                    () => ProfilePageGeneralTabCommentInput.Visibility)
-                    .ConvertSourceToTarget(Converters.BoolToVisibility));
+            Bindings.Add(this.SetBinding(() => ViewModel.CommentInputBoxVisibility).WhenSourceChanges(() =>
+            {
+                if (ViewModel.CommentInputBoxVisibility)
+                {
+                    ProfilePageGeneralTabCommentInput.Visibility = ViewStates.Visible;
+                    ProfilePageGeneralTabSendCommentButton.Visibility = ViewStates.Visible;
+                }
+                else
+                {
+                    ProfilePageGeneralTabCommentInput.Visibility = ViewStates.Gone;
+                    ProfilePageGeneralTabSendCommentButton.Visibility = ViewStates.Gone;
+                }
+            }));
+
 
             Bindings.Add(
                 this.SetBinding(() => ViewModel.CommentText,
                     () => ProfilePageGeneralTabCommentInput.Text,BindingMode.TwoWay));
 
-            ProfilePageGeneralTabAnimeListButton.SetCommand(ViewModel.NavigateAnimeListCommand);
-            ProfilePageGeneralTabMangaListButton.SetCommand(ViewModel.NavigateMangaListCommand);
-            ProfilePageGeneralTabHistoryButton.SetCommand(ViewModel.NavigateHistoryCommand);
-            ProfilePageGeneralTabSendCommentButton.SetCommand(ViewModel.SendCommentCommand);
-            ProfilePageGeneralTabActionButton.Click += ProfilePageGeneralTabActionButtonOnClick;
+            ProfilePageGeneralTabAnimeListButton.SetOnClickListener(new OnClickListener(v => ViewModel.NavigateAnimeListCommand.Execute(null)));
+            ProfilePageGeneralTabMangaListButton.SetOnClickListener(new OnClickListener(v => ViewModel.NavigateMangaListCommand.Execute(null)));
+            ProfilePageGeneralTabHistoryButton.SetOnClickListener(new OnClickListener(v => ViewModel.NavigateHistoryCommand.Execute(null)));
+            ProfilePageGeneralTabSendCommentButton.SetOnClickListener(new OnClickListener(v => ViewModel.SendCommentCommand.Execute(null)));
+            ProfilePageGeneralTabActionButton.SetOnClickListener(new OnClickListener(v => ProfilePageGeneralTabActionButtonOnClick()));
         }
 
         private void PopulateComments()
@@ -108,7 +109,7 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
                 ViewModel.CurrentData.Comments.GetAdapter(GetCommentTemplateDelegate));
         }
 
-        private async void ProfilePageGeneralTabActionButtonOnClick(object sender, EventArgs eventArgs)
+        private async void ProfilePageGeneralTabActionButtonOnClick()
         {
             var str = await TextInputDialogBuilder.BuildInputTextDialog(Context, "Find user", "username...","Go");
             if(!string.IsNullOrEmpty(str))

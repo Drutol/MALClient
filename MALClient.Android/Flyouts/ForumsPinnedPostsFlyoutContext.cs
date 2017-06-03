@@ -41,6 +41,20 @@ namespace MALClient.Android.Flyouts
             if (_menu == null)
                 _menu = BuildForPinnedPosts();
             _menu.Show();
+
+            if (_list != null)
+            {
+                var count = _viewModel.PinnedTopics.Count;
+                count = count > 3 ? 3 : count;
+                var height = 0;
+                for (int i = 0; i < count; i++)
+                {
+                    height += DimensionsHelper.DpToPx(65);
+                }
+                var param = _list.LayoutParameters;
+                param.Height = height;
+                _list.LayoutParameters = param;
+            }
         }
 
         private DroppyMenuPopup BuildForPinnedPosts()
@@ -54,7 +68,7 @@ namespace MALClient.Android.Flyouts
             droppyBuilder.AddMenuItem(new DroppyMenuCustomItem(new DroppyMenuSeparatorView(_parent.Context)));
             if (_viewModel.PinnedTopics.Any())
             {
-                _list = new ListView(_parent.Context) { LayoutParameters = new ViewGroup.LayoutParams(DimensionsHelper.DpToPx(250), -2) };
+                _list = new ListView(_parent.Context) { LayoutParameters = new ViewGroup.LayoutParams(DimensionsHelper.DpToPx(250), -2), Id = 7890};
 
                 _list.Adapter = _viewModel.PinnedTopics.GetAdapter(GetTemplateDelegate);
                 droppyBuilder.AddMenuItem(new DroppyMenuCustomItem(_list));
@@ -105,6 +119,8 @@ namespace MALClient.Android.Flyouts
             var view = sender as View;
             _viewModel.UnpinTopicCommand.Execute(view.Tag.Unwrap<ForumTopicLightEntry>());
             (view.Parent.Parent as View).Visibility = ViewStates.Gone;
+            if(!_viewModel.PinnedTopics.Any())
+                _menu.Dismiss(true);
         }
 
         private void ViewOnClick(object sender, EventArgs eventArgs)

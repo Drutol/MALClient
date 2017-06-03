@@ -265,6 +265,10 @@ namespace MALClient.Android.UserControls.ForumItems
             {
                 ViewModel.GoToPostersOtherPosts.Execute(null);
             }));
+
+            var listener = new OnClickListener(view => ViewModelLocator.ForumsTopic.NavigateProfileCommand.Execute(ViewModel.Data.Poster.MalUser));
+            ForumTopicPageItemPostAuthor.SetOnClickListener(listener);
+            ForumTopicPageItemAuthorImage.SetOnClickListener(listener);
         }
 
         private async Task<string> NavigationInterceptOpportunity(string targetUrl)

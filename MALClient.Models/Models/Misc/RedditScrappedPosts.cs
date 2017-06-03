@@ -3,9 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Android.Runtime;
 using MALClient.Models.Enums;
 
 // ReSharper disable InconsistentNaming
+namespace Android.Runtime
+{
+    internal sealed class PreserveAttribute : System.Attribute
+    {
+        public bool AllMembers;
+        public bool Conditional;
+    }
+}
 
 namespace MALClient.Models.Models.Misc
 {
@@ -36,10 +45,11 @@ namespace MALClient.Models.Models.Misc
         }
     }
 
+    [Preserve(AllMembers = true)]
     public class Facets
     {
     }
-
+    [Preserve(AllMembers = true)]
     public class Oembed
     {
         public string provider_url { get; set; }
@@ -55,13 +65,13 @@ namespace MALClient.Models.Models.Misc
         public string thumbnail_url { get; set; }
         public int thumbnail_height { get; set; }
     }
-
+    [Preserve(AllMembers = true)]
     public class SecureMedia
     {
         public Oembed oembed { get; set; }
         public string type { get; set; }
     }
-
+    [Preserve(AllMembers = true)]
     public class SecureMediaEmbed
     {
         public string content { get; set; }
@@ -69,7 +79,7 @@ namespace MALClient.Models.Models.Misc
         public bool? scrolling { get; set; }
         public int? height { get; set; }
     }
-
+    [Preserve(AllMembers = true)]
     public class Oembed2
     {
         public string provider_url { get; set; }
@@ -85,13 +95,13 @@ namespace MALClient.Models.Models.Misc
         public string thumbnail_url { get; set; }
         public int thumbnail_height { get; set; }
     }
-
+    [Preserve(AllMembers = true)]
     public class Media
     {
         public Oembed2 oembed { get; set; }
         public string type { get; set; }
     }
-
+    [Preserve(AllMembers = true)]
     public class MediaEmbed
     {
         public string content { get; set; }
@@ -99,25 +109,25 @@ namespace MALClient.Models.Models.Misc
         public bool? scrolling { get; set; }
         public int? height { get; set; }
     }
-
+    [Preserve(AllMembers = true)]
     public class Source
     {
         public string url { get; set; }
         public int width { get; set; }
         public int height { get; set; }
     }
-
+    [Preserve(AllMembers = true)]
     public class Resolution
     {
         public string url { get; set; }
         public int width { get; set; }
         public int height { get; set; }
     }
-
+    [Preserve(AllMembers = true)]
     public class Variants
     {
     }
-
+    [Preserve(AllMembers = true)]
     public class Image
     {
         public Source source { get; set; }
@@ -125,12 +135,12 @@ namespace MALClient.Models.Models.Misc
         public Variants variants { get; set; }
         public string id { get; set; }
     }
-
+    [Preserve(AllMembers = true)]
     public class Preview
     {
         public List<Image> images { get; set; }
     }
-
+    [Preserve(AllMembers = true)]
     public class Data2
     {
         public bool contest_mode { get; set; }
@@ -186,13 +196,13 @@ namespace MALClient.Models.Models.Misc
         public Preview preview { get; set; }
         public string post_hint { get; set; }
     }
-
+    [Preserve(AllMembers = true)]
     public class Child
     {
         public string kind { get; set; }
         public Data2 data { get; set; }
     }
-
+    [Preserve(AllMembers = true)]
     public class Data
     {
         public Facets facets { get; set; }
@@ -201,7 +211,7 @@ namespace MALClient.Models.Models.Misc
         public object after { get; set; }
         public object before { get; set; }
     }
-
+    [Preserve(AllMembers = true)]
     public class RedditSearchRoot
     {
         public string kind { get; set; }

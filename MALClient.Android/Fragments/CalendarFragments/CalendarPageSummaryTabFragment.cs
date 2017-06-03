@@ -36,6 +36,7 @@ namespace MALClient.Android.Fragments.CalendarFragments
         {
             foreach (var animeItemViewModel in _items.SelectMany(tuple => tuple.Item2))
                 animeItemViewModel.TimeTillNextAirCache = animeItemViewModel.GetTimeTillNextAir(_jstTimeZone);
+            _gridViewColumnHelper.OnConfigurationChanged(Resources.Configuration);
         }
 
         protected override void InitBindings()

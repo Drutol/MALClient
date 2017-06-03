@@ -160,5 +160,22 @@ namespace MALClient.Android
                 inputManager.ToggleSoftInput(ShowFlags.Forced, 0);
             }
         }
+
+        /// <summary>
+        /// Sets margins in dp
+        /// </summary>
+        /// <param name="view"></param>
+        /// <param name="l"></param>
+        /// <param name="t"></param>
+        /// <param name="r"></param>
+        /// <param name="b"></param>
+        public static void SetMargins(this View view, float l, float t, float r, float b)
+        {
+            var param = view.LayoutParameters as ViewGroup.MarginLayoutParams;
+            param.SetMargins(DimensionsHelper.DpToPx(l), DimensionsHelper.DpToPx(t), DimensionsHelper.DpToPx(r),
+                DimensionsHelper.DpToPx(b));
+            view.LayoutParameters = param;
+        }
+
     }
 }

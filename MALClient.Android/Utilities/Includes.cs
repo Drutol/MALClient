@@ -6,6 +6,7 @@ using Android.Widget;
 using MALClient.Android.Adapters;
 using MALClient.Android.BackgroundTasks;
 using MALClient.Android.Fragments.SettingsFragments;
+using MALClient.Models.Models.Misc;
 using MALClient.XShared.BL;
 using MALClient.XShared.ViewModels.Details;
 using MALClient.XShared.ViewModels.Forums;
@@ -118,6 +119,23 @@ namespace MALClient.Android
         public void Include(ConnectionInfoProvider vm) { var vm1 = new ConnectionInfoProvider(); }
 
         public void Include(SettingsPageFragment vm) { var vm1 = new SettingsPageFragment(); }
+
+        //public void Include(RedditSearchRoot vm) { var vm1 = new RedditSearchRoot(); vm1.data = new Data(); }
+        //public void Include(Models.Models.Misc.Data vm) { var vm1 = new Models.Models.Misc.Data(); }
+        //public void Include(Models.Models.Misc.Child vm) { var vm1 = new Models.Models.Misc.Child(); }
+        //public void Include(Models.Models.Misc.Data2 vm) { var vm1 = new Models.Models.Misc.Data2(); }
+        //public void Include(Models.Models.Misc.Facets vm) { var vm1 = new Models.Models.Misc.Facets(); }
+        //public void Include(Models.Models.Misc.Image vm) { var vm1 = new Models.Models.Misc.Image(); }
+        //public void Include(Models.Models.Misc.Media vm) { var vm1 = new Models.Models.Misc.Media(); }
+        //public void Include(Models.Models.Misc.Oembed vm) { var vm1 = new Models.Models.Misc.Oembed(); }
+        //public void Include(Models.Models.Misc.Oembed2 vm) { var vm1 = new Models.Models.Misc.Oembed2(); }
+        //public void Include(Models.Models.Misc.SecureMediaEmbed vm) { var vm1 = new Models.Models.Misc.SecureMediaEmbed(); }
+        //public void Include(Models.Models.Misc.Resolution vm) { var vm1 = new Models.Models.Misc.Resolution(); }
+        //public void Include(Models.Models.Misc.Source vm) { var vm1 = new Models.Models.Misc.Source(); }
+        //public void Include(Models.Models.Misc.Preview vm) { var vm1 = new Models.Models.Misc.Preview(); }
+        //public void Include(Models.Models.Misc.Variants vm) { var vm1 = new Models.Models.Misc.Variants(); }
+        //public void Include(Models.Models.Misc.MediaEmbed vm) { var vm1 = new Models.Models.Misc.MediaEmbed(); }
+        //public void Include(Models.Models.Misc.SecureMedia vm) { var vm1 = new Models.Models.Misc.SecureMedia(); }
 
     }
 }

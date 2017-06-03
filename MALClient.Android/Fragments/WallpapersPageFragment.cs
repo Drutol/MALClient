@@ -168,7 +168,7 @@ namespace MALClient.Android.Fragments
                         return;
 
                     var bounds = imageViewAsync.Drawable.Bounds;
-                    vm.Resolution = $"{bounds.Bottom}x{bounds.Right}";
+                    vm.Resolution = $"{bounds.Right}x{bounds.Bottom}";
                     parent.FindViewById<TextView>(Resource.Id.WallpapersPageItemResolution).Text = vm.Resolution;
 
                     imageViewAsync.Visibility = ViewStates.Visible;

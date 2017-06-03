@@ -56,6 +56,28 @@ namespace MALClient.Android
             sb.Max = 10;
         }
 
+        public void Include(Switch sw)
+        {
+            sw.CheckedChange += (sender, args) =>
+            {
+
+            };
+        }
+
+        public void Include(EditText et)
+        {
+            et.Text = "fdsf";
+            et.SetText("aaa",TextView.BufferType.Normal);
+            et.TextChanged += (sender, args) =>
+            {
+
+            };
+            et.AfterTextChanged += (sender, args) =>
+            {
+
+            };
+        }
+
         public void Include(INotifyCollectionChanged changed)
         {
             changed.CollectionChanged += (s, e) => { var test = string.Format("{0}{1}{2}{3}{4}", e.Action, e.NewItems, e.NewStartingIndex, e.OldItems, e.OldStartingIndex); };

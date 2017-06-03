@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Android.Runtime;
 using HtmlAgilityPack;
 using MALClient.Models.Enums;
 using MALClient.Models.Models;
@@ -144,6 +145,7 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Forums
         #endregion
 
         #region Edit
+        [Preserve(AllMembers = true)]
         class MessageHtmlResponse
         {
             public string message_html { get; set; }
@@ -191,6 +193,7 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Forums
 
         }
 
+        [Preserve(AllMembers = true)]
         class MessageBbcodeResponse
         {
             public string message { get; set; }

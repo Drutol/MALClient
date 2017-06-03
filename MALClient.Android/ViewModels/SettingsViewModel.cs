@@ -17,6 +17,7 @@ using MALClient.XShared.ViewModels;
 
 namespace MALClient.Android.ViewModels
 {
+    [Preserve(AllMembers = true)]
     public class SettingsViewModel : SettingsViewModelBase
     {
         public override event SettingsNavigationRequest NavigationRequest;

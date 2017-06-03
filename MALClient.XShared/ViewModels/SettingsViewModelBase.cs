@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Android.Runtime;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using MALClient.Adapters;
@@ -28,6 +29,7 @@ namespace MALClient.XShared.ViewModels
         public SettingsPageIndex PageType { get; set; }
     }
 
+    [Preserve(AllMembers = true)]
     public abstract class SettingsViewModelBase : ViewModelBase
     {
         public abstract event SettingsNavigationRequest NavigationRequest;

@@ -3,21 +3,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Android.Runtime;
 
 namespace MALClient.Models.Models.ApiResponses
 {
+    [Preserve(AllMembers = true)]
     public class MalScrappeNotificationdAnime
     {
         public string title { get; set; }
         public string mediaType { get; set; }
     }
-
+    [Preserve(AllMembers = true)]
     public class MalScrappedNotificationAnime2
     {
         public string title { get; set; }
         public string url { get; set; }
     }
-
+    [Preserve(AllMembers = true)]
     public class MalScrappedNotification
     {
         public string id { get; set; }
@@ -51,7 +53,7 @@ namespace MALClient.Models.Models.ApiResponses
         public string message { get; set; }
         public List<MalScrappedNotificationAnime2> animes { get; set; }
     }
-
+    [Preserve(AllMembers = true)]
     public class MalScrappedRootNotification
     {
         public List<MalScrappedNotification> items { get; set; }

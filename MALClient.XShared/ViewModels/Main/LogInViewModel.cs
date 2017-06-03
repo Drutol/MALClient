@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Xml.Linq;
+using Android.Runtime;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using MALClient.Models.Enums;
@@ -55,7 +56,9 @@ namespace MALClient.XShared.ViewModels.Main
             }
         }
 
+        [Preserve]
         public string UserNameInput { get; set; }
+        [Preserve]
         public string PasswordInput { get; set; }
 
 

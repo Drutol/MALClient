@@ -5,7 +5,7 @@ using Android.Graphics;
 
 namespace MALClient.Android
 {
-    public class FontManager
+    public static class FontManager
     {
         public const string TypefacePath =  "fonts/fontawesome-webfont.ttf";
 

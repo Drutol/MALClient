@@ -28,7 +28,7 @@ using MALClient.XShared.ViewModels.Details;
 
 namespace MALClient.Android.DIalogs
 {
-    public class AnimeDetailsPageDialogBuilder
+    public static class AnimeDetailsPageDialogBuilder
     {
         private static DialogPlus _videosDialog;
         private static List<Binding> _videosDialogBindings;

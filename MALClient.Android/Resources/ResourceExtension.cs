@@ -20,11 +20,11 @@ namespace MALClient.Android.Resources
 {
     public static class ResourceExtension
     {
-        static ResourceExtension()
+        public static void Init()
         {
             if (Settings.SelectedTheme == 1)
             {
-                BrushAnimeItemInnerBackground = ResourcesCompat.GetColor(MainActivity.CurrentContext.Resources, Resource.Color.DarkBrushAnimeItemInnerBackground,null);
+                BrushAnimeItemInnerBackground = ResourcesCompat.GetColor(MainActivity.CurrentContext.Resources, Resource.Color.DarkBrushAnimeItemInnerBackground, null);
                 BrushAnimeItemBackground = ResourcesCompat.GetColor(MainActivity.CurrentContext.Resources, Resource.Color.DarkBrushAnimeItemBackground, null);
                 BrushAppBars = ResourcesCompat.GetColor(MainActivity.CurrentContext.Resources, Resource.Color.DarkBrushAppBars, null);
                 BrushFlyoutBackground = ResourcesCompat.GetColor(MainActivity.CurrentContext.Resources, Resource.Color.DarkBrushFlyoutBackground, null);
@@ -157,27 +157,27 @@ namespace MALClient.Android.Resources
 
         #region Accents
 
-        public static readonly int AccentColour;
-        public static readonly int AccentColourDark;
-        public static readonly int AccentColourContrast;
-        public static readonly int OpaqueAccentColour;
+        public static  int AccentColour;
+        public static  int AccentColourDark;
+        public static  int AccentColourContrast;
+        public static  int OpaqueAccentColour;
         public static string AccentColourHex;
         public static string AccentColourLightHex;
         public static string AccentColourDarkHex;
-        public static readonly int AccentColourRes;
-        public static readonly int AccentColourDarkRes;
-        public static readonly int OpaqueAccentColourRes;
+        public static  int AccentColourRes;
+        public static  int AccentColourDarkRes;
+        public static  int OpaqueAccentColourRes;
 
         #endregion
 
         #region Background
 
-        public static readonly int BrushAnimeItemInnerBackground;
-        public static readonly int BrushAnimeItemBackground;
-        public static readonly int BrushAppBars;
-        public static readonly int BrushFlyoutBackground;
-        public static readonly int BrushRowAlternate1;
-        public static readonly int BrushRowAlternate2;
+        public static  int BrushAnimeItemInnerBackground;
+        public static  int BrushAnimeItemBackground;
+        public static  int BrushAppBars;
+        public static  int BrushFlyoutBackground;
+        public static  int BrushRowAlternate1;
+        public static  int BrushRowAlternate2;
 
 
         #endregion
@@ -185,11 +185,11 @@ namespace MALClient.Android.Resources
         #region Text
 
 
-        public static readonly int BrushText;
-        public static readonly int BrushSelectedDialogItem;
+        public static  int BrushText;
+        public static  int BrushSelectedDialogItem;
         public static int BrushNoSearchResults;
 
-        public static readonly string FontSizeLight =
+        public static  string FontSizeLight =
             MainActivity.CurrentContext.Resources.GetString(Resource.String.font_family_light);
 
         public static int BrushTextRes;
@@ -204,9 +204,9 @@ namespace MALClient.Android.Resources
         public static int BrushHamburgerBackgroundRes;
 
 
-        public static readonly int BrushRowAlternate1Res;
-        public static readonly int BrushRowAlternate2Res;
-        public static readonly int BrushAnimeItemInnerBackgroundRes;
+        public static  int BrushRowAlternate1Res;
+        public static  int BrushRowAlternate2Res;
+        public static  int BrushAnimeItemInnerBackgroundRes;
 
         #endregion
 

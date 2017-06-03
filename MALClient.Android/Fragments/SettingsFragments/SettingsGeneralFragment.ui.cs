@@ -25,7 +25,7 @@ namespace MALClient.Android.Fragments.SettingsFragments
         private ImageButton _settingsPageGeneralColorPurple;
         private ImageButton _settingsPageGeneralColorBlue;
         private ImageButton _settingsPageGeneralColorLime;
-        private TextView _settingsPageGeneralThemeChangeNotice;
+        private Button _settingsPageGeneralThemeChangeApply;
         private Switch _settingsPageGeneralEnableSwipeSwitch;
         private Switch _settingsPageGeneralPullHigherSwitch;
         private Switch _settingsPageGeneralSeasonSwitch;
@@ -83,7 +83,7 @@ namespace MALClient.Android.Fragments.SettingsFragments
 
         public ImageButton SettingsPageGeneralColorLime => _settingsPageGeneralColorLime ?? (_settingsPageGeneralColorLime = FindViewById<ImageButton>(Resource.Id.SettingsPageGeneralColorLime));
 
-        public TextView SettingsPageGeneralThemeChangeNotice => _settingsPageGeneralThemeChangeNotice ?? (_settingsPageGeneralThemeChangeNotice = FindViewById<TextView>(Resource.Id.SettingsPageGeneralThemeChangeNotice));
+        public Button SettingsPageGeneralThemeChangeApply => _settingsPageGeneralThemeChangeApply ?? (_settingsPageGeneralThemeChangeApply = FindViewById<Button>(Resource.Id.SettingsPageGeneralThemeChangeApply));
 
         public Switch SettingsPageGeneralEnableSwipeSwitch => _settingsPageGeneralEnableSwipeSwitch ?? (_settingsPageGeneralEnableSwipeSwitch = FindViewById<Switch>(Resource.Id.SettingsPageGeneralEnableSwipeSwitch));
 

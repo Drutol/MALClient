@@ -63,11 +63,10 @@
         android:layout_height="wrap_content" android:fontFamily="@string/font_family_light"
         android:text="Want more accents? Leave me a message on github!" android:textColor="?BrushText"
         android:gravity="center_horizontal" />
-      <TextView android:id="@+id/SettingsPageGeneralThemeChangeNotice"
-                android:layout_width="match_parent" android:visibility="gone"
-                android:layout_height="wrap_content" android:fontFamily="@string/font_family_light"
-                android:text="Changes will be visible on next app launch!" android:textColor="?BrushText"
-                android:gravity="center_horizontal" />
+      <Button android:id="@+id/SettingsPageGeneralThemeChangeApply"
+              android:layout_width="wrap_content" android:visibility="visible" android:layout_gravity="center_horizontal"
+              android:layout_height="wrap_content" android:backgroundTint="?AccentColour"
+              android:text="Apply!" android:textColor="#fff"/>
     </LinearLayout>
 
     <View style="@style/Divider" android:layout_marginTop="10dp" />

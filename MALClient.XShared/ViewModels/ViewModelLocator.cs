@@ -22,7 +22,7 @@ namespace MALClient.XShared.ViewModels
         public static void RegisterBase()
         {
             ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);
-
+            
             SimpleIoc.Default.Register<RecommendationsViewModel>();
             SimpleIoc.Default.Register<SearchPageViewModel>();
             SimpleIoc.Default.Register<HummingbirdProfilePageViewModel>();

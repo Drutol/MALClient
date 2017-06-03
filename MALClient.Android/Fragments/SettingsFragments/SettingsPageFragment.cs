@@ -15,6 +15,11 @@ namespace MALClient.Android.Fragments.SettingsFragments
     {
         private readonly SettingsPageIndex? _page;
 
+        public SettingsPageFragment()
+        {
+
+        }
+
         public SettingsPageFragment(SettingsPageIndex? page = null)
         {
             _page = page;

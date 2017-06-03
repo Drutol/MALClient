@@ -23,6 +23,7 @@ using GalaSoft.MvvmLight.Helpers;
 using MALClient.Android.Activities;
 using MALClient.Android.BindingConverters;
 using MALClient.Android.CollectionAdapters;
+using MALClient.Android.DIalogs;
 using MALClient.Android.Flyouts;
 using MALClient.Android.Listeners;
 using MALClient.Android.Resources;
@@ -37,9 +38,15 @@ namespace MALClient.Android.Fragments
 {
     public partial class AnimeListPageFragment : MalFragmentBase
     {
+        private const string FabMenuLoadDetails = "Load all details";
+        private const string FabMenuDisplayModes = "Display modes";
+        private const string FabMenuSetListSource = "Set List Source";
+
+
         private DroppyMenuPopup _sortingMenu;
         private DroppyMenuPopup _filterMenu;
         private DroppyMenuPopup _displayMenu;
+        private DroppyMenuPopup _fabMenu;
         private FloatingActionMenu _actionMenu;
 
         private View _loadMoreFooter;
@@ -101,11 +108,25 @@ namespace MALClient.Android.Fragments
             ViewModel.ScrollIntoViewRequested += ViewModelOnScrollIntoViewRequested;
 
 
-           
-           // AnimeListPageFilterMenu.SetCommand("Click",new RelayCommand(ShowFilterMenu));
-           // AnimeListPageSortMenu.SetCommand("Click", new RelayCommand(ShowSortMenu));
-           // AnimeListPageDisplayMenu.SetCommand("Click", new RelayCommand(ShowDisplayMenu));
-           // AnimeListPageSeasonMenu.SetCommand("Click",new RelayCommand(ShowSeasonMenu));
+            AnimeListPageActionButton.LongClickable = true;
+            AnimeListPageActionButton.SetOnLongClickListener(new OnLongClickListener(view =>
+            {
+                var items = new List<string>();
+
+                if(ViewModel.AppBtnListSourceVisibility)
+                    items.Add(FabMenuSetListSource);
+                if(ViewModel.LoadAllDetailsButtonVisiblity)
+                    items.Add(FabMenuLoadDetails);
+                items.Add(FabMenuDisplayModes);
+                _fabMenu = FlyoutMenuBuilder.BuildGenericFlyout(Activity, AnimeListPageActionButton, items,
+                    OnFabMenuItemClicked);
+                _fabMenu.Tag = items;
+                _fabMenu.Show();
+            }));
+            // AnimeListPageFilterMenu.SetCommand("Click",new RelayCommand(ShowFilterMenu));
+            // AnimeListPageSortMenu.SetCommand("Click", new RelayCommand(ShowSortMenu));
+            // AnimeListPageDisplayMenu.SetCommand("Click", new RelayCommand(ShowDisplayMenu));
+            // AnimeListPageSeasonMenu.SetCommand("Click",new RelayCommand(ShowSeasonMenu));
 
             swipeRefresh.NestedScrollingEnabled = true;
             swipeRefresh.Refresh += (sender, args) =>
@@ -122,6 +143,8 @@ namespace MALClient.Android.Fragments
 
             InitDrawer();
         }
+
+
 
 
         private void InitActionMenu()
@@ -195,6 +218,38 @@ namespace MALClient.Android.Fragments
                 case Resource.Drawable.icon_fav_outline:
                     OpenTopTypeDrawer();
                     break;
+            }
+        }
+
+        private void OnFabMenuItemClicked(int i)
+        {
+            switch ((_fabMenu.Tag as List<string>)[i])
+            {
+                case FabMenuLoadDetails:
+                    ViewModel.LoadAllItemsDetailsCommand.Execute(null);
+                    ResourceLocator.SnackbarProvider.ShowText("Started pulling data in background.");
+                    break;
+                case FabMenuSetListSource:
+                    SetListSource();
+                    break;
+                case FabMenuDisplayModes:
+                    OpenViewModeDrawer();
+                    break;
+            }
+            _fabMenu.Dismiss(true);
+        }
+
+        private async void SetListSource()
+        {
+            var src = await TextInputDialogBuilder.BuildInputTextDialog(Activity, "List source", "username...", "Go!");
+            if (!string.IsNullOrWhiteSpace(src) && src.Length > 3)
+            {
+                ViewModel.ListSource = src;
+                await ViewModel.FetchData();
+            }
+            else
+            {
+                ResourceLocator.SnackbarProvider.ShowText("Invalid username");
             }
         }
 

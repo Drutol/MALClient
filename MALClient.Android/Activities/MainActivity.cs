@@ -48,15 +48,22 @@ namespace MALClient.Android.Activities
 
         public DialogPlus DialogToCollapseOnBack { get; set; }
 
-        private static bool _addedNavHandlers;
+        private bool _addedNavHandlers;
+        private static bool _staticInitPerformed;
 
         private MainViewModel _viewModel;
-        private MalFragmentBase _lastPage;
         private MainViewModel ViewModel => _viewModel ?? (_viewModel = SimpleIoc.Default.GetInstance<MainViewModel>());
 
         public MainActivity()
         {
             CurrentContext = this;
+            RegisterIoC();
+        }
+
+        private void RegisterIoC()
+        {
+            if (SimpleIoc.Default.IsRegistered<Activity>())
+                SimpleIoc.Default.Unregister<Activity>();
             SimpleIoc.Default.Register<Activity>(() => this);
         }
 
@@ -66,13 +73,13 @@ namespace MALClient.Android.Activities
             CurrentTheme = Settings.SelectedTheme;
             CurrentAccent = AndroidColourThemeHelper.CurrentTheme;
             SetRightTheme();
+            ResourceExtension.Init();
             base.OnCreate(bundle);
             if (!_addedNavHandlers)
             {
-                SetContentView(Resource.Layout.MainPage);
-                
+                RegisterIoC();
+                SetContentView(Resource.Layout.MainPage);         
                 InitAdContainer();
-
                 InitBindings();
                 ViewModel.MainNavigationRequested += ViewModelOnMainNavigationRequested;
                 ViewModel.MainNavigationRequested += ViewModelOnMainNavigationRequestedFirst;
@@ -93,15 +100,24 @@ namespace MALClient.Android.Activities
                 //{
                 //    Settings.PullHigherQualityImages = false;
                 //}
-                StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().PermitAll().Build();
-                StrictMode.SetThreadPolicy(policy);
 
-                InitializationRoutines.InitPostUpdate();
 
                 DroppyMenuPopup.OverrideRequested +=
                     (sender, action) => ViewModelLocator.NavMgr.RegisterOneTimeMainOverride(new RelayCommand(action));
                 DroppyMenuPopup.ResetOverrideRequested +=
                     (sender, eventArgs) => ViewModelLocator.NavMgr.ResetOneTimeOverride();
+
+
+
+                _addedNavHandlers = true;
+            }
+
+            if (!_staticInitPerformed)
+            {
+                StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().PermitAll().Build();
+                StrictMode.SetThreadPolicy(policy);
+
+                InitializationRoutines.InitPostUpdate();
 
                 await Task.Delay(1000);
                 if (ResourceLocator.ChangelogProvider.NewChangelog)
@@ -111,6 +127,8 @@ namespace MALClient.Android.Activities
 
                 MemoryWatcher.Watcher.Resume(true);
                 ResourceLocator.TelemetryProvider.Init();
+
+                _staticInitPerformed = true;
             }
 
         }
@@ -165,14 +183,21 @@ namespace MALClient.Android.Activities
 
         private void ViewModelOnMainNavigationRequested(Fragment fragment)
         {
-            _lastPage = fragment as MalFragmentBase;
-            var trans = FragmentManager.BeginTransaction();
-            trans.SetCustomAnimations(Resource.Animator.animation_slide_btm,
-                Resource.Animator.animation_fade_out,
-                Resource.Animator.animation_slide_btm,
-                Resource.Animator.animation_fade_out);
-            trans.Replace(Resource.Id.MainContentFrame, fragment);
-            trans.Commit();
+            try
+            {
+                var trans = FragmentManager.BeginTransaction();
+                trans.SetCustomAnimations(Resource.Animator.animation_slide_btm,
+                    Resource.Animator.animation_fade_out,
+                    Resource.Animator.animation_slide_btm,
+                    Resource.Animator.animation_fade_out);
+                trans.Replace(Resource.Id.MainContentFrame, fragment);
+                trans.CommitAllowingStateLoss();
+            }
+            catch (Exception e)
+            {
+
+            }
+
         }
 
         private void ProcessLaunchArgs(string args,bool startup)
@@ -239,6 +264,19 @@ namespace MALClient.Android.Activities
         {
             MemoryWatcher.Watcher.Resume(false);
             base.OnResume();
+        }
+
+        protected override void OnDestroy()
+        {
+            ViewModel.MediaElementCollapsed -= ViewModelOnMediaElementCollapsed;
+            ViewModel.MainNavigationRequested -= ViewModelOnMainNavigationRequested;
+            base.OnDestroy();
+        }
+
+        protected override void OnSaveInstanceState(Bundle outState)
+        {
+            //outState.PutString("WORKAROUND_FOR_BUG_19917_KEY", "WORKAROUND_FOR_BUG_19917_VALUE");
+            //base.OnSaveInstanceState(outState);
         }
 
         protected override void OnPause()

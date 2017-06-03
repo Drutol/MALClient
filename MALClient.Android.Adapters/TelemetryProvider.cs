@@ -65,14 +65,14 @@ namespace MALClient.Android.Adapters
         public void TelemetryTrackNavigation(PageIndex page)
         {
 #if !DEBUG
-            MetricsManager.TrackEvent($"Navigation: {page}");
+            //MetricsManager.TrackEvent($"Navigation: {page}");
 #endif
         }
 
         public void TelemetryTrackNavigation(ForumsPageIndex page)
         {
 #if !DEBUG
-            MetricsManager.TrackEvent($"Navigation: {page}");
+            //MetricsManager.TrackEvent($"Navigation: {page}");
 #endif
         }
     }

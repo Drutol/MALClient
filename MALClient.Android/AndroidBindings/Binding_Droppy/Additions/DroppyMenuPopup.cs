@@ -26,6 +26,7 @@ namespace Com.Shehabic.Droppy
 
         public static float RequestedElevation { get; set; } = 0;
 
+        public object Tag { get; set; }
 
         public void Show()
         {

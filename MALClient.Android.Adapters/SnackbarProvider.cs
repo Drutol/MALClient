@@ -18,11 +18,19 @@ namespace MALClient.Android.Adapters
     {
         public void ShowText(string text)
         {
-            SimpleIoc.Default.GetInstance<Activity>().RunOnUiThread(() =>
+            try
             {
-                var t = Toast.MakeText(Application.Context, text, ToastLength.Short);
-                t.Show();
-            });
+                SimpleIoc.Default.GetInstance<Activity>().RunOnUiThread(() =>
+                {
+                    var t = Toast.MakeText(Application.Context, text, ToastLength.Short);
+                    t.Show();
+                });
+            }
+            catch (Exception)
+            {
+                //saaa...
+            }
+
         }
     }
 }

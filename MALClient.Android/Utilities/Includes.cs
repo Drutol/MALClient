@@ -5,6 +5,7 @@ using Android.Views;
 using Android.Widget;
 using MALClient.Android.Adapters;
 using MALClient.Android.BackgroundTasks;
+using MALClient.Android.Fragments.SettingsFragments;
 using MALClient.XShared.BL;
 using MALClient.XShared.ViewModels.Details;
 using MALClient.XShared.ViewModels.Forums;
@@ -115,6 +116,8 @@ namespace MALClient.Android
         public void Include(MalHttpContextProvider vm) { var vm1 = new MalHttpContextProvider(); }
         public void Include(SnackbarProvider vm) { var vm1 = new SnackbarProvider(); }
         public void Include(ConnectionInfoProvider vm) { var vm1 = new ConnectionInfoProvider(); }
+
+        public void Include(SettingsPageFragment vm) { var vm1 = new SettingsPageFragment(); }
 
     }
 }

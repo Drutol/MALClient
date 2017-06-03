@@ -48,11 +48,18 @@ namespace MALClient.Android.Fragments.SettingsFragments
             SettingsPageGeneralThemeRadioGroup.SetOnCheckedChangeListener(new OnCheckedListener(i =>
             {
                 Settings.SelectedTheme = i == SettingsPageGeneralRadioDarkTheme.Id ? 1 : 0;
-                SettingsPageGeneralThemeChangeNotice.Visibility =
+                SettingsPageGeneralThemeChangeApply.Visibility =
                     Converters.BoolToVisibility(Settings.SelectedTheme != MainActivity.CurrentTheme || AndroidColourThemeHelper.CurrentTheme != MainActivity.CurrentAccent);
             }));
+            SettingsPageGeneralThemeChangeApply.SetOnClickListener(new OnClickListener(view =>
+            {
+                MainActivity.CurrentContext.Recreate();
+                ViewModelLocator.NavMgr.ResetMainBackNav();
+            }));
+
             //
-            
+
+
             Bindings.Add(
                 this.SetBinding(() => ViewModel.PullHigherQualityImages,
                     () => SettingsPageGeneralPullHigherSwitch.Checked,BindingMode.TwoWay));
@@ -201,7 +208,7 @@ namespace MALClient.Android.Fragments.SettingsFragments
             SettingsPageGeneralColorBlue.SetOnClickListener(colorListener);
             SettingsPageGeneralColorLime.SetOnClickListener(colorListener);
 
-        }
+        }     
 
         private void UpdateColourSelection()
         {
@@ -234,7 +241,7 @@ namespace MALClient.Android.Fragments.SettingsFragments
                 default:
                     throw new ArgumentOutOfRangeException();
             }
-            SettingsPageGeneralThemeChangeNotice.Visibility =
+            SettingsPageGeneralThemeChangeApply.Visibility =
                     Converters.BoolToVisibility(Settings.SelectedTheme != MainActivity.CurrentTheme || AndroidColourThemeHelper.CurrentTheme != MainActivity.CurrentAccent);
         }
 

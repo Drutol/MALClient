@@ -130,6 +130,7 @@
     <Compile Include="NavArgs\StaffDetailsNaviagtionArgs.cs" />
     <Compile Include="NavArgs\WallpaperPageNavigationArgs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Secrets.cs" />
     <Compile Include="Utils\CssManager.cs" />
     <Compile Include="Utils\PreserveAtribute.cs" />
     <Compile Include="Utils\SexyMath\Circle.cs" />

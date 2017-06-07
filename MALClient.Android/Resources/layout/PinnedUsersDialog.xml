@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical"
+              android:background="?BrushAnimeItemBackground">
+  <View
+    android:layout_width="match_parent"
+    android:layout_height="25dp" android:background="?android:colorPrimaryDark"/>
+  <TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content" android:text="Pinned profiles" android:fontFamily="@string/font_family_light" android:textColor="?BrushText" android:layout_margin="8dp" android:layout_gravity="center_horizontal"/>
+  <FrameLayout
+    android:layout_width="match_parent"
+    android:layout_height="190dp">
+    <ListView android:layout_width="match_parent" android:layout_margin="10dp" android:dividerHeight="5dp"
+              android:layout_height="match_parent" android:id="@+id/List" android:divider="@color/Transparent" />
+    <TextView
+      android:layout_width="wrap_content" android:layout_gravity="center" android:id="@+id/EmptyNotice"
+      android:layout_height="wrap_content" android:text="No pinned users..." android:textColor="?BrushNoSearchResults"/>
+  </FrameLayout>
+</LinearLayout>

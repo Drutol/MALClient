@@ -21,6 +21,7 @@ using FFImageLoading.Transformations;
 using FFImageLoading.Views;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Helpers;
+using MALClient.Android.Dialogs;
 using MALClient.Android.Flyouts;
 using MALClient.Android.Listeners;
 using MALClient.Android.Resources;
@@ -404,7 +405,11 @@ namespace MALClient.Android.Activities
                     var listener = new OnClickListener(OnProfileSubItemCLick);
                     _accountHamburgerView.FindViewById(Resource.Id.HamburgerProfileItemNotifications).SetOnClickListener(listener);                  
                     _accountHamburgerView.FindViewById(Resource.Id.HamburgerProfileItemMessages).SetOnClickListener(listener);
-                    _settingsHamburgerView.FindViewById(Resource.Id.HamburgerProfileItemSupport).SetOnClickListener(listener); ;
+                    _accountHamburgerView.SetOnLongClickListener(new OnLongClickListener(view => new PinnedUsersDialog(ResourceLocator.HandyDataStorage.PinnedUsers)));
+
+                    _settingsHamburgerView.FindViewById(Resource.Id.HamburgerProfileItemSupport).SetOnClickListener(listener);
+
+                   
                     //
                     _settingsHamburgerView.SetOnClickListener(new OnClickListener(view =>
                     {

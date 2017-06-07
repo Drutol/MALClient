@@ -5,6 +5,7 @@ using System.Security.Cryptography;
 using System.Text;
 using MALClient.Adapters.Credentials;
 using MALClient.Models.AdapterModels;
+using MALClient.XShared;
 using MALClient.XShared.ViewModels;
 
 namespace MALClient.Android.Adapters
@@ -51,7 +52,7 @@ namespace MALClient.Android.Adapters
         // This constant determines the number of iterations for the password bytes generation function.
         private const int DerivationIterations = 1000;
 
-        public static string Encrypt(string plainText, string passPhrase = "cEEfr93GGdpyV76UARrVJBzNVcWqjpLXFgsEvwPELaebCPkH") //TODO the thing
+        public static string Encrypt(string plainText, string passPhrase = Secrets.AndroidEncryptionPassphrase) //TODO the thing
         {
             if (string.IsNullOrEmpty(plainText))
                 return plainText;

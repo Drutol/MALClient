@@ -223,3 +223,4 @@ _pkginfo.txt
 MALClient.Android/Resources/Resource.Designer.cs
 *.targets
 /MALClient.Dekstop/BundleArtifacts
+MALClient.XShared/Secrets.cs

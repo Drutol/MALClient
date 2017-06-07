@@ -114,8 +114,8 @@ namespace MALClient.XShared.ViewModels.Main
                 StringComparison.CurrentCultureIgnoreCase);
             RaisePropertyChanged(() => CurrentData);
             LoadingVisibility = false;
-            RaisePropertyChanged(() => IsPinned);
             RaisePropertyChanged(() => PinProfileVisibility);
+            RaisePropertyChanged(() => IsPinned);
             MalComments = new ObservableCollection<MalComment>(CurrentData.Comments);
             FavouriteCharacters =
                 new List<FavouriteViewModel>(

@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
+using Android.Graphics;
 using Android.OS;
 using Android.Runtime;
 using Android.Support.Design.Widget;
@@ -17,6 +18,7 @@ using GalaSoft.MvvmLight.Helpers;
 using MALClient.Android.BindingConverters;
 using MALClient.Android.DIalogs;
 using MALClient.Android.Listeners;
+using MALClient.Android.Resources;
 using MALClient.Android.UserControls;
 using MALClient.Models.Models;
 using MALClient.XShared.ViewModels;
@@ -58,14 +60,17 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
                     ProfilePageGeneralTabFriendsGrid.ItemHeight =
                         ProfilePageGeneralTabFriendsGrid.ItemWidth = DimensionsHelper.DpToPx(65);
                     ProfilePageGeneralTabFriendsGrid.SetColumnWidth((int)ProfilePageGeneralTabFriendsGrid.ItemWidth);
-                    if(ViewModel.CurrentData.Friends.Any())
+                    if (ViewModel.CurrentData.Friends.Any())
                     {
                         ProfilePageGeneralTabFriendsGrid.Adapter =
                             ViewModel.CurrentData.Friends.GetAdapter(GetFriendTemplateDelegate);
                         ProfilePageGeneralTabFriendsEmptyNotice.Visibility = ViewStates.Gone;
                     }
                     else
+                    {
+                        ProfilePageGeneralTabFriendsGrid.Adapter = null;
                         ProfilePageGeneralTabFriendsEmptyNotice.Visibility = ViewStates.Visible;
+                    }
 
                     ProfilePageGeneralTabCommentsList.RemoveAllViews();
                     await Task.Delay(500);
@@ -96,6 +101,29 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
                 this.SetBinding(() => ViewModel.CommentText,
                     () => ProfilePageGeneralTabCommentInput.Text,BindingMode.TwoWay));
 
+            Bindings.Add(
+                this.SetBinding(() => ViewModel.PinProfileVisibility,
+                    () => PinButton.Visibility).ConvertSourceToTarget(Converters.BoolToVisibility));
+
+            Bindings.Add(this.SetBinding(() => ViewModel.IsPinned).WhenSourceChanges(() =>
+            {
+                if(!ViewModel.PinProfileVisibility)
+                    return;
+
+                if (ViewModel.IsPinned)
+                {
+                    PinButton.SetBackgroundColor(new Color(ResourceExtension.AccentColour));
+                    PinButtonIcon.SetImageResource(Resource.Drawable.icon_pin);
+                }
+                else
+                {
+                    PinButton.SetBackgroundResource(Resource.Color.BrushOpaqueTextView);
+                    PinButtonIcon.SetImageResource(Resource.Drawable.icon_unpin);
+                }
+            }));
+
+
+            PinButton.SetOnClickListener(new OnClickListener(view => ViewModel.IsPinned = !ViewModel.IsPinned));
             ProfilePageGeneralTabAnimeListButton.SetOnClickListener(new OnClickListener(v => ViewModel.NavigateAnimeListCommand.Execute(null)));
             ProfilePageGeneralTabMangaListButton.SetOnClickListener(new OnClickListener(v => ViewModel.NavigateMangaListCommand.Execute(null)));
             ProfilePageGeneralTabHistoryButton.SetOnClickListener(new OnClickListener(v => ViewModel.NavigateHistoryCommand.Execute(null)));
@@ -208,6 +236,8 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
         #region Views
         private ImageView _profilePageGeneralTabImagePlaceholder;
         private ImageViewAsync _profilePageGeneralTabAnimeUserImg;
+        private ImageView _pinButtonIcon;
+        private FrameLayout _pinButton;
         private LinearLayout _profilePageGeneralTabDetailsList;
         private Button _profilePageGeneralTabAnimeListButton;
         private Button _profilePageGeneralTabMangaListButton;
@@ -225,6 +255,10 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
         public ImageView ProfilePageGeneralTabImagePlaceholder => _profilePageGeneralTabImagePlaceholder ?? (_profilePageGeneralTabImagePlaceholder = FindViewById<ImageView>(Resource.Id.ProfilePageGeneralTabImagePlaceholder));
 
         public ImageViewAsync ProfilePageGeneralTabAnimeUserImg => _profilePageGeneralTabAnimeUserImg ?? (_profilePageGeneralTabAnimeUserImg = FindViewById<ImageViewAsync>(Resource.Id.ProfilePageGeneralTabAnimeUserImg));
+
+        public ImageView PinButtonIcon => _pinButtonIcon ?? (_pinButtonIcon = FindViewById<ImageView>(Resource.Id.PinButtonIcon));
+
+        public FrameLayout PinButton => _pinButton ?? (_pinButton = FindViewById<FrameLayout>(Resource.Id.PinButton));
 
         public LinearLayout ProfilePageGeneralTabDetailsList => _profilePageGeneralTabDetailsList ?? (_profilePageGeneralTabDetailsList = FindViewById<LinearLayout>(Resource.Id.ProfilePageGeneralTabDetailsList));
 

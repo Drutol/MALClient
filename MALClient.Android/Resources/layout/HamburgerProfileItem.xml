@@ -6,7 +6,7 @@
 
   <LinearLayout android:orientation="vertical" android:layout_width="match_parent" android:layout_height="wrap_content">
     <FrameLayout android:layout_width="match_parent" android:id="@+id/HamburgerBottomViewProfileItem"
-                 android:layout_height="wrap_content" android:clipChildren="false"
+                 android:layout_height="wrap_content" android:clipChildren="false" android:longClickable="true"
                  android:clickable="true" android:focusable="true" android:foreground="?selectableItemBackground" android:clipToPadding="false">
       <LinearLayout
 

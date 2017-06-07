@@ -13,6 +13,7 @@ using HockeyApp.Android;
 using HockeyApp.Android.Metrics;
 using MALClient.Adapters;
 using MALClient.Models.Enums;
+using MALClient.XShared;
 
 namespace MALClient.Android.Adapters
 {
@@ -30,8 +31,8 @@ namespace MALClient.Android.Adapters
         public void Init()
         {
 #if !DEBUG
-            CrashManager.Register(_context, "4bfd20dcd9ba4bdfbb1501397ec4a176");
-            MetricsManager.Register(_app, "4bfd20dcd9ba4bdfbb1501397ec4a176");
+            CrashManager.Register(_context, Secrets.AndroidHockeyId);
+            MetricsManager.Register(_app, Secrets.AndroidHockeyId);
             MetricsManager.EnableUserMetrics();
 #endif
         }

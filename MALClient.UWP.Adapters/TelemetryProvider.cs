@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MALClient.Adapters;
 using MALClient.Models.Enums;
+using MALClient.XShared;
 using MALClient.XShared.Utils;
 using MALClient.XShared.ViewModels;
 using Microsoft.HockeyApp;
@@ -17,7 +18,7 @@ namespace MALClient.UWP.Adapters
         public void Init()
         {
 #if !DEBUG
-            HockeyClient.Current.Configure("b79e78858bdf44c4bfc3a1f37c8fd90c", new TelemetryConfiguration
+            HockeyClient.Current.Configure(Secrets.UwpHockeyId, new TelemetryConfiguration
                 {
                     Collectors =
                         WindowsCollectors.Metadata | WindowsCollectors.Session | WindowsCollectors.UnhandledException,

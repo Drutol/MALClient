@@ -194,25 +194,34 @@ namespace MALClient.Android
 
         public static ImageView.ScaleType HandleScaling(this ImageViewAsync image,float threshold = .4f)
         {
-            var bounds = image.Drawable.Bounds;
-            if (bounds.Right == 0 || image.Width == 0)
+            try
             {
-                image.SetScaleType(ImageView.ScaleType.CenterCrop);
-                return  ImageView.ScaleType.CenterCrop;
-            }
-            if (
-                Math.Abs(image.Height / (float)image.Width -
-                         bounds.Bottom / (float)bounds.Right) > threshold)
-            {
-                image.SetScaleType(ImageView.ScaleType.FitCenter);
-                return ImageView.ScaleType.FitCenter;
+                var bounds = image.Drawable.Bounds;
+                if (bounds.Right == 0 || image.Width == 0)
+                {
+                    image.SetScaleType(ImageView.ScaleType.CenterCrop);
+                    return ImageView.ScaleType.CenterCrop;
+                }
+                if (
+                    Math.Abs(image.Height / (float)image.Width -
+                             bounds.Bottom / (float)bounds.Right) > threshold)
+                {
+                    image.SetScaleType(ImageView.ScaleType.FitCenter);
+                    return ImageView.ScaleType.FitCenter;
 
+                }
+                else
+                {
+                    image.SetScaleType(ImageView.ScaleType.CenterCrop);
+                    return ImageView.ScaleType.CenterCrop;
+                }
             }
-            else
+            catch (Exception)
             {
-                image.SetScaleType(ImageView.ScaleType.CenterCrop);
-                return ImageView.ScaleType.CenterCrop;
+                //somehow called from non ui thread
+               return ImageView.ScaleType.CenterCrop;
             }
+            
         }
 
         private static readonly Dictionary<View, CancellationTokenSource> CancellationTokenSources = new Dictionary<View, CancellationTokenSource>();

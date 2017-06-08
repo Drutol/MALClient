@@ -242,7 +242,9 @@ namespace MALClient.Android.Fragments
         private async void SetListSource()
         {
             var src = await TextInputDialogBuilder.BuildInputTextDialog(Activity, "List source", "username...", "Go!");
-            if (!string.IsNullOrWhiteSpace(src) && src.Length > 3)
+            if(string.IsNullOrWhiteSpace(src))
+                return;
+            if (src.Length > 2)
             {
                 ViewModel.ListSource = src;
                 await ViewModel.FetchData();

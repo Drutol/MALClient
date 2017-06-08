@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using HtmlAgilityPack;
 using MALClient.Models.Models.Anime;
 using MALClient.Models.Models.AnimeScrapped;
-using MALClient.XShared.Comm.CommUtils;
 using MALClient.XShared.Utils;
 
 namespace MALClient.XShared.Comm.Anime
@@ -48,14 +47,14 @@ namespace MALClient.XShared.Comm.Anime
                             node =>
                                 node.Attributes.Contains("class") &&
                                 node.Attributes["class"].Value ==
-                                HtmlClassMgr.ClassDefs["#Seasonal:mainNode:class"]);
+                                "seasonal-anime-list js-seasonal-anime-list js-seasonal-anime-list-key-1 clearfix");
                 if (!_overriden)
                 {
                     var seasonInfoNodes = doc.DocumentNode.Descendants("div").First(
                         node =>
                             node.Attributes.Contains("class") &&
                             node.Attributes["class"].Value ==
-                            HtmlClassMgr.ClassDefs["#Seasonal:seasonInfo:class"]).Descendants("li").ToList();
+                            "horiznav_nav").Descendants("li").ToList();
                     var seasonData = new Dictionary<string, string>();
                     for (var j = 1; j <= 4; j++)
                     {
@@ -65,7 +64,7 @@ namespace MALClient.XShared.Comm.Anime
                                 seasonInfoNodes[j].Descendants("a").First().Attributes["href"].Value);
 
                             if (seasonInfoNodes[j].Descendants("a").First().Attributes["class"].Value ==
-                                HtmlClassMgr.ClassDefs["#Seasonal:seasonInfoCurrent:class"])
+                                "on")
                                 seasonData.Add("current", j.ToString());
                         }
                         catch (Exception)
@@ -123,7 +122,7 @@ namespace MALClient.XShared.Comm.Anime
 
         public static SeasonalAnimeData ParseFromHtml(HtmlNode htmlNode,int index,bool parseDate = true)
         {
-            if (htmlNode.Attributes["class"]?.Value != HtmlClassMgr.ClassDefs["#Seasonal:entryNode:class"])
+            if (htmlNode.Attributes["class"]?.Value != "seasonal-anime js-seasonal-anime")
                 return null;
             var imageNode =
                 htmlNode.FirstOfDescendantsWithClass("div", "image");
@@ -156,7 +155,7 @@ namespace MALClient.XShared.Comm.Anime
                         node =>
                             node.Attributes.Contains("class") &&
                             node.Attributes["class"].Value ==
-                            HtmlClassMgr.ClassDefs["#Seasonal:entryNode:score:class"])
+                            "score")
                     .InnerText;
             var infoNode =
                 htmlNode.Descendants("div")
@@ -164,7 +163,7 @@ namespace MALClient.XShared.Comm.Anime
                         node =>
                             node.Attributes.Contains("class") &&
                             node.Attributes["class"].Value ==
-                            HtmlClassMgr.ClassDefs["#Seasonal:entryNode:info:class"]);
+                            "info");
             int day = -1;
             string airStartDate = null;
             if(parseDate)
@@ -197,7 +196,7 @@ namespace MALClient.XShared.Comm.Anime
                             node =>
                                 node.Attributes.Contains("class") &&
                                 node.Attributes["class"].Value ==
-                                HtmlClassMgr.ClassDefs["#Seasonal:entryNode:eps:class"])
+                                "eps")
                         .Descendants("a")
                         .First()
                         .InnerText.Split(new[] {" "}, StringSplitOptions.RemoveEmptyEntries)[0],
@@ -205,7 +204,7 @@ namespace MALClient.XShared.Comm.Anime
                 Genres = htmlNode.Descendants("div").First(node =>
                         node.Attributes.Contains("class") &&
                         node.Attributes["class"].Value ==
-                        HtmlClassMgr.ClassDefs["#Seasonal:entryNode:genres:class"])
+                        "genres-inner js-genre-inner")
                     .InnerText
                     .Replace('\n', ';')
                     .Split(new[] {';'}, StringSplitOptions.RemoveEmptyEntries)

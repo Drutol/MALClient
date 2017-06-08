@@ -5,7 +5,6 @@ using System.Net;
 using System.Threading.Tasks;
 using HtmlAgilityPack;
 using MALClient.Models.Models.AnimeScrapped;
-using MALClient.XShared.Comm.CommUtils;
 
 namespace MALClient.XShared.Comm.Anime
 {
@@ -36,7 +35,7 @@ namespace MALClient.XShared.Comm.Anime
                         node =>
                             node.Attributes.Contains("class") &&
                             node.Attributes["class"].Value ==
-                            HtmlClassMgr.ClassDefs["#Recommendations:recommNode:class"]).Take(30);
+                            "spaceit borderClass").Take(30);
                 //constant 20 recommendations
 
             foreach (var recomNode in recomNodes)
@@ -48,7 +47,7 @@ namespace MALClient.XShared.Comm.Anime
                             node =>
                                 node.Name == "div" &&
                                 node.Attributes["class"].Value ==
-                                HtmlClassMgr.ClassDefs["#Recommendations:recommNodeDesc:class"]);
+                                "spaceit");
                     if (desc != null)
                     {
                         var titleNodes =

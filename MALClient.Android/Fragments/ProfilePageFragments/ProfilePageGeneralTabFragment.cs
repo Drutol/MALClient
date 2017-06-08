@@ -11,6 +11,7 @@ using Android.OS;
 using Android.Runtime;
 using Android.Support.Design.Widget;
 using Android.Views;
+using Android.Views.Animations;
 using Android.Widget;
 using FFImageLoading;
 using FFImageLoading.Views;
@@ -29,7 +30,6 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
     public class ProfilePageGeneralTabFragment : MalFragmentBase
     {
         private ProfilePageViewModel ViewModel = ViewModelLocator.ProfilePage;
-
 
         protected override void Init(Bundle savedInstanceState)
         {
@@ -113,23 +113,44 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
                 if (ViewModel.IsPinned)
                 {
                     PinButton.SetBackgroundColor(new Color(ResourceExtension.AccentColour));
-                    PinButtonIcon.SetImageResource(Resource.Drawable.icon_pin);
+                    PinButtonIcon.Rotation = 0;
+                    PinButtonIcon.SetImageResource(Resource.Drawable.icon_unpin);
                 }
                 else
                 {
-                    PinButton.SetBackgroundResource(Resource.Color.BrushOpaqueTextView);
-                    PinButtonIcon.SetImageResource(Resource.Drawable.icon_unpin);
+                    PinButton.SetBackgroundColor(new Color(ResourceExtension.OpaqueAccentColour));
+                    PinButtonIcon.Rotation = 45;
+                    PinButtonIcon.SetImageResource(Resource.Drawable.icon_pin);
                 }
             }));
 
 
-            PinButton.SetOnClickListener(new OnClickListener(view => ViewModel.IsPinned = !ViewModel.IsPinned));
+            PinButton.SetOnClickListener(new OnClickListener(view =>
+            {
+                ViewModel.IsPinned = !ViewModel.IsPinned;
+                PinButtonIcon.Rotation = ViewModel.IsPinned ? 0 : 45;
+            }));
             ProfilePageGeneralTabAnimeListButton.SetOnClickListener(new OnClickListener(v => ViewModel.NavigateAnimeListCommand.Execute(null)));
             ProfilePageGeneralTabMangaListButton.SetOnClickListener(new OnClickListener(v => ViewModel.NavigateMangaListCommand.Execute(null)));
             ProfilePageGeneralTabHistoryButton.SetOnClickListener(new OnClickListener(v => ViewModel.NavigateHistoryCommand.Execute(null)));
             ProfilePageGeneralTabSendCommentButton.SetOnClickListener(new OnClickListener(v => ViewModel.SendCommentCommand.Execute(null)));
             ProfilePageGeneralTabActionButton.SetOnClickListener(new OnClickListener(v => ProfilePageGeneralTabActionButtonOnClick()));
         }
+
+        private void AnimatePin(float from, float to)
+        {
+            var anim =
+                new RotateAnimation(from, to, Dimension.RelativeToSelf, .5f, Dimension.RelativeToSelf,
+                    .5f)
+                {
+                    Duration = 150,
+                    Interpolator = new LinearInterpolator(),
+                    FillAfter = true,
+                    FillEnabled = true
+                };
+            PinButtonIcon.StartAnimation(anim);
+        }
+
 
         private void PopulateComments()
         {

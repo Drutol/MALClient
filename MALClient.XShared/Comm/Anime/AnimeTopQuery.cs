@@ -6,7 +6,6 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using HtmlAgilityPack;
 using MALClient.Models.Models.AnimeScrapped;
-using MALClient.XShared.Comm.CommUtils;
 using MALClient.XShared.Utils;
 
 namespace MALClient.XShared.Comm.Anime
@@ -86,15 +85,15 @@ namespace MALClient.XShared.Comm.Anime
 
             var doc = new HtmlDocument();
             doc.LoadHtml(raw);
-            var topNodes = doc.DocumentNode.Descendants("table").First(node => node.Attributes.Contains("class") && node.Attributes["class"].Value == HtmlClassMgr.ClassDefs["#Top:mainNode:class"]);
+            var topNodes = doc.DocumentNode.Descendants("table").First(node => node.Attributes.Contains("class") && node.Attributes["class"].Value == "top-ranking-table");
             var i = 50*_page;
             string imgUrlType = _type == TopAnimeType.Manga ? "manga/" : "anime/";
-            foreach (var item in topNodes.Descendants("tr").Where(node => node.Attributes.Contains("class") && node.Attributes["class"].Value == HtmlClassMgr.ClassDefs["#Top:topNode:class"]))
+            foreach (var item in topNodes.Descendants("tr").Where(node => node.Attributes.Contains("class") && node.Attributes["class"].Value == "ranking-list"))
             {
                 try
                 {
                     var current = new TopAnimeData();
-                    var epsText = item.Descendants("div").First(node => node.Attributes.Contains("class") && node.Attributes["class"].Value == HtmlClassMgr.ClassDefs["#Top:topNode:eps:class"]).ChildNodes[0].InnerText;
+                    var epsText = item.Descendants("div").First(node => node.Attributes.Contains("class") && node.Attributes["class"].Value == "information di-ib mt4").ChildNodes[0].InnerText;
                     epsText = epsText.Substring(epsText.IndexOf('(') + 1);
                     epsText = epsText.Substring(0, epsText.IndexOf(' '));
                     current.Episodes = epsText;
@@ -109,12 +108,12 @@ namespace MALClient.XShared.Comm.Anime
                     if (pos != -1)
                         imgurl = imgurl.Substring(0, pos);
                     current.ImgUrl = "https://myanimelist.cdn-dena.com/images/" + imgUrlType + imgurl;
-                    var titleNode = item.Descendants("a").First(node => node.Attributes.Contains("class") && node.Attributes["class"].Value == HtmlClassMgr.ClassDefs[_type != TopAnimeType.Manga  ? "#Top:topNode:titleNode:class" : "#Top:topMangaNode:titleNode:class"]);
+                    var titleNode = item.Descendants("a").First(node => node.Attributes.Contains("class") && node.Attributes["class"].Value == (_type != TopAnimeType.Manga  ? "hoverinfo_trigger fl-l fs14 fw-b" : "hoverinfo_trigger fs14 fw-b"));
                     current.Title = WebUtility.HtmlDecode(titleNode.InnerText).Trim();
                     current.Id = Convert.ToInt32(titleNode.Attributes["href"].Value.Substring(8).Split('/')[2]);
                     try
                     {
-                        current.Score = float.Parse(item.Descendants("span").First(node => node.Attributes.Contains("class") && node.Attributes["class"].Value == HtmlClassMgr.ClassDefs["#Top:topNode:score:class"]).InnerText.Trim());
+                        current.Score = float.Parse(item.Descendants("span").First(node => node.Attributes.Contains("class") && node.Attributes["class"].Value == "text on").InnerText.Trim());
                     }
                     catch (Exception)
                     {

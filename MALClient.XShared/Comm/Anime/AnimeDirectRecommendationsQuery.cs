@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using HtmlAgilityPack;
 using MALClient.Models.Enums;
 using MALClient.Models.Models.AnimeScrapped;
-using MALClient.XShared.Comm.CommUtils;
 using MALClient.XShared.Utils;
 
 namespace MALClient.XShared.Comm.Anime
@@ -49,7 +48,7 @@ namespace MALClient.XShared.Comm.Anime
                         node =>
                             node.Attributes.Contains("class") &&
                             node.Attributes["class"].Value ==
-                            HtmlClassMgr.ClassDefs["#DirectRecomm:recommNode:class"]).Take(Settings.RecommsToPull);
+                            "borderClass").Take(Settings.RecommsToPull);
 
                 foreach (var recommNode in recommNodes)
                 {
@@ -68,7 +67,7 @@ namespace MALClient.XShared.Comm.Anime
                             node =>
                                 node.Attributes.Contains("class") &&
                                 node.Attributes["class"].Value ==
-                                HtmlClassMgr.ClassDefs["#DirectRecomm:recommNode:descClass"])
+                                "borderClass bgColor1")
                             .Descendants("div")
                             .First().InnerText.Trim().Replace("&nbsp", "").Replace("read more", ""));
                         current.Description = current.Description.Substring(0, current.Description.Length - 1);

@@ -9,7 +9,6 @@ using MALClient.Models.Enums;
 using MALClient.Models.Models;
 using MALClient.Models.Models.ApiResponses;
 using MALClient.Models.Models.Favourites;
-using MALClient.XShared.Comm.CommUtils;
 using MALClient.XShared.Comm.MagicalRawQueries;
 using MALClient.XShared.Utils;
 using MALClient.XShared.Utils.Managers;
@@ -73,7 +72,7 @@ namespace MALClient.XShared.Comm.Profile
                                 node =>
                                     node.Attributes.Contains("class") &&
                                     node.Attributes["class"].Value ==
-                                    HtmlClassMgr.ClassDefs["#Profile:recentUpdateNode:class"]))
+                                   "statistics-updates di-b w100 mb8"))
                 {
                     if (i <= 3)
                     {
@@ -108,7 +107,7 @@ namespace MALClient.XShared.Comm.Profile
                                 node =>
                                     node.Attributes.Contains("class") &&
                                     node.Attributes["class"].Value ==
-                                    HtmlClassMgr.ClassDefs["#Profile:favCharacterNode:class"])
+                                    "favorites-list characters")
                             .Descendants("li"))
                 {
                     var curr = new AnimeCharacter();
@@ -145,7 +144,7 @@ namespace MALClient.XShared.Comm.Profile
                                 node =>
                                     node.Attributes.Contains("class") &&
                                     node.Attributes["class"].Value ==
-                                    HtmlClassMgr.ClassDefs["#Profile:favMangaNode:class"])
+                                    "favorites-list manga")
                             .Descendants("li"))
                 {
                     current.FavouriteManga.Add(
@@ -172,7 +171,7 @@ namespace MALClient.XShared.Comm.Profile
                                 node =>
                                     node.Attributes.Contains("class") &&
                                     node.Attributes["class"].Value ==
-                                    HtmlClassMgr.ClassDefs["#Profile:favAnimeNode:class"])
+                                    "favorites-list anime")
                             .Descendants("li"))
                 {
                     current.FavouriteAnime.Add(
@@ -199,7 +198,7 @@ namespace MALClient.XShared.Comm.Profile
                                 node =>
                                     node.Attributes.Contains("class") &&
                                     node.Attributes["class"].Value ==
-                                    HtmlClassMgr.ClassDefs["#Profile:favPeopleNode:class"])
+                                    "favorites-list people")
                             .Descendants("li"))
                 {
                     var curr = new AnimeStaffPerson();

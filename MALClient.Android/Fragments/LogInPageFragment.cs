@@ -68,12 +68,17 @@ namespace MALClient.Android.Fragments
             {
                 if(action == ImeAction.Done)
                     ViewModel.LogInCommand.Execute(null);
+                AndroidUtilities.HideKeyboard();
             }));
 
             LoginPageRegisterButton.SetOnClickListener(new OnClickListener(v => ViewModel.NavigateRegister.Execute(null)));
             LoginPageProblemsButton.SetOnClickListener(new OnClickListener(v => ViewModel.ProblemsCommand.Execute(null)));
 
-            SignInButton.SetOnClickListener(new OnClickListener(v=>ViewModel.LogInCommand.Execute(null)));
+            SignInButton.SetOnClickListener(new OnClickListener(v =>
+            {
+                ViewModel.LogInCommand.Execute(null);
+                AndroidUtilities.HideKeyboard();
+            }));
             LoginPageLogOutButton.SetOnClickListener(new OnClickListener(v=>ViewModel.LogOutCommand.Execute(null)));
         }
 

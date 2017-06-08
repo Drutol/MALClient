@@ -38,29 +38,37 @@ namespace MALClient.Android.DIalogs
             dialogBuilder.SetGravity((int)(GravityFlags.Center));
             dialogBuilder.SetContentHolder(new ViewHolder(Resource.Layout.TextInputDialog));
             dialogBuilder.SetContentBackgroundResource(Resource.Color.Transparent);
-            dialogBuilder.SetOnDismissListener(new DialogDismissedListener(CleanupTextInputDialog));
-            ViewModelLocator.NavMgr.RegisterOneTimeMainOverride(new RelayCommand(CleanupTextInputDialog));
+            dialogBuilder.SetOnDismissListener(new DialogDismissedListener(() => CleanupTextInputDialog(false)));
+            ViewModelLocator.NavMgr.RegisterOneTimeMainOverride(new RelayCommand(() => CleanupTextInputDialog(false)));
             _textInputDialog = dialogBuilder.Create();
             var dialogView = _textInputDialog.HolderView;
 
             dialogView.FindViewById<TextView>(Resource.Id.TextInputDialogTitle).Text = title;
             var textBox = dialogView.FindViewById<EditText>(Resource.Id.TextInputDialogTextBox);
             textBox.Hint = hint;
-            textBox.AddTextChangedListener(new OnTextEnterListener(CleanupTextInputDialog));
+            textBox.AddTextChangedListener(new OnTextEnterListener(() => CleanupTextInputDialog(true)));
 
             dialogView.FindViewById<Button>(Resource.Id.TextInputDialogAcceptButton).Text = accept;
-            dialogView.FindViewById(Resource.Id.TextInputDialogAcceptButton).SetOnClickListener(new OnClickListener(view => CleanupTextInputDialog()));
+            dialogView.FindViewById(Resource.Id.TextInputDialogAcceptButton).SetOnClickListener(new OnClickListener(view => CleanupTextInputDialog(true)));
             _textInputDialog.Show();
 
             await _semaphoreTextInput.WaitAsync();
 
-            return textBox.Text.Trim();
+
+            if (_success)
+            {
+                _success = false;
+                return textBox.Text.Trim();
+            }
+            _success = false;
+            return null;
         }
 
-        private static void CleanupTextInputDialog()
+        private static void CleanupTextInputDialog(bool success)
         {
             if(_textInputDialog == null)
                 return;
+            _success = success;
             AndroidUtilities.HideKeyboard();
             ViewModelLocator.NavMgr.ResetOneTimeOverride();
             _semaphoreTextInput.Release();
@@ -123,8 +131,11 @@ namespace MALClient.Android.DIalogs
             _forumTextInputDialog.Show();
 
             await _semaphoreForumTextInput.WaitAsync();
-            if(_success)
+            if (_success)
+            {
+                _success = false;
                 return textEditor.Text;
+            }
             _success = false;
             return null;
         }

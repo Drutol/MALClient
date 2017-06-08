@@ -29,6 +29,7 @@ using GalaSoft.MvvmLight.Helpers;
 using MALClient.Android.Activities;
 using MALClient.Android.Flyouts;
 using MALClient.Android.Listeners;
+using MALClient.Android.Managers;
 using MALClient.XShared.Comm.Anime;
 using MALClient.XShared.Utils;
 
@@ -262,7 +263,7 @@ namespace MALClient.Android.Fragments
                 _rightDrawer.CloseDrawer();
             });
 
-            ViewModelLocator.NavMgr.RegisterOneTimeMainOverride(new RelayCommand(CloseDrawer));
+            (ViewModelLocator.NavMgr as NavMgr).EnqueueOneTimeOverride(new RelayCommand(CloseDrawer));
             _rightDrawer.OpenDrawer();
             _actionMenu.Close(true);
         }

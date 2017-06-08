@@ -32,12 +32,6 @@
             <FFImageLoading.Views.ImageViewAsync
               android:layout_width="100dp" android:id="@+id/ProfilePageGeneralTabAnimeUserImg" android:adjustViewBounds="true"
               android:layout_height="wrap_content" android:layout_margin="10dp" android:maxHeight="145dp" android:layout_gravity="top"/>
-            <FrameLayout android:id="@+id/PinButton" android:layout_height="35dp" android:layout_width="35dp" android:layout_margin="10dp" android:clickable="true" android:focusable="true" android:foreground="?selectableItemBackground"
-                         android:background="@color/BrushOpaqueTextView" android:layout_gravity="end|bottom">
-              <ImageView
-                android:layout_width="wrap_content" android:layout_gravity="center" android:tint="#fff"
-                android:layout_height="wrap_content" android:src="@drawable/icon_pin" android:padding="4dp" android:id="@+id/PinButtonIcon"/>
-            </FrameLayout>
           </FrameLayout>
         </LinearLayout>
 
@@ -68,6 +62,13 @@
           android:layout_width="wrap_content" android:id="@+id/ProfilePageGeneralTabHistoryButton"
           android:layout_height="wrap_content" style="@style/AccentButtonStyle" android:layout_margin="5dp"
           android:text="History" />
+
+        <FrameLayout android:id="@+id/PinButton" android:layout_height="32dp" android:layout_width="32dp" android:layout_margin="5dp" android:clickable="true" android:focusable="true" android:foreground="?selectableItemBackground"
+                     android:background="?OpaqueAccentColour" android:layout_gravity="center" android:elevation="2dp">
+          <ImageView
+            android:layout_width="wrap_content" android:layout_gravity="center" android:tint="#fff"
+            android:layout_height="wrap_content" android:src="@drawable/icon_pin" android:padding="4dp" android:id="@+id/PinButtonIcon"/>
+        </FrameLayout>
 
       </LinearLayout>
       <LinearLayout

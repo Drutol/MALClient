@@ -19,7 +19,6 @@ using FFImageLoading.Config;
 using FFImageLoading.Helpers;
 using FFImageLoading.Work;
 using MALClient.XShared.BL;
-using MALClient.XShared.Comm.CommUtils;
 using MALClient.XShared.Utils;
 using MALClient.XShared.Utils.Managers;
 using MALClient.XShared.ViewModels;

@@ -65,7 +65,8 @@ namespace MALClient.XShared.Comm
                 ResourceLocator.ConnectionInfoProvider.HasInternetConnection = false;
 
 #if ANDROID
-                ResourceLocator.SnackbarProvider.ShowText("Operation failed, check your internet connection...");
+                if(Credentials.Authenticated)
+                    ResourceLocator.SnackbarProvider.ShowText("Operation failed, check your internet connection...");
 #endif
             }
             ResourceLocator.ConnectionInfoProvider.HasInternetConnection = true;

@@ -81,8 +81,6 @@
     <Compile Include="Comm\Articles\MalArticleQuery.cs" />
     <Compile Include="Comm\Articles\MalArticlesIndexQuery.cs" />
     <Compile Include="Comm\AuthQuery.cs" />
-    <Compile Include="Comm\CommUtils\HtmlClassDefinitionsQuery.cs" />
-    <Compile Include="Comm\CommUtils\HtmlClassMgr.cs" />
     <Compile Include="Comm\Details\CharacterDetailsQuery.cs" />
     <Compile Include="Comm\Details\StaffDetailsQuery.cs" />
     <Compile Include="Comm\Forums\ForumBoardIndexContentQuery.cs" />
@@ -224,7 +222,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Comm\HtmlClassesDefinitions.json" />
     <Content Include="Lib\libvideo.dll" />
     <None Include="app.config" />
     <None Include="packages.config" />

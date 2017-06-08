@@ -405,7 +405,11 @@ namespace MALClient.Android.Activities
                     var listener = new OnClickListener(OnProfileSubItemCLick);
                     _accountHamburgerView.FindViewById(Resource.Id.HamburgerProfileItemNotifications).SetOnClickListener(listener);                  
                     _accountHamburgerView.FindViewById(Resource.Id.HamburgerProfileItemMessages).SetOnClickListener(listener);
-                    _accountHamburgerView.SetOnLongClickListener(new OnLongClickListener(view => new PinnedUsersDialog(ResourceLocator.HandyDataStorage.PinnedUsers)));
+                    _accountHamburgerView.SetOnLongClickListener(new OnLongClickListener(view =>
+                    {
+                       var d =  new PinnedUsersDialog(ResourceLocator.HandyDataStorage.PinnedUsers);
+                       _drawer.CloseDrawer();
+                    }));
 
                     _settingsHamburgerView.FindViewById(Resource.Id.HamburgerProfileItemSupport).SetOnClickListener(listener);
 

@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using HtmlAgilityPack;
 using MALClient.Models.Enums;
 using MALClient.Models.Models.AnimeScrapped;
-using MALClient.XShared.Comm.CommUtils;
 using MALClient.XShared.Utils;
 
 namespace MALClient.XShared.Comm.Anime
@@ -46,7 +45,7 @@ namespace MALClient.XShared.Comm.Anime
                         node =>
                             node.Attributes.Contains("class") &&
                             node.Attributes["class"].Value ==
-                            HtmlClassMgr.ClassDefs["#Related:relationsNode:class"]);
+                            "anime_detail_related_anime");
 
 
                 try

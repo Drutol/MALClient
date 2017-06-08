@@ -66,6 +66,8 @@ namespace MALClient.Android.Dialogs
 
                 view.SetOnClickListener(new OnClickListener(v =>
                 {
+                    ViewModelLocator.NavMgr.ResetMainBackNav();
+                    ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageAnimeList,null);
                     ViewModelLocator.GeneralMain.Navigate(
                         PageIndex.PageProfile,
                         new ProfilePageNavigationArgs {TargetUser = v.Tag.Unwrap<MalUser>().Name});

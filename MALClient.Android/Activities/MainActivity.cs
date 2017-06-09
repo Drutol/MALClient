@@ -1,14 +1,18 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Android;
 using Android.App;
 using Android.Content;
 using Android.Content.PM;
 using Android.Content.Res;
 using Android.Gms.Ads;
 using Android.OS;
+using Android.Support.V13.App;
+using Android.Support.V4.Content;
 using Android.Support.V7.App;
 using Android.Views;
 using Com.Orhanobut.Dialogplus;
@@ -33,6 +37,7 @@ using MALClient.XShared.Utils;
 using MALClient.XShared.Utils.Managers;
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Interfaces;
+using ActivityCompat = Android.Support.V4.App.ActivityCompat;
 using Debug = System.Diagnostics.Debug;
 
 namespace MALClient.Android.Activities
@@ -107,8 +112,23 @@ namespace MALClient.Android.Activities
                 DroppyMenuPopup.ResetOverrideRequested +=
                     (sender, eventArgs) => ViewModelLocator.NavMgr.ResetOneTimeOverride();
 
+                //Check permissions
+                var requiredPermission = new List<string>();
+                if (ContextCompat.CheckSelfPermission(this,
+                        Manifest.Permission.ReadExternalStorage)
+                    != Permission.Granted)
+                    requiredPermission.Add(Manifest.Permission.ReadExternalStorage);
+                
+                if (ContextCompat.CheckSelfPermission(this, 
+                        Manifest.Permission.WriteExternalStorage)
+                    != Permission.Granted)
+                    requiredPermission.Add(Manifest.Permission.WriteExternalStorage);
 
-
+                if (requiredPermission.Any())
+                {
+                    ActivityCompat.RequestPermissions(this,
+                        requiredPermission.ToArray(),129055);
+                }
                 _addedNavHandlers = true;
             }
 
@@ -131,6 +151,15 @@ namespace MALClient.Android.Activities
                 _staticInitPerformed = true;
             }
 
+        }
+
+        public override void OnRequestPermissionsResult(int requestCode, string[] permissions, Permission[] grantResults)
+        {
+            if(requestCode == 129055)
+                if (grantResults.Any(permission => permission == Permission.Denied))
+                    ResourceLocator.MessageDialogProvider.ShowMessageDialog("Hey hey, I've just declined some permissions... App won't work well without them and you have been warned!","Umm...");
+
+            base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
 
         private async void ViewModelOnMainNavigationRequestedFirst(Fragment fragment)

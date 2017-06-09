@@ -60,7 +60,7 @@ namespace MALClient.Android.DIalogs
 
         public static void BuildWatchedDialog(AnimeItemViewModel viewModel, Action<AnimeItemViewModel, string> action = null,bool volumes = false)
         {
-
+            
             _watchedDialogContext = viewModel;
             _watchedDialogAction = action;
             var dialogBuilder = DialogPlus.NewDialog(MainActivity.CurrentContext);

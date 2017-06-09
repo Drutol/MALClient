@@ -13,6 +13,7 @@
         Homepage,
         Notifications,
         Ads,
-        Feeds
+        Feeds,
+        Info
     }
 }

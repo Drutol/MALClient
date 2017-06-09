@@ -30,11 +30,19 @@ namespace MALClient.Android.Fragments.SettingsFragments
 
         protected override void InitBindings()
         {
-            SettingsPageHomepageList.SetAdapter(ViewModel.SettingsPages
+            var pages = ViewModel.SettingsPages
                 .Where(entry => entry.PageType != SettingsPageIndex.Caching &&
                                 entry.PageType != SettingsPageIndex.Articles &&
-                                (Credentials.Authenticated || entry.PageType != SettingsPageIndex.Ads)).ToList()
-                .GetAdapter(GetTemplateDelegate));
+                                (Credentials.Authenticated || entry.PageType != SettingsPageIndex.Ads)).ToList();
+            pages.Add(new SettingsPageEntry
+            {
+                Header = "Did you know?",
+                PageType = SettingsPageIndex.Info,
+                Subtitle = "Me explaining this UI...",
+                Symbol = SettingsSymbolsEnum.Lightbulb,
+
+            });
+            SettingsPageHomepageList.SetAdapter(pages.GetAdapter(GetTemplateDelegate));
         }
 
         private View GetTemplateDelegate(int i, SettingsPageEntry settingsPageEntry, View convertView)
@@ -87,6 +95,9 @@ namespace MALClient.Android.Fragments.SettingsFragments
                     return Resource.Drawable.icon_ads;
                 case SettingsSymbolsEnum.ContactInfo:
                     return Resource.Drawable.icon_feeds;
+                case SettingsSymbolsEnum.Lightbulb:
+                    return Resource.Drawable.icon_bulb;
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(symbol), symbol, null);
             }

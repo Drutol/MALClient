@@ -13,5 +13,6 @@
         Important,
         SwitchApps,
         ContactInfo,
+        Lightbulb
     }
 }

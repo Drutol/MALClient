@@ -792,7 +792,7 @@ namespace MALClient.XShared.ViewModels
             
         }
 
-        private void AdjustIncrementButtonsVisibility()
+        public void AdjustIncrementButtonsVisibility()
         {
             if (!Auth || !Credentials.Authenticated)
             {

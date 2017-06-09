@@ -40,7 +40,7 @@ namespace MALClient.Android.Fragments
     {
         private const string FabMenuLoadDetails = "Load all details";
         private const string FabMenuDisplayModes = "Display modes";
-        private const string FabMenuSetListSource = "Set List Source";
+        private const string FabMenuSetListSource = "Set list source";
 
 
         private DroppyMenuPopup _sortingMenu;

@@ -74,6 +74,9 @@ namespace MALClient.Android.Fragments.SettingsFragments
                 case SettingsPageIndex.Feeds:
                     fragment = new SettingsFeedsFragment();
                     break;
+                case SettingsPageIndex.Info:
+                    fragment = new SettingsInfoFragment();
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(page), page, null);
             }

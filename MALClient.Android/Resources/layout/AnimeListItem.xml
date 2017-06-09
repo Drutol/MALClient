@@ -1,32 +1,32 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="match_parent"
+             android:layout_height="170dp"
+             xmlns:app="http://schemas.android.com/apk/res-auto"
+             android:clickable="true"
+             android:focusable="true"
+             android:longClickable="true"
+             android:foreground="?android:selectableItemBackground">
+  <FrameLayout
     android:layout_width="match_parent"
     android:layout_height="170dp"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:clickable="true"
-    android:focusable="true"
-    android:longClickable="true"
-    android:foreground="?android:selectableItemBackground">
-  <FrameLayout
-      android:layout_width="match_parent"
-      android:layout_height="170dp"
-      android:orientation="horizontal"
-      android:layout_marginBottom="5dp" android:paddingBottom="3dp"  android:paddingTop="3dp"
-      android:background="@drawable/border_accent_left_wide" android:paddingStart="5dp">
+    android:orientation="horizontal"
+    android:layout_marginBottom="5dp" android:paddingBottom="3dp"  android:paddingTop="3dp"
+    android:background="@drawable/border_accent_left_wide" android:paddingStart="5dp">
     <LinearLayout
-        android:layout_width="match_parent" android:background="?BrushAnimeItemBackground"
-        android:layout_height="wrap_content">
+      android:layout_width="match_parent" android:background="?BrushAnimeItemBackground"
+      android:layout_height="wrap_content">
       <RelativeLayout android:layout_width="116dp" android:layout_height="wrap_content" android:layout_marginStart="2dp">
         <ProgressBar android:scaleX=".7" android:scaleY=".7" android:alpha=".3"
-            android:layout_width="wrap_content" android:id="@+id/AnimeListItemImgPlaceholder"
-            android:layout_height="wrap_content" android:indeterminateTint="?BrushSettingsSubtitle"
-            android:indeterminate="true" android:layout_centerInParent="true" android:indeterminateTintMode="src_in"/>
+                     android:layout_width="wrap_content" android:id="@+id/AnimeListItemImgPlaceholder"
+                     android:layout_height="wrap_content" android:indeterminateTint="?BrushSettingsSubtitle"
+                     android:indeterminate="true" android:layout_centerInParent="true" android:indeterminateTintMode="src_in"/>
         <FFImageLoading.Views.ImageViewAsync
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/AnimeListItemImage"
-            android:scaleType="fitXY" />
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:id="@+id/AnimeListItemImage"
+          android:scaleType="fitXY" />
         <FrameLayout
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
@@ -43,88 +43,88 @@
       </RelativeLayout>
       <RelativeLayout android:layout_width="match_parent" android:layout_height="match_parent" android:layout_weight="1">
         <ProgressBar
-            android:id="@+id/AnimeListItemUpdatingBar"
-            style="?android:attr/progressBarStyleHorizontal" android:visibility="gone"
-            android:indeterminateOnly="true" android:layout_centerInParent="true"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+          android:id="@+id/AnimeListItemUpdatingBar"
+          style="?android:attr/progressBarStyleHorizontal" android:visibility="gone"
+          android:indeterminateOnly="true" android:layout_centerInParent="true"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"/>
         <!-- TopLeft -->
         <TextView android:id="@+id/AnimeListItemTitle" android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:textSize="@dimen/FontSizeMedium" android:text="Shelter"
-            android:layout_marginEnd="40dp" android:maxLines="3" android:ellipsize="end"
-            android:textColor="?BrushText" android:layout_marginTop="5dp" android:layout_marginStart="5dp" />
+                  android:layout_height="wrap_content" android:textSize="@dimen/FontSizeMedium" android:text="Shelter"
+                  android:layout_marginEnd="40dp" android:maxLines="3" android:ellipsize="end"
+                  android:textColor="?BrushText" android:layout_marginTop="5dp" android:layout_marginStart="5dp" />
         <!-- TopRight -->
         <LinearLayout
+          android:layout_width="wrap_content"
+          android:paddingLeft="7dp"
+          android:paddingRight="7dp"
+          android:paddingTop="3dp" android:layout_alignParentEnd="true"
+          android:paddingBottom="3dp" android:id="@+id/AnimeListItemTopLeftInfo"
+          android:background="@color/BrushOpaqueTextView"
+          android:layout_height="wrap_content" android:gravity="center_vertical">
+          <TextView
             android:layout_width="wrap_content"
-            android:paddingLeft="7dp"
-            android:paddingRight="7dp"
-            android:paddingTop="3dp" android:layout_alignParentEnd="true"
-            android:paddingBottom="3dp" android:id="@+id/AnimeListItemTopLeftInfo"
-            android:background="@color/BrushOpaqueTextView"
-            android:layout_height="wrap_content" android:gravity="center_vertical">
+            android:layout_height="wrap_content"
+            android:id="@+id/AnimeListItemTopLeftInfoMain"
+            android:text="Sun"
+            android:textSize="@dimen/FontSizeMedium"
+            android:textColor="#ffffff" />
           <TextView
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:id="@+id/AnimeListItemTopLeftInfoMain"
-              android:text="Sun"
-              android:textSize="@dimen/FontSizeMedium"
-              android:textColor="#ffffff" />
-          <TextView
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:id="@+id/AnimeListItemTopLeftInfoSub"
-              android:text="Sun"
-              android:fontFamily="@string/font_family_light"
-              android:layout_marginStart="5dp"
-              android:layout_marginTop="1dp"
-              android:textStyle="italic"
-              android:textColor="@color/LightBrushNoSearchResults" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/AnimeListItemTopLeftInfoSub"
+            android:text="Sun"
+            android:fontFamily="@string/font_family_light"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="1dp"
+            android:textStyle="italic"
+            android:textColor="@color/LightBrushNoSearchResults" />
         </LinearLayout>
         <!-- BottomRight -->
         <RelativeLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true" android:layout_alignParentBottom="true" android:paddingEnd="5dp"
-            android:orientation="vertical">
+                        android:layout_alignParentEnd="true" android:layout_alignParentBottom="true" android:paddingEnd="5dp"
+                        android:orientation="vertical">
           <LinearLayout android:layout_alignParentEnd="true" android:id="@+id/AnimeListItemBtmRightSectionTop"
-              android:layout_width="wrap_content" android:layout_height="wrap_content"
-              android:orientation="horizontal" android:layout_marginBottom="5dp">
+                        android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:orientation="horizontal" android:layout_marginBottom="5dp">
             <TextView android:id="@+id/AnimeListItemTypeTextView" android:textSize="@dimen/FontSizeSemiNormal"
-                android:layout_gravity="bottom" android:layout_marginRight="5dp"
-                android:layout_width="wrap_content" android:layout_height="wrap_content"
-                android:fontFamily="@string/font_family_light" android:text="Tv" android:textColor="?BrushText"
-                android:textStyle="italic" />
+                      android:layout_gravity="bottom" android:layout_marginRight="5dp"
+                      android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:fontFamily="@string/font_family_light" android:text="Tv" android:textColor="?BrushText"
+                      android:textStyle="italic" />
             <Button android:layout_width="wrap_content" android:minWidth="40dp"
-                android:id="@+id/AnimeListItemWatchedButton"
-                android:background="@drawable/button_underline_background_style"
-                android:layout_height="25dp"
-                android:textAllCaps="false"
-                android:elevation="0dp"
-                android:textSize="@dimen/FontSizeSemiNormal"
-                android:fontFamily="@string/font_family_light"
-                android:layout_marginTop="10dp"
-                android:text="Watched : 5/23"
-                android:textColor="?BrushText" />
+                    android:id="@+id/AnimeListItemWatchedButton"
+                    android:background="@drawable/button_underline_background_style"
+                    android:layout_height="25dp"
+                    android:textAllCaps="false"
+                    android:elevation="0dp"
+                    android:textSize="@dimen/FontSizeSemiNormal"
+                    android:fontFamily="@string/font_family_light"
+                    android:layout_marginTop="10dp"
+                    android:text="Watched : 5/23"
+                    android:textColor="?BrushText" />
           </LinearLayout>
           <LinearLayout android:id="@+id/AnimeListItemStatusScoreSection" android:layout_alignParentEnd="true"
-              android:layout_below="@id/AnimeListItemBtmRightSectionTop" android:layout_width="wrap_content"
-              android:layout_height="wrap_content" android:orientation="horizontal">
+                        android:layout_below="@id/AnimeListItemBtmRightSectionTop" android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" android:orientation="horizontal">
             <Button android:id="@+id/AnimeListItemStatusButton" android:layout_width="0dp"
-                android:layout_height="wrap_content" style="@style/AccentColourButtonStyle" android:text="Watching"
-                android:layout_weight="1" />
+                    android:layout_height="wrap_content" style="@style/AccentColourButtonStyle" android:text="Watching"
+                    android:layout_weight="1" />
             <Button android:id="@+id/AnimeListItemScoreButton" android:layout_width="wrap_content"
-                android:layout_height="wrap_content" style="@style/AccentColourButtonStyle"
-                android:layout_marginLeft="5dp" android:text="8/10" />
+                    android:layout_height="wrap_content" style="@style/AccentColourButtonStyle"
+                    android:layout_marginLeft="5dp" android:text="8/10" />
           </LinearLayout>
         </RelativeLayout>
         <!-- BottomLeft -->
         <LinearLayout android:id="@+id/AnimeListItemIncDecSection" android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:orientation="vertical"
-            android:layout_marginStart="5dp" android:layout_alignParentBottom="true"
-            android:layout_marginBottom="1dp">
+                      android:layout_height="wrap_content" android:orientation="vertical"
+                      android:layout_marginStart="5dp" android:layout_alignParentBottom="true"
+                      android:layout_marginBottom="1dp">
           <ImageButton android:id="@+id/AnimeListItemIncButton" android:layout_width="30dp" android:layout_height="30dp"
-              android:src="@drawable/icon_add" android:tint="#fff" style="@style/AccentColourButtonStyle"
-              android:layout_marginBottom="10dp" />
-          <ImageButton android:id="@+id/AnimeListItemDecButton" android:layout_width="30dp" android:layout_height="30dp"
-              android:src="@drawable/icon_minus" android:tint="#fff" style="@style/AccentColourButtonStyle" />
+                       android:src="@drawable/icon_add" android:tint="#fff" style="@style/AccentColourButtonStyle"
+                       android:layout_marginBottom="5dp" />
+          <ImageButton android:id="@+id/AnimeListItemDecButton" android:layout_width="30dp" android:layout_height="30dp" android:layout_marginTop="5dp"
+                       android:src="@drawable/icon_minus" android:tint="#fff" style="@style/AccentColourButtonStyle" android:layout_marginBottom="5dp" />
         </LinearLayout>
       </RelativeLayout>
     </LinearLayout>

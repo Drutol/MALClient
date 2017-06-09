@@ -659,8 +659,10 @@ namespace MALClient.XShared.ViewModels.Details
             {
                 _animeItemReference.MyEpisodes = _animeItemReference.AllEpisodes;
             }
-
             await GetAppropriateUpdateQuery().GetRequestResponse();
+            (_animeItemReference as AnimeItemViewModel)?.AdjustIncrementButtonsVisibility();
+            RaisePropertyChanged(() => IsIncrementButtonEnabled);
+            RaisePropertyChanged(() => IsDecrementButtonEnabled);
             IsRewatchingButtonEnabled = true;
             LoadingUpdate = false;
         }

@@ -149,6 +149,10 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
                     MangaDaysLabel.Text = $"Days: {ViewModel.CurrentData.MangaDays:N1}";
                     MangaMeanLabel.Text = $"Mean: {ViewModel.CurrentData.MangaMean:N2}";
 
+                    StatsApproxTimeSpentAnime.Text = ViewModel.ApproxTimeSpentOnAnime;
+                    StatsApproxTimeSpentMovies.Text = ViewModel.ApproxTimeSpentOnMovies;
+                    StatsApproxTimeSpentBoth.Text = ViewModel.ApproxTimeSpentOnAnimeAndMovies;
+
                 }));
         }
 
@@ -197,6 +201,9 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
         private TextView _volumesMangaCount;
         private TextView _mangaDaysLabel;
         private TextView _mangaMeanLabel;
+        private TextView _statsApproxTimeSpentAnime;
+        private TextView _statsApproxTimeSpentMovies;
+        private TextView _statsApproxTimeSpentBoth;
 
         public TextView ProfilePageStatsFragmentWatchingAnimeBarLabel => _profilePageStatsFragmentWatchingAnimeBarLabel ?? (_profilePageStatsFragmentWatchingAnimeBarLabel = FindViewById<TextView>(Resource.Id.ProfilePageStatsFragmentWatchingAnimeBarLabel));
 
@@ -280,7 +287,11 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
 
         public TextView MangaMeanLabel => _mangaMeanLabel ?? (_mangaMeanLabel = FindViewById<TextView>(Resource.Id.MangaMeanLabel));
 
+        public TextView StatsApproxTimeSpentAnime => _statsApproxTimeSpentAnime ?? (_statsApproxTimeSpentAnime = FindViewById<TextView>(Resource.Id.StatsApproxTimeSpentAnime));
 
+        public TextView StatsApproxTimeSpentMovies => _statsApproxTimeSpentMovies ?? (_statsApproxTimeSpentMovies = FindViewById<TextView>(Resource.Id.StatsApproxTimeSpentMovies));
+
+        public TextView StatsApproxTimeSpentBoth => _statsApproxTimeSpentBoth ?? (_statsApproxTimeSpentBoth = FindViewById<TextView>(Resource.Id.StatsApproxTimeSpentBoth));
 
         #endregion
     }

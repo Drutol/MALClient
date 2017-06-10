@@ -162,6 +162,8 @@ namespace MALClient.XShared.ViewModels.Main
                 }
                 RecentManga = list;
                 MyFriends = CurrentData.Friends;
+
+                CountTime(ResourceLocator.AnimeLibraryDataStorage.AllLoadedAuthAnimeItems);
             }
             else
             {
@@ -174,7 +176,8 @@ namespace MALClient.XShared.ViewModels.Main
                             async () =>
                                 data =
                                     await
-                                        new LibraryListQuery(args.TargetUser, AnimeListWorkModes.Anime).GetLibrary(false));
+                                        new LibraryListQuery(args.TargetUser, AnimeListWorkModes.Anime)
+                                            .GetLibrary(false));
 
                     var abstractions = new List<AnimeItemAbstraction>();
                     foreach (var libraryData in data)
@@ -185,7 +188,8 @@ namespace MALClient.XShared.ViewModels.Main
                             async () =>
                                 data =
                                     await
-                                        new LibraryListQuery(args.TargetUser, AnimeListWorkModes.Manga).GetLibrary(false));
+                                        new LibraryListQuery(args.TargetUser, AnimeListWorkModes.Manga)
+                                            .GetLibrary(false));
 
                     var mangaAbstractions = new List<AnimeItemAbstraction>();
                     foreach (
@@ -240,6 +244,9 @@ namespace MALClient.XShared.ViewModels.Main
                         list.Add(data.ViewModel);
                 }
                 RecentManga = list;
+
+                CountTime(source.Item1);
+
             }
             AnimeChartValues = new List<int>
             {
@@ -266,6 +273,50 @@ namespace MALClient.XShared.ViewModels.Main
             EmptyFavPeopleNoticeVisibility = CurrentData.FavouritePeople.Count == 0;
             EmptyCommentsNoticeVisibility = CurrentData.Comments.Count == 0;
             OnInitialized?.Invoke();
+
+
+            void CountTime(List<AnimeItemAbstraction> source)
+            {
+                double tvs = 0;
+                double movies = 0;
+                foreach (var animeItemAbstraction in source)
+                {
+                    if (animeItemAbstraction.AllEpisodes <= 0)
+                        continue;
+                    if (animeItemAbstraction.Type == (int)AnimeType.TV ||
+                        animeItemAbstraction.Type == (int)AnimeType.OVA)
+                        tvs += 23.67 * animeItemAbstraction.AllEpisodes;
+                    else if (animeItemAbstraction.Type == (int)AnimeType.Movie)
+                        movies += 95.92;
+                }
+                var timeAnime= TimeSpan.FromMinutes(tvs);
+                var timeBoth = TimeSpan.FromMinutes(tvs + movies);
+                var timeMovies = TimeSpan.FromMinutes(movies);
+
+
+                ApproxTimeSpentOnAnime = Format(timeAnime);
+                ApproxTimeSpentOnMovies = Format(timeMovies);
+                ApproxTimeSpentOnAnimeAndMovies = Format(timeBoth);
+
+                string Format(TimeSpan time)
+                {
+                    var str = "";
+                    if (time.Days > 30)
+                    {
+                        var m = time.Days / 30;
+                        str = $"{m}mo ";
+                        time = time.Subtract(TimeSpan.FromDays(m * 30));
+                    }
+
+                    if(time.Days>0)
+                        str += $"{time.Days}d ";
+                    str += $"{time.Hours}h ";
+                    str += $"{time.Minutes}m ";
+                    str += $"{time.Seconds}s ";
+                    return str;
+                }
+
+            }
         }
 
         private void NavigateDetails(AnimeCharacter character)
@@ -708,6 +759,42 @@ namespace MALClient.XShared.ViewModels.Main
             }
         }
 
+        private string _approxTimeSpentOnAnime;
+
+        public string ApproxTimeSpentOnAnime
+        {
+            get { return _approxTimeSpentOnAnime; }
+            set
+            {
+                _approxTimeSpentOnAnime = value;
+                RaisePropertyChanged(() => ApproxTimeSpentOnAnime);
+            }
+        }
+
+        private string _approxTimeSpentOnMovies;
+
+        public string ApproxTimeSpentOnMovies
+        {
+            get { return _approxTimeSpentOnMovies; }
+            set
+            {
+                _approxTimeSpentOnMovies = value;
+                RaisePropertyChanged(() => ApproxTimeSpentOnMovies);
+            }
+        }
+
+        private string _approxTimeSpentOnAnimeAndMovies;
+
+        public string ApproxTimeSpentOnAnimeAndMovies
+        {
+            get { return _approxTimeSpentOnAnimeAndMovies; }
+            set
+            {
+                _approxTimeSpentOnAnimeAndMovies = value;
+                RaisePropertyChanged(() => ApproxTimeSpentOnAnimeAndMovies);
+            }
+        }
+
         private bool _isSendCommentButtonEnabled = true;
 
         private ICommand _navigateCharacterDetailsCommand;
@@ -816,6 +903,7 @@ namespace MALClient.XShared.ViewModels.Main
 
         private double _computedHtmlHeight = -1;
         private ICommand _navigateProfileCommand;
+
 
         public double ComputedHtmlHeight
         {

@@ -42,6 +42,8 @@ namespace MALClient.Android.Fragments.SettingsFragments
             SettingsPageNotificationsCheckInRuntime.CheckedChange +=
                 (sender, args) => ViewModel.NotificationCheckInRuntime = SettingsPageNotificationsCheckInRuntime.Checked;
             //
+
+            NotificationsTypesCheckBoxGroup.RemoveAllViews();
             foreach (MalNotificationsTypes malNotificationsType in Enum.GetValues(typeof(MalNotificationsTypes)))
             {
                 if (malNotificationsType != MalNotificationsTypes.Generic)

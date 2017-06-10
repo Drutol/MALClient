@@ -122,11 +122,18 @@ namespace MALClient.Android
             return new JavaObjectWrapper<TObj>(obj);
         }
 
-        public static ObservableAdapterWithFooter<T> GetAdapter<T>(
+        public static ObservableAdapter<T> GetAdapter<T>(
             this IList<T> collection,
-            Func<int, T, View, View> getTemplateDelegate, View footer)
+            Func<int, T, View, View> getTemplateDelegate, View footer, bool forGridView)
         {
             footer.Tag = "Footer";
+            if (forGridView)
+                return new ObservableGridViewAdapterWithFooter<T>()
+                {
+                    DataSource = collection,
+                    GetTemplateDelegate = getTemplateDelegate,
+                    Footer = footer,
+                };
             return new ObservableAdapterWithFooter<T>
             {
                 DataSource = collection,

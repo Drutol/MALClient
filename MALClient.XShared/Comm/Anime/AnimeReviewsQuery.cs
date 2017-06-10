@@ -65,9 +65,9 @@ namespace MALClient.XShared.Comm.Anime
                         //
                         var rightTableNode = reviewNode.FirstOfDescendantsWithClass("div", "mb8");
                         var rightTableNodeDivs = rightTableNode.Descendants("div").ToList();
-                        current.Date = rightTableNode.ChildNodes[0].InnerText.Trim();
-                        current.EpisodesSeen = rightTableNodeDivs[0].InnerText.Trim();
-                        current.OverallRating = rightTableNodeDivs[1].InnerText.Trim().TrimWhitespaceInside();
+                        current.Date = rightTableNodeDivs[0].InnerText.Trim();
+                        current.EpisodesSeen = rightTableNodeDivs[1].InnerText.Trim();
+                        current.OverallRating = rightTableNodeDivs[2].InnerText.Trim().TrimWhitespaceInside();
                         //Review Content
                         var reviewNodeContent = reviewNode.FirstOfDescendantsWithClass("div", "spaceit textReadability word-break pt8 mt8");
                         foreach (var scoreRow in reviewNodeContent.ChildNodes[1].Descendants("tr").Skip(1))

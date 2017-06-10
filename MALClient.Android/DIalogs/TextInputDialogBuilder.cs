@@ -18,6 +18,7 @@ using GalaSoft.MvvmLight.Command;
 using MALClient.Android.Activities;
 using MALClient.Android.Listeners;
 using MALClient.Android.Listeners.DialogListeners;
+using MALClient.Android.Managers;
 using MALClient.Android.UserControls;
 using MALClient.BBCode;
 using MALClient.XShared.ViewModels;
@@ -32,14 +33,21 @@ namespace MALClient.Android.DIalogs
         private static readonly SemaphoreSlim _semaphoreTextInput = new SemaphoreSlim(0);
 
 
-        public static async Task<string> BuildInputTextDialog(Context context, string title, string hint,string accept)
+        public static async Task<string> BuildInputTextDialog(Context context, string title, string hint, string accept,
+            bool afterFlyout = false)
         {
             var dialogBuilder = DialogPlus.NewDialog(context);
-            dialogBuilder.SetGravity((int)(GravityFlags.Center));
+            dialogBuilder.SetGravity((int) (GravityFlags.Center));
             dialogBuilder.SetContentHolder(new ViewHolder(Resource.Layout.TextInputDialog));
             dialogBuilder.SetContentBackgroundResource(Resource.Color.Transparent);
             dialogBuilder.SetOnDismissListener(new DialogDismissedListener(() => CleanupTextInputDialog(false)));
-            ViewModelLocator.NavMgr.RegisterOneTimeMainOverride(new RelayCommand(() => CleanupTextInputDialog(false)));
+            if (afterFlyout)
+                (ViewModelLocator.NavMgr as NavMgr).EnqueueOneTimeOverride(
+                    new RelayCommand(() => CleanupTextInputDialog(false)));
+            else
+                ViewModelLocator.NavMgr.RegisterOneTimeMainOverride(
+                    new RelayCommand(() => CleanupTextInputDialog(false)));
+
             _textInputDialog = dialogBuilder.Create();
             var dialogView = _textInputDialog.HolderView;
 
@@ -49,7 +57,8 @@ namespace MALClient.Android.DIalogs
             textBox.AddTextChangedListener(new OnTextEnterListener(() => CleanupTextInputDialog(true)));
 
             dialogView.FindViewById<Button>(Resource.Id.TextInputDialogAcceptButton).Text = accept;
-            dialogView.FindViewById(Resource.Id.TextInputDialogAcceptButton).SetOnClickListener(new OnClickListener(view => CleanupTextInputDialog(true)));
+            dialogView.FindViewById(Resource.Id.TextInputDialogAcceptButton)
+                .SetOnClickListener(new OnClickListener(view => CleanupTextInputDialog(true)));
             _textInputDialog.Show();
 
             await _semaphoreTextInput.WaitAsync();

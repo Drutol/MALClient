@@ -69,7 +69,7 @@ namespace MALClient.Android.Flyouts
             if (_viewModel.PinnedTopics.Any())
             {
                 _list = new ListView(_parent.Context) { LayoutParameters = new ViewGroup.LayoutParams(DimensionsHelper.DpToPx(250), -2), Id = 7890};
-
+                _list.SetBackgroundColor(new Color(ResourceExtension.BrushAnimeItemInnerBackground));
                 _list.Adapter = _viewModel.PinnedTopics.GetAdapter(GetTemplateDelegate);
                 droppyBuilder.AddMenuItem(new DroppyMenuCustomItem(_list));
             }

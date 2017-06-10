@@ -67,7 +67,7 @@ namespace MALClient.Android
 
         public static void InjectAnimeListAdapterWithFooter(this AbsListView listView, Context context,
             IList<AnimeItemViewModel> items,
-            AnimeListDisplayModes mode, View footer, Action<AnimeItemViewModel> onClick = null, bool allowGridItemSwipe = true)
+            AnimeListDisplayModes mode, View footer, Action<AnimeItemViewModel> onClick = null, bool allowGridItemSwipe = true, bool skipBugFix = false)
         {
             switch (mode)
             {
@@ -93,7 +93,7 @@ namespace MALClient.Android
                             ((AnimeGridItem) view).BindModel(model, true);
                         },
                         i => new AnimeGridItem(context, allowGridItemSwipe, onClick)
-                        ,null, footer);
+                        ,null, footer, skipBugFix);
                     break;
                 case AnimeListDisplayModes.IndefiniteCompactList:
                     listView.InjectFlingAdapter(items, (view, i, model) =>

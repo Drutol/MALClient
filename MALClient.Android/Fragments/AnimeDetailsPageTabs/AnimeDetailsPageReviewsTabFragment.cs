@@ -26,11 +26,6 @@ namespace MALClient.Android.Fragments.AnimeDetailsPageTabs
 {
     public class AnimeDetailsPageReviewsTabFragment : MalFragmentBase
     {
-        private class ReviewWrapperClass : Java.Lang.Object
-        {
-            public AnimeReviewData Data { get; set; }
-        }
-
         private AnimeDetailsPageViewModel ViewModel;
 
         private AnimeDetailsPageReviewsTabFragment()
@@ -57,8 +52,6 @@ namespace MALClient.Android.Fragments.AnimeDetailsPageTabs
                     () => AnimeDetailsPageReviewsTabEmptyNotice.Visibility)
                     .ConvertSourceToTarget(Converters.BoolToVisibility));
         }
-
-
 
         private View ContainerTemplate(int i)
         {
@@ -168,13 +161,15 @@ namespace MALClient.Android.Fragments.AnimeDetailsPageTabs
 
         private ListView _animeDetailsPageReviewsTabsList;
         private TextView _animeDetailsPageReviewsTabEmptyNotice;
-        private RelativeLayout _animeDetailsPageReviewsTabLoadingOverlay;
+        private FrameLayout _animeDetailsPageReviewsTabLoadingOverlay;
 
         public ListView AnimeDetailsPageReviewsTabsList => _animeDetailsPageReviewsTabsList ?? (_animeDetailsPageReviewsTabsList = FindViewById<ListView>(Resource.Id.AnimeDetailsPageReviewsTabsList));
 
         public TextView AnimeDetailsPageReviewsTabEmptyNotice => _animeDetailsPageReviewsTabEmptyNotice ?? (_animeDetailsPageReviewsTabEmptyNotice = FindViewById<TextView>(Resource.Id.AnimeDetailsPageReviewsTabEmptyNotice));
 
-        public RelativeLayout AnimeDetailsPageReviewsTabLoadingOverlay => _animeDetailsPageReviewsTabLoadingOverlay ?? (_animeDetailsPageReviewsTabLoadingOverlay = FindViewById<RelativeLayout>(Resource.Id.AnimeDetailsPageReviewsTabLoadingOverlay));
+        public FrameLayout AnimeDetailsPageReviewsTabLoadingOverlay => _animeDetailsPageReviewsTabLoadingOverlay ?? (_animeDetailsPageReviewsTabLoadingOverlay = FindViewById<FrameLayout>(Resource.Id.AnimeDetailsPageReviewsTabLoadingOverlay));
+
+
         #endregion
 
     }

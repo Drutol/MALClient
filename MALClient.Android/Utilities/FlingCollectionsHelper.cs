@@ -14,7 +14,7 @@ namespace MALClient.Android
 
         public static void InjectFlingAdapter<T>(this AbsListView container, IList<T> items,
             Action<View,int, T> dataTemplateFull, Action<View,int,T> dataTemplateFling,
-            Func<int,View> containerTemplate,Action<View,int,T> dataTemplateBasic = null,View footer = null) where T : class
+            Func<int,View> containerTemplate,Action<View,int,T> dataTemplateBasic = null,View footer = null,bool skipBugFix = false) where T : class
         {
             if(!FlingStates.ContainsKey(container))
                 FlingStates.Add(container,false);
@@ -60,7 +60,7 @@ namespace MALClient.Android
                     else
                         dataTemplateFull(root, i, arg2);
                     return root;
-                },footer);
+                },footer,container is GridView && !skipBugFix);
             }
 
         }

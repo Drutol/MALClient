@@ -123,10 +123,6 @@ namespace MALClient.Android.Fragments
                 _fabMenu.Tag = items;
                 _fabMenu.Show();
             }));
-            // AnimeListPageFilterMenu.SetCommand("Click",new RelayCommand(ShowFilterMenu));
-            // AnimeListPageSortMenu.SetCommand("Click", new RelayCommand(ShowSortMenu));
-            // AnimeListPageDisplayMenu.SetCommand("Click", new RelayCommand(ShowDisplayMenu));
-            // AnimeListPageSeasonMenu.SetCommand("Click",new RelayCommand(ShowSeasonMenu));
 
             swipeRefresh.NestedScrollingEnabled = true;
             swipeRefresh.Refresh += (sender, args) =>
@@ -136,10 +132,7 @@ namespace MALClient.Android.Fragments
                 ViewModel.RefreshCommand.Execute(null);
             };
 
-            Bindings.Add(this.SetBinding(() => ViewModel.WorkMode).WhenSourceChanges(() =>
-            {
-                InitActionMenu();
-            }));
+            Bindings.Add(this.SetBinding(() => ViewModel.WorkMode).WhenSourceChanges(InitActionMenu));
 
             InitDrawer();
         }
@@ -176,6 +169,8 @@ namespace MALClient.Android.Fragments
         private void ViewModelOnScrollIntoViewRequested(AnimeItemViewModel item, bool select)
         {
             var list = SwipeRefreshLayout.ScrollingView as AbsListView;
+            if (item != ViewModel.AnimeItems.FirstOrDefault() && list.Adapter is IBugFixingGridViewAdapter adapter)
+                adapter.HandledGridViewBug = true;
             list?.SetSelection(ViewModel.AnimeItems.IndexOf(item));
         }
 
@@ -241,7 +236,7 @@ namespace MALClient.Android.Fragments
 
         private async void SetListSource()
         {
-            var src = await TextInputDialogBuilder.BuildInputTextDialog(Activity, "List source", "username...", "Go!");
+            var src = await TextInputDialogBuilder.BuildInputTextDialog(Activity, "List source", "username...", "Go!",true);
             if(string.IsNullOrWhiteSpace(src))
                 return;
             if (src.Length > 2)
@@ -265,8 +260,7 @@ namespace MALClient.Android.Fragments
                     var footerParam = _loadMoreFooter.LayoutParameters;
                     footerParam.Height = ViewGroup.LayoutParams.WrapContent;
                     
-                    AnimeListPageGridView.InjectAnimeListAdapterWithFooter(Context, ViewModel.AnimeGridItems, AnimeListDisplayModes.IndefiniteGrid, _loadMoreFooter, AnimeListPageGridViewOnItemClick);
-                    
+                    AnimeListPageGridView.InjectAnimeListAdapterWithFooter(Context, ViewModel.AnimeGridItems, AnimeListDisplayModes.IndefiniteGrid, _loadMoreFooter, AnimeListPageGridViewOnItemClick, true, _prevArgs != null);
                     _gridViewColumnHelper = new GridViewColumnHelper(AnimeListPageGridView,null,2,3);
                     //if row is not full we have to make this footer item bigger in order to avoid cutting of last row of items
 

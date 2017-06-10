@@ -178,7 +178,8 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
             convButton.SetOnClickListener(new OnClickListener( OnCommentConversationClick)); 
             imgButton.SetOnClickListener(new OnClickListener(OnCommentAuthorClick));
 
-            view.FindViewById<ImageViewAsync>(Resource.Id.ProfilePageGeneralTabCommentItemUserImg).Into(malComment.User.ImgUrl);
+            if(!string.IsNullOrEmpty(malComment.User.ImgUrl))
+                view.FindViewById<ImageViewAsync>(Resource.Id.ProfilePageGeneralTabCommentItemUserImg).Into(malComment.User.ImgUrl);
 
             view.FindViewById<TextView>(Resource.Id.ProfilePageGeneralTabCommentItemUsername).Text =
                 malComment.User.Name;

@@ -48,6 +48,7 @@ namespace MALClient.Android.UserControls
                 _allowSwipeInGivenContext = allowSwipeInGivenContext;
             _onItemClickAction = onItemClickAction;
             _displayTimeTillAir = displayTimeTillAir;
+            System.Diagnostics.Debug.WriteLine("Created");
         }
 
         public AnimeGridItem(Context context, IAttributeSet attrs) : base(context, attrs)
@@ -82,7 +83,7 @@ namespace MALClient.Android.UserControls
         {
             if ((string)AnimeGridItemImage.Tag != ViewModel.ImgUrl)
             {
-                AnimeGridItemImage.AnimeInto(ViewModel.ImgUrl, AnimeGridItemImgPlaceholder);
+                AnimeGridItemImage.AnimeInto(ViewModel.ImgUrl, AnimeGridItemImgPlaceholder);         
             }
             else
             {

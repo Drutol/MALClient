@@ -141,7 +141,14 @@ namespace MALClient.Android.Activities
 
                 await Task.Delay(1000);
                 if (ResourceLocator.ChangelogProvider.NewChangelog)
+                {
                     ChangelogDialog.BuildChangelogDialog(ResourceLocator.ChangelogProvider);
+                    if (ResourceLocator.ChangelogProvider.CurrentVersion == "v1.0.0.0")
+                    {
+                        Settings.RatePopUpStartupCounter = 8;
+                        Settings.RatePopUpEnable = true;
+                    }
+                }
 
                 RateReminderPopUp.ProcessRatePopUp();
 

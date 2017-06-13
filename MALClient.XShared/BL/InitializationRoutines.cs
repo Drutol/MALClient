@@ -32,24 +32,13 @@ namespace MALClient.XShared.BL
             ResourceLocator.HandyDataStorage.Init();
         }
 
-        public static async void InitPostUpdate()
+        public static void InitPostUpdate()
         {
             var previousVersion = Settings.AppVersion;
 
             ResourceLocator.ChangelogProvider.NewChangelog = previousVersion != null && previousVersion !=
                                                              ResourceLocator.ChangelogProvider.CurrentVersion;
 
-#if !ANDROID          
-            if (!ViewModelLocator.Mobile && ResourceLocator.ApplicationDataService["AndroidInfoShown"] == null && await new NewsQuery().GetRequestResponse() == "Android Tajm!")
-            {
-                ResourceLocator.ApplicationDataService["AndroidInfoShown"] = true;
-                ResourceLocator.MessageDialogProvider.ShowMessageDialogWithInput(
-                    "I've just released open beta of Android version and I'd like to invite you to try it out and help me test it :)\nAndroid has almost all features of Windows versions and UI is similar to what you are familiar with!",
-                    "MALClient on Android!", "To the PlayStore!", "Nah, thanks",
-                    () => ResourceLocator.SystemControlsLauncherService.LaunchUri(
-                        new Uri("https://play.google.com/store/apps/details?id=com.drutol.malclient")));
-            }
-#endif
             Settings.AppVersion = ResourceLocator.ChangelogProvider.CurrentVersion;
         }
     }

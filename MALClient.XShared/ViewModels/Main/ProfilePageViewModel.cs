@@ -281,12 +281,12 @@ namespace MALClient.XShared.ViewModels.Main
                 double movies = 0;
                 foreach (var animeItemAbstraction in source)
                 {
-                    if (animeItemAbstraction.AllEpisodes <= 0)
+                    if (animeItemAbstraction.MyEpisodes <= 0)
                         continue;
                     if (animeItemAbstraction.Type == (int)AnimeType.TV ||
                         animeItemAbstraction.Type == (int)AnimeType.OVA)
-                        tvs += 23.67 * animeItemAbstraction.AllEpisodes;
-                    else if (animeItemAbstraction.Type == (int)AnimeType.Movie)
+                        tvs += 23.67 * animeItemAbstraction.MyEpisodes;
+                    else if (animeItemAbstraction.Type == (int)AnimeType.Movie && animeItemAbstraction.MyStatus == AnimeStatus.Completed)
                         movies += 95.92;
                 }
                 var timeAnime= TimeSpan.FromMinutes(tvs);

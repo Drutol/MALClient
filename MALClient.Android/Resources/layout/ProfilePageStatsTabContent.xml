@@ -460,9 +460,9 @@
           </FrameLayout>
         </FrameLayout>
 
-        <TextView android:id="@+id/AnimeDaysLabel" android:layout_gravity="center_horizontal" android:layout_marginTop="10dp"
-                  android:layout_width="wrap_content" android:text="Days: 47" android:fontFamily="@string/font_family_light" android:textSize="@dimen/FontSizeHuge"
-                  android:layout_height="wrap_content" android:textColor="?AccentColour"/>
+        <!--<TextView android:id="@+id/AnimeDaysLabel" android:layout_gravity="center_horizontal" android:layout_marginTop="10dp"
+                          android:layout_width="wrap_content" android:text="Days: 47" android:fontFamily="@string/font_family_light" android:textSize="@dimen/FontSizeHuge"
+                          android:layout_height="wrap_content" android:textColor="?AccentColour"/>-->
         <TextView android:id="@+id/AnimeMeanLabel" android:layout_gravity="center_horizontal" android:layout_marginTop="10dp"
                   android:layout_width="wrap_content" android:text="Mean: 7.69" android:fontFamily="@string/font_family_light" android:textSize="@dimen/FontSizeHuge"
                   android:layout_height="wrap_content" android:textColor="?AccentColour"/>
@@ -794,6 +794,7 @@
         android:layout_marginEnd="2dp"
         android:layout_marginStart="2dp"
         android:layout_weight="1"
+        android:paddingBottom="8dp"
         android:orientation="vertical">
 
         <FrameLayout

@@ -25,25 +25,19 @@ namespace MALClient.Android.Adapters
 
         private static string _currentVersion;
 
-
         public string CurrentVersion => _currentVersion;
 
         public static string Version => _currentVersion;
 
         public bool NewChangelog { get; set; }
 
-        public string DateWithVersion => $"{_currentVersion} - 10.06.2017";
+        public string DateWithVersion => $"{_currentVersion} - 11.06.2017";
 
         public List<string> Changelog => new List<string>
         {
-            "#64 Fixes, see github.",
-            "Added profile pinning.",
-            "Added \"Did you know\" page to Settings&More",
-            "Fixes to anime reviews.",
-            "Various optimizations...",
-            "---",
-            "I'm aiming for release this weekend, if you've been keeping some bugs for yourself now is the time to share them. Therefore I'll mark this build with \"RC\" suffix."
-  
+            "Added simple time estimates to stats tab in profile page.",
+            "Some final tweaks required before release.",
+            "We are live now! Hooray!"
         };
 
     }

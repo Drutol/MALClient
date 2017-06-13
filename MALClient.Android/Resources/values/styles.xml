@@ -42,7 +42,7 @@
     <item name="AccentColourDark">@color/OrangeAccentColourDark</item>
     <item name="AccentColourLight">@color/OrangeAccentColourLight</item>
     <item name="OpaqueAccentColour">@color/OrangeOpaqueAccentColour</item>
-    <item name="AccentColourContrast" format="reference">@color/OrangeAccentColourContrast</item>
+    <item name="AccentColourContrast">@color/OrangeAccentColour</item>
     <item name="BrushMessageBubbleMine">@color/OrangeDarkBrushMessageBubbleMine</item>
     <item name="BrushMessageBubbleOther">@color/OrangeDarkBrushMessageBubbleOther</item>
 
@@ -62,7 +62,7 @@
     <item name="AccentColourDark">@color/PurpleAccentColourDark</item>
     <item name="AccentColourLight">@color/PurpleAccentColourLight</item>
     <item name="OpaqueAccentColour">@color/PurpleOpaqueAccentColour</item>
-    <item name="AccentColourContrast" format="reference">@color/PurpleAccentColourContrast</item>
+    <item name="AccentColourContrast">@color/PurpleAccentColour</item>
     <item name="BrushMessageBubbleMine">@color/PurpleDarkBrushMessageBubbleMine</item>
     <item name="BrushMessageBubbleOther">@color/PurpleDarkBrushMessageBubbleOther</item>
 
@@ -82,7 +82,7 @@
     <item name="AccentColourDark">@color/BlueAccentColourDark</item>
     <item name="AccentColourLight">@color/BlueAccentColourLight</item>
     <item name="OpaqueAccentColour">@color/BlueOpaqueAccentColour</item>
-    <item name="AccentColourContrast" format="reference">@color/BlueAccentColourContrast</item>
+    <item name="AccentColourContrast">@color/BlueAccentColour</item>
     <item name="BrushMessageBubbleMine">@color/BlueLightBrushMessageBubbleMine</item>
     <item name="BrushMessageBubbleOther">@color/BlueLightBrushMessageBubbleOther</item>
 
@@ -103,8 +103,8 @@
     <item name="AccentColourLight">@color/LimeAccentColourLight</item>
     <item name="OpaqueAccentColour">@color/LimeOpaqueAccentColour</item>
     <item name="AccentColourContrast">@color/LimeAccentColour</item>
-    <item name="BrushMessageBubbleMine">@color/LimeLightBrushMessageBubbleMine</item>
-    <item name="BrushMessageBubbleOther">@color/LimeLightBrushMessageBubbleOther</item>
+    <item name="BrushMessageBubbleMine">@color/LimeDarkBrushMessageBubbleMine</item>
+    <item name="BrushMessageBubbleOther">@color/LimeDarkBrushMessageBubbleOther</item>
 
     <item name="android:colorPrimary">@color/LimeAccentColour</item>
     <item name="android:colorPrimaryDark">@color/Transparent</item>
@@ -122,7 +122,7 @@
     <item name="AccentColourDark">@color/OrangeAccentColourDark</item>
     <item name="AccentColourLight">@color/OrangeAccentColourLight</item>
     <item name="OpaqueAccentColour">@color/OrangeOpaqueAccentColour</item>
-    <item name="AccentColourContrast" format="reference">@color/OrangeAccentColourDark</item>
+    <item name="AccentColourContrast">@color/OrangeAccentColourDark</item>
     <item name="BrushMessageBubbleMine">@color/OrangeLightBrushMessageBubbleMine</item>
     <item name="BrushMessageBubbleOther">@color/OrangeLightBrushMessageBubbleOther</item>
 
@@ -144,7 +144,7 @@
     <item name="AccentColourDark">@color/PurpleAccentColourDark</item>
     <item name="AccentColourLight">@color/PurpleAccentColourLight</item>
     <item name="OpaqueAccentColour">@color/PurpleOpaqueAccentColour</item>
-    <item name="AccentColourContrast" format="reference">@color/PurpleAccentColour</item>
+    <item name="AccentColourContrast">@color/PurpleAccentColourDark</item>
     <item name="BrushMessageBubbleMine">@color/PurpleLightBrushMessageBubbleMine</item>
     <item name="BrushMessageBubbleOther">@color/PurpleLightBrushMessageBubbleOther</item>
 
@@ -166,7 +166,7 @@
     <item name="AccentColourDark">@color/BlueAccentColourDark</item>
     <item name="AccentColourLight">@color/BlueAccentColourLight</item>
     <item name="OpaqueAccentColour">@color/BlueOpaqueAccentColour</item>
-    <item name="AccentColourContrast" format="reference">@color/BlueAccentColour</item>
+    <item name="AccentColourContrast">@color/BlueAccentColourDark</item>
     <item name="BrushMessageBubbleMine">@color/BlueLightBrushMessageBubbleMine</item>
     <item name="BrushMessageBubbleOther">@color/BlueLightBrushMessageBubbleOther</item>
 
@@ -188,7 +188,7 @@
     <item name="AccentColourDark">@color/LimeAccentColourDark</item>
     <item name="AccentColourLight">@color/LimeAccentColourLight</item>
     <item name="OpaqueAccentColour">@color/LimeOpaqueAccentColour</item>
-    <item name="AccentColourContrast" format="reference">@color/LimeAccentColour</item>
+    <item name="AccentColourContrast">@color/LimeAccentColourDark</item>
     <item name="BrushMessageBubbleMine">@color/LimeLightBrushMessageBubbleMine</item>
     <item name="BrushMessageBubbleOther">@color/LimeLightBrushMessageBubbleOther</item>
 

@@ -105,6 +105,17 @@ namespace MALClient.XShared.Utils
                     Arg = msg
                 });
             }
+            else if(Regex.IsMatch(uri , @"https:\/\/myanimelist.net\/people/\d+\/.*"))
+            {
+                var tokens = uri.Split('/');
+                return new Tuple<PageIndex, object>(PageIndex.PageStaffDetails, new StaffDetailsNaviagtionArgs {Id = int.Parse(tokens[tokens.Length - 2]), ResetNav = true});
+            }
+            else if (Regex.IsMatch(uri, @"https:\/\/myanimelist.net\/character/\d+\/.*"))
+            {
+                var tokens = uri.Split('/');
+                return new Tuple<PageIndex, object>(PageIndex.PageCharacterDetails,
+                    new CharacterDetailsNavigationArgs {Id = int.Parse(tokens[tokens.Length - 2]),ResetNav = true});
+            }
             else if (uri == "https://myanimelist.net/news")
             {
                 return new Tuple<PageIndex, object>(PageIndex.PageNews, MalArticlesPageNavigationArgs.News);

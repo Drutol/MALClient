@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Input;
 using Windows.UI.Core;
 using MALClient.Models.Enums;
@@ -51,6 +52,11 @@ namespace MALClient.UWP.Utils
         public void RegisterBackNav(AnimeDetailsPageNavigationArgs args)
         {
             RegisterBackNav(PageIndex.PageAnimeDetails, args);
+        }
+
+        public bool HasSomethingOnStack()
+        {
+            return _randomNavigationStackMain.Any();
         }
 
         public void RegisterBackNav(ProfilePageNavigationArgs args)

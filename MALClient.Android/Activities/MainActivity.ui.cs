@@ -70,6 +70,8 @@ namespace MALClient.Android.Activities
             "/anime/.*",
             "/manga/.*",
             "/profile/.*",
+            "/character/.*",
+            "/people/.*",
         }
     )]
     public partial class MainActivity

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Input;
 using Android.Content;
 using MALClient.Android.Activities;
@@ -59,6 +60,11 @@ namespace MALClient.Android.Managers
         public void RegisterBackNav(AnimeDetailsPageNavigationArgs args)
         {
             RegisterBackNav(PageIndex.PageAnimeDetails, args);
+        }
+
+        public bool HasSomethingOnStack()
+        {
+            return _randomNavigationStackMain.Any();
         }
 
         public void RegisterBackNav(ProfilePageNavigationArgs args)

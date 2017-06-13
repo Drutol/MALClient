@@ -15,6 +15,8 @@ namespace MALClient.XShared.Interfaces
         void RegisterOneTimeOverride(ICommand command);
         void DeregisterBackNav();
         void ResetOffBackNav();
+
+        bool HasSomethingOnStack();
         //Desktop
         void RegisterBackNav(ProfilePageNavigationArgs args);
         void CurrentMainViewOnBackRequested();

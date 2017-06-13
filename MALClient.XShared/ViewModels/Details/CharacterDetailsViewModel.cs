@@ -141,6 +141,12 @@ namespace MALClient.XShared.ViewModels.Details
             }
             if (!force && (_prevArgs?.Equals(args) ?? false))
                 return;
+
+            if (args.ResetNav && !ViewModelLocator.NavMgr.HasSomethingOnStack())
+            {
+                ViewModelLocator.NavMgr.ResetMainBackNav();
+                ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageAnimeList,null);
+            }
             Loading = true;
             _prevArgs = args;
 

@@ -92,7 +92,7 @@ namespace MALClient.Android.Activities
 
                 ViewModelLocator.AnimeList.DimensionsProvider = this;
 
-                var args = Intent.Extras?.GetString("launchArgs");
+                var args = Intent.Extras?.GetString("launchArgs") ?? Intent.Data?.ToString();
                 ProcessLaunchArgs(args, true);
                 ViewModel.PerformFirstNavigation();
 
@@ -143,11 +143,6 @@ namespace MALClient.Android.Activities
                 if (ResourceLocator.ChangelogProvider.NewChangelog)
                 {
                     ChangelogDialog.BuildChangelogDialog(ResourceLocator.ChangelogProvider);
-                    if (ResourceLocator.ChangelogProvider.CurrentVersion == "v1.0.0.0")
-                    {
-                        Settings.RatePopUpStartupCounter = 8;
-                        Settings.RatePopUpEnable = true;
-                    }
                 }
 
                 RateReminderPopUp.ProcessRatePopUp();
@@ -164,7 +159,7 @@ namespace MALClient.Android.Activities
         {
             if(requestCode == 129055)
                 if (grantResults.Any(permission => permission == Permission.Denied))
-                    ResourceLocator.MessageDialogProvider.ShowMessageDialog("Hey hey, I've just declined some permissions... App won't work well without them and you have been warned!","Umm...");
+                    ResourceLocator.MessageDialogProvider.ShowMessageDialog("Hey hey, You've just declined some permissions... App won't work well without them and you have been warned!","Umm...");
 
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
@@ -210,7 +205,7 @@ namespace MALClient.Android.Activities
             base.OnNewIntent(intent);
             RunOnUiThread(() =>
             {
-                var args = intent.Extras?.GetString("launchArgs");
+                var args = intent.Extras?.GetString("launchArgs") ?? intent.Data.ToString();
                 ProcessLaunchArgs(args, false);
             });
 

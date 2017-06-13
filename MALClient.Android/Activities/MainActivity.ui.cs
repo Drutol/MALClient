@@ -50,6 +50,28 @@ using Uri = Android.Net.Uri;
 
 namespace MALClient.Android.Activities
 {
+    [IntentFilter(new[] { "android.intent.action.VIEW" },
+        Categories = new[] { "android.intent.category.DEFAULT", "android.intent.category.BROWSABLE" },
+        DataSchemes = new[] { "http", "https" },
+        DataHosts = new[] { "www.myanimelist.net", "myanimelist.net" },
+        DataPathPatterns = new[]
+        {
+            "/forum/?subboard=.*",
+            "/forum/?board=.*",
+            "/forum/?animeid=.*",
+            "/forum/?mangaid=.*",
+            "/forum/message/.*",
+            "/forum/?topicid=.*",
+            "/news",
+            "/featured",
+            "/mymessages.php",
+            "/forum",
+            "/anime.php",
+            "/anime/.*",
+            "/manga/.*",
+            "/profile/.*",
+        }
+    )]
     public partial class MainActivity
     {
         private DroppyMenuPopup _upperFilterMenu;

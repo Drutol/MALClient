@@ -113,6 +113,8 @@ namespace MALClient.Android.UserControls.AnimeItems
                 ? ViewStates.Visible
                 : ViewStates.Gone;
 
+            
+
             AnimeListItemAddToListButton.Visibility = ViewModel.AddToListVisibility ? ViewStates.Visible : ViewStates.Gone;
             ViewModel.AnimeItemDisplayContext = ViewModelLocator.AnimeList.AnimeItemsDisplayContext;
 
@@ -121,6 +123,7 @@ namespace MALClient.Android.UserControls.AnimeItems
             if (string.IsNullOrEmpty(ViewModel.TopLeftInfoBind))
             {
                 AnimeListItemTopLeftInfo.Visibility = ViewStates.Gone;
+                AnimeListItemTitle.SetMargins(5, 0, 5 , 0);
             }
             else
             {
@@ -131,11 +134,15 @@ namespace MALClient.Android.UserControls.AnimeItems
                     AnimeListItemTopLeftInfoMain.SetTextColor(new Color(110, 110, 110)); //gray
                     AnimeListItemTopLeftInfoSub.Text = ViewModel.AirDayTillBind;
                     AnimeListItemTopLeftInfoSub.Visibility = ViewStates.Visible;
+                    AnimeListItemTitle.SetMargins(5, 0,  72 , 0);
+
                 }
                 else
                 {
                     AnimeListItemTopLeftInfoMain.SetTextColor(new Color(255, 255, 255));
                     AnimeListItemTopLeftInfoSub.Visibility = ViewStates.Gone;
+
+                    AnimeListItemTitle.SetMargins(5, 0, 47, 0);
                 }
             }
 

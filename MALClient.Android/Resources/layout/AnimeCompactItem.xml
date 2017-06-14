@@ -1,102 +1,108 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <FrameLayout android:layout_width="match_parent"
-    android:layout_height="wrap_content" android:clickable="true" android:focusable="true"
-    android:orientation="vertical" android:foreground="?selectableItemBackground"
-    xmlns:android="http://schemas.android.com/apk/res/android">
-  <RelativeLayout
-      android:layout_width="match_parent" android:background="@drawable/border_accent_left"
-      android:layout_height="wrap_content">
-    <LinearLayout
+             android:layout_height="wrap_content" android:clickable="true" android:focusable="true"
+             android:orientation="vertical" android:foreground="?selectableItemBackground"
+             xmlns:android="http://schemas.android.com/apk/res/android" android:paddingBottom="2dp" android:paddingTop="2dp" android:clipToPadding="false">
+  <FrameLayout
+    android:layout_width="match_parent" android:background="@drawable/border_accent_left_wide" android:paddingTop="2dp" android:paddingBottom="2dp"
+    android:layout_height="wrap_content"  android:clipToPadding="false"  android:paddingStart="4dp" >
+    <RelativeLayout
+      android:layout_width="match_parent" android:id="@+id/RootContainer"
+      android:layout_height="wrap_content" android:elevation="2dp" >
+      <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="45dp" android:padding="5dp" android:id="@+id/AnimeCompactItemGeneralSection">
-      <LinearLayout
+        <LinearLayout
           android:layout_width="35dp" android:orientation="vertical" android:gravity="center_horizontal"
           android:layout_height="wrap_content">
-        <TextView android:id="@+id/AnimeCompactItemGlobalScore"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:text="7.95" android:textColor="?BrushText" android:fontFamily="@string/font_family_light"/>
-        <TextView android:id="@+id/AnimeCompactItemType"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:text="OVA" android:textColor="?BrushText" android:fontFamily="@string/font_family_light"/>
-      </LinearLayout>
-      <View style="@style/VerticalDivider" android:layout_marginStart="5dp" android:layout_marginEnd="5dp"/>
-      <LinearLayout
+          <TextView android:id="@+id/AnimeCompactItemGlobalScore"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:text="7.95" android:textColor="?BrushText" android:fontFamily="@string/font_family_light"/>
+          <TextView android:id="@+id/AnimeCompactItemType"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:text="OVA" android:textColor="?BrushText" android:fontFamily="@string/font_family_light"/>
+        </LinearLayout>
+        <View style="@style/VerticalDivider" android:layout_marginStart="5dp" android:layout_marginEnd="5dp"/>
+        <LinearLayout
           android:layout_width="match_parent"
           android:layout_height="match_parent">
-        <TextView android:id="@+id/AnimeCompactItemTitle" android:ems="15"
-            android:layout_width="0dp" android:layout_marginEnd="5dp" android:layout_weight="1" android:gravity="center_vertical"
-            android:layout_height="match_parent" android:text="Some a" android:textColor="?BrushText" android:maxLines="2" android:ellipsize="end"/>
-        <LinearLayout
+          <TextView android:id="@+id/AnimeCompactItemTitle" android:ems="15"
+                    android:layout_width="0dp" android:layout_marginEnd="5dp" android:layout_weight="1" android:gravity="center_vertical"
+                    android:layout_height="match_parent" android:text="Some a" android:textColor="?BrushText" android:maxLines="2" android:ellipsize="end"/>
+          <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent">
-          <TextView android:id="@+id/AnimeCompactItemTopLeftInfo"
-              android:layout_width="wrap_content"
-              android:layout_height="match_parent" android:textColor="?BrushText" android:text="Fri" android:textSize="@dimen/FontSizeBig" android:gravity="center_vertical" android:layout_marginEnd="7dp"/>
-          <ImageView android:id="@+id/AnimeCompactItemFavouriteIndicator"
-              android:layout_width="wrap_content" android:layout_marginEnd="5dp"
-              android:layout_height="match_parent" android:src="@drawable/icon_favourite"/>
-          <FrameLayout
+            <TextView android:id="@+id/AnimeCompactItemTopLeftInfo"
+                      android:layout_width="wrap_content"
+                      android:layout_height="match_parent" android:textColor="?BrushText" android:text="Fri" android:textSize="@dimen/FontSizeBig" android:gravity="center_vertical" android:layout_marginEnd="7dp"/>
+            <ImageView android:id="@+id/AnimeCompactItemFavouriteIndicator"
+                       android:layout_width="wrap_content" android:layout_marginEnd="5dp"
+                       android:layout_height="match_parent" android:src="@drawable/icon_favourite"/>
+            <FrameLayout
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
               android:foreground="?android:selectableItemBackground"
               android:clickable="true"
               android:id="@+id/AnimeCompactItemTagsButton"
               android:focusable="true">
-            <ImageView android:layout_width="35dp"
-                android:layout_height="35dp" android:scaleType="center"
-                android:src="@drawable/icon_tag" />
-          </FrameLayout>
+              <ImageView android:layout_width="35dp"
+                         android:layout_height="35dp" android:scaleType="center"
+                         android:src="@drawable/icon_tag" />
+            </FrameLayout>
+          </LinearLayout>
         </LinearLayout>
       </LinearLayout>
-    </LinearLayout>
-    <LinearLayout android:id="@+id/AnimeCompactItemEditSection"
-        android:layout_width="match_parent" android:padding="5dp" android:gravity="center_vertical"
-        android:layout_height="45dp" android:layout_below="@id/AnimeCompactItemGeneralSection">
-      <View
+      <LinearLayout android:id="@+id/AnimeCompactItemEditSection"
+                    android:layout_width="match_parent" android:padding="5dp" android:gravity="center_vertical"
+                    android:layout_height="45dp" android:layout_below="@id/AnimeCompactItemGeneralSection">
+        <View
           android:layout_width="0dp" android:id="@+id/AnimeCompactItemAdaptiveItemLeft" android:visibility="gone"
           android:layout_height="1dp" android:layout_weight="1"/>
-      <FrameLayout android:layout_marginEnd="10dp" android:id="@+id/AnimeCompactItemScoreButton"
-          android:layout_width="wrap_content" android:foreground="?selectableItemBackground" android:background="@drawable/inc_dec_btn_backgroud"
-          android:layout_height="wrap_content" android:padding="8dp" android:focusable="true" android:clickable="true">
-        <TextView android:id="@+id/AnimeCompactItemScoreLabel"
-            android:layout_width="wrap_content" android:textColor="?BrushText"
-            android:layout_height="wrap_content" android:text="8/10"/>
-      </FrameLayout>
-      <FrameLayout android:id="@+id/AnimeCompactItemStatusButton" android:layout_marginEnd="10dp"
-          android:layout_width="wrap_content" android:foreground="?selectableItemBackground" android:background="@drawable/inc_dec_btn_backgroud"
-          android:layout_height="wrap_content" android:padding="8dp" android:focusable="true" android:clickable="true">
-        <TextView android:id="@+id/AnimeCompactItemStatusLabel"
-            android:layout_width="wrap_content" android:textColor="?BrushText"
-            android:layout_height="wrap_content" android:text="Completed"/>
-      </FrameLayout>
-      <View
+        <FrameLayout android:layout_marginEnd="10dp" android:id="@+id/AnimeCompactItemScoreButton"
+                     android:layout_width="wrap_content" android:foreground="?selectableItemBackground" android:background="@drawable/inc_dec_btn_backgroud"
+                     android:layout_height="wrap_content" android:padding="8dp" android:focusable="true" android:clickable="true">
+          <TextView android:id="@+id/AnimeCompactItemScoreLabel"
+                    android:layout_width="wrap_content" android:textColor="?BrushText"
+                    android:layout_height="wrap_content" android:text="8/10"/>
+        </FrameLayout>
+        <FrameLayout android:id="@+id/AnimeCompactItemStatusButton" android:layout_marginEnd="10dp"
+                     android:layout_width="wrap_content" android:foreground="?selectableItemBackground" android:background="@drawable/inc_dec_btn_backgroud"
+                     android:layout_height="wrap_content" android:padding="8dp" android:focusable="true" android:clickable="true">
+          <TextView android:id="@+id/AnimeCompactItemStatusLabel"
+                    android:layout_width="wrap_content" android:textColor="?BrushText"
+                    android:layout_height="wrap_content" android:text="Completed"/>
+        </FrameLayout>
+        <View
           android:layout_width="0dp" android:id="@+id/AnimeCompactItemAdaptiveItemRight"
           android:layout_height="1dp" android:layout_weight="1"/>
-      <LinearLayout
+        <LinearLayout
           android:layout_width="wrap_content"
           android:layout_height="match_parent" android:gravity="end|center_vertical">
-        <!--<FrameLayout android:layout_marginEnd="10dp" android:id="@+id/AnimeCompactItemDecButton"
-            android:layout_width="wrap_content" android:foreground="?selectableItemBackground" android:background="?AccentColourDark"
-            android:layout_height="wrap_content" android:focusable="true" android:clickable="true">
-          <ImageView
-              android:layout_width="30dp" android:tint="?BrushText"
-              android:layout_height="30dp" android:src="@drawable/icon_minus"/>
-        </FrameLayout>
-        <FrameLayout android:layout_marginEnd="10dp" android:id="@+id/AnimeCompactItemIncButton"
-            android:layout_width="wrap_content" android:foreground="?selectableItemBackground" android:background="?AccentColourDark"
-            android:layout_height="wrap_content" android:focusable="true" android:clickable="true">
-          <ImageView
-              android:layout_width="30dp" android:tint="?BrushText"
-              android:layout_height="30dp" android:src="@drawable/icon_add"/>
-        </FrameLayout>-->
-        <Button android:layout_width="wrap_content" android:minWidth="90dp"
-            android:id="@+id/AnimeCompactItemWatchedButton"
-            android:background="@drawable/button_underline_background_style"
-            android:layout_height="match_parent" android:fontFamily="@string/font_family_light"
-            android:textAllCaps="false"
-            android:text="Watched: 5/23"
-            android:textColor="?BrushText" />
+          <!--<FrameLayout android:layout_marginEnd="10dp" android:id="@+id/AnimeCompactItemDecButton"
+                                          android:layout_width="wrap_content" android:foreground="?selectableItemBackground" android:background="?AccentColourDark"
+                                          android:layout_height="wrap_content" android:focusable="true" android:clickable="true">
+                                        <ImageView
+                                            android:layout_width="30dp" android:tint="?BrushText"
+                                            android:layout_height="30dp" android:src="@drawable/icon_minus"/>
+                                      </FrameLayout>
+                                      <FrameLayout android:layout_marginEnd="10dp" android:id="@+id/AnimeCompactItemIncButton"
+                                          android:layout_width="wrap_content" android:foreground="?selectableItemBackground" android:background="?AccentColourDark"
+                                          android:layout_height="wrap_content" android:focusable="true" android:clickable="true">
+                                        <ImageView
+                                            android:layout_width="30dp" android:tint="?BrushText"
+                                            android:layout_height="30dp" android:src="@drawable/icon_add"/>
+                                      </FrameLayout>-->
+          <Button android:layout_width="wrap_content" android:minWidth="90dp"
+                  android:id="@+id/AnimeCompactItemWatchedButton"
+                  android:background="@drawable/button_underline_background_style"
+                  android:layout_height="match_parent" android:fontFamily="@string/font_family_light"
+                  android:textAllCaps="false"
+                  android:paddingLeft="5dp" android:paddingEnd="5dp"
+                  android:text="Watched: 5/23"
+                  android:textColor="?BrushText" />
+        </LinearLayout>
       </LinearLayout>
-    </LinearLayout>
-  </RelativeLayout>
+    </RelativeLayout>
+  </FrameLayout>
+
 </FrameLayout>

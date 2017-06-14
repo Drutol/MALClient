@@ -157,7 +157,7 @@ namespace MALClient.Android.Fragments
 
         private void OnCompleted(ImageViewAsync imageViewAsync)
         {
-            Activity.RunOnUiThread(() =>
+            Activity?.RunOnUiThread(() =>
             {
                 try
                 {
@@ -179,7 +179,6 @@ namespace MALClient.Android.Fragments
                 }
                 
             });
-
         }
 
         private void OnLongClickAction(View view)

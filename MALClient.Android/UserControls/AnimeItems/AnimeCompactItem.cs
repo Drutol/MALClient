@@ -90,9 +90,9 @@ namespace MALClient.Android.UserControls.AnimeItems
         {
             ViewModel.AnimeItemDisplayContext = ViewModelLocator.AnimeList.AnimeItemsDisplayContext;
 
-            RootContainer.SetBackgroundResource(_position % 2 == 0
+            (RootContainer.GetChildAt(0) as ViewGroup).GetChildAt(0).SetBackgroundResource(_position % 2 == 0
                 ? ResourceExtension.BrushRowAlternate1Res
-                : ResourceExtension.BrushRowAlternate2Res);
+                : ResourceExtension.BrushRowAlternate2LighterRes);
 
             AnimeCompactItemType.Text = ViewModel.PureType;
             AnimeCompactItemTitle.Text = ViewModel.Title;

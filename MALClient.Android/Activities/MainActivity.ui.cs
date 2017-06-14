@@ -56,16 +56,12 @@ namespace MALClient.Android.Activities
         DataHosts = new[] { "www.myanimelist.net", "myanimelist.net" },
         DataPathPatterns = new[]
         {
-            "/forum/?subboard=.*",
-            "/forum/?board=.*",
-            "/forum/?animeid=.*",
-            "/forum/?mangaid=.*",
-            "/forum/message/.*",
-            "/forum/?topicid=.*",
+            "/forum/.*",
             "/news",
             "/featured",
             "/mymessages.php",
             "/forum",
+            "/forum/",
             "/anime.php",
             "/anime/.*",
             "/manga/.*",

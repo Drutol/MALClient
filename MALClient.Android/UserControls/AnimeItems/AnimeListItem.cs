@@ -1,13 +1,7 @@
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-
-using Android.App;
 using Android.Content;
 using Android.Graphics;
-using Android.OS;
 using Android.Runtime;
 using Android.Util;
 using Android.Views;
@@ -22,7 +16,7 @@ using MALClient.Android.Flyouts;
 using MALClient.Android.Listeners;
 using MALClient.XShared.ViewModels;
 
-namespace MALClient.Android.UserControls
+namespace MALClient.Android.UserControls.AnimeItems
 {
     public class AnimeListItem : UserControlBase<AnimeItemViewModel,FrameLayout>
     {
@@ -82,11 +76,7 @@ namespace MALClient.Android.UserControls
 
 
 
-            AnimeListItemTagsButton.SetOnClickListener(new OnClickListener(OnTagsButtonClick));
-            AnimeListItemStatusButton.SetOnClickListener(
-                new OnClickListener(view => ShowStatusDialog()));
-            AnimeListItemScoreButton.SetOnClickListener(
-                new OnClickListener(view => ShowRatingDialog()));
+
 
             if (ViewModel.Auth)
             {
@@ -100,13 +90,6 @@ namespace MALClient.Android.UserControls
                 AnimeListItemWatchedButton.Focusable = false;
             }
 
-            AnimeListItemIncButton.SetOnClickListener(
-                new OnClickListener(view => ViewModel.IncrementWatchedCommand.Execute(null)));
-            AnimeListItemDecButton.SetOnClickListener(
-                new OnClickListener(view => ViewModel.DecrementWatchedCommand.Execute(null)));
-
-            RootContainer.SetOnLongClickListener(new OnLongClickListener(view => MoreButtonOnClick()));
-            RootContainer.SetOnClickListener(new OnClickListener(view => ContainerOnClick()));
 
             ViewModel.AnimeItemDisplayContext = ViewModelLocator.AnimeList.AnimeItemsDisplayContext;
 
@@ -130,6 +113,7 @@ namespace MALClient.Android.UserControls
                 ? ViewStates.Visible
                 : ViewStates.Gone;
 
+            AnimeListItemAddToListButton.Visibility = ViewModel.AddToListVisibility ? ViewStates.Visible : ViewStates.Gone;
             ViewModel.AnimeItemDisplayContext = ViewModelLocator.AnimeList.AnimeItemsDisplayContext;
 
             AnimeListItemTitle.Text = ViewModel.Title;
@@ -197,12 +181,33 @@ namespace MALClient.Android.UserControls
                         ? ViewStates.Visible
                         : ViewStates.Gone;
                     break;
+                case nameof(ViewModel.AddToListVisibility):
+                    AnimeListItemAddToListButton.Visibility = ViewModel.AddToListVisibility ? ViewStates.Visible : ViewStates.Gone;
+                    break;
             }
         }
 
         protected override void CleanupPreviousModel()
         {
             ViewModel.PropertyChanged -= ViewModelOnPropertyChanged;
+        }
+
+        protected override void RootContainerInit()
+        {
+            AnimeListItemAddToListButton.SetOnClickListener(new OnClickListener(view => ViewModel.AddAnimeCommand.Execute(null)));
+            AnimeListItemTagsButton.SetOnClickListener(new OnClickListener(OnTagsButtonClick));
+            AnimeListItemStatusButton.SetOnClickListener(
+                new OnClickListener(view => ShowStatusDialog()));
+            AnimeListItemScoreButton.SetOnClickListener(
+                new OnClickListener(view => ShowRatingDialog()));
+            AnimeListItemIncButton.SetOnClickListener(
+                new OnClickListener(view => ViewModel.IncrementWatchedCommand.Execute(null)));
+            AnimeListItemDecButton.SetOnClickListener(
+                new OnClickListener(view => ViewModel.DecrementWatchedCommand.Execute(null)));
+
+            RootContainer.SetOnLongClickListener(new OnLongClickListener(view => MoreButtonOnClick()));
+            RootContainer.SetOnClickListener(new OnClickListener(view => ContainerOnClick()));
+            base.RootContainerInit();
         }
 
         #region Flyouts
@@ -273,6 +278,8 @@ namespace MALClient.Android.UserControls
         private ProgressBar _animeListItemImgPlaceholder;
         private ImageViewAsync _animeListItemImage;
         private FrameLayout _animeListItemTagsButton;
+        private ImageView _imageView;
+        private FrameLayout _animeListItemAddToListButton;
         private ProgressBar _animeListItemUpdatingBar;
         private TextView _animeListItemTitle;
         private TextView _animeListItemTopLeftInfoMain;
@@ -293,6 +300,10 @@ namespace MALClient.Android.UserControls
         public ImageViewAsync AnimeListItemImage => _animeListItemImage ?? (_animeListItemImage = FindViewById<ImageViewAsync>(Resource.Id.AnimeListItemImage));
 
         public FrameLayout AnimeListItemTagsButton => _animeListItemTagsButton ?? (_animeListItemTagsButton = FindViewById<FrameLayout>(Resource.Id.AnimeListItemTagsButton));
+
+        public ImageView ImageView => _imageView ?? (_imageView = FindViewById<ImageView>(Resource.Id.imageView));
+
+        public FrameLayout AnimeListItemAddToListButton => _animeListItemAddToListButton ?? (_animeListItemAddToListButton = FindViewById<FrameLayout>(Resource.Id.AnimeListItemAddToListButton));
 
         public ProgressBar AnimeListItemUpdatingBar => _animeListItemUpdatingBar ?? (_animeListItemUpdatingBar = FindViewById<ProgressBar>(Resource.Id.AnimeListItemUpdatingBar));
 

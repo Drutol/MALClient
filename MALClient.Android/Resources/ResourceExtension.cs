@@ -42,6 +42,7 @@ namespace MALClient.Android.Resources
                 BrushHamburgerBackgroundRes = Resource.Color.DarkBrushHamburgerBackground;
                 BrushRowAlternate1Res = Resource.Color.DarkBrushRowAlternate1;
                 BrushRowAlternate2Res = Resource.Color.DarkBrushRowAlternate2;
+                BrushRowAlternate2LighterRes = Resource.Color.DarkBrushRowAlternate2;
                 BrushAnimeItemInnerBackgroundRes = Resource.Color.DarkBrushAnimeItemInnerBackground;
             }
             else
@@ -64,6 +65,7 @@ namespace MALClient.Android.Resources
                 BrushHamburgerBackgroundRes = Resource.Color.LightBrushHamburgerBackground;
                 BrushRowAlternate1Res = Resource.Color.LightBrushRowAlternate1;
                 BrushRowAlternate2Res = Resource.Color.LightBrushRowAlternate2;
+                BrushRowAlternate2LighterRes = Resource.Color.LightBrushRowAlternate2Lighter;
                 BrushAnimeItemInnerBackgroundRes = Resource.Color.LightBrushAnimeItemInnerBackground;
 
             }
@@ -197,6 +199,7 @@ namespace MALClient.Android.Resources
 
         public static  int BrushRowAlternate1Res;
         public static  int BrushRowAlternate2Res;
+        public static  int BrushRowAlternate2LighterRes;
         public static  int BrushAnimeItemInnerBackgroundRes;
 
         #endregion

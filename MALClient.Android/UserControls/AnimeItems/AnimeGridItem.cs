@@ -90,13 +90,7 @@ namespace MALClient.Android.UserControls
                 AnimeGridItemImage.Visibility = ViewStates.Visible;
             }
 
-            RootContainer.SetOnClickListener(new OnClickListener(view => ContainerOnClick()));
-            AnimeGridItemMoreButton.SetOnClickListener(new OnClickListener(view => MoreButtonOnClick()));
-                  
-            AnimeGridItemTagsButton.SetOnClickListener(new OnClickListener(OnTagsButtonClick));
-
-
-            AnimeGridItemAddToListButton.SetOnClickListener(new OnClickListener(view => ViewModel.AddAnimeCommand.Execute(null)));
+            
             if (ViewModel.Auth)
             {
                 AnimeGridItemWatchedStatusButton.SetOnClickListener(new OnClickListener(view => ShowWatchedDialog()));
@@ -242,6 +236,12 @@ namespace MALClient.Android.UserControls
 
         protected override void RootContainerInit()
         {
+            RootContainer.SetOnClickListener(new OnClickListener(view => ContainerOnClick()));
+            AnimeGridItemMoreButton.SetOnClickListener(new OnClickListener(view => MoreButtonOnClick()));
+
+            AnimeGridItemTagsButton.SetOnClickListener(new OnClickListener(OnTagsButtonClick));
+
+            AnimeGridItemAddToListButton.SetOnClickListener(new OnClickListener(view => ViewModel.AddAnimeCommand.Execute(null)));
 
             if (_allowSwipeInGivenContext)
             {

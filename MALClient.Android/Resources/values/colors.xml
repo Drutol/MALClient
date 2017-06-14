@@ -18,6 +18,7 @@
   <color name="LightBrushLoadingNonOpaque">#efefef</color>
   <color name="LightBrushRowAlternate1">#f5f5f5</color>
   <color name="LightBrushRowAlternate2">#AAE6E6E6</color>
+  <color name="LightBrushRowAlternate2Lighter">#f0f0f0</color>
   <color name="LightBrushDetailsGeneralBorder">#d3d3d3</color>
   <color name="LightBrushDetailsRelatedBackground">#f5f5f5</color>
   <color name="LightBrushDetailsBackground">#f0f0f0</color>

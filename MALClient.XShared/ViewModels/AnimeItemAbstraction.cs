@@ -64,8 +64,7 @@ namespace MALClient.XShared.ViewModels
                 MyEndDate = entry.MyEndDate;
             }
 
-            VolatileDataCache data;
-            if (!DataCache.TryRetrieveDataForId(id ?? Id, out data)) return;
+            if (!DataCache.TryRetrieveDataForId(id ?? Id, out VolatileDataCache data)) return;
             VolatileData = data;
             LoadedVolatile = true;
         }

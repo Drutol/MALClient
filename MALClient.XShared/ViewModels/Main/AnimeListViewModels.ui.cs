@@ -433,8 +433,8 @@ namespace MALClient.XShared.ViewModels.Main
         }
 
         public bool LoadAllDetailsButtonVisiblity
-            =>
-                WorkMode == AnimeListWorkModes.Anime;
+            => WorkMode != AnimeListWorkModes.SeasonalAnime && WorkMode != AnimeListWorkModes.Manga &&
+               WorkMode != AnimeListWorkModes.TopManga;
 
 
         private bool _goingCustomSeason;

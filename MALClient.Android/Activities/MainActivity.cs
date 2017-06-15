@@ -205,7 +205,7 @@ namespace MALClient.Android.Activities
             base.OnNewIntent(intent);
             RunOnUiThread(() =>
             {
-                var args = intent.Extras?.GetString("launchArgs") ?? intent.Data.ToString();
+                var args = intent.Extras?.GetString("launchArgs") ?? intent.Data?.ToString();
                 ProcessLaunchArgs(args, false);
             });
 

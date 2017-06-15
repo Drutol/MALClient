@@ -35,10 +35,16 @@ namespace MALClient.XShared.BL
         public static void InitPostUpdate()
         {
             var previousVersion = Settings.AppVersion;
+            var currentVersion = ResourceLocator.ChangelogProvider.CurrentVersion;
+            var isNewVersion = false;
+            if (previousVersion != null)
+            {
+                if (previousVersion.Substring(0, previousVersion.LastIndexOf('.')) !=
+                    currentVersion.Substring(0, currentVersion.LastIndexOf('.')))
+                    isNewVersion = true;
+            }
 
-            ResourceLocator.ChangelogProvider.NewChangelog = previousVersion != null && previousVersion !=
-                                                             ResourceLocator.ChangelogProvider.CurrentVersion;
-
+            ResourceLocator.ChangelogProvider.NewChangelog = isNewVersion;
             Settings.AppVersion = ResourceLocator.ChangelogProvider.CurrentVersion;
         }
     }

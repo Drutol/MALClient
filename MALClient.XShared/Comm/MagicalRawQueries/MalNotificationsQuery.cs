@@ -77,7 +77,6 @@ namespace MALClient.XShared.Comm.MagicalRawQueries
 
                 var dto = new ReadNotificationDTO(notification,client.Token);
                 var content = new StringContent(JsonConvert.SerializeObject(dto));
-                var s = JsonConvert.SerializeObject(dto);
                 var response = await client.PostAsync("/notification/api/check-items-as-read.json", content);
 
                 return (await response.Content.ReadAsStringAsync()).Contains("true");

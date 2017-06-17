@@ -12,5 +12,6 @@
         Navigated,
         CreatedTopic,
         CreatedReply,
+        RatePopUpAppeared
     }
 }

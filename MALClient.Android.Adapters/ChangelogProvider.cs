@@ -23,7 +23,7 @@ namespace MALClient.Android.Adapters
             _currentVersion = package.VersionName;
         }
 
-        private static string _currentVersion;
+        private static readonly string _currentVersion;
 
         public string CurrentVersion => _currentVersion;
 
@@ -31,12 +31,16 @@ namespace MALClient.Android.Adapters
 
         public bool NewChangelog { get; set; }
 
-        public string DateWithVersion => $"{_currentVersion} - 14.06.2017";
+        public string DateWithVersion => $"{_currentVersion} - 17.06.2017";
 
         public List<string> Changelog => new List<string>
         {
-            "Added support for opening certain myanimelist.net links.",
-            "Various small tweaks to Detailed Grid & Compact display modes.",
+            "Fixed item refresh in detailed grid display mode after adding show to list.",
+            "Maybe fixed possible issue with Thai calendar. Just a guess based on vague crashlogs.",
+            "Crashfixes for wallpapers page.",
+            "Fixed marking notifications as read.",
+            "Yeah boring update... new stuff will come once I finish my exams. Bear with me please :)",
+            "I've made a list with plans for future features, see github!"
         };
 
     }

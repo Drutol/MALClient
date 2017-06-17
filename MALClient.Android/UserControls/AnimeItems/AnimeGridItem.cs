@@ -48,7 +48,6 @@ namespace MALClient.Android.UserControls
                 _allowSwipeInGivenContext = allowSwipeInGivenContext;
             _onItemClickAction = onItemClickAction;
             _displayTimeTillAir = displayTimeTillAir;
-            System.Diagnostics.Debug.WriteLine("Created");
         }
 
         public AnimeGridItem(Context context, IAttributeSet attrs) : base(context, attrs)

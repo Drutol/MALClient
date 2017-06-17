@@ -80,6 +80,7 @@ namespace MALClient.Android.Activities
             SetRightTheme();
             ResourceExtension.Init();
             base.OnCreate(bundle);
+            AnimeListPageFragment.RightDrawer = null;
             if (!_addedNavHandlers)
             {
                 RegisterIoC();

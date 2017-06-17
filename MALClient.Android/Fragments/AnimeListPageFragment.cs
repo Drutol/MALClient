@@ -42,7 +42,9 @@ namespace MALClient.Android.Fragments
 
         private AnimeListViewModel ViewModel = ViewModelLocator.AnimeList;
         private GridViewColumnHelper _gridViewColumnHelper;
-        private static Drawer _rightDrawer;
+        public static Drawer RightDrawer { get; set; }
+
+
 
         public AnimeListPageFragment(AnimeListPageNavigationArgs args)
         {
@@ -110,7 +112,7 @@ namespace MALClient.Android.Fragments
 
         private void InitDrawer()
         {
-            if(_rightDrawer != null)
+            if(RightDrawer != null)
                 return;
 
             var builder = new DrawerBuilder().WithActivity(Activity);
@@ -122,10 +124,10 @@ namespace MALClient.Android.Fragments
             builder.WithStickyHeaderShadow(true);
             builder.WithStickyHeader(Resource.Layout.AnimeListPageDrawerHeader);
 
-            _rightDrawer = builder.Build();
-            _rightDrawer.DrawerLayout.SetDrawerLockMode(DrawerLayout.LockModeLockedClosed);
-            _rightDrawer.StickyHeader.SetBackgroundColor(new Color(ResourceExtension.BrushAppBars));
-            _rightDrawer.DrawerLayout.AddDrawerListener(new DrawerListener(() => ViewModelLocator.NavMgr.ResetOneTimeOverride(),() => _actionMenu.Close(true)));
+            RightDrawer = builder.Build();
+            RightDrawer.DrawerLayout.SetDrawerLockMode(DrawerLayout.LockModeLockedClosed);
+            RightDrawer.StickyHeader.SetBackgroundColor(new Color(ResourceExtension.BrushAppBars));
+            RightDrawer.DrawerLayout.AddDrawerListener(new DrawerListener(() => ViewModelLocator.NavMgr.ResetOneTimeOverride(),() => _actionMenu.Close(true)));
         }
 
         private void OpenFiltersDrawer()
@@ -155,23 +157,23 @@ namespace MALClient.Android.Fragments
             f6.WithIdentifier((int)AnimeStatus.AllOrAiring);
 
  
-            _rightDrawer.SetItems(new List<IDrawerItem> { f1, f2, f3, f4, f5, f6 });
-            _rightDrawer.SetSelection((int)ViewModel.GetDesiredStatus());
+            RightDrawer.SetItems(new List<IDrawerItem> { f1, f2, f3, f4, f5, f6 });
+            RightDrawer.SetSelection((int)ViewModel.GetDesiredStatus());
 
-            _rightDrawer.StickyHeader.FindViewById<TextView>(Resource.Id.AnimeListPageDrawerHeaderText).Text = "Filters";
-            _rightDrawer.StickyHeader.FindViewById<ImageView>(Resource.Id.AnimeListPageDrawerHeaderIcon).SetImageResource(
+            RightDrawer.StickyHeader.FindViewById<TextView>(Resource.Id.AnimeListPageDrawerHeaderText).Text = "Filters";
+            RightDrawer.StickyHeader.FindViewById<ImageView>(Resource.Id.AnimeListPageDrawerHeaderIcon).SetImageResource(
                 Resource.Drawable.icon_filter);
-            _rightDrawer.OnDrawerItemClickListener = new HamburgerItemClickListener((view, i, arg3) =>
+            RightDrawer.OnDrawerItemClickListener = new HamburgerItemClickListener((view, i, arg3) =>
             {
                 ViewModel.CurrentStatus = (int) arg3.Identifier;
                 ViewModel.RefreshList();
-                _rightDrawer.OnDrawerItemClickListener = null;
-                _rightDrawer.CloseDrawer();
+                RightDrawer.OnDrawerItemClickListener = null;
+                RightDrawer.CloseDrawer();
             });
 
 
             ViewModelLocator.NavMgr.RegisterOneTimeMainOverride(new RelayCommand(CloseDrawer));
-            _rightDrawer.OpenDrawer();
+            RightDrawer.OpenDrawer();
             _actionMenu.Close(true);
         }
 
@@ -201,13 +203,13 @@ namespace MALClient.Android.Fragments
             descendingToggle.WithTextColorRes(ResourceExtension.BrushTextRes);
             items.Add(descendingToggle);
 
-            _rightDrawer.SetItems(items);
-            _rightDrawer.SetSelection((int) ViewModel.SortOption);
+            RightDrawer.SetItems(items);
+            RightDrawer.SetSelection((int) ViewModel.SortOption);
 
-            _rightDrawer.StickyHeader.FindViewById<TextView>(Resource.Id.AnimeListPageDrawerHeaderText).Text = "Sorting";
-            _rightDrawer.StickyHeader.FindViewById<ImageView>(Resource.Id.AnimeListPageDrawerHeaderIcon).SetImageResource(
+            RightDrawer.StickyHeader.FindViewById<TextView>(Resource.Id.AnimeListPageDrawerHeaderText).Text = "Sorting";
+            RightDrawer.StickyHeader.FindViewById<ImageView>(Resource.Id.AnimeListPageDrawerHeaderIcon).SetImageResource(
                 Resource.Drawable.icon_sort);
-            _rightDrawer.OnDrawerItemClickListener = new HamburgerItemClickListener((view, i, arg3) =>
+            RightDrawer.OnDrawerItemClickListener = new HamburgerItemClickListener((view, i, arg3) =>
             {
                 if (arg3.Identifier == 998877)
                 {
@@ -220,12 +222,12 @@ namespace MALClient.Android.Fragments
                     ViewModel.RefreshList();
                 }
 
-                _rightDrawer.OnDrawerItemClickListener = null;
-                _rightDrawer.CloseDrawer();
+                RightDrawer.OnDrawerItemClickListener = null;
+                RightDrawer.CloseDrawer();
             });
 
             ViewModelLocator.NavMgr.RegisterOneTimeMainOverride(new RelayCommand(CloseDrawer));
-            _rightDrawer.OpenDrawer();
+            RightDrawer.OpenDrawer();
             _actionMenu.Close(true);
         }
 
@@ -249,22 +251,22 @@ namespace MALClient.Android.Fragments
             f3.WithName("Compact List");
             f3.WithIdentifier((int)AnimeListDisplayModes.IndefiniteCompactList);
 
-            _rightDrawer.SetItems(new List<IDrawerItem>(){ f1, f2, f3 });
-            _rightDrawer.SetSelection((int) ViewModel.DisplayMode);
+            RightDrawer.SetItems(new List<IDrawerItem>(){ f1, f2, f3 });
+            RightDrawer.SetSelection((int) ViewModel.DisplayMode);
 
-            _rightDrawer.StickyHeader.FindViewById<TextView>(Resource.Id.AnimeListPageDrawerHeaderText).Text = "Display Modes";
-            _rightDrawer.StickyHeader.FindViewById<ImageView>(Resource.Id.AnimeListPageDrawerHeaderIcon).SetImageResource(
+            RightDrawer.StickyHeader.FindViewById<TextView>(Resource.Id.AnimeListPageDrawerHeaderText).Text = "Display Modes";
+            RightDrawer.StickyHeader.FindViewById<ImageView>(Resource.Id.AnimeListPageDrawerHeaderIcon).SetImageResource(
                 Resource.Drawable.icon_eye);
-            _rightDrawer.OnDrawerItemClickListener = new HamburgerItemClickListener((view, i, arg3) =>
+            RightDrawer.OnDrawerItemClickListener = new HamburgerItemClickListener((view, i, arg3) =>
             {
                 ViewModel.CurrentlySelectedDisplayMode =
                     new Tuple<AnimeListDisplayModes, string>((AnimeListDisplayModes) arg3.Identifier, null);
-                _rightDrawer.OnDrawerItemClickListener = null;
-                _rightDrawer.CloseDrawer();
+                RightDrawer.OnDrawerItemClickListener = null;
+                RightDrawer.CloseDrawer();
             });
 
             (ViewModelLocator.NavMgr as NavMgr).EnqueueOneTimeOverride(new RelayCommand(CloseDrawer));
-            _rightDrawer.OpenDrawer();
+            RightDrawer.OpenDrawer();
             _actionMenu.Close(true);
         }
 
@@ -279,21 +281,21 @@ namespace MALClient.Android.Fragments
                 items.Add(btn);
             }
 
-            _rightDrawer.SetItems(items);
-            _rightDrawer.SetSelection((int)ViewModel.TopAnimeWorkMode);
+            RightDrawer.SetItems(items);
+            RightDrawer.SetSelection((int)ViewModel.TopAnimeWorkMode);
 
-            _rightDrawer.StickyHeader.FindViewById<TextView>(Resource.Id.AnimeListPageDrawerHeaderText).Text = "Top Types";
-            _rightDrawer.StickyHeader.FindViewById<ImageView>(Resource.Id.AnimeListPageDrawerHeaderIcon).SetImageResource(
+            RightDrawer.StickyHeader.FindViewById<TextView>(Resource.Id.AnimeListPageDrawerHeaderText).Text = "Top Types";
+            RightDrawer.StickyHeader.FindViewById<ImageView>(Resource.Id.AnimeListPageDrawerHeaderIcon).SetImageResource(
                 Resource.Drawable.icon_fav_outline);
-            _rightDrawer.OnDrawerItemClickListener = new HamburgerItemClickListener((view, i, arg3) =>
+            RightDrawer.OnDrawerItemClickListener = new HamburgerItemClickListener((view, i, arg3) =>
             {
                 ViewModelLocator.GeneralMain.Navigate(PageIndex.PageAnimeList,AnimeListPageNavigationArgs.TopAnime((TopAnimeType)i));
-                _rightDrawer.OnDrawerItemClickListener = null;
-                _rightDrawer.CloseDrawer();
+                RightDrawer.OnDrawerItemClickListener = null;
+                RightDrawer.CloseDrawer();
             });
 
             ViewModelLocator.NavMgr.RegisterOneTimeMainOverride(new RelayCommand(CloseDrawer));
-            _rightDrawer.OpenDrawer();
+            RightDrawer.OpenDrawer();
             _actionMenu.Close(true);
         }
 
@@ -340,36 +342,36 @@ namespace MALClient.Android.Fragments
                 view =>
                 {
                     ViewModel.GoToCustomSeasonCommand.Execute(null);
-                    _rightDrawer.OnDrawerItemClickListener = null;
-                    _rightDrawer.CloseDrawer();
+                    RightDrawer.OnDrawerItemClickListener = null;
+                    RightDrawer.CloseDrawer();
                 }));
 
             items.Add(new ContainerDrawerItem().WithView(seasonView));
-            _rightDrawer.SetItems(items);
-            _rightDrawer.SetSelection(
+            RightDrawer.SetItems(items);
+            RightDrawer.SetSelection(
                 ViewModel.SeasonSelection.FindIndex(season => season.Name == ViewModel.CurrentSeason.Name));
 
-            _rightDrawer.OnDrawerItemClickListener = new HamburgerItemClickListener((view, i, arg3) =>
+            RightDrawer.OnDrawerItemClickListener = new HamburgerItemClickListener((view, i, arg3) =>
             {
                 ViewModel.SeasonalUrlsSelectedIndex = i;
-                _rightDrawer.OnDrawerItemClickListener = null;
-                _rightDrawer.CloseDrawer();
+                RightDrawer.OnDrawerItemClickListener = null;
+                RightDrawer.CloseDrawer();
             });
 
            
 
-            _rightDrawer.StickyHeader.FindViewById<TextView>(Resource.Id.AnimeListPageDrawerHeaderText).Text = "Seasonal Selection";
-            _rightDrawer.StickyHeader.FindViewById<ImageView>(Resource.Id.AnimeListPageDrawerHeaderIcon).SetImageResource(
+            RightDrawer.StickyHeader.FindViewById<TextView>(Resource.Id.AnimeListPageDrawerHeaderText).Text = "Seasonal Selection";
+            RightDrawer.StickyHeader.FindViewById<ImageView>(Resource.Id.AnimeListPageDrawerHeaderIcon).SetImageResource(
                 Resource.Drawable.icon_calendar);
 
             ViewModelLocator.NavMgr.RegisterOneTimeMainOverride(new RelayCommand(CloseDrawer));
-            _rightDrawer.OpenDrawer();
+            RightDrawer.OpenDrawer();
             _actionMenu.Close(true);
         }
 
         private void CloseDrawer()
         {
-            _rightDrawer.CloseDrawer();
+            RightDrawer.CloseDrawer();
         }
 
         #endregion

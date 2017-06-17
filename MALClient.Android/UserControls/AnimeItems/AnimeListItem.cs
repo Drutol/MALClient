@@ -191,6 +191,10 @@ namespace MALClient.Android.UserControls.AnimeItems
                 case nameof(ViewModel.AddToListVisibility):
                     AnimeListItemAddToListButton.Visibility = ViewModel.AddToListVisibility ? ViewStates.Visible : ViewStates.Gone;
                     break;
+                case nameof(ViewModel.Auth):
+                    BindModelFull();
+                    BindModelBasic();
+                    break;
             }
         }
 

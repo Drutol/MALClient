@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -546,7 +547,7 @@ namespace MALClient.XShared.ViewModels.Details
                 (Settings.OverrideValidStartEndDate || !StartDateValid))
             {
                 _startDateTimeOffset = DateTimeOffset.Now;
-                _animeItemReference.StartDate = DateTimeOffset.Now.ToString("yyyy-MM-dd");
+                _animeItemReference.StartDate = DateTimeOffset.Now.ToString("yyyy-MM-dd",CultureInfo.InvariantCulture);
                 StartDateValid = true;
                 RaisePropertyChanged(() => StartDateTimeOffset);
                 RaisePropertyChanged(() => MyStartDate);
@@ -555,7 +556,7 @@ namespace MALClient.XShared.ViewModels.Details
                      (Settings.OverrideValidStartEndDate || !EndDateValid))
             {
                 _endDateTimeOffset = DateTimeOffset.Now;
-                _animeItemReference.EndDate = DateTimeOffset.Now.ToString("yyyy-MM-dd");
+                _animeItemReference.EndDate = DateTimeOffset.Now.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
                 EndDateValid = true;
                 RaisePropertyChanged(() => EndDateTimeOffset);
                 RaisePropertyChanged(() => MyEndDate);
@@ -566,13 +567,13 @@ namespace MALClient.XShared.ViewModels.Details
                 if (prevStatus == AnimeStatus.PlanToWatch) //we have just insta completed the series
                 {
                     _startDateTimeOffset = DateTimeOffset.Now;
-                    _animeItemReference.StartDate = DateTimeOffset.Now.ToString("yyyy-MM-dd");
+                    _animeItemReference.StartDate = DateTimeOffset.Now.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
                     StartDateValid = true;
                     RaisePropertyChanged(() => StartDateTimeOffset);
                     RaisePropertyChanged(() => MyStartDate);
                 }
                 _endDateTimeOffset = DateTimeOffset.Now;
-                _animeItemReference.EndDate = DateTimeOffset.Now.ToString("yyyy-MM-dd");
+                _animeItemReference.EndDate = DateTimeOffset.Now.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
                 EndDateValid = true;
                 RaisePropertyChanged(() => EndDateTimeOffset);
                 RaisePropertyChanged(() => MyEndDate);
@@ -584,7 +585,7 @@ namespace MALClient.XShared.ViewModels.Details
                     (Settings.OverrideValidStartEndDate || _animeItemReference.StartDate == "0000-00-00"))
                 {
                     _startDateTimeOffset = DateTimeOffset.Now;
-                    _animeItemReference.StartDate = DateTimeOffset.Now.ToString("yyyy-MM-dd");
+                    _animeItemReference.StartDate = DateTimeOffset.Now.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
                     StartDateValid = true;
                     RaisePropertyChanged(() => StartDateTimeOffset);
                     RaisePropertyChanged(() => MyStartDate);

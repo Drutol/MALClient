@@ -41,6 +41,7 @@ namespace MALClient.UWP.ViewModels
             SimpleIoc.Default.Register<ICssManager, CssManager>();
             SimpleIoc.Default.Register<IMalHttpContextProvider, MalHttpContextProvider>();
             SimpleIoc.Default.Register<IConnectionInfoProvider, ConnectionInfoProvider>();
+            SimpleIoc.Default.Register<IDispatcherAdapter, DispatcherAdapter>();
         }
 
         public static MainViewModel Main => ServiceLocator.Current.GetInstance<MainViewModel>();

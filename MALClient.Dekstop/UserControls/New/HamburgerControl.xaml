@@ -873,7 +873,7 @@
                                 Visibility="{Binding ProfileButtonVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
                                 Command="{Binding ButtonNavigationCommand}"
                                 CommandParameter="5">
-                    <Grid Height="40">
+                    <Grid Height="45">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="60" />
                             <ColumnDefinition Width="*" />
@@ -882,8 +882,8 @@
                                         BorderThickness="{Binding TxtBorderBrushThicknesses[Profile]}"
                                         BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" />
                         <Ellipse Grid.Column="0"
-                                       Width="30"
-                                       Height="30" Margin="2,1,0,1"
+                                       Width="35"
+                                       Height="35" Margin="2,1,0,1"
                                        Visibility="{Binding UsrImgPlaceholderVisibility,Converter={StaticResource VisiblityInverterConverter}}" >
                             <Ellipse.Fill>
                                 <ImageBrush Stretch="UniformToFill" ImageSource="{Binding UserImage}"/>
@@ -899,7 +899,7 @@
                 <Grid Background="{ThemeResource BrushHamburgerInnerBackground}" Visibility="{Binding ProfileButtonVisibility,Converter={StaticResource BoolToVisibilityConverter}}"  Margin="0,0,-1,0" VerticalAlignment="Center" HorizontalAlignment="Stretch">
                     <StackPanel x:Name="SubProfileSection" Orientation="Horizontal" HorizontalAlignment="Center">
                         <Button Visibility="{Binding MalApiSpecificButtonsVisibility}" Background="Transparent"
-                                        Width="40" Height="37">
+                                        Width="40" Height="40">
                             <ToolTipService.ToolTip>
                                 <ToolTip Content="Pinned profiles"/>
                             </ToolTipService.ToolTip>
@@ -931,14 +931,14 @@
                             <SymbolIcon HorizontalAlignment="Center" Margin="0,0,2,0" VerticalAlignment="Center" Symbol="People"/>
                         </Button>
                         <Button Command="{Binding ButtonNavigationCommand}" CommandParameter="25" Visibility="{Binding MalApiSpecificButtonsVisibility}" Background="Transparent"
-                                        Width="40" Height="37">
+                                        Width="40" Height="40">
                             <ToolTipService.ToolTip>
                                 <ToolTip Content="My friends feed"/>
                             </ToolTipService.ToolTip>
                             <SymbolIcon HorizontalAlignment="Center" Margin="0,0,2,0" VerticalAlignment="Center" Symbol="ContactInfo"/>
                         </Button>
                         <Button Command="{Binding Source={StaticResource Locator},Path=ForumsMain.NavigateRecentTopicsCommand}" Visibility="{Binding MalApiSpecificButtonsVisibility}" Background="Transparent"
-                                        Width="40" Height="37">
+                                        Width="40" Height="40">
                             <ToolTipService.ToolTip>
                                 <ToolTip Content="My recent topics"/>
                             </ToolTipService.ToolTip>
@@ -946,7 +946,7 @@
                         </Button>
                         <Button Command="{Binding ButtonNavigationCommand}" Visibility="{Binding MalApiSpecificButtonsVisibility}"
                                         CommandParameter="19" Background="Transparent"
-                                        Width="40" Height="37">
+                                        Width="40" Height="40">
                             <ToolTipService.ToolTip>
                                 <ToolTip Content="History"/>
                             </ToolTipService.ToolTip>
@@ -955,7 +955,7 @@
                         </Button>
                         <Button Command="{Binding ButtonNavigationCommand}" Visibility="{Binding MalApiSpecificButtonsVisibility}"
                                         CommandParameter="16" Background="Transparent"
-                                        Width="40" Height="37" >
+                                        Width="40" Height="40" >
                             <ToolTipService.ToolTip>
                                 <ToolTip Content="Messaging"/>
                             </ToolTipService.ToolTip>
@@ -964,7 +964,7 @@
                         </Button>                        
                         <Button Command="{Binding ButtonNavigationCommand}" Visibility="{Binding MalApiSpecificButtonsVisibility}"
                                         CommandParameter="26" Background="Transparent"
-                                        Width="40" Height="37" >
+                                        Width="40" Height="40" >
                             <ToolTipService.ToolTip>
                                 <ToolTip Content="Notifications"/>
                             </ToolTipService.ToolTip>
@@ -981,7 +981,7 @@
                                 PointerExited="Button_PointerExited"
                                 Command="{Binding ButtonNavigationCommand}"
                                 CommandParameter="2">
-                    <Grid Height="37">
+                    <Grid Height="40">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="60" />
                             <ColumnDefinition Width="*" />

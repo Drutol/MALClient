@@ -50,6 +50,8 @@ namespace MALClient.XShared.ViewModels
 
         public static IConnectionInfoProvider ConnectionInfoProvider => SimpleIoc.Default.GetInstance<IConnectionInfoProvider>();
 
+        public static IDispatcherAdapter DispatcherAdapter => SimpleIoc.Default.GetInstance<IDispatcherAdapter>();
+
 
         // Purely shared interfaces
 

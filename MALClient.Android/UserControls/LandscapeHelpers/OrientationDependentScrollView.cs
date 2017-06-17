@@ -55,9 +55,16 @@ namespace MALClient.Android.UserControls
 
         public override bool OnTouchEvent(MotionEvent e)
         {
-            if(AllowScroll)
-                return base.OnTouchEvent(e);
-            return false;
+            try
+            {
+                if (AllowScroll)
+                    return base.OnTouchEvent(e);
+                return false;
+            }
+            catch (Exception)
+            {
+                return true; //got some random crashes here
+            }
         }
     }
 }

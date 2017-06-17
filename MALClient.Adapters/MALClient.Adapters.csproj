@@ -53,6 +53,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Credentials\IPasswordVault.cs" />
+    <Compile Include="IDispatcherAdapter.cs" />
     <Compile Include="IApplicationDataService.cs" />
     <Compile Include="ICalendarExportProvider.cs" />
     <Compile Include="IChangeLogProvider.cs" />

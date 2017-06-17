@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 
@@ -14,6 +15,7 @@ using HockeyApp.Android.Metrics;
 using MALClient.Adapters;
 using MALClient.Models.Enums;
 using MALClient.XShared;
+using MALClient.XShared.ViewModels;
 
 namespace MALClient.Android.Adapters
 {
@@ -31,7 +33,7 @@ namespace MALClient.Android.Adapters
         public void Init()
         {
 #if !DEBUG
-            CrashManager.Register(_context, Secrets.AndroidHockeyId);
+            CrashManager.Register(_context, Secrets.AndroidHockeyId, new HockeyListener());
             MetricsManager.Register(_app, Secrets.AndroidHockeyId);
             MetricsManager.EnableUserMetrics();
 #endif
@@ -75,6 +77,22 @@ namespace MALClient.Android.Adapters
 #if !DEBUG
             //MetricsManager.TrackEvent($"Navigation: {page}");
 #endif
+        }
+
+        class HockeyListener : CrashManagerListener
+        {
+            public override string Description
+            {
+                get
+                {
+                    return $"MainPage: {ViewModelLocator.GeneralMain.CurrentMainPage} {(!ViewModelLocator.Mobile ? $"OffPage: {ViewModelLocator.GeneralMain.CurrentOffPage}" : "")} Culture: {CultureInfo.CurrentCulture.Name}";
+                }
+            }
+
+            public override bool ShouldAutoUploadCrashes()
+            {
+                return true;
+            }
         }
     }
 }

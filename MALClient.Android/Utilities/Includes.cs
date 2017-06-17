@@ -139,6 +139,7 @@ namespace MALClient.Android
         public void Include(MalHttpContextProvider vm) { var vm1 = new MalHttpContextProvider(); }
         public void Include(SnackbarProvider vm) { var vm1 = new SnackbarProvider(); }
         public void Include(ConnectionInfoProvider vm) { var vm1 = new ConnectionInfoProvider(); }
+        public void Include(DispatcherAdapter vm) { var vm1 = new DispatcherAdapter(); }
 
         public void Include(SettingsPageFragment vm) { var vm1 = new SettingsPageFragment(); }
 

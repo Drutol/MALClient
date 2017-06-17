@@ -64,9 +64,24 @@ namespace MALClient.XShared.Comm.Anime
             {
                 currentSubs.ForEach(
                     s =>
-                        tasks.Add(
-                            new AnimeWallpapersQuery(s.ToString(), page == 0 ? null : LastThings[s.ToString()][page - 1], page,
-                                s).GetWallpapers()));
+                    {
+                        if(page > 0)
+                        {
+                            if (LastThings.TryGetValue(s.ToString(), out var data))
+                            {
+                                if (page - 1 < data.Count)
+                                    tasks.Add(
+                                        new AnimeWallpapersQuery(s.ToString(),
+                                            page == 0 ? null : data[page - 1], page,
+                                            s).GetWallpapers());
+                            }
+                        }
+                        else
+                        {
+                            tasks.Add(
+                                new AnimeWallpapersQuery(s.ToString(),null, page,s).GetWallpapers());
+                        }
+                    });
             }
             await Task.WhenAll(tasks);
             var output = new List<AnimeWallpaperData>();

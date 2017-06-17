@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using Android.Runtime;
 using HtmlAgilityPack;
 using MALClient.Models.Enums;
 using MALClient.Models.Models.ApiResponses;
@@ -76,6 +77,7 @@ namespace MALClient.XShared.Comm.MagicalRawQueries
 
                 var dto = new ReadNotificationDTO(notification,client.Token);
                 var content = new StringContent(JsonConvert.SerializeObject(dto));
+                var s = JsonConvert.SerializeObject(dto);
                 var response = await client.PostAsync("/notification/api/check-items-as-read.json", content);
 
                 return (await response.Content.ReadAsStringAsync()).Contains("true");
@@ -88,7 +90,8 @@ namespace MALClient.XShared.Comm.MagicalRawQueries
             }
         }
 
-        class ReadNotificationDTO
+        [Preserve(AllMembers = true)]
+        private class ReadNotificationDTO
         {
             public ReadNotificationDTO(IEnumerable<MalNotification> notifications,string token)
             {

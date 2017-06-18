@@ -716,5 +716,15 @@ namespace MALClient.XShared.Utils
         }
 
         #endregion
+
+        #region Android
+
+        public static bool MakeGridItemsSmaller
+        {
+            get { return (bool)(ApplicationDataService[nameof(MakeGridItemsSmaller)] ?? false); }
+            set { ApplicationDataService[nameof(MakeGridItemsSmaller)] = value; }
+        }
+
+        #endregion
     }
 }

@@ -268,6 +268,32 @@ namespace MALClient.Android.UserControls
                 RootContainer.LeftSwipeEnabled = false;
                 RootContainer.RightSwipeEnabled = false;
             }
+
+            if (Settings.MakeGridItemsSmaller)
+            {
+                AnimeGridItemUpperSection.LayoutParameters.Height = DimensionsHelper.DpToPx(174);
+                AnimeGridItemLowerSection.LayoutParameters.Height = DimensionsHelper.DpToPx(44);
+
+                AnimeGridItemTagsButton.LayoutParameters.Height =
+                    AnimeGridItemTagsButton.LayoutParameters.Width = DimensionsHelper.DpToPx(30);
+
+                AnimeGridItemBackSurfaceAdd.LayoutParameters.Width = DimensionsHelper.DpToPx(66);
+                AnimeGridItemBackSurfaceSubtract.LayoutParameters.Width = DimensionsHelper.DpToPx(72);
+
+                AnimeGridItemBackSurfaceAdd.GetChildAt(0).TranslationX *= 2;
+
+                AnimeGridItemCurrentWatchingStatus.SetTextSize(ComplexUnitType.Sp, 13);
+                AnimeGridItemWatchedStatus.SetTextSize(ComplexUnitType.Sp, 13);
+                AnimeGridItemScore.SetTextSize(ComplexUnitType.Sp, 13);
+                AnimeGridItemTopLeftInfoMain.SetTextSize(ComplexUnitType.Sp, 13);
+                AnimeGridItemTopLeftInfoSub.SetTextSize(ComplexUnitType.Sp, 11);
+                AnimeGridItemType.SetTextSize(ComplexUnitType.Sp, 11);
+
+                AnimeGridItemTitle.SetTextSize(ComplexUnitType.Sp, 13);
+                AnimeGridItemMoreButton.ScaleX = AnimeGridItemMoreButton.ScaleY = .85f;
+                AnimeGridItemFavouriteIndicator.ScaleX = AnimeGridItemMoreButton.ScaleY = .85f;
+                AnimeGridItemTagIcon.ScaleX = AnimeGridItemTagIcon.ScaleY = .85f;
+            }
         }
 
         private void ContainerOnClick()
@@ -392,11 +418,14 @@ namespace MALClient.Android.UserControls
         private LinearLayout _animeGridItemTopRightInfo;
         private TextView _animeGridItemType;
         private TextView _animeGridItemTimeTillAir;
+        private ImageView _animeGridItemTagIcon;
         private FrameLayout _animeGridItemTagsButton;
         private ImageView _imageView;
         private FrameLayout _animeGridItemAddToListButton;
+        private RelativeLayout _animeGridItemUpperSection;
         private TextView _animeGridItemTitle;
         private ImageButton _animeGridItemMoreButton;
+        private LinearLayout _animeGridItemLowerSection;
 
         public RelativeLayout AnimeGridItemBackSurfaceAdd => _animeGridItemBackSurfaceAdd ?? (_animeGridItemBackSurfaceAdd = FindViewById<RelativeLayout>(Resource.Id.AnimeGridItemBackSurfaceAdd));
 
@@ -428,15 +457,23 @@ namespace MALClient.Android.UserControls
 
         public TextView AnimeGridItemTimeTillAir => _animeGridItemTimeTillAir ?? (_animeGridItemTimeTillAir = FindViewById<TextView>(Resource.Id.AnimeGridItemTimeTillAir));
 
+        public ImageView AnimeGridItemTagIcon => _animeGridItemTagIcon ?? (_animeGridItemTagIcon = FindViewById<ImageView>(Resource.Id.AnimeGridItemTagIcon));
+
         public FrameLayout AnimeGridItemTagsButton => _animeGridItemTagsButton ?? (_animeGridItemTagsButton = FindViewById<FrameLayout>(Resource.Id.AnimeGridItemTagsButton));
 
         public ImageView ImageView => _imageView ?? (_imageView = FindViewById<ImageView>(Resource.Id.imageView));
 
         public FrameLayout AnimeGridItemAddToListButton => _animeGridItemAddToListButton ?? (_animeGridItemAddToListButton = FindViewById<FrameLayout>(Resource.Id.AnimeGridItemAddToListButton));
 
+        public RelativeLayout AnimeGridItemUpperSection => _animeGridItemUpperSection ?? (_animeGridItemUpperSection = FindViewById<RelativeLayout>(Resource.Id.AnimeGridItemUpperSection));
+
         public TextView AnimeGridItemTitle => _animeGridItemTitle ?? (_animeGridItemTitle = FindViewById<TextView>(Resource.Id.AnimeGridItemTitle));
 
         public ImageButton AnimeGridItemMoreButton => _animeGridItemMoreButton ?? (_animeGridItemMoreButton = FindViewById<ImageButton>(Resource.Id.AnimeGridItemMoreButton));
+
+        public LinearLayout AnimeGridItemLowerSection => _animeGridItemLowerSection ?? (_animeGridItemLowerSection = FindViewById<LinearLayout>(Resource.Id.AnimeGridItemLowerSection));
+
+
 
         #endregion
     }

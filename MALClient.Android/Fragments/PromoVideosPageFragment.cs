@@ -20,6 +20,7 @@ using MALClient.Android.BindingConverters;
 using MALClient.Android.Resources;
 using MALClient.Models.Enums;
 using MALClient.Models.Models.AnimeScrapped;
+using MALClient.XShared.Utils;
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Details;
 using MALClient.XShared.ViewModels.Main;
@@ -55,7 +56,7 @@ namespace MALClient.Android.Fragments
                 this.SetBinding(() => ViewModel.Loading,
                     () => PromoVideosPageLoadingSpinner.Visibility).ConvertSourceToTarget(Converters.BoolToVisibility));
 
-            _helper = new GridViewColumnHelper(PromoVideosPageGridView,null,2,3);
+            _helper = new GridViewColumnHelper(PromoVideosPageGridView,null,2,3,true);
 
             Bindings.Add(this.SetBinding(() => ViewModel.Videos).WhenSourceChanges(() =>
             {
@@ -82,6 +83,7 @@ namespace MALClient.Android.Fragments
 
             view.FindViewById(Resource.Id.PromoVideosPageItemImageSection).Click += VideoItemOnClickOpenVideo;
             view.FindViewById(Resource.Id.PromoVideosPageItemSubtitleSection).Click += VideoItemOnClickOpenAnime;
+
 
             return view;
         }

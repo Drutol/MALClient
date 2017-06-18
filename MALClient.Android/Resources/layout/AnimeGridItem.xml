@@ -62,7 +62,7 @@
     android:orientation="vertical">
 
     <RelativeLayout
-      android:layout_width="wrap_content"
+      android:layout_width="wrap_content" android:id="@+id/AnimeGridItemUpperSection"
       android:layout_height="260dp" android:background="?BrushAppBars">
       <ProgressBar android:scaleX=".7" android:scaleY=".7"
                    android:layout_width="wrap_content" android:id="@+id/AnimeGridItemImgPlaceholder"
@@ -70,7 +70,7 @@
                    android:indeterminate="true" android:layout_centerInParent="true" android:indeterminateTintMode="src_in"/>
       <FFImageLoading.Views.ImageViewAsync
         android:layout_width="match_parent"
-        android:layout_height="260dp"
+        android:layout_height="match_parent"
         android:id="@+id/AnimeGridItemImage"
         android:adjustViewBounds="true"
         android:scaleType="fitXY" />
@@ -190,12 +190,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:foreground="?android:selectableItemBackground"
-        android:clickable="true" android:visibility="gone"
+        android:clickable="true"
         android:id="@+id/AnimeGridItemTagsButton"
         android:focusable="true"
         android:layout_alignParentRight="true" android:layout_alignParentBottom="true">
-        <ImageView android:layout_width="35dp"
-                   android:layout_height="35dp" android:scaleType="center"
+        <ImageView android:layout_width="35dp" android:id="@+id/AnimeGridItemTagIcon"
+                   android:layout_height="35dp" android:scaleType="center"  android:layout_gravity="center"
                    android:background="@color/BrushOpaqueTextView" android:tint="#fff"
                    android:src="@drawable/icon_tag" />
       </FrameLayout>
@@ -217,10 +217,10 @@
     </RelativeLayout>
 
     <View android:layout_width="match_parent" android:layout_height="1dp" android:background="?AccentColour"/>
-    <LinearLayout
-      android:layout_width="match_parent"
-      android:background="?BrushAnimeItemBackground"
-      android:layout_height="55dp" android:orientation="horizontal">
+    <LinearLayout android:id="@+id/AnimeGridItemLowerSection"
+                  android:layout_width="match_parent"
+                  android:background="?BrushAnimeItemBackground"
+                  android:layout_height="55dp" android:orientation="horizontal">
       <TextView
         android:layout_width="0dp"
         android:layout_weight="1"

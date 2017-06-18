@@ -431,6 +431,12 @@ namespace MALClient.XShared.ViewModels
             set { Settings.PreferEnglishTitles = value; }
         }
 
+        public  bool MakeGridItemsSmaller
+        {
+            get { return Settings.MakeGridItemsSmaller; }
+            set { Settings.MakeGridItemsSmaller = value; }
+        }
+
         public  bool SyncFavsFromTimeToTime
         {
             get { return Settings.SyncFavsFromTimeToTime; }

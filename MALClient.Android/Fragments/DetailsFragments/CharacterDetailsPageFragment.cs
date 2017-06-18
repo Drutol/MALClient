@@ -27,7 +27,7 @@ namespace MALClient.Android.Fragments.DetailsFragments
     {
         private readonly CharacterDetailsNavigationArgs _args;
         private CharacterDetailsViewModel ViewModel;
-        private readonly GridViewColumnHelper _gridViewColumnHelper = new GridViewColumnHelper {MinColumns = 2, PrefferedItemWidth = 170};
+        private readonly GridViewColumnHelper _gridViewColumnHelper = new GridViewColumnHelper(null,true) {MinColumns = 2, PrefferedItemWidth = 170};
 
         public CharacterDetailsPageFragment(CharacterDetailsNavigationArgs args)
         {
@@ -168,7 +168,7 @@ namespace MALClient.Android.Fragments.DetailsFragments
             var firstRun = false;
             if (view == null)
             {
-                view = new FavouriteItem(Activity);
+                view = new FavouriteItem(Activity,true);
                 firstRun = true;
             }
 

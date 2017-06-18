@@ -20,6 +20,7 @@ using MALClient.Android.UserControls;
 using MALClient.Models.Models;
 using MALClient.Models.Models.MalSpecific;
 using MALClient.XShared.Comm.Anime;
+using MALClient.XShared.Utils;
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Main;
 
@@ -65,6 +66,8 @@ namespace MALClient.Android.Fragments
 
         private void DataTemplateBasic(View view, int i, UserFeedEntryModel userFeedEntryModel)
         {
+
+
             view.FindViewById<TextView>(Resource.Id.FriendsFeedsPageItemUserName).Text = userFeedEntryModel.User.Name;
             view.FindViewById<TextView>(Resource.Id.FriendsFeedsPageItemTitle).Text = userFeedEntryModel.Title;
             view.FindViewById<TextView>(Resource.Id.FriendsFeedsPageItemContent).Text = userFeedEntryModel.Description;
@@ -77,8 +80,17 @@ namespace MALClient.Android.Fragments
 
             view.Click += RootFeedItemOnClick;
             view.FindViewById(Resource.Id.FriendsFeedsPageItemUserImageButton).Click+= UserButtonOnClick;
-
+            if (Settings.MakeGridItemsSmaller)
+                view.LayoutChange += ViewOnLayoutChange;
             return view;
+        }
+
+        private void ViewOnLayoutChange(object sender, View.LayoutChangeEventArgs layoutChangeEventArgs)
+        {
+            var view = sender as View;
+            view.LayoutChange -= ViewOnLayoutChange;
+
+            view.LayoutParameters.Height = DimensionsHelper.DpToPx(223);
         }
 
         private void DataTemplateFling(View view, int i, UserFeedEntryModel userFeedEntryModel)

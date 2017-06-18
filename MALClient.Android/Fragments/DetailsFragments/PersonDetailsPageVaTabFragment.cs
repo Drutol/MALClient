@@ -34,7 +34,7 @@ namespace MALClient.Android.Fragments.DetailsFragments
         protected override void InitBindings()
         {
             AnimeDetailsPageCharactersTabGridView.DisableAdjust = true;
-            _gridViewColumnHelper = new GridViewColumnHelper(AnimeDetailsPageCharactersTabGridView,340,1);
+            _gridViewColumnHelper = new GridViewColumnHelper(AnimeDetailsPageCharactersTabGridView,340,1,null,true);
             AnimeDetailsPageCharactersTabLoadingSpinner.Visibility = ViewStates.Gone;
 
             Bindings.Add(this.SetBinding(() => ViewModel.Data).WhenSourceChanges(() =>

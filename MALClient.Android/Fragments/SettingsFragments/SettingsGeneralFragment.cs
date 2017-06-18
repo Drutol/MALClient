@@ -81,6 +81,9 @@ namespace MALClient.Android.Fragments.SettingsFragments
             Bindings.Add(
                 this.SetBinding(() => ViewModel.PreferEnglishTitles,
                     () => SettingsPageGeneralPreferEnglishTitleSwitch.Checked, BindingMode.TwoWay));
+            Bindings.Add(
+                this.SetBinding(() => ViewModel.MakeGridItemsSmaller,
+                    () => SettingsPageGeneralSmallerGridItems.Checked, BindingMode.TwoWay));
             //
             SettingsPageGeneralAnimeSortRadioGroup.Check(GetViewIdForAnimeSortOption(Settings.AnimeSortOrder));
             SettingsPageGeneralAnimeSortRadioGroup.SetOnCheckedChangeListener(new OnCheckedListener(i =>

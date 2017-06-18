@@ -6,35 +6,52 @@ using Android.Views;
 using Android.Widget;
 using MALClient.Android.Activities;
 using MALClient.XShared.Comm.Anime;
+using MALClient.XShared.Utils;
 using Orientation = Android.Content.Res.Orientation;
 
 namespace MALClient.Android
 {
     public class GridViewColumnHelper
     {
-        private static readonly int DefaultPrefferedItemWidth = MainActivity.CurrentContext.Resources.DisplayMetrics.Density >= 2 ? 190 : 200;
+        private static readonly int DefaultPrefferedItemWidthBig = MainActivity.CurrentContext.Resources.DisplayMetrics.Density >= 2 ? 190 : 200;
+        private static readonly int DefaultPrefferedItemWidthSmall = MainActivity.CurrentContext.Resources.DisplayMetrics.Density >= 2 ? 133 : 140;
+
+        private readonly int _defaultPrefferedItemWidth;
         private readonly List<GridView> _grids;
 
         public int LastColmuns { get;  private set; }
-
         public int MinColumns { get; set; }
         public int? MinColumnsLandscape { get; set; }
         public int MinColumnsPortrait { get; set; }
-
         public int PrefferedItemWidth { get; set; }
 
-        public GridViewColumnHelper(GridView view,int? prefferedWidthDp = null,int? minColumnsPortrait = null,int? minColumnsInLandscape = null)
+        public GridViewColumnHelper(bool ignoreSmallerSizeSetting)
         {
-            PrefferedItemWidth = prefferedWidthDp ?? DefaultPrefferedItemWidth;
+            _defaultPrefferedItemWidth = !ignoreSmallerSizeSetting && Settings.MakeGridItemsSmaller
+                ? DefaultPrefferedItemWidthSmall
+                : DefaultPrefferedItemWidthBig;
+        }
+
+        public GridViewColumnHelper(GridView view,int? prefferedWidthDp = null,int? minColumnsPortrait = null,int? minColumnsInLandscape = null, bool ignoreSmallerSizeSetting = false) : this(ignoreSmallerSizeSetting)
+        {
+
+            if (!ignoreSmallerSizeSetting && Settings.MakeGridItemsSmaller)
+            {
+                if (minColumnsPortrait.HasValue)
+                    minColumnsPortrait++;
+                if (minColumnsInLandscape.HasValue)
+                    minColumnsInLandscape++;
+            }
+            PrefferedItemWidth = prefferedWidthDp ?? _defaultPrefferedItemWidth;
             MinColumnsPortrait = minColumnsPortrait ?? 2;
             MinColumnsLandscape = minColumnsInLandscape;
             _grids = new List<GridView> {view};
             OnConfigurationChanged(MainActivity.CurrentContext.Resources.Configuration);
         }
 
-        public GridViewColumnHelper(int? prefferedWidthDp = null)
+        public GridViewColumnHelper(int? prefferedWidthDp = null, bool ignoreSmallerSizeSetting = false) : this(ignoreSmallerSizeSetting)
         {
-            PrefferedItemWidth = prefferedWidthDp ?? DefaultPrefferedItemWidth;
+            PrefferedItemWidth = prefferedWidthDp ?? _defaultPrefferedItemWidth;
             _grids = new List<GridView>();
         }
 

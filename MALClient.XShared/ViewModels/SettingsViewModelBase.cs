@@ -467,6 +467,12 @@ namespace MALClient.XShared.ViewModels
             set { Settings.ForumsSearchOnCopy = value; }
         }
 
+        public  AnimeStatus DefaultStatusAfterAdding
+        {
+            get { return Settings.DefaultStatusAfterAdding; }
+            set { Settings.DefaultStatusAfterAdding = value; }
+        }
+
         public  bool ForceSearchIntoOffPage
         {
             get { return Settings.ForceSearchIntoOffPage; }

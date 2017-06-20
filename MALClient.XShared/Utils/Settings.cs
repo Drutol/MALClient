@@ -326,6 +326,12 @@ namespace MALClient.XShared.Utils
             set { ApplicationDataService["AppVersion"] = value; }
         }
 
+        public static AnimeStatus DefaultStatusAfterAdding
+        {
+            get { return (AnimeStatus)((int?)ApplicationDataService[nameof(DefaultStatusAfterAdding)] ?? 6); }
+            set { ApplicationDataService[nameof(DefaultStatusAfterAdding)] = (int)value; }
+        }
+
         #region Views
 
         public static AnimeListDisplayModes WatchingDisplayMode

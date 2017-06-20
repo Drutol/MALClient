@@ -32,7 +32,7 @@ namespace MALClient.XShared.Comm.Anime
             xml.AppendLine("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
             xml.AppendLine("<entry>");
             xml.AppendLine("<episode>0</episode>");
-            xml.AppendLine("<status>6</status>");
+            xml.AppendLine($"<status>{(int)Settings.DefaultStatusAfterAdding}</status>");
             xml.AppendLine("<score>0</score>");
             if (Settings.SetStartDateOnListAdd)
                 xml.AppendLine($"<date_start>{DateTimeOffset.Now:MMddyyyy}</date_start>");

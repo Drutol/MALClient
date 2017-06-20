@@ -150,7 +150,7 @@ namespace MALClient.Android.Fragments.SettingsFragments
 
            
             //
-            var filters = Enum.GetValues(typeof(AnimeStatus)).Cast<int>().ToList();
+            var filters = Enum.GetValues(typeof(AnimeStatus)).Cast<int>().Take(5).ToList();
             SettingsPageGeneralMangaFilerSpinner.Adapter = filters.GetAdapter(GetMangaTemplateDelegate);
             SettingsPageGeneralMangaFilerSpinner.SetSelection(filters.IndexOf(Settings.DefaultMangaFilter));
             SettingsPageGeneralMangaFilerSpinner.ItemSelected += (sender, args) =>
@@ -163,6 +163,13 @@ namespace MALClient.Android.Fragments.SettingsFragments
             SettingsPageGeneralAnimeFilterSpinner.ItemSelected += (sender, args) =>
             {
                 Settings.DefaultAnimeFilter = (int)SettingsPageGeneralAnimeFilterSpinner.SelectedView.Tag;
+            };
+
+            SettingsPageGeneralDefaultAddedStatusSpinner.Adapter = filters.GetAdapter(GetAnimeTemplateDelegate);
+            SettingsPageGeneralDefaultAddedStatusSpinner.SetSelection(filters.IndexOf((int)Settings.DefaultStatusAfterAdding));
+            SettingsPageGeneralDefaultAddedStatusSpinner.ItemSelected += (sender, args) =>
+            {
+                Settings.DefaultStatusAfterAdding = (AnimeStatus)(int)SettingsPageGeneralDefaultAddedStatusSpinner.SelectedView.Tag;
             };
             //
 

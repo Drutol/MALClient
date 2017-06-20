@@ -804,7 +804,7 @@ namespace MALClient.XShared.ViewModels.Details
                     Id = Id,
                     AllEpisodes = AllEpisodes,
                     MalId = MalId,
-                    MyStatus = AnimeStatus.PlanToWatch,
+                    MyStatus = Settings.DefaultStatusAfterAdding,
                     MyEpisodes = 0,
                     MyScore = 0,
                     MyStartDate = startDate,
@@ -818,7 +818,7 @@ namespace MALClient.XShared.ViewModels.Details
                     Id = Id,
                     AllEpisodes = AllEpisodes,
                     MalId = MalId,
-                    MyStatus = AnimeStatus.PlanToWatch,
+                    MyStatus = Settings.DefaultStatusAfterAdding,
                     MyEpisodes = 0,
                     MyScore = 0,
                     MyStartDate = startDate,
@@ -829,7 +829,7 @@ namespace MALClient.XShared.ViewModels.Details
             _animeItemReference = animeItem.ViewModel;
 
             MyScore = 0;
-            MyStatus = AnimeStatus.PlanToWatch;
+            MyStatus = Settings.DefaultStatusAfterAdding;
             MyEpisodes = 0;
             RaisePropertyChanged(() => GlobalScore); //trigger setter of anime item
             if (string.Equals(Status, "Currently Airing", StringComparison.CurrentCultureIgnoreCase))

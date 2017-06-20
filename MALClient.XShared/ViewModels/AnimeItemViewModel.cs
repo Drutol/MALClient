@@ -612,10 +612,7 @@ namespace MALClient.XShared.ViewModels
 
         private ICommand _addAnimeCommand;
 
-        public ICommand AddAnimeCommand
-        {
-            get { return _addAnimeCommand ?? (_addAnimeCommand = new RelayCommand(AddThisToMyList)); }
-        }
+        public ICommand AddAnimeCommand => _addAnimeCommand ?? (_addAnimeCommand = new RelayCommand(AddThisToMyList));
 
         private ICommand _pinTileCustomCommand;
 
@@ -1052,7 +1049,7 @@ namespace MALClient.XShared.ViewModels
                    Id = Id,
                    AllEpisodes = AllEpisodes,
                    MalId = ParentAbstraction.MalId,
-                   MyStatus = AnimeStatus.PlanToWatch,
+                   MyStatus = Settings.DefaultStatusAfterAdding,
                    MyEpisodes = 0,
                    MyScore = 0,
                    MyStartDate = startDate,
@@ -1066,7 +1063,7 @@ namespace MALClient.XShared.ViewModels
                    Id = Id,
                    AllEpisodes = AllEpisodes,
                    MalId = ParentAbstraction.MalId,
-                   MyStatus = AnimeStatus.PlanToWatch,
+                   MyStatus = Settings.DefaultStatusAfterAdding,
                    MyEpisodes = 0,
                    MyScore = 0,
                    MyStartDate = startDate,
@@ -1078,7 +1075,7 @@ namespace MALClient.XShared.ViewModels
             _seasonalState = false;
             
             MyScore = 0;
-            MyStatus = AnimeStatus.PlanToWatch;
+            MyStatus = Settings.DefaultStatusAfterAdding;
             MyEpisodes = 0;
             if (Settings.SetStartDateOnListAdd)
                 ParentAbstraction.MyStartDate = DateTimeOffset.Now.ToString("yyyy-MM-dd");

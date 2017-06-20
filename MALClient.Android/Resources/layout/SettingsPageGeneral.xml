@@ -132,8 +132,8 @@
                 android:layout_gravity="center_vertical" android:textColor="?BrushText" android:layout_weight="1" />
       <Switch android:id="@+id/SettingsPageGeneralPreferEnglishTitleSwitch" android:layout_width="wrap_content"
               android:layout_height="wrap_content" android:layout_gravity="center_vertical" />
-    </LinearLayout>        
-        
+    </LinearLayout>
+
     <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="5dp"
                   android:layout_marginTop="15dp">
       <TextView android:text="Make grid items smaller.\nRecommended for bigger displays." android:layout_width="0dp"
@@ -301,6 +301,14 @@
                   android:layout_gravity="center_horizontal" android:text="Default manga filter value:"
                   android:textColor="?BrushText" android:textSize="15sp" android:gravity="center_horizontal" />
         <Spinner android:id="@+id/SettingsPageGeneralMangaFilerSpinner" android:layout_width="wrap_content"
+                 android:layout_height="wrap_content" android:layout_marginTop="15dp" android:layout_gravity="center_horizontal" />
+      </LinearLayout>
+      <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:orientation="vertical" android:layout_marginTop="10dp" android:layout_gravity="center_horizontal">
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                  android:layout_gravity="center_horizontal" android:text="Default anime/manga status after adding to list:"
+                  android:textColor="?BrushText" android:textSize="15sp" android:gravity="center_horizontal" />
+        <Spinner android:id="@+id/SettingsPageGeneralDefaultAddedStatusSpinner" android:layout_width="wrap_content"
                  android:layout_height="wrap_content" android:layout_marginTop="15dp" android:layout_gravity="center_horizontal" />
       </LinearLayout>
     </LinearLayout>

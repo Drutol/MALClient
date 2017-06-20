@@ -56,6 +56,7 @@ namespace MALClient.Android.Fragments.SettingsFragments
         private Spinner _settingsPageGeneralAllViewModeSpinner;
         private Spinner _settingsPageGeneralAnimeFilterSpinner;
         private Spinner _settingsPageGeneralMangaFilerSpinner;
+        private Spinner _settingsPageGeneralDefaultAddedStatusSpinner;
         private CheckBox _settingsPageGeneralStartDateWhenAddCheckBox;
         private CheckBox _settingsPageGeneralStartDateWhenWatchCheckBox;
         private CheckBox _settingsPageGeneralEndDateWhenCompleted;
@@ -146,6 +147,8 @@ namespace MALClient.Android.Fragments.SettingsFragments
 
         public Spinner SettingsPageGeneralMangaFilerSpinner => _settingsPageGeneralMangaFilerSpinner ?? (_settingsPageGeneralMangaFilerSpinner = FindViewById<Spinner>(Resource.Id.SettingsPageGeneralMangaFilerSpinner));
 
+        public Spinner SettingsPageGeneralDefaultAddedStatusSpinner => _settingsPageGeneralDefaultAddedStatusSpinner ?? (_settingsPageGeneralDefaultAddedStatusSpinner = FindViewById<Spinner>(Resource.Id.SettingsPageGeneralDefaultAddedStatusSpinner));
+
         public CheckBox SettingsPageGeneralStartDateWhenAddCheckBox => _settingsPageGeneralStartDateWhenAddCheckBox ?? (_settingsPageGeneralStartDateWhenAddCheckBox = FindViewById<CheckBox>(Resource.Id.SettingsPageGeneralStartDateWhenAddCheckBox));
 
         public CheckBox SettingsPageGeneralStartDateWhenWatchCheckBox => _settingsPageGeneralStartDateWhenWatchCheckBox ?? (_settingsPageGeneralStartDateWhenWatchCheckBox = FindViewById<CheckBox>(Resource.Id.SettingsPageGeneralStartDateWhenWatchCheckBox));
@@ -159,7 +162,6 @@ namespace MALClient.Android.Fragments.SettingsFragments
         public TextView SettingsPageGeneralAirDayOffsetTextView => _settingsPageGeneralAirDayOffsetTextView ?? (_settingsPageGeneralAirDayOffsetTextView = FindViewById<TextView>(Resource.Id.SettingsPageGeneralAirDayOffsetTextView));
 
         public SeekBar SettingsPageGeneralAirDayOffsetSlider => _settingsPageGeneralAirDayOffsetSlider ?? (_settingsPageGeneralAirDayOffsetSlider = FindViewById<SeekBar>(Resource.Id.SettingsPageGeneralAirDayOffsetSlider));
-
 
 
     }

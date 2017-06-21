@@ -809,6 +809,8 @@ namespace MALClient.XShared.ViewModels.Details
                     return;
                 _animeItemReference.IsRewatching = value;
                 RaisePropertyChanged(() => IsRewatching);
+                RaisePropertyChanged(() => MyStatus);
+                RaisePropertyChanged(() => MyStatusBind);
 
                 ChangeRewatching(value);
             }

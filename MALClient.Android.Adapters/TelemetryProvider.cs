@@ -15,6 +15,7 @@ using HockeyApp.Android.Metrics;
 using MALClient.Adapters;
 using MALClient.Models.Enums;
 using MALClient.XShared;
+using MALClient.XShared.Utils;
 using MALClient.XShared.ViewModels;
 
 namespace MALClient.Android.Adapters
@@ -81,16 +82,12 @@ namespace MALClient.Android.Adapters
 
         class HockeyListener : CrashManagerListener
         {
-            public override string Description
-            {
-                get
-                {
-                    return $"MainPage: {ViewModelLocator.GeneralMain.CurrentMainPage} {(!ViewModelLocator.Mobile ? $"OffPage: {ViewModelLocator.GeneralMain.CurrentOffPage}" : "")} Culture: {CultureInfo.CurrentCulture.Name}";
-                }
-            }
+            public override string Description => $"MainPage: {ViewModelLocator.GeneralMain.CurrentMainPage} Culture: {CultureInfo.CurrentCulture.Name}";
 
             public override bool ShouldAutoUploadCrashes()
             {
+                if (Settings.AskBeforeSendingCrashReports)
+                    return false;
                 return true;
             }
         }

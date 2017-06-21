@@ -30,19 +30,26 @@ namespace MALClient.Android.Fragments.SettingsFragments
                 this.SetBinding(() => ViewModel.RatePopUpEnable,
                     () => SettingsPageMiscEnableReviewReminder.Checked));
 
+            Bindings.Add(
+                this.SetBinding(() => ViewModel.AskBeforeSendingCrashReports,
+                    () => SettingsPageMiscAskBeforeCrashReports.Checked));
+
             SettingsPageMiscPageRateNowButton.SetOnClickListener(new OnClickListener(view => ViewModel.ReviewCommand.Execute(null)));
         }
 
         public override int LayoutResourceId => Resource.Layout.SettingsPageMisc;
 
-            #region Views
+        #region Views
 
         private Switch _settingsPageMiscEnableReviewReminder;
         private Button _settingsPageMiscPageRateNowButton;
+        private Switch _settingsPageMiscAskBeforeCrashReports;
 
         public Switch SettingsPageMiscEnableReviewReminder => _settingsPageMiscEnableReviewReminder ?? (_settingsPageMiscEnableReviewReminder = FindViewById<Switch>(Resource.Id.SettingsPageMiscEnableReviewReminder));
 
         public Button SettingsPageMiscPageRateNowButton => _settingsPageMiscPageRateNowButton ?? (_settingsPageMiscPageRateNowButton = FindViewById<Button>(Resource.Id.SettingsPageMiscPageRateNowButton));
+
+        public Switch SettingsPageMiscAskBeforeCrashReports => _settingsPageMiscAskBeforeCrashReports ?? (_settingsPageMiscAskBeforeCrashReports = FindViewById<Switch>(Resource.Id.SettingsPageMiscAskBeforeCrashReports));
 
 
 

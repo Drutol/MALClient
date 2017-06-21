@@ -13,6 +13,7 @@ using GalaSoft.MvvmLight.Command;
 using MALClient.Android.Activities;
 using MALClient.Models.Enums;
 using MALClient.XShared.Delegates;
+using MALClient.XShared.Utils;
 using MALClient.XShared.ViewModels;
 
 namespace MALClient.Android.ViewModels
@@ -42,6 +43,12 @@ namespace MALClient.Android.ViewModels
                     ViewModelLocator.NavMgr.RegisterOneTimeOverride(
                         new RelayCommand(() => { NavigationRequest?.Invoke(SettingsPageIndex.Homepage); }));
             }));
+
+        public bool AskBeforeSendingCrashReports
+        {
+            get { return Settings.AskBeforeSendingCrashReports; }
+            set { Settings.AskBeforeSendingCrashReports = value; }
+        }
 
 
         public override void LoadCachedEntries()

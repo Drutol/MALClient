@@ -308,9 +308,10 @@ namespace MALClient.XShared.Utils
             set { ApplicationDataService["EnsureRandomizerAlwaysSelectsWinner"] = value; }
         }
 
+        public static bool PullHigherQualityImagesDefault = true;
         public static bool PullHigherQualityImages
         {
-            get { return (bool) (ApplicationDataService["PullHigherQualityImages"] ?? true); }
+            get { return (bool) (ApplicationDataService["PullHigherQualityImages"] ?? PullHigherQualityImagesDefault); }
             set { ApplicationDataService["PullHigherQualityImages"] = value; }
         }
 
@@ -729,6 +730,13 @@ namespace MALClient.XShared.Utils
         {
             get { return (bool)(ApplicationDataService[nameof(MakeGridItemsSmaller)] ?? false); }
             set { ApplicationDataService[nameof(MakeGridItemsSmaller)] = value; }
+        }
+
+
+        public static bool AskBeforeSendingCrashReports
+        {
+            get { return (bool)(ApplicationDataService[nameof(AskBeforeSendingCrashReports)] ?? true); }
+            set { ApplicationDataService[nameof(AskBeforeSendingCrashReports)] = value; }
         }
 
         #endregion

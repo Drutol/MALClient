@@ -19,11 +19,18 @@
               android:layout_height="wrap_content" android:layout_gravity="center_vertical" />
     </LinearLayout>
 
+
     <Button android:id="@+id/SettingsPageMiscPageRateNowButton"
             android:layout_width="wrap_content" style="@style/AccentButtonStyle" android:layout_gravity="center_horizontal" android:layout_marginTop="10dp"
             android:layout_height="wrap_content" android:text="Rate now!" />
 
-
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="5dp" android:layout_marginTop="12dp">
+      <TextView android:text="Ask before sending crash reports." android:layout_width="0dp"
+                android:layout_height="wrap_content" android:layout_gravity="center_vertical"
+                android:textSize="@dimen/FontSizeMedium" android:textColor="?BrushText" android:layout_weight="1" />
+      <Switch android:id="@+id/SettingsPageMiscAskBeforeCrashReports" android:layout_width="wrap_content"
+              android:layout_height="wrap_content" android:layout_gravity="center_vertical" />
+    </LinearLayout>
   </LinearLayout>
 
 

@@ -11,6 +11,7 @@ using Android.Views;
 using Android.Widget;
 using FFImageLoading;
 using Java.Lang;
+using MALClient.XShared.Utils;
 using Debug = System.Diagnostics.Debug;
 
 namespace MALClient.Android
@@ -23,6 +24,14 @@ namespace MALClient.Android
 
         private MemoryWatcher()
         {
+            var activityManager = Application.Context.GetSystemService(Activity.ActivityService) as ActivityManager;
+            var memoryInfo = new ActivityManager.MemoryInfo();
+            activityManager.GetMemoryInfo(memoryInfo);
+
+            var totalRam = memoryInfo.TotalMem / (1024 * 1024);
+
+            if (totalRam < 1000)
+                Settings.PullHigherQualityImagesDefault = false;
         }
 
         private static MemoryWatcher _watcher;

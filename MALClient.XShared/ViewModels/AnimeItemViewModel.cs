@@ -1114,8 +1114,9 @@ namespace MALClient.XShared.ViewModels
         {
             try
             {
-                if (MyStatus == to)
-                    return;
+                if (MyStatus != AnimeStatus.Completed || !IsRewatching)
+                    if (MyStatus == to)
+                            return;
                 if (!Settings.StatusPromptEnable)
                 {
                     if(!Settings.StatusPromptProceedOnDisabled)
@@ -1125,8 +1126,23 @@ namespace MALClient.XShared.ViewModels
                     return;
                 }
                 ResourceLocator.MessageDialogProvider.ShowMessageDialogWithInput(
-                        $"From : {Utils.Utilities.StatusToString((int)MyStatus, !ParentAbstraction.RepresentsAnime)}\nTo : {Utils.Utilities.StatusToString((int)to,!ParentAbstraction.RepresentsAnime)}",
-                        "Would you like to change current status?","Yes","No",() => ChangeStatus(to));
+                        $"From : {Utils.Utilities.StatusToString((int)MyStatus, !ParentAbstraction.RepresentsAnime, IsRewatching)}\nTo : {Utils.Utilities.StatusToString((int)to,!ParentAbstraction.RepresentsAnime)}",
+                        "Would you like to change current status?","Yes","No", async () =>
+                        {
+                            if (to == AnimeStatus.Completed && IsRewatching)
+                            {
+                                IsRewatching = false;
+                                if (AllEpisodes != 0)
+                                {
+                                    MyEpisodes = AllEpisodes;
+                                }
+                                await GetAppropriateUpdateQuery().GetRequestResponse();
+                                AdjustIncrementButtonsVisibility();
+                                ViewModelLocator.AnimeDetails.UpdateAnimeReferenceUiBindings(Id);
+                            }
+                            else
+                                ChangeStatus(to);
+                        });
             }
             catch (Exception)
             {

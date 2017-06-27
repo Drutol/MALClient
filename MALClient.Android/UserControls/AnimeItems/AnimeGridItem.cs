@@ -387,7 +387,7 @@ namespace MALClient.Android.UserControls
         private void ShowStatusDialog()
         {
             if (ViewModel.Auth)
-                AnimeUpdateDialogBuilder.BuildStatusDialog(ViewModel, ViewModel.ParentAbstraction.RepresentsAnime);
+                AnimeUpdateDialogBuilder.BuildStatusDialog(ViewModel, ViewModel.ParentAbstraction.RepresentsAnime,ViewModel.ChangeStatus);
         }
         private void ShowWatchedDialog()
         {
@@ -397,7 +397,7 @@ namespace MALClient.Android.UserControls
         private void ShowRatingDialog()
         {
             if (ViewModel.Auth)
-                AnimeUpdateDialogBuilder.BuildScoreDialog(ViewModel);
+                AnimeUpdateDialogBuilder.BuildScoreDialog(ViewModel,f => ViewModel.ChangeScore(f.ToString()));
         }
         #endregion
 

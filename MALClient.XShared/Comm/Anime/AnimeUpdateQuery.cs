@@ -73,11 +73,23 @@ namespace MALClient.XShared.Comm.Anime
         public override async Task<string> GetRequestResponse(bool wantMsg = true, string statusBarMsg = null)
         {
             //make sure that only one update is executing in order to avoid some synchonization issues
-            await _updateSemaphore.WaitAsync();
-            var result = await base.GetRequestResponse(wantMsg, statusBarMsg);
-            _updateSemaphore.Release();
-            ResourceLocator.ApplicationDataService[RoamingDataTypes.LastLibraryUpdate] = DateTime.Now.ToBinary();
-            return result;
+            try
+            {
+                await _updateSemaphore.WaitAsync();
+                var result = await base.GetRequestResponse(wantMsg, statusBarMsg);
+
+                ResourceLocator.ApplicationDataService[RoamingDataTypes.LastLibraryUpdate] = DateTime.Now.ToBinary();
+                return result;
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
+            finally
+            {
+                _updateSemaphore.Release();
+            }
+
         }
 
         private void UpdateAnimeMal(int id, int watchedEps, int myStatus, int myScore, string startDate, string endDate, string notes,bool rewatching)

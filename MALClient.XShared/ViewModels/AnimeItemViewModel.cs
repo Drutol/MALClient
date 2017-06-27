@@ -966,7 +966,7 @@ namespace MALClient.XShared.ViewModels
             ChangeStatus((AnimeStatus)Utils.Utilities.StatusToInt(status));
         }
 
-        private async void ChangeStatus(AnimeStatus status)
+        public async void ChangeStatus(AnimeStatus status)
         {
             LoadingUpdate = true;
             var myPrevStatus = MyStatus;
@@ -1006,7 +1006,7 @@ namespace MALClient.XShared.ViewModels
             LoadingUpdate = false;
         }
 
-        private async void ChangeScore(object score)
+        public async void ChangeScore(object score)
         {
             LoadingUpdate = true;
             var myPrevScore = MyScore;

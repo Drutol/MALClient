@@ -14,6 +14,7 @@ using MALClient.Android.Activities;
 using MALClient.Android.DIalogs;
 using MALClient.Android.Flyouts;
 using MALClient.Android.Listeners;
+using MALClient.XShared.Utils;
 using MALClient.XShared.ViewModels;
 
 namespace MALClient.Android.UserControls.AnimeItems
@@ -262,17 +263,18 @@ namespace MALClient.Android.UserControls.AnimeItems
         private void ShowStatusDialog()
         {
             if (ViewModel.Auth)
-                AnimeUpdateDialogBuilder.BuildStatusDialog(ViewModel, ViewModel.ParentAbstraction.RepresentsAnime);
+                AnimeUpdateDialogBuilder.BuildStatusDialog(ViewModel, ViewModel.ParentAbstraction.RepresentsAnime, ViewModel.ChangeStatus);
         }
+
         private void ShowWatchedDialog()
         {
             if (ViewModel.Auth)
-                AnimeUpdateDialogBuilder.BuildWatchedDialog(ViewModel);
+                AnimeUpdateDialogBuilder.BuildWatchedDialog(ViewModel, null, ViewModel.ParentAbstraction.RepresentsAnime ? false : Settings.MangaFocusVolumes);
         }
         private void ShowRatingDialog()
         {
             if (ViewModel.Auth)
-                AnimeUpdateDialogBuilder.BuildScoreDialog(ViewModel);
+                AnimeUpdateDialogBuilder.BuildScoreDialog(ViewModel, f => ViewModel.ChangeScore(f.ToString()));
         }
         #endregion
 

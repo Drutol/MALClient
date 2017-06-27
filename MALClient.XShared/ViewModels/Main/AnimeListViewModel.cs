@@ -472,8 +472,7 @@ namespace MALClient.XShared.ViewModels.Main
                 }
 
             }
-            if (WorkMode == AnimeListWorkModes.TopAnime || WorkMode == AnimeListWorkModes.TopManga ||
-                WorkMode == AnimeListWorkModes.AnimeByGenre || WorkMode == AnimeListWorkModes.AnimeByStudio)
+            if (WorkMode == AnimeListWorkModes.TopAnime || WorkMode == AnimeListWorkModes.TopManga)
                 items = items.OrderBy(item => item.Index);
             else
                 switch (SortOption)
@@ -488,7 +487,7 @@ namespace MALClient.XShared.ViewModels.Main
                             items = items.OrderBy(item => item.GlobalScore);
                         break;
                     case SortOptions.SortWatched:
-                        if (WorkMode == AnimeListWorkModes.SeasonalAnime)
+                        if (WorkMode == AnimeListWorkModes.SeasonalAnime || WorkMode == AnimeListWorkModes.AnimeByStudio || WorkMode == AnimeListWorkModes.AnimeByGenre)
                             items = items.OrderBy(item => item.Index);
                         else
                             items = items.OrderBy(item => item.MyEpisodes);

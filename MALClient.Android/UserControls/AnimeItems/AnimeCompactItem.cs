@@ -18,6 +18,7 @@ using MALClient.Android.DIalogs;
 using MALClient.Android.Flyouts;
 using MALClient.Android.Listeners;
 using MALClient.Android.Resources;
+using MALClient.XShared.Utils;
 using MALClient.XShared.ViewModels;
 using Orientation = Android.Content.Res.Orientation;
 
@@ -125,10 +126,10 @@ namespace MALClient.Android.UserControls.AnimeItems
             switch (propertyChangedEventArgs.PropertyName)
             {
                 case nameof(ViewModel.MyStatusBindShort):
-                    AnimeCompactItemWatchedButton.Text = ViewModel.MyStatusBind;
+                    AnimeCompactItemWatchedButton.Text = ViewModel.MyEpisodesBind;
                     break;
                 case nameof(ViewModel.MyEpisodesBindShort):
-                    AnimeCompactItemStatusLabel.Text = ViewModel.MyEpisodesBind;
+                    AnimeCompactItemStatusLabel.Text = ViewModel.MyStatusBind;
                     break;
                 case nameof(ViewModel.MyScoreBindShort):
                     AnimeCompactItemScoreLabel.Text = ViewModel.MyScoreBind;
@@ -154,18 +155,18 @@ namespace MALClient.Android.UserControls.AnimeItems
         private void ShowStatusDialog()
         {
             if (ViewModel.Auth)
-                AnimeUpdateDialogBuilder.BuildStatusDialog(ViewModel, ViewModel.ParentAbstraction.RepresentsAnime);
+                AnimeUpdateDialogBuilder.BuildStatusDialog(ViewModel, ViewModel.ParentAbstraction.RepresentsAnime, ViewModel.ChangeStatus);
         }
 
         private void ShowWatchedDialog()
         {
             if (ViewModel.Auth)
-                AnimeUpdateDialogBuilder.BuildWatchedDialog(ViewModel);
+                AnimeUpdateDialogBuilder.BuildWatchedDialog(ViewModel, null, ViewModel.ParentAbstraction.RepresentsAnime ? false : Settings.MangaFocusVolumes);
         }
         private void ShowRatingDialog()
         {
             if (ViewModel.Auth)
-                AnimeUpdateDialogBuilder.BuildScoreDialog(ViewModel);
+                AnimeUpdateDialogBuilder.BuildScoreDialog(ViewModel, f => ViewModel.ChangeScore(f.ToString()));
         }
         #endregion
 

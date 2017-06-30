@@ -224,5 +224,21 @@ namespace MALClient.Android.Resources
                 return _selectableItemBackground.Value;
             }
         }
+
+        private static int? _selectableBorderlessItemBackground;
+
+        public static int SelectableBorderlessItemBackground
+        {
+            get
+            {
+                if (_selectableBorderlessItemBackground.HasValue)
+                    return _selectableBorderlessItemBackground.Value;
+                TypedValue outValue = new TypedValue();
+                MainActivity.CurrentContext.Theme.ResolveAttribute(Resource.Attribute.selectableItemBackground, outValue,
+                    true);
+                _selectableBorderlessItemBackground = outValue.ResourceId;
+                return _selectableBorderlessItemBackground.Value;
+            }
+        }
     }
 }

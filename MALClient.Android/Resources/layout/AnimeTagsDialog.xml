@@ -24,8 +24,8 @@
       <TextView
         android:layout_width="wrap_content" android:textColor="?BrushText" android:fontFamily="@string/font_family_light"
         android:layout_height="wrap_content" android:text="Add new tag:"/>
-      <EditText android:layout_width="match_parent" android:layout_height="wrap_content"
-                android:id="@+id/AnimeTagsDialogEditBox" android:maxLines="3"/>
+      <AutoCompleteTextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                            android:id="@+id/AnimeTagsDialogEditBox" android:maxLines="3"/>
     </LinearLayout>
 
     <ImageButton android:id="@+id/AnimeTagsDialogAddTagButton" android:layout_width="40dp" android:layout_height="40dp"

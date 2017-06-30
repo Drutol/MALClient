@@ -208,7 +208,9 @@ namespace MALClient.Android.DIalogs
             var list = view.FindViewById<ListView>(Resource.Id.AnimeTagsDialogList);
             list.EmptyView = view.FindViewById(Resource.Id.AnimeTagsDialogEmptyNotice);
             list.Adapter = viewModel.MyTags.GetAdapter(GetTagItem);
-            var editBox = view.FindViewById<EditText>(Resource.Id.AnimeTagsDialogEditBox);
+            var editBox = view.FindViewById<AutoCompleteTextView>(Resource.Id.AnimeTagsDialogEditBox);
+            editBox.Threshold = 1;
+            editBox.Adapter = new ArrayAdapter<string>(MainActivity.CurrentContext,global::Android.Resource.Layout.SelectDialogItem,ViewModelLocator.GeneralMain.SearchHints);
             //editBox.SetOnEditorActionListener(new OnEditorActionListener(action =>
             //{
             //    if(action == ImeAction.Done)

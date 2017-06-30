@@ -380,21 +380,14 @@ namespace MALClient.XShared.Comm.Profile
                                 continue;
                             current.Details.Add(new Tuple<string, string>(left, WebUtility.HtmlDecode(htmlNode.LastChild.InnerText)));
                         }
-                        //current.LastOnline = sideInfo[0].LastChild.InnerText;
-                        //current.Gender = sideInfo[1].LastChild.InnerText;
-                        //current.Birthday = sideInfo[2].LastChild.InnerText;
-                        //current.Location = sideInfo[3].LastChild.InnerText;
-                        //current.Joined = sideInfo[4].LastChild.InnerText;
                     }
                     catch (Exception)
                     {
-                        //current.LastOnline = sideInfo[0].LastChild.InnerText;
-                        //current.Joined = sideInfo[1].LastChild.InnerText;
+
                     }
                     current.User.ImgUrl =
-                        doc.FirstOfDescendantsWithClass("div", "user-image mb8").Descendants("img").First().Attributes["src"
-                            ]
-                            .Value;
+                        doc.FirstOfDescendantsWithClass("div", "user-image mb8").Descendants("img").First()
+                            .Attributes["src"].Value;
 
                 }
                 catch (Exception)

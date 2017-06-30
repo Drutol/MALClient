@@ -46,6 +46,7 @@ namespace MALClient.Android.Activities
         private View _settingsHamburgerView;
         private View _footerView;
         private bool _mangaSectionVisbility;
+        private DroppyMenuPopup _moreMenu;
 
         public event EventHandler HamburgerOpened;
 
@@ -88,7 +89,7 @@ namespace MALClient.Android.Activities
             builder.WithDisplayBelowStatusBar(true);
 
 
-            var animeButton = GetBasePrimaryItem();
+            var animeButton = GetBasePrimaryItem(OnAnimeListMore);
             animeButton.WithName("Anime list");
             animeButton.WithIdentifier((int)PageIndex.PageAnimeList);
             animeButton.WithIcon(Resource.Drawable.icon_list);
@@ -108,7 +109,7 @@ namespace MALClient.Android.Activities
             recomButton.WithIdentifier((int)PageIndex.PageRecomendations);
             recomButton.WithIcon(Resource.Drawable.icon_recom);
 
-            var topAnimeButton = GetBasePrimaryItem();
+            var topAnimeButton = GetBasePrimaryItem(OnTopAnimeMore);
             topAnimeButton.WithName("Top anime");
             topAnimeButton.WithIdentifier((int)PageIndex.PageTopAnime);
             topAnimeButton.WithIcon(Resource.Drawable.icon_fav_outline);
@@ -240,6 +241,34 @@ namespace MALClient.Android.Activities
 
             _drawer.DrawerLayout.AddDrawerListener(new DrawerListener(OnClose, OnOpen));
         }
+
+        private void OnTopAnimeMore(View view)
+        {
+            _moreMenu = FlyoutMenuBuilder.BuildGenericFlyout(this, view,
+                Enum.GetValues(typeof(TopAnimeType)).Cast<TopAnimeType>().Select(type => type.ToString()).ToList(),
+                i =>
+                {
+                    ViewModel.Navigate(PageIndex.PageTopAnime, AnimeListPageNavigationArgs.TopAnime((TopAnimeType) i));
+                    _moreMenu.Dismiss(true);
+                    _drawer.CloseDrawer();
+                });
+            _moreMenu.Show();
+
+        }
+
+        private void OnAnimeListMore(View view)
+        {
+            _moreMenu = FlyoutMenuBuilder.BuildGenericFlyout(this, view,
+                Enum.GetValues(typeof(AnimeStatus)).Cast<AnimeStatus>().Select(type => Utilities.StatusToString((int)type)).ToList(),
+                i =>
+                {
+                    ViewModel.Navigate(PageIndex.PageTopAnime, new AnimeListPageNavigationArgs(i,AnimeListWorkModes.Anime));
+                    _moreMenu.Dismiss(true);
+                    _drawer.CloseDrawer();
+                });
+            _moreMenu.Show();
+        }
+
 
         private void OnOpen()
         {

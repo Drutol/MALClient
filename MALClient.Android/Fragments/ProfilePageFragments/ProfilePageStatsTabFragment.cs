@@ -55,76 +55,109 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
                     var all = ViewModel.AnimeChartValues.Sum();
                     var allManga = ViewModel.MangaChartValues.Sum();
 
-                    if (all == 0 || allManga == 0)
-                        return;
 
                     LinearLayout.LayoutParams param;
-                    /////////
-                    //ANIME//
-                    /////////
-                    param = (LinearLayout.LayoutParams) ProfilePageStatsFragmentWatchingAnimeBar.LayoutParameters;
-                    param.Weight = ViewModel.CurrentData.AnimeWatching * 100.0f / all;
-                    ProfilePageStatsFragmentWatchingAnimeBar.LayoutParameters = param;
-                    if (param.Weight > 7) ProfilePageStatsFragmentWatchingAnimeBarLabel.Text = $"{param.Weight:N0}%";
-                    else ProfilePageStatsFragmentWatchingAnimeBarLabel.Text = "";
+                    if (all > 0)
+                    {
+                        /////////
+                        //ANIME//
+                        /////////
+                        param = (LinearLayout.LayoutParams)ProfilePageStatsFragmentWatchingAnimeBar.LayoutParameters;
+                        param.Weight = ViewModel.CurrentData.AnimeWatching * 100.0f / all;
+                        ProfilePageStatsFragmentWatchingAnimeBar.LayoutParameters = param;
+                        if (param.Weight > 7) ProfilePageStatsFragmentWatchingAnimeBarLabel.Text = $"{param.Weight:N0}%";
+                        else ProfilePageStatsFragmentWatchingAnimeBarLabel.Text = "";
 
-                    param = (LinearLayout.LayoutParams) ProfilePageStatsFragmentCompletedAnimeBar.LayoutParameters;
-                    param.Weight = ViewModel.CurrentData.AnimeCompleted * 100.0f / all;
-                    ProfilePageStatsFragmentCompletedAnimeBar.LayoutParameters = param;
-                    if (param.Weight > 7) ProfilePageStatsFragmentCompletedAnimeBarLabel.Text = $"{param.Weight:N0}%";
-                    else ProfilePageStatsFragmentCompletedAnimeBarLabel.Text = "";
+                        param = (LinearLayout.LayoutParams)ProfilePageStatsFragmentCompletedAnimeBar.LayoutParameters;
+                        param.Weight = ViewModel.CurrentData.AnimeCompleted * 100.0f / all;
+                        ProfilePageStatsFragmentCompletedAnimeBar.LayoutParameters = param;
+                        if (param.Weight > 7) ProfilePageStatsFragmentCompletedAnimeBarLabel.Text = $"{param.Weight:N0}%";
+                        else ProfilePageStatsFragmentCompletedAnimeBarLabel.Text = "";
 
-                    param = (LinearLayout.LayoutParams) ProfilePageStatsFragmentOnHoldAnimeBar.LayoutParameters;
-                    param.Weight = ViewModel.CurrentData.AnimeOnHold * 100.0f / all;
-                    ProfilePageStatsFragmentOnHoldAnimeBar.LayoutParameters = param;
-                    if (param.Weight > 7) ProfilePageStatsFragmentOnHoldAnimeBarLabel.Text = $"{param.Weight:N0}%";
-                    else ProfilePageStatsFragmentOnHoldAnimeBarLabel.Text = "";
+                        param = (LinearLayout.LayoutParams)ProfilePageStatsFragmentOnHoldAnimeBar.LayoutParameters;
+                        param.Weight = ViewModel.CurrentData.AnimeOnHold * 100.0f / all;
+                        ProfilePageStatsFragmentOnHoldAnimeBar.LayoutParameters = param;
+                        if (param.Weight > 7) ProfilePageStatsFragmentOnHoldAnimeBarLabel.Text = $"{param.Weight:N0}%";
+                        else ProfilePageStatsFragmentOnHoldAnimeBarLabel.Text = "";
 
-                    param = (LinearLayout.LayoutParams) ProfilePageStatsFragmentDroppedAnimeBar.LayoutParameters;
-                    param.Weight = ViewModel.CurrentData.AnimeDropped * 100.0f / all;
-                    ProfilePageStatsFragmentDroppedAnimeBar.LayoutParameters = param;
-                    if (param.Weight > 7) ProfilePageStatsFragmentDroppedAnimeBarLabel.Text = $"{param.Weight:N0}%";
-                    else ProfilePageStatsFragmentDroppedAnimeBarLabel.Text = "";
+                        param = (LinearLayout.LayoutParams)ProfilePageStatsFragmentDroppedAnimeBar.LayoutParameters;
+                        param.Weight = ViewModel.CurrentData.AnimeDropped * 100.0f / all;
+                        ProfilePageStatsFragmentDroppedAnimeBar.LayoutParameters = param;
+                        if (param.Weight > 7) ProfilePageStatsFragmentDroppedAnimeBarLabel.Text = $"{param.Weight:N0}%";
+                        else ProfilePageStatsFragmentDroppedAnimeBarLabel.Text = "";
 
-                    param = (LinearLayout.LayoutParams) ProfilePageStatsFragmentPlannedAnimeBar.LayoutParameters;
-                    param.Weight = ViewModel.CurrentData.AnimePlanned * 100.0f / all;
-                    ProfilePageStatsFragmentPlannedAnimeBar.LayoutParameters = param;
-                    if (param.Weight > 7) ProfilePageStatsFragmentPlannedAnimeBarLabel.Text = $"{param.Weight:N0}%";
-                    else ProfilePageStatsFragmentPlannedAnimeBarLabel.Text = "";
-                    /////////
-                    //MANGA//
-                    /////////
-                    /// 
-                    param = (LinearLayout.LayoutParams) ProfilePageStatsFragmentWatchingMangaBar.LayoutParameters;
-                    param.Weight = ViewModel.CurrentData.MangaReading * 100.0f / allManga;
-                    ProfilePageStatsFragmentWatchingMangaBar.LayoutParameters = param;
-                    if (param.Weight > 7) ProfilePageStatsFragmentWatchingMangaBarLabel.Text = $"{param.Weight:N0}%";
-                    else ProfilePageStatsFragmentWatchingMangaBarLabel.Text = "";
+                        param = (LinearLayout.LayoutParams)ProfilePageStatsFragmentPlannedAnimeBar.LayoutParameters;
+                        param.Weight = ViewModel.CurrentData.AnimePlanned * 100.0f / all;
+                        ProfilePageStatsFragmentPlannedAnimeBar.LayoutParameters = param;
+                        if (param.Weight > 7) ProfilePageStatsFragmentPlannedAnimeBarLabel.Text = $"{param.Weight:N0}%";
+                        else ProfilePageStatsFragmentPlannedAnimeBarLabel.Text = "";
+                    }
+                    else
+                    {
+                        ((LinearLayout.LayoutParams)ProfilePageStatsFragmentWatchingAnimeBar.LayoutParameters).Weight = 0;
+                        ((LinearLayout.LayoutParams)ProfilePageStatsFragmentCompletedAnimeBar.LayoutParameters).Weight = 0;
+                        ((LinearLayout.LayoutParams)ProfilePageStatsFragmentOnHoldAnimeBarLabel.LayoutParameters).Weight = 0;
+                        ((LinearLayout.LayoutParams)ProfilePageStatsFragmentDroppedAnimeBar.LayoutParameters).Weight = 0;
+                        ((LinearLayout.LayoutParams)ProfilePageStatsFragmentPlannedAnimeBar.LayoutParameters).Weight = 0;
 
-                    param = (LinearLayout.LayoutParams) ProfilePageStatsFragmentCompletedMangaBar.LayoutParameters;
-                    param.Weight = ViewModel.CurrentData.MangaCompleted * 100.0f / allManga;
-                    ProfilePageStatsFragmentCompletedMangaBar.LayoutParameters = param;
-                    if (param.Weight > 7) ProfilePageStatsFragmentCompletedMangaBarLabel.Text = $"{param.Weight:N0}%";
-                    else ProfilePageStatsFragmentCompletedMangaBarLabel.Text = "";
+                        ProfilePageStatsFragmentWatchingAnimeBarLabel.Text = "";
+                        ProfilePageStatsFragmentCompletedAnimeBarLabel.Text = "";
+                        ProfilePageStatsFragmentOnHoldAnimeBarLabel.Text = "";
+                        ProfilePageStatsFragmentDroppedAnimeBarLabel.Text = "";
+                        ProfilePageStatsFragmentPlannedAnimeBarLabel.Text = "";
+                    }
 
-                    param = (LinearLayout.LayoutParams) ProfilePageStatsFragmentOnHoldMangaBar.LayoutParameters;
-                    param.Weight = ViewModel.CurrentData.MangaOnHold * 100.0f / allManga;
-                    ProfilePageStatsFragmentOnHoldMangaBar.LayoutParameters = param;
-                    if (param.Weight > 7)
-                        ProfilePageStatsFragmentOnHoldMangaBarLabel.Text = $"{param.Weight:N0}%";
-                    else ProfilePageStatsFragmentOnHoldMangaBarLabel.Text = "";
+                    if (allManga > 0)
+                    {
+                        /////////
+                        //MANGA//
+                        /////////
+                        param = (LinearLayout.LayoutParams)ProfilePageStatsFragmentWatchingMangaBar.LayoutParameters;
+                        param.Weight = ViewModel.CurrentData.MangaReading * 100.0f / allManga;
+                        ProfilePageStatsFragmentWatchingMangaBar.LayoutParameters = param;
+                        if (param.Weight > 7) ProfilePageStatsFragmentWatchingMangaBarLabel.Text = $"{param.Weight:N0}%";
+                        else ProfilePageStatsFragmentWatchingMangaBarLabel.Text = "";
 
-                    param = (LinearLayout.LayoutParams) ProfilePageStatsFragmentDroppedMangaBar.LayoutParameters;
-                    param.Weight = ViewModel.CurrentData.MangaDropped * 100.0f / allManga;
-                    ProfilePageStatsFragmentDroppedMangaBar.LayoutParameters = param;
-                    if (param.Weight > 7) ProfilePageStatsFragmentDroppedMangaBarLabel.Text = $"{param.Weight:N0}%";
-                    else ProfilePageStatsFragmentDroppedMangaBarLabel.Text = "";
+                        param = (LinearLayout.LayoutParams)ProfilePageStatsFragmentCompletedMangaBar.LayoutParameters;
+                        param.Weight = ViewModel.CurrentData.MangaCompleted * 100.0f / allManga;
+                        ProfilePageStatsFragmentCompletedMangaBar.LayoutParameters = param;
+                        if (param.Weight > 7) ProfilePageStatsFragmentCompletedMangaBarLabel.Text = $"{param.Weight:N0}%";
+                        else ProfilePageStatsFragmentCompletedMangaBarLabel.Text = "";
 
-                    param = (LinearLayout.LayoutParams) ProfilePageStatsFragmentPlannedMangaBar.LayoutParameters;
-                    param.Weight = ViewModel.CurrentData.MangaPlanned * 100.0f / allManga;
-                    ProfilePageStatsFragmentPlannedMangaBar.LayoutParameters = param;
-                    if (param.Weight > 7) ProfilePageStatsFragmentPlannedMangaBarLabel.Text = $"{param.Weight:N0}%";
-                    else ProfilePageStatsFragmentPlannedMangaBarLabel.Text = "";
+                        param = (LinearLayout.LayoutParams)ProfilePageStatsFragmentOnHoldMangaBar.LayoutParameters;
+                        param.Weight = ViewModel.CurrentData.MangaOnHold * 100.0f / allManga;
+                        ProfilePageStatsFragmentOnHoldMangaBar.LayoutParameters = param;
+                        if (param.Weight > 7)
+                            ProfilePageStatsFragmentOnHoldMangaBarLabel.Text = $"{param.Weight:N0}%";
+                        else ProfilePageStatsFragmentOnHoldMangaBarLabel.Text = "";
+
+                        param = (LinearLayout.LayoutParams)ProfilePageStatsFragmentDroppedMangaBar.LayoutParameters;
+                        param.Weight = ViewModel.CurrentData.MangaDropped * 100.0f / allManga;
+                        ProfilePageStatsFragmentDroppedMangaBar.LayoutParameters = param;
+                        if (param.Weight > 7) ProfilePageStatsFragmentDroppedMangaBarLabel.Text = $"{param.Weight:N0}%";
+                        else ProfilePageStatsFragmentDroppedMangaBarLabel.Text = "";
+
+                        param = (LinearLayout.LayoutParams)ProfilePageStatsFragmentPlannedMangaBar.LayoutParameters;
+                        param.Weight = ViewModel.CurrentData.MangaPlanned * 100.0f / allManga;
+                        ProfilePageStatsFragmentPlannedMangaBar.LayoutParameters = param;
+                        if (param.Weight > 7) ProfilePageStatsFragmentPlannedMangaBarLabel.Text = $"{param.Weight:N0}%";
+                        else ProfilePageStatsFragmentPlannedMangaBarLabel.Text = "";
+                    }
+                    else
+                    {
+                        ((LinearLayout.LayoutParams)ProfilePageStatsFragmentWatchingMangaBar.LayoutParameters).Weight = 0;
+                        ((LinearLayout.LayoutParams)ProfilePageStatsFragmentCompletedMangaBar.LayoutParameters).Weight = 0;
+                        ((LinearLayout.LayoutParams)ProfilePageStatsFragmentOnHoldMangaBarLabel.LayoutParameters).Weight = 0;
+                        ((LinearLayout.LayoutParams)ProfilePageStatsFragmentDroppedMangaBar.LayoutParameters).Weight = 0;
+                        ((LinearLayout.LayoutParams)ProfilePageStatsFragmentPlannedMangaBar.LayoutParameters).Weight = 0;
+
+                        ProfilePageStatsFragmentWatchingMangaBarLabel.Text = "";
+                        ProfilePageStatsFragmentCompletedMangaBarLabel.Text = "";
+                        ProfilePageStatsFragmentOnHoldMangaBarLabel.Text = "";
+                        ProfilePageStatsFragmentDroppedMangaBarLabel.Text = "";
+                        ProfilePageStatsFragmentPlannedMangaBarLabel.Text = "";
+                    }
+                   
 
                     ////ANIME BOTTOM
 

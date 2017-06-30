@@ -105,7 +105,7 @@ namespace MALClient.Android.Fragments.AnimeDetailsPageTabs
                 catch (Exception)
                 {
                     //TODO Grab the thing from hockey
-                    ResourceLocator.TelemetryProvider.LogEvent($"Recoms wrpping crash on {ViewModel.Title} - recom {animeRecomData.Title}");
+                    //ResourceLocator.TelemetryProvider.LogEvent($"Recoms wrpping crash on {ViewModel.Title} - recom {animeRecomData.Title}");
                 }
 
             });

@@ -11,6 +11,7 @@ using FFImageLoading.Transformations;
 using FFImageLoading.Views;
 using FFImageLoading.Work;
 using MALClient.XShared.Utils;
+using MALClient.XShared.ViewModels;
 
 namespace MALClient.Android
 {
@@ -69,6 +70,7 @@ namespace MALClient.Android
                 if (string.IsNullOrEmpty(targetUrl) || string.IsNullOrEmpty(originUrl))
                     return;
 
+                image.SetImageResource(global::Android.Resource.Color.Transparent);
                 var work = ImageService.Instance.LoadUrl(targetUrl);
                 if (loader != null)
                     work.Finish(scheduledWork => loader.Visibility = ViewStates.Gone);
@@ -93,15 +95,20 @@ namespace MALClient.Android
                 {                
                     work.Error(exception =>
                     {
+                        if (!ResourceLocator.ConnectionInfoProvider.HasInternetConnection)
+                        {
+                            image.SetImageResource(global::Android.Resource.Color.Transparent);
+                            return;
+                        }
+                        ResourceLocator.ConnectionInfoProvider.Init();
                         var img = (string) image.Tag;
                         ImageService.Instance.LoadUrl(img)
                             .FadeAnimation(false)
                             .Into(image);
-                        FailedImgs.Add(img);
+                        FailedImgs.Add(targetUrl);
                         LoadedImgs.Add(img);
                     });
                 }
-
                 work.FadeAnimation(false).Into(image);
                 
             }

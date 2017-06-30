@@ -66,7 +66,7 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
 
         protected override void InitBindings()
         {
-            _helper = new GridViewColumnHelper(ProfilePageFavouritesTabGridView);
+            _helper = new GridViewColumnHelper(ProfilePageFavouritesTabGridView,null,2,3);
 
             var listener = new OnClickListener(OnTabSelected);
             ProfilePageFavouritesTabAnimeToggleButton.SetOnClickListener(listener);

@@ -23,7 +23,6 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
 {
     public class ProfilePageStatsTabFragment : MalFragmentBase
     {
-        private bool _initialized;
         private ProfilePageViewModel ViewModel = ViewModelLocator.ProfilePage;
 
         protected override void Init(Bundle savedInstanceState)
@@ -38,9 +37,8 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
 
         public void NavigatedTo()
         {
-            if (_initialized)
+            if (Bindings.Any())
                 return;
-            _initialized = true;
 
             (RootView as FrameLayout).AddView(
                 Activity.LayoutInflater.Inflate(Resource.Layout.ProfilePageStatsTabContent, null));
@@ -96,7 +94,7 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
                     {
                         ((LinearLayout.LayoutParams)ProfilePageStatsFragmentWatchingAnimeBar.LayoutParameters).Weight = 0;
                         ((LinearLayout.LayoutParams)ProfilePageStatsFragmentCompletedAnimeBar.LayoutParameters).Weight = 0;
-                        ((LinearLayout.LayoutParams)ProfilePageStatsFragmentOnHoldAnimeBarLabel.LayoutParameters).Weight = 0;
+                        ((LinearLayout.LayoutParams)ProfilePageStatsFragmentOnHoldAnimeBar.LayoutParameters).Weight = 0;
                         ((LinearLayout.LayoutParams)ProfilePageStatsFragmentDroppedAnimeBar.LayoutParameters).Weight = 0;
                         ((LinearLayout.LayoutParams)ProfilePageStatsFragmentPlannedAnimeBar.LayoutParameters).Weight = 0;
 
@@ -147,7 +145,7 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
                     {
                         ((LinearLayout.LayoutParams)ProfilePageStatsFragmentWatchingMangaBar.LayoutParameters).Weight = 0;
                         ((LinearLayout.LayoutParams)ProfilePageStatsFragmentCompletedMangaBar.LayoutParameters).Weight = 0;
-                        ((LinearLayout.LayoutParams)ProfilePageStatsFragmentOnHoldMangaBarLabel.LayoutParameters).Weight = 0;
+                        ((LinearLayout.LayoutParams)ProfilePageStatsFragmentOnHoldMangaBar.LayoutParameters).Weight = 0;
                         ((LinearLayout.LayoutParams)ProfilePageStatsFragmentDroppedMangaBar.LayoutParameters).Weight = 0;
                         ((LinearLayout.LayoutParams)ProfilePageStatsFragmentPlannedMangaBar.LayoutParameters).Weight = 0;
 

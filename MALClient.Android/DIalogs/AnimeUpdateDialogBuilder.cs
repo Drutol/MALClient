@@ -16,6 +16,7 @@ using MALClient.Models.Enums;
 using MALClient.Models.Models.Library;
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Details;
+using Orientation = Android.Content.Res.Orientation;
 
 namespace MALClient.Android.DIalogs
 {
@@ -93,6 +94,19 @@ namespace MALClient.Android.DIalogs
                     grid.Adapter = new WatchedDialogAdapter(MainActivity.CurrentContext, viewModel.MyVolumes,
                         viewModel.AllVolumes);
                     view.FindViewById<TextView>(Resource.Id.AnimeItemWatchedDialogTitleTextView).Text = "Read volumes";
+                    grid.Post(() =>
+                    {
+                        try
+                        {
+                            grid.SetSelection(
+                                GetRightMostIndex(
+                                    (grid.Adapter as WatchedDialogAdapter).Items.IndexOf(viewModel.MyVolumes)));
+                        }
+                        catch (Exception)
+                        {
+                            //welp
+                        }
+                    });
                 }
                 else
                 {
@@ -100,6 +114,28 @@ namespace MALClient.Android.DIalogs
                         viewModel.AllEpisodes);
                     view.FindViewById<TextView>(Resource.Id.AnimeItemWatchedDialogTitleTextView).Text =
                         viewModel.ParentAbstraction.RepresentsAnime ? "Watched episodes" : "Read chapters";
+                    grid.Post(() =>
+                    {
+                        try
+                        {
+                            grid.SetSelection(
+                                GetRightMostIndex(
+                                    (grid.Adapter as WatchedDialogAdapter).Items.IndexOf(viewModel.MyEpisodes)));
+                        }
+                        catch (Exception)
+                        {
+                            //welp
+                        }
+                    });
+                }
+
+
+
+                if (grid.Adapter.Count > 16 && MainActivity.CurrentContext.Resources.Configuration.Orientation ==
+                    Orientation.Portrait)
+                {
+                    grid.LayoutParameters.Height = DimensionsHelper.DpToPx(180);
+
                 }
 
                 if (action == null)
@@ -113,6 +149,13 @@ namespace MALClient.Android.DIalogs
                 grid.ItemClick += GridOnItemClick;
                 _watchedDialog.Show();
                 MainActivity.CurrentContext.DialogToCollapseOnBack = _watchedDialog;
+
+                int GetRightMostIndex(int source)
+                {
+                    var rest = (source+1) % grid.NumColumns;
+                    source -= rest;
+                    return source-1;
+                }
             }
             catch (Exception e)
             {

@@ -12,7 +12,7 @@ namespace MALClient.Android.DialogAdapters
     {
         private readonly Activity _context;
         private readonly int _currentEpisodes;
-        private readonly List<int> Items = new List<int>();
+        public List<int> Items { get; } 
 
         public WatchedDialogAdapter(Activity context, int currentEpisodes, int maxEpisodes)
         {
@@ -20,14 +20,29 @@ namespace MALClient.Android.DialogAdapters
             _currentEpisodes = currentEpisodes;
 
             var numbers = new List<int>();
-            int i = currentEpisodes, j = currentEpisodes - 1, k = 0;
-            for (; k < 10; i++, j--, k++)
+            if (maxEpisodes == 0)
             {
-                if (maxEpisodes == 0 || i <= maxEpisodes)
-                    numbers.Add(i);
-                if (j >= 0)
-                    numbers.Add(j);
+                int i = currentEpisodes, j = currentEpisodes - 1, k = 0;
+                for (; k < 10; i++, j--, k++)
+                {
+                    if (i <= maxEpisodes)
+                        numbers.Add(i);
+                    if (j >= 0)
+                        numbers.Add(j);
+                }
             }
+            else
+            {
+                int i = currentEpisodes, j = currentEpisodes - 1, k = 0;
+                for (; i <= maxEpisodes || k < 10; i++, j--, k++)
+                {
+                    if (i <= maxEpisodes)
+                        numbers.Add(i);
+                    if (j >= 0)
+                        numbers.Add(j);
+                }
+            }
+ 
             Items = numbers.OrderBy(i1 => i1).ToList();
         }
 

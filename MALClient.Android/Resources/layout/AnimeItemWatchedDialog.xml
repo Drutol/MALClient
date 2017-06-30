@@ -20,5 +20,5 @@
             android:id="@+id/AnimeItemWatchedDialogEpisodesGridView" android:columnWidth="80dp"
             android:choiceMode="singleChoice" android:listSelector="?AccentColour" android:verticalSpacing="5dp"
             android:horizontalSpacing="5dp" android:numColumns="auto_fit" android:layout_width="match_parent"
-            android:layout_height="wrap_content" android:layout_marginBottom="10dp" android:layout_marginTop="20dp" />
+            android:layout_height="wrap_content" android:paddingBottom="10dp" android:clipToPadding="false" android:layout_marginTop="20dp" />
 </LinearLayout>

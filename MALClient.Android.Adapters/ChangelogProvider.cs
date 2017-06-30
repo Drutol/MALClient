@@ -31,16 +31,16 @@ namespace MALClient.Android.Adapters
 
         public bool NewChangelog { get; set; }
 
-        public string DateWithVersion => $"{_currentVersion} - 21.06.2017";
+        public string DateWithVersion => $"{_currentVersion} - 01.07.2017";
 
         public List<string> Changelog => new List<string>
         {
-            "Added option to make grid items in various places smaller. Useful for devices with smaller displays. Let me know if it doesn't work well on yours.",
-            "Devices with less than 1G of RAM will display lower quality show covers by default. I've been getting OOM crashes lately from this kind of devices.",
-            "Added setting for default show status after adding to list.",
-            "Added setting to enable/disable asking whether to send crash reports.",
-            "After finishing rewatching, popup will appear asking about status change.",
-            "Fixed a few visual bugs related to rewatching.",
+            "Added shortcut buttons to hamburger.",
+            "Added autocomplete when adding tags.",
+            "Fixed issue with displaying stats.",
+            "Fixed some issues with loading cover images while offline.",
+            "Watched dialog will now behave a bit differently with displaying episode shortcuts.",
+            "Fixed smaller grid items in favourites.",
         };
 
     }

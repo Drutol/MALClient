@@ -55,6 +55,8 @@
         [EnumUtilities.PageIndexEnumMember(OffPage = false)]
         PageFeeds,
         [EnumUtilities.PageIndexEnumMember(OffPage = false)]
-        PageNotificationHub
+        PageNotificationHub,     
+        [EnumUtilities.PageIndexEnumMember(OffPage = false)]
+        PageListComparison
     }
 }

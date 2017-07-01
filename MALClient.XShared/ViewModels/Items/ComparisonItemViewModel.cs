@@ -1,0 +1,176 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Input;
+using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Command;
+using MALClient.Models.Models.Library;
+using MALClient.XShared.Comm.Anime;
+using MALClient.XShared.Utils;
+
+namespace MALClient.XShared.ViewModels.Items
+{
+    public class ComparisonItemViewModel : ViewModelBase
+    {
+        private ICommand _addToMyListCommand;
+        private bool _isComparisonValid;
+        private bool _isValidScoreDifference;
+        private int _watchedDifference;
+        private int _scoreDifference;
+
+        public AnimeItemViewModel MyEntry { get; private set; }
+        public AnimeItemViewModel OtherEntry { get; }
+
+
+        public ComparisonItemViewModel(AnimeItemViewModel myEntry, AnimeItemViewModel otherEntry)
+        {
+            MyEntry = myEntry;
+            OtherEntry = otherEntry;
+
+            if (MyEntry != null)
+            {
+                MyEntry.ChangedScore += EntryOnChangedScore;
+                MyEntry.ChangedAuth += MyEntryOnChangedAuth;
+                MyEntry.ChangedWatched += EntryOnChangedWatched;
+            }
+            if (OtherEntry != null)
+            {
+                OtherEntry.ChangedScore += EntryOnChangedScore;
+                OtherEntry.ChangedWatched += EntryOnChangedWatched;
+            }
+
+            IsComparisonValid = myEntry != null && otherEntry != null;
+
+            UpdateScoreDiff();
+            UpdateWatchedDiff();
+        }
+
+
+
+        public int ScoreDifference
+        {
+            get { return _scoreDifference; }
+            set
+            {
+                _scoreDifference = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public int WatchedDifference
+        {
+            get { return _watchedDifference; }
+            set
+            {
+                _watchedDifference = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public bool IsValidScoreDifference
+        {
+            get { return _isValidScoreDifference; }
+            set
+            {
+                _isValidScoreDifference = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public bool IsComparisonValid
+        {
+            get { return _isComparisonValid; }
+            set
+            {
+                _isComparisonValid = value;
+                if (value)
+                {
+                    UpdateScoreDiff();
+                    UpdateWatchedDiff();
+                }
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private void UpdateScoreDiff()
+        {
+            if (IsComparisonValid)
+            {
+                if (MyEntry.MyScore > 0 && OtherEntry.MyScore > 0)
+                    ScoreDifference = (int)Math.Abs(MyEntry.MyScore - MyEntry.MyScore);
+                else
+                    IsValidScoreDifference = false;
+            }
+        }
+
+        private void UpdateWatchedDiff()
+        {
+            if(IsComparisonValid)
+                WatchedDifference = (int)Math.Abs(MyEntry.MyEpisodes - OtherEntry.MyScore);
+        }
+
+
+
+        public ICommand AddToMyListCommand => _addToMyListCommand ?? (_addToMyListCommand = new RelayCommand(async () =>
+        {
+            var response = await new AnimeAddQuery(OtherEntry.Id.ToString()).GetRequestResponse();
+            if(response != "Created")
+                return;
+
+            var vm = new AnimeItemAbstraction(true,new AnimeLibraryItemData(OtherEntry.ParentAbstraction.EntryData));
+
+            var startDate = "0000-00-00";
+            if (Settings.SetStartDateOnListAdd)
+            {
+                startDate = DateTimeOffset.Now.ToString("yyyy-MM-dd");
+            }
+            vm.MyStartDate = startDate;
+            vm.MyStatus = Settings.DefaultStatusAfterAdding;
+
+            MyEntry = vm.ViewModel;
+            ResourceLocator.AnimeLibraryDataStorage.AddAnimeEntry(vm);
+
+            IsComparisonValid = true;
+        }));
+
+
+        #region UpdateHandlers
+
+        private void EntryOnChangedWatched(object sender, int i)
+        {
+            UpdateWatchedDiff();
+        }
+
+        private void MyEntryOnChangedAuth(object sender, bool b)
+        {
+            IsComparisonValid = b;
+        }
+
+        private void EntryOnChangedScore(object sender, int i)
+        {
+            UpdateScoreDiff();
+        }
+
+        #endregion
+
+        ~ComparisonItemViewModel()
+        {
+            if (MyEntry != null)
+            {
+                MyEntry.ChangedScore -= EntryOnChangedScore;
+                MyEntry.ChangedAuth -= MyEntryOnChangedAuth;
+                MyEntry.ChangedWatched -= EntryOnChangedWatched;
+            }
+
+            if (OtherEntry != null)
+            {
+                OtherEntry.ChangedScore -= EntryOnChangedScore;
+                OtherEntry.ChangedWatched -= EntryOnChangedWatched;
+            }
+
+        }
+    }
+}

@@ -5,6 +5,20 @@ namespace MALClient.Models.Models.Library
 {
     public class AnimeLibraryItemData : ILibraryData
     {
+        public AnimeLibraryItemData()
+        {
+            
+        }
+
+        public AnimeLibraryItemData(ILibraryData other)
+        {
+            Id = other.Id;
+            Title = other.Title;
+            AllEpisodes = other.AllEpisodes;
+            ImgUrl = other.ImgUrl;
+            Type = other.Type;
+        }
+
         private int _id = -1;
         public string MyStartDate { get; set; }
         public string MyEndDate { get; set; }

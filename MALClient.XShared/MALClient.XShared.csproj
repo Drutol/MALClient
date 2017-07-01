@@ -121,6 +121,7 @@
     <Compile Include="NavArgs\CharacterDetailsNavigationArgs.cs" />
     <Compile Include="NavArgs\ForumsNavigationArgs.cs" />
     <Compile Include="NavArgs\HistoryNavigationArgs.cs" />
+    <Compile Include="NavArgs\ListComparisonPageNavigationArgs.cs" />
     <Compile Include="NavArgs\MalMessageDetailsNavArgs.cs" />
     <Compile Include="NavArgs\ProfilePageNavigationArgs.cs" />
     <Compile Include="NavArgs\RecommendationPageNavigationArgs.cs" />
@@ -165,6 +166,7 @@
     <Compile Include="ViewModels\Forums\Items\ForumTopicMessageEntryViewModel.cs" />
     <Compile Include="ViewModels\Interfaces\IDimensionsProvider.cs" />
     <Compile Include="ViewModels\Interfaces\IHandyDataStorage.cs" />
+    <Compile Include="ViewModels\Items\ComparisonItemViewModel.cs" />
     <Compile Include="ViewModels\Items\WallpaperItemViewModel.cs" />
     <Compile Include="ViewModels\MainViewModelBase.cs" />
     <Compile Include="ViewModels\Main\AnimeListViewModel.cs" />
@@ -174,6 +176,7 @@
     <Compile Include="ViewModels\Main\FriendsFeedsViewModel.cs" />
     <Compile Include="ViewModels\Main\HistoryViewModel.cs" />
     <Compile Include="ViewModels\Main\HummingbirdProfilePageViewModel.cs" />
+    <Compile Include="ViewModels\Main\ListComparisonViewModel.cs" />
     <Compile Include="ViewModels\Main\LogInViewModel.cs" />
     <Compile Include="ViewModels\Main\MalArticlesViewModel.cs" />
     <Compile Include="ViewModels\Main\MalMessageDetailsViewModel.cs" />

@@ -33,6 +33,10 @@ namespace MALClient.XShared.ViewModels
             UpdateScoreFlyoutChoices();
         }
 
+        public event EventHandler<int> ChangedScore;
+        public event EventHandler<int> ChangedWatched;
+        public event EventHandler<bool> ChangedAuth;
+
         public const string InvalidStartEndDate = "0000-00-00";
         public static double MaxWidth { get; set; }
         public static List<string> ScoreFlyoutChoices { get; set; }
@@ -264,6 +268,7 @@ namespace MALClient.XShared.ViewModels
             {
                 _auth = value;
                 RaisePropertyChanged(() => Auth);
+                ChangedAuth?.Invoke(this,value);
             }
         }
 
@@ -322,6 +327,7 @@ namespace MALClient.XShared.ViewModels
                 RaisePropertyChanged(() => MyScoreBind);
                 RaisePropertyChanged(() => MyScoreBindShort);
                 RaisePropertyChanged(() => MyScore);
+                ChangedScore?.Invoke(this,(int)value);
             }
         }
 
@@ -353,6 +359,7 @@ namespace MALClient.XShared.ViewModels
                 RaisePropertyChanged(() => MyEpisodesBind);
                 RaisePropertyChanged(() => MyEpisodesBindShort);
                 ViewModelLocator.AnimeDetails.UpdateAnimeReferenceUiBindings(Id);
+                ChangedWatched?.Invoke(this,value);
             }
         }
 

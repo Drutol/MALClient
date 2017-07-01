@@ -133,13 +133,13 @@ namespace MALClient.XShared.Comm.Forums
             current.Type = tds[1].ChildNodes[0].InnerText;
 
             var titleLinks = tds[1].Descendants("a").ToList();
-            var titleLink = string.IsNullOrWhiteSpace(titleLinks[0].InnerText) ? titleLinks[1] : titleLinks[0];
+            var titleLink = titleLinks[1].InnerText == "&raquo;" ? titleLinks[2] : titleLinks[1];
 
             current.Title = WebUtility.HtmlDecode(titleLink.InnerText);
             var link = titleLink.Attributes["href"].Value;
-            if (link.Contains("&amp;goto="))
+            if (link.Contains("&goto="))
             {
-                var pos = link.IndexOf("&amp;goto=");
+                var pos = link.IndexOf("&goto=");
                 link = link.Substring(0, pos);
             }
 

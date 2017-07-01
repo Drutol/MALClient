@@ -416,6 +416,15 @@ namespace MALClient.UWP.ViewModels
                     CurrentStatus = "Notifications";
                     MainNavigationRequested?.Invoke(typeof(NotificationsHubPage), args);
                     break;
+                case PageIndex.PageListComparison:
+                    HideSearchStuff();
+                    RefreshButtonVisibility = true;
+                    RefreshDataCommand =
+                        new RelayCommand(() => ViewModelLocator.Comparison.NavigatedTo(
+                            new ListComparisonPageNavigationArgs {CompareWith = new MalUser {Name = "Kimod"}}));
+                    CurrentStatus = "List Comparison with some guy";
+                    MainNavigationRequested?.Invoke(typeof(ListComparisonPage),args);
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(index), index, null);
             }
@@ -445,7 +454,7 @@ namespace MALClient.UWP.ViewModels
                 if (Credentials.Authenticated)
                 {
                     if (hasArgumentsWithSync)
-                        Navigate(Settings.DefaultMenuTab == "anime" ? PageIndex.PageAnimeList : PageIndex.PageMangaList);
+                        Navigate(Settings.DefaultMenuTab == "anime" ? PageIndex.PageListComparison : PageIndex.PageMangaList,new ListComparisonPageNavigationArgs {CompareWith = new MalUser {Name = "Kimod"}});
                             //entry point whatnot
                     else if(InitDetailsFull != null)
                     {

@@ -50,7 +50,7 @@ namespace MALClient.XShared.ViewModels.Main
         private List<ComparisonItemViewModel> _allOtherItems = new List<ComparisonItemViewModel>();
         private ComparisonFilter _comparisonFilter;
         private ComparisonSorting _comparisonSorting;
-        private AnimeStatus _statusFilter;
+        private AnimeStatus _statusFilter = AnimeStatus.AllOrAiring;
         private ComparisonStatusFilterTarget _statusFilterTarget;
         private bool _sortAscending;
 
@@ -65,6 +65,7 @@ namespace MALClient.XShared.ViewModels.Main
             {
                 _comparisonFilter = value;
                 RaisePropertyChanged();
+                RefreshList();
             }
         }
 
@@ -75,6 +76,7 @@ namespace MALClient.XShared.ViewModels.Main
             {
                 _comparisonSorting = value;
                 RaisePropertyChanged();
+                RefreshList();
             }
         }
 
@@ -85,6 +87,7 @@ namespace MALClient.XShared.ViewModels.Main
             {
                 _statusFilter = value;
                 RaisePropertyChanged();
+                RefreshList();
             }
         }
 
@@ -95,6 +98,7 @@ namespace MALClient.XShared.ViewModels.Main
             {
                 _statusFilterTarget = value;
                 RaisePropertyChanged();
+                RefreshList();
             }
         }
 
@@ -116,10 +120,13 @@ namespace MALClient.XShared.ViewModels.Main
 
         }
 
-        public void NavigatedTo(ListComparisonPageNavigationArgs args)
+        public async void NavigatedTo(ListComparisonPageNavigationArgs args)
         {
             _navArgs = args;
-
+            ViewModelLocator.AnimeList.Init(null);
+            await Task.Delay(5000);
+            await ViewModelLocator.ProfilePage.LoadProfileData(
+                new ProfilePageNavigationArgs {TargetUser = args.CompareWith.Name});
             var otherItems = _animeLibraryDataStorage.OthersAbstractions[_navArgs.CompareWith.Name].Item1;
 
             foreach (var myItem in _animeLibraryDataStorage.AllLoadedAuthAnimeItems)
@@ -134,6 +141,8 @@ namespace MALClient.XShared.ViewModels.Main
             var usedIds = _allSharedItems.Concat(_allMyItems).Select(model => model.MyEntry.Id);
             _allOtherItems = otherItems.Where(other => !usedIds.Any(i => i == other.Id))
                 .Select(abstraction => new ComparisonItemViewModel(null, abstraction.ViewModel)).ToList();
+
+            RefreshList();
         }
 
         public void RefreshList()

@@ -19,6 +19,7 @@ namespace MALClient.XShared.ViewModels.Items
         private bool _isValidScoreDifference;
         private int _watchedDifference;
         private int _scoreDifference;
+        private bool _watchedComparisonBarVisibility;
 
         public AnimeItemViewModel MyEntry { get; private set; }
         public AnimeItemViewModel OtherEntry { get; }
@@ -34,11 +35,16 @@ namespace MALClient.XShared.ViewModels.Items
                 MyEntry.ChangedScore += EntryOnChangedScore;
                 MyEntry.ChangedAuth += MyEntryOnChangedAuth;
                 MyEntry.ChangedWatched += EntryOnChangedWatched;
+                Title = MyEntry.Title;
+                ImgUrl = MyEntry.ImgUrl;
             }
             if (OtherEntry != null)
             {
                 OtherEntry.ChangedScore += EntryOnChangedScore;
                 OtherEntry.ChangedWatched += EntryOnChangedWatched;
+
+                Title = OtherEntry.Title;
+                ImgUrl = OtherEntry.ImgUrl;
             }
 
             IsComparisonValid = myEntry != null && otherEntry != null;
@@ -49,6 +55,8 @@ namespace MALClient.XShared.ViewModels.Items
 
 
 
+        public string ScoreDifferenceBind => ScoreDifference == 0 ? "-" : ScoreDifference.ToString();
+
         public int ScoreDifference
         {
             get { return _scoreDifference; }
@@ -56,8 +64,11 @@ namespace MALClient.XShared.ViewModels.Items
             {
                 _scoreDifference = value;
                 RaisePropertyChanged();
+                RaisePropertyChanged(() => ScoreDifferenceBind);
             }
         }
+
+        public string WatchedDifferenceBind => WatchedDifference == 0 ? "-" : WatchedDifference.ToString();
 
         public int WatchedDifference
         {
@@ -66,6 +77,8 @@ namespace MALClient.XShared.ViewModels.Items
             {
                 _watchedDifference = value;
                 RaisePropertyChanged();
+                RaisePropertyChanged(() => WatchedDifferenceBind);
+                WatchedComparisonBarVisibility = value != 0;
             }
         }
 
@@ -91,8 +104,24 @@ namespace MALClient.XShared.ViewModels.Items
                     UpdateWatchedDiff();
                 }
                 RaisePropertyChanged();
+                RaisePropertyChanged(() => IsOnMyList);
+                RaisePropertyChanged(() => IsOnlyOnOtherList);
+                RaisePropertyChanged(() => IsOnlyOnMyList);
             }
         }
+
+        public bool WatchedComparisonBarVisibility
+        {
+            get { return _watchedComparisonBarVisibility; }
+            set
+            {
+                _watchedComparisonBarVisibility = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public string Title { get; set; }
+        public string ImgUrl { get; set; }
 
 
         private void UpdateScoreDiff()
@@ -100,7 +129,7 @@ namespace MALClient.XShared.ViewModels.Items
             if (IsComparisonValid)
             {
                 if (MyEntry.MyScore > 0 && OtherEntry.MyScore > 0)
-                    ScoreDifference = (int)Math.Abs(MyEntry.MyScore - MyEntry.MyScore);
+                    ScoreDifference = (int)(OtherEntry.MyScore - MyEntry.MyScore);
                 else
                     IsValidScoreDifference = false;
             }
@@ -109,8 +138,12 @@ namespace MALClient.XShared.ViewModels.Items
         private void UpdateWatchedDiff()
         {
             if(IsComparisonValid)
-                WatchedDifference = (int)Math.Abs(MyEntry.MyEpisodes - OtherEntry.MyScore);
+                WatchedDifference = OtherEntry.MyEpisodes - MyEntry.MyEpisodes;
         }
+
+        public bool IsOnMyList => MyEntry != null;
+        public bool IsOnlyOnOtherList => OtherEntry != null && MyEntry == null;
+        public bool IsOnlyOnMyList => MyEntry != null && OtherEntry == null;
 
 
 
@@ -134,6 +167,7 @@ namespace MALClient.XShared.ViewModels.Items
             ResourceLocator.AnimeLibraryDataStorage.AddAnimeEntry(vm);
 
             IsComparisonValid = true;
+            RaisePropertyChanged(() => MyEntry);
         }));
 
 

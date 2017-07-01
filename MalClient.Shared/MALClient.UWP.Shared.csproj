@@ -206,6 +206,7 @@
     <Compile Include="XamlConverters\BoolToVisibilityInvertedConverter.cs" />
     <Compile Include="XamlConverters\BoolToWallpaperBlurValueConverter.cs" />
     <Compile Include="XamlConverters\BottomStackMarginToFrameMarginWithAdConverter.cs" />
+    <Compile Include="XamlConverters\ComparisonResultToColorConverter.cs" />
     <Compile Include="XamlConverters\DateToDiffStringConverter.cs" />
     <Compile Include="XamlConverters\DateToStringConverter.cs" />
     <Compile Include="XamlConverters\DisplayModeToPresenterControlVisibility.cs" />
@@ -230,6 +231,7 @@
     <Compile Include="XamlConverters\StringToFlatStringConverter.cs" />
     <Compile Include="XamlConverters\VisiblityInverterConverter.cs" />
     <Compile Include="XamlConverters\WorkModeToPivotFilterVisibility.cs" />
+    <Compile Include="XamlConverters\ZeroToQuestionMarkConverter.cs" />
     <EmbeddedResource Include="Properties\MalClient.Shared.rd.xml" />
   </ItemGroup>
   <ItemGroup>

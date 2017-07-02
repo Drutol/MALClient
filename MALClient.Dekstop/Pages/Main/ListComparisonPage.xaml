@@ -88,11 +88,11 @@
 
 
 
-        <GridView Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Padding="0,4,0,0" ItemsSource="{Binding CurrentItems}"
-                  SelectionMode="Single">
+        <GridView x:Name="GridView" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Padding="0,4,0,0" ItemsSource="{Binding CurrentItems}"
+                  SelectionMode="Single" ContainerContentChanging="GridView_OnContainerContentChanging">
             <GridView.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <ItemsWrapGrid HorizontalAlignment="Center" Orientation="Horizontal" />
+                    <ItemsWrapGrid x:Name="WrapGrid" HorizontalAlignment="Center" Orientation="Horizontal" />
                 </ItemsPanelTemplate>
             </GridView.ItemsPanel>
             <GridView.Header>
@@ -100,13 +100,48 @@
             </GridView.Header>
             <GridView.ItemTemplate>
                 <DataTemplate>
-                    <Grid Height="270" Width="380">
-                        <Image Source="{Binding ImgUrl}" HorizontalAlignment="Stretch"
+                    <Grid Height="270" Width="380" >
+
+                        <RelativePanel Width="380" Height="270">
+                            <Canvas x:Name="MyPanel" 
+                                    RelativePanel.AlignLeftWithPanel="True"
+                                    RelativePanel.AlignTopWithPanel="True"
+                                    Width="380" 
+                                    Height="270">
+
+                                <Image Source="{Binding ImgUrl}"
+                                       Width="380"
+                                       Height="500" 
+                                       Stretch="UniformToFill"/>
+                            </Canvas>
+                            <RelativePanel.Clip>
+                                <RectangleGeometry Rect="0, 0, 380, 270" />
+                            </RelativePanel.Clip>
+                            <interactivity:Interaction.Behaviors>
+                                <behaviors:Blur Value="0" Duration="0" Delay="0" AutomaticallyStart="True" />
+                            </interactivity:Interaction.Behaviors>
+                        </RelativePanel>
+                        <!--<Grid.Clip> Bugged paralax
+                            <RectangleGeometry Rect="0,0,380,270"/>
+                        </Grid.Clip>
+                        <Grid Height="270">
+                            <Grid animations:ParallaxService.VerticalMultiplier="-0.1" Height="400" Margin="0,-50,0,0">
+                                <Grid.Background>
+                                    <ImageBrush ImageSource="{Binding ImgUrl}" Stretch="UniformToFill"/>
+                                </Grid.Background>
+                                <interactivity:Interaction.Behaviors>
+                                    <behaviors:Blur Value="3" Duration="0" Delay="0" AutomaticallyStart="True" />
+                                </interactivity:Interaction.Behaviors>
+                            </Grid>
+
+                        </Grid>-->
+
+                        <!--<Image Source="{Binding ImgUrl}" HorizontalAlignment="Stretch"
                                VerticalAlignment="Stretch" Stretch="UniformToFill">
                             <interactivity:Interaction.Behaviors>
                                 <behaviors:Blur Value="3" Duration="0" Delay="0" AutomaticallyStart="True" />
                             </interactivity:Interaction.Behaviors>
-                        </Image>
+                        </Image>-->
                         <Grid Background="Black" Opacity=".4" />
                         <Grid>
                             <Grid.ColumnDefinitions>
@@ -117,9 +152,6 @@
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="*" />
                             </Grid.RowDefinitions>
-                            <TextBlock Text="{Binding Title}" FontSize="20" HorizontalAlignment="Center"
-                                       MaxLines="2" TextWrapping="WrapWholeWords" TextAlignment="Center" Margin="10,5"
-                                       Visibility="{Binding ElementName=GridItemContainer,Path=Visibility,Converter={StaticResource VisiblityInverterConverter}}" />
                             <Grid x:Name="GridItemContainer" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2"
                                   Visibility="{Binding IsOnMyList}">
                                 <items:AnimeGridItem DataContext="{Binding MyEntry}" />
@@ -139,6 +171,9 @@
                                 </Grid.Background>
                                 <StackPanel HorizontalAlignment="Center" Margin="10" VerticalAlignment="Center"
                                             Visibility="{Binding IsOnlyOnOtherList}">
+                                    <TextBlock Text="{Binding Title}" FontSize="20" HorizontalAlignment="Center"
+                                               MaxLines="2" TextWrapping="WrapWholeWords" TextAlignment="Center" Margin="10,5"
+                                               Visibility="{Binding ElementName=GridItemContainer,Path=Visibility,Converter={StaticResource VisiblityInverterConverter}}" />
                                     <TextBlock TextAlignment="Center" Text="{Binding OtherEntry.MyStatusBind}"
                                                FontSize="22" FontWeight="SemiLight" />
                                     <TextBlock TextAlignment="Center" Margin="0,10,0,0">

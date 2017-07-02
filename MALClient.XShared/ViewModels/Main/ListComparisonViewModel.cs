@@ -4,7 +4,9 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Command;
 using MALClient.Models.Enums;
 using MALClient.Models.Models;
 using MALClient.XShared.Interfaces;
@@ -59,7 +61,7 @@ namespace MALClient.XShared.ViewModels.Main
         public ProfileData OtherData { get; set; }
 
 
-        public SmartObservableCollection<ComparisonItemViewModel> CurrentItems { get; }
+        public SmartObservableCollection<ComparisonItemViewModel> CurrentItems { get; set; }
             = new SmartObservableCollection<ComparisonItemViewModel>();
 
         public ComparisonFilter ComparisonFilter
@@ -127,9 +129,10 @@ namespace MALClient.XShared.ViewModels.Main
 
         public async void NavigatedTo(ListComparisonPageNavigationArgs args)
         {
+            CurrentItems = new SmartObservableCollection<ComparisonItemViewModel>();
+            RaisePropertyChanged(() => CurrentItems);
+
             _navArgs = args;
-            ViewModelLocator.AnimeList.Init(null);
-            await Task.Delay(3000);
             await ViewModelLocator.ProfilePage.LoadProfileData(
                 new ProfilePageNavigationArgs {TargetUser = args.CompareWith.Name});
 
@@ -155,6 +158,22 @@ namespace MALClient.XShared.ViewModels.Main
 
             RefreshList();
         }
+
+        public ICommand NavigateDetailsCommand => new RelayCommand<ComparisonItemViewModel>(viewModel =>
+        {
+            if (viewModel.MyEntry != null)
+            {
+                viewModel.MyEntry.NavigateDetails(PageIndex.PageListComparison,_navArgs);
+            }
+            else
+            {
+                if (ViewModelLocator.Mobile)
+                {
+                    _navMgr.RegisterBackNav(PageIndex.PageListComparison,_navArgs);                   
+                }
+                ViewModelLocator.GeneralMain.Navigate(PageIndex.PageAnimeDetails, new AnimeDetailsPageNavigationArgs(viewModel.Id, viewModel.Title, null, null));
+            }
+        });
 
         public void RefreshList()
         {

@@ -171,6 +171,12 @@
                                                 Content="When you pin someone you can quickly access their profile from hamburger menu." />
                                         </ToolTipService.ToolTip>
                                     </ToggleButton>
+                                    <Button HorizontalAlignment="Right" Margin="0" IsEnabled="{Binding LoadingOhersLibrariesProgressVisiblity,Converter={StaticResource BoolInverterConverter}}" Visibility="{Binding IsMyProfile,Converter={StaticResource BoolInverterConverter}}" Command="{Binding NavigateComparisonCommand}">
+                                        <SymbolIcon Symbol="ReShare"/>
+                                        <ToolTipService.ToolTip>
+                                            <ToolTip Content="Compare lists." />
+                                        </ToolTipService.ToolTip>
+                                    </Button>
                                 </StackPanel>
                               
                             </Grid>

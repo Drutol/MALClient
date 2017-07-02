@@ -121,6 +121,7 @@ namespace MALClient.UWP.ViewModels
                 case PageIndex.PagePopularVideos:
                 case PageIndex.PageFeeds:
                 case PageIndex.PageNotificationHub:
+                case PageIndex.PageListComparison:
 
                     if (index == PageIndex.PageSearch || index == PageIndex.PageMangaSearch ||
                         ((index == PageIndex.PageSearch || index == PageIndex.PageMangaSearch) &&
@@ -440,9 +441,7 @@ namespace MALClient.UWP.ViewModels
         }
 
 
-        #region PropertyPairs   
         private IMainViewInteractions _view;
-
         public IMainViewInteractions View
         {
             get { return _view; }
@@ -454,7 +453,7 @@ namespace MALClient.UWP.ViewModels
                 if (Credentials.Authenticated)
                 {
                     if (hasArgumentsWithSync)
-                        Navigate(Settings.DefaultMenuTab == "anime" ? PageIndex.PageListComparison : PageIndex.PageMangaList,new ListComparisonPageNavigationArgs {CompareWith = new MalUser {Name = "Kimod"}});
+                        Navigate(Settings.DefaultMenuTab == "anime" ? PageIndex.PageAnimeList : PageIndex.PageMangaList);
                             //entry point whatnot
                     else if(InitDetailsFull != null)
                     {
@@ -475,7 +474,7 @@ namespace MALClient.UWP.ViewModels
                 MenuPaneState = Settings.HamburgerMenuDefaultPaneState && ApplicationView.GetForCurrentView().VisibleBounds.Width > 500;
             }
         }
-        #endregion
+
 
         protected override void InitSplitter()
         {

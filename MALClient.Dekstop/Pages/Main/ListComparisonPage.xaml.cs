@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Numerics;
@@ -32,10 +33,12 @@ namespace MALClient.UWP.Pages.Main
     {
         private ListComparisonViewModel _viewModel = ViewModelLocator.Comparison;
         private BlurHelper _blurHelper;
+        private TypeInfo _typeInfo;
+        private ScrollViewer _myScrollViewer;
         private CompositionPropertySet _scrollProperties;
-        private bool _initialized;
         private ScalarNode _parallaxExpression;
         private int _lastColumns;
+        private bool _isWide;
 
         public ListComparisonPage()
         {
@@ -44,32 +47,38 @@ namespace MALClient.UWP.Pages.Main
             SizeChanged += OnSizeChanged;
         }
 
-        private void OnSizeChanged(object sender, SizeChangedEventArgs sizeChangedEventArgs)
+        private async void OnSizeChanged(object sender, SizeChangedEventArgs sizeChangedEventArgs)
         {
-            var newColumns = (int) (GridView.ActualWidth / 380.0f);
+            var newColumns = (int)(GridView.ActualWidth / 380.0f);
             if (newColumns != _lastColumns)
             {
                 _lastColumns = newColumns;
 
-                for (int i = 0; i < _viewModel.CurrentItems.Count; i++)
+                if(_viewModel.CurrentItems.Count == 0)
+                    return;
+                await Task.Delay(100);
+
+                var panel = GridView.GetFirstDescendantOfType<ItemsWrapGrid>();
+
+                for (int i = panel.FirstCacheIndex; i < panel.LastCacheIndex; i++)
                 {
                     var container = GridView.ContainerFromIndex(i);
-                    if(container == null)
+                    if (container == null)
                         return;
                     Image image = container.GetFirstDescendantOfType<Image>();
 
-                    Visual visual = ElementCompositionPreview.GetElementVisual(image);
-                    visual.Size = new Vector2(380, 270);
-
-                    if (!(_parallaxExpression is null))
-                    {
-                        var row = i / (int) (GridView.ActualWidth / 380.0f);
-                        var offset = row * visual.Size.Y;
-                        _parallaxExpression.SetScalarParameter("StartOffset", offset);
-                        visual.StartAnimation("Offset.Y", _parallaxExpression);
-                    }
+                    UpdateParalax(image, i);
                 }
+
+                await Task.Delay(500);
+                _myScrollViewer.ChangeView(null, _myScrollViewer.VerticalOffset + 10, null);
             }
+            var wasWide = _isWide;
+            _isWide = sizeChangedEventArgs.NewSize.Width > 1205;
+            if(wasWide && _isWide)
+                return;
+            UpdateVisualStates();
+
         }
 
         private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
@@ -84,8 +93,8 @@ namespace MALClient.UWP.Pages.Main
             FilterStatusComboBox.SelectedIndex = (int) _viewModel.StatusFilterTarget;
 
             // Get scrollviewer
-            ScrollViewer myScrollViewer = GridView.GetFirstDescendantOfType<ScrollViewer>();
-            _scrollProperties = ElementCompositionPreview.GetScrollViewerManipulationPropertySet(myScrollViewer);
+            _myScrollViewer = GridView.GetFirstDescendantOfType<ScrollViewer>();
+            _scrollProperties = ElementCompositionPreview.GetScrollViewerManipulationPropertySet(_myScrollViewer);
 
             // Setup the expression
             var scrollPropSet = _scrollProperties.GetSpecializedReference<ManipulationPropertySetReferenceNode>();
@@ -95,6 +104,15 @@ namespace MALClient.UWP.Pages.Main
             _parallaxExpression = parallax * parallaxValue - parallax/1.11f;
 
             _lastColumns =  (int)(GridView.ActualWidth / 380.0f);
+
+            _isWide = Root.ActualWidth > 1205;
+            UpdateVisualStates();
+
+            _viewModel.CurrentItems.CollectionChanged += async (o, args) =>
+            {
+                await Task.Delay(500);
+                _myScrollViewer.ChangeView(null, _myScrollViewer.VerticalOffset + 10, null);
+            };
         }
 
 
@@ -103,12 +121,6 @@ namespace MALClient.UWP.Pages.Main
         {
             _viewModel.NavigatedTo(e.Parameter as ListComparisonPageNavigationArgs);
             base.OnNavigatedTo(e);
-        }
-
-        protected override void OnNavigatedFrom(NavigationEventArgs e)
-        {
-            _parallaxExpression.Dispose();
-            base.OnNavigatedFrom(e);
         }
 
         private void OnStatusFilterSelected(object sender, ItemClickEventArgs e)
@@ -136,9 +148,6 @@ namespace MALClient.UWP.Pages.Main
             GridHeader.Height = Header.ActualHeight;
         }
 
-        private TypeInfo _typeInfo;
-
-
         private void FilterStatusComboBox_OnLoaded(object sender, RoutedEventArgs e)
         {
             try
@@ -153,36 +162,58 @@ namespace MALClient.UWP.Pages.Main
             }
         }
 
-        private async void GridView_OnContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
+        private void GridView_OnContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
         {
+
             Image image = args.ItemContainer.ContentTemplateRoot.GetFirstDescendantOfType<Image>();
 
 
             var vm = args.Item as ComparisonItemViewModel;
             if (vm.IsOnMyList)
             {
-                image.Width = 286;
-                image.Height = 359;
-                (image.Parent as FrameworkElement).Margin = new Thickness(130,0,0,0);
+                image.Width = 316;
+                image.Height = 400;
+                if (image.Parent != null)
+                    (image.Parent as FrameworkElement).Margin = new Thickness(115, -40, 0, 0);
             }
             else
             {
                 image.Width = 380;
-                image.Height = 500;
-                (image.Parent as FrameworkElement).Margin = new Thickness(0);
+                image.Height = 560;
+                if (image.Parent != null)
+                    (image.Parent as FrameworkElement).Margin = new Thickness(0, -20, 0, 0);
             }
 
+
+            UpdateParalax(image, args.ItemIndex);
+        }
+
+        private void UpdateParalax(FrameworkElement image, int index)
+        {
             Visual visual = ElementCompositionPreview.GetElementVisual(image);
             visual.Size = new Vector2(380, 270);
 
             if (!(_parallaxExpression is null))
             {
-                var row = args.ItemIndex / (int) (GridView.ActualWidth / 380.0f);
+                var row = index / _lastColumns;
                 var offset = row * visual.Size.Y;
                 _parallaxExpression.SetScalarParameter("StartOffset", offset);
+                visual.StopAnimation("Offset.Y");
                 visual.StartAnimation("Offset.Y", _parallaxExpression);
             }
+        }
 
+        private void UpdateVisualStates()
+        {
+            if (_isWide)
+                VisualStateManager.GoToState(this, "Wide", true);
+            else
+                VisualStateManager.GoToState(this, "Narrow", true);
+        }
+
+        private void GridView_OnItemClick(object sender, ItemClickEventArgs e)
+        {
+            _viewModel.NavigateDetailsCommand.Execute(e.ClickedItem as ComparisonItemViewModel);
         }
     }
 }

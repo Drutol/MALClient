@@ -112,6 +112,7 @@ namespace MALClient.XShared.ViewModels.Main
             ViewModelLocator.GeneralMain.CurrentStatus = $"{_currUser} - Profile";
             var authenticatedUser = args.TargetUser.Equals(Credentials.UserName,
                 StringComparison.CurrentCultureIgnoreCase);
+            IsMyProfile = authenticatedUser;
             RaisePropertyChanged(() => CurrentData);
             LoadingVisibility = false;
             RaisePropertyChanged(() => PinProfileVisibility);
@@ -422,6 +423,15 @@ namespace MALClient.XShared.ViewModels.Main
                 }
             }));
 
+        private ICommand _naviagateComparisonCommand;
+
+        public ICommand NavigateComparisonCommand
+            => _naviagateComparisonCommand ?? (_naviagateComparisonCommand = new RelayCommand(() =>
+            {
+                ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageProfile, new ProfilePageNavigationArgs { TargetUser = CurrentData.User.Name });
+                ViewModelLocator.GeneralMain.Navigate(PageIndex.PageListComparison,new ListComparisonPageNavigationArgs { CompareWith = CurrentData.User});
+            }));
+
         private ICommand _navigateConversationCommand;
 
         public ICommand NavigateConversationCommand
@@ -669,6 +679,16 @@ namespace MALClient.XShared.ViewModels.Main
             }
         }
 
+        public bool IsMyProfile
+        {
+            get { return _isMyProfile; }
+            set
+            {
+                _isMyProfile = value;
+                RaisePropertyChanged();
+            }
+        }
+
         public bool EmptyRecentMangaNoticeVisibility
         {
             get { return _emptyRecentMangaNoticeVisibility; }
@@ -903,6 +923,7 @@ namespace MALClient.XShared.ViewModels.Main
 
         private double _computedHtmlHeight = -1;
         private ICommand _navigateProfileCommand;
+        private bool _isMyProfile;
 
 
         public double ComputedHtmlHeight

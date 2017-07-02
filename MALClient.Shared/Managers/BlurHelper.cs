@@ -77,7 +77,7 @@ namespace MALClient.UWP.Shared.Managers
                     Name = "Blur",
                     BlurAmount = 3.0f,
                     BorderMode = EffectBorderMode.Soft,
-                    Optimization = EffectOptimization.Speed
+                    Optimization = EffectOptimization.Balanced
                 };
                 blurEffect.Source = new CompositionEffectSourceParameter("source");
 

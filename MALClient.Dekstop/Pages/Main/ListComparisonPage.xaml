@@ -11,6 +11,8 @@
     xmlns:xamlConverters="using:MALClient.UWP.Shared.XamlConverters"
     xmlns:main="using:MALClient.XShared.ViewModels.Main"
     xmlns:enums="using:MALClient.Models.Enums"
+    xmlns:attachedProperties="using:MALClient.UWP.Shared.UserControls.AttachedProperties"
+    xmlns:extensions="using:WinRTXamlToolkit.Controls.Extensions"
     mc:Ignorable="d" DataContext="{Binding Source={StaticResource Locator},Path=Comparison}">
 
 
@@ -21,7 +23,7 @@
         <xamlConverters:ZeroToQuestionMarkConverter x:Key="ZeroToQuestionMarkConverter" />
     </Page.Resources>
 
-    <Grid Background="{ThemeResource BrushDeepBackground}">
+    <Grid Background="{ThemeResource BrushDeepBackground}" x:Name="Root">
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
@@ -29,11 +31,8 @@
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
                 <VisualState x:Name="Wide">
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="1450" />
-                    </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="MyRow.(Grid.Column)" Value="0" />
+                        <!--<Setter Target="MyRow.(Grid.Column)" Value="0" />
                         <Setter Target="MyRow.(Grid.ColumnSpan)" Value="1" />
                         <Setter Target="MyRow.(Grid.Row)" Value="0" />
                         <Setter Target="MyRow.(Grid.RowSpan)" Value="2" />
@@ -41,17 +40,16 @@
                         <Setter Target="OtherRow.(Grid.Column)" Value="1" />
                         <Setter Target="OtherRow.(Grid.ColumnSpan)" Value="1" />
                         <Setter Target="OtherRow.(Grid.Row)" Value="0" />
-                        <Setter Target="OtherRow.(Grid.RowSpan)" Value="2" />
-                        
-                        <Setter Target="HeaderIcon.Visibility" Value="Visible"/>
+                        <Setter Target="OtherRow.(Grid.RowSpan)" Value="2" />-->
+
+                        <Setter Target="MyWatchStats.Visibility" Value="Visible"/>
+                        <Setter Target="OtherWatchStats.Visibility" Value="Visible"/>
+
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="Narrow">
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="0" />
-                    </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="MyRow.(Grid.Column)" Value="0" />
+                        <!--<Setter Target="MyRow.(Grid.Column)" Value="0" />
                         <Setter Target="MyRow.(Grid.ColumnSpan)" Value="2" />
                         <Setter Target="MyRow.(Grid.Row)" Value="0" />
                         <Setter Target="MyRow.(Grid.RowSpan)" Value="1" />
@@ -59,10 +57,11 @@
                         <Setter Target="OtherRow.(Grid.Column)" Value="0" />
                         <Setter Target="OtherRow.(Grid.ColumnSpan)" Value="2" />
                         <Setter Target="OtherRow.(Grid.Row)" Value="1" />
-                        <Setter Target="OtherRow.(Grid.RowSpan)" Value="1" />
+                        <Setter Target="OtherRow.(Grid.RowSpan)" Value="1" />-->
 
-                        <Setter Target="HeaderIcon.Visibility" Value="Collapsed"/>
-
+                        <Setter Target="MyWatchStats.Visibility" Value="Collapsed"/>
+                        <Setter Target="OtherWatchStats.Visibility" Value="Collapsed"/>
+                        
                     </VisualState.Setters>
                 </VisualState>
                 <!--<VisualState x:Name="ShowWatchStats">
@@ -89,10 +88,10 @@
 
 
         <GridView x:Name="GridView" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Padding="0,4,0,0" ItemsSource="{Binding CurrentItems}"
-                  SelectionMode="Single" ContainerContentChanging="GridView_OnContainerContentChanging">
+                  SelectionMode="Single" ContainerContentChanging="GridView_OnContainerContentChanging" IsItemClickEnabled="True" ItemClick="GridView_OnItemClick">
             <GridView.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <ItemsWrapGrid x:Name="WrapGrid" HorizontalAlignment="Center" Orientation="Horizontal" />
+                    <ItemsWrapGrid HorizontalAlignment="Center" Orientation="Horizontal" />
                 </ItemsPanelTemplate>
             </GridView.ItemsPanel>
             <GridView.Header>
@@ -109,17 +108,14 @@
                                     Width="380" 
                                     Height="270">
 
-                                <Image Source="{Binding ImgUrl}"
-                                       Width="380"
+                                <Image attachedProperties:AnimeImageExtensions.MalBaseImageSource="{Binding ImgUrl}"
+                                       Width="380" extensions:ImageExtensions.FadeInOnLoaded="True"
                                        Height="500" 
                                        Stretch="UniformToFill"/>
                             </Canvas>
                             <RelativePanel.Clip>
                                 <RectangleGeometry Rect="0, 0, 380, 270" />
                             </RelativePanel.Clip>
-                            <interactivity:Interaction.Behaviors>
-                                <behaviors:Blur Value="0" Duration="0" Delay="0" AutomaticallyStart="True" />
-                            </interactivity:Interaction.Behaviors>
                         </RelativePanel>
                         <!--<Grid.Clip> Bugged paralax
                             <RectangleGeometry Rect="0,0,380,270"/>
@@ -156,6 +152,9 @@
                                   Visibility="{Binding IsOnMyList}">
                                 <items:AnimeGridItem DataContext="{Binding MyEntry}" />
                             </Grid>
+                            <TextBlock Text="{Binding Title}" FontSize="20" HorizontalAlignment="Center"
+                                       MaxLines="2" TextWrapping="WrapWholeWords" TextAlignment="Center" Margin="10"
+                                       Visibility="{Binding ElementName=GridItemContainer,Path=Visibility,Converter={StaticResource VisiblityInverterConverter}}" />
                             <Grid Grid.Column="0" Grid.Row="1" HorizontalAlignment="Stretch"
                                   VerticalAlignment="Stretch"
                                   Visibility="{Binding ElementName=GridItemContainer,Path=Visibility,Converter={StaticResource VisiblityInverterConverter}}">
@@ -171,9 +170,6 @@
                                 </Grid.Background>
                                 <StackPanel HorizontalAlignment="Center" Margin="10" VerticalAlignment="Center"
                                             Visibility="{Binding IsOnlyOnOtherList}">
-                                    <TextBlock Text="{Binding Title}" FontSize="20" HorizontalAlignment="Center"
-                                               MaxLines="2" TextWrapping="WrapWholeWords" TextAlignment="Center" Margin="10,5"
-                                               Visibility="{Binding ElementName=GridItemContainer,Path=Visibility,Converter={StaticResource VisiblityInverterConverter}}" />
                                     <TextBlock TextAlignment="Center" Text="{Binding OtherEntry.MyStatusBind}"
                                                FontSize="22" FontWeight="SemiLight" />
                                     <TextBlock TextAlignment="Center" Margin="0,10,0,0">
@@ -198,12 +194,23 @@
                                         </SymbolIcon>
                                     </StackPanel>
                                 </Grid>
-                                <TextBlock TextAlignment="Center" Text="{Binding OtherEntry.MyStatusBind}"
-                                           FontSize="18" FontWeight="SemiLight" Margin="10"
-                                           Visibility="{Binding IsComparisonValid}" />
+
                                 <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Center"
                                             Visibility="{Binding IsComparisonValid}">
-                                    <Grid Padding="10">
+
+
+
+                                    <Grid Padding="5">
+                                        <Grid.Background>
+                                            <SolidColorBrush Color="Black" Opacity=".4" />
+                                        </Grid.Background>
+                                        <TextBlock TextAlignment="Center" 
+                                                   FontSize="16" FontWeight="SemiLight">
+                                            <Run Text="{Binding MyEntry.MyStatusBind}"/> - <Run Text="{Binding OtherEntry.MyStatusBind}"/>
+                                        </TextBlock>
+                                    </Grid>
+
+                                    <Grid Padding="10" Margin="0,10,0,0">
                                         <Grid.Background>
                                             <SolidColorBrush Color="Black" Opacity=".4" />
                                         </Grid.Background>
@@ -297,12 +304,12 @@
                 </Grid.Background>
             </Grid>
 
-            <SymbolIcon x:Name="HeaderIcon" Grid.ColumnSpan="2" Grid.RowSpan="2" RenderTransformOrigin="0.5,0.5" Symbol="Switch"
+            <!--<SymbolIcon x:Name="HeaderIcon" Grid.ColumnSpan="2" Grid.RowSpan="2" RenderTransformOrigin="0.5,0.5" Symbol="Switch"
                         Foreground="LightGray" VerticalAlignment="Center" HorizontalAlignment="Center" Opacity=".5">
                 <SymbolIcon.RenderTransform>
                     <ScaleTransform ScaleY="2" ScaleX="2" />
                 </SymbolIcon.RenderTransform>
-            </SymbolIcon>
+            </SymbolIcon>-->
 
             <Grid x:Name="MyRow" Padding="20">
                 <Grid.ColumnDefinitions>
@@ -371,7 +378,7 @@
 
             </Grid >
 
-            <Grid x:Name="OtherRow" HorizontalAlignment="Stretch" Padding="20">
+            <Grid x:Name="OtherRow" HorizontalAlignment="Stretch" Padding="20" Grid.Column="1"> 
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="Auto" />

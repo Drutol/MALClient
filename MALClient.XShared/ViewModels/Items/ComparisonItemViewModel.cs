@@ -30,21 +30,32 @@ namespace MALClient.XShared.ViewModels.Items
             MyEntry = myEntry;
             OtherEntry = otherEntry;
 
+            var setBasicData = false;
+
             if (MyEntry != null)
             {
                 MyEntry.ChangedScore += EntryOnChangedScore;
                 MyEntry.ChangedAuth += MyEntryOnChangedAuth;
                 MyEntry.ChangedWatched += EntryOnChangedWatched;
+
                 Title = MyEntry.Title;
                 ImgUrl = MyEntry.ImgUrl;
+                Id = MyEntry.Id;
+
+                setBasicData = true;
             }
             if (OtherEntry != null)
             {
                 OtherEntry.ChangedScore += EntryOnChangedScore;
                 OtherEntry.ChangedWatched += EntryOnChangedWatched;
 
-                Title = OtherEntry.Title;
-                ImgUrl = OtherEntry.ImgUrl;
+                if (!setBasicData)
+                {
+                    Title = OtherEntry.Title;
+                    ImgUrl = OtherEntry.ImgUrl;
+                    Id = OtherEntry.Id;
+                }
+
             }
 
             IsComparisonValid = myEntry != null && otherEntry != null;
@@ -142,6 +153,7 @@ namespace MALClient.XShared.ViewModels.Items
 
         public string Title { get; set; }
         public string ImgUrl { get; set; }
+        public int Id { get; set; }
 
 
         private void UpdateScoreDiff()

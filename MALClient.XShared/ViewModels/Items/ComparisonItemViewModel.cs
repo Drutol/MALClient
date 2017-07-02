@@ -55,7 +55,17 @@ namespace MALClient.XShared.ViewModels.Items
 
 
 
-        public string ScoreDifferenceBind => ScoreDifference == 0 ? "-" : ScoreDifference.ToString();
+        public string ScoreDifferenceBind
+        {
+            get
+            {
+                if (ScoreDifference == 0)
+                    return "-";
+                if (ScoreDifference > 0)
+                    return $"+{ScoreDifference}";
+                return ScoreDifference.ToString();
+            }
+        }
 
         public int ScoreDifference
         {
@@ -68,7 +78,17 @@ namespace MALClient.XShared.ViewModels.Items
             }
         }
 
-        public string WatchedDifferenceBind => WatchedDifference == 0 ? "-" : WatchedDifference.ToString();
+        public string WatchedDifferenceBind
+        {
+            get
+            {
+                if (WatchedDifference == 0)
+                    return "-";
+                if (WatchedDifference > 0)
+                    return $"+{WatchedDifference}";
+                return WatchedDifference.ToString();
+            }
+        }
 
         public int WatchedDifference
         {

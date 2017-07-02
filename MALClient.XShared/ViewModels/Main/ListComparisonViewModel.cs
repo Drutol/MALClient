@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using GalaSoft.MvvmLight;
 using MALClient.Models.Enums;
+using MALClient.Models.Models;
 using MALClient.XShared.Interfaces;
 using MALClient.XShared.NavArgs;
 using MALClient.XShared.Utils;
@@ -53,6 +54,9 @@ namespace MALClient.XShared.ViewModels.Main
         private AnimeStatus _statusFilter = AnimeStatus.AllOrAiring;
         private ComparisonStatusFilterTarget _statusFilterTarget;
         private bool _sortAscending;
+
+        public ProfileData MyData { get; set; }
+        public ProfileData OtherData { get; set; }
 
 
         public SmartObservableCollection<ComparisonItemViewModel> CurrentItems { get; }
@@ -109,6 +113,7 @@ namespace MALClient.XShared.ViewModels.Main
             {
                 _sortAscending = value;
                 RaisePropertyChanged();
+                RefreshList();
             }
         }
 
@@ -127,6 +132,12 @@ namespace MALClient.XShared.ViewModels.Main
             await Task.Delay(5000);
             await ViewModelLocator.ProfilePage.LoadProfileData(
                 new ProfilePageNavigationArgs {TargetUser = args.CompareWith.Name});
+
+            MyData = await DataCache.RetrieveProfileData(Credentials.UserName);
+            OtherData = await DataCache.RetrieveProfileData(args.CompareWith.Name);
+            RaisePropertyChanged(() => MyData);
+            RaisePropertyChanged(() => OtherData);
+
             var otherItems = _animeLibraryDataStorage.OthersAbstractions[_navArgs.CompareWith.Name].Item1;
 
             foreach (var myItem in _animeLibraryDataStorage.AllLoadedAuthAnimeItems)

@@ -35,6 +35,22 @@
                 </Style>
             </Setter.Value>
         </Setter>
+    </Style>    
+    
+    <Style x:Key="FancyOptBiggerListFlyoutStyle" TargetType="ListView">
+        <Setter Property="Margin" Value="-20,0"/>
+        <Setter Property="SelectionMode" Value="None"/>
+        <Setter Property="IsItemClickEnabled" Value="True"/>
+        <Setter Property="ItemContainerStyle">
+            <Setter.Value>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="Background" Value="{ThemeResource BrushHamburgerInnerBackground}"/>
+                    <Setter Property="MinHeight" Value="40"/>
+                    <Setter Property="Margin" Value="0,2"/>
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                </Style>
+            </Setter.Value>
+        </Setter>
     </Style>
     
 </ResourceDictionary>

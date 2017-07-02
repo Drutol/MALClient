@@ -26,34 +26,78 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <GridView HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemsSource="{Binding CurrentItems}"
-                  SelectionMode="Single">
-            <interactivity:Interaction.Behaviors>
-                <behaviors:FadeHeaderBehavior />
-            </interactivity:Interaction.Behaviors>
-            <GridView.Header>
-                <Grid Background="{ThemeResource BrushAnimeItemInnerBackground}">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="*" />
-                    </Grid.RowDefinitions>
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState x:Name="Wide">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="1450" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="MyRow.(Grid.Column)" Value="0" />
+                        <Setter Target="MyRow.(Grid.ColumnSpan)" Value="1" />
+                        <Setter Target="MyRow.(Grid.Row)" Value="0" />
+                        <Setter Target="MyRow.(Grid.RowSpan)" Value="2" />
 
-                    <Ellipse Width="50" Height="50" Margin="20">
-                        <Ellipse.Fill>
-                            <ImageBrush ImageSource="https://myanimelist.cdn-dena.com/images/userimages/4893169.jpg" />
-                        </Ellipse.Fill>
-                    </Ellipse>
-                </Grid>
-            </GridView.Header>
+                        <Setter Target="OtherRow.(Grid.Column)" Value="1" />
+                        <Setter Target="OtherRow.(Grid.ColumnSpan)" Value="1" />
+                        <Setter Target="OtherRow.(Grid.Row)" Value="0" />
+                        <Setter Target="OtherRow.(Grid.RowSpan)" Value="2" />
+                        
+                        <Setter Target="HeaderIcon.Visibility" Value="Visible"/>
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Narrow">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="MyRow.(Grid.Column)" Value="0" />
+                        <Setter Target="MyRow.(Grid.ColumnSpan)" Value="2" />
+                        <Setter Target="MyRow.(Grid.Row)" Value="0" />
+                        <Setter Target="MyRow.(Grid.RowSpan)" Value="1" />
+
+                        <Setter Target="OtherRow.(Grid.Column)" Value="0" />
+                        <Setter Target="OtherRow.(Grid.ColumnSpan)" Value="2" />
+                        <Setter Target="OtherRow.(Grid.Row)" Value="1" />
+                        <Setter Target="OtherRow.(Grid.RowSpan)" Value="1" />
+
+                        <Setter Target="HeaderIcon.Visibility" Value="Collapsed"/>
+
+                    </VisualState.Setters>
+                </VisualState>
+                <!--<VisualState x:Name="ShowWatchStats">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="1000" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="OtherWatchStats.Visibility" Value="Visible" />
+                        <Setter Target="MyWatchStats.Visibility" Value="Visible" />
+                    </VisualState.Setters>
+                </VisualState>                
+                <VisualState x:Name="HideWatchStats">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="OtherWatchStats.Visibility" Value="Collapsed" />
+                        <Setter Target="MyWatchStats.Visibility" Value="Collapsed" />
+                    </VisualState.Setters>
+                </VisualState>-->
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+
+
+
+        <GridView Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Padding="0,4,0,0" ItemsSource="{Binding CurrentItems}"
+                  SelectionMode="Single">
             <GridView.ItemsPanel>
                 <ItemsPanelTemplate>
                     <ItemsWrapGrid HorizontalAlignment="Center" Orientation="Horizontal" />
                 </ItemsPanelTemplate>
             </GridView.ItemsPanel>
+            <GridView.Header>
+                <Grid x:Name="GridHeader"/>
+            </GridView.Header>
             <GridView.ItemTemplate>
                 <DataTemplate>
                     <Grid Height="270" Width="380">
@@ -83,16 +127,18 @@
                             <Grid Grid.Column="0" Grid.Row="1" HorizontalAlignment="Stretch"
                                   VerticalAlignment="Stretch"
                                   Visibility="{Binding ElementName=GridItemContainer,Path=Visibility,Converter={StaticResource VisiblityInverterConverter}}">
-                                <Button Width="50" Height="50" HorizontalAlignment="Center" Command="{Binding AddToMyListCommand}">
+                                <Button Width="50" Height="50" HorizontalAlignment="Center"
+                                        Command="{Binding AddToMyListCommand}">
                                     <SymbolIcon Symbol="Add" />
                                 </Button>
                             </Grid>
                             <Grid Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" HorizontalAlignment="Stretch"
-                                  VerticalAlignment="Stretch" >
+                                  VerticalAlignment="Stretch">
                                 <Grid.Background>
-                                    <SolidColorBrush Color="Black" Opacity=".25" />
+                                    <SolidColorBrush Color="Black" Opacity=".3" />
                                 </Grid.Background>
-                                <StackPanel HorizontalAlignment="Center" Margin="10" VerticalAlignment="Center" Visibility="{Binding IsOnlyOnOtherList}">
+                                <StackPanel HorizontalAlignment="Center" Margin="10" VerticalAlignment="Center"
+                                            Visibility="{Binding IsOnlyOnOtherList}">
                                     <TextBlock TextAlignment="Center" Text="{Binding OtherEntry.MyStatusBind}"
                                                FontSize="22" FontWeight="SemiLight" />
                                     <TextBlock TextAlignment="Center" Margin="0,10,0,0">
@@ -101,70 +147,88 @@
                                         <LineBreak /><Run Text="Watched" />
                                     </TextBlock>
                                     <TextBlock TextAlignment="Center" Margin="0,10,0,0">
-                                        <Run Text="{Binding OtherEntry.MyScore,Converter={StaticResource ZeroToQuestionMarkConverter}}" FontSize="26" FontWeight="SemiLight" />
+                                        <Run
+                                            Text="{Binding OtherEntry.MyScore,Converter={StaticResource ZeroToQuestionMarkConverter}}"
+                                            FontSize="26" FontWeight="SemiLight" />
                                         <LineBreak /><Run Text="Score" />
                                     </TextBlock>
-                                </StackPanel>     
-                                <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding IsOnlyOnMyList}">
+                                </StackPanel>
+                                <Grid HorizontalAlignment="Center" VerticalAlignment="Center"
+                                      Visibility="{Binding IsOnlyOnMyList}">
                                     <StackPanel>
                                         <SymbolIcon Symbol="BlockContact" RenderTransformOrigin="0.5,0.5">
                                             <SymbolIcon.RenderTransform>
-                                                <ScaleTransform ScaleX="2" ScaleY="2"/>
+                                                <ScaleTransform ScaleX="2" ScaleY="2" />
                                             </SymbolIcon.RenderTransform>
                                         </SymbolIcon>
                                     </StackPanel>
                                 </Grid>
                                 <TextBlock TextAlignment="Center" Text="{Binding OtherEntry.MyStatusBind}"
-                                           FontSize="18" FontWeight="SemiLight"  Margin="10" Visibility="{Binding IsComparisonValid}"/>
-                                <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Center" Visibility="{Binding IsComparisonValid}">
+                                           FontSize="18" FontWeight="SemiLight" Margin="10"
+                                           Visibility="{Binding IsComparisonValid}" />
+                                <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Center"
+                                            Visibility="{Binding IsComparisonValid}">
                                     <Grid Padding="10">
                                         <Grid.Background>
-                                            <SolidColorBrush Color="Black" Opacity=".4"></SolidColorBrush>
+                                            <SolidColorBrush Color="Black" Opacity=".4" />
                                         </Grid.Background>
                                         <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto"/>
-                                            <ColumnDefinition Width="*"/>
-                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
                                         </Grid.ColumnDefinitions>
                                         <Grid.RowDefinitions>
-                                            <RowDefinition Height="*"/>
-                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="*" />
+                                            <RowDefinition Height="Auto" />
                                         </Grid.RowDefinitions>
 
-                                        <TextBlock VerticalAlignment="Center" Grid.Row="0" Text="{Binding MyEntry.MyScore,Converter={StaticResource ZeroToQuestionMarkConverter}}" FontSize="30" FontWeight="SemiLight" Margin="15,0"/>
+                                        <TextBlock VerticalAlignment="Center" Grid.Row="0"
+                                                   Text="{Binding MyEntry.MyScore,Converter={StaticResource ZeroToQuestionMarkConverter}}"
+                                                   FontSize="30" FontWeight="SemiLight" Margin="15,0" />
 
                                         <Grid Grid.Row="0" Grid.Column="1" HorizontalAlignment="Stretch">
-                                            <TextBlock Text="{Binding ScoreDifferenceBind}" Foreground="{Binding ScoreDifference, Converter={StaticResource ComparisonResultToColorConverter}}" FontSize="38" HorizontalAlignment="Center" FontWeight="SemiLight"/>
+                                            <TextBlock Text="{Binding ScoreDifferenceBind}"
+                                                       Foreground="{Binding ScoreDifference, Converter={StaticResource ComparisonResultToColorConverter}}"
+                                                       FontSize="38" HorizontalAlignment="Center"
+                                                       FontWeight="SemiLight" />
                                         </Grid>
 
-                                        <TextBlock VerticalAlignment="Center" Grid.Row="0" Grid.Column="2" Text="{Binding OtherEntry.MyScore,Converter={StaticResource ZeroToQuestionMarkConverter}}" FontSize="30" FontWeight="SemiLight" Margin="15,0"/>
-                                        <TextBlock Grid.Row="1" Grid.Column="1" TextAlignment="Center" Text="Score">
-                                        </TextBlock>
+                                        <TextBlock VerticalAlignment="Center" Grid.Row="0" Grid.Column="2"
+                                                   Text="{Binding OtherEntry.MyScore,Converter={StaticResource ZeroToQuestionMarkConverter}}"
+                                                   FontSize="30" FontWeight="SemiLight" Margin="15,0" />
+                                        <TextBlock Grid.Row="1" Grid.Column="1" TextAlignment="Center" Text="Score" />
                                     </Grid>
-                                    
-                                    <Grid Padding="10" Margin="0,10,0,0" Visibility="{Binding WatchedComparisonBarVisibility}">
+
+                                    <Grid Padding="10" Margin="0,10,0,0"
+                                          Visibility="{Binding WatchedComparisonBarVisibility}">
                                         <Grid.Background>
-                                            <SolidColorBrush Color="Black" Opacity=".4"></SolidColorBrush>
+                                            <SolidColorBrush Color="Black" Opacity=".4" />
                                         </Grid.Background>
                                         <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto"/>
-                                            <ColumnDefinition Width="*"/>
-                                            <ColumnDefinition Width="Auto"/>
-                                        </Grid.ColumnDefinitions>                                        
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
                                         <Grid.RowDefinitions>
-                                            <RowDefinition Height="*"/>
-                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="*" />
+                                            <RowDefinition Height="Auto" />
                                         </Grid.RowDefinitions>
 
-                                        <TextBlock VerticalAlignment="Center" Grid.Row="0" Text="{Binding MyEntry.MyEpisodes}" FontSize="30" FontWeight="SemiLight" Margin="15,0"/>
+                                        <TextBlock VerticalAlignment="Center" Grid.Row="0"
+                                                   Text="{Binding MyEntry.MyEpisodes}" FontSize="30"
+                                                   FontWeight="SemiLight" Margin="15,0" />
 
                                         <Grid Grid.Row="0" Grid.Column="1" HorizontalAlignment="Stretch">
-                                            <TextBlock Text="{Binding WatchedDifferenceBind}" Foreground="{Binding WatchedDifference,Converter={StaticResource ComparisonResultToColorConverter}}" FontSize="38" HorizontalAlignment="Center" FontWeight="SemiLight"/>
+                                            <TextBlock Text="{Binding WatchedDifferenceBind}"
+                                                       Foreground="{Binding WatchedDifference,Converter={StaticResource ComparisonResultToColorConverter}}"
+                                                       FontSize="38" HorizontalAlignment="Center"
+                                                       FontWeight="SemiLight" />
                                         </Grid>
 
-                                        <TextBlock VerticalAlignment="Center" Grid.Row="0" Grid.Column="2" Text="{Binding OtherEntry.MyEpisodes}" FontSize="30" FontWeight="SemiLight" Margin="15,0"/>
-                                        <TextBlock Grid.Row="1" Grid.Column="1" TextAlignment="Center" Text="Watched">
-                                        </TextBlock>
+                                        <TextBlock VerticalAlignment="Center" Grid.Row="0" Grid.Column="2"
+                                                   Text="{Binding OtherEntry.MyEpisodes}" FontSize="30"
+                                                   FontWeight="SemiLight" Margin="15,0" />
+                                        <TextBlock Grid.Row="1" Grid.Column="1" TextAlignment="Center" Text="Watched" />
                                     </Grid>
                                 </StackPanel>
                             </Grid>
@@ -173,9 +237,172 @@
                 </DataTemplate>
             </GridView.ItemTemplate>
         </GridView>
+        <Grid x:Name="Header" Background="Transparent" Grid.Row="0" VerticalAlignment="Top" SizeChanged="Header_OnSizeChanged">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
 
+            <Grid x:Name="HeaderBlurBg" Grid.ColumnSpan="2" Grid.RowSpan="2"/>
+            <Grid Grid.ColumnSpan="2" Grid.RowSpan="2" BorderThickness="0,0,0,1">
+                <Grid.BorderBrush>
+                    <SolidColorBrush Color="White" Opacity=".4"></SolidColorBrush>
+                </Grid.BorderBrush>
+                <Grid.Background>
+                    <SolidColorBrush Color="Black" Opacity=".4"/>
+                </Grid.Background>
+            </Grid>
+            <Grid Grid.ColumnSpan="2" Grid.RowSpan="2">
+                <Grid.Background>
+                    <SolidColorBrush Color="{StaticResource SystemAccentColor}" Opacity=".05"></SolidColorBrush>
+                </Grid.Background>
+            </Grid>
+
+            <SymbolIcon x:Name="HeaderIcon" Grid.ColumnSpan="2" Grid.RowSpan="2" RenderTransformOrigin="0.5,0.5" Symbol="Switch"
+                        Foreground="LightGray" VerticalAlignment="Center" HorizontalAlignment="Center" Opacity=".5">
+                <SymbolIcon.RenderTransform>
+                    <ScaleTransform ScaleY="2" ScaleX="2" />
+                </SymbolIcon.RenderTransform>
+            </SymbolIcon>
+
+            <Grid x:Name="MyRow" Padding="20">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+
+                <StackPanel VerticalAlignment="Center">
+                    <Ellipse Width="50" Height="50">
+                        <Ellipse.Fill>
+                            <ImageBrush ImageSource="{Binding MyData.User.ImgUrl}" />
+                        </Ellipse.Fill>
+                    </Ellipse>
+                    <TextBlock Text="{Binding MyData.User.Name}" FontSize="26" FontWeight="SemiLight"
+                               HorizontalAlignment="Center" />
+                </StackPanel>
+
+                <StackPanel Margin="20,0,0,0" Grid.Column="1" Orientation="Horizontal"
+                            HorizontalAlignment="Left" VerticalAlignment="Center">
+                    <StackPanel x:Name="MyWatchStats" Orientation="Horizontal">
+
+
+                        <TextBlock TextAlignment="Center" Margin="7,0">
+                            <Run Text="{Binding MyData.AnimeWatching}" FontSize="26"
+                                 FontWeight="SemiLight" />
+                            <LineBreak /><Run Text="Watching" />
+                        </TextBlock>
+
+
+                        <TextBlock TextAlignment="Center" Margin="7,0">
+                            <Run Text="{Binding MyData.AnimeCompleted}" FontSize="26"
+                                 FontWeight="SemiLight" />
+                            <LineBreak /><Run Text="Completed" />
+                        </TextBlock>
+
+
+                        <TextBlock TextAlignment="Center" Margin="7,0">
+                            <Run Text="{Binding MyData.AnimeOnHold}" FontSize="26"
+                                 FontWeight="SemiLight" />
+                            <LineBreak /><Run Text="On Hold" />
+                        </TextBlock>
+
+
+                        <TextBlock TextAlignment="Center" Margin="7,0">
+                            <Run Text="{Binding MyData.AnimeDropped}" FontSize="26"
+                                 FontWeight="SemiLight" />
+                            <LineBreak /><Run Text="Dropped" />
+                        </TextBlock>
+
+
+                        <TextBlock TextAlignment="Center" Margin="7,0">
+                            <Run Text="{Binding MyData.AnimePlanned}" FontSize="26"
+                                 FontWeight="SemiLight" />
+                            <LineBreak /><Run Text="Planned" />
+                        </TextBlock>
+                    </StackPanel>
+                    <TextBlock TextAlignment="Center" Margin="7,0">
+                        <Run Text="{Binding MyData.AnimeMean}" FontSize="26"
+                             FontWeight="SemiLight" />
+                        <LineBreak /><Run Text="Mean score" />
+                    </TextBlock>
+
+                </StackPanel>
+
+
+            </Grid >
+
+            <Grid x:Name="OtherRow" HorizontalAlignment="Stretch" Padding="20">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,20,0"
+                            VerticalAlignment="Center">
+                    <StackPanel x:Name="OtherWatchStats" Orientation="Horizontal">
+                        <TextBlock TextAlignment="Center" Margin="7,0">
+                            <Run Text="{Binding OtherData.AnimeWatching}" FontSize="26"
+                                 FontWeight="SemiLight" />
+                            <LineBreak /><Run Text="Watching" />
+                        </TextBlock>
+
+
+                        <TextBlock TextAlignment="Center" Margin="7,0">
+                            <Run Text="{Binding OtherData.AnimeCompleted}" FontSize="26"
+                                 FontWeight="SemiLight" />
+                            <LineBreak /><Run Text="Completed" />
+                        </TextBlock>
+
+
+                        <TextBlock TextAlignment="Center" Margin="7,0">
+                            <Run Text="{Binding OtherData.AnimeOnHold}" FontSize="26"
+                                 FontWeight="SemiLight" />
+                            <LineBreak /><Run Text="On Hold" />
+                        </TextBlock>
+
+
+                        <TextBlock TextAlignment="Center" Margin="7,0">
+                            <Run Text="{Binding OtherData.AnimeDropped}" FontSize="26"
+                                 FontWeight="SemiLight" />
+                            <LineBreak /><Run Text="Dropped" />
+                        </TextBlock>
+
+
+                        <TextBlock TextAlignment="Center" Margin="7,0">
+                            <Run Text="{Binding OtherData.AnimePlanned}" FontSize="26"
+                                 FontWeight="SemiLight" />
+                            <LineBreak /><Run Text="Planned" />
+                        </TextBlock>
+                    </StackPanel>
+                    <TextBlock TextAlignment="Center" Margin="7,0">
+                        <Run Text="{Binding OtherData.AnimeMean}" FontSize="26"
+                             FontWeight="SemiLight" />
+                        <LineBreak /><Run Text="Mean score" />
+                    </TextBlock>
+
+                </StackPanel>
+
+
+                <Grid Grid.Column="1">
+                    <StackPanel>
+                        <Ellipse Width="50" Height="50">
+                            <Ellipse.Fill>
+                                <ImageBrush ImageSource="{Binding OtherData.User.ImgUrl}" />
+                            </Ellipse.Fill>
+                        </Ellipse>
+                        <TextBlock Text="{Binding OtherData.User.Name}" FontSize="26" FontWeight="SemiLight"
+                                   HorizontalAlignment="Center" />
+                    </StackPanel>
+                </Grid>
+            </Grid>
+
+
+        </Grid>
         <CommandBar Grid.Row="1" IsSticky="True">
-
             <CommandBar.Resources>
                 <ResourceDictionary>
                     <ResourceDictionary.MergedDictionaries>
@@ -206,7 +433,7 @@
             <AppBarButton Icon="Crop" Label="Comaprison filter">
                 <AppBarButton.Flyout>
                     <Flyout x:Name="ComparisonFilters">
-                        <ListView Style="{StaticResource FancyBiggerListFlyoutStyle}" Width="150"
+                        <ListView x:Name="ComparisonFiltersList" Style="{StaticResource FancyOptBiggerListFlyoutStyle}" Width="170"
                                   ItemClick="OnComparisonStatusFilterSelected"
                                   SelectionMode="Single">
                             <ListView.Resources>
@@ -222,7 +449,8 @@
                                     <TextBlock Tag="{StaticResource My}" Text="Show my items" />
                                 </ListViewItem>
                                 <ListViewItem>
-                                    <TextBlock Tag="{StaticResource Other}" Text="Show other user's items" TextAlignment="Center" TextWrapping="WrapWholeWords" />
+                                    <TextBlock Margin="0,4" Tag="{StaticResource Other}" Text="Show other user's items"
+                                               TextAlignment="Center" TextWrapping="WrapWholeWords" />
                                 </ListViewItem>
                                 <ListViewItem>
                                     <TextBlock Tag="{StaticResource AllComp}" Text="Show all items" />
@@ -237,7 +465,7 @@
                 <AppBarButton.Flyout>
                     <Flyout x:Name="FiltersFlyout">
                         <StackPanel>
-                            <ListView Style="{StaticResource FancyBiggerListFlyoutStyle}" Width="150"
+                            <ListView x:Name="StatusFiltersList" Style="{StaticResource FancyBiggerListFlyoutStyle}" Width="150"
                                       ItemClick="OnStatusFilterSelected"
                                       SelectionMode="Single">
                                 <ListView.Resources>
@@ -266,10 +494,12 @@
                                     </ListViewItem>
                                 </ListView.Items>
                             </ListView>
-                            <ComboBox Header="Apply to:" SelectedIndex="0" Margin="0,5,0,0" HorizontalAlignment="Stretch" SelectionChanged="Selector_OnSelectionChanged" x:Name="FilterStatusComboBox">
-                                <ComboBoxItem Content="My items"/>
-                                <ComboBoxItem Content="Other items"/>
-                                <ComboBoxItem Content="Both items"/>
+                            <ComboBox Header="Apply to:" SelectedIndex="0" Margin="0,5,0,0" Loaded="FilterStatusComboBox_OnLoaded"
+                                      HorizontalAlignment="Stretch" SelectionChanged="Selector_OnSelectionChanged"
+                                      x:Name="FilterStatusComboBox">
+                                <ComboBoxItem Content="My items" />
+                                <ComboBoxItem Content="Other items" />
+                                <ComboBoxItem Content="Both items" />
                             </ComboBox>
                         </StackPanel>
                     </Flyout>
@@ -279,7 +509,8 @@
             <AppBarButton Icon="Sort" Label="Sort">
                 <AppBarButton.Flyout>
                     <Flyout x:Name="SortFlyout">
-                        <ListView Style="{StaticResource FancyBiggerListFlyoutStyle}" Width="150"
+                        <StackPanel>
+                            <ListView x:Name="SortOptionsList" Style="{StaticResource FancyOptBiggerListFlyoutStyle}" Width="170"
                                       ItemClick="OnSortingSelected"
                                       SelectionMode="Single">
                                 <ListView.Resources>
@@ -298,16 +529,21 @@
                                         <TextBlock Tag="{StaticResource OtherScore}" Text="Other Score" />
                                     </ListViewItem>
                                     <ListViewItem>
-                                        <TextBlock Tag="{StaticResource WatchedDifference}" TextAlignment="Center" TextWrapping="WrapWholeWords" Text="Watched Difference" />
+                                        <TextBlock Tag="{StaticResource WatchedDifference}" TextAlignment="Center"
+                                                   TextWrapping="WrapWholeWords" Text="Watched Difference" />
                                     </ListViewItem>
                                     <ListViewItem>
                                         <TextBlock Tag="{StaticResource MyWatched}" Text="My Watched" />
                                     </ListViewItem>
                                     <ListViewItem>
-                                        <TextBlock Tag="{StaticResource OtherWatched}" Text="OTher Watched" />
+                                        <TextBlock Tag="{StaticResource OtherWatched}" Text="Other Watched" />
                                     </ListViewItem>
                                 </ListView.Items>
                             </ListView>
+                            <TextBlock Text="Sort Descending" Margin="0,10,0,0" HorizontalAlignment="Center" />
+                            <ToggleSwitch HorizontalAlignment="Center" MinWidth="80"
+                                          IsOn="{Binding SortAscending,Mode=TwoWay,Converter={StaticResource BoolInverterConverter}}" />
+                        </StackPanel>
                     </Flyout>
                 </AppBarButton.Flyout>
             </AppBarButton>

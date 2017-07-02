@@ -12,7 +12,7 @@ namespace MALClient.UWP.Shared.XamlConverters
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)
         {
-            throw new NotImplementedException();
+            return !(bool)value;
         }
     }
 }

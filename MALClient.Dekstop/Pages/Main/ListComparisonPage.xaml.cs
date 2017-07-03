@@ -71,7 +71,7 @@ namespace MALClient.UWP.Pages.Main
                 }
 
                 await Task.Delay(500);
-                _myScrollViewer.ChangeView(null, _myScrollViewer.VerticalOffset + 10, null);
+                _myScrollViewer.ChangeView(null, _myScrollViewer.VerticalOffset + 4, null);
             }
             var wasWide = _isWide;
             _isWide = sizeChangedEventArgs.NewSize.Width > 1205;
@@ -111,7 +111,7 @@ namespace MALClient.UWP.Pages.Main
             _viewModel.CurrentItems.CollectionChanged += async (o, args) =>
             {
                 await Task.Delay(500);
-                _myScrollViewer.ChangeView(null, _myScrollViewer.VerticalOffset + 10, null);
+                _myScrollViewer.ChangeView(null, _myScrollViewer.VerticalOffset + 4, null);
             };
         }
 

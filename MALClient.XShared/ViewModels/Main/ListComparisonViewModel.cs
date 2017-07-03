@@ -56,6 +56,8 @@ namespace MALClient.XShared.ViewModels.Main
         private AnimeStatus _statusFilter = AnimeStatus.AllOrAiring;
         private ComparisonStatusFilterTarget _statusFilterTarget;
         private bool _sortAscending;
+        private bool _loading;
+        private bool _emptyNoticeVisibility;
 
         public ProfileData MyData { get; set; }
         public ProfileData OtherData { get; set; }
@@ -119,12 +121,30 @@ namespace MALClient.XShared.ViewModels.Main
             }
         }
 
+        public bool Loading
+        {
+            get { return _loading; }
+            set
+            {
+                _loading = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public bool EmptyNoticeVisibility
+        {
+            get { return _emptyNoticeVisibility; }
+            set
+            {
+                _emptyNoticeVisibility = value;
+                RaisePropertyChanged();
+            }
+        }
+
         public ListComparisonViewModel(IAnimeLibraryDataStorage animeLibraryDataStorage, INavMgr navMgr)
         {
             _animeLibraryDataStorage = animeLibraryDataStorage;
             _navMgr = navMgr;
-
-
         }
 
         public async void NavigatedTo(ListComparisonPageNavigationArgs args)
@@ -133,9 +153,7 @@ namespace MALClient.XShared.ViewModels.Main
             RaisePropertyChanged(() => CurrentItems);
 
             _navArgs = args;
-            await ViewModelLocator.ProfilePage.LoadProfileData(
-                new ProfilePageNavigationArgs {TargetUser = args.CompareWith.Name});
-
+            Loading = true;
             MyData = await DataCache.RetrieveProfileData(Credentials.UserName);
             OtherData = await DataCache.RetrieveProfileData(args.CompareWith.Name);
             RaisePropertyChanged(() => MyData);
@@ -156,7 +174,9 @@ namespace MALClient.XShared.ViewModels.Main
             _allOtherItems = otherItems.Where(other => !usedIds.Any(i => i == other.Id))
                 .Select(abstraction => new ComparisonItemViewModel(null, abstraction.ViewModel)).ToList();
 
+            Loading = false;
             RefreshList();
+
         }
 
         public ICommand NavigateDetailsCommand => new RelayCommand<ComparisonItemViewModel>(viewModel =>
@@ -243,7 +263,7 @@ namespace MALClient.XShared.ViewModels.Main
 
             CurrentItems.Clear();
             CurrentItems.AddRange(source);
-
+            EmptyNoticeVisibility = !CurrentItems.Any();
 
         }
 

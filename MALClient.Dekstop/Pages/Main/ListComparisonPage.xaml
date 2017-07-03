@@ -32,15 +32,6 @@
             <VisualStateGroup>
                 <VisualState x:Name="Wide">
                     <VisualState.Setters>
-                        <!--<Setter Target="MyRow.(Grid.Column)" Value="0" />
-                        <Setter Target="MyRow.(Grid.ColumnSpan)" Value="1" />
-                        <Setter Target="MyRow.(Grid.Row)" Value="0" />
-                        <Setter Target="MyRow.(Grid.RowSpan)" Value="2" />
-
-                        <Setter Target="OtherRow.(Grid.Column)" Value="1" />
-                        <Setter Target="OtherRow.(Grid.ColumnSpan)" Value="1" />
-                        <Setter Target="OtherRow.(Grid.Row)" Value="0" />
-                        <Setter Target="OtherRow.(Grid.RowSpan)" Value="2" />-->
 
                         <Setter Target="MyWatchStats.Visibility" Value="Visible"/>
                         <Setter Target="OtherWatchStats.Visibility" Value="Visible"/>
@@ -49,39 +40,12 @@
                 </VisualState>
                 <VisualState x:Name="Narrow">
                     <VisualState.Setters>
-                        <!--<Setter Target="MyRow.(Grid.Column)" Value="0" />
-                        <Setter Target="MyRow.(Grid.ColumnSpan)" Value="2" />
-                        <Setter Target="MyRow.(Grid.Row)" Value="0" />
-                        <Setter Target="MyRow.(Grid.RowSpan)" Value="1" />
-
-                        <Setter Target="OtherRow.(Grid.Column)" Value="0" />
-                        <Setter Target="OtherRow.(Grid.ColumnSpan)" Value="2" />
-                        <Setter Target="OtherRow.(Grid.Row)" Value="1" />
-                        <Setter Target="OtherRow.(Grid.RowSpan)" Value="1" />-->
 
                         <Setter Target="MyWatchStats.Visibility" Value="Collapsed"/>
                         <Setter Target="OtherWatchStats.Visibility" Value="Collapsed"/>
-                        
+
                     </VisualState.Setters>
                 </VisualState>
-                <!--<VisualState x:Name="ShowWatchStats">
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="1000" />
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <Setter Target="OtherWatchStats.Visibility" Value="Visible" />
-                        <Setter Target="MyWatchStats.Visibility" Value="Visible" />
-                    </VisualState.Setters>
-                </VisualState>                
-                <VisualState x:Name="HideWatchStats">
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="0" />
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <Setter Target="OtherWatchStats.Visibility" Value="Collapsed" />
-                        <Setter Target="MyWatchStats.Visibility" Value="Collapsed" />
-                    </VisualState.Setters>
-                </VisualState>-->
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
 
@@ -117,28 +81,7 @@
                                 <RectangleGeometry Rect="0, 0, 380, 270" />
                             </RelativePanel.Clip>
                         </RelativePanel>
-                        <!--<Grid.Clip> Bugged paralax
-                            <RectangleGeometry Rect="0,0,380,270"/>
-                        </Grid.Clip>
-                        <Grid Height="270">
-                            <Grid animations:ParallaxService.VerticalMultiplier="-0.1" Height="400" Margin="0,-50,0,0">
-                                <Grid.Background>
-                                    <ImageBrush ImageSource="{Binding ImgUrl}" Stretch="UniformToFill"/>
-                                </Grid.Background>
-                                <interactivity:Interaction.Behaviors>
-                                    <behaviors:Blur Value="3" Duration="0" Delay="0" AutomaticallyStart="True" />
-                                </interactivity:Interaction.Behaviors>
-                            </Grid>
-
-                        </Grid>-->
-
-                        <!--<Image Source="{Binding ImgUrl}" HorizontalAlignment="Stretch"
-                               VerticalAlignment="Stretch" Stretch="UniformToFill">
-                            <interactivity:Interaction.Behaviors>
-                                <behaviors:Blur Value="3" Duration="0" Delay="0" AutomaticallyStart="True" />
-                            </interactivity:Interaction.Behaviors>
-                        </Image>-->
-                        <Grid Background="Black" Opacity=".4" />
+                        <Grid Background="Black" Opacity=".2" />
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="165" />
@@ -166,7 +109,7 @@
                             <Grid Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" HorizontalAlignment="Stretch"
                                   VerticalAlignment="Stretch">
                                 <Grid.Background>
-                                    <SolidColorBrush Color="Black" Opacity=".3" />
+                                    <SolidColorBrush Color="Black" Opacity=".2" />
                                 </Grid.Background>
                                 <StackPanel HorizontalAlignment="Center" Margin="10" VerticalAlignment="Center"
                                             Visibility="{Binding IsOnlyOnOtherList}">
@@ -202,7 +145,7 @@
 
                                     <Grid Padding="5">
                                         <Grid.Background>
-                                            <SolidColorBrush Color="Black" Opacity=".4" />
+                                            <SolidColorBrush Color="Black" Opacity=".5" />
                                         </Grid.Background>
                                         <TextBlock TextAlignment="Center" 
                                                    FontSize="16" FontWeight="SemiLight">
@@ -212,7 +155,7 @@
 
                                     <Grid Padding="10" Margin="0,10,0,0">
                                         <Grid.Background>
-                                            <SolidColorBrush Color="Black" Opacity=".4" />
+                                            <SolidColorBrush Color="Black" Opacity=".5" />
                                         </Grid.Background>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="Auto" />
@@ -244,7 +187,7 @@
                                     <Grid Padding="10" Margin="0,10,0,0"
                                           Visibility="{Binding WatchedComparisonBarVisibility}">
                                         <Grid.Background>
-                                            <SolidColorBrush Color="Black" Opacity=".4" />
+                                            <SolidColorBrush Color="Black" Opacity=".5" />
                                         </Grid.Background>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="Auto" />
@@ -279,18 +222,17 @@
                 </DataTemplate>
             </GridView.ItemTemplate>
         </GridView>
+        
+        <TextBlock Text="Nothing to show here..." Foreground="{ThemeResource BrushNoSearchResults}" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding EmptyNoticeVisibility}"/>
+        
         <Grid x:Name="Header" Background="Transparent" Grid.Row="0" VerticalAlignment="Top" SizeChanged="Header_OnSizeChanged">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
 
-            <Grid x:Name="HeaderBlurBg" Grid.ColumnSpan="2" Grid.RowSpan="2"/>
-            <Grid Grid.ColumnSpan="2" Grid.RowSpan="2" BorderThickness="0,0,0,1">
+            <Grid x:Name="HeaderBlurBg" Grid.ColumnSpan="2"/>
+            <Grid Grid.ColumnSpan="2" BorderThickness="0,0,0,1">
                 <Grid.BorderBrush>
                     <SolidColorBrush Color="White" Opacity=".4"></SolidColorBrush>
                 </Grid.BorderBrush>
@@ -298,12 +240,14 @@
                     <SolidColorBrush Color="Black" Opacity=".4"/>
                 </Grid.Background>
             </Grid>
-            <Grid Grid.ColumnSpan="2" Grid.RowSpan="2">
+            <Grid Grid.ColumnSpan="2">
                 <Grid.Background>
-                    <SolidColorBrush Color="{StaticResource SystemAccentColor}" Opacity=".05"></SolidColorBrush>
+                    <SolidColorBrush Color="{StaticResource SystemAccentColor}" Opacity=".065"></SolidColorBrush>
                 </Grid.Background>
             </Grid>
 
+
+            <ProgressBar IsIndeterminate="True" Grid.ColumnSpan="2" VerticalAlignment="Center" HorizontalAlignment="Stretch" Visibility="{Binding Loading}" Margin="50,0"/>
             <!--<SymbolIcon x:Name="HeaderIcon" Grid.ColumnSpan="2" Grid.RowSpan="2" RenderTransformOrigin="0.5,0.5" Symbol="Switch"
                         Foreground="LightGray" VerticalAlignment="Center" HorizontalAlignment="Center" Opacity=".5">
                 <SymbolIcon.RenderTransform>

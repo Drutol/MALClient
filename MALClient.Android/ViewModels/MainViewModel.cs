@@ -94,7 +94,7 @@ namespace MALClient.Android.ViewModels
                 else
                     HideSearchStuff();
             }
-          
+
             switch (index)
             {
                 case PageIndex.PageAnimeList:
@@ -170,7 +170,8 @@ namespace MALClient.Android.ViewModels
                     //if (CurrentMainPage == PageIndex.PageAnimeDetails)
                     //    ViewModelLocator.AnimeDetails.Init(args as AnimeDetailsPageNavigationArgs);
                     //else
-                        MainNavigationRequested?.Invoke(new AnimeDetailsPageFragment(args as AnimeDetailsPageNavigationArgs));
+                    MainNavigationRequested?.Invoke(
+                        new AnimeDetailsPageFragment(args as AnimeDetailsPageNavigationArgs));
                     break;
                 case PageIndex.PageSettings:
                     HideSearchStuff();
@@ -179,7 +180,8 @@ namespace MALClient.Android.ViewModels
                 case PageIndex.PageSearch:
                 case PageIndex.PageMangaSearch:
                 case PageIndex.PageCharacterSearch:
-                    if (CurrentMainPage != PageIndex.PageSearch && CurrentMainPage != PageIndex.PageMangaSearch && CurrentMainPage != PageIndex.PageCharacterSearch)
+                    if (CurrentMainPage != PageIndex.PageSearch && CurrentMainPage != PageIndex.PageMangaSearch &&
+                        CurrentMainPage != PageIndex.PageCharacterSearch)
                         _searchStateBeforeNavigatingToSearch = SearchToggleStatus;
 
                     if (args != null)
@@ -213,7 +215,8 @@ namespace MALClient.Android.ViewModels
                     RefreshButtonVisibility = true;
                     if (Settings.SelectedApiType == ApiType.Mal)
                         RefreshDataCommand =
-                            new RelayCommand(async () => await ViewModelLocator.ProfilePage.LoadProfileData(null, true));
+                            new RelayCommand(
+                                async () => await ViewModelLocator.ProfilePage.LoadProfileData(null, true));
                     if (Settings.SelectedApiType == ApiType.Mal)
                     {
                         if (CurrentMainPage == PageIndex.PageProfile)
@@ -224,7 +227,8 @@ namespace MALClient.Android.ViewModels
                     break;
                 case PageIndex.PageRecomendations:
                     HideSearchStuff();
-                    MainNavigationRequested?.Invoke(new RecommendationsPageFragment(args as RecommendationPageNavigationArgs));
+                    MainNavigationRequested?.Invoke(
+                        new RecommendationsPageFragment(args as RecommendationPageNavigationArgs));
                     break;
                 case PageIndex.PageCalendar:
                     HideSearchStuff();
@@ -241,11 +245,12 @@ namespace MALClient.Android.ViewModels
                     //if (CurrentMainPage == PageIndex.PageArticles)
                     //    ViewModelLocator.MalArticles.Init(args as MalArticlesPageNavigationArgs);
                     //else
-                        MainNavigationRequested?.Invoke(new ArticlesPageFragment(args as MalArticlesPageNavigationArgs));
+                    MainNavigationRequested?.Invoke(new ArticlesPageFragment(args as MalArticlesPageNavigationArgs));
                     break;
                 case PageIndex.PageMessanging:
                     HideSearchStuff();
-                    CurrentStatus = $"{Credentials.UserName} - {(ViewModelLocator.MalMessaging.DisplaySentMessages ? "Sent Messages" : "Messages")}";
+                    CurrentStatus =
+                        $"{Credentials.UserName} - {(ViewModelLocator.MalMessaging.DisplaySentMessages ? "Sent Messages" : "Messages")}";
                     //RefreshButtonVisibility = true;
                     RefreshDataCommand = new RelayCommand(() => { ViewModelLocator.MalMessaging.Init(true); });
                     MainNavigationRequested?.Invoke(new MessagingPageFragment());
@@ -302,7 +307,8 @@ namespace MALClient.Android.ViewModels
                     if (CurrentOffPage == PageIndex.PageCharacterDetails)
                         ViewModelLocator.CharacterDetails.Init(args as CharacterDetailsNavigationArgs);
                     else
-                        MainNavigationRequested?.Invoke(new CharacterDetailsPageFragment(args as CharacterDetailsNavigationArgs));
+                        MainNavigationRequested?.Invoke(
+                            new CharacterDetailsPageFragment(args as CharacterDetailsNavigationArgs));
                     break;
                 case PageIndex.PageStaffDetails:
                     HideSearchStuff();
@@ -313,7 +319,8 @@ namespace MALClient.Android.ViewModels
                     if (CurrentOffPage == PageIndex.PageStaffDetails)
                         ViewModelLocator.StaffDetails.Init(args as StaffDetailsNaviagtionArgs);
                     else
-                        MainNavigationRequested?.Invoke(new PersonDetailsPageFragment(args as StaffDetailsNaviagtionArgs));
+                        MainNavigationRequested?.Invoke(
+                            new PersonDetailsPageFragment(args as StaffDetailsNaviagtionArgs));
                     break;
                 case PageIndex.PageWallpapers:
                     HideSearchStuff();
@@ -338,6 +345,12 @@ namespace MALClient.Android.ViewModels
                     RefreshDataCommand = new RelayCommand(() => ViewModelLocator.NotificationsHub.Init(true));
                     CurrentStatus = "Notifications";
                     MainNavigationRequested?.Invoke(new NotificationHubPageFragment());
+                    break;
+                case PageIndex.PageListComparison:
+                    HideSearchStuff();
+                    CurrentStatus = "List Comparison";
+                    MainNavigationRequested?.Invoke(
+                        new ListComparisonPageFragment(args as ListComparisonPageNavigationArgs));
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(index), index, null);

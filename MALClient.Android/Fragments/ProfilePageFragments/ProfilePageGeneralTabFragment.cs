@@ -135,6 +135,7 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
             ProfilePageGeneralTabHistoryButton.SetOnClickListener(new OnClickListener(v => ViewModel.NavigateHistoryCommand.Execute(null)));
             ProfilePageGeneralTabSendCommentButton.SetOnClickListener(new OnClickListener(v => ViewModel.SendCommentCommand.Execute(null)));
             ProfilePageGeneralTabActionButton.SetOnClickListener(new OnClickListener(v => ProfilePageGeneralTabActionButtonOnClick()));
+            ProfilePageGeneralTabCompareList.SetOnClickListener(new OnClickListener(v => ViewModel.NavigateComparisonCommand.Execute(null)));
         }
 
         private void AnimatePin(float from, float to)
@@ -258,12 +259,13 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
         #region Views
         private ImageView _profilePageGeneralTabImagePlaceholder;
         private ImageViewAsync _profilePageGeneralTabAnimeUserImg;
-        private ImageView _pinButtonIcon;
-        private FrameLayout _pinButton;
         private LinearLayout _profilePageGeneralTabDetailsList;
         private Button _profilePageGeneralTabAnimeListButton;
+        private ImageButton _profilePageGeneralTabCompareList;
         private Button _profilePageGeneralTabMangaListButton;
         private Button _profilePageGeneralTabHistoryButton;
+        private ImageView _pinButtonIcon;
+        private FrameLayout _pinButton;
         private ExpandableGridView _profilePageGeneralTabFriendsGrid;
         private TextView _profilePageGeneralTabFriendsEmptyNotice;
         private EditText _profilePageGeneralTabCommentInput;
@@ -278,17 +280,19 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
 
         public ImageViewAsync ProfilePageGeneralTabAnimeUserImg => _profilePageGeneralTabAnimeUserImg ?? (_profilePageGeneralTabAnimeUserImg = FindViewById<ImageViewAsync>(Resource.Id.ProfilePageGeneralTabAnimeUserImg));
 
-        public ImageView PinButtonIcon => _pinButtonIcon ?? (_pinButtonIcon = FindViewById<ImageView>(Resource.Id.PinButtonIcon));
-
-        public FrameLayout PinButton => _pinButton ?? (_pinButton = FindViewById<FrameLayout>(Resource.Id.PinButton));
-
         public LinearLayout ProfilePageGeneralTabDetailsList => _profilePageGeneralTabDetailsList ?? (_profilePageGeneralTabDetailsList = FindViewById<LinearLayout>(Resource.Id.ProfilePageGeneralTabDetailsList));
 
         public Button ProfilePageGeneralTabAnimeListButton => _profilePageGeneralTabAnimeListButton ?? (_profilePageGeneralTabAnimeListButton = FindViewById<Button>(Resource.Id.ProfilePageGeneralTabAnimeListButton));
 
+        public ImageButton ProfilePageGeneralTabCompareList => _profilePageGeneralTabCompareList ?? (_profilePageGeneralTabCompareList = FindViewById<ImageButton>(Resource.Id.ProfilePageGeneralTabCompareList));
+
         public Button ProfilePageGeneralTabMangaListButton => _profilePageGeneralTabMangaListButton ?? (_profilePageGeneralTabMangaListButton = FindViewById<Button>(Resource.Id.ProfilePageGeneralTabMangaListButton));
 
         public Button ProfilePageGeneralTabHistoryButton => _profilePageGeneralTabHistoryButton ?? (_profilePageGeneralTabHistoryButton = FindViewById<Button>(Resource.Id.ProfilePageGeneralTabHistoryButton));
+
+        public ImageView PinButtonIcon => _pinButtonIcon ?? (_pinButtonIcon = FindViewById<ImageView>(Resource.Id.PinButtonIcon));
+
+        public FrameLayout PinButton => _pinButton ?? (_pinButton = FindViewById<FrameLayout>(Resource.Id.PinButton));
 
         public ExpandableGridView ProfilePageGeneralTabFriendsGrid => _profilePageGeneralTabFriendsGrid ?? (_profilePageGeneralTabFriendsGrid = FindViewById<ExpandableGridView>(Resource.Id.ProfilePageGeneralTabFriendsGrid));
 

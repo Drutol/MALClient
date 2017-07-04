@@ -306,6 +306,7 @@
     <Compile Include="Fragments\FriendsFeedsPageFragment.cs" />
     <Compile Include="Fragments\HistoryFragments\HistoryPageFragment.cs" />
     <Compile Include="Fragments\HistoryFragments\HistoryPageTabFragment.cs" />
+    <Compile Include="Fragments\ListComparisonPageFragment.cs" />
     <Compile Include="Fragments\MessagingFragments\MessagingDetailsPageFragment.cs" />
     <Compile Include="Fragments\MessagingFragments\MessagingPageFragment.cs" />
     <Compile Include="Fragments\NotificationHubPageFragment.cs" />
@@ -1169,6 +1170,12 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\tut_swipe.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\ListComparisonPage.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\icon_compare.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

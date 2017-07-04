@@ -49,9 +49,14 @@
                     android:layout_height="wrap_content" android:background="?BrushAnimeItemInnerBackground">
         <Button
           android:layout_width="wrap_content"
-          android:layout_height="wrap_content" style="@style/AccentButtonStyle" android:layout_margin="5dp"
+          android:layout_height="wrap_content" style="@style/AccentButtonStyle" android:layout_marginStart="5dp" android:layout_marginTop="5dp" android:layout_marginBottom="5dp"
           android:text="Anime list"
           android:id="@+id/ProfilePageGeneralTabAnimeListButton" />
+        <ImageButton
+          android:layout_width="wrap_content" android:background="?OpaqueAccentColour" android:tint="#fff"
+          android:layout_height="wrap_content" style="@style/AccentButtonStyle" android:layout_marginTop="5dp"
+          android:src="@drawable/icon_compare" android:padding="0dp" android:foreground="?selectableItemBackground"
+          android:id="@+id/ProfilePageGeneralTabCompareList" android:elevation="0dp"/>
 
         <Button
           android:layout_width="wrap_content" android:id="@+id/ProfilePageGeneralTabMangaListButton"

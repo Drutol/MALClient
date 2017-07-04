@@ -419,11 +419,8 @@ namespace MALClient.UWP.ViewModels
                     break;
                 case PageIndex.PageListComparison:
                     HideSearchStuff();
-                    RefreshButtonVisibility = true;
-                    RefreshDataCommand =
-                        new RelayCommand(() => ViewModelLocator.Comparison.NavigatedTo(
-                            new ListComparisonPageNavigationArgs {CompareWith = new MalUser {Name = "Kimod"}}));
-                    CurrentStatus = "List Comparison with some guy";
+                    RefreshButtonVisibility = false;
+                    CurrentStatus = "List Comparison";
                     MainNavigationRequested?.Invoke(typeof(ListComparisonPage),args);
                     break;
                 default:

@@ -82,6 +82,18 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
                     () => ProfilePageGeneralTabCommentsEmptyNotice.Visibility)
                     .ConvertSourceToTarget(Converters.BoolToVisibility));
 
+            Bindings.Add(this.SetBinding(() => ViewModel.LoadingOhersLibrariesProgressVisiblity).WhenSourceChanges(() =>
+            {
+                if (ViewModel.LoadingOhersLibrariesProgressVisiblity)
+                {
+                    ProfilePageGeneralTabCompareList.Enabled = false;
+                }
+                else
+                {
+                    ProfilePageGeneralTabCompareList.Enabled = true;
+                }
+            }));
+
             Bindings.Add(this.SetBinding(() => ViewModel.CommentInputBoxVisibility).WhenSourceChanges(() =>
             {
                 if (ViewModel.CommentInputBoxVisibility)
@@ -96,6 +108,12 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
                 }
             }));
 
+            Bindings.Add(
+                this.SetBinding(() => ViewModel.IsMyProfile,
+                    () => ProfilePageGeneralTabCompareList.Visibility)
+                    .ConvertSourceToTarget(Converters.BoolToVisibilityInverted));
+
+            
 
             Bindings.Add(
                 this.SetBinding(() => ViewModel.CommentText,

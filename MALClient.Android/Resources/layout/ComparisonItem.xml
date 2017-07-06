@@ -7,10 +7,19 @@
   <LinearLayout
     android:layout_width="match_parent" android:orientation="horizontal"
     android:layout_height="110dp" android:elevation="2dp">
-    <FFImageLoading.Views.ImageViewAsync
-      android:layout_width="wrap_content" android:adjustViewBounds="true"
-      android:maxWidth="90dp" android:elevation="3dp" android:id="@+id/ComparisonItemImage"
-      android:layout_height="match_parent"/>
+    <FrameLayout
+      android:layout_width="wrap_content"
+      android:layout_height="match_parent">
+      <ProgressBar android:scaleX=".7" android:scaleY=".7"
+                   android:layout_width="wrap_content" android:id="@+id/ComparisonItemImgPlaceholder"
+                   android:layout_height="wrap_content" android:indeterminateTint="?BrushAnimeItemBackground"
+                   android:indeterminate="true" android:layout_gravity="center" android:indeterminateTintMode="src_in"/>
+      <FFImageLoading.Views.ImageViewAsync
+        android:layout_width="wrap_content" android:adjustViewBounds="true"
+        android:maxWidth="90dp" android:elevation="3dp" android:id="@+id/ComparisonItemImage"
+        android:layout_height="match_parent"/>
+    </FrameLayout>
+
     <FrameLayout
       android:layout_width="match_parent"
       android:layout_height="match_parent" android:orientation="vertical">
@@ -29,7 +38,7 @@
           android:layout_width="wrap_content" android:background="?AccentColour"
           android:layout_height="match_parent">
           <TextView android:layout_gravity="center_vertical" android:padding="8dp"
-                    android:layout_width="wrap_content" android:textColor="?BrushText" android:textSize="@dimen/FontSizeMedium"
+                    android:layout_width="wrap_content" android:textColor="#fff" android:textSize="@dimen/FontSizeMedium"
                     android:layout_height="wrap_content" android:fontFamily="@string/font_family_medium" tools:text="C - C" android:id="@+id/ComparisonItemStatus"/>
         </FrameLayout>
 

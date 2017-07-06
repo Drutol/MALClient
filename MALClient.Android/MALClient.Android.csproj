@@ -1178,7 +1178,10 @@
     <AndroidResource Include="Resources\drawable\icon_compare.xml" />
   </ItemGroup>
   <ItemGroup>
-    <TransformFile Include="Resources\layout\ComparisonItem.xml" />
+    <AndroidResource Include="Resources\layout\ComparisonItem.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\icon_remove_user.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

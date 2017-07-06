@@ -181,11 +181,16 @@ namespace MALClient.XShared.ViewModels.Items
 
         public ICommand AddToMyListCommand => _addToMyListCommand ?? (_addToMyListCommand = new RelayCommand(async () =>
         {
+            await AddToMyListAsync();
+        }));
+
+        public async Task AddToMyListAsync()
+        {
             var response = await new AnimeAddQuery(OtherEntry.Id.ToString()).GetRequestResponse();
-            if(response != "Created")
+            if (response != "Created")
                 return;
 
-            var vm = new AnimeItemAbstraction(true,new AnimeLibraryItemData(OtherEntry.ParentAbstraction.EntryData));
+            var vm = new AnimeItemAbstraction(true, new AnimeLibraryItemData(OtherEntry.ParentAbstraction.EntryData));
 
             var startDate = "0000-00-00";
             if (Settings.SetStartDateOnListAdd)
@@ -200,7 +205,7 @@ namespace MALClient.XShared.ViewModels.Items
 
             IsComparisonValid = true;
             RaisePropertyChanged(() => MyEntry);
-        }));
+        }
 
 
         #region UpdateHandlers

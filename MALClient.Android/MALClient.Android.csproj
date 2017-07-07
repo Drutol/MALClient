@@ -307,6 +307,9 @@
     <Compile Include="Fragments\HistoryFragments\HistoryPageFragment.cs" />
     <Compile Include="Fragments\HistoryFragments\HistoryPageTabFragment.cs" />
     <Compile Include="Fragments\ListComparisonPageFragment.cs" />
+    <Compile Include="Fragments\ListComparisonPageFragment.hamburger.cs">
+      <DependentUpon>ListComparisonPageFragment.cs</DependentUpon>
+    </Compile>
     <Compile Include="Fragments\MessagingFragments\MessagingDetailsPageFragment.cs" />
     <Compile Include="Fragments\MessagingFragments\MessagingPageFragment.cs" />
     <Compile Include="Fragments\NotificationHubPageFragment.cs" />

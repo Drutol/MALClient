@@ -21,7 +21,7 @@ using MALClient.XShared.ViewModels.Main;
 
 namespace MALClient.Android.Fragments
 {
-    public class ListComparisonPageFragment : MalFragmentBase
+    public partial class ListComparisonPageFragment : MalFragmentBase
     {
         private readonly ListComparisonPageNavigationArgs _args;
         private ListComparisonViewModel ViewModel;
@@ -61,7 +61,8 @@ namespace MALClient.Android.Fragments
 
             Bindings.Add(this.SetBinding(() => ViewModel.CurrentItems).WhenSourceChanges(() =>
             {
-                ComparisonListView.InjectFlingAdapter(ViewModel.CurrentItems,DataTemplateFull,DataTemplateFling,ContainerTemplate,DataTemplateBasic);
+                ComparisonListView.InjectFlingAdapter(ViewModel.CurrentItems, DataTemplateFull, DataTemplateFling,
+                    ContainerTemplate, DataTemplateBasic);
             }));
         }
 
@@ -134,8 +135,7 @@ namespace MALClient.Android.Fragments
 
 
         }
-        
-        
+            
         private Dictionary<View,ComparisonViewHolder> _comparisonViewHolders = new Dictionary<View, ComparisonViewHolder>();
         private View ContainerTemplate(int i)
         {
@@ -225,12 +225,12 @@ namespace MALClient.Android.Fragments
             if (holder.ComparisonItemImage.IntoIfLoaded(arg3.ImgUrl))
             {
                 holder.ComparisonItemImage.Visibility = ViewStates.Visible;
-                holder.ComparisonItemImgPlaceholder.Visibility = ViewStates.Visible;
+                holder.ComparisonItemImgPlaceholder.Visibility = ViewStates.Gone;
             }
             else
             {
                 holder.ComparisonItemImage.Visibility = ViewStates.Invisible;
-                holder.ComparisonItemImgPlaceholder.Visibility = ViewStates.Gone;
+                holder.ComparisonItemImgPlaceholder.Visibility = ViewStates.Visible;
             }
         }
 

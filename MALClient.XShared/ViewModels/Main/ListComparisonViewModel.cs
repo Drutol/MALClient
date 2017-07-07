@@ -18,27 +18,40 @@ namespace MALClient.XShared.ViewModels.Main
 {
     public enum ComparisonFilter
     {
+        [EnumUtilities.Description("Show shared items")]
         OnBoth,
+        [EnumUtilities.Description("Show my items")]
         OnMine,
+        [EnumUtilities.Description("Show other user's items")]
         OnOther,
+        [EnumUtilities.Description("Show all items")]
         All,
     }
 
     public enum ComparisonSorting
     {
+        [EnumUtilities.Description("Score Difference")]
         ScoreDifference,
+        [EnumUtilities.Description("My Score")]
         MyScore,
+        [EnumUtilities.Description("Other Score")]
         OtherScore,
 
+        [EnumUtilities.Description("Watched Difference")]
         WatchedDifference,
+        [EnumUtilities.Description("My Watched")]
         MyWatched,
+        [EnumUtilities.Description("Other Watched")]
         OtherWatched
     }
 
     public enum ComparisonStatusFilterTarget
     {
+        [EnumUtilities.Description("My items")]
         My,
+        [EnumUtilities.Description("Other items")]
         Other,
+        [EnumUtilities.Description("Both items")]
         Both
     }
 

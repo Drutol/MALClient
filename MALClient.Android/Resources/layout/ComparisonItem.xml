@@ -29,7 +29,7 @@
           android:layout_width="0dp" android:layout_weight="1"
           android:layout_height="match_parent" android:elevation="3dp">
           <TextView
-            android:layout_width="wrap_content" android:textColor="?BrushTextInverted" android:id="@+id/ComparisonItemTitle"
+            android:layout_width="wrap_content" android:textColor="?BrushTextInverted" android:id="@+id/ComparisonItemTitle" android:maxLines="1" android:ellipsize="end"
             android:layout_height="wrap_content" tools:text="Shelter" android:layout_gravity="center_vertical" android:layout_marginStart="8dp" android:layout_marginEnd="8dp"/>
         </FrameLayout>
 
@@ -43,26 +43,26 @@
 
       </LinearLayout>
 
-      <LinearLayout android:id="@+id/ComparisonItemOnOtherStateSection" android:visibility="gone"
+      <LinearLayout android:id="@+id/ComparisonItemOnOtherStateSection" android:visibility="visible"
                     android:layout_width="match_parent" android:layout_marginTop="35dp"
                     android:layout_height="match_parent" android:gravity="center_vertical" android:orientation="horizontal">
 
-        <LinearLayout
-          android:layout_width="0dp" android:layout_weight="1" android:gravity="center_horizontal"
-          android:layout_height="wrap_content" android:orientation="vertical">
+        <LinearLayout android:background="@drawable/border_accent_underline"
+                      android:layout_width="0dp" android:layout_weight="1" android:gravity="center_horizontal" android:layout_marginStart="8dp" android:layout_marginEnd="8dp"
+                      android:layout_height="wrap_content" android:orientation="vertical" android:paddingBottom="2dp">
           <TextView
-            android:layout_width="wrap_content" android:textColor="?BrushText" android:fontFamily="@string/font_family_light" android:textSize="32sp"
+            android:layout_width="wrap_content" android:textColor="?BrushText" android:fontFamily="@string/font_family_light" android:textSize="26sp"
             android:layout_height="wrap_content" tools:text="8" android:id="@+id/ComparisonItemOnlyOtherScore" />
           <TextView
             android:layout_width="wrap_content" android:text="Score" android:textColor="?BrushText" android:fontFamily="@string/font_family_light" android:textSize="@dimen/FontSizeSemiNormal"
             android:layout_height="wrap_content" />
         </LinearLayout>
 
-        <LinearLayout
-          android:layout_width="0dp" android:layout_weight="1" android:gravity="center_horizontal"
-          android:layout_height="wrap_content" android:orientation="vertical">
+        <LinearLayout android:background="@drawable/border_accent_underline" android:layout_marginStart="8dp" android:layout_marginEnd="8dp"
+                      android:layout_width="0dp" android:layout_weight="1" android:gravity="center_horizontal" android:paddingBottom="2dp"
+                      android:layout_height="wrap_content" android:orientation="vertical">
           <TextView
-            android:layout_width="wrap_content" android:textColor="?BrushText" android:fontFamily="@string/font_family_light" android:textSize="32sp"
+            android:layout_width="wrap_content" android:textColor="?BrushText" android:fontFamily="@string/font_family_light" android:textSize="26sp"
             android:layout_height="wrap_content" tools:text="14/25" android:id="@+id/ComparisonItemOnlyOtherWatched" />
           <TextView
             android:layout_width="wrap_content" android:text="Watched"  android:textColor="?BrushText" android:fontFamily="@string/font_family_light" android:textSize="@dimen/FontSizeSemiNormal"
@@ -70,7 +70,7 @@
         </LinearLayout>
 
         <FrameLayout android:layout_width="40dp"
-                     android:layout_height="40dp"
+                     android:layout_height="40dp" android:layout_marginStart="16dp"
                      android:clickable="true" android:layout_marginEnd="6dp"
                      android:focusable="true" android:layout_gravity="center_vertical"
                      android:foreground="?android:selectableItemBackground"
@@ -80,29 +80,28 @@
                      android:layout_height="35dp"
                      android:background="@drawable/inc_dec_btn_backgroud"
                      android:layout_gravity="center"
-                     android:src="@drawable/icon_add" android:padding="5dp"
-                     android:id="@+id/imageView" />
+                     android:src="@drawable/icon_add" android:padding="5dp" />
         </FrameLayout>
       </LinearLayout>
 
-      <LinearLayout android:id="@+id/ComparisonItemOnBothStateSection" android:visibility="visible"
+      <LinearLayout android:id="@+id/ComparisonItemOnBothStateSection" android:visibility="gone"
                     android:layout_width="match_parent" android:layout_marginTop="35dp"
-                    android:layout_height="match_parent" android:gravity="center_vertical" android:orientation="horizontal">
+                    android:layout_height="match_parent" android:gravity="center" android:orientation="horizontal">
 
-        <LinearLayout android:layout_marginStart="5dp" android:layout_marginEnd="5dp"
+        <LinearLayout android:layout_marginStart="5dp" android:layout_marginEnd="5dp" android:id="@+id/ComparisonItemOnBothScoreSection"
                       android:layout_width="0dp" android:layout_weight="1" android:gravity="center_horizontal"
                       android:layout_height="wrap_content" android:orientation="vertical" android:background="@drawable/border_accent_underline" android:paddingBottom="2dp">
           <LinearLayout
             android:layout_width="match_parent" android:gravity="center_vertical"
             android:layout_height="wrap_content" android:orientation="horizontal">
             <TextView android:gravity="center_horizontal"
-                      android:layout_width="0dp" android:layout_weight="1" android:textColor="?BrushText" android:fontFamily="@string/font_family_light" android:textSize="22sp"
+                      android:layout_width="0dp" android:layout_weight="1" android:textColor="?BrushText" android:fontFamily="@string/font_family_light" android:textSize="20sp"
                       android:layout_height="wrap_content" tools:text="10" android:id="@+id/ComparisonItemOnBothMyScore" />
             <TextView android:gravity="center_horizontal"
-                      android:layout_width="0dp" android:layout_weight="1" tools:textColor="@android:color/holo_red_dark" android:fontFamily="@string/font_family_light" android:textSize="28sp"
+                      android:layout_width="0dp" android:layout_weight="1.4" tools:textColor="@android:color/holo_red_dark" android:fontFamily="@string/font_family_light" android:textSize="26sp"
                       android:layout_height="wrap_content" tools:text="-8" android:id="@+id/ComparisonItemOnBothScoreDiff" />
             <TextView android:gravity="center_horizontal"
-                      android:layout_width="0dp" android:layout_weight="1" android:textColor="?BrushText" android:fontFamily="@string/font_family_light" android:textSize="22sp"
+                      android:layout_width="0dp" android:layout_weight="1" android:textColor="?BrushText" android:fontFamily="@string/font_family_light" android:textSize="20sp"
                       android:layout_height="wrap_content" tools:text="2" android:id="@+id/ComparisonItemOnBothOtherScore" />
           </LinearLayout>
 
@@ -118,13 +117,13 @@
             android:layout_width="match_parent" android:gravity="center_vertical"
             android:layout_height="wrap_content" android:orientation="horizontal">
             <TextView android:gravity="center_horizontal"
-                      android:layout_width="0dp" android:layout_weight="1" android:textColor="?BrushText" android:fontFamily="@string/font_family_light" android:textSize="22sp"
+                      android:layout_width="0dp" android:layout_weight="1" android:textColor="?BrushText" android:fontFamily="@string/font_family_light" android:textSize="20sp"
                       android:layout_height="wrap_content" tools:text="15" android:id="@+id/ComparisonItemOnBothMyWatched" />
             <TextView android:gravity="center_horizontal"
-                      android:layout_width="0dp" android:layout_weight="1" tools:textColor="@color/LimeAccentColourDark" android:fontFamily="@string/font_family_light" android:textSize="28sp"
+                      android:layout_width="0dp" android:layout_weight="1.4" tools:textColor="@color/LimeAccentColourDark" android:fontFamily="@string/font_family_light" android:textSize="26sp"
                       android:layout_height="wrap_content" tools:text="+8" android:id="@+id/ComparisonItemOnBothWatchedDiff" />
             <TextView android:gravity="center_horizontal"
-                      android:layout_width="0dp" android:layout_weight="1" android:textColor="?BrushText" android:fontFamily="@string/font_family_light" android:textSize="22sp"
+                      android:layout_width="0dp" android:layout_weight="1" android:textColor="?BrushText" android:fontFamily="@string/font_family_light" android:textSize="20sp"
                       android:layout_height="wrap_content" tools:text="23" android:id="@+id/ComparisonItemOnBothOtherWatched" />
           </LinearLayout>
           <TextView
@@ -137,13 +136,47 @@
 
       <LinearLayout android:id="@+id/ComparisonItemOnlyMyStateSection" android:visibility="gone"
                     android:layout_width="wrap_content" android:layout_gravity="center" android:layout_marginTop="16dp"
-                    android:layout_height="wrap_content" android:gravity="center_horizontal" android:orientation="vertical">
-        <ImageView
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content" android:src="@drawable/icon_remove_user"/>
-        <TextView android:id="@+id/ComparisonItemNotOnListDescription"
-                  android:layout_width="wrap_content" android:textSize="@dimen/FontSizeSmall" android:fontFamily="@string/font_family_light"
-                  android:layout_height="wrap_content" tools:text="OtherDrutol doesn't have this show on list..." android:textColor="?BrushNoSearchResults"/>
+                    android:layout_height="84dp" android:gravity="center_horizontal" android:orientation="horizontal">
+
+        <LinearLayout android:layout_marginStart="8dp" android:layout_gravity="center_vertical"
+                      android:layout_width="wrap_content" android:orientation="vertical"
+                      android:layout_height="wrap_content">
+          <LinearLayout android:gravity="center_horizontal" android:background="@drawable/border_accent_left" android:paddingStart="6dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" android:orientation="vertical">
+            <TextView android:id="@+id/ComparisonItemOnMyMyScore"
+                      android:layout_width="wrap_content" android:fontFamily="@string/font_family_light" android:textColor="?BrushText" tools:text="8"
+                      android:layout_height="wrap_content" android:textSize="@dimen/FontSizeBig"/>
+            <TextView
+              android:layout_width="wrap_content" android:fontFamily="@string/font_family_light" android:textColor="?BrushText" android:text="Score"
+              android:layout_height="wrap_content" android:textSize="@dimen/FontSizeSemiNormal"/>
+          </LinearLayout>
+
+          <LinearLayout android:gravity="center_horizontal" android:background="@drawable/border_accent_left" android:paddingStart="6dp" android:layout_marginTop="4dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" android:orientation="vertical">
+            <TextView android:id="@+id/ComparisonItemOnMyMyWatched"
+                      android:layout_width="wrap_content" android:fontFamily="@string/font_family_light" android:textColor="?BrushText" tools:text="24/24"
+                      android:layout_height="wrap_content" android:textSize="@dimen/FontSizeBig"/>
+            <TextView
+              android:layout_width="wrap_content" android:fontFamily="@string/font_family_light" android:textColor="?BrushText" android:text="Watched"
+              android:layout_height="wrap_content" android:textSize="@dimen/FontSizeSemiNormal"/>
+          </LinearLayout>
+        </LinearLayout>
+
+
+
+        <LinearLayout
+          android:layout_width="wrap_content" android:layout_marginStart="40dp" android:layout_gravity="center_vertical" android:layout_marginEnd="20dp"
+          android:layout_height="wrap_content" android:orientation="vertical" android:gravity="center">
+          <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:src="@drawable/icon_remove_user"/>
+          <TextView android:id="@+id/ComparisonItemNotOnListDescription" android:gravity="center_horizontal"
+                    android:layout_width="wrap_content" android:textSize="@dimen/FontSizeSmall" android:fontFamily="@string/font_family_light"
+                    android:layout_height="wrap_content" tools:text="OtherDrutol doesn't have this show on list..." android:textColor="?BrushNoSearchResults"/>
+        </LinearLayout>
+
       </LinearLayout>
 
     </FrameLayout>

@@ -234,13 +234,13 @@ namespace MALClient.XShared.ViewModels.Main
                 switch (StatusFilterTarget)
                 {
                     case ComparisonStatusFilterTarget.My:
-                        source = source.Where(model => model.MyEntry.MyStatus == StatusFilter).ToList();
+                        source = source.Where(model => model.MyEntry?.MyStatus == StatusFilter).ToList();
                         break;
                     case ComparisonStatusFilterTarget.Other:
-                        source = source.Where(model => model.OtherEntry.MyStatus == StatusFilter).ToList();
+                        source = source.Where(model => model.OtherEntry?.MyStatus == StatusFilter).ToList();
                         break;
                     case ComparisonStatusFilterTarget.Both:
-                        source = source.Where(model => model.MyEntry.MyStatus == StatusFilter && model.OtherEntry.MyStatus == StatusFilter).ToList();
+                        source = source.Where(model => model.MyEntry?.MyStatus == StatusFilter && model.OtherEntry?.MyStatus == StatusFilter).ToList();
                         break;
                     default:
                         throw new ArgumentOutOfRangeException();

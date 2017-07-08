@@ -68,16 +68,15 @@ namespace MALClient.Android.Fragments
                 var btn = HamburgerUtilities.GetBaseSecondaryItem();
                 btn.WithName(enumValue.GetDescription());
                 btn.WithIdentifier((int)enumValue);
-                btn.WithSetSelected(enumValue == ViewModel.ComparisonFilter);
                 items.Add(btn);
             }
            
             _rightDrawer.SetItems(items);
-            _rightDrawer.SetSelection((int)ViewModel.ComparisonFilter+100);
+            _rightDrawer.SetSelection((int)ViewModel.ComparisonFilter);
 
             _rightDrawer.StickyHeader.FindViewById<TextView>(Resource.Id.AnimeListPageDrawerHeaderText).Text = "Comaprison Filters";
             _rightDrawer.StickyHeader.FindViewById<ImageView>(Resource.Id.AnimeListPageDrawerHeaderIcon).SetImageResource(
-                Resource.Drawable.icon_list_type);
+                Resource.Drawable.icon_linear_blur);
             _rightDrawer.OnDrawerItemClickListener = new HamburgerItemClickListener((view, i, arg3) =>
             {
                 ViewModel.ComparisonFilter = (ComparisonFilter) arg3.Identifier;
@@ -99,7 +98,6 @@ namespace MALClient.Android.Fragments
                 var btn = HamburgerUtilities.GetBaseSecondaryItem();
                 btn.WithName(enumValue.GetDescription());
                 btn.WithIdentifier((int)enumValue);
-                btn.WithSetSelected(enumValue == ViewModel.ComparisonSorting);
                 items.Add(btn);
             }
 
@@ -117,7 +115,7 @@ namespace MALClient.Android.Fragments
 
             _rightDrawer.StickyHeader.FindViewById<TextView>(Resource.Id.AnimeListPageDrawerHeaderText).Text = "Sorting";
             _rightDrawer.StickyHeader.FindViewById<ImageView>(Resource.Id.AnimeListPageDrawerHeaderIcon).SetImageResource(
-                Resource.Drawable.icon_list_type);
+                Resource.Drawable.icon_sort);
             _rightDrawer.OnDrawerItemClickListener = new HamburgerItemClickListener((view, i, arg3) =>
             {
                 ViewModel.ComparisonSorting = (ComparisonSorting)arg3.Identifier;
@@ -136,9 +134,8 @@ namespace MALClient.Android.Fragments
             foreach (var enumValue in Enum.GetValues(typeof(AnimeStatus)).Cast<AnimeStatus>())
             {
                 var btn = HamburgerUtilities.GetBaseSecondaryItem();
-                btn.WithName(enumValue.GetDescription());
-                btn.WithIdentifier((int)enumValue + 100);
-                btn.WithSetSelected(enumValue == ViewModel.StatusFilter);
+                btn.WithName(Utilities.StatusToString((int)enumValue));
+                btn.WithIdentifier((int)enumValue);
                 items.Add(btn);
             }
 
@@ -149,11 +146,12 @@ namespace MALClient.Android.Fragments
             spinner.ItemSelected += (sender, args) =>
             {
                 ViewModel.StatusFilterTarget = (ComparisonStatusFilterTarget)(int)(sender as Spinner).SelectedView.Tag;
+                ViewModel.RefreshList();
             };
 
             items.Add(new ContainerDrawerItem().WithView(spinner));
 
-
+            _rightDrawer.SetItems(items);
             _rightDrawer.SetSelection((int)ViewModel.StatusFilter);
 
             _rightDrawer.StickyHeader.FindViewById<TextView>(Resource.Id.AnimeListPageDrawerHeaderText).Text = "Status Filters";
@@ -194,12 +192,19 @@ namespace MALClient.Android.Fragments
 
         private void CloseDrawer()
         {
+            _rightDrawer.OnDrawerItemClickListener = null;
             _rightDrawer.CloseDrawer();
         }
 
         private void DescendingToggleOnCheckedChange(IDrawerItem arg1, bool arg2)
         {
             ViewModel.SortAscending = !arg2;
+        }
+
+        public override void OnPause()
+        {
+            _actionMenu.Close(false);
+            base.OnPause();
         }
 
         private void OnCloseDrawer()
@@ -214,8 +219,9 @@ namespace MALClient.Android.Fragments
             var param = new ViewGroup.LayoutParams(DimensionsHelper.DpToPx(45), DimensionsHelper.DpToPx(45));
             var builder = new FloatingActionMenu.Builder(Activity)
                 .AddSubActionView(BuildFabActionButton(param, Resource.Drawable.icon_filter))
-                .AddSubActionView(BuildFabActionButton(param, Resource.Drawable.icon_list_type))
+                .AddSubActionView(BuildFabActionButton(param, Resource.Drawable.icon_linear_blur))
                 .AddSubActionView(BuildFabActionButton(param, Resource.Drawable.icon_sort));
+            builder.SetRadius(DimensionsHelper.DpToPx(75));
             _actionMenu = builder.AttachTo(ComparisonPageActionButton).Build();
         }
 
@@ -244,7 +250,7 @@ namespace MALClient.Android.Fragments
                 case Resource.Drawable.icon_filter:
                     OpenFiltersDrawer();
                     break;
-                case Resource.Drawable.icon_list_type:
+                case Resource.Drawable.icon_linear_blur:
                     OpenCompFiltersDrawer();
                     break;
                 case Resource.Drawable.icon_sort:

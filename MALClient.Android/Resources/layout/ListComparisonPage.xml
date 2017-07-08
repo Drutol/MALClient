@@ -2,14 +2,10 @@
               xmlns:app="http://schemas.android.com/apk/res-auto"
               android:layout_width="match_parent" android:orientation="vertical"
               android:layout_height="match_parent">
-
-
   <!-- HEADER -->
   <FrameLayout
     android:layout_width="match_parent" android:background="?BrushAnimeItemBackground"
     android:layout_height="wrap_content">
-
-
     <FrameLayout
       android:layout_width="match_parent"
       android:layout_height="wrap_content" android:background="@drawable/border_accent_underline"
@@ -80,6 +76,12 @@
     <ListView
       android:layout_width="match_parent" android:divider="@android:color/transparent" android:dividerHeight="5dp"
       android:layout_height="match_parent" android:id="@+id/ComparisonListView"/>
+    <ProgressBar android:layout_width="wrap_content" android:indeterminateTint="?AccentColour" android:id="@+id/ComparisonLoadingSpinner"
+                 android:indeterminateTintMode="src_in" android:layout_height="wrap_content"
+                 android:indeterminate="true" android:layout_gravity="center" />
+    <TextView android:gravity="center" android:visibility="visible"
+              android:layout_width="wrap_content" android:id="@+id/ComparisonEmptyNotice"
+              android:layout_height="wrap_content" android:fontFamily="@string/font_family_light" android:text="We have come up empty..." android:layout_gravity="center" android:textColor="?AccentColour"/>
     <android.support.design.widget.FloatingActionButton android:id="@+id/ComparisonPageActionButton"
                                                         android:layout_width="wrap_content" app:backgroundTint="?AccentColourContrast" android:layout_gravity="end|bottom" android:layout_margin="16dp"
                                                         android:layout_height="wrap_content" android:src="@drawable/icon_more" android:clickable="true" android:focusable="true"

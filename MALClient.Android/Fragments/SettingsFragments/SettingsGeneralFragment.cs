@@ -312,8 +312,6 @@ namespace MALClient.Android.Fragments.SettingsFragments
 
             view.Tag = tuple.Wrap();
 
-
-
             return view;
         }
 

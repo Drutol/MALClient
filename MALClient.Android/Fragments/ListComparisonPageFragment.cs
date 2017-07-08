@@ -8,12 +8,14 @@ using Android.Content;
 using Android.Graphics;
 using Android.OS;
 using Android.Runtime;
+using Android.Support.Design.Widget;
 using Android.Support.V4.Content.Res;
 using Android.Views;
 using Android.Widget;
 using FFImageLoading.Transformations;
 using FFImageLoading.Views;
 using GalaSoft.MvvmLight.Helpers;
+using MALClient.Android.Listeners;
 using MALClient.XShared.NavArgs;
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Items;
@@ -35,6 +37,8 @@ namespace MALClient.Android.Fragments
         {
             ViewModel = ViewModelLocator.Comparison;
             ViewModel.NavigatedTo(_args);
+            InitDrawer();
+
         }
 
         protected override void InitBindings()
@@ -64,6 +68,10 @@ namespace MALClient.Android.Fragments
                 ComparisonListView.InjectFlingAdapter(ViewModel.CurrentItems, DataTemplateFull, DataTemplateFling,
                     ContainerTemplate, DataTemplateBasic);
             }));
+
+
+            ComparisonPageActionButton.SetOnClickListener(new OnClickListener(view => _actionMenu.Open(true)));
+            InitActionMenu();
         }
 
         class ComparisonViewHolder
@@ -262,6 +270,7 @@ namespace MALClient.Android.Fragments
         private ImageViewAsync _otherImage;
         private TextView _otherName;
         private ListView _comparisonListView;
+        private FloatingActionButton _comparisonPageActionButton;
 
         public ImageViewAsync MyImage => _myImage ?? (_myImage = FindViewById<ImageViewAsync>(Resource.Id.MyImage));
 
@@ -276,6 +285,8 @@ namespace MALClient.Android.Fragments
         public TextView OtherName => _otherName ?? (_otherName = FindViewById<TextView>(Resource.Id.OtherName));
 
         public ListView ComparisonListView => _comparisonListView ?? (_comparisonListView = FindViewById<ListView>(Resource.Id.ComparisonListView));
+
+        public FloatingActionButton ComparisonPageActionButton => _comparisonPageActionButton ?? (_comparisonPageActionButton = FindViewById<FloatingActionButton>(Resource.Id.ComparisonPageActionButton));
 
 
 

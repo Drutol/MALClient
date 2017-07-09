@@ -20,7 +20,7 @@
                   android:layout_height="wrap_content"
                   android:layout_centerInParent="true"
                   android:orientation="vertical"
-                  android:translationX="50dp">
+                  android:translationX="100dp">
       <ImageView android:layout_width="wrap_content"
                  android:layout_height="wrap_content" android:id="@+id/SurfaceAddIcon"
                  android:src="@drawable/icon_add" android:tint="#fff"

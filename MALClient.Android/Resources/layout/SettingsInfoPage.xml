@@ -45,7 +45,7 @@
 
 
     <TextView android:layout_marginTop="30dp"
-              android:layout_width="wrap_content" android:layout_gravity="center_horizontal" android:textSize="@dimen/FontSizeHuge" android:text="3. You can search for tags and genres."
+              android:layout_width="wrap_content" android:layout_gravity="center_horizontal" android:textSize="@dimen/FontSizeHuge" android:text="3. You can search for tags and types."
               android:layout_height="wrap_content" android:textColor="?AccentColour" android:fontFamily="@string/font_family_light" android:gravity="center" />
 
     <TextView android:lineSpacingExtra="2dp"

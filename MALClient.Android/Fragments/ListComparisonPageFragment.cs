@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
+using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
 using Android.Graphics;
@@ -19,6 +19,7 @@ using MALClient.Android.BindingConverters;
 using MALClient.Android.Listeners;
 using MALClient.Android.Resources;
 using MALClient.XShared.NavArgs;
+using MALClient.XShared.Utils;
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Items;
 using MALClient.XShared.ViewModels.Main;
@@ -43,7 +44,7 @@ namespace MALClient.Android.Fragments
 
         }
 
-        protected override void InitBindings()
+        protected override async void InitBindings()
         {
             Bindings.Add(this.SetBinding(() => ViewModel.MyData).WhenSourceChanges(() =>
             {
@@ -67,6 +68,7 @@ namespace MALClient.Android.Fragments
 
             Bindings.Add(this.SetBinding(() => ViewModel.CurrentItems).WhenSourceChanges(() =>
             {
+                ComparisonListView.ClearFlingAdapter();
                 ComparisonListView.InjectFlingAdapter(ViewModel.CurrentItems, DataTemplateFull, DataTemplateFling,
                     ContainerTemplate, DataTemplateBasic);
             }));
@@ -114,6 +116,8 @@ namespace MALClient.Android.Fragments
             private LinearLayout _comparisonItemOnBothScoreSection;
             private TextView _comparisonItemOnMyMyScore;
             private TextView _comparisonItemOnMyMyWatched;
+            private LinearLayout _comparisonItemTitleSection;
+            private FrameLayout _comparisonItemStatusSection;
 
             public ProgressBar ComparisonItemImgPlaceholder => _comparisonItemImgPlaceholder ?? (_comparisonItemImgPlaceholder = _view.FindViewById<ProgressBar>(Resource.Id.ComparisonItemImgPlaceholder));
 
@@ -157,6 +161,10 @@ namespace MALClient.Android.Fragments
 
             public TextView ComparisonItemOnMyMyWatched => _comparisonItemOnMyMyWatched ?? (_comparisonItemOnMyMyWatched = _view.FindViewById<TextView>(Resource.Id.ComparisonItemOnMyMyWatched));
 
+            public LinearLayout ComparisonItemTitleSection => _comparisonItemTitleSection ?? (_comparisonItemTitleSection = _view.FindViewById<LinearLayout>(Resource.Id.ComparisonItemTitleSection));
+
+            public FrameLayout ComparisonItemStatusSection => _comparisonItemStatusSection ?? (_comparisonItemStatusSection = _view.FindViewById<FrameLayout>(Resource.Id.ComparisonItemStatusSection));
+
 
         }
 
@@ -168,12 +176,18 @@ namespace MALClient.Android.Fragments
             var holder = new ComparisonViewHolder(view);
             _comparisonViewHolders.Add(view,holder);
 
+            if (Settings.SelectedTheme == 1)
+            {
+                holder.ComparisonItemStatusSection.SetBackgroundResource(ResourceExtension.BrushFlyoutBackgroundRes);
+                holder.ComparisonItemTitleSection.SetBackgroundResource(ResourceExtension.BrushAnimeItemBackgroundRes);
+            }
+
             holder.ComparisonItemAddToListButton.Click += async (sender, args) =>
             {
                 var v = sender as View;
                 var vm = v.Tag.Unwrap<ComparisonItemViewModel>();
                 await vm.AddToMyListAsync();
-                DataTemplateBasic(v, 0, vm);
+                DataTemplateBasic(v.Parent.Parent.Parent.Parent as View, 0, vm);
             };
             return view;
         }
@@ -205,6 +219,8 @@ namespace MALClient.Android.Fragments
                 holder.ComparisonItemOnlyMyStateSection.Visibility = ViewStates.Gone;
                 holder.ComparisonItemOnOtherStateSection.Visibility = ViewStates.Visible;
                 holder.ComparisonItemOnBothStateSection.Visibility = ViewStates.Gone;
+
+                holder.ComparisonItemAddToListButton.Tag = arg3.Wrap();
 
                 holder.ComparisonItemOnlyOtherScore.Text = ScoreToString(arg3.OtherEntry.MyScore);
                 holder.ComparisonItemOnlyOtherWatched.Text = arg3.OtherEntry.MyEpisodesBindShort;

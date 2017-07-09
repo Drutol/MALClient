@@ -162,6 +162,8 @@ namespace MALClient.XShared.ViewModels.Main
 
         public async void NavigatedTo(ListComparisonPageNavigationArgs args)
         {
+            if(args.Equals(_navArgs))
+                return;
             CurrentItems = new SmartObservableCollection<ComparisonItemViewModel>();
             RaisePropertyChanged(() => CurrentItems);
 

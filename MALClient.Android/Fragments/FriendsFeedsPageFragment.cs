@@ -75,9 +75,10 @@ namespace MALClient.Android.Fragments
                 var usrImg = view.FindViewById(Resource.Id.FriendsFeedsPageItemUserImageButton);
                 usrImg.LayoutParameters.Height = usrImg.LayoutParameters.Width = DimensionsHelper.DpToPx(50);
                 usrImg.RequestLayout();
+                view.FindViewById<ImageViewAsync>(Resource.Id.FriendsFeedsPageItemImage).SetScaleType(ImageView.ScaleType.CenterCrop);
                 view.FindViewById<TextView>(Resource.Id.FriendsFeedsPageItemUserName).SetTextSize(ComplexUnitType.Sp, 13);
                 view.FindViewById<TextView>(Resource.Id.FriendsFeedsPageItemTitle).SetTextSize(ComplexUnitType.Sp, 14);
-                view.FindViewById<TextView>(Resource.Id.FriendsFeedsPageItemContent).SetTextSize(ComplexUnitType.Sp, 12);
+                view.FindViewById<TextView>(Resource.Id.FriendsFeedsPageItemContent).SetTextSize(ComplexUnitType.Sp, 13);
                 view.FindViewById<TextView>(Resource.Id.FriendsFeedsPageItemDate).SetTextSize(ComplexUnitType.Sp, 12);
                 date.Tag = true;
             }

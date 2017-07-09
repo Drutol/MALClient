@@ -9,10 +9,7 @@
     <FrameLayout
       android:layout_width="match_parent"
       android:layout_height="wrap_content" android:background="@drawable/border_accent_underline"
-      android:orientation="horizontal" android:padding="10dp">
-      <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" android:scaleX="2" android:scaleY="2" android:layout_gravity="center" android:src="@drawable/icon_compare" android:alpha=".25"/>
+      android:orientation="horizontal" android:padding="10dp">     
       <LinearLayout
         android:layout_width="wrap_content" android:gravity="center_vertical"
         android:layout_height="wrap_content" android:orientation="horizontal">
@@ -72,7 +69,7 @@
   </FrameLayout>
   <FrameLayout
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="0dp" android:layout_weight="1">
     <ListView
       android:layout_width="match_parent" android:divider="@android:color/transparent" android:dividerHeight="5dp"
       android:layout_height="match_parent" android:id="@+id/ComparisonListView" android:paddingBottom="60dp" android:clipToPadding="false"/>

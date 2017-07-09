@@ -20,6 +20,7 @@ namespace MALClient.XShared.ViewModels.Items
         private int _watchedDifference;
         private int _scoreDifference;
         private bool _watchedComparisonBarVisibility;
+        private bool _adding;
 
         public AnimeItemViewModel MyEntry { get; private set; }
         public AnimeItemViewModel OtherEntry { get; }
@@ -186,6 +187,10 @@ namespace MALClient.XShared.ViewModels.Items
 
         public async Task AddToMyListAsync()
         {
+            if(_adding)
+                return;
+            _adding = true;
+
             var response = await new AnimeAddQuery(OtherEntry.Id.ToString()).GetRequestResponse();
             if (response != "Created")
                 return;
@@ -205,6 +210,8 @@ namespace MALClient.XShared.ViewModels.Items
 
             IsComparisonValid = true;
             RaisePropertyChanged(() => MyEntry);
+
+            _adding = false;
         }
 
 

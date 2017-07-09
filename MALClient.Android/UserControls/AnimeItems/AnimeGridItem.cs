@@ -281,7 +281,10 @@ namespace MALClient.Android.UserControls
                 AnimeGridItemBackSurfaceAdd.LayoutParameters.Width = DimensionsHelper.DpToPx(66);
                 AnimeGridItemBackSurfaceSubtract.LayoutParameters.Width = DimensionsHelper.DpToPx(72);
 
-                AnimeGridItemBackSurfaceAdd.GetChildAt(0).TranslationX *= 2;
+                SurfaceAddDescription.SetTextSize(ComplexUnitType.Sp, 13);
+                SurfaceSubtractDescription.SetTextSize(ComplexUnitType.Sp, 13);
+
+                AnimeGridItemBackSurfaceAdd.GetChildAt(0).TranslationX /= 1.05f;
 
                 AnimeGridItemCurrentWatchingStatus.SetTextSize(ComplexUnitType.Sp, 13);
                 AnimeGridItemWatchedStatus.SetTextSize(ComplexUnitType.Sp, 13);

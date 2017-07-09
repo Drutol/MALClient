@@ -62,7 +62,7 @@ namespace MALClient.Android.Fragments.SettingsFragments
                 }
             }
             //
-            List<int> availableTimes = new List<int>() { 30, 45, 60, 120 };
+            List<int> availableTimes = new List<int>() { 15, 30, 45, 60, 120 };
             SettingsPageNotificationsFrequencySpinner.Adapter = availableTimes.GetAdapter((i, i1, arg3) =>
             {
                 var view = arg3;

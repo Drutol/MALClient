@@ -31,16 +31,19 @@ namespace MALClient.Android.Adapters
 
         public bool NewChangelog { get; set; }
 
-        public string DateWithVersion => $"{_currentVersion} - 01.07.2017";
+        public string DateWithVersion => $"{_currentVersion} - 09.07.2017";
 
         public List<string> Changelog => new List<string>
         {
-            "Added shortcut buttons to hamburger.",
-            "Added autocomplete when adding tags.",
-            "Fixed issue with displaying stats.",
-            "Fixed some issues with loading cover images while offline.",
-            "Watched dialog will now behave a bit differently with displaying episode shortcuts.",
-            "Fixed smaller grid items in favourites.",
+            "Added anime list comparison.",
+            "Notifications *should* be more reliable and now will properly start working after reboot.",
+            "Added option to reverse swipe direction on grid items.",
+            "Added alternate title display to anime details page (details tab ^^) for en/jp title depending on language preference.",
+            "Friends feeds now look better in smaller grid mode.",
+            "Fixed misc settings page.",
+            "Fixed issues on devices with arabic culture info.",
+            "A few crashfixes.",
+            "I'll be unavailable during 13.07-20.07 period so if anything breaks I won't be able to fix it. Let's hope that MAL doesn't change something abruptly :)"
         };
 
     }

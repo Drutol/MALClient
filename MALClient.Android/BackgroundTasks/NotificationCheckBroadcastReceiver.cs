@@ -10,6 +10,7 @@ using Android.Media;
 using Android.OS;
 using Android.Runtime;
 using Android.Support.V7.App;
+using Android.Util;
 using Android.Views;
 using Android.Widget;
 using MALClient.Adapters;
@@ -144,7 +145,8 @@ namespace MALClient.Android.BackgroundTasks
 
             var allTriggeredNotifications = (ResourceLocator.ApplicationDataService[nameof(RoamingDataTypes.ReadNotifications)] ?? string.Empty) as string;
             var triggeredNotifications = allTriggeredNotifications?.Split(';').ToList() ?? new List<string>();
-
+            Log.Debug("MALClient",
+                $"Checking notifications: trig: {triggeredNotifications.Count} fetched: {notifications.Count}");
             //trigger new notifications
             foreach (var notification in notifications)
             {

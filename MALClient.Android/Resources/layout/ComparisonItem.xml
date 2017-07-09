@@ -8,11 +8,11 @@
     android:layout_width="match_parent" android:orientation="horizontal"
     android:layout_height="120dp" android:paddingStart="4dp" android:background="@drawable/border_accent_left">
     <FrameLayout
-      android:layout_width="wrap_content" android:elevation="2dp"
+      android:layout_width="wrap_content" android:elevation="2dp" android:background="?BrushFlyoutBackground"
       android:layout_height="match_parent">
       <ProgressBar android:scaleX=".7" android:scaleY=".7"
                    android:layout_width="wrap_content" android:id="@+id/ComparisonItemImgPlaceholder"
-                   android:layout_height="wrap_content" android:indeterminateTint="?BrushAnimeItemBackground"
+                   android:layout_height="wrap_content" android:indeterminateTint="?OpaqueAccentColour"
                    android:indeterminate="true" android:layout_gravity="center" android:indeterminateTintMode="src_in"/>
       <FFImageLoading.Views.ImageViewAsync
         android:layout_width="90dp" android:scaleType="centerCrop" android:adjustViewBounds="true" android:id="@+id/ComparisonItemImage"
@@ -22,19 +22,19 @@
     <FrameLayout
       android:layout_width="match_parent"
       android:layout_height="match_parent" android:orientation="vertical">
-      <LinearLayout android:elevation="2dp" android:orientation="horizontal"
+      <LinearLayout android:elevation="2dp" android:orientation="horizontal" android:id="@+id/ComparisonItemTitleSection"
                     android:layout_width="match_parent" android:background="?AccentColourLight"
                     android:layout_height="32dp">
         <FrameLayout
           android:layout_width="0dp" android:layout_weight="1"
           android:layout_height="match_parent" android:elevation="3dp">
           <TextView
-            android:layout_width="wrap_content" android:textColor="?BrushTextInverted" android:id="@+id/ComparisonItemTitle" android:maxLines="1" android:ellipsize="end"
+            android:layout_width="wrap_content" android:textColor="#fff" android:id="@+id/ComparisonItemTitle" android:maxLines="1" android:ellipsize="end"
             android:layout_height="wrap_content" tools:text="Shelter" android:layout_gravity="center_vertical" android:layout_marginStart="8dp" android:layout_marginEnd="8dp"/>
         </FrameLayout>
 
         <FrameLayout
-          android:layout_width="wrap_content" android:background="?AccentColour"
+          android:layout_width="wrap_content" android:background="?AccentColour" android:id="@+id/ComparisonItemStatusSection"
           android:layout_height="match_parent" android:layout_gravity="center" android:paddingStart="8dp" android:paddingEnd="8dp">
           <TextView android:layout_gravity="center_vertical"
                     android:layout_width="wrap_content" android:textColor="#fff" android:textSize="@dimen/FontSizeMedium"

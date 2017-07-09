@@ -13,14 +13,14 @@ using MALClient.Adapters;
 using MALClient.Android.Activities;
 using MALClient.Models.Enums;
 using MALClient.XShared.Utils;
+using Debug = System.Diagnostics.Debug;
 
 namespace MALClient.Android.BackgroundTasks
 {
     public class NotificationTaskManager : INotificationsTaskManager
     {
-        public void StartTask(BgTasks task)
+        internal void StartTask(BgTasks task, Context context)
         {
-    
             Type listenerType;
             TimeSpan refreshTime;
             switch (task)
@@ -29,23 +29,26 @@ namespace MALClient.Android.BackgroundTasks
                     if (!Settings.EnableNotifications || !Credentials.Authenticated ||
                         Settings.SelectedApiType == ApiType.Hummingbird)
                         return;
-
                     refreshTime = TimeSpan.FromMinutes(Settings.NotificationsRefreshTime);
                     listenerType = typeof(NotificationCheckBroadcastReceiver);
                     break;
                 case BgTasks.Tiles:
                     return;
                 case BgTasks.ToastActivation:
-                    return; 
+                    return;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(task), task, null);
             }
-            StopTask(task);
             long now = SystemClock.CurrentThreadTimeMillis();
-            var am = (AlarmManager)MainActivity.CurrentContext.GetSystemService(Context.AlarmService);
-            var intent = new Intent(MainActivity.CurrentContext,listenerType);
-            var pi = PendingIntent.GetBroadcast(MainActivity.CurrentContext, 0, intent, PendingIntentFlags.CancelCurrent);
+            var am = (AlarmManager)context.GetSystemService(Context.AlarmService);
+            var intent = new Intent(context, listenerType);
+            var pi = PendingIntent.GetBroadcast(context, 0, intent, PendingIntentFlags.CancelCurrent);
             am.SetRepeating(AlarmType.RtcWakeup, now, (long)refreshTime.TotalMilliseconds, pi);
+        }
+
+        public void StartTask(BgTasks task)
+        {
+            StartTask(task,MainActivity.CurrentContext);
         }
 
         public void StopTask(BgTasks task)

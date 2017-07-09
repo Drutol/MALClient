@@ -290,6 +290,12 @@ namespace MALClient.XShared.Utils
             set { ApplicationDataService["EnableSwipeToIncDec"] = value; }
         }
 
+        public static bool ReverseSwipingDirection
+        {
+            get { return (bool) (ApplicationDataService[nameof(ReverseSwipingDirection)] ?? false); }
+            set { ApplicationDataService[nameof(ReverseSwipingDirection)] = value; }
+        }
+
         public static bool DetailsListRecomsView
         {
             get { return (bool) (ApplicationDataService["DetailsListRecomsView"] ?? true); }

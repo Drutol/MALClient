@@ -28,11 +28,11 @@ namespace MALClient.Android.Fragments.SettingsFragments
         {
             Bindings.Add(
                 this.SetBinding(() => ViewModel.RatePopUpEnable,
-                    () => SettingsPageMiscEnableReviewReminder.Checked));
+                    () => SettingsPageMiscEnableReviewReminder.Checked,BindingMode.TwoWay));
 
             Bindings.Add(
                 this.SetBinding(() => ViewModel.AskBeforeSendingCrashReports,
-                    () => SettingsPageMiscAskBeforeCrashReports.Checked));
+                    () => SettingsPageMiscAskBeforeCrashReports.Checked,BindingMode.TwoWay));
 
             SettingsPageMiscPageRateNowButton.SetOnClickListener(new OnClickListener(view => ViewModel.ReviewCommand.Execute(null)));
         }

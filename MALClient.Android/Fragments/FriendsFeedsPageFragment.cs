@@ -9,6 +9,7 @@ using Android.Content.Res;
 using Android.OS;
 using Android.Runtime;
 using Android.Support.V4.Util;
+using Android.Util;
 using Android.Views;
 using Android.Widget;
 using FFImageLoading;
@@ -66,12 +67,25 @@ namespace MALClient.Android.Fragments
 
         private void DataTemplateBasic(View view, int i, UserFeedEntryModel userFeedEntryModel)
         {
+            var date = view.FindViewById<TextView>(Resource.Id.FriendsFeedsPageItemDate);
 
+            if (Settings.MakeGridItemsSmaller && date.Tag == null)
+            {
+                view.LayoutParameters = new AbsListView.LayoutParams(-1,DimensionsHelper.DpToPx(233));
+                var usrImg = view.FindViewById(Resource.Id.FriendsFeedsPageItemUserImageButton);
+                usrImg.LayoutParameters.Height = usrImg.LayoutParameters.Width = DimensionsHelper.DpToPx(50);
+                usrImg.RequestLayout();
+                view.FindViewById<TextView>(Resource.Id.FriendsFeedsPageItemUserName).SetTextSize(ComplexUnitType.Sp, 13);
+                view.FindViewById<TextView>(Resource.Id.FriendsFeedsPageItemTitle).SetTextSize(ComplexUnitType.Sp, 14);
+                view.FindViewById<TextView>(Resource.Id.FriendsFeedsPageItemContent).SetTextSize(ComplexUnitType.Sp, 12);
+                view.FindViewById<TextView>(Resource.Id.FriendsFeedsPageItemDate).SetTextSize(ComplexUnitType.Sp, 12);
+                date.Tag = true;
+            }
 
             view.FindViewById<TextView>(Resource.Id.FriendsFeedsPageItemUserName).Text = userFeedEntryModel.User.Name;
             view.FindViewById<TextView>(Resource.Id.FriendsFeedsPageItemTitle).Text = userFeedEntryModel.Title;
             view.FindViewById<TextView>(Resource.Id.FriendsFeedsPageItemContent).Text = userFeedEntryModel.Description;
-            view.FindViewById<TextView>(Resource.Id.FriendsFeedsPageItemDate).Text = userFeedEntryModel.Date.ToDiffString();
+            date.Text = userFeedEntryModel.Date.ToDiffString();
         }
 
         private View ContainerTemplate(int i)
@@ -80,18 +94,10 @@ namespace MALClient.Android.Fragments
 
             view.Click += RootFeedItemOnClick;
             view.FindViewById(Resource.Id.FriendsFeedsPageItemUserImageButton).Click+= UserButtonOnClick;
-            if (Settings.MakeGridItemsSmaller)
-                view.LayoutChange += ViewOnLayoutChange;
+
             return view;
         }
 
-        private void ViewOnLayoutChange(object sender, View.LayoutChangeEventArgs layoutChangeEventArgs)
-        {
-            var view = sender as View;
-            view.LayoutChange -= ViewOnLayoutChange;
-
-            view.LayoutParameters.Height = DimensionsHelper.DpToPx(223);
-        }
 
         private void DataTemplateFling(View view, int i, UserFeedEntryModel userFeedEntryModel)
         {

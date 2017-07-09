@@ -12,7 +12,7 @@
       android:orientation="horizontal" android:padding="10dp">
       <ImageView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" android:scaleX="2" android:scaleY="2" android:layout_gravity="center" android:src="@drawable/icon_compare" android:alpha=".3" android:tint="#fff"/>
+        android:layout_height="wrap_content" android:scaleX="2" android:scaleY="2" android:layout_gravity="center" android:src="@drawable/icon_compare" android:alpha=".25"/>
       <LinearLayout
         android:layout_width="wrap_content" android:gravity="center_vertical"
         android:layout_height="wrap_content" android:orientation="horizontal">
@@ -75,7 +75,7 @@
     android:layout_height="match_parent">
     <ListView
       android:layout_width="match_parent" android:divider="@android:color/transparent" android:dividerHeight="5dp"
-      android:layout_height="match_parent" android:id="@+id/ComparisonListView"/>
+      android:layout_height="match_parent" android:id="@+id/ComparisonListView" android:paddingBottom="60dp" android:clipToPadding="false"/>
     <ProgressBar android:layout_width="wrap_content" android:indeterminateTint="?AccentColour" android:id="@+id/ComparisonLoadingSpinner"
                  android:indeterminateTintMode="src_in" android:layout_height="wrap_content"
                  android:indeterminate="true" android:layout_gravity="center" />

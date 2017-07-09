@@ -151,6 +151,11 @@ namespace MALClient.XShared.ViewModels
             }
         }
 
+        public string AlaternateTitle
+        {
+            get { return ParentAbstraction.AlternateTitle; }
+        }
+
         public string EndDate
         {
             get { return ParentAbstraction.MyEndDate; }
@@ -611,12 +616,25 @@ namespace MALClient.XShared.ViewModels
 
         private ICommand _incrementWatchedCommand;
 
-        public ICommand IncrementWatchedCommand => _incrementWatchedCommand ?? (_incrementWatchedCommand = new RelayCommand(IncrementWatchedEp));
+        public ICommand IncrementWatchedCommand => _incrementWatchedCommand ?? (_incrementWatchedCommand = new RelayCommand(
+                                                       () =>
+                                                       {
+                                                           if (Settings.ReverseSwipingDirection)
+                                                               DecrementWatchedEp();
+                                                           else
+                                                               IncrementWatchedEp();
+                                                       }));
 
         private ICommand _decrementWatchedCommand;
 
-        public ICommand DecrementWatchedCommand => _decrementWatchedCommand ?? (_decrementWatchedCommand = new RelayCommand(DecrementWatchedEp));
-
+        public ICommand DecrementWatchedCommand => _decrementWatchedCommand ?? (_decrementWatchedCommand = new RelayCommand(
+                                                       () =>
+                                                       {
+                                                           if (Settings.ReverseSwipingDirection)
+                                                               IncrementWatchedEp();
+                                                           else
+                                                               DecrementWatchedEp();
+                                                       }));
         private ICommand _addAnimeCommand;
 
         public ICommand AddAnimeCommand => _addAnimeCommand ?? (_addAnimeCommand = new RelayCommand(AddThisToMyList));

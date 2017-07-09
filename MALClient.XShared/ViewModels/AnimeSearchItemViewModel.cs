@@ -27,6 +27,7 @@ namespace MALClient.XShared.ViewModels
         public string EndDate { get; set; }
         public string Notes { get; set; }
         public bool IsRewatching { get; set; }
+        public string AlaternateTitle { get; }
         public int MyVolumes { get; set; }
         public int AllVolumes { get; set; }
         public string Title { get; set; }
@@ -59,11 +60,11 @@ namespace MALClient.XShared.ViewModels
             Synopsis = data.Synopsis;
             ImgUrl = data.ImgUrl;
             AnimeMode = anime;
+            AlaternateTitle = data.AlternateTitle;
         }
 
-        public async void NavigateDetails()
+        public void NavigateDetails()
         {
-            await Task.Delay(10);
             if (ViewModelLocator.AnimeDetails.Id == Id)
                 return;
             ViewModelLocator.GeneralMain

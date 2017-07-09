@@ -22,12 +22,12 @@
                   android:orientation="vertical"
                   android:translationX="50dp">
       <ImageView android:layout_width="wrap_content"
-                 android:layout_height="wrap_content"
+                 android:layout_height="wrap_content" android:id="@+id/SurfaceAddIcon"
                  android:src="@drawable/icon_add" android:tint="#fff"
                  android:layout_gravity="center_horizontal" />
       <TextView android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Increment"
+                android:text="Increment" android:id="@+id/SurfaceAddDescription"
                 android:layout_gravity="center_horizontal"
                 android:textColor="#fff" />
     </LinearLayout>
@@ -44,12 +44,12 @@
                   android:layout_centerInParent="true"
                   android:orientation="vertical">
       <ImageView android:layout_width="wrap_content"
-                 android:layout_height="wrap_content"
+                 android:layout_height="wrap_content" android:id="@+id/SurfaceSubtractIcon"
                  android:src="@drawable/icon_minus"
                  android:layout_gravity="center_horizontal" />
       <TextView android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Decrement"
+                android:text="Decrement" android:id="@+id/SurfaceSubtractDescription"
                 android:layout_gravity="center_horizontal"
                 android:textColor="?BrushText" />
     </LinearLayout>

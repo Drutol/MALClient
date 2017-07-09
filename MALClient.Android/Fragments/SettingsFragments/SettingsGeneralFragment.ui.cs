@@ -34,6 +34,7 @@ namespace MALClient.Android.Fragments.SettingsFragments
         private Switch _settingsPageGeneralHideHamburgerMangaSwitch;
         private Switch _settingsPageGeneralPreferEnglishTitleSwitch;
         private Switch _settingsPageGeneralSmallerGridItems;
+        private Switch _settingsPageGeneralReverseSwipeOrder;
         private RadioButton _settingsPageGeneralAnimeSortTitleRadioBtn;
         private RadioButton _settingsPageGeneralAnimeScoreTitleRadioBtn;
         private RadioButton _settingsPageGeneralAnimeWatchedTitleRadioBtn;
@@ -103,6 +104,8 @@ namespace MALClient.Android.Fragments.SettingsFragments
 
         public Switch SettingsPageGeneralSmallerGridItems => _settingsPageGeneralSmallerGridItems ?? (_settingsPageGeneralSmallerGridItems = FindViewById<Switch>(Resource.Id.SettingsPageGeneralSmallerGridItems));
 
+        public Switch SettingsPageGeneralReverseSwipeOrder => _settingsPageGeneralReverseSwipeOrder ?? (_settingsPageGeneralReverseSwipeOrder = FindViewById<Switch>(Resource.Id.SettingsPageGeneralReverseSwipeOrder));
+
         public RadioButton SettingsPageGeneralAnimeSortTitleRadioBtn => _settingsPageGeneralAnimeSortTitleRadioBtn ?? (_settingsPageGeneralAnimeSortTitleRadioBtn = FindViewById<RadioButton>(Resource.Id.SettingsPageGeneralAnimeSortTitleRadioBtn));
 
         public RadioButton SettingsPageGeneralAnimeScoreTitleRadioBtn => _settingsPageGeneralAnimeScoreTitleRadioBtn ?? (_settingsPageGeneralAnimeScoreTitleRadioBtn = FindViewById<RadioButton>(Resource.Id.SettingsPageGeneralAnimeScoreTitleRadioBtn));
@@ -162,6 +165,7 @@ namespace MALClient.Android.Fragments.SettingsFragments
         public TextView SettingsPageGeneralAirDayOffsetTextView => _settingsPageGeneralAirDayOffsetTextView ?? (_settingsPageGeneralAirDayOffsetTextView = FindViewById<TextView>(Resource.Id.SettingsPageGeneralAirDayOffsetTextView));
 
         public SeekBar SettingsPageGeneralAirDayOffsetSlider => _settingsPageGeneralAirDayOffsetSlider ?? (_settingsPageGeneralAirDayOffsetSlider = FindViewById<SeekBar>(Resource.Id.SettingsPageGeneralAirDayOffsetSlider));
+
 
 
     }

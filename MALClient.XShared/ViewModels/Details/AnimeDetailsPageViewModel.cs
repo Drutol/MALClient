@@ -721,6 +721,10 @@ namespace MALClient.XShared.ViewModels.Details
             {
                 WatchedEpsInputNoticeVisibility = true;
             }
+
+            RaisePropertyChanged(() => IsIncrementButtonEnabled);
+            RaisePropertyChanged(() => IsDecrementButtonEnabled);
+
             LoadingUpdate = false;
         }
 
@@ -1091,7 +1095,7 @@ namespace MALClient.XShared.ViewModels.Details
             DetailedDataVisibility = true;
             //Now we can build elements here
             var i = 1;
-            foreach (var genre in data.Information.First(s => s.StartsWith("Genres:")).Substring(7).Split(','))
+            foreach (var genre in data.Information.FirstOrDefault(s => s.StartsWith("Genres:")).Substring(7).Split(',') ?? Enumerable.Empty<string>())
             {
                 if (i%2 == 0)
                     LeftGenres.Add(Utils.Utilities.FirstCharToUpper(genre));
@@ -1154,6 +1158,8 @@ namespace MALClient.XShared.ViewModels.Details
                 }
                 Information.Add(new Tuple<string, string>(parts[0], string.Join(":", parts.Skip(1))));
             }
+            if(_animeItemReference?.AlaternateTitle != null)
+                Information.Add(new Tuple<string, string>("Alt. Title",_animeItemReference.AlaternateTitle));
 
             foreach (var statistic in data.Statistics)
             {

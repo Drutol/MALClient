@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -56,7 +57,7 @@ namespace MALClient.XShared.ViewModels.Items
             {
                 var diff = DateTime.UtcNow - Data.DateTime;
                 if (diff.TotalDays > 7)
-                    return Data.DateTime.ToString("d");
+                    return Data.DateTime.ToString("d",CultureInfo.InvariantCulture);
                 if (diff.Days == 1)
                     return $"{diff.Days} day ago";
                 if (diff.Days > 1)

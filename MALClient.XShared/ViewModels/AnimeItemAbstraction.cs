@@ -111,6 +111,11 @@ namespace MALClient.XShared.ViewModels
             }
         }
 
+        public string AlternateTitle
+        {
+            get { return EntryData?.AlternateTitle; }
+        }
+
         public int AllEpisodes
         {
             get { return EntryData?.AllEpisodes ?? _seasonalAllEps; }

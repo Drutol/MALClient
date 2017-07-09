@@ -29,6 +29,7 @@ namespace MALClient.Models.Models.Anime
         public int AllEpisodes { get; set; }
         public int AllVolumes { get; set; }
         public float GlobalScore { get; set; }
+        public string AlternateTitle { get; set; }
         public List<string> Synonyms { get; set; } = new List<string>();
 
         public void ParseXElement(XElement xmlObj, bool anime,bool preferEnglishTitle)
@@ -38,16 +39,32 @@ namespace MALClient.Models.Models.Anime
                 score = 0;
             MalId = Convert.ToInt32(xmlObj.Element("id").Value);
             var title = "";
+            string alternateTitle = null;
             if (preferEnglishTitle)
             {
                 var elem = xmlObj.Element("english");
-                title = !string.IsNullOrWhiteSpace(elem?.Value) 
-                    ? elem.Value 
-                    : xmlObj.Element("title").Value;
+                if (!string.IsNullOrWhiteSpace(elem?.Value))
+                {
+                    title = elem.Value;
+                    alternateTitle = xmlObj.Element("title").Value;
+                }
+                else
+                {
+                    title = xmlObj.Element("title").Value;
+                }
             }
             else
+            {
+                var elem = xmlObj.Element("english");
+                if (!string.IsNullOrWhiteSpace(elem?.Value))
+                {
+                    alternateTitle = elem.Value;
+                }
                 title = xmlObj.Element("title").Value;
+            }
             Title = title;
+            AlternateTitle = alternateTitle;
+
             GlobalScore = score;
             Type = xmlObj.Element("type").Value;
             Status = xmlObj.Element("status").Value;

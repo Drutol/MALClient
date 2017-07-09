@@ -19,5 +19,6 @@ namespace MALClient.Models.Models.Library
         string MyEndDate { get; set; }
         string Notes { get; set; }
         bool IsRewatching { get; set; }
+        string AlternateTitle { get; set; }
     }
 }

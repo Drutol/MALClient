@@ -56,5 +56,7 @@ namespace MALClient.Models.Enums
         Supernatural = 37,
         Thriller = 41,
         Vampire = 32,
+        Yuri = 34,
+        Hentai = 12,
     }
 }

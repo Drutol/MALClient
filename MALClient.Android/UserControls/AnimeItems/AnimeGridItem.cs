@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
+using Android.Content.Res;
 using Android.Graphics;
 using Android.OS;
 using Android.Runtime;
@@ -294,6 +295,21 @@ namespace MALClient.Android.UserControls
                 AnimeGridItemFavouriteIndicator.ScaleX = AnimeGridItemMoreButton.ScaleY = .85f;
                 AnimeGridItemTagIcon.ScaleX = AnimeGridItemTagIcon.ScaleY = .85f;
             }
+
+            if (Settings.ReverseSwipingDirection)
+            {
+                AnimeGridItemBackSurfaceAdd.SetBackgroundColor(new Color(ResourceExtension.BrushFlyoutBackground));
+                SurfaceAddIcon.SetImageResource(Resource.Drawable.icon_minus);
+                SurfaceAddDescription.Text = "Decrement";
+                SurfaceAddDescription.SetTextColor(new Color(ResourceExtension.BrushText));
+                SurfaceAddIcon.ImageTintList = ColorStateList.ValueOf(new Color(ResourceExtension.BrushText));
+
+                AnimeGridItemBackSurfaceSubtract.SetBackgroundColor(new Color(ResourceExtension.AccentColour));
+                SurfaceSubtractIcon.SetImageResource(Resource.Drawable.icon_add);
+                SurfaceSubtractDescription.Text = "Increment";
+                SurfaceSubtractDescription.SetTextColor(Color.White);
+                SurfaceSubtractIcon.ImageTintList = ColorStateList.ValueOf(Color.White);
+            }
         }
 
         private void ContainerOnClick()
@@ -403,7 +419,11 @@ namespace MALClient.Android.UserControls
 
         #region Views
 
+        private ImageView _surfaceAddIcon;
+        private TextView _surfaceAddDescription;
         private RelativeLayout _animeGridItemBackSurfaceAdd;
+        private ImageView _surfaceSubtractIcon;
+        private TextView _surfaceSubtractDescription;
         private RelativeLayout _animeGridItemBackSurfaceSubtract;
         private ProgressBar _animeGridItemImgPlaceholder;
         private ImageViewAsync _animeGridItemImage;
@@ -427,7 +447,15 @@ namespace MALClient.Android.UserControls
         private ImageButton _animeGridItemMoreButton;
         private LinearLayout _animeGridItemLowerSection;
 
+        public ImageView SurfaceAddIcon => _surfaceAddIcon ?? (_surfaceAddIcon = FindViewById<ImageView>(Resource.Id.SurfaceAddIcon));
+
+        public TextView SurfaceAddDescription => _surfaceAddDescription ?? (_surfaceAddDescription = FindViewById<TextView>(Resource.Id.SurfaceAddDescription));
+
         public RelativeLayout AnimeGridItemBackSurfaceAdd => _animeGridItemBackSurfaceAdd ?? (_animeGridItemBackSurfaceAdd = FindViewById<RelativeLayout>(Resource.Id.AnimeGridItemBackSurfaceAdd));
+
+        public ImageView SurfaceSubtractIcon => _surfaceSubtractIcon ?? (_surfaceSubtractIcon = FindViewById<ImageView>(Resource.Id.SurfaceSubtractIcon));
+
+        public TextView SurfaceSubtractDescription => _surfaceSubtractDescription ?? (_surfaceSubtractDescription = FindViewById<TextView>(Resource.Id.SurfaceSubtractDescription));
 
         public RelativeLayout AnimeGridItemBackSurfaceSubtract => _animeGridItemBackSurfaceSubtract ?? (_animeGridItemBackSurfaceSubtract = FindViewById<RelativeLayout>(Resource.Id.AnimeGridItemBackSurfaceSubtract));
 

@@ -401,6 +401,12 @@ namespace MALClient.XShared.ViewModels
             set { Settings.EnableSwipeToIncDec = value; }
         }
 
+        public  bool ReverseSwipingDirection
+        {
+            get { return Settings.ReverseSwipingDirection; }
+            set { Settings.ReverseSwipingDirection = value; }
+        }
+
         public  bool DetailsListReviewsView
         {
             get { return Settings.DetailsListReviewsView; }

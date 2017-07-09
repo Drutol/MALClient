@@ -82,12 +82,14 @@ namespace MALClient.XShared.Comm
                             foreach (var item in anime)
                             {
                                 string title = "";
+                                string alternateTitle = null;
                                 if (Settings.PreferEnglishTitles)
                                 {
                                     var elem = item.Element("series_synonyms");
                                     if (!string.IsNullOrWhiteSpace(elem?.Value))
                                     {
-                                       title = elem.Value.Split(new [] {';'}, StringSplitOptions.RemoveEmptyEntries).LastOrDefault().Trim();                                   
+                                       title = elem.Value.Split(new [] {';'}, StringSplitOptions.RemoveEmptyEntries).LastOrDefault().Trim();
+                                       alternateTitle = item.Element("series_title").Value;
                                     }
                                     
                                     if(string.IsNullOrEmpty(title))
@@ -96,6 +98,11 @@ namespace MALClient.XShared.Comm
                                 else
                                 {
                                     title = item.Element("series_title").Value;
+                                    var elem = item.Element("series_synonyms");
+                                    if (!string.IsNullOrWhiteSpace(elem?.Value))
+                                    {
+                                        alternateTitle = elem.Value.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries).LastOrDefault().Trim();
+                                    }
                                 }
                                 output.Add(new AnimeLibraryItemData
                                 {
@@ -111,7 +118,8 @@ namespace MALClient.XShared.Comm
                                     MyScore = Convert.ToInt32(item.Element("my_score").Value),
                                     Notes = item.Element("my_tags").Value,
                                     IsRewatching = item.Element("my_rewatching").Value == "1",
-                                    LastWatched = Utils.Utilities.ConvertFromUnixTimestamp(int.Parse(item.Element("my_last_updated").Value))
+                                    LastWatched = Utils.Utilities.ConvertFromUnixTimestamp(int.Parse(item.Element("my_last_updated").Value)),
+                                    AlternateTitle = alternateTitle,
                                 });
                             }
                             break;
@@ -120,12 +128,14 @@ namespace MALClient.XShared.Comm
                             foreach (var item in manga)
                             {
                                 string title = "";
+                                string alternateTitle = null;
                                 if (Settings.PreferEnglishTitles)
                                 {
                                     var elem = item.Element("series_synonyms");
                                     if (!string.IsNullOrWhiteSpace(elem?.Value))
                                     {
                                         title = elem.Value.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries).LastOrDefault().Trim();
+                                        alternateTitle = item.Element("series_title").Value;
                                     }
 
                                     if (string.IsNullOrEmpty(title))
@@ -134,6 +144,11 @@ namespace MALClient.XShared.Comm
                                 else
                                 {
                                     title = item.Element("series_title").Value;
+                                    var elem = item.Element("series_synonyms");
+                                    if (!string.IsNullOrWhiteSpace(elem?.Value))
+                                    {
+                                        alternateTitle = title = elem.Value.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries).LastOrDefault().Trim();
+                                    }
                                 }
                                 output.Add(new MangaLibraryItemData
                                 {
@@ -151,7 +166,9 @@ namespace MALClient.XShared.Comm
                                     AllVolumes = Convert.ToInt32(item.Element("series_volumes").Value),
                                     IsRewatching = item.Element("my_rereadingg").Value == "1",
                                     Notes = item.Element("my_tags").Value,
+                                    AlternateTitle = alternateTitle,
                                     LastWatched = Utils.Utilities.ConvertFromUnixTimestamp(int.Parse(item.Element("my_last_updated").Value))
+                                    
                                 });
                             }
                             break;

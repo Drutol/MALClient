@@ -143,6 +143,15 @@
               android:layout_height="wrap_content" android:layout_gravity="center_vertical" />
     </LinearLayout>
 
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="5dp"
+                  android:layout_marginTop="15dp">
+      <TextView android:text="Reverse swiping direction on grid items." android:layout_width="0dp"
+                android:layout_height="wrap_content" android:textSize="@dimen/FontSizeMedium"
+                android:layout_gravity="center_vertical" android:textColor="?BrushText" android:layout_weight="1" />
+      <Switch android:id="@+id/SettingsPageGeneralReverseSwipeOrder" android:layout_width="wrap_content"
+              android:layout_height="wrap_content" android:layout_gravity="center_vertical" />
+    </LinearLayout>
+
     <View style="@style/Divider" android:layout_marginTop="10dp" />
 
     <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"

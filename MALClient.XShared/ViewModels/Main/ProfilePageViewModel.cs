@@ -75,206 +75,217 @@ namespace MALClient.XShared.ViewModels.Main
 
         public async Task LoadProfileData(ProfilePageNavigationArgs args, bool force = false)
         {
-            if (args == null)
-                args = PrevArgs;
-            else
-                PrevArgs = args;
-
-            if (args == null)
-                return;
-
-            AboutMeHtmlContent = null;
-            AboutMeWebViewVisibility = false;
-            CurrentPivotIndex = args.DesiredPivotIndex;
-            RaisePropertyChanged(() => CurrentPivotIndex);
-            
-
-            if (args.TargetUser == Credentials.UserName && args.AllowBackNavReset)
+            try
             {
-                ViewModelLocator.NavMgr.ResetMainBackNav();
-                if (ViewModelLocator.Mobile)
-                    ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageAnimeList, null);
-            }
 
-            if (_currUser == null || _currUser != args.TargetUser || force)
-            {
-                LoadingVisibility = true;
-                await
-                    Task.Run(
-                        async () =>
-                            CurrentData = await new ProfileQuery(false, args?.TargetUser ?? "").GetProfileData(force));
-                _currUser = args.TargetUser ?? Credentials.UserName;
-            }
-            FavAnime = new List<AnimeItemViewModel>();
-            FavManga = new List<AnimeItemViewModel>();
-            RecentManga = new List<AnimeItemViewModel>();
-            RecentAnime = new List<AnimeItemViewModel>();
-            ViewModelLocator.GeneralMain.CurrentStatus = $"{_currUser} - Profile";
-            var authenticatedUser = args.TargetUser.Equals(Credentials.UserName,
-                StringComparison.CurrentCultureIgnoreCase);
-            IsMyProfile = authenticatedUser;
-            RaisePropertyChanged(() => CurrentData);
-            LoadingVisibility = false;
-            RaisePropertyChanged(() => PinProfileVisibility);
-            RaisePropertyChanged(() => IsPinned);
-            MalComments = new ObservableCollection<MalComment>(CurrentData.Comments);
-            FavouriteCharacters =
-                new List<FavouriteViewModel>(
-                    CurrentData.FavouriteCharacters.Select(character => new FavouriteViewModel(character)));
-            FavouriteStaff =
-                new List<FavouriteViewModel>(CurrentData.FavouritePeople.Select(staff => new FavouriteViewModel(staff)));
 
-            CommentInputBoxVisibility = !string.IsNullOrEmpty(CurrentData.ProfileMemId); //posting restricted
-            LoadingAboutMeVisibility = AboutMeWebViewVisibility = false;
-            if (authenticatedUser)
-            {
-                _initialized = true;
-                var list = new List<AnimeItemViewModel>();
-                foreach (var id in CurrentData.FavouriteAnime)
-                {
-                    var data = await ViewModelLocator.AnimeList.TryRetrieveAuthenticatedAnimeItem(id);
+                if (args == null)
+                    args = PrevArgs;
+                else
+                    PrevArgs = args;
 
-                    if (data != null)
-                        list.Add((data as AnimeItemViewModel).ParentAbstraction.ViewModel);
-                }
-                FavAnime = list;
-                list = new List<AnimeItemViewModel>();
-                foreach (var id in CurrentData.FavouriteManga)
-                {
-                    var data = await ViewModelLocator.AnimeList.TryRetrieveAuthenticatedAnimeItem(id, false);
-                    if (data != null)
-                        list.Add((data as AnimeItemViewModel).ParentAbstraction.ViewModel);
-                }
-                FavManga = list;
-                list = new List<AnimeItemViewModel>();
-                foreach (var id in CurrentData.RecentAnime)
-                {
-                    var data = await ViewModelLocator.AnimeList.TryRetrieveAuthenticatedAnimeItem(id);
-                    if (data != null)
-                        list.Add((data as AnimeItemViewModel).ParentAbstraction.ViewModel);
-                }
-                RecentAnime = list;
-                list = new List<AnimeItemViewModel>();
-                foreach (var id in CurrentData.RecentManga)
-                {
-                    var data = await ViewModelLocator.AnimeList.TryRetrieveAuthenticatedAnimeItem(id, false);
-                    if (data != null)
-                        list.Add((data as AnimeItemViewModel).ParentAbstraction.ViewModel);
-                }
-                RecentManga = list;
-                MyFriends = CurrentData.Friends;
+                if (args == null)
+                    return;
 
-                CountTime(ResourceLocator.AnimeLibraryDataStorage.AllLoadedAuthAnimeItems);
-            }
-            else
-            {
-                if (!_animeLibraryDataStorage.OthersAbstractions.ContainsKey(args.TargetUser ?? ""))
+                AboutMeHtmlContent = null;
+                AboutMeWebViewVisibility = false;
+                CurrentPivotIndex = args.DesiredPivotIndex;
+                RaisePropertyChanged(() => CurrentPivotIndex);
+
+
+                if (args.TargetUser == Credentials.UserName && args.AllowBackNavReset)
                 {
-                    LoadingOhersLibrariesProgressVisiblity = true;
-                    var data = new List<ILibraryData>();
+                    ViewModelLocator.NavMgr.ResetMainBackNav();
+                    if (ViewModelLocator.Mobile)
+                        ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageAnimeList, null);
+                }
+
+                if (_currUser == null || _currUser != args.TargetUser || force)
+                {
+                    LoadingVisibility = true;
                     await
                         Task.Run(
                             async () =>
-                                data =
-                                    await
-                                        new LibraryListQuery(args.TargetUser, AnimeListWorkModes.Anime)
-                                            .GetLibrary(false));
+                                CurrentData =
+                                    await new ProfileQuery(false, args?.TargetUser ?? "").GetProfileData(force));
+                    _currUser = args.TargetUser ?? Credentials.UserName;
+                }
+                FavAnime = new List<AnimeItemViewModel>();
+                FavManga = new List<AnimeItemViewModel>();
+                RecentManga = new List<AnimeItemViewModel>();
+                RecentAnime = new List<AnimeItemViewModel>();
+                ViewModelLocator.GeneralMain.CurrentStatus = $"{_currUser} - Profile";
+                var authenticatedUser = args.TargetUser.Equals(Credentials.UserName,
+                    StringComparison.CurrentCultureIgnoreCase);
+                IsMyProfile = authenticatedUser;
+                RaisePropertyChanged(() => CurrentData);
+                LoadingVisibility = false;
+                RaisePropertyChanged(() => PinProfileVisibility);
+                RaisePropertyChanged(() => IsPinned);
+                MalComments = new ObservableCollection<MalComment>(CurrentData.Comments);
+                FavouriteCharacters =
+                    new List<FavouriteViewModel>(
+                        CurrentData.FavouriteCharacters.Select(character => new FavouriteViewModel(character)));
+                FavouriteStaff =
+                    new List<FavouriteViewModel>(
+                        CurrentData.FavouritePeople.Select(staff => new FavouriteViewModel(staff)));
 
-                    var abstractions = new List<AnimeItemAbstraction>();
-                    foreach (var libraryData in data)
-                        abstractions.Add(new AnimeItemAbstraction(false, libraryData as AnimeLibraryItemData));
-
-                    await
-                        Task.Run(
-                            async () =>
-                                data =
-                                    await
-                                        new LibraryListQuery(args.TargetUser, AnimeListWorkModes.Manga)
-                                            .GetLibrary(false));
-
-                    var mangaAbstractions = new List<AnimeItemAbstraction>();
-                    foreach (
-                        var libraryData in data)
-                        mangaAbstractions.Add(new AnimeItemAbstraction(false, libraryData as MangaLibraryItemData));
-
-                    lock (_animeLibraryDataStorage.OthersAbstractions)
+                CommentInputBoxVisibility = !string.IsNullOrEmpty(CurrentData.ProfileMemId); //posting restricted
+                LoadingAboutMeVisibility = AboutMeWebViewVisibility = false;
+                if (authenticatedUser)
+                {
+                    _initialized = true;
+                    var list = new List<AnimeItemViewModel>();
+                    foreach (var id in CurrentData.FavouriteAnime)
                     {
-                        if (!_animeLibraryDataStorage.OthersAbstractions.ContainsKey(args.TargetUser))
-                            _animeLibraryDataStorage.OthersAbstractions.Add(args.TargetUser,
-                                new Tuple<List<AnimeItemAbstraction>, List<AnimeItemAbstraction>>(abstractions,
-                                    mangaAbstractions));
+                        var data = await ViewModelLocator.AnimeList.TryRetrieveAuthenticatedAnimeItem(id);
+
+                        if (data != null)
+                            list.Add((data as AnimeItemViewModel).ParentAbstraction.ViewModel);
+                    }
+                    FavAnime = list;
+                    list = new List<AnimeItemViewModel>();
+                    foreach (var id in CurrentData.FavouriteManga)
+                    {
+                        var data = await ViewModelLocator.AnimeList.TryRetrieveAuthenticatedAnimeItem(id, false);
+                        if (data != null)
+                            list.Add((data as AnimeItemViewModel).ParentAbstraction.ViewModel);
+                    }
+                    FavManga = list;
+                    list = new List<AnimeItemViewModel>();
+                    foreach (var id in CurrentData.RecentAnime)
+                    {
+                        var data = await ViewModelLocator.AnimeList.TryRetrieveAuthenticatedAnimeItem(id);
+                        if (data != null)
+                            list.Add((data as AnimeItemViewModel).ParentAbstraction.ViewModel);
+                    }
+                    RecentAnime = list;
+                    list = new List<AnimeItemViewModel>();
+                    foreach (var id in CurrentData.RecentManga)
+                    {
+                        var data = await ViewModelLocator.AnimeList.TryRetrieveAuthenticatedAnimeItem(id, false);
+                        if (data != null)
+                            list.Add((data as AnimeItemViewModel).ParentAbstraction.ViewModel);
+                    }
+                    RecentManga = list;
+                    MyFriends = CurrentData.Friends;
+
+                    CountTime(ResourceLocator.AnimeLibraryDataStorage.AllLoadedAuthAnimeItems);
+                }
+                else
+                {
+                    if (!_animeLibraryDataStorage.OthersAbstractions.ContainsKey(args.TargetUser ?? ""))
+                    {
+                        LoadingOhersLibrariesProgressVisiblity = true;
+                        var data = new List<ILibraryData>();
+                        await
+                            Task.Run(
+                                async () =>
+                                    data =
+                                        await
+                                            new LibraryListQuery(args.TargetUser, AnimeListWorkModes.Anime)
+                                                .GetLibrary(false));
+
+                        var abstractions = new List<AnimeItemAbstraction>();
+                        foreach (var libraryData in data)
+                            abstractions.Add(new AnimeItemAbstraction(false, libraryData as AnimeLibraryItemData));
+
+                        await
+                            Task.Run(
+                                async () =>
+                                    data =
+                                        await
+                                            new LibraryListQuery(args.TargetUser, AnimeListWorkModes.Manga)
+                                                .GetLibrary(false));
+
+                        var mangaAbstractions = new List<AnimeItemAbstraction>();
+                        foreach (
+                            var libraryData in data)
+                            mangaAbstractions.Add(new AnimeItemAbstraction(false, libraryData as MangaLibraryItemData));
+
+                        lock (_animeLibraryDataStorage.OthersAbstractions)
+                        {
+                            if (!_animeLibraryDataStorage.OthersAbstractions.ContainsKey(args.TargetUser))
+                                _animeLibraryDataStorage.OthersAbstractions.Add(args.TargetUser,
+                                    new Tuple<List<AnimeItemAbstraction>, List<AnimeItemAbstraction>>(abstractions,
+                                        mangaAbstractions));
+                        }
+
+                        LoadingOhersLibrariesProgressVisiblity = false;
                     }
 
-                    LoadingOhersLibrariesProgressVisiblity = false;
-                }
+                    var source = _animeLibraryDataStorage.OthersAbstractions[args.TargetUser];
+                    var list = new List<AnimeItemViewModel>();
+                    foreach (var id in CurrentData.FavouriteAnime)
+                    {
+                        var data = source.Item1.FirstOrDefault(abs => abs.Id == id);
 
-                var source = _animeLibraryDataStorage.OthersAbstractions[args.TargetUser];
-                var list = new List<AnimeItemViewModel>();
-                foreach (var id in CurrentData.FavouriteAnime)
+                        if (data != null)
+                            list.Add(data.ViewModel);
+                    }
+                    FavAnime = list;
+                    list = new List<AnimeItemViewModel>();
+                    foreach (var id in CurrentData.FavouriteManga)
+                    {
+                        var data = source.Item2.FirstOrDefault(abs => abs.Id == id);
+
+                        if (data != null)
+                            list.Add(data.ViewModel);
+                    }
+                    FavManga = list;
+                    list = new List<AnimeItemViewModel>();
+                    foreach (var id in CurrentData.RecentAnime)
+                    {
+                        var data = source.Item1.FirstOrDefault(abs => abs.Id == id);
+
+                        if (data != null)
+                            list.Add(data.ViewModel);
+                    }
+                    RecentAnime = list;
+                    list = new List<AnimeItemViewModel>();
+                    foreach (var id in CurrentData.RecentManga)
+                    {
+                        var data = source.Item2.FirstOrDefault(abs => abs.Id == id);
+
+                        if (data != null)
+                            list.Add(data.ViewModel);
+                    }
+                    RecentManga = list;
+
+                    CountTime(source.Item1);
+
+                }
+                AnimeChartValues = new List<int>
                 {
-                    var data = source.Item1.FirstOrDefault(abs => abs.Id == id);
-
-                    if (data != null)
-                        list.Add(data.ViewModel);
-                }
-                FavAnime = list;
-                list = new List<AnimeItemViewModel>();
-                foreach (var id in CurrentData.FavouriteManga)
+                    CurrentData.AnimeWatching,
+                    CurrentData.AnimeCompleted,
+                    CurrentData.AnimeOnHold,
+                    CurrentData.AnimeDropped,
+                    CurrentData.AnimePlanned
+                };
+                MangaChartValues = new List<int>
                 {
-                    var data = source.Item2.FirstOrDefault(abs => abs.Id == id);
+                    CurrentData.MangaReading,
+                    CurrentData.MangaCompleted,
+                    CurrentData.MangaOnHold,
+                    CurrentData.MangaDropped,
+                    CurrentData.MangaPlanned
+                };
 
-                    if (data != null)
-                        list.Add(data.ViewModel);
-                }
-                FavManga = list;
-                list = new List<AnimeItemViewModel>();
-                foreach (var id in CurrentData.RecentAnime)
-                {
-                    var data = source.Item1.FirstOrDefault(abs => abs.Id == id);
-
-                    if (data != null)
-                        list.Add(data.ViewModel);
-                }
-                RecentAnime = list;
-                list = new List<AnimeItemViewModel>();
-                foreach (var id in CurrentData.RecentManga)
-                {
-                    var data = source.Item2.FirstOrDefault(abs => abs.Id == id);
-
-                    if (data != null)
-                        list.Add(data.ViewModel);
-                }
-                RecentManga = list;
-
-                CountTime(source.Item1);
-
+                EmptyRecentAnimeNoticeVisibility = RecentAnime.Count == 0;
+                EmptyRecentMangaNoticeVisibility = RecentManga.Count == 0;
+                EmptyFavCharactersNoticeVisibility = CurrentData.FavouriteCharacters.Count == 0;
+                EmptyFavAnimeNoticeVisibility = FavAnime.Count == 0;
+                EmptyFavMangaNoticeVisibility = FavManga.Count == 0;
+                EmptyFavPeopleNoticeVisibility = CurrentData.FavouritePeople.Count == 0;
+                EmptyCommentsNoticeVisibility = CurrentData.Comments.Count == 0;
+                OnInitialized?.Invoke();
             }
-            AnimeChartValues = new List<int>
+            catch (Exception e)
             {
-                CurrentData.AnimeWatching,
-                CurrentData.AnimeCompleted,
-                CurrentData.AnimeOnHold,
-                CurrentData.AnimeDropped,
-                CurrentData.AnimePlanned
-            };
-            MangaChartValues = new List<int>
-            {
-                CurrentData.MangaReading,
-                CurrentData.MangaCompleted,
-                CurrentData.MangaOnHold,
-                CurrentData.MangaDropped,
-                CurrentData.MangaPlanned
-            };
-
-            EmptyRecentAnimeNoticeVisibility = RecentAnime.Count == 0;
-            EmptyRecentMangaNoticeVisibility = RecentManga.Count == 0;
-            EmptyFavCharactersNoticeVisibility = CurrentData.FavouriteCharacters.Count == 0;
-            EmptyFavAnimeNoticeVisibility = FavAnime.Count == 0;
-            EmptyFavMangaNoticeVisibility = FavManga.Count == 0;
-            EmptyFavPeopleNoticeVisibility = CurrentData.FavouritePeople.Count == 0;
-            EmptyCommentsNoticeVisibility = CurrentData.Comments.Count == 0;
-            OnInitialized?.Invoke();
-
+                ResourceLocator.TelemetryProvider.LogEvent($"Profile Crash: {args.TargetUser}, {e} , {e.StackTrace}");
+                ResourceLocator.MessageDialogProvider.ShowMessageDialog("Hmm, you have encountered bug that'm hunting. I've just sent report to myself. If everything goes well it should be gone in next release :). Sorry for inconvenience!","Ooopsies!");
+            }
 
             void CountTime(List<AnimeItemAbstraction> source)
             {

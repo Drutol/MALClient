@@ -147,7 +147,7 @@ namespace MALClient.XShared.Comm
                                     var elem = item.Element("series_synonyms");
                                     if (!string.IsNullOrWhiteSpace(elem?.Value))
                                     {
-                                        alternateTitle = title = elem.Value.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries).LastOrDefault().Trim();
+                                        alternateTitle = elem.Value.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries).LastOrDefault().Trim();
                                     }
                                 }
                                 output.Add(new MangaLibraryItemData

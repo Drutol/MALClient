@@ -121,6 +121,11 @@ namespace MALClient.Android.Fragments.AnimeDetailsPageTabs
                 this.SetBinding(() => ViewModel.MyEndDate,
                     () => AnimeDetailsPageGeneralTabFragmentMyEnd.Text));
 
+            Bindings.Add(this.SetBinding(() => ViewModel.EndDateTimeOffset).WhenSourceChanges(() =>
+            {
+                AnimeDetailsPageGeneralTabFragmentMyStart.Text = ViewModel.MyStartDate;
+                AnimeDetailsPageGeneralTabFragmentMyEnd.Text = ViewModel.MyEndDate;
+            }));
         }
 
 

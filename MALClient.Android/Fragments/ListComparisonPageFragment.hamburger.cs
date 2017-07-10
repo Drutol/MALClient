@@ -62,7 +62,7 @@ namespace MALClient.Android.Fragments
         private void OpenCompFiltersDrawer()
         {
             var items = new List<IDrawerItem>();
-
+            _rightDrawer.OnDrawerItemClickListener = null;
             foreach (var enumValue in Enum.GetValues(typeof(ComparisonFilter)).Cast<ComparisonFilter>())
             {
                 var btn = HamburgerUtilities.GetBaseSecondaryItem();
@@ -92,7 +92,7 @@ namespace MALClient.Android.Fragments
         private void OpenSortingDrawer()
         {
             var items = new List<IDrawerItem>();
-
+            _rightDrawer.OnDrawerItemClickListener = null;
             foreach (var enumValue in Enum.GetValues(typeof(ComparisonSorting)).Cast<ComparisonSorting>())
             {
                 var btn = HamburgerUtilities.GetBaseSecondaryItem();
@@ -130,7 +130,7 @@ namespace MALClient.Android.Fragments
         private void OpenFiltersDrawer()
         {
             var items = new List<IDrawerItem>();
-
+            _rightDrawer.OnDrawerItemClickListener = null;
             foreach (var enumValue in Enum.GetValues(typeof(AnimeStatus)).Cast<AnimeStatus>())
             {
                 var btn = HamburgerUtilities.GetBaseSecondaryItem();
@@ -245,6 +245,7 @@ namespace MALClient.Android.Fragments
 
         private void OnFloatingActionButtonOptionClick(object sender, EventArgs e)
         {
+            _rightDrawer.OnDrawerItemClickListener = null;
             switch ((int)(sender as View).Tag)
             {
                 case Resource.Drawable.icon_filter:

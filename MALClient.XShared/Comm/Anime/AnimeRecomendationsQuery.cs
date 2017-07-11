@@ -47,7 +47,7 @@ namespace MALClient.XShared.Comm.Anime
                             node =>
                                 node.Name == "div" &&
                                 node.Attributes["class"].Value ==
-                                "spaceit");
+                                "spaceit recommendations-user-recs-text");
                     if (desc != null)
                     {
                         var titleNodes =

@@ -13,14 +13,13 @@ namespace MALClient.UWP.Adapters
         public bool NewChangelog { get; set; }
         public string CurrentVersion => UWPUtilities.GetAppVersion();
 
-        public string DateWithVersion =>  $"v{UWPUtilities.GetAppVersion()} - 04.07.2017";
+        public string DateWithVersion =>  $"v{UWPUtilities.GetAppVersion()} - 12.07.2017";
 
         public List<string> Changelog => new List<string>
         {
-            "Added list comparisons.",
-            "Minor bugfixes and some crashfixes.",
-            "Better offline handling",
-            "Android is now live on the store and so I'll now continue adding more stuff. See github for future plans! :) Sorry for such long period without updates!"
+            "Comparison list slight visual tweaks... moar blur.",
+            "A few bugfixes on coparison list page.",
+            "Fixed anime recommendations",
         };
 
 

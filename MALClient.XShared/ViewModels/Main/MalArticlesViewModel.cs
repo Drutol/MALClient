@@ -62,7 +62,9 @@ namespace MALClient.XShared.ViewModels.Main
             set
             {
                 _articleIndexVisibility = value;
+#if !ANDROID
                 ViewModelLocator.GeneralMain.RefreshButtonVisibility = value;
+#endif
                 RaisePropertyChanged(() => ArticleIndexVisibility);
             }
         }

@@ -75,7 +75,17 @@
                                 <Image attachedProperties:AnimeImageExtensions.MalBaseImageSource="{Binding ImgUrl}"
                                        Width="380" extensions:ImageExtensions.FadeInOnLoaded="True"
                                        Height="500" 
-                                       Stretch="UniformToFill"/>
+                                       Stretch="UniformToFill">
+                                    <interactivity:Interaction.Behaviors>
+                                        <behaviors:Blur x:Name="BlurBehavior"
+                                                        Value="1.5"
+                                                        Duration="0"
+                                                        Delay="0"
+                                                        AutomaticallyStart="True"/>
+                                    </interactivity:Interaction.Behaviors>
+                                </Image>
+
+
                             </Canvas>
                             <RelativePanel.Clip>
                                 <RectangleGeometry Rect="0, 0, 380, 270" />
@@ -111,22 +121,28 @@
                                 <Grid.Background>
                                     <SolidColorBrush Color="Black" Opacity=".2" />
                                 </Grid.Background>
-                                <StackPanel HorizontalAlignment="Center" Margin="10" VerticalAlignment="Center"
+                                
+                                <Grid HorizontalAlignment="Stretch" Padding="10" VerticalAlignment="Stretch"
                                             Visibility="{Binding IsOnlyOnOtherList}">
-                                    <TextBlock TextAlignment="Center" Text="{Binding OtherEntry.MyStatusBind}"
-                                               FontSize="22" FontWeight="SemiLight" />
-                                    <TextBlock TextAlignment="Center" Margin="0,10,0,0">
-                                        <Run Text="{Binding OtherEntry.MyEpisodesBindShort}" FontSize="26"
-                                             FontWeight="SemiLight" />
-                                        <LineBreak /><Run Text="Watched" />
-                                    </TextBlock>
-                                    <TextBlock TextAlignment="Center" Margin="0,10,0,0">
-                                        <Run
-                                            Text="{Binding OtherEntry.MyScore,Converter={StaticResource ZeroToQuestionMarkConverter}}"
-                                            FontSize="26" FontWeight="SemiLight" />
-                                        <LineBreak /><Run Text="Score" />
-                                    </TextBlock>
-                                </StackPanel>
+                                    <Grid.Background>
+                                        <SolidColorBrush Color="Black" Opacity=".4" />
+                                    </Grid.Background>
+                                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                        <TextBlock TextAlignment="Center" Text="{Binding OtherEntry.MyStatusBind}"
+                                                   FontSize="22" FontWeight="SemiLight" />
+                                        <TextBlock TextAlignment="Center" Margin="0,10,0,0">
+                                            <Run Text="{Binding OtherEntry.MyEpisodesBindShort}" FontSize="26"
+                                                 FontWeight="SemiLight" />
+                                            <LineBreak /><Run Text="Watched" />
+                                        </TextBlock>
+                                        <TextBlock TextAlignment="Center" Margin="0,10,0,0">
+                                            <Run
+                                                Text="{Binding OtherEntry.MyScore,Converter={StaticResource ZeroToQuestionMarkConverter}}"
+                                                FontSize="26" FontWeight="SemiLight" />
+                                            <LineBreak /><Run Text="Score" />
+                                        </TextBlock>
+                                    </StackPanel>
+                                </Grid>
                                 <Grid HorizontalAlignment="Center" VerticalAlignment="Center"
                                       Visibility="{Binding IsOnlyOnMyList}">
                                     <StackPanel>

@@ -144,6 +144,12 @@ namespace MALClient.UWP.BGTaskNotifications
             if(watchedTopicsUpdated)
                 ResourceLocator.HandyDataStorage.WatchedTopics.SaveData();
 
+            if (!notifications.Any())
+            {
+                Defferal?.Complete();
+                return;
+            }
+
             var allTriggeredNotifications = (string)(ApplicationData.Current.LocalSettings.Values[nameof(RoamingDataTypes.ReadNotifications)] ?? string.Empty);
             var triggeredNotifications = allTriggeredNotifications.Split(';').ToList();
             var triggeredAny = false;

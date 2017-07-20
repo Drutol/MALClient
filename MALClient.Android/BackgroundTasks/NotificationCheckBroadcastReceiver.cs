@@ -139,6 +139,10 @@ namespace MALClient.Android.BackgroundTasks
             if (watchedTopicsUpdated)
                 ResourceLocator.HandyDataStorage.WatchedTopics.SaveData();
 
+
+            if(!notifications.Any())
+                return;
+
             var dataService = (ResourceLocator.ApplicationDataService as ApplicationDataServiceService);
 
             dataService.OverridePreferenceManager(context);
@@ -190,7 +194,7 @@ namespace MALClient.Android.BackgroundTasks
                 .SetContentText(notification.Content)
                 .SetContentInfo(notification.Content)
                 .SetAutoCancel(true)
-                .SetGroup(notification.Id)
+                //.SetGroup(notification.Type.GetDescription())
                 .SetContentIntent(pendingIntent)
                 .SetSound(RingtoneManager.GetDefaultUri(RingtoneType.Notification));
 

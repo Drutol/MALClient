@@ -464,7 +464,7 @@
                             <Setter Property="HorizontalAlignment" Value="Center" />
                         </Style>
                     </Grid.Resources>
-                    <TextBlock Margin="0,7" Text="Details page tabs' to be loaded by default"
+                    <TextBlock Margin="0,7" Text="Details page tabs to be loaded by default"
                                TextWrapping="WrapWholeWords" Grid.ColumnSpan="2" FontWeight="Medium"
                                HorizontalAlignment="Center" />
                     <StackPanel Grid.Row="1" Grid.Column="0">

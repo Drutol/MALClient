@@ -212,6 +212,7 @@ namespace MALClient.Android.UserControls.AnimeItems
                 new OnClickListener(view => ShowStatusDialog()));
             AnimeListItemScoreButton.SetOnClickListener(
                 new OnClickListener(view => ShowRatingDialog()));
+            if(Settings.ReverseSwipingDirection)
             AnimeListItemIncButton.SetOnClickListener(
                 new OnClickListener(view => ViewModel.IncrementWatchedCommand.Execute(null)));
             AnimeListItemDecButton.SetOnClickListener(

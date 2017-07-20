@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using Windows.System;
@@ -10,6 +11,7 @@ using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using MALClient.UWP.Shared.Managers;
 using MALClient.XShared.NavArgs;
 using MALClient.XShared.ViewModels.Details;
 
@@ -19,6 +21,7 @@ namespace MALClient.UWP.Pages.Off
 {
     public sealed partial class AnimeDetailsPage : Page
     {
+        private BlurHelper _overlayBlurHelper;
         public AnimeDetailsPage()
         {
             InitializeComponent();
@@ -29,6 +32,7 @@ namespace MALClient.UWP.Pages.Off
         {
             UpdatePivotHeaderSizes();
             SizeChanged += OnSizeChanged;
+            _overlayBlurHelper = new BlurHelper(LoadingOverlay, false);
         }
 
         private void OnSizeChanged(object sender, SizeChangedEventArgs sizeChangedEventArgs)
@@ -66,6 +70,9 @@ namespace MALClient.UWP.Pages.Off
                 throw new Exception("No paramaters for this page");
             ViewModel.Init(param);
         }
+
+
+
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {

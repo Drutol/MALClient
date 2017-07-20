@@ -389,9 +389,19 @@ namespace MALClient.Android.UserControls
 
             var edge = sender.GetDragEdge();
             if (edge == SwipeLayout.DragEdge.Right)
-                ViewModel.IncrementWatchedCommand.Execute(null);
+            {
+                if (Settings.ReverseSwipingDirection)
+                    ViewModel.DecrementWatchedCommand.Execute(null);
+                else
+                    ViewModel.IncrementWatchedCommand.Execute(null);
+            }
             else if (edge == SwipeLayout.DragEdge.Left)
-                ViewModel.DecrementWatchedCommand.Execute(null);
+            {
+                if (Settings.ReverseSwipingDirection)
+                    ViewModel.IncrementWatchedCommand.Execute(null);
+                else
+                    ViewModel.DecrementWatchedCommand.Execute(null);
+            }
             await Task.Delay(350);
 
             sender.Close();

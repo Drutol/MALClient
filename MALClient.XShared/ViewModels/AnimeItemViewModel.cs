@@ -617,24 +617,12 @@ namespace MALClient.XShared.ViewModels
         private ICommand _incrementWatchedCommand;
 
         public ICommand IncrementWatchedCommand => _incrementWatchedCommand ?? (_incrementWatchedCommand = new RelayCommand(
-                                                       () =>
-                                                       {
-                                                           if (Settings.ReverseSwipingDirection)
-                                                               DecrementWatchedEp();
-                                                           else
-                                                               IncrementWatchedEp();
-                                                       }));
+                                                       IncrementWatchedEp));
 
         private ICommand _decrementWatchedCommand;
 
         public ICommand DecrementWatchedCommand => _decrementWatchedCommand ?? (_decrementWatchedCommand = new RelayCommand(
-                                                       () =>
-                                                       {
-                                                           if (Settings.ReverseSwipingDirection)
-                                                               IncrementWatchedEp();
-                                                           else
-                                                               DecrementWatchedEp();
-                                                       }));
+                                                       DecrementWatchedEp));
         private ICommand _addAnimeCommand;
 
         public ICommand AddAnimeCommand => _addAnimeCommand ?? (_addAnimeCommand = new RelayCommand(AddThisToMyList));

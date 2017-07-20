@@ -14,6 +14,14 @@
     mc:Ignorable="d">
 
     <Page.Resources>
+        <Storyboard x:Key="OverlayFadeInStoryboard">
+            <FadeInThemeAnimation TargetName="LoadingOverlay" />
+        </Storyboard>
+
+        <Storyboard x:Key="OverlayFadeOutStoryboard">
+            <FadeOutThemeAnimation TargetName="LoadingOverlay" />
+        </Storyboard>
+        
         <xamlConverters:VisiblityInverterConverter x:Key="VisiblityInverterConverter" />
         <xamlConverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
         <xamlConverters:RelatedAnimeTypeToBoolConverter x:Key="RelatedAnimeTypeToBoolConverter" />
@@ -1585,9 +1593,13 @@
             </Pivot.Items>
         </Pivot>
 
-        <Grid Grid.Row="0" Grid.RowSpan="2"
-              Visibility="{Binding LoadingGlobal,Converter={StaticResource BoolToVisibilityConverter}}"
-              Background="{ThemeResource BrushLoading}">
+        <Grid Grid.Row="0" Grid.RowSpan="2"  attachedProperties:AnimatedVisibilityExtension.AnimatedVisiblity="{Binding LoadingGlobal}"
+             attachedProperties:AnimatedVisibilityExtension.AnimatedVisibleStoryboard="{StaticResource OverlayFadeInStoryboard}"
+             attachedProperties:AnimatedVisibilityExtension.AnimatedCollapsedStoryboard="{StaticResource OverlayFadeOutStoryboard}">
+            <Grid.Background>
+                <SolidColorBrush Color="Black" Opacity=".1"/>
+            </Grid.Background>
+            <Grid x:Name="LoadingOverlay" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
             <ProgressRing HorizontalAlignment="Stretch" Width="75" Height="75" VerticalAlignment="Stretch"
                           IsActive="True" />
         </Grid>

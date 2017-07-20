@@ -142,6 +142,11 @@ namespace MALClient.XShared.Comm.Forums
                 var pos = link.IndexOf("&goto=");
                 link = link.Substring(0, pos);
             }
+            else if(link.Contains("&amp;goto="))
+            {
+                var pos = link.IndexOf("&amp;goto=");
+                link = link.Substring(0, pos);
+            }
 
             current.Id = link.Split('=').Last();
 

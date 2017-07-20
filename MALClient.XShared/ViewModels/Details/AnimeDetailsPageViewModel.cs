@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using GalaSoft.MvvmLight;
@@ -225,7 +226,7 @@ namespace MALClient.XShared.ViewModels.Details
         public async void Init(AnimeDetailsPageNavigationArgs param,bool fakeDelay = true)
         {
             Initialized = false;
-            LoadingGlobal = true;
+            LoadingGlobal = false;
             //wait for UI
             if(fakeDelay)
                 await Task.Delay(5);
@@ -1034,10 +1035,20 @@ namespace MALClient.XShared.ViewModels.Details
             PopulateData();
         }
 
+        private async void UpdateLoadingWithDelay()
+        {
+            await Task.Delay(100);
+            RaisePropertyChanged(() => LoadingGlobal);
+        }
+
         private async Task FetchData(bool force = false, PageIndex? sourcePage = null)
         {
+#if !ANDROID
+            _loadingGlobal = true;
+            UpdateLoadingWithDelay();
+#else
             LoadingGlobal = true;
-
+#endif
             try
             {
                 var data =

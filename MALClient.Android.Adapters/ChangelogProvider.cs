@@ -31,19 +31,15 @@ namespace MALClient.Android.Adapters
 
         public bool NewChangelog { get; set; }
 
-        public string DateWithVersion => $"{_currentVersion} - 09.07.2017";
+        public string DateWithVersion => $"{_currentVersion} - 21.07.2017";
 
         public List<string> Changelog => new List<string>
         {
-            "Added anime list comparison.",
-            "Notifications *should* be more reliable and now will properly start working after reboot.",
-            "Added option to reverse swipe direction on grid items.",
-            "Added alternate title display to anime details page (details tab ^^) for en/jp title depending on language preference.",
-            "Friends feeds now look better in smaller grid mode.",
-            "Fixed misc settings page.",
-            "Fixed issues on devices with arabic culture info.",
-            "A few crashfixes.",
-            "I'll be unavailable during 13.07-20.07 period so if anything breaks I won't be able to fix it. Let's hope that MAL doesn't change something abruptly :)"
+            "Fixes to reversing swipe order affecting other display modes.",
+            "Fixed recent forum posts.",
+            "I've found one more issue with notifications, maybe now they won't duplicate...",
+            "Notifications on Nougat are now groupped.",
+            "I'm back from my holidays and I'll start working on something now :)"           
         };
 
     }

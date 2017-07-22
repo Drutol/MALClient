@@ -384,6 +384,26 @@
                 android:textColor="?BrushText" android:fontFamily="@string/font_family_light"
                 android:gravity="center_horizontal" android:layout_marginTop="5dp" />
     </LinearLayout>
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                  android:layout_marginTop="10dp" android:orientation="vertical">
+      <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal">
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                  android:layout_gravity="center_horizontal" android:text="Airing notification offset (h):"
+                  android:textColor="?BrushText" android:textSize="@dimen/FontSizeMedium"
+                  android:gravity="center_horizontal" />
+        <TextView android:id="@+id/SettingsPageGeneralAiringNotificationOffsetTextView" android:layout_width="wrap_content"
+                  android:layout_height="wrap_content" android:layout_gravity="center_horizontal"
+                  android:layout_marginStart="5dp" android:text="0" android:textColor="?AccentColour"
+                  android:textSize="@dimen/FontSizeMedium" android:gravity="center_horizontal" />
+      </LinearLayout>
+      <SeekBar android:id="@+id/SettingsPageGeneralAiringNotificationOffsetSlider" android:layout_width="match_parent"
+               android:max="48" android:layout_marginTop="5dp" android:layout_height="wrap_content" />
+      <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="Adjust times of airing notifications relative to broadcast time provided by MAL. These notifications assume that show is airing on a weekly basis."
+                android:textColor="?BrushText" android:fontFamily="@string/font_family_light"
+                android:gravity="center_horizontal" android:layout_marginTop="5dp" />
+    </LinearLayout>
 
 
   </LinearLayout>

@@ -444,6 +444,26 @@
                     Visibility="Visible"
                     HorizontalAlignment="Center" />
             </StackPanel>
+            <StackPanel HorizontalAlignment="Stretch">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <TextBlock Text="Airing notification offset (h):" FontWeight="Medium"
+                               HorizontalAlignment="Center"
+                               TextWrapping="WrapWholeWords" />
+                    <TextBlock Margin="10,0,0,0"
+                               Text="{Binding ElementName=SliderAiringNotificationOffset,Path=Value}"
+                               Foreground="{StaticResource SystemControlBackgroundAccentBrush}" />
+                </StackPanel>
+                <Slider x:Name="SliderAiringNotificationOffset" Minimum="-24" Maximum="24"
+                        VerticalAlignment="Center" SnapsTo="Ticks"
+                        Value="{Binding AiringNotificationOffset,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                        HorizontalAlignment="Stretch" TickFrequency="1" Margin="10,5,10,5" />
+                <TextBlock
+                    Text="Adjust times of airing notifications relative to broadcast time provided by MAL. These notifications assume that show is airing on a weekly basis."
+                    Margin="0,10,0,0"
+                    FontWeight="SemiLight" TextWrapping="WrapWholeWords" FontSize="15"
+                    Visibility="Visible"
+                    HorizontalAlignment="Center" />
+            </StackPanel>
             <MenuFlyoutSeparator Margin="0,5" />
             <StackPanel Margin="5,5" HorizontalAlignment="Stretch">
                 <Grid HorizontalAlignment="Stretch" Margin="5,5">

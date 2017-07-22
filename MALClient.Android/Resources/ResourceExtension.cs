@@ -186,7 +186,7 @@ namespace MALClient.Android.Resources
             MainActivity.CurrentContext.Resources.GetString(Resource.String.font_family_light);
 
         public static int BrushTextRes;
-
+        public static readonly int? White = ResourcesCompat.GetColor(MainActivity.CurrentContext.Resources, global::Android.Resource.Color.White, null);
         #endregion
 
         #region ResourceIds
@@ -240,5 +240,7 @@ namespace MALClient.Android.Resources
                 return _selectableBorderlessItemBackground.Value;
             }
         }
+
+
     }
 }

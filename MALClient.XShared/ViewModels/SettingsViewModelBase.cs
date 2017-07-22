@@ -278,6 +278,12 @@ namespace MALClient.XShared.ViewModels
             set { Settings.AirDayOffset = value; }
         }
 
+        public int AiringNotificationOffset
+        {
+            get { return Settings.AiringNotificationOffset; }
+            set { Settings.AiringNotificationOffset = value; }
+        }
+
         public bool DataSourceAnn
         {
             get { return Settings.PrefferedDataSource == DataSource.Ann; }

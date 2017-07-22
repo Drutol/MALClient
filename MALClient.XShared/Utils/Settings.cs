@@ -157,6 +157,12 @@ namespace MALClient.XShared.Utils
             set { ApplicationDataService["AirDayOffset"] = value; }
         }
 
+        public static int AiringNotificationOffset
+        {
+            get { return (int) (ApplicationDataService[nameof(AiringNotificationOffset)] ?? 0); }
+            set { ApplicationDataService[nameof(AiringNotificationOffset)] = value; }
+        }
+
         public static string DefaultMenuTab
         {
             get { return (string) (ApplicationDataService["DefaultMenuTab"] ?? "anime"); }

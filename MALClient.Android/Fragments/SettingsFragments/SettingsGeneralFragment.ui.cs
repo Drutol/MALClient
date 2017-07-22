@@ -65,6 +65,8 @@ namespace MALClient.Android.Fragments.SettingsFragments
         private CheckBox _settingsPageGeneralAllowDateOverrideCheckBox;
         private TextView _settingsPageGeneralAirDayOffsetTextView;
         private SeekBar _settingsPageGeneralAirDayOffsetSlider;
+        private TextView _settingsPageGeneralAiringNotificationOffsetTextView;
+        private SeekBar _settingsPageGeneralAiringNotificationOffsetSlider;
 
         public RadioButton SettingsPageGeneralRadioAnimeList => _settingsPageGeneralRadioAnimeList ?? (_settingsPageGeneralRadioAnimeList = FindViewById<RadioButton>(Resource.Id.SettingsPageGeneralRadioAnimeList));
 
@@ -165,6 +167,10 @@ namespace MALClient.Android.Fragments.SettingsFragments
         public TextView SettingsPageGeneralAirDayOffsetTextView => _settingsPageGeneralAirDayOffsetTextView ?? (_settingsPageGeneralAirDayOffsetTextView = FindViewById<TextView>(Resource.Id.SettingsPageGeneralAirDayOffsetTextView));
 
         public SeekBar SettingsPageGeneralAirDayOffsetSlider => _settingsPageGeneralAirDayOffsetSlider ?? (_settingsPageGeneralAirDayOffsetSlider = FindViewById<SeekBar>(Resource.Id.SettingsPageGeneralAirDayOffsetSlider));
+
+        public TextView SettingsPageGeneralAiringNotificationOffsetTextView => _settingsPageGeneralAiringNotificationOffsetTextView ?? (_settingsPageGeneralAiringNotificationOffsetTextView = FindViewById<TextView>(Resource.Id.SettingsPageGeneralAiringNotificationOffsetTextView));
+
+        public SeekBar SettingsPageGeneralAiringNotificationOffsetSlider => _settingsPageGeneralAiringNotificationOffsetSlider ?? (_settingsPageGeneralAiringNotificationOffsetSlider = FindViewById<SeekBar>(Resource.Id.SettingsPageGeneralAiringNotificationOffsetSlider));
 
 
 

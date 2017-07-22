@@ -205,6 +205,16 @@ namespace MALClient.Android.Fragments.SettingsFragments
                     (SettingsPageGeneralAirDayOffsetSlider.Progress - 3).ToString();
             };
 
+            SettingsPageGeneralAiringNotificationOffsetSlider.Progress = Settings.AiringNotificationOffset + 24;
+            SettingsPageGeneralAiringNotificationOffsetTextView.Text = Settings.AiringNotificationOffset.ToString();
+
+            SettingsPageGeneralAiringNotificationOffsetSlider.ProgressChanged += (sender, args) =>
+            {
+                Settings.AiringNotificationOffset = SettingsPageGeneralAiringNotificationOffsetSlider.Progress - 24;
+                SettingsPageGeneralAiringNotificationOffsetTextView.Text =
+                    (SettingsPageGeneralAiringNotificationOffsetSlider.Progress - 24).ToString();
+            };
+
             UpdateColourSelection();
 
             SettingsPageGeneralColorOrange.Tag = (int) AndroidColorThemes.Orange;

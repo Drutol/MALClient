@@ -261,6 +261,19 @@
                     </ToolTipService.ToolTip>
                     <SymbolIcon Symbol="Globe" />
                 </Button>
+                <ToggleButton Height="40"
+                        Visibility="{Binding AiringNotificationsButtonVisibility}"
+                        Command="{Binding ToggleAirNotificationsCommand}"
+                        IsThreeState="False"
+                        IsChecked="{x:Bind ViewModel.AreAirNotificationsEnabled,Mode=OneWay}"
+                        HorizontalAlignment="Stretch"
+                        Background="Transparent"
+                        Margin="0,5,0,0">
+                    <ToolTipService.ToolTip>
+                        <ToolTip Content="Toggle airing notifications." />
+                    </ToolTipService.ToolTip>
+                    <SymbolIcon Symbol="Flag" />
+                </ToggleButton>                
                 <Button Height="40"
                         Visibility="{Binding IsAddAnimeButtonEnabled,Converter={StaticResource BoolToVisibilityInvertedConverter}}"
                         Command="{Binding RemoveAnimeCommand}"
@@ -1593,7 +1606,7 @@
             </Pivot.Items>
         </Pivot>
 
-        <Grid Grid.Row="0" Grid.RowSpan="2"  attachedProperties:AnimatedVisibilityExtension.AnimatedVisiblity="{Binding LoadingGlobal}"
+        <Grid Grid.Row="0" Grid.RowSpan="2" Visibility="{Binding LoadingGlobal}" attachedProperties:AnimatedVisibilityExtension.AnimatedVisiblity="{Binding LoadingGlobal}"
              attachedProperties:AnimatedVisibilityExtension.AnimatedVisibleStoryboard="{StaticResource OverlayFadeInStoryboard}"
              attachedProperties:AnimatedVisibilityExtension.AnimatedCollapsedStoryboard="{StaticResource OverlayFadeOutStoryboard}">
             <Grid.Background>

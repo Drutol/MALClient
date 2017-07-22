@@ -25,9 +25,14 @@ namespace MALClient.UWP.Shared.UserControls.AttachedProperties
 
         private static void PropertyChangedCallback(DependencyObject sender, DependencyPropertyChangedEventArgs args)
         {
+            UpdateVisibility(sender,(Visibility)args.NewValue);
+        }
+
+        private static void UpdateVisibility(DependencyObject sender, Visibility value)
+        {
             var element = sender as FrameworkElement;
             Storyboard sb;
-            switch ((Visibility)args.NewValue)
+            switch (value)
             {
                 case Visibility.Visible:
                     sb = GetAnimatedVisibleStoryboard(sender);
@@ -52,7 +57,14 @@ namespace MALClient.UWP.Shared.UserControls.AttachedProperties
 
         public static void SetAnimatedVisiblity(DependencyObject element, Visibility value)
         {
+            if (GetAnimatedVisiblity(element) == value)
+            {
+                UpdateVisibility(element,value);
+            }
+
             element.SetValue(AnimatedVisiblityProperty, value);
+
+            
         }
 
         public static Visibility GetAnimatedVisiblity(DependencyObject element)

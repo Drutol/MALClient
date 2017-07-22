@@ -287,8 +287,10 @@ namespace MALClient.XShared.ViewModels.Details
                 UpdateEpsUpperLabel = "Watched\nepisodes";
                 if (_animeItemReference is AnimeItemViewModel vm)
                 {
-                    if (!vm.Auth || !vm.Airing)
-                        AiringNotificationsButtonVisibility = false;
+                    if (!vm.Auth || !vm.Airing || vm.AllEpisodes <= 0)
+                    {
+                        AiringNotificationsButtonVisibility = AreAirNotificationsEnabled = false;
+                    }
                     else
                     {
                         AiringNotificationsButtonVisibility = true;
@@ -296,7 +298,7 @@ namespace MALClient.XShared.ViewModels.Details
                     }
                 }
                 else
-                    AiringNotificationsButtonVisibility = false;
+                    AiringNotificationsButtonVisibility = AreAirNotificationsEnabled = false;
             }
             else
             {

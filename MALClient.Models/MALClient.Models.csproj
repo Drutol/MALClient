@@ -123,6 +123,7 @@
     <Compile Include="Models\Misc\RedditScrappedPosts.cs" />
     <Compile Include="Models\Misc\ExactAiringTimeData.cs" />
     <Compile Include="Models\Misc\NewsData.cs" />
+    <Compile Include="Models\Notifications\AiringShowNotificationEntry.cs" />
     <Compile Include="Models\Notifications\MalNotification.cs" />
     <Compile Include="Models\ProfileData.cs" />
     <Compile Include="Models\ScrappedDetails\CharacterDetailsData.cs" />

@@ -46,10 +46,11 @@ namespace MALClient.Android.BackgroundTasks
                 Credentials.Init();
                 //Log.Debug("MALCLient", "Setting up notification fetching.");
                 new NotificationTaskManager().StartTask(BgTasks.Notifications, context);
+                new NotificationTaskManager().StartTask(BgTasks.AiredNotification, context);
             }
             catch (Exception)
             {
-                //I can throw error on startup of OS I really don't want that no matter what.
+                //It can throw error on startup of OS... I really don't want that no matter what.
             }
         }
     }

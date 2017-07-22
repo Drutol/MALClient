@@ -56,6 +56,7 @@ namespace MALClient.Android
             SimpleIoc.Default.Register<ISnackbarProvider, SnackbarProvider>();
             SimpleIoc.Default.Register<IConnectionInfoProvider, ConnectionInfoProvider>();
             SimpleIoc.Default.Register<IDispatcherAdapter, DispatcherAdapter>();
+            SimpleIoc.Default.Register<IAiringNotificationsAdapter, AiringNotificationsAdapter>();
 
         }
 

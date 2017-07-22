@@ -110,6 +110,7 @@
     <Compile Include="Comm\Search\CharactersSearchQuery.cs" />
     <Compile Include="Delegates\Delegates.cs" />
     <Compile Include="Interfaces\IAnimeLibraryDataStorage.cs" />
+    <Compile Include="Interfaces\IAiringNotificationsAdapter.cs" />
     <Compile Include="Interfaces\IHamburgerViewModel.cs" />
     <Compile Include="Interfaces\IHandyDataStorageModule.cs" />
     <Compile Include="Interfaces\IHandyDataStorageModuleBase.cs" />

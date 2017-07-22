@@ -105,7 +105,7 @@ namespace MALClient.Android
         public void Include(MalArticlesViewModel vm) { var vm1 = new MalArticlesViewModel(); }
         public void Include(MalMessagingViewModel vm) { var vm1 = new MalMessagingViewModel(); }
         public void Include(MalMessageDetailsViewModel vm) { var vm1 = new MalMessageDetailsViewModel(); }
-        public void Include(AnimeDetailsPageViewModel vm) { var vm1 = new AnimeDetailsPageViewModel(null,null,null); }
+        public void Include(AnimeDetailsPageViewModel vm) { var vm1 = new AnimeDetailsPageViewModel(null,null,null,null); }
         public void Include(AnimeListViewModel vm) { var vm1 = new AnimeListViewModel(null); }
         public void Include(ForumIndexViewModel vm) { var vm1 = new ForumIndexViewModel(); }
         public void Include(ForumsMainViewModel vm) { var vm1 = new ForumsMainViewModel(); }
@@ -141,6 +141,7 @@ namespace MALClient.Android
         public void Include(SnackbarProvider vm) { var vm1 = new SnackbarProvider(); }
         public void Include(ConnectionInfoProvider vm) { var vm1 = new ConnectionInfoProvider(); }
         public void Include(DispatcherAdapter vm) { var vm1 = new DispatcherAdapter(); }
+        public void Include(AiringNotificationsAdapter vm) { var vm1 = new AiringNotificationsAdapter(); }
 
         public void Include(SettingsPageFragment vm) { var vm1 = new SettingsPageFragment(); }
 

@@ -36,6 +36,10 @@ namespace MALClient.Android.BackgroundTasks
                     return;
                 case BgTasks.ToastActivation:
                     return;
+                case BgTasks.AiredNotification:
+                    listenerType = typeof(AiredNotificationCheckReceiver);
+                    refreshTime = TimeSpan.FromHours(1);
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(task), task, null);
             }

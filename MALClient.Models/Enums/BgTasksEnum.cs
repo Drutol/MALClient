@@ -5,5 +5,6 @@
         Notifications,
         Tiles,
         ToastActivation,
+        AiredNotification
     }
 }

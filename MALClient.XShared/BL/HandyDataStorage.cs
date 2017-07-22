@@ -9,6 +9,7 @@ using MALClient.Adapters;
 using MALClient.Models.Interfaces;
 using MALClient.Models.Models;
 using MALClient.Models.Models.Forums;
+using MALClient.Models.Models.Notifications;
 using MALClient.XShared.Interfaces;
 using MALClient.XShared.ViewModels;
 using Newtonsoft.Json;
@@ -49,6 +50,9 @@ namespace MALClient.XShared.BL
 
         public IHandyDataStorageModule<WatchedTopicModel> WatchedTopics { get; } =
             new HandyDataStorageModule<WatchedTopicModel>("WatchedTopics", true);
+
+        public IHandyDataStorageModule<AiringShowNotificationEntry> RegisteredAiringNotifications { get; } =
+            new HandyDataStorageModule<AiringShowNotificationEntry>("AiringNotifications",true);
 
         #endregion
 

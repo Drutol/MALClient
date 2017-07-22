@@ -102,6 +102,7 @@
     <Compile Include="ClipboardProvider.cs" />
     <Compile Include="ConnectionInfoProvider.cs" />
     <Compile Include="DataCache.cs" />
+    <Compile Include="AiringNotificationsAdapter.cs" />
     <Compile Include="DispatcherAdapter.cs" />
     <Compile Include="ImageDownloaderService.cs" />
     <Compile Include="ISystemControlsLauncherService.cs" />

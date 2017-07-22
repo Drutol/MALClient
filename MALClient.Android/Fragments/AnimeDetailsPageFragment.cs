@@ -231,6 +231,9 @@ namespace MALClient.Android.Fragments
                 case 7:
                     ViewModel.CopyTitleToClipboardCommand.Execute(null);
                     break;
+                case 8:
+                    ViewModel.ToggleAirNotificationsCommand.Execute(null);
+                    break;
             }
             _menu?.Dismiss(true);
             _menu = null;

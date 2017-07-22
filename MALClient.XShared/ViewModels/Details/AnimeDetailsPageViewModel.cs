@@ -34,6 +34,9 @@ namespace MALClient.XShared.ViewModels.Details
         private readonly IClipboardProvider _clipboardProvider;
         private readonly ISystemControlsLauncherService _systemControlsLauncherService;
         private readonly IAnimeLibraryDataStorage _animeLibraryDataStorage;
+
+        private readonly IAiringNotificationsAdapter _airingNotificationsAdapter;
+
         //additional fields
         private int _allEpisodes;
         private int _allVolumes;
@@ -78,11 +81,12 @@ namespace MALClient.XShared.ViewModels.Details
         private bool _animeMode;
 
         public AnimeDetailsPageViewModel(IClipboardProvider clipboardProvider,
-            ISystemControlsLauncherService systemControlsLauncherService, IAnimeLibraryDataStorage animeLibraryDataStorage)
+            ISystemControlsLauncherService systemControlsLauncherService, IAnimeLibraryDataStorage animeLibraryDataStorage, IAiringNotificationsAdapter airingNotificationsAdapter)
         {
             _clipboardProvider = clipboardProvider;
             _systemControlsLauncherService = systemControlsLauncherService;
             _animeLibraryDataStorage = animeLibraryDataStorage;
+            _airingNotificationsAdapter = airingNotificationsAdapter;
             UpdateScoreFlyoutChoices();
         }
 
@@ -281,6 +285,18 @@ namespace MALClient.XShared.ViewModels.Details
                 Status5Label = "Plan to watch";
                 WatchedEpsLabel = "Watched\nepisodes";
                 UpdateEpsUpperLabel = "Watched\nepisodes";
+                if (_animeItemReference is AnimeItemViewModel vm)
+                {
+                    if (!vm.Auth || !vm.Airing)
+                        AiringNotificationsButtonVisibility = false;
+                    else
+                    {
+                        AiringNotificationsButtonVisibility = true;
+                        AreAirNotificationsEnabled = _airingNotificationsAdapter.AreNotificationRegistered(Id.ToString());
+                    }
+                }
+                else
+                    AiringNotificationsButtonVisibility = false;
             }
             else
             {
@@ -289,6 +305,7 @@ namespace MALClient.XShared.ViewModels.Details
                 WatchedEpsLabel = "Read\nchapters";
                 UpdateEpsUpperLabel = "Read\nchapters";
                 LoadCharactersButtonVisibility = false;
+                AiringNotificationsButtonVisibility = false;
             }
 
             if (_animeItemReference == null || _animeItemReference is AnimeSearchItemViewModel ||

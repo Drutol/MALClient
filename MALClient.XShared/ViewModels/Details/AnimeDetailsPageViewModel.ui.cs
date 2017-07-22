@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using GalaSoft.MvvmLight.Command;
@@ -10,6 +11,8 @@ using MALClient.Models.Enums;
 using MALClient.Models.Interfaces;
 using MALClient.Models.Models.AnimeScrapped;
 using MALClient.Models.Models.Favourites;
+using MALClient.Models.Models.Notifications;
+using MALClient.XShared.Delegates;
 using MALClient.XShared.NavArgs;
 using MALClient.XShared.Utils;
 using MALClient.XShared.Utils.Managers;
@@ -704,6 +707,43 @@ namespace MALClient.XShared.ViewModels.Details
             }
         }
 
+        private ICommand _toggleAirNotificationsCommand;
+
+        public ICommand ToggleAirNotificationsCommand =>
+            _toggleAirNotificationsCommand ?? (_toggleAirNotificationsCommand = new RelayCommand(async () =>
+            {
+                if (AreAirNotificationsEnabled)
+                {
+                    AreAirNotificationsEnabled = false;
+                    _airingNotificationsAdapter.RemoveToasts(Id.ToString());
+                }
+                else
+                {
+                    AreAirNotificationsEnabled = true;
+                    var vm = (_animeItemReference as AnimeItemViewModel);
+                    if (vm.ParentAbstraction.ExactAiringTime == null)
+                    {
+                        LoadDetails();
+                        var sem = new SemaphoreSlim(0);
+                        var handler = new EmptyEventHander(() => sem.Release());
+                        OnDetailsLoaded += handler;
+                        LoadDetails();
+                        await sem.WaitAsync();
+                        OnDetailsLoaded -= handler;
+                        if(vm.ParentAbstraction.ExactAiringTime == null)
+                            return;
+                    }
+                    _airingNotificationsAdapter.ScheduleToast(new AiringShowNotificationEntry
+                    {
+                        EpisodeCount = AllEpisodes,
+                        Id = Id.ToString(),
+                        ImageUrl = DetailImage,
+                        StartAirTime = DateTime.Parse(StartDate).Add(vm.ParentAbstraction.ExactAiringTime.Time),
+                        Title = Title
+                    });
+                }
+            }));
+
         private string _detailImage;
 
         public string DetailImage
@@ -713,6 +753,16 @@ namespace MALClient.XShared.ViewModels.Details
             {
                 _detailImage = value;
                 RaisePropertyChanged(() => DetailImage);
+            }
+        }
+
+        public bool AiringNotificationsButtonVisibility
+        {
+            get { return _airingNotificationsButtonVisibility; }
+            set
+            {
+                _airingNotificationsButtonVisibility = value;
+                RaisePropertyChanged();
             }
         }
 
@@ -737,6 +787,17 @@ namespace MALClient.XShared.ViewModels.Details
             {
                 _noEpisodesDataVisibility = value;
                 RaisePropertyChanged(() => NoEpisodesDataVisibility);
+            }
+        }
+
+
+        public bool AreAirNotificationsEnabled
+        {
+            get { return _areAirNotificationsEnabled; }
+            set
+            {
+                _areAirNotificationsEnabled = value;
+                RaisePropertyChanged();
             }
         }
 
@@ -975,7 +1036,9 @@ namespace MALClient.XShared.ViewModels.Details
         }
 
         private bool _isRemoveAnimeButtonEnabled = true;
-        
+        private bool _areAirNotificationsEnabled;
+        private bool _airingNotificationsButtonVisibility;
+
         public bool IsRemoveAnimeButtonEnabled
         {
             get { return _isRemoveAnimeButtonEnabled; }

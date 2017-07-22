@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using MALClient.Models.Models;
 using MALClient.Models.Models.Forums;
+using MALClient.Models.Models.Notifications;
 using MALClient.XShared.Interfaces;
 
 namespace MALClient.XShared.ViewModels.Interfaces
@@ -15,6 +16,8 @@ namespace MALClient.XShared.ViewModels.Interfaces
         IHandyDataStorageModule<MalUser> PinnedUsers { get; }
         //
         IHandyDataStorageModule<WatchedTopicModel> WatchedTopics { get; }
+        //        
+        IHandyDataStorageModule<AiringShowNotificationEntry> RegisteredAiringNotifications { get; }
         //
         ReadOnlyDictionary<string, List<StarredForumMessage>> StarredMessages { get; }
         void StarForumMessage(StarredForumMessage forumMessage);

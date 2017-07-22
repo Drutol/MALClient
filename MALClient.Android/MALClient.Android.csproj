@@ -247,6 +247,7 @@
     <Compile Include="Adapters\PagerAdapters\SearchPagePagerAdapter.cs" />
     <Compile Include="Aidl\BillingConstants.cs" />
     <Compile Include="Aidl\InAppBillingServiceConnection.cs" />
+    <Compile Include="BackgroundTasks\AiredNotificationCheckReceiver.cs" />
     <Compile Include="BackgroundTasks\BootCompletedreceiver.cs" />
     <Compile Include="BackgroundTasks\NotificationCheckBroadcastReceiver.cs" />
     <Compile Include="BackgroundTasks\NotificationClickBroadcastReceiver.cs" />

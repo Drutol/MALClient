@@ -22,7 +22,7 @@ namespace MALClient.Models.Models
                 if (ReferenceEquals(x, null)) return false;
                 if (ReferenceEquals(y, null)) return false;
                 if (x.GetType() != y.GetType()) return false;
-                return string.Equals(x.Name, y.Name);
+                return string.Equals(x.Name, y.Name,StringComparison.CurrentCultureIgnoreCase);
             }
 
             public int GetHashCode(MalUser obj)

@@ -494,6 +494,14 @@ namespace MALClient.XShared.Utils
                     .Where(node => node.Attributes.Contains("class") && node.Attributes["class"].Value.Trim() == targettedClass);
         }
 
+        public static IEnumerable<HtmlNode> WhereOfDescendantsWithPartialClass(this HtmlDocument doc, string descendants,
+            string targettedClass)
+        {
+            return
+                doc.DocumentNode.Descendants(descendants)
+                    .Where(node => node.Attributes.Contains("class") && node.Attributes["class"].Value.Contains(targettedClass));
+        }
+
         public static IEnumerable<HtmlNode> WhereOfDescendantsWithClass(this HtmlNode doc, string descendants,
             string targettedClass)
         {

@@ -57,6 +57,8 @@
         [EnumUtilities.PageIndexEnumMember(OffPage = false)]
         PageNotificationHub,     
         [EnumUtilities.PageIndexEnumMember(OffPage = false)]
-        PageListComparison
+        PageListComparison,
+        [EnumUtilities.PageIndexEnumMember(OffPage = false)]
+        FriendsPage
     }
 }

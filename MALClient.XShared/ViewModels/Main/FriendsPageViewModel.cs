@@ -38,6 +38,8 @@ namespace MALClient.XShared.ViewModels.Main
                 Friends = new ObservableCollection<MalFriend>(result);
                 Loading = false;
             }
+
+            _lastArgs = args;
         }
 
 
@@ -65,7 +67,7 @@ namespace MALClient.XShared.ViewModels.Main
                                                    new RelayCommand<MalFriend>(
                                                        friend =>
                                                        {
-                                                           ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.FriendsPage,_lastArgs);
+                                                           ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageFriends,_lastArgs);
                                                            ViewModelLocator.GeneralMain.Navigate(PageIndex.PageProfile,
                                                                new ProfilePageNavigationArgs
                                                                {

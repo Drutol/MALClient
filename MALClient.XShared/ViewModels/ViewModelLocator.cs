@@ -49,6 +49,7 @@ namespace MALClient.XShared.ViewModels
             SimpleIoc.Default.Register<FriendsFeedsViewModel>();
             SimpleIoc.Default.Register<NotificationsHubViewModel>();
             SimpleIoc.Default.Register<ListComparisonViewModel>();
+            SimpleIoc.Default.Register<FriendsPageViewModel>();
 
             ResourceLocator.RegisterBase();
         }
@@ -119,6 +120,9 @@ namespace MALClient.XShared.ViewModels
 
         public static ListComparisonViewModel Comparison
             => ServiceLocator.Current.GetInstance<ListComparisonViewModel>();
+
+        public static FriendsPageViewModel Friends
+            => ServiceLocator.Current.GetInstance<FriendsPageViewModel>();
 
 
         //Forums

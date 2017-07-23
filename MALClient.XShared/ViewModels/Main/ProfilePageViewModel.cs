@@ -32,9 +32,6 @@ namespace MALClient.XShared.ViewModels.Main
         private List<FavouriteViewModel> _favouriteStaff;
         private ObservableCollection<MalComment> _malComments = new ObservableCollection<MalComment>();
         public ProfilePageNavigationArgs PrevArgs;
-        public List<MalUser> MyFriends { get; set; }
-
-        public event EmptyEventHander OnInitialized;
 
         public ProfilePageViewModel(IAnimeLibraryDataStorage animeLibraryDataStorage)
         {
@@ -42,9 +39,11 @@ namespace MALClient.XShared.ViewModels.Main
             MaxWidth = AnimeItemViewModel.MaxWidth;
         }
 
+        public List<MalUser> MyFriends { get; set; }
+
         public ObservableCollection<MalComment> MalComments
         {
-            get { return _malComments; }
+            get => _malComments;
             set
             {
                 _malComments = value;
@@ -54,7 +53,7 @@ namespace MALClient.XShared.ViewModels.Main
 
         public List<FavouriteViewModel> FavouriteCharacters
         {
-            get { return _favouriteCharacters; }
+            get => _favouriteCharacters;
             set
             {
                 _favouriteCharacters = value;
@@ -64,7 +63,7 @@ namespace MALClient.XShared.ViewModels.Main
 
         public List<FavouriteViewModel> FavouriteStaff
         {
-            get { return _favouriteStaff; }
+            get => _favouriteStaff;
             set
             {
                 _favouriteStaff = value;
@@ -72,13 +71,13 @@ namespace MALClient.XShared.ViewModels.Main
             }
         }
 
+        public event EmptyEventHander OnInitialized;
+
 
         public async Task LoadProfileData(ProfilePageNavigationArgs args, bool force = false)
         {
             try
             {
-
-
                 if (args == null)
                     args = PrevArgs;
                 else
@@ -253,7 +252,6 @@ namespace MALClient.XShared.ViewModels.Main
                     RecentManga = list;
 
                     CountTime(source.Item1);
-
                 }
                 AnimeChartValues = new List<int>
                 {
@@ -284,7 +282,9 @@ namespace MALClient.XShared.ViewModels.Main
             catch (Exception e)
             {
                 ResourceLocator.TelemetryProvider.LogEvent($"Profile Crash: {args.TargetUser}, {e} , {e.StackTrace}");
-                ResourceLocator.MessageDialogProvider.ShowMessageDialog("Hmm, you have encountered bug that'm hunting. I've just sent report to myself. If everything goes well it should be gone in next release :). Sorry for inconvenience!","Ooopsies!");
+                ResourceLocator.MessageDialogProvider.ShowMessageDialog(
+                    "Hmm, you have encountered bug that'm hunting. I've just sent report to myself. If everything goes well it should be gone in next release :). Sorry for inconvenience!",
+                    "Ooopsies!");
             }
 
             void CountTime(List<AnimeItemAbstraction> source)
@@ -295,13 +295,14 @@ namespace MALClient.XShared.ViewModels.Main
                 {
                     if (animeItemAbstraction.MyEpisodes <= 0)
                         continue;
-                    if (animeItemAbstraction.Type == (int)AnimeType.TV ||
-                        animeItemAbstraction.Type == (int)AnimeType.OVA)
+                    if (animeItemAbstraction.Type == (int) AnimeType.TV ||
+                        animeItemAbstraction.Type == (int) AnimeType.OVA)
                         tvs += 23.67 * animeItemAbstraction.MyEpisodes;
-                    else if (animeItemAbstraction.Type == (int)AnimeType.Movie && animeItemAbstraction.MyStatus == AnimeStatus.Completed)
+                    else if (animeItemAbstraction.Type == (int) AnimeType.Movie &&
+                             animeItemAbstraction.MyStatus == AnimeStatus.Completed)
                         movies += 95.92;
                 }
-                var timeAnime= TimeSpan.FromMinutes(tvs);
+                var timeAnime = TimeSpan.FromMinutes(tvs);
                 var timeBoth = TimeSpan.FromMinutes(tvs + movies);
                 var timeMovies = TimeSpan.FromMinutes(movies);
 
@@ -320,14 +321,13 @@ namespace MALClient.XShared.ViewModels.Main
                         time = time.Subtract(TimeSpan.FromDays(m * 30));
                     }
 
-                    if(time.Days>0)
+                    if (time.Days > 0)
                         str += $"{time.Days}d ";
                     str += $"{time.Hours}h ";
                     str += $"{time.Minutes}m ";
                     str += $"{time.Seconds}s ";
                     return str;
                 }
-
             }
         }
 
@@ -398,7 +398,8 @@ namespace MALClient.XShared.ViewModels.Main
                         {
                             ViewModelLocator.GeneralMain.Navigate(PageIndex.PageHistory,
                                 new HistoryNavigationArgs {Source = CurrentData.User.Name});
-                            ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageProfile, new ProfilePageNavigationArgs { TargetUser = CurrentData.User.Name });
+                            ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageProfile,
+                                new ProfilePageNavigationArgs {TargetUser = CurrentData.User.Name});
                         }));
 
         private ICommand _sendCommentCommand;
@@ -439,8 +440,10 @@ namespace MALClient.XShared.ViewModels.Main
         public ICommand NavigateComparisonCommand
             => _naviagateComparisonCommand ?? (_naviagateComparisonCommand = new RelayCommand(() =>
             {
-                ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageProfile, new ProfilePageNavigationArgs { TargetUser = CurrentData.User.Name });
-                ViewModelLocator.GeneralMain.Navigate(PageIndex.PageListComparison,new ListComparisonPageNavigationArgs { CompareWith = CurrentData.User});
+                ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageProfile,
+                    new ProfilePageNavigationArgs {TargetUser = CurrentData.User.Name});
+                ViewModelLocator.GeneralMain.Navigate(PageIndex.PageListComparison,
+                    new ListComparisonPageNavigationArgs {CompareWith = CurrentData.User});
             }));
 
         private ICommand _navigateConversationCommand;
@@ -475,7 +478,7 @@ namespace MALClient.XShared.ViewModels.Main
 
         public List<AnimeItemViewModel> RecentAnime
         {
-            get { return _recentAnime; }
+            get => _recentAnime;
             private set
             {
                 _recentAnime = value;
@@ -485,7 +488,7 @@ namespace MALClient.XShared.ViewModels.Main
 
         public List<AnimeItemViewModel> RecentManga
         {
-            get { return _recentManga; }
+            get => _recentManga;
             private set
             {
                 _recentManga = value;
@@ -495,7 +498,7 @@ namespace MALClient.XShared.ViewModels.Main
 
         public List<AnimeItemViewModel> FavAnime
         {
-            get { return _favAnime; }
+            get => _favAnime;
             private set
             {
                 _favAnime = value;
@@ -505,7 +508,7 @@ namespace MALClient.XShared.ViewModels.Main
 
         public List<AnimeItemViewModel> FavManga
         {
-            get { return _favManga; }
+            get => _favManga;
             private set
             {
                 _favManga = value;
@@ -515,18 +518,18 @@ namespace MALClient.XShared.ViewModels.Main
 
         public AnimeItemViewModel TemporarilySelectedAnimeItem
         {
-            get { return null; }
+            get => null;
             set
             {
                 var args = PrevArgs;
                 args.DesiredPivotIndex = CurrentPivotIndex;
-                value?.NavigateDetails(PageIndex.PageProfile,args);
+                value?.NavigateDetails(PageIndex.PageProfile, args);
             }
         }
 
         public bool LoadingVisibility
         {
-            get { return _loadingVisibility; }
+            get => _loadingVisibility;
             set
             {
                 _loadingVisibility = value;
@@ -538,7 +541,7 @@ namespace MALClient.XShared.ViewModels.Main
 
         public bool AuthenticatedControlsVisibility
         {
-            get { return _authenticatedControlsVisibility; }
+            get => _authenticatedControlsVisibility;
             set
             {
                 _authenticatedControlsVisibility = value;
@@ -550,7 +553,7 @@ namespace MALClient.XShared.ViewModels.Main
 
         public bool CommentInputBoxVisibility
         {
-            get { return _commentInputBoxVisibility; }
+            get => _commentInputBoxVisibility;
             set
             {
                 _commentInputBoxVisibility = value;
@@ -560,7 +563,7 @@ namespace MALClient.XShared.ViewModels.Main
 
         public List<int> AnimeChartValues
         {
-            get { return _animeChartValues; }
+            get => _animeChartValues;
             set
             {
                 _animeChartValues = value;
@@ -570,7 +573,7 @@ namespace MALClient.XShared.ViewModels.Main
 
         public List<int> MangaChartValues
         {
-            get { return _mangaChartValues; }
+            get => _mangaChartValues;
             set
             {
                 _mangaChartValues = value;
@@ -580,19 +583,20 @@ namespace MALClient.XShared.ViewModels.Main
 
         public bool IsPinned
         {
-            get { return ResourceLocator.HandyDataStorage.PinnedUsers.StoredItems.Any(user => user.Name.Equals(CurrentData.User.Name,StringComparison.CurrentCultureIgnoreCase)); }
+            get
+            {
+                return ResourceLocator.HandyDataStorage.PinnedUsers.StoredItems.Any(
+                    user => user.Name.Equals(CurrentData.User.Name, StringComparison.CurrentCultureIgnoreCase));
+            }
             set
             {
                 if (value)
-                {
                     ResourceLocator.HandyDataStorage.PinnedUsers.StoredItems.Add(CurrentData.User);
-                }
                 else
-                {
                     ResourceLocator.HandyDataStorage.PinnedUsers.StoredItems.Remove(
                         ResourceLocator.HandyDataStorage.PinnedUsers.StoredItems.First(
-                            user => user.Name.Equals(CurrentData.User.Name, StringComparison.CurrentCultureIgnoreCase)));
-                }
+                            user => user.Name.Equals(CurrentData.User.Name,
+                                StringComparison.CurrentCultureIgnoreCase)));
                 ViewModelLocator.GeneralHamburger.UpdatePinnedProfiles();
                 RaisePropertyChanged(() => IsPinned);
             }
@@ -618,7 +622,8 @@ namespace MALClient.XShared.ViewModels.Main
                 _navAnimeListCommand ??
                 (_navAnimeListCommand = new RelayCommand(() =>
                 {
-                    ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageProfile, new ProfilePageNavigationArgs { TargetUser = CurrentData.User.Name });
+                    ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageProfile,
+                        new ProfilePageNavigationArgs {TargetUser = CurrentData.User.Name});
                     ViewModelLocator.GeneralMain.Navigate(PageIndex.PageAnimeList,
                         new AnimeListPageNavigationArgs(0, AnimeListWorkModes.Anime)
                         {
@@ -634,25 +639,26 @@ namespace MALClient.XShared.ViewModels.Main
                     new RelayCommand(
                         () =>
                         {
-                            ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageProfile, new ProfilePageNavigationArgs { TargetUser = CurrentData.User.Name });
+                            ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageProfile,
+                                new ProfilePageNavigationArgs {TargetUser = CurrentData.User.Name});
                             ViewModelLocator.GeneralMain.Navigate(PageIndex.PageAnimeList,
                                 new AnimeListPageNavigationArgs(0, AnimeListWorkModes.Manga)
                                 {
                                     ListSource = _currUser,
                                     ResetBackNav = false
                                 });
-                        }))
-        ;
+                        }));
 
 
         public bool PinProfileVisibility
             =>
-                CurrentData.User.Name != null && !Credentials.UserName.Equals(CurrentData.User.Name, StringComparison.CurrentCultureIgnoreCase);
+                CurrentData.User.Name != null &&
+                !Credentials.UserName.Equals(CurrentData.User.Name, StringComparison.CurrentCultureIgnoreCase);
 
 
         public bool EmptyFavAnimeNoticeVisibility
         {
-            get { return _emptyFavAnimeNoticeVisibility; }
+            get => _emptyFavAnimeNoticeVisibility;
             set
             {
                 _emptyFavAnimeNoticeVisibility = value;
@@ -662,7 +668,7 @@ namespace MALClient.XShared.ViewModels.Main
 
         public bool EmptyFavCharactersNoticeVisibility
         {
-            get { return _emptyFavCharactersNoticeVisibility; }
+            get => _emptyFavCharactersNoticeVisibility;
             set
             {
                 _emptyFavCharactersNoticeVisibility = value;
@@ -672,7 +678,7 @@ namespace MALClient.XShared.ViewModels.Main
 
         public bool EmptyFavMangaNoticeVisibility
         {
-            get { return _emptyFavMangaNoticeVisibility; }
+            get => _emptyFavMangaNoticeVisibility;
             set
             {
                 _emptyFavMangaNoticeVisibility = value;
@@ -682,7 +688,7 @@ namespace MALClient.XShared.ViewModels.Main
 
         public bool EmptyCommentsNoticeVisibility
         {
-            get { return _emptyCommentsNoticeVisibility; }
+            get => _emptyCommentsNoticeVisibility;
             set
             {
                 _emptyCommentsNoticeVisibility = value;
@@ -692,7 +698,7 @@ namespace MALClient.XShared.ViewModels.Main
 
         public bool IsMyProfile
         {
-            get { return _isMyProfile; }
+            get => _isMyProfile;
             set
             {
                 _isMyProfile = value;
@@ -702,7 +708,7 @@ namespace MALClient.XShared.ViewModels.Main
 
         public bool EmptyRecentMangaNoticeVisibility
         {
-            get { return _emptyRecentMangaNoticeVisibility; }
+            get => _emptyRecentMangaNoticeVisibility;
             set
             {
                 _emptyRecentMangaNoticeVisibility = value;
@@ -712,7 +718,7 @@ namespace MALClient.XShared.ViewModels.Main
 
         public bool EmptyRecentAnimeNoticeVisibility
         {
-            get { return _emptyRecentAnimeNoticeVisibility; }
+            get => _emptyRecentAnimeNoticeVisibility;
             set
             {
                 _emptyRecentAnimeNoticeVisibility = value;
@@ -722,7 +728,7 @@ namespace MALClient.XShared.ViewModels.Main
 
         public bool EmptyFavPeopleNoticeVisibility
         {
-            get { return _emptyFavPeopleNoticeVisibility; }
+            get => _emptyFavPeopleNoticeVisibility;
             set
             {
                 _emptyFavPeopleNoticeVisibility = value;
@@ -734,7 +740,7 @@ namespace MALClient.XShared.ViewModels.Main
 
         public bool LoadingOhersLibrariesProgressVisiblity
         {
-            get { return _loadingOhersLibrariesProgressVisiblity; }
+            get => _loadingOhersLibrariesProgressVisiblity;
             set
             {
                 _loadingOhersLibrariesProgressVisiblity = value;
@@ -746,7 +752,7 @@ namespace MALClient.XShared.ViewModels.Main
 
         public bool LoadingCommentsVisiblity
         {
-            get { return _loadingCommentsVisiblity; }
+            get => _loadingCommentsVisiblity;
             set
             {
                 _loadingCommentsVisiblity = value;
@@ -758,7 +764,7 @@ namespace MALClient.XShared.ViewModels.Main
 
         public bool LoadingAboutMeVisibility
         {
-            get { return _loadingAboutMeVisibility; }
+            get => _loadingAboutMeVisibility;
             set
             {
                 _loadingAboutMeVisibility = value;
@@ -770,7 +776,7 @@ namespace MALClient.XShared.ViewModels.Main
 
         public bool AboutMeWebViewVisibility
         {
-            get { return _aboutMeWebViewVisibility; }
+            get => _aboutMeWebViewVisibility;
             set
             {
                 _aboutMeWebViewVisibility = value;
@@ -782,7 +788,7 @@ namespace MALClient.XShared.ViewModels.Main
 
         public string CommentText
         {
-            get { return _commentText; }
+            get => _commentText;
             set
             {
                 _commentText = value;
@@ -794,7 +800,7 @@ namespace MALClient.XShared.ViewModels.Main
 
         public string ApproxTimeSpentOnAnime
         {
-            get { return _approxTimeSpentOnAnime; }
+            get => _approxTimeSpentOnAnime;
             set
             {
                 _approxTimeSpentOnAnime = value;
@@ -806,7 +812,7 @@ namespace MALClient.XShared.ViewModels.Main
 
         public string ApproxTimeSpentOnMovies
         {
-            get { return _approxTimeSpentOnMovies; }
+            get => _approxTimeSpentOnMovies;
             set
             {
                 _approxTimeSpentOnMovies = value;
@@ -818,7 +824,7 @@ namespace MALClient.XShared.ViewModels.Main
 
         public string ApproxTimeSpentOnAnimeAndMovies
         {
-            get { return _approxTimeSpentOnAnimeAndMovies; }
+            get => _approxTimeSpentOnAnimeAndMovies;
             set
             {
                 _approxTimeSpentOnAnimeAndMovies = value;
@@ -838,7 +844,7 @@ namespace MALClient.XShared.ViewModels.Main
 
         public bool IsSendCommentButtonEnabled
         {
-            get { return _isSendCommentButtonEnabled; }
+            get => _isSendCommentButtonEnabled;
             set
             {
                 _isSendCommentButtonEnabled = value;
@@ -859,10 +865,12 @@ namespace MALClient.XShared.ViewModels.Main
                                 ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageProfile, PrevArgs);
                             }
                             else if (ViewModelLocator.GeneralMain.OffContentVisibility)
+                            {
                                 if (ViewModelLocator.GeneralMain.CurrentOffPage == PageIndex.PageStaffDetails)
                                     ViewModelLocator.StaffDetails.RegisterSelfBackNav(int.Parse(entry.Id));
                                 else if (ViewModelLocator.GeneralMain.CurrentOffPage == PageIndex.PageCharacterDetails)
                                     ViewModelLocator.CharacterDetails.RegisterSelfBackNav(int.Parse(entry.Id));
+                            }
                             ViewModelLocator.GeneralMain.Navigate(PageIndex.PageCharacterDetails,
                                 new CharacterDetailsNavigationArgs {Id = int.Parse(entry.Id)});
                         }));
@@ -874,17 +882,18 @@ namespace MALClient.XShared.ViewModels.Main
                     new RelayCommand<FavouriteBase>(
                         entry =>
                         {
-
                             if (ViewModelLocator.Mobile)
                             {
                                 PrevArgs.DesiredPivotIndex = CurrentPivotIndex;
                                 ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageProfile, PrevArgs);
                             }
                             else if (ViewModelLocator.GeneralMain.OffContentVisibility)
+                            {
                                 if (ViewModelLocator.GeneralMain.CurrentOffPage == PageIndex.PageStaffDetails)
                                     ViewModelLocator.StaffDetails.RegisterSelfBackNav(int.Parse(entry.Id));
                                 else if (ViewModelLocator.GeneralMain.CurrentOffPage == PageIndex.PageCharacterDetails)
                                     ViewModelLocator.CharacterDetails.RegisterSelfBackNav(int.Parse(entry.Id));
+                            }
                             ViewModelLocator.GeneralMain.Navigate(PageIndex.PageStaffDetails,
                                 new StaffDetailsNaviagtionArgs {Id = int.Parse(entry.Id)});
                         }));
@@ -901,13 +910,18 @@ namespace MALClient.XShared.ViewModels.Main
             }));
 
         public ICommand NavigateMessagingCommand
-           =>  new RelayCommand(
-                  () =>
-                  {
-                      if (ViewModelLocator.Mobile)
-                          ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageProfile,PrevArgs);
-                      ViewModelLocator.GeneralMain.Navigate(PageIndex.PageMessageDetails, new MalMessageDetailsNavArgs { WorkMode = MessageDetailsWorkMode.Message, NewMessageTarget = CurrentData.User.Name });
-                  });
+            => new RelayCommand(
+                () =>
+                {
+                    if (ViewModelLocator.Mobile)
+                        ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageProfile, PrevArgs);
+                    ViewModelLocator.GeneralMain.Navigate(PageIndex.PageMessageDetails,
+                        new MalMessageDetailsNavArgs
+                        {
+                            WorkMode = MessageDetailsWorkMode.Message,
+                            NewMessageTarget = CurrentData.User.Name
+                        });
+                });
 
         public ICommand NavigateProfileCommand
             => _navigateProfileCommand ?? (_navigateProfileCommand = new RelayCommand<MalUser>(
@@ -918,13 +932,21 @@ namespace MALClient.XShared.ViewModels.Main
                            new ProfilePageNavigationArgs {TargetUser = user.Name});
                    }));
 
+        public ICommand NavigateFriendsCommand
+            => _navigateFriendsCommand ?? (_navigateFriendsCommand = new RelayCommand(
+                   () =>
+                   {
+                       ViewModelLocator.NavMgr.RegisterBackNav(PrevArgs);
+                       ViewModelLocator.GeneralMain.Navigate(PageIndex.PageFriends,
+                           new FriendsPageNavArgs {TargetUser = CurrentData.User});
+                   }));
 
 
         private string _aboutMeHtmlContent;
 
         public string AboutMeHtmlContent
         {
-            get { return _aboutMeHtmlContent; }
+            get => _aboutMeHtmlContent;
             set
             {
                 _aboutMeHtmlContent = value;
@@ -934,12 +956,13 @@ namespace MALClient.XShared.ViewModels.Main
 
         private double _computedHtmlHeight = -1;
         private ICommand _navigateProfileCommand;
+        private ICommand _navigateFriendsCommand;
         private bool _isMyProfile;
 
 
         public double ComputedHtmlHeight
         {
-            get { return _computedHtmlHeight == -1 ? double.NaN : _computedHtmlHeight; }
+            get => _computedHtmlHeight == -1 ? double.NaN : _computedHtmlHeight;
             set
             {
                 _computedHtmlHeight = value;
@@ -949,7 +972,7 @@ namespace MALClient.XShared.ViewModels.Main
 
         public bool AreFavsExpanded
         {
-            get { return _areFavsExpanded; }
+            get => _areFavsExpanded;
             set
             {
                 _areFavsExpanded = value;
@@ -958,7 +981,7 @@ namespace MALClient.XShared.ViewModels.Main
         }
 
         /// <summary>
-        /// Used to restore pivot after navigation
+        ///     Used to restore pivot after navigation
         /// </summary>
         public int CurrentPivotIndex { get; set; }
 

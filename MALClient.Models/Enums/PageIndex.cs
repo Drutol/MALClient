@@ -59,6 +59,6 @@
         [EnumUtilities.PageIndexEnumMember(OffPage = false)]
         PageListComparison,
         [EnumUtilities.PageIndexEnumMember(OffPage = false)]
-        FriendsPage
+        PageFriends
     }
 }

@@ -181,21 +181,22 @@
                               
                             </Grid>
                         </Grid>
-                        <Grid Grid.Column="2" Margin="10,0" HorizontalAlignment="Right" MaxWidth="310" MaxHeight="175">
+                        <Grid Grid.Column="2" Margin="10,0" HorizontalAlignment="Right" MaxWidth="410" MaxHeight="175">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="*" />
                             </Grid.RowDefinitions>
-                            <TextBlock Grid.Row="0" Text="Friends" FontWeight="SemiLight" FontSize="20" />
+
+                            <Grid Grid.Row="0" >
+                                <TextBlock Text="Friends" FontWeight="SemiLight" FontSize="20" HorizontalAlignment="Left" />
+                                <Button Content="More" Style="{StaticResource TextBlockButtonStyle}" Command="{Binding NavigateFriendsCommand}" HorizontalAlignment="Right" FontSize="20" Margin="0" Padding="0"/>
+                            </Grid>
+
                             <GridView IsItemClickEnabled="True" ItemClick="ListViewBase_OnItemClick" Grid.Row="1"
                                       ItemsSource="{Binding CurrentData.Friends}">
                                 <GridView.ItemTemplate>
                                     <DataTemplate>
-                                        <Image Width="75" Height="75">
-                                            <Image.Source>
-                                                <BitmapImage UriSource="{Binding ImgUrl}" DecodePixelHeight="75"
-                                                             DecodePixelWidth="75" DecodePixelType="Logical" />
-                                            </Image.Source>
+                                        <Image Width="65" Height="65" Source="{Binding ImgUrl}" Stretch="UniformToFill">
                                             <ToolTipService.ToolTip>
                                                 <ToolTip Content="{Binding Name}"/>
                                             </ToolTipService.ToolTip>

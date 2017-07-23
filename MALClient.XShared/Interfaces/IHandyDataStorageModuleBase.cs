@@ -10,5 +10,7 @@ namespace MALClient.XShared.Interfaces
     {
         void SaveData();
         void LoadData();
+        void StartBatch();
+        void CommitBatch();
     }
 }

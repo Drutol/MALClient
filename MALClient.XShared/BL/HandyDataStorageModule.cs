@@ -18,6 +18,7 @@ namespace MALClient.XShared.BL
         private readonly string _key;
         private readonly bool _atomicObjects;
         public ObservableCollection<T> StoredItems { get; private set; }
+        public bool Batch { get; set; }
 
         public HandyDataStorageModule(string key,bool atomicObjects)
         {
@@ -42,7 +43,8 @@ namespace MALClient.XShared.BL
                     newItem.PropertyChanged -= NotifyOnPropertyChanged;
                 }
             }
-            SaveData();
+            if(!Batch)
+                SaveData();
         }
 
         public void LoadData()
@@ -62,6 +64,17 @@ namespace MALClient.XShared.BL
                 var notify = (obj as INotifyPropertyChanged);
                 notify.PropertyChanged += NotifyOnPropertyChanged;
             });
+        }
+
+        public void StartBatch()
+        {
+            Batch = true;
+        }
+
+        public void CommitBatch()
+        {
+            Batch = false;
+            SaveData();
         }
 
         private void NotifyOnPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)

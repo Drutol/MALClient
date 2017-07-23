@@ -27,8 +27,16 @@ namespace MALClient.Android
             public void OnBindView(IDrawerItem p0, View p1)
             {
                 p1.SetPadding(DimensionsHelper.DpToPx(16), 0, 0, 0);
-                if (p1.FindViewById(123098) != null)
+
+                var frame = p1.FindViewById(123098);
+                if (frame != null)
+                {
+                    if((bool)p0.Tag)
+                        frame.Visibility = ViewStates.Visible;
+                    else
+                        frame.Visibility = ViewStates.Gone;
                     return;
+                }
 
                 var param = new LinearLayout.LayoutParams(DimensionsHelper.DpToPx(50), -1);
                 param.SetMargins(DimensionsHelper.DpToPx(10),0,0,0);
@@ -65,11 +73,14 @@ namespace MALClient.Android
             btn.WithSelectedTextColorRes(ResourceExtension.AccentColourRes);
             btn.WithSelectedIconColorRes(ResourceExtension.AccentColourDarkRes);
             if (moreButtonAction != null)
+            {
                 btn.WithPostOnBindViewListener(new BindListener(moreButtonAction));
+                btn.WithTag(true);
+            }
             return btn;
         }
 
-        public static SecondaryDrawerItem GetBaseSecondaryItem()
+        public static SecondaryDrawerItem GetBaseSecondaryItem(Action<View> moreButtonAction = null)
         {
             var btn = new SecondaryDrawerItem();
             btn.WithIconTintingEnabled(true);
@@ -78,6 +89,11 @@ namespace MALClient.Android
             btn.WithSelectedColorRes(ResourceExtension.BrushAnimeItemBackgroundRes);
             btn.WithSelectedTextColorRes(ResourceExtension.AccentColourRes);
             btn.WithSelectedIconColorRes(ResourceExtension.AccentColourDarkRes);
+            if (moreButtonAction != null)
+            {
+                btn.WithPostOnBindViewListener(new BindListener(moreButtonAction));
+                btn.WithTag(true);
+            }
             return btn;
         }
     }

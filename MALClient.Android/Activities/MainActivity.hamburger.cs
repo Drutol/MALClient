@@ -177,7 +177,7 @@ namespace MALClient.Android.Activities
                 mangaSubHeader.WithIdentifier(55779988);
                 mangaSubHeader.WithTextColorRes(ResourceExtension.BrushTextRes);
 
-                var mangaListButton = GetBaseSecondaryItem();
+                var mangaListButton = GetBaseSecondaryItem(OnMangaMore);
                 mangaListButton.WithName("Manga list");
                 mangaListButton.WithIdentifier((int)PageIndex.PageMangaList);
                 mangaListButton.WithIcon(Resource.Drawable.icon_list);
@@ -240,6 +240,19 @@ namespace MALClient.Android.Activities
                 : ResourceExtension.BrushAnimeItemBackground));
 
             _drawer.DrawerLayout.AddDrawerListener(new DrawerListener(OnClose, OnOpen));
+        }
+
+        private void OnMangaMore(View view)
+        {
+            _moreMenu = FlyoutMenuBuilder.BuildGenericFlyout(this, view,
+                Enum.GetValues(typeof(AnimeStatus)).Cast<AnimeStatus>().Select(type => Utilities.StatusToString((int)type,true)).ToList(),
+                i =>
+                {
+                    ViewModel.Navigate(PageIndex.PageTopAnime, new AnimeListPageNavigationArgs(i, AnimeListWorkModes.Manga));
+                    _moreMenu.Dismiss(true);
+                    _drawer.CloseDrawer();
+                });
+            _moreMenu.Show();
         }
 
         private void OnTopAnimeMore(View view)

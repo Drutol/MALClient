@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:orientation="horizontal"
+              android:paddingStart="2dp"
+              android:background="@drawable/border_accent_left">
+  <FrameLayout android:background="?BrushAnimeItemInnerBackground"
+               android:layout_width="100dp" android:elevation="2dp"
+               android:layout_height="100dp">
+    <ProgressBar android:scaleX=".7" android:scaleY=".7"
+                 android:layout_width="wrap_content" android:id="@+id/ImgPlaceholder"
+                 android:layout_height="wrap_content" android:indeterminateTint="?BrushAnimeItemBackground"
+                 android:indeterminate="true" android:layout_gravity="center" android:indeterminateTintMode="src_in"/>
+    <FFImageLoading.Views.ImageViewAsync android:id="@+id/Image"
+                                         android:layout_width="75dp" android:layout_gravity="center"
+                                         android:layout_height="75dp" android:scaleType="centerCrop"/>
+  </FrameLayout>
+  <LinearLayout android:background="?BrushAnimeItemBackground"
+                android:layout_width="match_parent" android:gravity="center_horizontal" android:orientation="vertical"
+                android:layout_height="match_parent" android:padding="10dp">
+    <TextView android:id="@+id/Name"
+              android:layout_width="wrap_content" tools:text="Drutol" android:fontFamily="@string/font_family_light" android:textSize="@dimen/FontSizeBig" android:textColor="?AccentColour"
+              android:layout_height="wrap_content" />
+    <LinearLayout android:layout_marginTop="10dp"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content">
+      <TextView
+        android:layout_width="wrap_content" android:text="Last online: " android:textColor="?BrushText"
+        android:layout_height="wrap_content" android:fontFamily="@string/font_family_light"/>
+      <TextView android:id="@+id/LastOnline"
+                android:layout_width="wrap_content" android:textColor="?BrushText"
+                android:layout_height="wrap_content" tools:text="3 minutes ago"/>
+    </LinearLayout>
+    <TextView android:layout_marginTop="10dp" android:id="@+id/FriendsSince"
+              android:layout_width="wrap_content" android:textColor="?BrushText" android:fontFamily="@string/font_family_light"
+              android:layout_height="wrap_content" tools:text="Friends since 3rd March 2017" android:textStyle="italic"/>
+  </LinearLayout>
+</LinearLayout>

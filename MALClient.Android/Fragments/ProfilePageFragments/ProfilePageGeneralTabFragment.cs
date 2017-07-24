@@ -65,12 +65,15 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
                         ProfilePageGeneralTabFriendsGrid.Adapter =
                             ViewModel.CurrentData.Friends.GetAdapter(GetFriendTemplateDelegate);
                         ProfilePageGeneralTabFriendsEmptyNotice.Visibility = ViewStates.Gone;
+                        ProfilePageGeneralTabMoreFriendsButton.Visibility = ViewStates.Visible;
                     }
                     else
                     {
                         ProfilePageGeneralTabFriendsGrid.Adapter = null;
                         ProfilePageGeneralTabFriendsEmptyNotice.Visibility = ViewStates.Visible;
+                        ProfilePageGeneralTabMoreFriendsButton.Visibility = ViewStates.Gone;
                     }
+
 
                     ProfilePageGeneralTabCommentsList.RemoveAllViews();
                     await Task.Delay(500);
@@ -154,6 +157,7 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
             ProfilePageGeneralTabSendCommentButton.SetOnClickListener(new OnClickListener(v => ViewModel.SendCommentCommand.Execute(null)));
             ProfilePageGeneralTabActionButton.SetOnClickListener(new OnClickListener(v => ProfilePageGeneralTabActionButtonOnClick()));
             ProfilePageGeneralTabCompareList.SetOnClickListener(new OnClickListener(v => ViewModel.NavigateComparisonCommand.Execute(null)));
+            ProfilePageGeneralTabMoreFriendsButton.SetOnClickListener(new OnClickListener(v => ViewModel.NavigateFriendsCommand.Execute(null)));
         }
 
         private void AnimatePin(float from, float to)
@@ -275,6 +279,7 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
         public override int LayoutResourceId => Resource.Layout.ProfilePageGeneralTab;
 
         #region Views
+
         private ImageView _profilePageGeneralTabImagePlaceholder;
         private ImageViewAsync _profilePageGeneralTabAnimeUserImg;
         private LinearLayout _profilePageGeneralTabDetailsList;
@@ -285,6 +290,7 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
         private ImageView _pinButtonIcon;
         private FrameLayout _pinButton;
         private ExpandableGridView _profilePageGeneralTabFriendsGrid;
+        private Button _profilePageGeneralTabMoreFriendsButton;
         private TextView _profilePageGeneralTabFriendsEmptyNotice;
         private EditText _profilePageGeneralTabCommentInput;
         private Button _profilePageGeneralTabSendCommentButton;
@@ -314,6 +320,8 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
 
         public ExpandableGridView ProfilePageGeneralTabFriendsGrid => _profilePageGeneralTabFriendsGrid ?? (_profilePageGeneralTabFriendsGrid = FindViewById<ExpandableGridView>(Resource.Id.ProfilePageGeneralTabFriendsGrid));
 
+        public Button ProfilePageGeneralTabMoreFriendsButton => _profilePageGeneralTabMoreFriendsButton ?? (_profilePageGeneralTabMoreFriendsButton = FindViewById<Button>(Resource.Id.ProfilePageGeneralTabMoreFriendsButton));
+
         public TextView ProfilePageGeneralTabFriendsEmptyNotice => _profilePageGeneralTabFriendsEmptyNotice ?? (_profilePageGeneralTabFriendsEmptyNotice = FindViewById<TextView>(Resource.Id.ProfilePageGeneralTabFriendsEmptyNotice));
 
         public EditText ProfilePageGeneralTabCommentInput => _profilePageGeneralTabCommentInput ?? (_profilePageGeneralTabCommentInput = FindViewById<EditText>(Resource.Id.ProfilePageGeneralTabCommentInput));
@@ -329,7 +337,6 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
         public ScrollView ProfilePageGeneralTabScrollingContainer => _profilePageGeneralTabScrollingContainer ?? (_profilePageGeneralTabScrollingContainer = FindViewById<ScrollView>(Resource.Id.ProfilePageGeneralTabScrollingContainer));
 
         public FloatingActionButton ProfilePageGeneralTabActionButton => _profilePageGeneralTabActionButton ?? (_profilePageGeneralTabActionButton = FindViewById<FloatingActionButton>(Resource.Id.ProfilePageGeneralTabActionButton));
-
 
         #endregion
     }

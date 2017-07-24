@@ -347,6 +347,12 @@ namespace MALClient.Android.ViewModels
                     MainNavigationRequested?.Invoke(
                         new ListComparisonPageFragment(args as ListComparisonPageNavigationArgs));
                     break;
+                case PageIndex.PageFriends:
+                    HideSearchStuff();
+                    RefreshButtonVisibility = false;
+                    CurrentStatus = $"{(args as FriendsPageNavArgs).TargetUser.Name}'s friends.";
+                    MainNavigationRequested?.Invoke(new FriendsPageFragment(args as FriendsPageNavArgs));
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(index), index, null);
             }

@@ -306,6 +306,7 @@
     <Compile Include="Fragments\ForumFragments\Tabs\ForumIndexPageFragmentBoardsTabFragment.cs" />
     <Compile Include="Fragments\ForumFragments\Tabs\ForumIndexPageFragmentRecentsTabFragment.cs" />
     <Compile Include="Fragments\FriendsFeedsPageFragment.cs" />
+    <Compile Include="Fragments\FriendsPageFragment.cs" />
     <Compile Include="Fragments\HistoryFragments\HistoryPageFragment.cs" />
     <Compile Include="Fragments\HistoryFragments\HistoryPageTabFragment.cs" />
     <Compile Include="Fragments\ListComparisonPageFragment.cs" />
@@ -1193,6 +1194,12 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\icon_linear_blur.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\FriendsPage.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\FriendsPageItem.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

@@ -13,6 +13,7 @@ using FFImageLoading.Transformations;
 using FFImageLoading.Views;
 using GalaSoft.MvvmLight.Helpers;
 using MALClient.Android.BindingConverters;
+using MALClient.Android.Listeners;
 using MALClient.Models.Models.MalSpecific;
 using MALClient.XShared.NavArgs;
 using MALClient.XShared.ViewModels;
@@ -55,7 +56,15 @@ namespace MALClient.Android.Fragments
 
         private View ContainerTemplate(int i)
         {
-            return Activity.LayoutInflater.Inflate(Resource.Layout.FriendsPageItem, null);
+            var view =  Activity.LayoutInflater.Inflate(Resource.Layout.FriendsPageItem, null);
+            view.SetOnClickListener(new OnClickListener(OnFriendClick));
+
+            return view;
+        }
+
+        private void OnFriendClick(View view)
+        {
+            ViewModel.NavigateUserCommand.Execute(view.Tag.Unwrap<MalFriend>());
         }
 
         private void DataTemplateBasic(View view, int i, MalFriend model, FriendsItemViewHolder holder)

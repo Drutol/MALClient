@@ -31,15 +31,14 @@ namespace MALClient.Android.Adapters
 
         public bool NewChangelog { get; set; }
 
-        public string DateWithVersion => $"{_currentVersion} - 21.07.2017";
+        public string DateWithVersion => $"{_currentVersion} - 25.07.2017";
 
         public List<string> Changelog => new List<string>
         {
-            "Fixes to reversing swipe order affecting other display modes.",
-            "Fixed recent forum posts.",
-            "I've found one more issue with notifications, maybe now they won't duplicate...",
-            "Notifications on Nougat are now groupped.",
-            "I'm back from my holidays and I'll start working on something now :)"           
+            "Added airing notifications. They are kinda beta-ish so I'll proabably have to tweak them a bit in the coming updates.",
+            "Added simple friends page to profile.",
+            "Fixed increment button in detailed grid display mode.",
+            "Added more button to manga list hamburger button.",
         };
 
     }

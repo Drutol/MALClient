@@ -31,12 +31,14 @@ namespace MALClient.Android
                 var frame = p1.FindViewById(123098);
                 if (frame != null)
                 {
-                    if((bool)p0.Tag)
+                    if(p0.Tag != null)
                         frame.Visibility = ViewStates.Visible;
                     else
                         frame.Visibility = ViewStates.Gone;
                     return;
                 }
+                if(p0.Tag == null)
+                    return;
 
                 var param = new LinearLayout.LayoutParams(DimensionsHelper.DpToPx(50), -1);
                 param.SetMargins(DimensionsHelper.DpToPx(10),0,0,0);

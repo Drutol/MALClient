@@ -20,7 +20,7 @@ namespace MALClient.XShared.ViewModels.Main
         private bool _loading;
         private FriendsPageNavArgs _lastArgs;
 
-        private Dictionary<string, List<MalFriend>> _friendsCache = new Dictionary<string, List<MalFriend>>();
+        private readonly Dictionary<string, List<MalFriend>> _friendsCache = new Dictionary<string, List<MalFriend>>();
         private ICommand _navigateUserCommand;
 
         public async void NavigatedTo(FriendsPageNavArgs args)
@@ -31,7 +31,10 @@ namespace MALClient.XShared.ViewModels.Main
                 Friends = new ObservableCollection<MalFriend>(_friendsCache[args.TargetUser.Name.ToLower()]);
             else
             {
+                
                 Loading = true;
+                Friends = new ObservableCollection<MalFriend>();
+
                 var result = await new FriendsQuery(args.TargetUser.Name).GetFriends();
                 _friendsCache[args.TargetUser.Name.ToLower()] = result;
 

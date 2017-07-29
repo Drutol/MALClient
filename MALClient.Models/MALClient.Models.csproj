@@ -115,6 +115,7 @@
     <Compile Include="Models\Library\IAnimeData.cs" />
     <Compile Include="Models\Library\ILibraryData.cs" />
     <Compile Include="Models\Library\MangaLibraryItemData.cs" />
+    <Compile Include="Models\MalSpecific\MalClub.cs" />
     <Compile Include="Models\MalSpecific\MalFriend.cs" />
     <Compile Include="Models\MalSpecific\UserFeedEntryModel.cs" />
     <Compile Include="Models\MalSpecific\MalMessageModel.cs" />
@@ -134,6 +135,9 @@
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.10.0.2\lib\portable-net45+win8+wpa81+wp8\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ValueTuple, Version=4.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.3.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

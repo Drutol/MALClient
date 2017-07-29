@@ -97,6 +97,7 @@
     <Compile Include="Comm\MagicalRawQueries\Messages\MalMessagesQuery.cs" />
     <Compile Include="Comm\MagicalRawQueries\Messages\SendMessageQuery.cs" />
     <Compile Include="Comm\MagicalRawQueries\Profile\ProfileCommentQueries.cs" />
+    <Compile Include="Comm\MalSpecific\MalClubDetailsQuery.cs" />
     <Compile Include="Comm\MalSpecific\MalFriendsFeedsQuery.cs" />
     <Compile Include="Comm\MalSpecific\PopularVideosQuery.cs" />
     <Compile Include="Comm\Manga\MangaAddQuery.cs" />

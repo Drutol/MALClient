@@ -90,7 +90,7 @@ namespace MALClient.UWP.Utils.Managers
             }
             else if (page == PageIndex.PageProfile || page == PageIndex.PageArticles ||
                      page == PageIndex.PageForumIndex || page == PageIndex.PageFeeds ||
-                     page == PageIndex.PageNotificationHub || page == PageIndex.PageFriends)
+                     page == PageIndex.PageNotificationHub || page == PageIndex.PageFriends || page == PageIndex.PageClubIndex)
             {
                 _randomNavigationStackMain.Push(new Tuple<PageIndex, object>(page, args));
                 ViewModelLocator.GeneralMain.NavigateMainBackButtonVisibility = true;

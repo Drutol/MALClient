@@ -22,7 +22,8 @@ namespace MALClient.Models.Models.MalSpecific
         public string Id { get; set; }
         public string ImgUrl { get; set; }
         public string Members { get; set; }
-        public string LastComment { get; set; }
+        public string LastCommentDate { get; set; }
+        public string LastCommentAuthor { get; set; }
         public string LastPost { get; set; }
         public string Description { get; set; }
         public JoinAction JoinType { get; set; }

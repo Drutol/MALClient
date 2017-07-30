@@ -20,6 +20,7 @@ namespace MALClient.Models.Models.MalSpecific
         public bool IsPublic { get; set; }
         public string DescriptionHtml { get; set; }
         public string ImgUrl { get; set; }
+        public bool Joined { get; set; }
 
         public List<(string user, string role)> Officers { get; set; } = new List<(string user, string role)>();
         public List<MalUser> MembersPeek { get; set; } = new List<MalUser>();

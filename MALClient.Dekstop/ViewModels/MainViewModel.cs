@@ -438,6 +438,12 @@ namespace MALClient.UWP.ViewModels
                     CurrentStatus = "Clubs";
                     MainNavigationRequested?.Invoke(typeof(ClubIndexPage),args);
                     break;
+                case PageIndex.PageClubDetails:
+                    HideSearchStuff();
+                    RefreshButtonVisibility = false;
+                    CurrentStatus = "Club details";
+                    MainNavigationRequested?.Invoke(typeof(ClubDetailsPage),args);
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(index), index, null);
             }

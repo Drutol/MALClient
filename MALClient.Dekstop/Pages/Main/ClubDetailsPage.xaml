@@ -1,0 +1,38 @@
+﻿<Page
+    x:Class="MALClient.UWP.Pages.Main.ClubDetailsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MALClient.UWP.Pages.Main"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:attachedProperties="using:MALClient.UWP.Shared.UserControls.AttachedProperties"
+    mc:Ignorable="d" DataContext="{Binding Source={StaticResource Locator},Path=ClubDetails}">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid Grid.Column="0">
+            <ScrollViewer>
+                <StackPanel>
+                    <Grid Background="{ThemeResource BrushAnimeItemBackground}"> 
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Image Source="{Binding Details.ImgUrl}"/>
+                    </Grid>
+                </StackPanel>
+            </ScrollViewer>
+        </Grid>
+        
+        <Grid Grid.Column="1">
+            <WebView HorizontalAlignment="Stretch" VerticalAlignment="Stretch" attachedProperties:WebViewExtensions.ResizeToFit="False" 
+                     attachedProperties:WebViewExtensions.Content="{Binding Details.DescriptionHtml}"/>
+        </Grid>
+        
+        
+    </Grid>
+</Page>

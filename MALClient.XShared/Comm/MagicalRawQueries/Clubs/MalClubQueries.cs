@@ -72,6 +72,8 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Clubs
                 {
                     var current  = new MalClubEntry();
 
+                    current.Id = clubRow.Descendants("a").First().Attributes["href"].Value.Split('=').Last();
+
                     var tds = clubRow.ChildNodes.Where(node => node.Name == "td").ToList();
 
                     var img = tds[0].Descendants("img").First();
@@ -95,10 +97,13 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Clubs
                         .FirstOfDescendantsWithClass("div", "pt4 pb4 word-break").InnerText.Trim());
 
                     current.Members = tds[1].InnerText.Trim();
-                    current.LastComment = WebUtility.HtmlDecode(tds[2].InnerText.Trim());
-                    var byPos = current.LastComment.LastIndexOf("by ");
-                    if(byPos != -1)
-                        current.LastComment = current.LastComment.Insert(byPos, "\n");
+                    var comment = WebUtility.HtmlDecode(tds[2].InnerText.Trim());
+                    var byPos = comment.LastIndexOf("by ");
+                    if (byPos != -1)
+                    {
+                        current.LastCommentDate = comment.Substring(0, byPos);
+                        current.LastCommentAuthor = comment.Substring(byPos+3);
+                    }
                     current.LastPost = WebUtility.HtmlDecode(tds[3].InnerText.Trim());
 
                     if (type == QueryType.All)

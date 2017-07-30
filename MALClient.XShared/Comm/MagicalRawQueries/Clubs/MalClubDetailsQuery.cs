@@ -1,41 +1,31 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Text;
 using System.Threading.Tasks;
 using HtmlAgilityPack;
 using MALClient.Models.Models;
-using MALClient.Models.Models.AnimeScrapped;
 using MALClient.Models.Models.MalSpecific;
 using MALClient.XShared.Utils;
+using MALClient.XShared.ViewModels;
 
-namespace MALClient.XShared.Comm.MalSpecific
+namespace MALClient.XShared.Comm.MagicalRawQueries.Clubs
 {
-    public class MalClubDetailsQuery : Query
+    public static class MalClubDetailsQuery 
     {
-        private readonly string _clubId;
-
-        public MalClubDetailsQuery(string clubId)
+        public static async Task<MalClubDetails> GetClubDetails(string clubId)
         {
-            _clubId = clubId;
-            Request =
-                WebRequest.Create(
-                    Uri.EscapeUriString(
-                        $"https://myanimelist.net/clubs.php?cid={clubId}"));
-            Request.ContentType = "application/x-www-form-urlencoded";
-            Request.Method = "GET";
-        }
+            var output = new MalClubDetails {Id = clubId};
+            var client = await ResourceLocator.MalHttpContextProvider.GetHttpContextAsync();
 
-        public async Task<MalClubDetails> GetClubDetails()
-        {
-            var output = new MalClubDetails {Id = _clubId};
-            var raw = await GetRequestResponse(false);
-            if (string.IsNullOrEmpty(raw))
-                return output;
+
+            var response =
+                await client.GetAsync($"/clubs.php?cid={clubId}");
+
+            if (!response.IsSuccessStatusCode)
+                return null;
 
             var doc = new HtmlDocument();
-            doc.LoadHtml(raw);
+            doc.LoadHtml(await response.Content.ReadAsStringAsync());
 
 
             try
@@ -133,6 +123,7 @@ namespace MALClient.XShared.Comm.MalSpecific
                 }
 
                 output.IsPublic = !rightBar.InnerText.Contains("This is a private club.");
+                output.Joined = rightBar.InnerText.Contains("Leave Club");
 
                 var leftBar = mainFrame.ChildNodes[1].ChildNodes[1].ChildNodes[1];
                 var membersTable = leftBar.ChildNodes.First(node => node.Name == "table");

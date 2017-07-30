@@ -9,7 +9,6 @@ namespace MALClient.UWP.Shared.UserControls.AttachedProperties
 {
     public class WebViewExtensions : DependencyObject
     {
-    
         public static readonly DependencyProperty ContentProperty = DependencyProperty.RegisterAttached(
             "Content", typeof(string), typeof(WebViewExtensions), new PropertyMetadata(default(string),PropertyChangedCallback));
 

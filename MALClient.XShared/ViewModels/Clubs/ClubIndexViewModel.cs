@@ -8,8 +8,10 @@ using System.Windows.Input;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using MALClient.Adapters;
+using MALClient.Models.Enums;
 using MALClient.Models.Models.MalSpecific;
 using MALClient.XShared.Comm.MagicalRawQueries.Clubs;
+using MALClient.XShared.NavArgs;
 using MALClient.XShared.Utils;
 
 namespace MALClient.XShared.ViewModels.Clubs
@@ -168,6 +170,12 @@ namespace MALClient.XShared.ViewModels.Clubs
             }
             else
                 MoreButtonVisibility = false;
+        });
+
+        public ICommand NavigateDetailsCommand => new RelayCommand<MalClubEntry>(entry =>
+        {
+            ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageClubIndex,null);
+            ViewModelLocator.GeneralMain.Navigate(PageIndex.PageClubDetails,new ClubDetailsPageNavArgs{Id = entry.Id});
         });
     }
 }

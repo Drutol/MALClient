@@ -52,6 +52,7 @@ namespace MALClient.XShared.ViewModels
             SimpleIoc.Default.Register<ListComparisonViewModel>();
             SimpleIoc.Default.Register<FriendsPageViewModel>();
             SimpleIoc.Default.Register<ClubIndexViewModel>();
+            SimpleIoc.Default.Register<ClubDetailsViewModel>();
 
             ResourceLocator.RegisterBase();
         }
@@ -128,6 +129,9 @@ namespace MALClient.XShared.ViewModels
 
         public static ClubIndexViewModel ClubIndex
             => ServiceLocator.Current.GetInstance<ClubIndexViewModel>();
+
+        public static ClubDetailsViewModel ClubDetails
+            => ServiceLocator.Current.GetInstance<ClubDetailsViewModel>();
 
 
         //Forums

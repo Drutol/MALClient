@@ -16,6 +16,14 @@
 
     <Page.Resources>
         <ResourceDictionary>
+            <Storyboard x:Key="OverlayFadeInStoryboard">
+                <FadeInThemeAnimation TargetName="LoadingOverlay" />
+            </Storyboard>
+
+            <Storyboard x:Key="OverlayFadeOutStoryboard">
+                <FadeOutThemeAnimation TargetName="LoadingOverlay" />
+            </Storyboard>
+
             <xamlConverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
             <xamlConverters:IsThereAnyTextToVisibilityConverter x:Key="IsThereAnyTextToVisibilityConverter" />
             <xamlConverters:VisiblityInverterConverter x:Key="VisiblityInverterConverter" />
@@ -162,6 +170,9 @@
                                         <Button Content="History" Margin="5,0" Foreground="White"
                                             Command="{Binding NavigateHistoryCommand}"
                                             Background="{StaticResource SystemControlBackgroundAccentBrush}" IsEnabled="{Binding LoadingOhersLibrariesProgressVisiblity,Converter={StaticResource BoolInverterConverter}}"/>
+                                    <Button Content="Clubs" Margin="5,0" Foreground="White"
+                                            Command="{Binding NavigateClubsCommand}" Visibility="{Binding IsMyProfile}"
+                                            Background="{StaticResource SystemControlBackgroundAccentBrush}"/>
                                     <ToggleButton Margin="5,0" IsChecked="{Binding IsPinned,Mode=TwoWay}"
                                                   Visibility="{Binding PinProfileVisibility,Converter={StaticResource BoolToVisibilityConverter}}">
                                         <SymbolIcon Foreground="White"
@@ -914,9 +925,14 @@
             </Grid>
         </ScrollViewer>
 
-        <Grid Grid.ColumnSpan="2" Visibility="{Binding LoadingVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
-              Background="{ThemeResource BrushLoadingNonTransparent}"
-              Margin="0,0,0,0">
+        <Grid Grid.ColumnSpan="2"
+              Margin="0,0,0,0" Visibility="{Binding LoadingVisibility}" attachedProperties:AnimatedVisibilityExtension.AnimatedVisiblity="{Binding LoadingVisibility}"
+              attachedProperties:AnimatedVisibilityExtension.AnimatedVisibleStoryboard="{StaticResource OverlayFadeInStoryboard}"
+              attachedProperties:AnimatedVisibilityExtension.AnimatedCollapsedStoryboard="{StaticResource OverlayFadeOutStoryboard}">
+            <Grid.Background>
+                <SolidColorBrush Color="Black" Opacity=".1"/>
+            </Grid.Background>
+            <Grid x:Name="LoadingOverlay" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
             <ProgressRing Margin="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="75" Height="75"
                           IsActive="True" />
         </Grid>

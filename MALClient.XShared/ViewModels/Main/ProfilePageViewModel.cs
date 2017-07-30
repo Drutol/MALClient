@@ -402,6 +402,16 @@ namespace MALClient.XShared.ViewModels.Main
                                 new ProfilePageNavigationArgs {TargetUser = CurrentData.User.Name});
                         }));
 
+        public ICommand NavigateClubsCommand
+            =>
+                new RelayCommand(() =>
+                {
+
+                    ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageProfile,
+                        new ProfilePageNavigationArgs { TargetUser = CurrentData.User.Name });
+                    ViewModelLocator.GeneralMain.Navigate(PageIndex.PageClubIndex);
+                });
+
         private ICommand _sendCommentCommand;
 
         public ICommand SendCommentCommand => _sendCommentCommand ?? (_sendCommentCommand = new RelayCommand(async () =>

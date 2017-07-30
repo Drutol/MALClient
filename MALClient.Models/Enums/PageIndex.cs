@@ -59,6 +59,10 @@
         [EnumUtilities.PageIndexEnumMember(OffPage = false)]
         PageListComparison,
         [EnumUtilities.PageIndexEnumMember(OffPage = false)]
-        PageFriends
+        PageFriends,
+        [EnumUtilities.PageIndexEnumMember(OffPage = false)]
+        PageClubIndex,
+        [EnumUtilities.PageIndexEnumMember(OffPage = false)]
+        PageClubDetails
     }
 }

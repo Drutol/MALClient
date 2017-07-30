@@ -98,6 +98,7 @@
     <Compile Include="Comm\MagicalRawQueries\Messages\SendMessageQuery.cs" />
     <Compile Include="Comm\MagicalRawQueries\Profile\ProfileCommentQueries.cs" />
     <Compile Include="Comm\MalSpecific\MalClubDetailsQuery.cs" />
+    <Compile Include="Comm\MagicalRawQueries\Clubs\MalClubQueries.cs" />
     <Compile Include="Comm\MalSpecific\MalFriendsFeedsQuery.cs" />
     <Compile Include="Comm\MalSpecific\PopularVideosQuery.cs" />
     <Compile Include="Comm\Manga\MangaAddQuery.cs" />
@@ -154,6 +155,7 @@
     <Compile Include="ViewModels\AnimeItemViewModel.cs" />
     <Compile Include="ViewModels\AnimeListSeparatorViewModel.cs" />
     <Compile Include="ViewModels\AnimeSearchItemViewModel.cs" />
+    <Compile Include="ViewModels\Clubs\ClubIndexViewModel.cs" />
     <Compile Include="ViewModels\Details\AnimeDetailsPageViewModel.cs" />
     <Compile Include="ViewModels\Details\AnimeDetailsPageViewModel.ui.cs" />
     <Compile Include="ViewModels\Details\CharacterDetailsViewModel.cs" />

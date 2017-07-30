@@ -13,7 +13,7 @@ namespace MALClient.Models.Models.MalSpecific
         public string Content { get; set; }
     }
 
-    public class MalClub
+    public class MalClubDetails
     {
         public string Name { get; set; }
         public string Id { get; set; }

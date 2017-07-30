@@ -24,11 +24,13 @@ namespace MALClient.UWP.Pages.Main
     public sealed partial class ProfilePage : Page
     {
         private static ProfilePageNavigationArgs _lastArgs;
+        private BlurHelper _overlayBlurHelper;
 
         public ProfilePage()
         {
             InitializeComponent();
             ViewModel.PropertyChanged += ViewModelOnPropertyChanged;
+            Loaded += (sender, args) => _overlayBlurHelper = new BlurHelper(LoadingOverlay, false);
         }
 
         private ProfilePageViewModel ViewModel => DataContext as ProfilePageViewModel;

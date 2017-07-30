@@ -27,9 +27,9 @@ namespace MALClient.XShared.Comm.MalSpecific
             Request.Method = "GET";
         }
 
-        public async Task<MalClub> GetClubDetails()
+        public async Task<MalClubDetails> GetClubDetails()
         {
-            var output = new MalClub {Id = _clubId};
+            var output = new MalClubDetails {Id = _clubId};
             var raw = await GetRequestResponse(false);
             if (string.IsNullOrEmpty(raw))
                 return output;

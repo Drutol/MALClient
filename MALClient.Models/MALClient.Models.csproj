@@ -115,7 +115,8 @@
     <Compile Include="Models\Library\IAnimeData.cs" />
     <Compile Include="Models\Library\ILibraryData.cs" />
     <Compile Include="Models\Library\MangaLibraryItemData.cs" />
-    <Compile Include="Models\MalSpecific\MalClub.cs" />
+    <Compile Include="Models\MalSpecific\MalClubDetails.cs" />
+    <Compile Include="Models\MalSpecific\MalClubEntry.cs" />
     <Compile Include="Models\MalSpecific\MalFriend.cs" />
     <Compile Include="Models\MalSpecific\UserFeedEntryModel.cs" />
     <Compile Include="Models\MalSpecific\MalMessageModel.cs" />

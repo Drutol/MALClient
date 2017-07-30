@@ -7,6 +7,7 @@ using MALClient.XShared.Comm.Anime;
 using MALClient.XShared.Delegates;
 using MALClient.XShared.Interfaces;
 using MALClient.XShared.NavArgs;
+using MALClient.XShared.ViewModels.Clubs;
 using MALClient.XShared.ViewModels.Details;
 using MALClient.XShared.ViewModels.Forums;
 using MALClient.XShared.ViewModels.Main;
@@ -50,6 +51,7 @@ namespace MALClient.XShared.ViewModels
             SimpleIoc.Default.Register<NotificationsHubViewModel>();
             SimpleIoc.Default.Register<ListComparisonViewModel>();
             SimpleIoc.Default.Register<FriendsPageViewModel>();
+            SimpleIoc.Default.Register<ClubIndexViewModel>();
 
             ResourceLocator.RegisterBase();
         }
@@ -123,6 +125,9 @@ namespace MALClient.XShared.ViewModels
 
         public static FriendsPageViewModel Friends
             => ServiceLocator.Current.GetInstance<FriendsPageViewModel>();
+
+        public static ClubIndexViewModel ClubIndex
+            => ServiceLocator.Current.GetInstance<ClubIndexViewModel>();
 
 
         //Forums

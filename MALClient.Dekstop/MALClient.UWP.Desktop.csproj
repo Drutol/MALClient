@@ -123,6 +123,9 @@
     <Compile Include="Pages\Main\CharacterSearchPage.xaml.cs">
       <DependentUpon>CharacterSearchPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\Main\ClubIndexPage.xaml.cs">
+      <DependentUpon>ClubIndexPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\Main\FriendsFeedsPage.xaml.cs">
       <DependentUpon>FriendsFeedsPage.xaml</DependentUpon>
     </Compile>
@@ -325,6 +328,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\Main\CharacterSearchPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\Main\ClubIndexPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

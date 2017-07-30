@@ -123,6 +123,8 @@ namespace MALClient.UWP.ViewModels
                 case PageIndex.PageNotificationHub:
                 case PageIndex.PageListComparison:
                 case PageIndex.PageFriends:
+                case PageIndex.PageClubIndex:
+                case PageIndex.PageClubDetails:
 
                     if (index == PageIndex.PageSearch || index == PageIndex.PageMangaSearch ||
                         ((index == PageIndex.PageSearch || index == PageIndex.PageMangaSearch) &&
@@ -429,6 +431,12 @@ namespace MALClient.UWP.ViewModels
                     RefreshButtonVisibility = false;
                     CurrentStatus = $"{(args as FriendsPageNavArgs).TargetUser.Name}'s friends.";
                     MainNavigationRequested?.Invoke(typeof(FriendsPage),args);
+                    break;
+                case PageIndex.PageClubIndex:
+                    HideSearchStuff();
+                    RefreshButtonVisibility = false;
+                    CurrentStatus = "Clubs";
+                    MainNavigationRequested?.Invoke(typeof(ClubIndexPage),args);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(index), index, null);

@@ -142,11 +142,12 @@ namespace MALClient.XShared.ViewModels.Clubs
                 return;
             }
             _currentPage = 1;
-
+            Loading = true;
             _lastQueryClubs = await MalClubQueries.GetClubs(QueryType, 0, SearchCategory, SearchQuery);
+            Loading = false;
             if (_lastQueryClubs != null)
             {
-                Clubs.AddRange(_lastQueryClubs);
+                Clubs = new SmartObservableCollection<MalClubEntry>(_lastQueryClubs);
                 MoreButtonVisibility = true;
                 EmptyNoticeVisibility = false;
             }

@@ -9,6 +9,19 @@ namespace MALClient.UWP.Shared.UserControls.AttachedProperties
 {
     public class WebViewExtensions : DependencyObject
     {
+        public static readonly DependencyProperty StyleImagesProperty = DependencyProperty.RegisterAttached(
+            "StyleImages", typeof(bool), typeof(WebViewExtensions), new PropertyMetadata(default(bool)));
+
+        public static void SetStyleImages(DependencyObject element, bool value)
+        {
+            element.SetValue(StyleImagesProperty, value);
+        }
+
+        public static bool GetStyleImages(DependencyObject element)
+        {
+            return (bool) element.GetValue(StyleImagesProperty);
+        }
+
         public static readonly DependencyProperty ContentProperty = DependencyProperty.RegisterAttached(
             "Content", typeof(string), typeof(WebViewExtensions), new PropertyMetadata(default(string),PropertyChangedCallback));
 
@@ -24,7 +37,7 @@ namespace MALClient.UWP.Shared.UserControls.AttachedProperties
                 }
             }
             SetComputedHeight(view,0);
-            view.NavigateToString(ResourceLocator.CssManager.WrapWithCss(dependencyPropertyChangedEventArgs.NewValue as string,GetDisableScroll(dependencyObject)));
+            view.NavigateToString(ResourceLocator.CssManager.WrapWithCss(dependencyPropertyChangedEventArgs.NewValue as string,GetDisableScroll(dependencyObject),GetStyleImages(dependencyObject)));
         }
 
         private static async void ViewOnScriptNotify(object sender, NotifyEventArgs e)

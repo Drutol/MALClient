@@ -10,6 +10,7 @@
     xmlns:attachedProperties="using:MALClient.UWP.Shared.UserControls.AttachedProperties"
     xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:clubs="using:MALClient.XShared.Comm.MagicalRawQueries.Clubs"
     mc:Ignorable="d" DataContext="{Binding Source={StaticResource Locator},Path=ClubIndex}">
 
     <Page.Resources>
@@ -22,7 +23,9 @@
         <Storyboard x:Key="OverlayFadeOutStoryboard">
             <FadeOutThemeAnimation TargetName="LoadingOverlay" />
         </Storyboard>
+        <xamlConverters:EnumWithDescriptionToStringConverter x:Key="EnumToString" />
     </Page.Resources>
+    
     <Grid Background="{ThemeResource BrushDeepBackground}">
         <Pivot  x:Name="ClubsPivot" SelectionChanged="ClubsPivot_OnSelectionChanged">
             <PivotItem Header="My Clubs">
@@ -102,65 +105,94 @@
                 </ListView>
             </PivotItem>
             <PivotItem Header="All Clubs">
-                <ListView ItemsSource="{Binding Clubs}" IsItemClickEnabled="True" ItemClick="ClubClick">
-                    <ListView.ItemContainerStyle>
-                        <Style TargetType="ListViewItem">
-                            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-                            <Setter Property="Padding" Value="0"/>
-                            <Setter Property="Margin" Value="0,5"/>
-                        </Style>
-                    </ListView.ItemContainerStyle>
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <Grid  Background="{ThemeResource BrushAnimeItemBackground}">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="150"/>
-                                    <ColumnDefinition Width="*" MinWidth="120"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                </Grid.ColumnDefinitions>
-                                <Grid Background="{ThemeResource BrushAppBars}">
-                                    <SymbolIcon x:Name="NoImg" Symbol="Help"/>
-                                    <Image Source="{Binding ImgUrl}" 
-                                           attachedProperties:LinkedImageExtensions.Target="{Binding ElementName=NoImg}" 
-                                           attachedProperties:LinkedImageExtensions.TargetVisibility="Collapsed" />
-                                </Grid>
+                <Grid >
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid Padding="8" Background="{ThemeResource BrushAnimeItemInnerBackground}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="100"/>
+                        </Grid.ColumnDefinitions>
+                        
+                        <ComboBox x:Name="SearchComboBox" Loaded="SearchComboBox_OnLoaded" SelectedItem="{Binding SearchCategory,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Converter={StaticResource EnumToString}}"/>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
 
-                                <Grid Grid.Column="1" Padding="8"  Background="{ThemeResource BrushAnimeItemInnerBackground}">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="*"/>
-                                        <RowDefinition Height="Auto"/>
-                                    </Grid.RowDefinitions>
-                                    <StackPanel>
-                                        <Border BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" BorderThickness="3,0,0,0" Padding="6">
-                                            <TextBlock Text="{Binding Name}" FontSize="18" TextWrapping="WrapWholeWords"/>
-                                        </Border>
+                        <AutoSuggestBox Grid.Column="1" Margin="10,0" QuerySubmitted="AutoSuggestBox_OnQuerySubmitted" Text="{Binding SearchQuery,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Stretch"/>
+                        
+                        <Button Grid.Column="2" Content="Search" Padding="5" HorizontalAlignment="Stretch"  Command="{Binding SearchCommand}" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" BorderThickness="0,0,0,1"/>
+                    </Grid>
+                    <ListView Grid.Row="1" ItemsSource="{Binding Clubs}" IsItemClickEnabled="True" ItemClick="ClubClick">
+                        <ListView.ItemContainerStyle>
+                            <Style TargetType="ListViewItem">
+                                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                                <Setter Property="Padding" Value="0"/>
+                                <Setter Property="Margin" Value="0,5"/>
+                            </Style>
+                        </ListView.ItemContainerStyle>
+                        <ListView.Footer>
+                            <Button Content="Load more..." HorizontalAlignment="Center" Command="{Binding MoreCommand}" Style="{StaticResource TextBlockButtonStyle}"></Button>
+                        </ListView.Footer>
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <Grid  Background="{ThemeResource BrushAnimeItemBackground}">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="150"/>
+                                        <ColumnDefinition Width="*" MinWidth="120"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid Background="{ThemeResource BrushAppBars}">
+                                        <SymbolIcon x:Name="NoImg" Symbol="Help"/>
+                                        <Image Source="{Binding ImgUrl}" 
+                                               attachedProperties:LinkedImageExtensions.Target="{Binding ElementName=NoImg}" 
+                                               attachedProperties:LinkedImageExtensions.TargetVisibility="Collapsed" />
+                                    </Grid>
 
-                                        <TextBlock Text="{Binding Description}" Margin="0,10,0,0" FontSize="16" TextWrapping="WrapWholeWords"/>
+                                    <Grid Grid.Column="1" Padding="8"  Background="{ThemeResource BrushAnimeItemInnerBackground}">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
+                                        <StackPanel>
+                                            <Border BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" BorderThickness="3,0,0,0" Padding="6">
+                                                <TextBlock Text="{Binding Name}" FontSize="18" TextWrapping="WrapWholeWords"/>
+                                            </Border>
 
-                                    </StackPanel>
-                                    <TextBlock Grid.Row="1" Margin="0,10,0,0" FontSize="16" TextWrapping="WrapWholeWords" Visibility="{Binding LastCommentDate,Converter={StaticResource NullVisConverter}}">
-                                        <Run Text="Last comment:" Foreground="{StaticResource BrushNoSearchResults}" FontStyle="Italic"/>
-                                        <Run Text="{Binding LastCommentDate}" Foreground="{StaticResource SystemControlForegroundAccentBrush}"/>
-                                        <Run Text="by" Foreground="{StaticResource BrushNoSearchResults}" FontStyle="Italic"/>
-                                        <Run Text="{Binding LastCommentAuthor}"/> 
-                                        <Run Text="&#183;"/>
+                                            <TextBlock Text="{Binding Description}" Margin="0,10,0,0" FontSize="16" TextWrapping="WrapWholeWords"/>
+
+                                        </StackPanel>
+                                        <TextBlock Grid.Row="1" Margin="0,10,0,0" FontSize="16" TextWrapping="WrapWholeWords" Visibility="{Binding LastCommentDate,Converter={StaticResource NullVisConverter}}">
+                                            <Run Text="Last comment:" Foreground="{StaticResource BrushNoSearchResults}" FontStyle="Italic"/>
+                                            <Run Text="{Binding LastCommentDate}" Foreground="{StaticResource SystemControlForegroundAccentBrush}"/>
+                                            <Run Text="by" Foreground="{StaticResource BrushNoSearchResults}" FontStyle="Italic"/>
+                                            <Run Text="{Binding LastCommentAuthor}"/> 
+                                            <Run Text="&#183;"/>
                                         
-                                        <Run Text="Last post:" Foreground="{StaticResource BrushNoSearchResults}" FontStyle="Italic"/>
-                                        <Run Text="{Binding LastPost}" Foreground="{StaticResource SystemControlForegroundAccentBrush}"/>
-                                    </TextBlock>
-                                </Grid>
+                                            <Run Text="Last post:" Foreground="{StaticResource BrushNoSearchResults}" FontStyle="Italic"/>
+                                            <Run Text="{Binding LastPost}" Foreground="{StaticResource SystemControlForegroundAccentBrush}"/>
+                                        </TextBlock>
+                                    </Grid>
 
 
-                                <Grid Grid.Column="2" Padding="8" Margin="5,0" Width="100">
-                                    <StackPanel VerticalAlignment="Center" Padding="8,8,8,2" BorderThickness="0,0,0,1" BorderBrush="{StaticResource SystemControlForegroundAccentBrush}">
-                                        <TextBlock Text="{Binding Members}" HorizontalAlignment="Center" FontSize="24"/>
-                                        <TextBlock Text="Members" FontWeight="SemiLight" FontSize="16" Margin="0,5,0,0"/>
-                                    </StackPanel>
+                                    <Grid Grid.Column="2" Padding="8" Margin="5,0" Width="100">
+                                        <StackPanel VerticalAlignment="Center" Padding="8,8,8,2" BorderThickness="0,0,0,1" BorderBrush="{StaticResource SystemControlForegroundAccentBrush}">
+                                            <TextBlock Text="{Binding Members}" HorizontalAlignment="Center" FontSize="24"/>
+                                            <TextBlock Text="Members" FontWeight="SemiLight" FontSize="16" Margin="0,5,0,0"/>
+                                        </StackPanel>
+                                    </Grid>
                                 </Grid>
-                            </Grid>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </Grid>
+
             </PivotItem>
         </Pivot>
 

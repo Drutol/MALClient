@@ -56,7 +56,7 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Clubs
                         type == QueryType.All
                             ? (category == SearchCategory.All
                                 ? $"/clubs.php?p={page}"
-                                : $"/clubs.php?catid={(int) type}&cn={searchQuery}&action=find")
+                                : $"/clubs.php?catid={(int) category}&cn={searchQuery}&action=find")
                             : "/clubs.php?action=myclubs");
 
                 if (!response.IsSuccessStatusCode)

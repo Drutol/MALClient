@@ -31,16 +31,7 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Clubs
             try
             {
                 output.Name = WebUtility.HtmlDecode(doc.DocumentNode.Descendants("h1").First().InnerText);
-                try
-                {
-                    output.ImgUrl = doc.DocumentNode.Descendants("img")
-                        .First(node => node.Attributes.Contains("src") &&
-                                       node.Attributes["src"].Value.Contains("/clubs/")).Attributes["src"].Value;
-                }
-                catch (Exception)
-                {
-                    //image magic tajm
-                }
+
                 output.DescriptionHtml = doc.FirstOfDescendantsWithClassContaining("div", "club-information-header")
                     .ParentNode.ChildNodes.First(node => node.Attributes.Contains("class") && node.Attributes["class"].Value == "clearfix").InnerHtml;
 
@@ -51,7 +42,16 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Clubs
                                                       (node.Attributes["class"].Value == "normal_header" ||
                                                        node.Attributes["class"].Value == "spaceit_pad" ||
                                                       node.Attributes["class"].Value == "borderClass"));
-
+                try
+                {
+                    output.ImgUrl = rightBar.Descendants("img")
+                        .First(node => node.Attributes.Contains("src") &&
+                                       node.Attributes["src"].Value.Contains("/clubs/")).Attributes["src"].Value;
+                }
+                catch (Exception)
+                {
+                    //image magic tajm
+                }
                 int mode = 0;
                 foreach (var rightDiv in rightDivs)
                 {
@@ -87,6 +87,8 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Clubs
                     switch (mode)
                     {
                         case 0:
+                            if(rightDiv.InnerText.Contains("Pictures"))
+                                continue;
                             innerTextTokens = WebUtility.HtmlDecode(rightDiv.InnerText.Trim()).Split(':');
                             output.GeneralInfo.Add((innerTextTokens[0],innerTextTokens[1]));
                             break;

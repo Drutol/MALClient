@@ -6,31 +6,64 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:attachedProperties="using:MALClient.UWP.Shared.UserControls.AttachedProperties"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     mc:Ignorable="d" DataContext="{Binding Source={StaticResource Locator},Path=ClubDetails}">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="780"/>
         </Grid.ColumnDefinitions>
 
         <Grid Grid.Column="0">
             <ScrollViewer>
                 <StackPanel>
-                    <Grid Background="{ThemeResource BrushAnimeItemBackground}"> 
+                    <Grid Background="{ThemeResource BrushAnimeItemBackground}" Height="200"> 
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <Image Source="{Binding Details.ImgUrl}"/>
+                        <Grid Background="{ThemeResource BrushAnimeItemInnerBackground}" Padding="8" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="200">
+                            <SymbolIcon x:Name="NoImgSymbol" Symbol="Help" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <Image Source="{Binding Details.ImgUrl}" Stretch="UniformToFill" attachedProperties:LinkedImageExtensions.Target="{Binding ElementName=NoImgSymbol}" attachedProperties:LinkedImageExtensions.TargetVisibility="Collapsed"/>
+                        </Grid>
+                        
+                        <Grid Grid.Column="1" Padding="8">
+                            <StackPanel>
+                                <TextBlock MaxLines="1" TextTrimming="CharacterEllipsis" Text="{Binding Details.Name}" HorizontalAlignment="Center" TextAlignment="Center" FontSize="20"/>
+                                <MenuFlyoutSeparator/>
+                                <ItemsControl ItemsSource="{Binding GeneralInfo}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <controls:HeaderedTextBlock Header="{Binding Item1}" Text="{Binding Item2}"/>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </StackPanel>
+                        </Grid>
                     </Grid>
+
+                    <StackPanel Background="{ThemeResource BrushAnimeItemInnerBackground}" Padding="8">
+                        <TextBlock Text="Club Members:" FontSize="22" Foreground="{StaticResource SystemControlBackgroundAccentBrush}" FontWeight="SemiLight"></TextBlock>
+                        <GridView ItemsSource="{Binding Details.MembersPeek}" Margin="0,8,0,0" HorizontalAlignment="Center">
+                            <GridView.ItemTemplate>
+                                <DataTemplate>
+                                    <Image Source="{Binding ImgUrl}" Width="110" Height="110" Stretch="UniformToFill">
+                                        <ToolTipService.ToolTip>
+                                            <ToolTip Content="{Binding Name}"/>
+                                        </ToolTipService.ToolTip>
+                                    </Image>
+                                </DataTemplate>
+                            </GridView.ItemTemplate>
+                        </GridView>
+                    </StackPanel>
                 </StackPanel>
             </ScrollViewer>
         </Grid>
         
-        <Grid Grid.Column="1">
+        <Grid Grid.Column="1" BorderBrush="{StaticResource SystemControlHighlightListAccentHighBrush}" BorderThickness="1,0,0,0">
             <WebView HorizontalAlignment="Stretch" VerticalAlignment="Stretch" attachedProperties:WebViewExtensions.ResizeToFit="False" 
-                     attachedProperties:WebViewExtensions.Content="{Binding Details.DescriptionHtml}"/>
+                     attachedProperties:WebViewExtensions.Content="{Binding Details.DescriptionHtml}" attachedProperties:WebViewExtensions.StyleImages="False"/>
         </Grid>
         
         

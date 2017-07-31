@@ -76,7 +76,7 @@ namespace MALClient.XShared.Utils
             ReplacedCss = css;
         }
 
-        public string WrapWithCss(string html,bool disableScroll = false)
+        public string WrapWithCss(string html,bool disableScroll = false,bool withImgCss = true)
         {
             if (string.IsNullOrWhiteSpace(html))
                 return string.Empty;
@@ -84,7 +84,9 @@ namespace MALClient.XShared.Utils
             if(string.IsNullOrEmpty(ReplacedCss))
                 PrepareCss();
 
-            var css = ReplacedCss.Insert(0, ReplacedCssHtmlBodyScrollEnabled);
+            var css = withImgCss
+                ? ReplacedCss.Insert(0, ReplacedCssHtmlBodyScrollEnabled)
+                : ReplacedCss.Substring(320).Insert(0, ReplacedCssHtmlBodyScrollEnabled);
 
             if (!Settings.ArticlesDisplayScrollBar)
                 css += CssRemoveScrollbar;

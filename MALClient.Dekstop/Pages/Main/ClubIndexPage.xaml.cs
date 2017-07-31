@@ -31,6 +31,7 @@ namespace MALClient.UWP.Pages.Main
     public sealed partial class ClubIndexPage : Page
     {
         private BlurHelper _blur;
+        private static int lastPivotIndex = 0;
 
         public ClubIndexPage()
         {
@@ -42,6 +43,7 @@ namespace MALClient.UWP.Pages.Main
         {
 
             _blur = new BlurHelper(LoadingOverlay, false);
+            ClubsPivot.SelectedIndex = lastPivotIndex;
 
         }
 
@@ -62,6 +64,18 @@ namespace MALClient.UWP.Pages.Main
             ViewModelLocator.ClubIndex.QueryType = ClubsPivot.SelectedIndex == 0
                 ? MalClubQueries.QueryType.My
                 : MalClubQueries.QueryType.All;
+            lastPivotIndex = ClubsPivot.SelectedIndex;
+        }
+
+        private void SearchComboBox_OnLoaded(object sender, RoutedEventArgs e)
+        {
+            SearchComboBox.ItemsSource = Enum.GetValues(typeof(MalClubQueries.SearchCategory));
+            SearchComboBox.SelectedItem = ViewModelLocator.ClubIndex.SearchCategory;
+        }
+
+        private void AutoSuggestBox_OnQuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+        {
+            ViewModelLocator.ClubIndex.SearchCommand.Execute(null);
         }
     }
 

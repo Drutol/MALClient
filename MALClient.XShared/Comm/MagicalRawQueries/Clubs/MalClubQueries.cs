@@ -190,8 +190,51 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Clubs
             {
                 return false;
             }
+        }
 
+        public static async Task<bool> PostComment(string clubId,string comment)
+        {
+            try
+            {
+                var client = await ResourceLocator.MalHttpContextProvider.GetHttpContextAsync();
 
+                var data = new List<KeyValuePair<string, string>>
+                {
+                    new KeyValuePair<string, string>("commentText", comment),
+                    new KeyValuePair<string, string>("commentSubmit", "Submit Comment"),
+                    new KeyValuePair<string, string>("csrf_token", client.Token),
+                };
+
+                var requestContent = new FormUrlEncodedContent(data);
+
+                var response =
+                    await client.PostAsync(
+                        $"/clubs.php?cid={clubId}", requestContent);
+
+                return response.IsSuccessStatusCode;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        public static async Task<bool> RemoveComment(string clubId,string commentId)
+        {
+            try
+            {
+                var client = await ResourceLocator.MalHttpContextProvider.GetHttpContextAsync();
+
+                var response =
+                    await client.GetAsync(
+                        $"https://myanimelist.net/includes/ajax.inc.php?t=10&comid={commentId}&cid={clubId}");
+
+                return response.IsSuccessStatusCode;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
         public static async Task<bool> RequestJoinClub(string id)

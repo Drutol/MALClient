@@ -7,8 +7,28 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:attachedProperties="using:MALClient.UWP.Shared.UserControls.AttachedProperties"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:xamlConverters="using:MALClient.UWP.Shared.XamlConverters"
     mc:Ignorable="d" DataContext="{Binding Source={StaticResource Locator},Path=ClubDetails}">
 
+    <Page.Resources>
+        <Storyboard x:Key="OverlayFadeInStoryboard">
+            <FadeInThemeAnimation TargetName="LoadingOverlayComments" />
+        </Storyboard>
+
+        <Storyboard x:Key="OverlayFadeOutStoryboard">
+            <FadeOutThemeAnimation TargetName="LoadingOverlayComments" />
+        </Storyboard>      
+        
+        <Storyboard x:Key="OverlayRootFadeInStoryboard">
+            <FadeInThemeAnimation TargetName="LoadingOverlay" />
+        </Storyboard>
+
+        <Storyboard x:Key="OverlayRootFadeOutStoryboard">
+            <FadeOutThemeAnimation TargetName="LoadingOverlay" />
+        </Storyboard>
+        <xamlConverters:StringEmptyToVisibilityConverter x:Key="StringNullConverter" />
+    </Page.Resources>
+    
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -16,56 +36,166 @@
         </Grid.ColumnDefinitions>
 
         <Grid Grid.Column="0">
-            <ScrollViewer>
-                <StackPanel>
-                    <Grid Background="{ThemeResource BrushAnimeItemBackground}" Height="200"> 
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <Grid Background="{ThemeResource BrushAnimeItemInnerBackground}" Padding="8" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="200">
-                            <SymbolIcon x:Name="NoImgSymbol" Symbol="Help" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                            <Image Source="{Binding Details.ImgUrl}" Stretch="UniformToFill" attachedProperties:LinkedImageExtensions.Target="{Binding ElementName=NoImgSymbol}" attachedProperties:LinkedImageExtensions.TargetVisibility="Collapsed"/>
-                        </Grid>
-                        
-                        <Grid Grid.Column="1" Padding="8">
-                            <StackPanel>
-                                <TextBlock MaxLines="1" TextTrimming="CharacterEllipsis" Text="{Binding Details.Name}" HorizontalAlignment="Center" TextAlignment="Center" FontSize="20"/>
-                                <MenuFlyoutSeparator/>
-                                <ItemsControl ItemsSource="{Binding GeneralInfo}">
-                                    <ItemsControl.ItemTemplate>
-                                        <DataTemplate>
-                                            <controls:HeaderedTextBlock Header="{Binding Item1}" Text="{Binding Item2}"/>
-                                        </DataTemplate>
-                                    </ItemsControl.ItemTemplate>
-                                </ItemsControl>
-                            </StackPanel>
-                        </Grid>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="200"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid Background="{ThemeResource BrushAnimeItemBackground}" Height="200" Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid Background="{ThemeResource BrushAnimeItemInnerBackground}" Padding="8" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="200">
+                        <SymbolIcon x:Name="NoImgSymbol" Symbol="Help" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <Image Source="{Binding Details.ImgUrl}" Stretch="UniformToFill" attachedProperties:LinkedImageExtensions.Target="{Binding ElementName=NoImgSymbol}" attachedProperties:LinkedImageExtensions.TargetVisibility="Collapsed"/>
                     </Grid>
 
-                    <StackPanel Background="{ThemeResource BrushAnimeItemInnerBackground}" Padding="8">
-                        <TextBlock Text="Club Members:" FontSize="22" Foreground="{StaticResource SystemControlBackgroundAccentBrush}" FontWeight="SemiLight"></TextBlock>
-                        <GridView ItemsSource="{Binding Details.MembersPeek}" Margin="0,8,0,0" HorizontalAlignment="Center">
-                            <GridView.ItemTemplate>
-                                <DataTemplate>
-                                    <Image Source="{Binding ImgUrl}" Width="110" Height="110" Stretch="UniformToFill">
-                                        <ToolTipService.ToolTip>
-                                            <ToolTip Content="{Binding Name}"/>
-                                        </ToolTipService.ToolTip>
-                                    </Image>
-                                </DataTemplate>
-                            </GridView.ItemTemplate>
-                        </GridView>
+                    <Grid Grid.Column="1" Padding="8">
+                        <StackPanel>
+                            <TextBlock MaxLines="1" TextTrimming="CharacterEllipsis" Text="{Binding Details.Name}" HorizontalAlignment="Center" TextAlignment="Center" FontSize="20"/>
+                            <MenuFlyoutSeparator/>
+                            <ItemsControl ItemsSource="{Binding GeneralInfo}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <controls:HeaderedTextBlock Header="{Binding Item1}" Text="{Binding Item2}"/>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+                <Pivot Background="{ThemeResource BrushAnimeItemInnerBackground}" Grid.Row="1">
+
+                    <PivotItem Header="Club Members">
+                        <StackPanel  Padding="8" >
+                            <GridView ItemsSource="{Binding Details.MembersPeek}" Margin="0,8,0,0" HorizontalAlignment="Center">
+                                <GridView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Image Source="{Binding ImgUrl}" Width="90" Height="90" Stretch="UniformToFill">
+                                            <ToolTipService.ToolTip>
+                                                <ToolTip Content="{Binding Name}"/>
+                                            </ToolTipService.ToolTip>
+                                        </Image>
+                                    </DataTemplate>
+                                </GridView.ItemTemplate>
+                            </GridView>
+                        </StackPanel>
+                    </PivotItem>
+                    <PivotItem Header="Related Anime">
+
+                    </PivotItem>             
+                    <PivotItem Header="Related Manga">
+
+                    </PivotItem>          
+                    <PivotItem Header="Related Characters">
+
+                    </PivotItem>
+                </Pivot>
+                <Grid Grid.Row="2" Padding="8">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+
+                    <StackPanel>
+                        <TextBlock Text="Comments" FontSize="22" Foreground="{StaticResource SystemControlBackgroundAccentBrush}" FontWeight="SemiLight"/>
+                        <TextBox Margin="0,10" PlaceholderText="Type comment..." AcceptsReturn="True" TextWrapping="Wrap" HorizontalAlignment="Stretch" MinHeight="50" Text="{Binding CommentInput,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                        <Button Content="Send" Command="{Binding PostCommentCommand}"/>
                     </StackPanel>
-                </StackPanel>
-            </ScrollViewer>
+
+                    
+                    <ListView Grid.Row="1" ItemsSource="{Binding Comments}" Margin="0,10,0,0">
+                        <ListView.ItemContainerStyle>
+                            <Style TargetType="ListViewItem">
+                                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                                <Setter Property="Margin" Value="0,5"/>
+                            </Style>
+                        </ListView.ItemContainerStyle>
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <Grid HorizontalAlignment="Stretch">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="100" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <StackPanel BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" BorderThickness="0,0,0,1"  Background="{ThemeResource BrushAnimeItemInnerBackground}" Margin="-5,-5,0,-5" Padding="5">
+                                        <Button Padding="0" Margin="0,20,0,0" Width="75" Height="75"
+                                                HorizontalAlignment="Center" Command="{Binding Source={StaticResource Locator},Path=ClubDetails.NavigateUserCommand}"
+                                                CommandParameter="{Binding User}">
+                                            <Image Stretch="UniformToFill" HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Stretch">
+                                                <Image.Source>
+                                                    <BitmapImage UriSource="{Binding User.ImgUrl}"
+                                                                 DecodePixelWidth="75" DecodePixelHeight="75"
+                                                                 DecodePixelType="Logical" />
+                                                </Image.Source>
+                                            </Image>
+                                        </Button>
+                                        <TextBlock Margin="1,10,1,5" HorizontalAlignment="Center" FontWeight="Medium" TextWrapping="Wrap"
+                                                   Text="{Binding User.Name}" />
+                                    </StackPanel>
+                                    <Grid Grid.Column="1"  Background="{ThemeResource BrushAnimeItemBackground}" Padding="4">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
+                                        <TextBlock HorizontalAlignment="Right" VerticalAlignment="Top"
+                                                   FontSize="14" FontWeight="SemiLight" Text="{Binding Date}" />
+                                        <TextBlock Grid.Row="1" Text="{Binding Content}" TextWrapping="WrapWholeWords"
+                                                   TextAlignment="Left" Margin="10" HorizontalAlignment="Left"
+                                                   IsTextSelectionEnabled="True" />
+
+                                        <StackPanel Orientation="Horizontal" Grid.Row="3" HorizontalAlignment="Right"
+                                                    VerticalAlignment="Bottom">
+                                            <Button Content="Delete" Margin="5" Foreground="White"
+                                                    Visibility="{Binding Id,Converter={StaticResource StringNullConverter}}"
+                                                    Background="{StaticResource SystemControlBackgroundAccentBrush}"
+                                                    Command="{Binding Source={StaticResource Locator},Path=ClubDetails.DeleteCommentCommand}"
+                                                    CommandParameter="{Binding}" />
+                                        </StackPanel>
+                                    </Grid>
+                                </Grid>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                    
+                    <Grid Grid.Row="1" Visibility="{Binding LoadingComments}" attachedProperties:AnimatedVisibilityExtension.AnimatedVisiblity="{Binding LoadingComments}"
+                        attachedProperties:AnimatedVisibilityExtension.AnimatedVisibleStoryboard="{StaticResource OverlayFadeInStoryboard}"
+                        attachedProperties:AnimatedVisibilityExtension.AnimatedCollapsedStoryboard="{StaticResource OverlayFadeOutStoryboard}">
+                        <Grid.Background>
+                            <SolidColorBrush Color="Black" Opacity=".1"/>
+                        </Grid.Background>
+                        <Grid x:Name="LoadingOverlayComments" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                        <ProgressRing Margin="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="75" Height="75"
+                                      IsActive="True" />
+                    </Grid>
+                </Grid>
+
+            </Grid>
         </Grid>
         
         <Grid Grid.Column="1" BorderBrush="{StaticResource SystemControlHighlightListAccentHighBrush}" BorderThickness="1,0,0,0">
             <WebView HorizontalAlignment="Stretch" VerticalAlignment="Stretch" attachedProperties:WebViewExtensions.ResizeToFit="False" 
                      attachedProperties:WebViewExtensions.Content="{Binding Details.DescriptionHtml}" attachedProperties:WebViewExtensions.StyleImages="False"/>
         </Grid>
-        
-        
+
+
+        <Grid Grid.ColumnSpan="2"
+             Visibility="{Binding Loading}" attachedProperties:AnimatedVisibilityExtension.AnimatedVisiblity="{Binding Loading}"
+            attachedProperties:AnimatedVisibilityExtension.AnimatedVisibleStoryboard="{StaticResource OverlayFadeInStoryboard}"
+            attachedProperties:AnimatedVisibilityExtension.AnimatedCollapsedStoryboard="{StaticResource OverlayFadeOutStoryboard}">
+            <Grid.Background>
+                <SolidColorBrush Color="Black" Opacity=".1"/>
+            </Grid.Background>
+            <Grid x:Name="LoadingOverlay" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+            <ProgressRing Margin="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="75" Height="75"
+                          IsActive="True" />
+        </Grid>
+
     </Grid>
 </Page>

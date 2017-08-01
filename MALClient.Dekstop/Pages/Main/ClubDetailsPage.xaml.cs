@@ -12,6 +12,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using MALClient.UWP.Shared.Managers;
 using MALClient.XShared.NavArgs;
 using MALClient.XShared.ViewModels;
 
@@ -24,9 +25,19 @@ namespace MALClient.UWP.Pages.Main
     /// </summary>
     public sealed partial class ClubDetailsPage : Page
     {
+        private BlurHelper _blur1;
+        private BlurHelper _blur2;
+
         public ClubDetailsPage()
         {
             this.InitializeComponent();
+            Loaded += OnLoaded;
+        }
+
+        private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
+        {
+            _blur1 = new BlurHelper(LoadingOverlay,false);
+            _blur2 = new BlurHelper(LoadingOverlayComments,false);
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)

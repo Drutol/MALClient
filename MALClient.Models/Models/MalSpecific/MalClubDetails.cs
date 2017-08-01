@@ -11,6 +11,7 @@ namespace MALClient.Models.Models.MalSpecific
         public MalUser User { get; set; } = new MalUser();
         public string Date { get; set; }
         public string Content { get; set; }
+        public string Id { get; set; }
     }
 
     public class MalClubDetails

@@ -27,6 +27,7 @@
             <FadeOutThemeAnimation TargetName="LoadingOverlay" />
         </Storyboard>
         <xamlConverters:StringEmptyToVisibilityConverter x:Key="StringNullConverter" />
+        <xamlConverters:CollectionEmptyToVisibilityConverter x:Key="ListEmptyConverter" />
     </Page.Resources>
     
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
@@ -42,7 +43,7 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <Grid Background="{ThemeResource BrushAnimeItemBackground}" Height="200" Grid.Row="0">
+                <Grid Background="{ThemeResource BrushAnimeItemInnerBackground}" Height="200" Grid.Row="0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="*"/>
@@ -56,43 +57,96 @@
                         <StackPanel>
                             <TextBlock MaxLines="1" TextTrimming="CharacterEllipsis" Text="{Binding Details.Name}" HorizontalAlignment="Center" TextAlignment="Center" FontSize="20"/>
                             <MenuFlyoutSeparator/>
-                            <ItemsControl ItemsSource="{Binding GeneralInfo}">
-                                <ItemsControl.ItemTemplate>
-                                    <DataTemplate>
-                                        <controls:HeaderedTextBlock Header="{Binding Item1}" Text="{Binding Item2}"/>
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate>
-                            </ItemsControl>
+                            <Grid>
+                                <ItemsControl Margin="0,10,0,0" ItemsSource="{Binding GeneralInfo}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <controls:HeaderedTextBlock Orientation="Horizontal" Header="{Binding Item1}" Text="{Binding Item2}"/>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                                <ItemsControl Margin="0,10,0,0" ItemsSource="{Binding Officers}" HorizontalAlignment="Right">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <controls:HeaderedTextBlock Orientation="Vertical" Header="{Binding Item1}" Text="{Binding Item2}"/>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </Grid>
                         </StackPanel>
+                        <Button Content="Browse Club Forum" Command="{Binding NavigateForumCommand}" HorizontalAlignment="Center"></Button>
                     </Grid>
                 </Grid>
-                <Pivot Background="{ThemeResource BrushAnimeItemInnerBackground}" Grid.Row="1">
+                <controls:Expander Grid.Row="1" Header="Club Relations" >
+                    <Pivot Background="{ThemeResource BrushAnimeItemInnerBackground}" Height="250">
+                        <PivotItem Header="Club Members">
+                            <Grid  Padding="8" >
+                                <GridView ItemsSource="{Binding Details.MembersPeek}" Margin="0,8,0,0" HorizontalAlignment="Center">
+                                    <GridView.Footer>
+                                        <Button Style="{StaticResource TextBlockButtonStyle}" Content="More..." Visibility="{Binding LoadMoreUsersButtonVisibility}" HorizontalAlignment="Center" Margin="0,5,0,10" Command="{Binding LoadMoreMembersCommand}"/>
+                                    </GridView.Footer>
+                                    <GridView.ItemTemplate>
+                                        <DataTemplate>
+                                            <StackPanel>
+                                                <Image Source="{Binding ImgUrl}" Width="110" Height="110" Stretch="UniformToFill">
+                                                <ToolTipService.ToolTip>
+                                                    <ToolTip Content="{Binding Name}"/>
+                                                </ToolTipService.ToolTip>
+                                                </Image>
+                                                <Grid Background="{ThemeResource BrushAppBars}" Padding="4" HorizontalAlignment="Stretch">
+                                                    <TextBlock Text="{Binding Name}" HorizontalAlignment="Center" TextTrimming="CharacterEllipsis"/>
+                                                </Grid>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </GridView.ItemTemplate>
+                                </GridView>
+                            </Grid>
+                        </PivotItem>
+                        <PivotItem Header="Related Anime">
+                            <Grid  Padding="8" >
+                                <GridView ItemsSource="{Binding AnimeRelations}" Margin="0,8,0,0" HorizontalAlignment="Center">
+                                    <GridView.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid Background="{ThemeResource BrushAppBars}">
+                                                <Image  attachedProperties:AnimeImageExtensions.GuessedImageSource="{Binding Item2}" Width="120" Height="160" Stretch="UniformToFill">
+                                                    <ToolTipService.ToolTip>
+                                                        <ToolTip Content="{Binding Item1}"/>
+                                                    </ToolTipService.ToolTip>
+                                                </Image>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </GridView.ItemTemplate>
+                                </GridView>
+                                
+                                <TextBlock Text="No related anime..." Visibility="{Binding AnimeRelations, Converter={StaticResource ListEmptyConverter}}" Foreground="{StaticResource SystemControlBackgroundAccentBrush}" FontWeight="SemiLight" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Grid>
+                        </PivotItem>
+                        <PivotItem Header="Related Manga">
+                            <Grid  Padding="8" >
+                                <GridView ItemsSource="{Binding MangaRelations}" Margin="0,8,0,0" HorizontalAlignment="Center">
+                                    <GridView.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid Background="{ThemeResource BrushAppBars}">
+                                                <Image attachedProperties:AnimeImageExtensions.GuessedImageSource="{Binding Item2}" Width="120" Height="160" Stretch="UniformToFill">
+                                                    <ToolTipService.ToolTip>
+                                                        <ToolTip Content="{Binding Item1}"/>
+                                                    </ToolTipService.ToolTip>
+                                                </Image>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </GridView.ItemTemplate>
+                                </GridView>
+                                <TextBlock Text="No related anime..." Visibility="{Binding MangaRelations, Converter={StaticResource ListEmptyConverter}}" Foreground="{StaticResource SystemControlBackgroundAccentBrush}" FontWeight="SemiLight" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Grid>
 
-                    <PivotItem Header="Club Members">
-                        <StackPanel  Padding="8" >
-                            <GridView ItemsSource="{Binding Details.MembersPeek}" Margin="0,8,0,0" HorizontalAlignment="Center">
-                                <GridView.ItemTemplate>
-                                    <DataTemplate>
-                                        <Image Source="{Binding ImgUrl}" Width="90" Height="90" Stretch="UniformToFill">
-                                            <ToolTipService.ToolTip>
-                                                <ToolTip Content="{Binding Name}"/>
-                                            </ToolTipService.ToolTip>
-                                        </Image>
-                                    </DataTemplate>
-                                </GridView.ItemTemplate>
-                            </GridView>
-                        </StackPanel>
-                    </PivotItem>
-                    <PivotItem Header="Related Anime">
+                            
+                        </PivotItem>
+                        <!--<PivotItem Header="Related Characters">
+                        
+                    </PivotItem>-->
+                    </Pivot>
+                </controls:Expander>
 
-                    </PivotItem>             
-                    <PivotItem Header="Related Manga">
-
-                    </PivotItem>          
-                    <PivotItem Header="Related Characters">
-
-                    </PivotItem>
-                </Pivot>
                 <Grid Grid.Row="2" Padding="8">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
@@ -101,9 +155,22 @@
 
 
                     <StackPanel>
-                        <TextBlock Text="Comments" FontSize="22" Foreground="{StaticResource SystemControlBackgroundAccentBrush}" FontWeight="SemiLight"/>
-                        <TextBox Margin="0,10" PlaceholderText="Type comment..." AcceptsReturn="True" TextWrapping="Wrap" HorizontalAlignment="Stretch" MinHeight="50" Text="{Binding CommentInput,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
-                        <Button Content="Send" Command="{Binding PostCommentCommand}"/>
+                        <Grid>
+                            <TextBlock Text="Comments" FontSize="26" VerticalAlignment="Center" Foreground="{StaticResource SystemControlBackgroundAccentBrush}" FontWeight="SemiLight"/>
+                            <Button HorizontalAlignment="Right" Width="40" Height="40" VerticalAlignment="Center" Background="Transparent" Margin="8,0" Command="{Binding ReloadCommentsCommand}">
+                                <SymbolIcon Symbol="Refresh" ></SymbolIcon>
+                            </Button>
+                        </Grid>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBox Margin="0,10" PlaceholderText="Type comment..." AcceptsReturn="True" TextWrapping="Wrap" HorizontalAlignment="Stretch" MinHeight="50" Text="{Binding CommentInput,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                            <Button Grid.Column="1" Margin="10" Padding="18,14" BorderThickness="0,0,0,2" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" Content="Send" Command="{Binding PostCommentCommand}"/>
+                        </Grid>
+                        
+
                     </StackPanel>
 
                     
@@ -114,6 +181,9 @@
                                 <Setter Property="Margin" Value="0,5"/>
                             </Style>
                         </ListView.ItemContainerStyle>
+                        <ListView.Footer>
+                            <Button Style="{StaticResource TextBlockButtonStyle}" Content="More..." Visibility="{Binding MoreCommentsButtonVisibility}" HorizontalAlignment="Center" Margin="0,5,0,10" Command="{Binding LoadMoreCommentsCommand}"/>
+                        </ListView.Footer>
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <Grid HorizontalAlignment="Stretch">

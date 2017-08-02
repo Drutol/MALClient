@@ -18,8 +18,12 @@ namespace MALClient.XShared.Comm.Forums
         private static readonly Dictionary<int, Dictionary<int, ForumBoardContent>> _animeBoardCache =
             new Dictionary<int, Dictionary<int, ForumBoardContent>>();
 
+        private static readonly Dictionary<string, Dictionary<int, ForumBoardContent>> _clubBoardCache =
+            new Dictionary<string, Dictionary<int, ForumBoardContent>>();
+
         private ForumBoards _board;
         private int _animeId;
+        private readonly string _clubId;
         private int _page;
         
         /// <summary>
@@ -52,6 +56,16 @@ namespace MALClient.XShared.Comm.Forums
             _page = page;
         }
 
+        public ForumBoardTopicsQuery(string clubId,int page)
+        {
+            Request =
+                WebRequest.Create(Uri.EscapeUriString($"https://myanimelist.net/forum/?clubid={clubId}&show={page*50}"));
+            Request.ContentType = "application/x-www-form-urlencoded";
+            Request.Method = "GET";
+            _clubId = clubId;
+            _page = page;
+        }
+
         
 
         public async Task<ForumBoardContent> GetTopicPosts(int? lastPage,bool force = false)
@@ -59,16 +73,25 @@ namespace MALClient.XShared.Comm.Forums
             if(!force)
                 try
                 {
-                    if (_animeId == 0)
+                    if (_clubId == null)
                     {
-                        if (_boardCache.ContainsKey(_board) && _boardCache[_board].ContainsKey(_page))
-                            return _boardCache[_board][_page];
+                        if (_animeId == 0)
+                        {
+                            if (_boardCache.ContainsKey(_board) && _boardCache[_board].ContainsKey(_page))
+                                return _boardCache[_board][_page];
+                        }
+                        else
+                        {
+                            if (_animeBoardCache.ContainsKey(_animeId) && _animeBoardCache[_animeId].ContainsKey(_page))
+                                return _animeBoardCache[_animeId][_page];
+                        }
                     }
                     else
                     {
-                        if (_animeBoardCache.ContainsKey(_animeId) && _animeBoardCache[_animeId].ContainsKey(_page))
-                            return _animeBoardCache[_animeId][_page];
+                        if (_clubBoardCache.ContainsKey(_clubId) && _clubBoardCache[_clubId].ContainsKey(_page))
+                            return _clubBoardCache[_clubId][_page];
                     }
+
                 }
                 catch (Exception e)
                 {
@@ -76,16 +99,25 @@ namespace MALClient.XShared.Comm.Forums
                 }
             else //clear all pages
             {
-                if (_animeId == 0)
+                if (_clubId == null)
                 {
-                    if(_boardCache.ContainsKey(_board))
-                        _boardCache[_board] = new Dictionary<int, ForumBoardContent>();
+                    if (_animeId == 0)
+                    {
+                        if (_boardCache.ContainsKey(_board))
+                            _boardCache[_board] = new Dictionary<int, ForumBoardContent>();
+                    }
+                    else
+                    {
+                        if (_animeBoardCache.ContainsKey(_animeId))
+                            _animeBoardCache[_animeId] = new Dictionary<int, ForumBoardContent>();
+                    }
                 }
                 else
                 {
-                    if (_animeBoardCache.ContainsKey(_animeId))
-                        _animeBoardCache[_animeId] = new Dictionary<int, ForumBoardContent>();
+                    if (_clubBoardCache.ContainsKey(_clubId))
+                        _clubBoardCache[_clubId] = new Dictionary<int, ForumBoardContent>();
                 }
+
             }
 
 
@@ -136,26 +168,38 @@ namespace MALClient.XShared.Comm.Forums
             {
                 //
             }
-            
 
-            if (_animeId == 0)
+            if (_clubId == null)
             {
-                if (!_boardCache.ContainsKey(_board))
-                    _boardCache[_board] = new Dictionary<int, ForumBoardContent>();
-                if (!_boardCache[_board].ContainsKey(_page))
-                    _boardCache[_board].Add(_page, output);
+                if (_animeId == 0)
+                {
+                    if (!_boardCache.ContainsKey(_board))
+                        _boardCache[_board] = new Dictionary<int, ForumBoardContent>();
+                    if (!_boardCache[_board].ContainsKey(_page))
+                        _boardCache[_board].Add(_page, output);
+                    else
+                        _boardCache[_board][_page] = output;
+                }
                 else
-                    _boardCache[_board][_page] = output;
+                {
+                    if (!_animeBoardCache.ContainsKey(_animeId))
+                        _animeBoardCache[_animeId] = new Dictionary<int, ForumBoardContent>();
+                    if (!_animeBoardCache[_animeId].ContainsKey(_page))
+                        _animeBoardCache[_animeId].Add(_page, output);
+                    else
+                        _animeBoardCache[_animeId][_page] = output;
+                }
             }
             else
             {
-                if (!_animeBoardCache.ContainsKey(_animeId))
-                    _animeBoardCache[_animeId] = new Dictionary<int, ForumBoardContent>();
-                if (!_animeBoardCache[_animeId].ContainsKey(_page))
-                    _animeBoardCache[_animeId].Add(_page, output);
+                if (!_clubBoardCache.ContainsKey(_clubId))
+                    _clubBoardCache[_clubId] = new Dictionary<int, ForumBoardContent>();
+                if (!_clubBoardCache[_clubId].ContainsKey(_page))
+                    _clubBoardCache[_clubId].Add(_page, output);
                 else
-                    _animeBoardCache[_animeId][_page] = output;
+                    _clubBoardCache[_clubId][_page] = output;
             }
+
 
 
             return output;

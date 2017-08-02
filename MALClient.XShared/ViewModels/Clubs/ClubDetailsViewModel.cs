@@ -29,6 +29,8 @@ namespace MALClient.XShared.ViewModels.Clubs
         private bool _moreCommentsButtonVisibility;
         private ICommand _navigateUserCommand;
         private ICommand _deleteCommentCommand;
+        private ObservableCollection<MalUser> _members;
+        private bool _loadMoreUsersButtonVisibility;
 
         public bool Loading
         {
@@ -80,6 +82,29 @@ namespace MALClient.XShared.ViewModels.Clubs
             }
         }
 
+        public ObservableCollection<MalUser> Members
+        {
+            get { return _members; }
+            set
+            {
+                _members = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public bool LoadMoreUsersButtonVisibility
+        {
+            get { return _loadMoreUsersButtonVisibility; }
+            set
+            {
+                _loadMoreUsersButtonVisibility = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public bool NoAnimeRelationsEmptyNoticeVisibility => !AnimeRelations?.Any() ?? true;
+        public bool NoMangaRelationsEmptyNoticeVisibility => !AnimeRelations?.Any() ?? true;
+
         public MalClubDetails Details
         {
             get { return _details; }
@@ -89,18 +114,24 @@ namespace MALClient.XShared.ViewModels.Clubs
                 
                 _currentCommentsPage = 1;
                 MoreCommentsButtonVisibility = true;
+                LoadMoreUsersButtonVisibility = true;
                 RaisePropertyChanged();
                 if(value == null)
                     return;
                 Comments = new ObservableCollection<MalClubComment>(value.RecentComments);
                 Comments.CollectionChanged += CommentsOnCollectionChanged;
-#if !ANDROID
+
+                Members = new ObservableCollection<MalUser>(value.MembersPeek);
+
+
                 RaisePropertyChanged(() => GeneralInfo);
                 RaisePropertyChanged(() => Officers);
                 RaisePropertyChanged(() => AnimeRelations);
                 RaisePropertyChanged(() => MangaRelations);
                 RaisePropertyChanged(() => CharacterRelations);
-#endif
+                RaisePropertyChanged(() => NoAnimeRelationsEmptyNoticeVisibility);
+                RaisePropertyChanged(() => NoMangaRelationsEmptyNoticeVisibility);
+
             }
         }
 
@@ -113,12 +144,12 @@ namespace MALClient.XShared.ViewModels.Clubs
                     Details.RecentComments.Add(notifyCollectionChangedEventArgs.NewItems[0] as MalClubComment);
                     break;
                 case NotifyCollectionChangedAction.Remove:
-                    Details.RecentComments.Remove(notifyCollectionChangedEventArgs.NewItems[0] as MalClubComment);
+                    Details.RecentComments.Remove(notifyCollectionChangedEventArgs.OldItems[0] as MalClubComment);
                     break;
             }
         }
 
-#if !ANDROID
+
         //Workaround for xaml being unable to bind to values of value type tuples
         public List<Tuple<string, string>> GeneralInfo => Details?.GeneralInfo
             .Select(tuple => new Tuple<string, string>(tuple.name, tuple.value)).ToList();
@@ -134,13 +165,13 @@ namespace MALClient.XShared.ViewModels.Clubs
 
         public List<Tuple<string, string>> CharacterRelations => Details?.CharacterRelations
             .Select(tuple => new Tuple<string, string>(tuple.name, tuple.id)).ToList();
-#endif
+
 
         public async void NavigatedTo(ClubDetailsPageNavArgs args)
         {
             if (args.Equals(_lastArgs))
                 return;
-
+            Details = null;
             _lastArgs = args;
 
             Loading = true;
@@ -170,7 +201,7 @@ namespace MALClient.XShared.ViewModels.Clubs
                     Date = "Just Now",
                     User = new MalUser
                     {
-                        ImgUrl = "https://myanimelist.cdn-dena.com/images/userimages/{Credentials.Id}.jpg",
+                        ImgUrl = $"https://myanimelist.cdn-dena.com/images/userimages/{Credentials.Id}.jpg",
                         Name = Credentials.UserName
                     }
                 });
@@ -191,7 +222,7 @@ namespace MALClient.XShared.ViewModels.Clubs
             LoadingComments = false;
         }));
 
-        public ICommand ReloadComments => new RelayCommand(async () =>
+        public ICommand ReloadCommentsCommand => new RelayCommand(async () =>
         {
             LoadingComments = true;
 
@@ -202,6 +233,17 @@ namespace MALClient.XShared.ViewModels.Clubs
             Comments.CollectionChanged += CommentsOnCollectionChanged;
 
             LoadingComments = false;
+        });
+
+        public ICommand LoadMoreMembersCommand => new RelayCommand(async () =>
+        {
+            LoadMoreUsersButtonVisibility = false;
+            var users = await MalClubDetailsQuery.GetMoreUsers(_lastArgs.Id);
+
+            if(users != null && users.Any())
+                  Members = new ObservableCollection<MalUser>(Members.Union(users));
+
+
         });
 
         public ICommand LoadMoreCommentsCommand => new RelayCommand(async () =>
@@ -225,16 +267,23 @@ namespace MALClient.XShared.ViewModels.Clubs
         });
 
         public ICommand NavigateUserCommand => _navigateUserCommand ?? (_navigateUserCommand =
-                                                   new RelayCommand<MalFriend>(
-                                                       friend =>
+                                                   new RelayCommand<MalUser>(
+                                                       user =>
                                                        {
                                                            ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageClubDetails, _lastArgs);
                                                            ViewModelLocator.GeneralMain.Navigate(PageIndex.PageProfile,
                                                                new ProfilePageNavigationArgs
                                                                {
                                                                    AllowBackNavReset = false,
-                                                                   TargetUser = friend.User.Name
+                                                                   TargetUser = user.Name
                                                                });
                                                        }));
+
+        public ICommand NavigateForumCommand => new RelayCommand(() =>
+        {
+            ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageClubDetails,_lastArgs);
+            ViewModelLocator.GeneralMain.Navigate(PageIndex.PageForumIndex,
+                new ForumsBoardNavigationArgs(_lastArgs.Id,Details.Name));
+        });
     }
 }

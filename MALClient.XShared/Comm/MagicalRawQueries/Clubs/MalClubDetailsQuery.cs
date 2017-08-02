@@ -15,9 +15,6 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Clubs
     {
         public static async Task<MalClubDetails> GetClubDetails(string clubId,bool justComments = false)
         {
-
-
-
             try
             {
                 var output = new MalClubDetails { Id = clubId };
@@ -174,6 +171,8 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Clubs
                     current.User.Name = firstDiv[0];
                     current.Date = firstDiv[1];
                     current.Content = WebUtility.HtmlDecode(tds.InnerText).Trim();
+                    current.Content = current.Content.Replace(current.Date, "");
+                    current.Content = current.Content.Substring(current.Content.IndexOf('|') + 1).Trim();
                     try
                     {
                         current.User.ImgUrl = htmlNode.FirstOfDescendantsWithClass("div", "picSurround")
@@ -187,7 +186,7 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Clubs
                     var delComment = htmlNode.Descendants("small").LastOrDefault();
                     if (delComment != null && !delComment.InnerText.Contains("|"))
                     {
-                        var txt = delComment.Descendants("a").First().Attributes["onclick"].Value
+                        var txt = delComment.Descendants("a").First().Attributes.First(attribute => attribute.Value.Contains("delComment")).Value
                             .Replace("delComment", "");
                         var pos = txt.IndexOf(',');
                         current.Id = txt.Substring(0, pos - 1);
@@ -214,7 +213,7 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Clubs
 
 
                 var response =
-                    await client.GetAsync($"clubs.php?id={clubId}&action=view&t=comments&show={page*20}");
+                    await client.GetAsync($"/clubs.php?id={clubId}&action=view&t=comments&show={page*20}");
 
                 if (!response.IsSuccessStatusCode)
                     return null;
@@ -232,6 +231,8 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Clubs
                     current.User.Name = firstDiv[0];
                     current.Date = firstDiv[1];
                     current.Content = WebUtility.HtmlDecode(tds.InnerText).Trim();
+                    current.Content = current.Content.Replace(current.Date, "");
+                    current.Content = current.Content.Substring(current.Content.IndexOf('|') + 1).Trim();
                     try
                     {
                         current.User.ImgUrl = htmlNode.FirstOfDescendantsWithClass("div", "picSurround")
@@ -242,13 +243,58 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Clubs
                     {
                         //yes image again
                     }
-                    var delComment = htmlNode.Descendants("small").FirstOrDefault();
-                    if (delComment != null)
+                    var delComment = htmlNode.Descendants("small").LastOrDefault();
+                    if (delComment != null && !delComment.InnerText.Contains("|")) 
                     {
-                        var txt = delComment.Descendants("a").First().Attributes["onclick"].Value
+                        var txt = delComment.Descendants("a").First().Attributes.First(attribute => attribute.Value.Contains("delComment")).Value
                             .Replace("delComment", "");
                         var pos = txt.IndexOf(',');
                         current.Id = txt.Substring(0, pos - 1);
+                    }
+
+                    output.Add(current);
+                }
+
+                return output;
+
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
+        public static async Task<List<MalUser>> GetMoreUsers(string clubId)
+        {
+            var output = new List<MalUser>();
+            try
+            {
+                var client = await ResourceLocator.MalHttpContextProvider.GetHttpContextAsync();
+
+
+                var response =
+                    await client.GetAsync($"/clubs.php?id={clubId}&action=view&t=members");
+
+                if (!response.IsSuccessStatusCode)
+                    return null;
+
+                var doc = new HtmlDocument();
+                doc.LoadHtml(await response.Content.ReadAsStringAsync());
+
+                foreach (var htmlNode in doc.DocumentNode.WhereOfDescendantsWithClass("td", "borderClass"))
+                {
+                    var current = new MalUser();
+
+                    current.Name = WebUtility.HtmlDecode(htmlNode.InnerText.Trim());
+
+                    try
+                    {
+                        current.ImgUrl = htmlNode.Descendants("img").First().Attributes["src"].Value
+                            .Replace("/thumbs", "").Replace("_thumb", "");
+                    }
+                    catch (Exception)
+                    {
+                        //picture
                     }
 
                     output.Add(current);

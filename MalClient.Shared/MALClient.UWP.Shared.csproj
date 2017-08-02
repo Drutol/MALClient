@@ -207,6 +207,7 @@
     <Compile Include="XamlConverters\BoolToVisibilityInvertedConverter.cs" />
     <Compile Include="XamlConverters\BoolToWallpaperBlurValueConverter.cs" />
     <Compile Include="XamlConverters\BottomStackMarginToFrameMarginWithAdConverter.cs" />
+    <Compile Include="XamlConverters\CollectionEmptyToVisibilityConverter.cs" />
     <Compile Include="XamlConverters\ComparisonResultToColorConverter.cs" />
     <Compile Include="XamlConverters\DateToDiffStringConverter.cs" />
     <Compile Include="XamlConverters\DateToStringConverter.cs" />

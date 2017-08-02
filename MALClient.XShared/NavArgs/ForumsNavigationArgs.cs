@@ -11,7 +11,8 @@ namespace MALClient.XShared.NavArgs
         MangaBoard,
         Search,
         UserSearch,
-        WatchedTopics
+        WatchedTopics,
+        Club
     }
 
     public class ForumsNavigationArgs
@@ -31,6 +32,8 @@ namespace MALClient.XShared.NavArgs
         public ForumBoardPageWorkModes WorkMode { get; set; }
         public string Query { get; set; }
         public ForumBoards? Scope { get; set; }
+        public string ClubId { get; set; }
+        public string ClubName { get; set; }
 
 
         public ForumsBoardNavigationArgs(ForumBoards board,int page = 0)
@@ -72,6 +75,14 @@ namespace MALClient.XShared.NavArgs
             Query = userName;
         }
 
+        public ForumsBoardNavigationArgs(string id,string clubName)
+        {
+            Page = ForumsPageIndex.PageBoard;
+            WorkMode = ForumBoardPageWorkModes.Club;
+            ClubId = id;
+            ClubName = clubName;
+        }
+
         public override bool Equals(object obj)
         {
             var arg = obj as ForumsBoardNavigationArgs;
@@ -91,6 +102,8 @@ namespace MALClient.XShared.NavArgs
                         return arg.Query == Query;
                     case ForumBoardPageWorkModes.WatchedTopics:
                         return WorkMode == arg.WorkMode;
+                    case ForumBoardPageWorkModes.Club:
+                        return ClubId == arg.ClubId;
                     default:
                         throw new ArgumentOutOfRangeException();
                 }

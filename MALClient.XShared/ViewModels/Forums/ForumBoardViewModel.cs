@@ -158,18 +158,21 @@ namespace MALClient.XShared.ViewModels.Forums
                 switch (PrevArgs.WorkMode)
                 {
                     case ForumBoardPageWorkModes.AnimeBoard:
-                        arg = new ForumsNewTopicNavigationArgs(TopicType.Anime,PrevArgs.AnimeTitle,PrevArgs.AnimeId);
+                        arg = new ForumsNewTopicNavigationArgs(TopicType.Anime, PrevArgs.AnimeTitle, PrevArgs.AnimeId);
                         break;
                     case ForumBoardPageWorkModes.MangaBoard:
-                        arg  = new ForumsNewTopicNavigationArgs(TopicType.Manga, PrevArgs.AnimeTitle, PrevArgs.AnimeId);
+                        arg = new ForumsNewTopicNavigationArgs(TopicType.Manga, PrevArgs.AnimeTitle, PrevArgs.AnimeId);
+                        break;
+                    case ForumBoardPageWorkModes.Club:
+                        arg = new ForumsNewTopicNavigationArgs(int.Parse(PrevArgs.ClubId));
                         break;
                     default:
                         arg = new ForumsNewTopicNavigationArgs(PrevArgs.TargetBoard);
                         break;
                 }
-                
 
-               ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageForumIndex, PrevArgs);
+
+                ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageForumIndex, PrevArgs);
                ViewModelLocator.GeneralMain.Navigate(PageIndex.PageForumIndex,arg); 
             }));
 
@@ -289,9 +292,9 @@ namespace MALClient.XShared.ViewModels.Forums
             switch (args.WorkMode)
             {
                 case ForumBoardPageWorkModes.Standard:
-                    PageNavigationControlsVisibility = SearchButtonVisibility = true;
-                    Title = args.TargetBoard.GetDescription();
-                    Icon = Utils.Utilities.BoardToIcon(args.TargetBoard);
+                        PageNavigationControlsVisibility = SearchButtonVisibility = true;
+                        Title = args.TargetBoard.GetDescription();
+                        Icon = Utilities.BoardToIcon(args.TargetBoard);
                     break;
                 case ForumBoardPageWorkModes.AnimeBoard:
                     SearchButtonVisibility = false;
@@ -321,6 +324,11 @@ namespace MALClient.XShared.ViewModels.Forums
                     Title = "Watched Topics";
                     PageNavigationControlsVisibility = true;
                     SearchButtonVisibility = false;
+                    break;
+                case ForumBoardPageWorkModes.Club:
+                    PageNavigationControlsVisibility = SearchButtonVisibility = true;
+                    Title = $"{args.ClubName}'s Forum";
+                    Icon = FontAwesomeIcon.Group;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -370,6 +378,9 @@ namespace MALClient.XShared.ViewModels.Forums
                     case ForumBoardPageWorkModes.WatchedTopics:
                         topics = await
                              ForumSearchQuery.GetWatchedTopics();
+                        break;
+                    case ForumBoardPageWorkModes.Club:
+                        topics = await new ForumBoardTopicsQuery(PrevArgs.ClubId, page).GetTopicPosts(arg, force);
                         break;
                     default:
                         throw new ArgumentOutOfRangeException();

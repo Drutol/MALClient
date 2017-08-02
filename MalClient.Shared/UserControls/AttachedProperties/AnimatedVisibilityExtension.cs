@@ -38,16 +38,31 @@ namespace MALClient.UWP.Shared.UserControls.AttachedProperties
                     sb = GetAnimatedVisibleStoryboard(sender);
                     if (sb != null)
                     {
-                        sb.Begin();
-                        element.Visibility = Visibility.Visible;
+                        try
+                        {
+                            sb.Begin();
+                            element.Visibility = Visibility.Visible;
+                        }
+                        catch (Exception)
+                        {
+                            element.Visibility = Visibility.Visible;
+                        }
                     }
                     break;
                 case Visibility.Collapsed:
                     sb = GetAnimatedCollapsedStoryboard(sender);
                     if (sb != null)
                     {
-                        sb.Completed += (o, o1) => element.Visibility = Visibility.Collapsed;
-                        sb.Begin();
+                        try
+                        {
+                            sb.Completed += (o, o1) => element.Visibility = Visibility.Collapsed;
+                            sb.Begin();
+                        }
+                        catch (Exception )
+                        {
+                            element.Visibility = Visibility.Collapsed;
+                        }
+
                     }
                     break;
                 default:

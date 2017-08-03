@@ -110,7 +110,7 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Clubs
                                     role = rightDiv.InnerText.Replace(name, "").Replace("(", "").Replace(")", "")
                                         .Trim();
 
-                                output.Officers.Add((name, role));
+                                output.Officers.Add((name, string.IsNullOrEmpty(role) ? "Officer" : role));
                                 break;
                             case 2:
                                 link = rightDiv.Descendants("a").First();

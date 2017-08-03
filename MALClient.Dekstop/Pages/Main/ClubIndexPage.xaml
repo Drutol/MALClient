@@ -45,14 +45,12 @@
                                     <ColumnDefinition Width="*" MinWidth="120"/>
                                     <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
-                                <Grid Background="{ThemeResource BrushAppBars}">
+                                <Grid Background="{ThemeResource BrushAppBars}" VerticalAlignment="Stretch">
                                     <SymbolIcon x:Name="NoImg" Symbol="Help"/>
                                     <Image Source="{Binding ImgUrl}" 
                                            attachedProperties:LinkedImageExtensions.Target="{Binding ElementName=NoImg}" 
                                            attachedProperties:LinkedImageExtensions.TargetVisibility="Collapsed" />
-                                    <Grid.Clip>
-                                        <RectangleGeometry Rect="0,0,150,150"></RectangleGeometry>
-                                    </Grid.Clip>
+ 
                                 </Grid>
 
                                 <Grid Grid.Column="1" Padding="8"  Background="{ThemeResource BrushAnimeItemInnerBackground}">

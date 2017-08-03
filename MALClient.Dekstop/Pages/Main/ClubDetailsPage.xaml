@@ -33,7 +33,7 @@
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="780"/>
+            <ColumnDefinition MinWidth="500" MaxWidth="780"/>
         </Grid.ColumnDefinitions>
 
         <Grid Grid.Column="0">
@@ -68,20 +68,20 @@
                                 <ItemsControl Margin="0,10,0,0" ItemsSource="{Binding Officers}" HorizontalAlignment="Right">
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
-                                            <controls:HeaderedTextBlock Orientation="Vertical" Header="{Binding Item1}" Text="{Binding Item2}"/>
+                                            <controls:HeaderedTextBlock Orientation="Horizontal" Header="{Binding Item1}" Text="{Binding Item2}"/>
                                         </DataTemplate>
                                     </ItemsControl.ItemTemplate>
                                 </ItemsControl>
                             </Grid>
                         </StackPanel>
-                        <Button Content="Browse Club Forum" Command="{Binding NavigateForumCommand}" HorizontalAlignment="Center"></Button>
+                        <Button Content="Browse Club Forum" Command="{Binding NavigateForumCommand}" HorizontalAlignment="Left" VerticalAlignment="Bottom"></Button>
                     </Grid>
                 </Grid>
                 <controls:Expander Grid.Row="1" Header="Club Relations" >
                     <Pivot Background="{ThemeResource BrushAnimeItemInnerBackground}" Height="250">
                         <PivotItem Header="Club Members">
                             <Grid  Padding="8" >
-                                <GridView ItemsSource="{Binding Details.MembersPeek}" Margin="0,8,0,0" HorizontalAlignment="Center">
+                                <GridView ItemsSource="{Binding Members}" Margin="0,8,0,0" HorizontalAlignment="Center" IsItemClickEnabled="True" ItemClick="MemberOnClick">
                                     <GridView.Footer>
                                         <Button Style="{StaticResource TextBlockButtonStyle}" Content="More..." Visibility="{Binding LoadMoreUsersButtonVisibility}" HorizontalAlignment="Center" Margin="0,5,0,10" Command="{Binding LoadMoreMembersCommand}"/>
                                     </GridView.Footer>
@@ -104,7 +104,7 @@
                         </PivotItem>
                         <PivotItem Header="Related Anime">
                             <Grid  Padding="8" >
-                                <GridView ItemsSource="{Binding AnimeRelations}" Margin="0,8,0,0" HorizontalAlignment="Center">
+                                <GridView ItemsSource="{Binding AnimeRelations}" Margin="0,8,0,0" HorizontalAlignment="Center" IsItemClickEnabled="True" ItemClick="AnimeItemOnClick">
                                     <GridView.ItemTemplate>
                                         <DataTemplate>
                                             <Grid Background="{ThemeResource BrushAppBars}">
@@ -118,16 +118,16 @@
                                     </GridView.ItemTemplate>
                                 </GridView>
                                 
-                                <TextBlock Text="No related anime..." Visibility="{Binding AnimeRelations, Converter={StaticResource ListEmptyConverter}}" Foreground="{StaticResource SystemControlBackgroundAccentBrush}" FontWeight="SemiLight" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                <TextBlock Text="No related anime..." Visibility="{Binding NoAnimeRelationsEmptyNoticeVisibility}" Foreground="{StaticResource SystemControlBackgroundAccentBrush}" FontWeight="SemiLight" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             </Grid>
                         </PivotItem>
                         <PivotItem Header="Related Manga">
                             <Grid  Padding="8" >
-                                <GridView ItemsSource="{Binding MangaRelations}" Margin="0,8,0,0" HorizontalAlignment="Center">
+                                <GridView ItemsSource="{Binding MangaRelations}" Margin="0,8,0,0" HorizontalAlignment="Center" IsItemClickEnabled="True" ItemClick="MangaItemOnClick">
                                     <GridView.ItemTemplate>
                                         <DataTemplate>
                                             <Grid Background="{ThemeResource BrushAppBars}">
-                                                <Image attachedProperties:AnimeImageExtensions.GuessedImageSource="{Binding Item2}" Width="120" Height="160" Stretch="UniformToFill">
+                                                <Image attachedProperties:AnimeImageExtensions.GuessedImageSource="{Binding Item2}" attachedProperties:AnimeImageExtensions.AnimeSource="False" Width="120" Height="160" Stretch="UniformToFill">
                                                     <ToolTipService.ToolTip>
                                                         <ToolTip Content="{Binding Item1}"/>
                                                     </ToolTipService.ToolTip>
@@ -136,7 +136,7 @@
                                         </DataTemplate>
                                     </GridView.ItemTemplate>
                                 </GridView>
-                                <TextBlock Text="No related anime..." Visibility="{Binding MangaRelations, Converter={StaticResource ListEmptyConverter}}" Foreground="{StaticResource SystemControlBackgroundAccentBrush}" FontWeight="SemiLight" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                <TextBlock Text="No related anime..." Visibility="{Binding NoMangaRelationsEmptyNoticeVisibility}" Foreground="{StaticResource SystemControlBackgroundAccentBrush}" FontWeight="SemiLight" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             </Grid>
 
                             
@@ -161,16 +161,6 @@
                                 <SymbolIcon Symbol="Refresh" ></SymbolIcon>
                             </Button>
                         </Grid>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="Auto"/>
-                            </Grid.ColumnDefinitions>
-                            <TextBox Margin="0,10" PlaceholderText="Type comment..." AcceptsReturn="True" TextWrapping="Wrap" HorizontalAlignment="Stretch" MinHeight="50" Text="{Binding CommentInput,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
-                            <Button Grid.Column="1" Margin="10" Padding="18,14" BorderThickness="0,0,0,2" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" Content="Send" Command="{Binding PostCommentCommand}"/>
-                        </Grid>
-                        
-
                     </StackPanel>
 
                     
@@ -181,6 +171,16 @@
                                 <Setter Property="Margin" Value="0,5"/>
                             </Style>
                         </ListView.ItemContainerStyle>
+                        <ListView.Header>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBox Margin="0,10" PlaceholderText="Type comment..." AcceptsReturn="True" TextWrapping="Wrap" HorizontalAlignment="Stretch" MinHeight="50" Text="{Binding CommentInput,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                                <Button Grid.Column="1" Margin="10" Padding="18,14" BorderThickness="0,0,0,2" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" Content="Send" Command="{Binding PostCommentCommand}"/>
+                            </Grid>
+                        </ListView.Header>
                         <ListView.Footer>
                             <Button Style="{StaticResource TextBlockButtonStyle}" Content="More..." Visibility="{Binding MoreCommentsButtonVisibility}" HorizontalAlignment="Center" Margin="0,5,0,10" Command="{Binding LoadMoreCommentsCommand}"/>
                         </ListView.Footer>
@@ -233,7 +233,7 @@
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
-                    
+                    <TextBlock Grid.Row="1" Text="No comments..." Visibility="{Binding NoCommentsEmptyNoticeVisibility}" Foreground="{StaticResource BrushNoSearchResults}" FontWeight="SemiLight" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     <Grid Grid.Row="1" Visibility="{Binding LoadingComments}" attachedProperties:AnimatedVisibilityExtension.AnimatedVisiblity="{Binding LoadingComments}"
                         attachedProperties:AnimatedVisibilityExtension.AnimatedVisibleStoryboard="{StaticResource OverlayFadeInStoryboard}"
                         attachedProperties:AnimatedVisibilityExtension.AnimatedCollapsedStoryboard="{StaticResource OverlayFadeOutStoryboard}">

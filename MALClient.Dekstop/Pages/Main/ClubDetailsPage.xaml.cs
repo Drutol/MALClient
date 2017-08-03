@@ -12,6 +12,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using MALClient.Models.Models;
 using MALClient.UWP.Shared.Managers;
 using MALClient.XShared.NavArgs;
 using MALClient.XShared.ViewModels;
@@ -44,6 +45,21 @@ namespace MALClient.UWP.Pages.Main
         {
             ViewModelLocator.ClubDetails.NavigatedTo(e.Parameter as ClubDetailsPageNavArgs);
             base.OnNavigatedTo(e);
+        }
+
+        private void MemberOnClick(object sender, ItemClickEventArgs e)
+        {
+            ViewModelLocator.ClubDetails.NavigateUserCommand.Execute(e.ClickedItem);
+        }
+
+        private void AnimeItemOnClick(object sender, ItemClickEventArgs e)
+        {
+            ViewModelLocator.ClubDetails.NavigateAnimeDetailsCommand.Execute(e.ClickedItem);
+        }
+
+        private void MangaItemOnClick(object sender, ItemClickEventArgs e)
+        {
+            ViewModelLocator.ClubDetails.NavigateMangaDetailsCommand.Execute(e.ClickedItem);
         }
     }
 }

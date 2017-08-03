@@ -50,7 +50,7 @@ namespace MALClient.XShared.ViewModels.Forums
             }
             else
             {
-                Header = $"Post New topic in {args.Title} club";
+                Header = $"Post New topic in {args.ClubName} club";
             }
         }
 

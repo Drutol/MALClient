@@ -115,7 +115,7 @@ namespace MALClient.UWP.Shared.UserControls.AttachedProperties
             }
             else
             {
-                d.SetValue(AnimeImageExtensions.MalBaseImageSourceProperty, await AnimeImageQuery.GetImageUrl(id, true));
+                d.SetValue(AnimeImageExtensions.MalBaseImageSourceProperty, await AnimeImageQuery.GetImageUrl(id, GetAnimeSource(d)));
             }
         }
 
@@ -127,6 +127,19 @@ namespace MALClient.UWP.Shared.UserControls.AttachedProperties
         public static int GetGuessedImageSource(DependencyObject element)
         {
             return (int) element.GetValue(GuessedImageSourceProperty);
+        }
+
+        public static readonly DependencyProperty AnimeSourceProperty = DependencyProperty.RegisterAttached(
+            "AnimeSource", typeof(bool), typeof(AnimeImageExtensions), new PropertyMetadata(true));
+
+        public static void SetAnimeSource(DependencyObject element, bool value)
+        {
+            element.SetValue(AnimeSourceProperty, value);
+        }
+
+        public static bool GetAnimeSource(DependencyObject element)
+        {
+            return (bool) element.GetValue(AnimeSourceProperty);
         }
     }
 }

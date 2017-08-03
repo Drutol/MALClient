@@ -163,6 +163,7 @@ namespace MALClient.XShared.NavArgs
         public ForumBoards? BoardType { get; }
         public string Title { get; }
         public int Id { get; }
+        public string ClubName { get; set; }
 
 
         public ForumsNewTopicNavigationArgs(TopicType topicType,string title,int mediaId)
@@ -182,11 +183,12 @@ namespace MALClient.XShared.NavArgs
             Id = (int) boardType;
         }
 
-        public ForumsNewTopicNavigationArgs(int id)
+        public ForumsNewTopicNavigationArgs(int id,string clubName)
         {
             Page = ForumsPageIndex.PageNewTopic;
             ForumType = ForumType.Clubs;
             Id = id;
+            ClubName = clubName;
         }
     }
 

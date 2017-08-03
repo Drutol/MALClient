@@ -10,6 +10,7 @@ using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using MALClient.Models.Enums;
 using MALClient.Models.Models;
+using MALClient.Models.Models.Anime;
 using MALClient.Models.Models.MalSpecific;
 using MALClient.XShared.Comm.MagicalRawQueries.Clubs;
 using MALClient.XShared.NavArgs;
@@ -31,6 +32,8 @@ namespace MALClient.XShared.ViewModels.Clubs
         private ICommand _deleteCommentCommand;
         private ObservableCollection<MalUser> _members;
         private bool _loadMoreUsersButtonVisibility;
+        private ICommand _navigateAnimeDetailsCommand;
+        private ICommand _navigateMangaDetailsCommand;
 
         public bool Loading
         {
@@ -79,6 +82,7 @@ namespace MALClient.XShared.ViewModels.Clubs
             {
                 _comments = value;
                 RaisePropertyChanged();
+                RaisePropertyChanged(() => NoCommentsEmptyNoticeVisibility);
             }
         }
 
@@ -102,6 +106,7 @@ namespace MALClient.XShared.ViewModels.Clubs
             }
         }
 
+        public bool NoCommentsEmptyNoticeVisibility => !Comments?.Any() ?? true;
         public bool NoAnimeRelationsEmptyNoticeVisibility => !AnimeRelations?.Any() ?? true;
         public bool NoMangaRelationsEmptyNoticeVisibility => !AnimeRelations?.Any() ?? true;
 
@@ -113,8 +118,8 @@ namespace MALClient.XShared.ViewModels.Clubs
                 _details = value;
                 
                 _currentCommentsPage = 1;
-                MoreCommentsButtonVisibility = true;
-                LoadMoreUsersButtonVisibility = true;
+                MoreCommentsButtonVisibility = value?.RecentComments?.Any() ?? false;
+                LoadMoreUsersButtonVisibility = value != null && value.MembersPeek.Count > 4;
                 RaisePropertyChanged();
                 if(value == null)
                     return;
@@ -135,6 +140,7 @@ namespace MALClient.XShared.ViewModels.Clubs
             }
         }
 
+
         private void CommentsOnCollectionChanged(object sender,
             NotifyCollectionChangedEventArgs notifyCollectionChangedEventArgs)
         {
@@ -147,6 +153,7 @@ namespace MALClient.XShared.ViewModels.Clubs
                     Details.RecentComments.Remove(notifyCollectionChangedEventArgs.OldItems[0] as MalClubComment);
                     break;
             }
+            RaisePropertyChanged(() => NoCommentsEmptyNoticeVisibility);
         }
 
 
@@ -285,5 +292,29 @@ namespace MALClient.XShared.ViewModels.Clubs
             ViewModelLocator.GeneralMain.Navigate(PageIndex.PageForumIndex,
                 new ForumsBoardNavigationArgs(_lastArgs.Id,Details.Name));
         });
+
+
+        public ICommand NavigateAnimeDetailsCommand
+            =>
+                _navigateAnimeDetailsCommand ??
+                (_navigateAnimeDetailsCommand =
+                    new RelayCommand<Tuple<string,string>>(
+                        entry =>
+                        {
+                            ViewModelLocator.GeneralMain.Navigate(PageIndex.PageAnimeDetails,
+                                new AnimeDetailsPageNavigationArgs(int.Parse(entry.Item2), entry.Item1, null, null, _lastArgs) { Source = PageIndex.PageClubDetails });
+                        }));
+
+        public ICommand NavigateMangaDetailsCommand
+            =>
+                _navigateMangaDetailsCommand ??
+                (_navigateMangaDetailsCommand =
+                    new RelayCommand<Tuple<string, string>>(
+                        entry =>
+                        {
+                            ViewModelLocator.GeneralMain.Navigate(PageIndex.PageAnimeDetails,
+                                new AnimeDetailsPageNavigationArgs(int.Parse(entry.Item2), entry.Item1, null, null, _lastArgs) { Source = PageIndex.PageClubDetails, AnimeMode = false});
+                        }));
+
     }
 }

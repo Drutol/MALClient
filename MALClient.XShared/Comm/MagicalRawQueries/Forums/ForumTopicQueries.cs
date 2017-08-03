@@ -82,8 +82,12 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Forums
                 try
                 {
                     var resp = await response.Content.ReadAsStringAsync();
-                    if(resp.Contains("badresult"))
+                    if (resp.Contains("badresult"))
+                    {
+                        if(resp.Contains("The given value for $val"))
+                            return new Tuple<bool, string>(true, null);
                         return new Tuple<bool, string>(false,null);
+                    }
                     var doc = new HtmlDocument();
                     doc.LoadHtml(resp);
                     var wrapper = doc.FirstOfDescendantsWithId("div", "contentWrapper");

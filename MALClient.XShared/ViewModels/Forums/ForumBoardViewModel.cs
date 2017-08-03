@@ -164,7 +164,7 @@ namespace MALClient.XShared.ViewModels.Forums
                         arg = new ForumsNewTopicNavigationArgs(TopicType.Manga, PrevArgs.AnimeTitle, PrevArgs.AnimeId);
                         break;
                     case ForumBoardPageWorkModes.Club:
-                        arg = new ForumsNewTopicNavigationArgs(int.Parse(PrevArgs.ClubId));
+                        arg = new ForumsNewTopicNavigationArgs(int.Parse(PrevArgs.ClubId),PrevArgs.ClubName);
                         break;
                     default:
                         arg = new ForumsNewTopicNavigationArgs(PrevArgs.TargetBoard);

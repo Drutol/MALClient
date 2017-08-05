@@ -5,83 +5,85 @@
   android:layout_width="match_parent"
   android:layout_height="match_parent">
   <RelativeLayout
-      android:layout_width="match_parent"
-      android:layout_height="match_parent"
-      android:background="?BrushDeepBackground">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?BrushDeepBackground">
     <GridView
-        android:id="@+id/AnimeListPageGridView"
-        android:layout_width="match_parent"
-        android:layout_gravity="top"
-        android:layout_height="match_parent"
-        android:numColumns="auto_fit"
-        android:paddingBottom="45dp"
-        android:clipToPadding="false"
-        android:gravity="center"
-        android:layout_centerHorizontal="true"
-        android:choiceMode="singleChoice" />
+      android:id="@+id/AnimeListPageGridView"
+      android:layout_width="match_parent"
+      android:layout_gravity="top"
+      android:layout_height="match_parent"
+      android:numColumns="auto_fit"
+      android:paddingBottom="45dp"
+      android:clipToPadding="false"
+      android:gravity="center"
+      android:paddingLeft="2dp"
+      android:paddingRight="2dp"
+      android:layout_centerHorizontal="true"
+      android:choiceMode="singleChoice" />
     <ListView
-        android:id="@+id/AnimeListPageListView"
-        android:layout_width="match_parent"
-        android:layout_gravity="top"
-        android:paddingBottom="45dp"
-        android:clipToPadding="false"
-        android:layout_height="match_parent"
-        android:choiceMode="singleChoice"
-        android:dividerHeight="5dp" android:divider="@color/Transparent" />
+      android:id="@+id/AnimeListPageListView"
+      android:layout_width="match_parent"
+      android:layout_gravity="top"
+      android:paddingBottom="45dp"
+      android:clipToPadding="false"
+      android:layout_height="match_parent"
+      android:choiceMode="singleChoice"
+      android:dividerHeight="5dp" android:divider="@color/Transparent" />
     <ListView
-        android:id="@+id/AnimeListPageCompactListView"
-        android:layout_width="match_parent"
-        android:layout_gravity="top"
-        android:layout_height="match_parent"
-        android:paddingBottom="45dp"
-        android:clipToPadding="false"
-        android:choiceMode="singleChoice"
-        android:dividerHeight="5dp" android:divider="@color/Transparent" />
+      android:id="@+id/AnimeListPageCompactListView"
+      android:layout_width="match_parent"
+      android:layout_gravity="top"
+      android:layout_height="match_parent"
+      android:paddingBottom="45dp"
+      android:clipToPadding="false"
+      android:choiceMode="singleChoice"
+      android:dividerHeight="5dp" android:divider="@color/Transparent" />
     <RelativeLayout android:layout_width="match_parent"
-        android:layout_height="@dimen/AppBarHeight" android:visibility="gone"
-        android:background="?BrushAppBars"
-        android:layout_alignParentBottom="true">
+                    android:layout_height="@dimen/AppBarHeight" android:visibility="gone"
+                    android:background="?BrushAppBars"
+                    android:layout_alignParentBottom="true">
       <LinearLayout android:layout_width="wrap_content"
-          android:layout_height="match_parent"
-          android:layout_alignParentRight="true"
-          android:orientation="horizontal">
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:orientation="horizontal">
         <ImageButton android:layout_width="@dimen/AppBarBtnWidth"
-            android:layout_height="@dimen/AppBarBtnHeight"
-            android:id="@+id/AnimeListPageDisplayMenu"
-            android:background="?android:selectableItemBackground"
-            android:src="@drawable/icon_eye" />
+                     android:layout_height="@dimen/AppBarBtnHeight"
+                     android:id="@+id/AnimeListPageDisplayMenu"
+                     android:background="?android:selectableItemBackground"
+                     android:src="@drawable/icon_eye" />
         <ImageButton android:layout_width="@dimen/AppBarBtnWidth"
-            android:layout_height="@dimen/AppBarBtnHeight"
-            android:id="@+id/AnimeListPageSeasonMenu"
-            android:background="?android:selectableItemBackground"
-            android:src="@drawable/icon_calendar" />
+                     android:layout_height="@dimen/AppBarBtnHeight"
+                     android:id="@+id/AnimeListPageSeasonMenu"
+                     android:background="?android:selectableItemBackground"
+                     android:src="@drawable/icon_calendar" />
         <ImageButton android:layout_width="@dimen/AppBarBtnWidth"
-            android:layout_height="@dimen/AppBarBtnHeight"
-            android:id="@+id/AnimeListPageFilterMenu"
-            android:background="?android:selectableItemBackground"
-            android:src="@drawable/icon_filter" />
+                     android:layout_height="@dimen/AppBarBtnHeight"
+                     android:id="@+id/AnimeListPageFilterMenu"
+                     android:background="?android:selectableItemBackground"
+                     android:src="@drawable/icon_filter" />
         <ImageButton android:layout_width="@dimen/AppBarBtnWidth"
-            android:layout_height="@dimen/AppBarBtnHeight"
-            android:id="@+id/AnimeListPageSortMenu"
-            android:background="?android:selectableItemBackground"
-            android:src="@drawable/icon_sort" />
+                     android:layout_height="@dimen/AppBarBtnHeight"
+                     android:id="@+id/AnimeListPageSortMenu"
+                     android:background="?android:selectableItemBackground"
+                     android:src="@drawable/icon_sort" />
       </LinearLayout>
     </RelativeLayout>
     <RelativeLayout android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/AnimeListPageLoadingSpinner"
-        android:background="?BrushLoading">
+                    android:layout_height="match_parent"
+                    android:id="@+id/AnimeListPageLoadingSpinner"
+                    android:background="?BrushLoading">
       <ProgressBar
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:indeterminate="true" android:layout_centerInParent="true" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminate="true" android:layout_centerInParent="true" />
     </RelativeLayout>
     <TextView android:gravity="center" android:visibility="visible" android:layout_centerInParent="true"
               android:layout_width="wrap_content" android:id="@+id/AnimeListPageEmptyNotice"
               android:layout_height="wrap_content" android:fontFamily="@string/font_family_light" android:text="We have come up empty..." android:textColor="?AccentColour"/>
     <android.support.design.widget.FloatingActionButton android:id="@+id/AnimeListPageActionButton"
-        android:layout_width="wrap_content" app:backgroundTint="?AccentColourContrast" android:layout_alignParentEnd="true" android:layout_alignParentBottom="true" android:layout_margin="16dp"
-        android:layout_height="wrap_content" android:src="@drawable/icon_more" android:clickable="true" android:focusable="true"
-        xmlns:app="http://schemas.android.com/apk/res-auto" app:fabSize="normal" />
+                                                        android:layout_width="wrap_content" app:backgroundTint="?AccentColourContrast" android:layout_alignParentEnd="true" android:layout_alignParentBottom="true" android:layout_margin="16dp"
+                                                        android:layout_height="wrap_content" android:src="@drawable/icon_more" android:clickable="true" android:focusable="true"
+                                                        xmlns:app="http://schemas.android.com/apk/res-auto" app:fabSize="normal" />
   </RelativeLayout>
 </MALClient.Android.UserControls.ScrollableSwipeToRefreshLayout>

@@ -281,9 +281,6 @@ namespace MALClient.Android.UserControls
                 AnimeGridItemBackSurfaceAdd.LayoutParameters.Width = DimensionsHelper.DpToPx(66);
                 AnimeGridItemBackSurfaceSubtract.LayoutParameters.Width = DimensionsHelper.DpToPx(72);
 
-                SurfaceAddDescription.SetTextSize(ComplexUnitType.Sp, 13);
-                SurfaceSubtractDescription.SetTextSize(ComplexUnitType.Sp, 13);
-
                 AnimeGridItemBackSurfaceAdd.GetChildAt(0).TranslationX /= 1.05f;
 
                 AnimeGridItemCurrentWatchingStatus.SetTextSize(ComplexUnitType.Sp, 13);
@@ -303,14 +300,10 @@ namespace MALClient.Android.UserControls
             {
                 AnimeGridItemBackSurfaceAdd.SetBackgroundColor(new Color(ResourceExtension.BrushFlyoutBackground));
                 SurfaceAddIcon.SetImageResource(Resource.Drawable.icon_minus);
-                SurfaceAddDescription.Text = "Decrement";
-                SurfaceAddDescription.SetTextColor(new Color(ResourceExtension.BrushText));
                 SurfaceAddIcon.ImageTintList = ColorStateList.ValueOf(new Color(ResourceExtension.BrushText));
 
                 AnimeGridItemBackSurfaceSubtract.SetBackgroundColor(new Color(ResourceExtension.AccentColour));
                 SurfaceSubtractIcon.SetImageResource(Resource.Drawable.icon_add);
-                SurfaceSubtractDescription.Text = "Increment";
-                SurfaceSubtractDescription.SetTextColor(Color.White);
                 SurfaceSubtractIcon.ImageTintList = ColorStateList.ValueOf(Color.White);
             }
         }
@@ -433,10 +426,8 @@ namespace MALClient.Android.UserControls
         #region Views
 
         private ImageView _surfaceAddIcon;
-        private TextView _surfaceAddDescription;
         private RelativeLayout _animeGridItemBackSurfaceAdd;
         private ImageView _surfaceSubtractIcon;
-        private TextView _surfaceSubtractDescription;
         private RelativeLayout _animeGridItemBackSurfaceSubtract;
         private ProgressBar _animeGridItemImgPlaceholder;
         private ImageViewAsync _animeGridItemImage;
@@ -460,15 +451,11 @@ namespace MALClient.Android.UserControls
         private ImageButton _animeGridItemMoreButton;
         private LinearLayout _animeGridItemLowerSection;
 
-        public ImageView SurfaceAddIcon => _surfaceAddIcon ?? (_surfaceAddIcon = FindViewById<ImageView>(Resource.Id.SurfaceAddIcon));
-
-        public TextView SurfaceAddDescription => _surfaceAddDescription ?? (_surfaceAddDescription = FindViewById<TextView>(Resource.Id.SurfaceAddDescription));
+        public ImageView SurfaceAddIcon => _surfaceAddIcon ?? (_surfaceAddIcon = FindViewById<ImageView>(Resource.Id.SurfaceAddIcon));   
 
         public RelativeLayout AnimeGridItemBackSurfaceAdd => _animeGridItemBackSurfaceAdd ?? (_animeGridItemBackSurfaceAdd = FindViewById<RelativeLayout>(Resource.Id.AnimeGridItemBackSurfaceAdd));
 
         public ImageView SurfaceSubtractIcon => _surfaceSubtractIcon ?? (_surfaceSubtractIcon = FindViewById<ImageView>(Resource.Id.SurfaceSubtractIcon));
-
-        public TextView SurfaceSubtractDescription => _surfaceSubtractDescription ?? (_surfaceSubtractDescription = FindViewById<TextView>(Resource.Id.SurfaceSubtractDescription));
 
         public RelativeLayout AnimeGridItemBackSurfaceSubtract => _animeGridItemBackSurfaceSubtract ?? (_animeGridItemBackSurfaceSubtract = FindViewById<RelativeLayout>(Resource.Id.AnimeGridItemBackSurfaceSubtract));
 

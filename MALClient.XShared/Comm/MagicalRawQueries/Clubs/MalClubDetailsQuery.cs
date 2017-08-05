@@ -190,6 +190,8 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Clubs
                             .Replace("delComment", "");
                         var pos = txt.IndexOf(',');
                         current.Id = txt.Substring(0, pos - 1);
+
+                        current.Content = current.Content.Substring(0, current.Content.Length - 6);
                     }
 
                     output.RecentComments.Add(current);
@@ -250,6 +252,7 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Clubs
                             .Replace("delComment", "");
                         var pos = txt.IndexOf(',');
                         current.Id = txt.Substring(0, pos - 1);
+                        current.Content = current.Content.Substring(0, current.Content.Length - 6);
                     }
 
                     output.Add(current);

@@ -440,7 +440,8 @@ namespace MALClient.UWP.ViewModels
                     break;
                 case PageIndex.PageClubDetails:
                     HideSearchStuff();
-                    RefreshButtonVisibility = false;
+                    RefreshButtonVisibility = true;
+                    RefreshDataCommand = new RelayCommand(() => ViewModelLocator.ClubDetails.Reload());
                     CurrentStatus = "Club details";
                     MainNavigationRequested?.Invoke(typeof(ClubDetailsPage),args);
                     break;

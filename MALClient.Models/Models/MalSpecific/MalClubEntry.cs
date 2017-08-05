@@ -29,5 +29,25 @@ namespace MALClient.Models.Models.MalSpecific
         public JoinAction JoinType { get; set; }
 
         public string JoinData { get; set; }
+
+        public string JoinButtonText
+        {
+            get
+            {
+                switch (JoinType)
+                {
+                    case JoinAction.Join:
+                        return "Join";
+                    case JoinAction.Request:
+                        return "Request";
+                    case JoinAction.AcceptDeny:
+                        return "Accept";
+                    case JoinAction.None:
+                        return "";
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+            }
+        }
     }
 }

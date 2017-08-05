@@ -22,13 +22,14 @@ namespace MALClient.XShared.ViewModels.Clubs
         private bool _loading;
         private SmartObservableCollection<MalClubEntry> _clubs;
         private string _searchQuery;
-        private List<MalClubEntry> _myClubs;
+        private ObservableCollection<MalClubEntry> _myClubs;
         private List<MalClubEntry> _allClubs;
         private List<MalClubEntry> _lastQueryClubs;
         private bool _emptyNoticeVisibility;
         private int _currentPage = 1;
         private bool _moreButtonVisibility;
         private MalClubQueries.QueryType _queryType = MalClubQueries.QueryType.My;
+        private ICommand _joinClubCommand;
 
         public ClubIndexViewModel(IMessageDialogProvider dialogProvider)
         {
@@ -55,7 +56,7 @@ namespace MALClient.XShared.ViewModels.Clubs
             }
         }
 
-        public List<MalClubEntry> MyClubs
+        public ObservableCollection<MalClubEntry> MyClubs
         {
             get { return _myClubs; }
             set
@@ -115,7 +116,7 @@ namespace MALClient.XShared.ViewModels.Clubs
                 if (_myClubs == null)
                 {
                     Loading = true;
-                    MyClubs = await MalClubQueries.GetClubs(QueryType, 0);
+                    MyClubs = new ObservableCollection<MalClubEntry>(await MalClubQueries.GetClubs(QueryType, 0));
                     Loading = false;
 
                 }
@@ -178,5 +179,32 @@ namespace MALClient.XShared.ViewModels.Clubs
             ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageClubIndex,null);
             ViewModelLocator.GeneralMain.Navigate(PageIndex.PageClubDetails,new ClubDetailsPageNavArgs{Id = entry.Id});
         });
+
+        public ICommand JoinClubCommand => _joinClubCommand ?? (_joinClubCommand = new RelayCommand<MalClubEntry>( async entry =>
+        {
+            switch (entry.JoinType)
+            {
+                case MalClubEntry.JoinAction.Join:
+                    await MalClubQueries.JoinClub(entry.Id);
+                    MyClubs.Add(entry);
+                    break;
+                case MalClubEntry.JoinAction.Request:
+                    await MalClubQueries.RequestJoinClub(entry.Id);
+                    break;
+                case MalClubEntry.JoinAction.AcceptDeny:
+                    await MalClubQueries.AcceptDenyInvitation(entry.Id, true);
+                    MyClubs.Add(entry);
+                    break;
+            }
+
+            entry.JoinType = MalClubEntry.JoinAction.None;
+        }));
+
+        public async void ReloadMyClubs()
+        {
+            Loading = true;
+            MyClubs = new ObservableCollection<MalClubEntry>(await MalClubQueries.GetClubs(MalClubQueries.QueryType.My, 0));
+            Loading = false;
+        }
     }
 }

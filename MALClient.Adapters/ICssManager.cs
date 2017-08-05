@@ -8,6 +8,6 @@ namespace MALClient.Adapters
 {
     public interface ICssManager
     {
-        string WrapWithCss(string html, bool disableScroll = false, bool styleImgs = true);
+        string WrapWithCss(string html, bool withImgCss = true, int? minWidth = null);
     }
 }

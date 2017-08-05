@@ -6,6 +6,7 @@ namespace MALClient.XShared.Utils
     {
         private string ReplacedCss { get; set; }
         private string ReplacedCssHtmlBodyScrollEnabled { get; set; }
+        private string ReplacedCssHtmlBodyMinWidth { get; set; }
         private string ReplacedBegin { get; set; }
 
         private const string Begin = @"<html><head>
@@ -44,6 +45,7 @@ namespace MALClient.XShared.Utils
         {
             string css = Css;
             string bodyCss = CssHtmlBodyScrollEnabled;
+            string bodyCssMinWidth = CssHtmlBodyMinWidth;
 
             css = css.Replace("AccentColourBase", AccentColour)
                 .Replace("AccentColourLight", AccentColourLight)
@@ -71,12 +73,25 @@ namespace MALClient.XShared.Utils
                 .Replace("BodyBackgroundThemeDarkerColor",
                     Settings.SelectedTheme == 1 ? "#212121" : "#dadada");
 
+            bodyCssMinWidth = bodyCssMinWidth.Replace("AccentColourBase", AccentColour).
+                Replace("AccentColourLight", AccentColourLight).
+                Replace("AccentColourDark", AccentColourDark)
+                .Replace("BodyBackgroundThemeColor",
+                    Settings.SelectedTheme == 1 ? "#2d2d2d" : "#e6e6e6")
+                .Replace("BodyForegroundThemeColor",
+                    Settings.SelectedTheme == 1 ? "white" : "black").Replace(
+                    "HorizontalSeparatorColor",
+                    Settings.SelectedTheme == 1 ? "#0d0d0d" : "#b3b3b3")
+                .Replace("BodyBackgroundThemeDarkerColor",
+                    Settings.SelectedTheme == 1 ? "#212121" : "#dadada");
+
             ReplacedBegin = Begin.Replace("$notifyFunction$", NotifyFunction);
             ReplacedCssHtmlBodyScrollEnabled = bodyCss;
+            ReplacedCssHtmlBodyMinWidth = bodyCssMinWidth;
             ReplacedCss = css;
         }
 
-        public string WrapWithCss(string html,bool disableScroll = false,bool withImgCss = true)
+        public string WrapWithCss(string html,bool withImgCss = true,int? minWidth = null)
         {
             if (string.IsNullOrWhiteSpace(html))
                 return string.Empty;
@@ -85,8 +100,13 @@ namespace MALClient.XShared.Utils
                 PrepareCss();
 
             var css = withImgCss
-                ? ReplacedCss.Insert(0, ReplacedCssHtmlBodyScrollEnabled)
-                : ReplacedCss.Substring(320).Insert(0, ReplacedCssHtmlBodyScrollEnabled);
+                ? ReplacedCss.Insert(0,
+                    minWidth == null
+                        ? ReplacedCssHtmlBodyScrollEnabled
+                        : ReplacedCssHtmlBodyMinWidth.Replace("MinimalWidth", minWidth.Value.ToString()))
+                : ReplacedCss.Substring(320).Insert(0, minWidth == null
+                    ? ReplacedCssHtmlBodyScrollEnabled
+                    : ReplacedCssHtmlBodyMinWidth.Replace("MinimalWidth", minWidth.Value.ToString()));
 
             if (!Settings.ArticlesDisplayScrollBar)
                 css += CssRemoveScrollbar;
@@ -115,16 +135,14 @@ namespace MALClient.XShared.Utils
             margin-bottom: 15px;
         }";
 
-        private const string CssHtmlBodyScrollDisabled =
+        private const string CssHtmlBodyMinWidth =
             @"<style type=""text/css"">@charset ""UTF-8"";
             html, body
 	        {
 		        background-color: BodyBackgroundThemeColor;
 		        color: BodyForegroundThemeColor;
                 font-family: 'Segoe UI';
-                margin: 0; 
-                height: 100%; 
-                overflow: hidden;
+                min-width: MinimalWidthpx;
 	        }";
         private const string CssHtmlBodyScrollEnabled =
             @"<style type=""text/css"">@charset ""UTF-8"";

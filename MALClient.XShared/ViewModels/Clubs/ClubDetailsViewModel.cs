@@ -121,8 +121,12 @@ namespace MALClient.XShared.ViewModels.Clubs
                 MoreCommentsButtonVisibility = value?.RecentComments?.Any() ?? false;
                 LoadMoreUsersButtonVisibility = value != null && value.MembersPeek.Count > 4;
                 RaisePropertyChanged();
-                if(value == null)
+                if (value == null)
+                {
+                    Members = null;
+                    Comments = null;
                     return;
+                }
                 Comments = new ObservableCollection<MalClubComment>(value.RecentComments);
                 Comments.CollectionChanged += CommentsOnCollectionChanged;
 
@@ -190,7 +194,6 @@ namespace MALClient.XShared.ViewModels.Clubs
         public async void Reload()
         {
             Loading = true;
-
             Details = await MalClubDetailsQuery.GetClubDetails(_lastArgs.Id);
             Loading = false;
         }
@@ -315,6 +318,23 @@ namespace MALClient.XShared.ViewModels.Clubs
                             ViewModelLocator.GeneralMain.Navigate(PageIndex.PageAnimeDetails,
                                 new AnimeDetailsPageNavigationArgs(int.Parse(entry.Item2), entry.Item1, null, null, _lastArgs) { Source = PageIndex.PageClubDetails, AnimeMode = false});
                         }));
+
+        public ICommand LeaveClubCommand => new RelayCommand(async () =>
+        {
+            Loading = true;
+            await MalClubQueries.LeaveClub(Details.Id);
+            ViewModelLocator.ClubIndex.MyClubs.Remove(
+                ViewModelLocator.ClubIndex.MyClubs.First(entry => entry.Id == Details.Id));
+            Reload();
+        });
+
+        public ICommand JoinClubCommand => new RelayCommand(async () =>
+        {
+            Loading = true;
+            await MalClubQueries.JoinClub(Details.Id);
+            ViewModelLocator.ClubIndex.ReloadMyClubs();
+            Reload();
+        });
 
     }
 }

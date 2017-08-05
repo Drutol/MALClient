@@ -37,7 +37,7 @@ namespace MALClient.UWP.Shared.UserControls.AttachedProperties
                 }
             }
             SetComputedHeight(view,0);
-            view.NavigateToString(ResourceLocator.CssManager.WrapWithCss(dependencyPropertyChangedEventArgs.NewValue as string,GetDisableScroll(dependencyObject),GetStyleImages(dependencyObject)));
+            view.NavigateToString(ResourceLocator.CssManager.WrapWithCss(dependencyPropertyChangedEventArgs.NewValue as string,GetStyleImages(dependencyObject),GetMinimumWidth(dependencyObject)));
         }
 
         private static async void ViewOnScriptNotify(object sender, NotifyEventArgs e)
@@ -88,17 +88,17 @@ namespace MALClient.UWP.Shared.UserControls.AttachedProperties
             return (string) element.GetValue(ContentProperty);
         }
 
-        public static readonly DependencyProperty DisableScrollProperty = DependencyProperty.RegisterAttached(
-            "DisableScroll", typeof(bool), typeof(WebViewExtensions), new PropertyMetadata(default(bool)));
+        public static readonly DependencyProperty MinimumWidthProperty = DependencyProperty.RegisterAttached(
+            "MinimumWidth", typeof(int), typeof(WebViewExtensions), new PropertyMetadata(default(int)));
 
-        public static void SetDisableScroll(DependencyObject element, bool value)
+        public static void SetMinimumWidth(DependencyObject element, int value)
         {
-            element.SetValue(DisableScrollProperty, value);
+            element.SetValue(MinimumWidthProperty, value);
         }
 
-        public static bool GetDisableScroll(DependencyObject element)
+        public static int GetMinimumWidth(DependencyObject element)
         {
-            return (bool) element.GetValue(DisableScrollProperty);
+            return (int) element.GetValue(MinimumWidthProperty);
         }
 
         public static readonly DependencyProperty ResizeToFitProperty = DependencyProperty.RegisterAttached(

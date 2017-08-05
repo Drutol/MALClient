@@ -81,6 +81,11 @@ namespace MALClient.UWP.Pages.Main
         {
             ViewModelLocator.ClubIndex.SearchCommand.Execute(null);
         }
+
+        private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
+        {
+            (sender as Button).Visibility = Visibility.Collapsed;
+        }
     }
 
 

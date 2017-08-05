@@ -24,166 +24,200 @@
             <FadeOutThemeAnimation TargetName="LoadingOverlay" />
         </Storyboard>
         <xamlConverters:EnumWithDescriptionToStringConverter x:Key="EnumToString" />
+        <xamlConverters:StringEmptyToVisibilityConverter x:Key="StringEmptyConverter" />
     </Page.Resources>
-    
+
     <Grid Background="{ThemeResource BrushDeepBackground}">
-        <Pivot  x:Name="ClubsPivot" SelectionChanged="ClubsPivot_OnSelectionChanged">
+        <Pivot x:Name="ClubsPivot" SelectionChanged="ClubsPivot_OnSelectionChanged">
             <PivotItem Header="My Clubs">
-                <ListView ItemsSource="{Binding MyClubs}" x:Name="MyClubList"  IsItemClickEnabled="True" ItemClick="ClubClick">
+                <ListView ItemsSource="{Binding MyClubs}" x:Name="MyClubList" IsItemClickEnabled="True"
+                          ItemClick="ClubClick">
                     <ListView.ItemContainerStyle>
                         <Style TargetType="ListViewItem">
-                            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-                            <Setter Property="Padding" Value="0"/>
-                            <Setter Property="Margin" Value="0,5"/>
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                            <Setter Property="Padding" Value="0" />
+                            <Setter Property="Margin" Value="0,5" />
                         </Style>
                     </ListView.ItemContainerStyle>
                     <ListView.ItemTemplate>
                         <DataTemplate>
-                            <Grid  Background="{ThemeResource BrushAnimeItemBackground}">
+                            <Grid Background="{ThemeResource BrushAnimeItemBackground}">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="150"/>
-                                    <ColumnDefinition Width="*" MinWidth="120"/>
-                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="150" />
+                                    <ColumnDefinition Width="*" MinWidth="120" />
+                                    <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
                                 <Grid Background="{ThemeResource BrushAppBars}" VerticalAlignment="Stretch">
-                                    <SymbolIcon x:Name="NoImg" Symbol="Help"/>
-                                    <Image Source="{Binding ImgUrl}" 
-                                           attachedProperties:LinkedImageExtensions.Target="{Binding ElementName=NoImg}" 
+                                    <SymbolIcon x:Name="NoImg" Symbol="Help" />
+                                    <Image Source="{Binding ImgUrl}"
+                                           attachedProperties:LinkedImageExtensions.Target="{Binding ElementName=NoImg}"
                                            attachedProperties:LinkedImageExtensions.TargetVisibility="Collapsed" />
- 
+
                                 </Grid>
 
-                                <Grid Grid.Column="1" Padding="8"  Background="{ThemeResource BrushAnimeItemInnerBackground}">
+                                <Grid Grid.Column="1" Padding="8"
+                                      Background="{ThemeResource BrushAnimeItemInnerBackground}">
                                     <Grid.RowDefinitions>
-                                        <RowDefinition Height="*"/>
-                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="Auto" />
                                     </Grid.RowDefinitions>
                                     <StackPanel>
-                                        <Border BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" BorderThickness="3,0,0,0" Padding="6">
-                                            <TextBlock Text="{Binding Name}" FontSize="18" TextWrapping="WrapWholeWords"/>
+                                        <Border BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"
+                                                BorderThickness="3,0,0,0" Padding="6">
+                                            <TextBlock Text="{Binding Name}" FontSize="18"
+                                                       TextWrapping="WrapWholeWords" />
                                         </Border>
-                                        
-                                        <TextBlock Text="{Binding Description}" Margin="0,10,0,0" FontSize="16" TextWrapping="WrapWholeWords"/>
+
+                                        <TextBlock Text="{Binding Description}" Margin="0,10,0,0" FontSize="16"
+                                                   TextWrapping="WrapWholeWords" />
 
                                     </StackPanel>
-                                    <TextBlock Grid.Row="1" Margin="0,10,0,0" FontSize="16" TextWrapping="WrapWholeWords" Visibility="{Binding LastCommentDate,Converter={StaticResource NullVisConverter}}">
-                                        <Run Text="Last comment:" Foreground="{StaticResource BrushNoSearchResults}" FontStyle="Italic"/>
-                                        <Run Text="{Binding LastCommentDate}" Foreground="{StaticResource SystemControlForegroundAccentBrush}"/>
-                                        <Run Text="by" Foreground="{StaticResource BrushNoSearchResults}" FontStyle="Italic"/>
-                                        <Run Text="{Binding LastCommentAuthor}"/> 
-                                        <Run Text="&#183;"/>
-                                        
-                                        <Run Text="Last post:" Foreground="{StaticResource BrushNoSearchResults}" FontStyle="Italic"/>
-                                        <Run Text="{Binding LastPost}" Foreground="{StaticResource SystemControlForegroundAccentBrush}"/>
+                                    <TextBlock Grid.Row="1" Margin="0,10,0,0" FontSize="16"
+                                               TextWrapping="WrapWholeWords"
+                                               Visibility="{Binding LastCommentDate,Converter={StaticResource NullVisConverter}}">
+                                        <Run Text="Last comment:" Foreground="{StaticResource BrushNoSearchResults}"
+                                             FontStyle="Italic" />
+                                        <Run Text="{Binding LastCommentDate}"
+                                             Foreground="{StaticResource SystemControlForegroundAccentBrush}" />
+                                        <Run Text="by" Foreground="{StaticResource BrushNoSearchResults}"
+                                             FontStyle="Italic" />
+                                        <Run Text="{Binding LastCommentAuthor}" />
+                                        <Run Text="&#183;" />
+
+                                        <Run Text="Last post:" Foreground="{StaticResource BrushNoSearchResults}"
+                                             FontStyle="Italic" />
+                                        <Run Text="{Binding LastPost}"
+                                             Foreground="{StaticResource SystemControlForegroundAccentBrush}" />
                                     </TextBlock>
                                 </Grid>
 
 
                                 <Grid Grid.Column="2" Padding="8" Margin="5,0" Width="100">
-                                    <StackPanel VerticalAlignment="Center" Padding="8,8,8,2" BorderThickness="0,0,0,1" BorderBrush="{StaticResource SystemControlForegroundAccentBrush}">
-                                        <TextBlock Text="{Binding Members}" HorizontalAlignment="Center" FontSize="24"/>
-                                        <TextBlock Text="Members" FontWeight="SemiLight" FontSize="16" Margin="0,5,0,0"/>
+                                    <StackPanel VerticalAlignment="Center" Padding="8,8,8,2" BorderThickness="0,0,0,1"
+                                                BorderBrush="{StaticResource SystemControlForegroundAccentBrush}">
+                                        <TextBlock Text="{Binding Members}" HorizontalAlignment="Center" FontSize="24" />
+                                        <TextBlock Text="Members" FontWeight="SemiLight" FontSize="16" Margin="0,5,0,0" />
                                     </StackPanel>
                                 </Grid>
-                                <!--<Grid Grid.Column="3" Padding="8" Margin="5,0" Width="200" Visibility="{Binding LastComment,Converter={StaticResource NullVisConverter}}">
-                                    <StackPanel VerticalAlignment="Center" Padding="8,8,8,2" BorderThickness="0,0,0,1" BorderBrush="{StaticResource SystemControlForegroundAccentBrush}">
-                                        <TextBlock Text="{Binding LastComment}" HorizontalAlignment="Center" FontSize="18" TextAlignment="Center"/>
-                                        <TextBlock Text="Last Comment" FontWeight="SemiLight" FontSize="16" HorizontalAlignment="Center" Margin="0,5,0,0"/>
-                                    </StackPanel>
-                                </Grid>                            
-                                <Grid Grid.Column="4" Padding="8" Margin="5,0" Width="100">
-                                    <StackPanel VerticalAlignment="Center" Padding="8,8,8,2" BorderThickness="0,0,0,1" BorderBrush="{StaticResource SystemControlForegroundAccentBrush}">
-                                        <TextBlock Text="{Binding LastPost}" HorizontalAlignment="Center" FontSize="18" TextAlignment="Center" TextWrapping="WrapWholeWords"/>
-                                        <TextBlock Text="Last Post" FontWeight="SemiLight" FontSize="16" HorizontalAlignment="Center" Margin="0,5,0,0"/>
-                                    </StackPanel>
-                                </Grid>-->
                             </Grid>
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
             </PivotItem>
             <PivotItem Header="All Clubs">
-                <Grid >
+                <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
                     <Grid Padding="8" Background="{ThemeResource BrushAnimeItemInnerBackground}">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="100" />
                         </Grid.ColumnDefinitions>
-                        
-                        <ComboBox x:Name="SearchComboBox" Loaded="SearchComboBox_OnLoaded" SelectedItem="{Binding SearchCategory,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+
+                        <ComboBox x:Name="SearchComboBox" Loaded="SearchComboBox_OnLoaded"
+                                  SelectedItem="{Binding SearchCategory,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
                             <ComboBox.ItemTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding Converter={StaticResource EnumToString}}"/>
+                                    <TextBlock Text="{Binding Converter={StaticResource EnumToString}}" />
                                 </DataTemplate>
                             </ComboBox.ItemTemplate>
                         </ComboBox>
 
-                        <AutoSuggestBox Grid.Column="1" Margin="10,0" QuerySubmitted="AutoSuggestBox_OnQuerySubmitted" Text="{Binding SearchQuery,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Stretch"/>
-                        
-                        <Button Grid.Column="2" Content="Search" Padding="5" HorizontalAlignment="Stretch"  Command="{Binding SearchCommand}" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" BorderThickness="0,0,0,1"/>
+                        <AutoSuggestBox Grid.Column="1" Margin="10,0" QuerySubmitted="AutoSuggestBox_OnQuerySubmitted"
+                                        Text="{Binding SearchQuery,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                        HorizontalAlignment="Stretch" />
+
+                        <Button Grid.Column="2" Content="Search" Padding="5" HorizontalAlignment="Stretch"
+                                Command="{Binding SearchCommand}"
+                                BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"
+                                BorderThickness="0,0,0,1" />
                     </Grid>
-                    <ListView Grid.Row="1" ItemsSource="{Binding Clubs}" IsItemClickEnabled="True" ItemClick="ClubClick">
+                    <ListView Grid.Row="1" ItemsSource="{Binding Clubs}" IsItemClickEnabled="True"
+                              ItemClick="ClubClick">
                         <ListView.ItemContainerStyle>
                             <Style TargetType="ListViewItem">
-                                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-                                <Setter Property="Padding" Value="0"/>
-                                <Setter Property="Margin" Value="0,5"/>
+                                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                <Setter Property="Padding" Value="0" />
+                                <Setter Property="Margin" Value="0,5" />
                             </Style>
                         </ListView.ItemContainerStyle>
                         <ListView.Footer>
-                            <Button Content="Load more..." HorizontalAlignment="Center" Command="{Binding MoreCommand}" Style="{StaticResource TextBlockButtonStyle}"></Button>
+                            <Button Content="Load more..." HorizontalAlignment="Center" Command="{Binding MoreCommand}"
+                                    Style="{StaticResource TextBlockButtonStyle}" />
                         </ListView.Footer>
                         <ListView.ItemTemplate>
                             <DataTemplate>
-                                <Grid  Background="{ThemeResource BrushAnimeItemBackground}">
+                                <Grid Background="{ThemeResource BrushAnimeItemBackground}">
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="150"/>
-                                        <ColumnDefinition Width="*" MinWidth="120"/>
-                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="150" />
+                                        <ColumnDefinition Width="*" MinWidth="120" />
+                                        <ColumnDefinition Width="Auto" />
                                     </Grid.ColumnDefinitions>
                                     <Grid Background="{ThemeResource BrushAppBars}">
-                                        <SymbolIcon x:Name="NoImg" Symbol="Help"/>
-                                        <Image Source="{Binding ImgUrl}" 
-                                               attachedProperties:LinkedImageExtensions.Target="{Binding ElementName=NoImg}" 
+                                        <SymbolIcon x:Name="NoImg" Symbol="Help" />
+                                        <Image Source="{Binding ImgUrl}"
+                                               attachedProperties:LinkedImageExtensions.Target="{Binding ElementName=NoImg}"
                                                attachedProperties:LinkedImageExtensions.TargetVisibility="Collapsed" />
                                     </Grid>
 
-                                    <Grid Grid.Column="1" Padding="8"  Background="{ThemeResource BrushAnimeItemInnerBackground}">
+                                    <Grid Grid.Column="1" Padding="8"
+                                          Background="{ThemeResource BrushAnimeItemInnerBackground}">
                                         <Grid.RowDefinitions>
-                                            <RowDefinition Height="*"/>
-                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="*" />
+                                            <RowDefinition Height="Auto" />
                                         </Grid.RowDefinitions>
                                         <StackPanel>
-                                            <Border BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" BorderThickness="3,0,0,0" Padding="6">
-                                                <TextBlock Text="{Binding Name}" FontSize="18" TextWrapping="WrapWholeWords"/>
+                                            <Border BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"
+                                                    BorderThickness="3,0,0,0" Padding="6">
+                                                <TextBlock Text="{Binding Name}" FontSize="18"
+                                                           TextWrapping="WrapWholeWords" />
                                             </Border>
 
-                                            <TextBlock Text="{Binding Description}" Margin="0,10,0,0" FontSize="16" TextWrapping="WrapWholeWords"/>
+                                            <TextBlock Text="{Binding Description}" Margin="0,10,0,0" FontSize="16"
+                                                       TextWrapping="WrapWholeWords" />
 
                                         </StackPanel>
-                                        <TextBlock Grid.Row="1" Margin="0,10,0,0" FontSize="16" TextWrapping="WrapWholeWords" Visibility="{Binding LastCommentDate,Converter={StaticResource NullVisConverter}}">
-                                            <Run Text="Last comment:" Foreground="{StaticResource BrushNoSearchResults}" FontStyle="Italic"/>
-                                            <Run Text="{Binding LastCommentDate}" Foreground="{StaticResource SystemControlForegroundAccentBrush}"/>
-                                            <Run Text="by" Foreground="{StaticResource BrushNoSearchResults}" FontStyle="Italic"/>
-                                            <Run Text="{Binding LastCommentAuthor}"/> 
-                                            <Run Text="&#183;"/>
-                                        
-                                            <Run Text="Last post:" Foreground="{StaticResource BrushNoSearchResults}" FontStyle="Italic"/>
-                                            <Run Text="{Binding LastPost}" Foreground="{StaticResource SystemControlForegroundAccentBrush}"/>
+                                        <TextBlock Grid.Row="1" Margin="0,10,0,0" FontSize="16"
+                                                   TextWrapping="WrapWholeWords"
+                                                   Visibility="{Binding LastCommentDate,Converter={StaticResource NullVisConverter}}">
+                                            <Run Text="Last comment:"
+                                                 Foreground="{StaticResource BrushNoSearchResults}" FontStyle="Italic" />
+                                            <Run Text="{Binding LastCommentDate}"
+                                                 Foreground="{StaticResource SystemControlForegroundAccentBrush}" />
+                                            <Run Text="by" Foreground="{StaticResource BrushNoSearchResults}"
+                                                 FontStyle="Italic" />
+                                            <Run Text="{Binding LastCommentAuthor}" />
+                                            <Run Text="&#183;" />
+
+                                            <Run Text="Last post:" Foreground="{StaticResource BrushNoSearchResults}"
+                                                 FontStyle="Italic" />
+                                            <Run Text="{Binding LastPost}"
+                                                 Foreground="{StaticResource SystemControlForegroundAccentBrush}" />
                                         </TextBlock>
                                     </Grid>
 
 
                                     <Grid Grid.Column="2" Padding="8" Margin="5,0" Width="100">
-                                        <StackPanel VerticalAlignment="Center" Padding="8,8,8,2" BorderThickness="0,0,0,1" BorderBrush="{StaticResource SystemControlForegroundAccentBrush}">
-                                            <TextBlock Text="{Binding Members}" HorizontalAlignment="Center" FontSize="24"/>
-                                            <TextBlock Text="Members" FontWeight="SemiLight" FontSize="16" Margin="0,5,0,0"/>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*" />
+                                            <RowDefinition Height="Auto" />
+                                        </Grid.RowDefinitions>
+                                        <StackPanel VerticalAlignment="Center" Padding="8,8,8,2"
+                                                    BorderThickness="0,0,0,1"
+                                                    BorderBrush="{StaticResource SystemControlForegroundAccentBrush}">
+                                            <TextBlock Text="{Binding Members}" HorizontalAlignment="Center"
+                                                       FontSize="24" />
+                                            <TextBlock Text="Members" FontWeight="SemiLight" FontSize="16"
+                                                       Margin="0,5,0,0" />
                                         </StackPanel>
+                                        <Button Grid.Row="1" Margin="0,20,0,10" HorizontalAlignment="Center" Background="{ThemeResource BrushDeepBackground}"
+                                                BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"
+                                                Content="{Binding JoinButtonText}" Click="ButtonBase_OnClick" CommandParameter="{Binding}"
+                                                Command="{Binding Source={StaticResource Locator},Path=ClubIndex.JoinClubCommand}"
+                                                Visibility="{Binding JoinButtonText,Converter={StaticResource StringEmptyConverter}}" />
                                     </Grid>
                                 </Grid>
                             </DataTemplate>
@@ -194,14 +228,15 @@
             </PivotItem>
         </Pivot>
 
-        <Grid 
-              Margin="0,40,0,0" Visibility="{Binding Loading}" attachedProperties:AnimatedVisibilityExtension.AnimatedVisiblity="{Binding Loading}"
-              attachedProperties:AnimatedVisibilityExtension.AnimatedVisibleStoryboard="{StaticResource OverlayFadeInStoryboard}"
-              attachedProperties:AnimatedVisibilityExtension.AnimatedCollapsedStoryboard="{StaticResource OverlayFadeOutStoryboard}">
+        <Grid
+            Margin="0,40,0,0" Visibility="{Binding Loading}"
+            attachedProperties:AnimatedVisibilityExtension.AnimatedVisiblity="{Binding Loading}"
+            attachedProperties:AnimatedVisibilityExtension.AnimatedVisibleStoryboard="{StaticResource OverlayFadeInStoryboard}"
+            attachedProperties:AnimatedVisibilityExtension.AnimatedCollapsedStoryboard="{StaticResource OverlayFadeOutStoryboard}">
             <Grid.Background>
-                <SolidColorBrush Color="Black" Opacity=".1"/>
+                <SolidColorBrush Color="Black" Opacity=".1" />
             </Grid.Background>
-            <Grid x:Name="LoadingOverlay" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+            <Grid x:Name="LoadingOverlay" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
             <ProgressRing Margin="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="75" Height="75"
                           IsActive="True" />
         </Grid>

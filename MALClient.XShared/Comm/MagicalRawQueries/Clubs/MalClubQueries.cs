@@ -55,7 +55,9 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Clubs
                     await client.GetAsync(
                         type == QueryType.All
                             ? (category == SearchCategory.All
-                                ? $"/clubs.php?p={page}"
+                                ? (string.IsNullOrEmpty(searchQuery)
+                                    ? $"/clubs.php?p={page}"
+                                    : $"/clubs.php?catid=0&cn={searchQuery}&action=find")
                                 : $"/clubs.php?catid={(int) category}&cn={searchQuery}&action=find")
                             : "/clubs.php?action=myclubs");
 
@@ -254,6 +256,33 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Clubs
                 var response =
                     await client.PostAsync(
                         $"/clubs.php?action=request&id={id}", requestContent);
+
+                return response.IsSuccessStatusCode;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+
+        }
+
+        public static async Task<bool> LeaveClub(string id)
+        {
+            try
+            {
+                var client = await ResourceLocator.MalHttpContextProvider.GetHttpContextAsync();
+
+                var data = new List<KeyValuePair<string, string>>
+                {
+                    new KeyValuePair<string, string>("submitleave", "Leave Club"),
+                    new KeyValuePair<string, string>("csrf_token", client.Token),
+                };
+
+                var requestContent = new FormUrlEncodedContent(data);
+
+                var response =
+                    await client.PostAsync(
+                        $"/clubs.php?action=leave&id={id}", requestContent);
 
                 return response.IsSuccessStatusCode;
             }

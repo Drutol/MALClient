@@ -14,6 +14,7 @@ namespace MALClient.XShared.Utils
     {
         public static readonly IApplicationDataService ApplicationDataService;
         public static readonly IPasswordVault PasswordVault;
+        private static string _userName;
 
         static Credentials()
         {
@@ -25,10 +26,14 @@ namespace MALClient.XShared.Utils
             Authenticated = bool.Parse(ApplicationDataService["Auth"] as string ?? "False"); //why? because I can? but I shouldn't
         }
 
-        public static string HummingbirdToken { get; private set; } 
-            
+        public static string HummingbirdToken { get; private set; }
 
-        public static string UserName { get; private set; }
+
+        public static string UserName
+        {
+            get { return _userName; }
+            private set { _userName = value.Trim(); }
+        }
 
         public static string Password { get; set; }
 

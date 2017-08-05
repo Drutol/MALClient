@@ -1,55 +1,57 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<MALClient.Android.UserControls.ScrollableSwipeToRefreshLayout
   xmlns:android="http://schemas.android.com/apk/res/android"
   android:layout_width="match_parent" android:orientation="vertical"
   android:layout_height="match_parent" android:background="?BrushDeepBackground">
-  <RelativeLayout
-    android:layout_width="match_parent"
-    android:layout_height="0dp" android:layout_weight="1">
-    <ListView
-      android:id="@+id/MessagingDetailsPageList"
+  <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical">
+    <RelativeLayout
       android:layout_width="match_parent"
-      android:paddingTop="5dp"
-      android:layout_gravity="top" android:stackFromBottom="true"
-      android:layout_height="match_parent"
-      android:choiceMode="none" android:layout_marginStart="5dp" android:layout_marginEnd="5dp"
-      android:dividerHeight="7dp" android:divider="@color/Transparent" />
-    <ProgressBar
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:indeterminate="true" android:layout_centerInParent="true" android:id="@+id/MessagingDetailsPageLoadingSpinner"/>
-  </RelativeLayout>
-
-  <LinearLayout android:background="?BrushAppBars" android:baselineAligned="false"
-                android:layout_width="match_parent" android:layout_marginTop="5dp"
-                android:layout_height="wrap_content" android:padding="5dp" android:elevation="10dp">
-    <LinearLayout
-      android:layout_width="0dp" android:layout_weight="1" android:orientation="vertical"
-      android:layout_height="wrap_content" android:layout_gravity="center_vertical">
-      <EditText android:id="@+id/MessagingDetailsPageTargetTextBox" android:background="@drawable/bbcode_editor_background_states" android:padding="5dp"
-                android:layout_width="match_parent" android:hint="To" android:textColorHint="?BrushSettingsSubtitle"
-                android:layout_height="wrap_content" />
-      <EditText android:layout_marginTop="5dp" android:layout_marginBottom="5dp" android:id="@+id/MessagingDetailsPageSubjectTextBox" android:background="@drawable/bbcode_editor_background_states" android:padding="5dp"
-                android:layout_width="match_parent" android:hint="Subject" android:textColorHint="?BrushSettingsSubtitle"
-                android:layout_height="wrap_content" />
-      <EditText  android:id="@+id/MessagingDetailsPageMessageTextBox" android:background="@drawable/bbcode_editor_background_states" android:padding="5dp"
-                 android:layout_width="match_parent" android:hint="Type message..." android:textColorHint="?BrushSettingsSubtitle"
-                 android:layout_height="wrap_content" />
-    </LinearLayout>
-    <LinearLayout
-      android:layout_width="wrap_content" android:padding="5dp" android:orientation="vertical"
-      android:layout_height="wrap_content">
-      <FrameLayout
-        android:layout_width="wrap_content" android:clickable="true" android:focusable="true" android:foreground="?selectableItemBackground"
-        android:layout_height="wrap_content" android:background="?AccentColourDark" android:padding="5dp" android:id="@+id/MessagingDetailsPageSendButton">
-        <ImageView
-          android:layout_width="wrap_content" android:tint="#fff"
-          android:layout_height="wrap_content" android:src="@drawable/icon_send"/>
-      </FrameLayout>
+      android:layout_height="0dp" android:layout_weight="1">
+      <ListView
+        android:id="@+id/MessagingDetailsPageList"
+        android:layout_width="match_parent"
+        android:paddingTop="5dp"
+        android:layout_gravity="top" android:stackFromBottom="true"
+        android:layout_height="match_parent"
+        android:choiceMode="none" android:layout_marginStart="5dp" android:layout_marginEnd="5dp"
+        android:dividerHeight="7dp" android:divider="@color/Transparent" />
       <ProgressBar
-        android:layout_width="24dp"
-        android:layout_height="24dp" android:layout_gravity="center_horizontal" android:layout_marginTop="5dp"
-        android:indeterminate="true" android:layout_centerInParent="true" android:id="@+id/MessagingDetailsPageSendingSpinner"/>
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminate="true" android:layout_centerInParent="true" android:id="@+id/MessagingDetailsPageLoadingSpinner"/>
+    </RelativeLayout>
+
+    <LinearLayout android:background="?BrushAppBars" android:baselineAligned="false"
+                  android:layout_width="match_parent" android:layout_marginTop="5dp"
+                  android:layout_height="wrap_content" android:padding="5dp" android:elevation="10dp">
+      <LinearLayout
+        android:layout_width="0dp" android:layout_weight="1" android:orientation="vertical"
+        android:layout_height="wrap_content" android:layout_gravity="center_vertical">
+        <EditText android:id="@+id/MessagingDetailsPageTargetTextBox" android:background="@drawable/bbcode_editor_background_states" android:padding="5dp"
+                  android:layout_width="match_parent" android:hint="To" android:textColorHint="?BrushSettingsSubtitle"
+                  android:layout_height="wrap_content" />
+        <EditText android:layout_marginTop="5dp" android:layout_marginBottom="5dp" android:id="@+id/MessagingDetailsPageSubjectTextBox" android:background="@drawable/bbcode_editor_background_states" android:padding="5dp"
+                  android:layout_width="match_parent" android:hint="Subject" android:textColorHint="?BrushSettingsSubtitle"
+                  android:layout_height="wrap_content" />
+        <EditText  android:id="@+id/MessagingDetailsPageMessageTextBox" android:background="@drawable/bbcode_editor_background_states" android:padding="5dp"
+                   android:layout_width="match_parent" android:hint="Type message..." android:textColorHint="?BrushSettingsSubtitle"
+                   android:layout_height="wrap_content" />
+      </LinearLayout>
+      <LinearLayout
+        android:layout_width="wrap_content" android:padding="5dp" android:orientation="vertical"
+        android:layout_height="wrap_content">
+        <FrameLayout
+          android:layout_width="wrap_content" android:clickable="true" android:focusable="true" android:foreground="?selectableItemBackground"
+          android:layout_height="wrap_content" android:background="?AccentColourDark" android:padding="5dp" android:id="@+id/MessagingDetailsPageSendButton">
+          <ImageView
+            android:layout_width="wrap_content" android:tint="#fff"
+            android:layout_height="wrap_content" android:src="@drawable/icon_send"/>
+        </FrameLayout>
+        <ProgressBar
+          android:layout_width="24dp"
+          android:layout_height="24dp" android:layout_gravity="center_horizontal" android:layout_marginTop="5dp"
+          android:indeterminate="true" android:layout_centerInParent="true" android:id="@+id/MessagingDetailsPageSendingSpinner"/>
+      </LinearLayout>
     </LinearLayout>
   </LinearLayout>
-</LinearLayout>
+</MALClient.Android.UserControls.ScrollableSwipeToRefreshLayout>

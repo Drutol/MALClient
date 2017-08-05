@@ -93,11 +93,14 @@ namespace MALClient.Android.UserControls
             
             if (ViewModel.Auth)
             {
-                AnimeGridItemWatchedStatusButton.SetOnClickListener(new OnClickListener(view => ShowWatchedDialog()));
+                var listener = new OnClickListener(view => ShowWatchedDialog());
+                AnimeGridItemWatchedStatusButton.SetOnClickListener(listener);
+                AnimeGridItemTopRightInfo.SetOnClickListener(listener);
             }
             else
             {
-                AnimeGridItemWatchedStatusButton.Clickable = AnimeGridItemWatchedStatusButton.Focusable = false;
+                AnimeGridItemWatchedStatusButton.Clickable = AnimeGridItemWatchedStatusButton.Focusable =
+                    AnimeGridItemTopRightInfo.Clickable = AnimeGridItemTopRightInfo.Focusable = false;
             }
             
             

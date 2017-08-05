@@ -570,7 +570,7 @@ namespace MALClient.Android.Activities
                     mangaSubHeader.WithIdentifier(55779988);
                     mangaSubHeader.WithTextColorRes(ResourceExtension.BrushTextRes);
 
-                    var mangaListButton = GetBaseSecondaryItem();
+                    var mangaListButton = GetBaseSecondaryItem(OnMangaMore);
                     mangaListButton.WithName("Manga list");
                     mangaListButton.WithIdentifier((int)PageIndex.PageMangaList);
                     mangaListButton.WithIcon(Resource.Drawable.icon_list);

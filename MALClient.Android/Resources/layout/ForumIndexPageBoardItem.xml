@@ -36,11 +36,11 @@
             android:layout_width="0dp"
             android:layout_height="match_parent" android:layout_weight="1">
             <FrameLayout
-              android:layout_width="50dp"
+              android:layout_width="50dp" android:background="@drawable/background_forum_board_avatar"
               android:layout_height="50dp" android:layout_marginEnd="5dp">
               <ProgressBar android:scaleX=".5" android:scaleY=".5"
                            android:layout_width="match_parent" android:id="@+id/ForumIndexPageBoardItemPeekPost1ImgPlaceholder"
-                           android:layout_height="match_parent" android:indeterminateTint="?BrushAnimeItemInnerBackground"
+                           android:layout_height="match_parent" android:indeterminateTint="?BrushAnimeItemBackground"
                            android:indeterminate="true" android:layout_gravity="center" android:indeterminateTintMode="src_in"/>
               <FFImageLoading.Views.ImageViewAsync
                 android:layout_width="match_parent" android:id="@+id/ForumIndexPageBoardItemPeekPost1Image"
@@ -62,11 +62,11 @@
             android:layout_width="0dp" android:layout_marginStart="5dp"
             android:layout_height="match_parent" android:layout_weight="1">
             <FrameLayout
-              android:layout_width="50dp"
+              android:layout_width="50dp" android:background="@drawable/background_forum_board_avatar"
               android:layout_height="50dp" android:layout_marginEnd="5dp">
               <ProgressBar android:scaleX=".5" android:scaleY=".5"
                            android:layout_width="match_parent" android:id="@+id/ForumIndexPageBoardItemPeekPost2ImgPlaceholder"
-                           android:layout_height="match_parent" android:indeterminateTint="?BrushAnimeItemInnerBackground"
+                           android:layout_height="match_parent" android:indeterminateTint="?BrushAnimeItemBackground"
                            android:indeterminate="true" android:layout_gravity="center" android:indeterminateTintMode="src_in"/>
               <FFImageLoading.Views.ImageViewAsync
                 android:layout_width="match_parent" android:id="@+id/ForumIndexPageBoardItemPeekPost2Image"

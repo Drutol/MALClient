@@ -8,6 +8,7 @@ using MALClient.Android.BackgroundTasks;
 using MALClient.Android.Fragments.SettingsFragments;
 using MALClient.Models.Models.Misc;
 using MALClient.XShared.BL;
+using MALClient.XShared.ViewModels.Clubs;
 using MALClient.XShared.ViewModels.Details;
 using MALClient.XShared.ViewModels.Forums;
 using MALClient.XShared.ViewModels.Main;
@@ -125,6 +126,8 @@ namespace MALClient.Android
         public void Include(NotificationsHubViewModel vm) { var vm1 = new NotificationsHubViewModel(); }
         public void Include(ListComparisonViewModel vm) { var vm1 = new ListComparisonViewModel(null,null); }
         public void Include(FriendsPageViewModel vm) { var vm1 = new FriendsPageViewModel(); }
+        public void Include(ClubDetailsViewModel vm) { var vm1 = new ClubDetailsViewModel(); }
+        public void Include(ClubIndexViewModel vm) { var vm1 = new ClubIndexViewModel(null); }
 
         public void Include(AnimeLibraryDataStorage vm) { var vm1 = new AnimeLibraryDataStorage(); }
         public void Include(HandyDataStorage vm) { var vm1 = new HandyDataStorage(null,null); }

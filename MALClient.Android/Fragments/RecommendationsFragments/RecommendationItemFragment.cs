@@ -233,9 +233,11 @@ namespace MALClient.Android.Fragments.RecommendationsFragments
 
         #region Views
 
+        private ProgressBar _recommendationItemDepImagePlaceholder;
         private ImageViewAsync _recommendationItemDepImage;
         private FrameLayout _recommendationItemDepImageButton;
         private TextView _recommendationItemDepTitle;
+        private ProgressBar _recommendationItemRecImagePlaceholder;
         private ImageViewAsync _recommendationItemRecImage;
         private FrameLayout _recommendationItemRecImageButton;
         private TextView _recommendationItemRecTitle;
@@ -273,11 +275,15 @@ namespace MALClient.Android.Fragments.RecommendationsFragments
         private LinearLayout _recommendationItemDetailsContainer;
         private RelativeLayout _recommendationItemLoading;
 
+        public ProgressBar RecommendationItemDepImagePlaceholder => _recommendationItemDepImagePlaceholder ?? (_recommendationItemDepImagePlaceholder = FindViewById<ProgressBar>(Resource.Id.RecommendationItemDepImagePlaceholder));
+
         public ImageViewAsync RecommendationItemDepImage => _recommendationItemDepImage ?? (_recommendationItemDepImage = FindViewById<ImageViewAsync>(Resource.Id.RecommendationItemDepImage));
 
         public FrameLayout RecommendationItemDepImageButton => _recommendationItemDepImageButton ?? (_recommendationItemDepImageButton = FindViewById<FrameLayout>(Resource.Id.RecommendationItemDepImageButton));
 
         public TextView RecommendationItemDepTitle => _recommendationItemDepTitle ?? (_recommendationItemDepTitle = FindViewById<TextView>(Resource.Id.RecommendationItemDepTitle));
+
+        public ProgressBar RecommendationItemRecImagePlaceholder => _recommendationItemRecImagePlaceholder ?? (_recommendationItemRecImagePlaceholder = FindViewById<ProgressBar>(Resource.Id.RecommendationItemRecImagePlaceholder));
 
         public ImageViewAsync RecommendationItemRecImage => _recommendationItemRecImage ?? (_recommendationItemRecImage = FindViewById<ImageViewAsync>(Resource.Id.RecommendationItemRecImage));
 
@@ -350,7 +356,6 @@ namespace MALClient.Android.Fragments.RecommendationsFragments
         public LinearLayout RecommendationItemDetailsContainer => _recommendationItemDetailsContainer ?? (_recommendationItemDetailsContainer = FindViewById<LinearLayout>(Resource.Id.RecommendationItemDetailsContainer));
 
         public RelativeLayout RecommendationItemLoading => _recommendationItemLoading ?? (_recommendationItemLoading = FindViewById<RelativeLayout>(Resource.Id.RecommendationItemLoading));
-
 
         #endregion
     }

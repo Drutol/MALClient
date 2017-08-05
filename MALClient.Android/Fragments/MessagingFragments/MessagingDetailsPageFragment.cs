@@ -14,6 +14,7 @@ using FFImageLoading.Views;
 using GalaSoft.MvvmLight.Helpers;
 using MALClient.Android.BindingConverters;
 using MALClient.Android.Resources;
+using MALClient.Android.UserControls;
 using MALClient.Models.Enums;
 using MALClient.Models.Models.MalSpecific;
 using MALClient.XShared.NavArgs;
@@ -97,6 +98,17 @@ namespace MALClient.Android.Fragments.MessagingFragments
                     MessagingDetailsPageSendingSpinner.Visibility = ViewStates.Visible;
                 }
             }));
+
+            var refresh = (RootView as ScrollableSwipeToRefreshLayout);
+            refresh.ScrollingView = MessagingDetailsPageList;
+            refresh.Refresh += RefreshOnRefresh;
+        }
+
+        private void RefreshOnRefresh(object sender, EventArgs eventArgs)
+        {
+            (RootView as ScrollableSwipeToRefreshLayout).Refreshing = false;
+
+            ViewModel.RefreshData();
         }
 
         private void MessagingDetailsPageSendButtonOnClick(object sender, EventArgs eventArgs)

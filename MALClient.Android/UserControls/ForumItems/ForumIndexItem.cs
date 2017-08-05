@@ -65,12 +65,12 @@ namespace MALClient.Android.UserControls.ForumItems
                 if (ForumIndexPageBoardItemPeekPost1Image.IntoIfLoaded(ViewModel.Entry.PeekPosts.First().User.ImgUrl, new CircleTransformation()))
                 {
                     ForumIndexPageBoardItemPeekPost1Image.Visibility = ViewStates.Visible;
-                    ForumIndexPageBoardItemPeekPost1ImgPlaceholder.Visibility = ViewStates.Gone;
+                    //ForumIndexPageBoardItemPeekPost1ImgPlaceholder.Visibility = ViewStates.Gone;
                 }
                 else
                 {
                     ForumIndexPageBoardItemPeekPost1Image.Visibility = ViewStates.Invisible;
-                    ForumIndexPageBoardItemPeekPost1ImgPlaceholder.Visibility = ViewStates.Visible;
+                    //ForumIndexPageBoardItemPeekPost1ImgPlaceholder.Visibility = ViewStates.Visible;
                 }
 
                 if (ViewModel.Entry.PeekPosts.Count() == 2)
@@ -78,18 +78,18 @@ namespace MALClient.Android.UserControls.ForumItems
                     if (ForumIndexPageBoardItemPeekPost2Image.IntoIfLoaded(ViewModel.Entry.PeekPosts.Last().User.ImgUrl, new CircleTransformation()))
                     {                                  
                         ForumIndexPageBoardItemPeekPost2Image.Visibility = ViewStates.Visible;
-                        ForumIndexPageBoardItemPeekPost2ImgPlaceholder.Visibility = ViewStates.Gone;
+                        //ForumIndexPageBoardItemPeekPost2ImgPlaceholder.Visibility = ViewStates.Gone;
                     }                                  
                     else                               
                     {                                  
                         ForumIndexPageBoardItemPeekPost2Image.Visibility = ViewStates.Invisible;
-                        ForumIndexPageBoardItemPeekPost2ImgPlaceholder.Visibility = ViewStates.Visible;
+                        //ForumIndexPageBoardItemPeekPost2ImgPlaceholder.Visibility = ViewStates.Visible;
                     }
                 }
                 else
                 {
                     ForumIndexPageBoardItemPeekPost2Image.Visibility = ViewStates.Invisible;
-                    ForumIndexPageBoardItemPeekPost2ImgPlaceholder.Visibility = ViewStates.Visible;
+                    //ForumIndexPageBoardItemPeekPost2ImgPlaceholder.Visibility = ViewStates.Visible;
                 }
             }
             else
@@ -97,8 +97,8 @@ namespace MALClient.Android.UserControls.ForumItems
                 ForumIndexPageBoardItemPeekPost1Image.Visibility = ViewStates.Invisible;
                 ForumIndexPageBoardItemPeekPost2Image.Visibility = ViewStates.Invisible;
 
-                ForumIndexPageBoardItemPeekPost1ImgPlaceholder.Visibility = ViewStates.Visible;
-                ForumIndexPageBoardItemPeekPost2ImgPlaceholder.Visibility = ViewStates.Visible;
+                //ForumIndexPageBoardItemPeekPost1ImgPlaceholder.Visibility = ViewStates.Visible;
+                //ForumIndexPageBoardItemPeekPost2ImgPlaceholder.Visibility = ViewStates.Visible;
             }
 
         }
@@ -133,16 +133,16 @@ namespace MALClient.Android.UserControls.ForumItems
                 }
 
 
-                ForumIndexPageBoardItemPeekPost1ImgPlaceholder.Visibility = ViewStates.Gone;
-                ForumIndexPageBoardItemPeekPost2ImgPlaceholder.Visibility = ViewStates.Gone;
+                //ForumIndexPageBoardItemPeekPost1ImgPlaceholder.Visibility = ViewStates.Gone;
+                //ForumIndexPageBoardItemPeekPost2ImgPlaceholder.Visibility = ViewStates.Gone;
             }
             else
             {
                 ForumIndexPageBoardItemPeekPost1Image.Visibility = ViewStates.Invisible;
                 ForumIndexPageBoardItemPeekPost2Image.Visibility = ViewStates.Invisible;
 
-                ForumIndexPageBoardItemPeekPost1ImgPlaceholder.Visibility = ViewStates.Visible;
-                ForumIndexPageBoardItemPeekPost2ImgPlaceholder.Visibility = ViewStates.Visible;
+                //ForumIndexPageBoardItemPeekPost1ImgPlaceholder.Visibility = ViewStates.Visible;
+                //ForumIndexPageBoardItemPeekPost2ImgPlaceholder.Visibility = ViewStates.Visible;
             }
 
 
@@ -260,8 +260,8 @@ namespace MALClient.Android.UserControls.ForumItems
 
                 }
 
-                ForumIndexPageBoardItemPeekPost1ImgPlaceholder.Visibility = ViewStates.Gone;
-                ForumIndexPageBoardItemPeekPost2ImgPlaceholder.Visibility = ViewStates.Gone;
+                //ForumIndexPageBoardItemPeekPost1ImgPlaceholder.Visibility = ViewStates.Gone;
+                //ForumIndexPageBoardItemPeekPost2ImgPlaceholder.Visibility = ViewStates.Gone;
             }
         }
 

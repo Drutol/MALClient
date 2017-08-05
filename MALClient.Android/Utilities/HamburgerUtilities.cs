@@ -65,6 +65,16 @@ namespace MALClient.Android
             }
         }
 
+        class CleanerListener : Java.Lang.Object, IOnPostBindViewListener
+        {
+            public void OnBindView(IDrawerItem p0, View p1)
+            {
+                var view = p1.FindViewById(123098);
+                if(view != null)
+                    view.Visibility = ViewStates.Gone;
+            }
+        }
+
         public static PrimaryDrawerItem GetBasePrimaryItem(Action<View> moreButtonAction = null)
         {
             var btn = new PrimaryDrawerItem();
@@ -78,6 +88,10 @@ namespace MALClient.Android
             {
                 btn.WithPostOnBindViewListener(new BindListener(moreButtonAction));
                 btn.WithTag(true);
+            }
+            else
+            {
+                btn.WithPostOnBindViewListener(new CleanerListener());
             }
             return btn;
         }
@@ -95,6 +109,10 @@ namespace MALClient.Android
             {
                 btn.WithPostOnBindViewListener(new BindListener(moreButtonAction));
                 btn.WithTag(true);
+            }
+            else
+            {
+                btn.WithPostOnBindViewListener(new CleanerListener());
             }
             return btn;
         }

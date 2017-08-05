@@ -16,9 +16,8 @@
       android:numColumns="auto_fit"
       android:paddingBottom="45dp"
       android:clipToPadding="false"
+      android:scrollbarStyle="outsideInset"
       android:gravity="center"
-      android:paddingLeft="2dp"
-      android:paddingRight="2dp"
       android:layout_centerHorizontal="true"
       android:choiceMode="singleChoice" />
     <ListView

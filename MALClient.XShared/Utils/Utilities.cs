@@ -297,6 +297,8 @@ namespace MALClient.XShared.Utils
                     return HamburgerButtons.Feeds;
                 case PageIndex.PageNotificationHub:
                     return HamburgerButtons.Notifications;
+                case PageIndex.PageClubIndex:
+                    return HamburgerButtons.Clubs;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(page), page, null);
             }

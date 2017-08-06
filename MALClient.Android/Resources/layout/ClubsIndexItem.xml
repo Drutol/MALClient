@@ -8,20 +8,34 @@
              android:elevation="2dp"
              android:foreground="?selectableItemBackground"
              android:orientation="vertical"
-             android:background="?BrushAnimeItemBackground">
+             android:background="?BrushAnimeItemInnerBackground">
 
-  <LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content" android:orientation="horizontal">
+  <LinearLayout android:minHeight="150dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:orientation="horizontal">
     <FrameLayout
-      android:layout_width="wrap_content" android:paddingEnd="2dp" android:clipToPadding="false"
-      android:layout_height="wrap_content">
-      <FFImageLoading.Views.ImageViewAsync android:id="@+id/Image" android:background="?BrushAnimeItemBackground" android:elevation="2dp"
-                 android:layout_width="100dp" android:adjustViewBounds="true" android:scaleType="centerCrop"
-                 android:layout_height="wrap_content"/>
+      android:clipToPadding="false" android:background="?BrushAnimeItemInnerBackground"
+      android:layout_height="match_parent" android:layout_width="115dp">
+      <ImageView
+        android:layout_width="wrap_content" android:id="@+id/NoImageIcon"
+        android:layout_height="wrap_content" android:src="@drawable/icon_help" android:tint="#fafafa" android:layout_gravity="center"/>
+      <ProgressBar
+        android:id="@+id/ImgPlaceholder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:indeterminate="true" android:layout_gravity="center"
+        android:indeterminateTint="?BrushAnimeItemBackground"
+        android:indeterminateTintMode="src_in"
+        android:scaleX=".7"
+        android:scaleY=".7" />
+      <FFImageLoading.Views.ImageViewAsync android:id="@+id/Image" android:layout_gravity="center" android:background="?BrushAppBars" android:elevation="2dp"
+                                           android:adjustViewBounds="true" android:layout_width="match_parent" android:scaleType="centerCrop"
+                                           android:layout_height="match_parent"/>
     </FrameLayout>
     <FrameLayout
-      android:layout_width="0dp" android:layout_marginEnd="2dp" android:padding="4dp" android:elevation="2dp" android:clipToPadding="false"
+      android:layout_width="0dp" android:padding="4dp" android:elevation="4dp" android:clipToPadding="false"
+      android:background="?BrushAnimeItemBackground"
       android:layout_height="match_parent" android:layout_weight="1" android:orientation="vertical">
       <LinearLayout
         android:layout_width="match_parent"
@@ -69,7 +83,7 @@
       </LinearLayout>
     </FrameLayout>
     <FrameLayout
-      android:layout_width="wrap_content" android:padding="4dp" android:background="?BrushAnimeItemInnerBackground"
+      android:layout_width="75dp" android:padding="4dp" android:layout_marginStart="2dp"
       android:layout_height="match_parent">
       <LinearLayout
         android:layout_width="wrap_content" android:layout_gravity="center" android:background="@drawable/border_accent_underline"

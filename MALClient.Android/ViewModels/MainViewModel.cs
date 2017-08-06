@@ -14,6 +14,7 @@ using GalaSoft.MvvmLight.Command;
 using MALClient.Android.Fragments;
 using MALClient.Android.Fragments.ArticlesPageFragments;
 using MALClient.Android.Fragments.CalendarFragments;
+using MALClient.Android.Fragments.Clubs;
 using MALClient.Android.Fragments.DetailsFragments;
 using MALClient.Android.Fragments.ForumFragments;
 using MALClient.Android.Fragments.HistoryFragments;
@@ -352,6 +353,19 @@ namespace MALClient.Android.ViewModels
                     RefreshButtonVisibility = false;
                     CurrentStatus = $"{(args as FriendsPageNavArgs).TargetUser.Name}'s friends.";
                     MainNavigationRequested?.Invoke(new FriendsPageFragment(args as FriendsPageNavArgs));
+                    break;
+                case PageIndex.PageClubIndex:
+                    HideSearchStuff();
+                    RefreshButtonVisibility = false;
+                    CurrentStatus = "Clubs";
+                    MainNavigationRequested?.Invoke(new ClubsIndexPageFragment());
+                    break;
+                case PageIndex.PageClubDetails:
+                    HideSearchStuff();
+                    RefreshButtonVisibility = true;
+                    RefreshDataCommand = new RelayCommand(() => ViewModelLocator.ClubDetails.Reload());
+                    CurrentStatus = "Club details";
+                    //MainNavigationRequested?.Invoke(typeof(ClubDetailsPage), args);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(index), index, null);

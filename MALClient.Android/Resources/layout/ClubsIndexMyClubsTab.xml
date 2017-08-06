@@ -3,7 +3,7 @@
              android:layout_width="match_parent"
              android:layout_height="match_parent"
              android:orientation="vertical"
-             android:background="?BrushDeepBackground">
+             android:background="?BrushTextInverted">
   <ListView
     android:id="@+id/List"
     android:layout_width="match_parent"

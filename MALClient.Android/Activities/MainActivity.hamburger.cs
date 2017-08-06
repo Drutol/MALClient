@@ -10,6 +10,7 @@ using Android.Graphics;
 using Android.OS;
 using Android.Runtime;
 using Android.Views;
+using Android.Views.Animations;
 using Android.Views.InputMethods;
 using Android.Widget;
 using Com.Mikepenz.Materialdrawer;
@@ -163,6 +164,11 @@ namespace MALClient.Android.Activities
             wallpapersButton.WithIdentifier((int) PageIndex.PageWallpapers);
             wallpapersButton.WithIcon(Resource.Drawable.icon_image_alt);
 
+            var clubsButton = GetBaseSecondaryItem();
+            clubsButton.WithName("Clubs");
+            clubsButton.WithIdentifier((int) PageIndex.PageClubIndex);
+            clubsButton.WithIcon(Resource.Drawable.icon_club);
+
             //
             var othersSubHeader = new SectionDrawerItem();
             othersSubHeader.WithName("Other");
@@ -205,6 +211,7 @@ namespace MALClient.Android.Activities
                     forumsButton,
                     // messagingButton,
                     historyButton,
+                    clubsButton,
                     // notificationHubButton,
                     wallpapersButton
 
@@ -409,6 +416,9 @@ namespace MALClient.Android.Activities
                 case HamburgerButtons.Notifications:
                     _drawer.SetSelectionAtPosition(-1);
                     return;
+                case HamburgerButtons.Clubs:
+                    id = (long) PageIndex.PageClubIndex;
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(val), val, null);
             }
@@ -453,9 +463,11 @@ namespace MALClient.Android.Activities
                        _drawer.CloseDrawer();
                     }));
 
-                    _settingsHamburgerView.FindViewById(Resource.Id.HamburgerProfileItemSupport).SetOnClickListener(listener);
+                    var support = _settingsHamburgerView.FindViewById(Resource.Id.HamburgerProfileItemSupport);
+                    support.SetOnClickListener(listener);
+                    support.StartAnimation(AnimationUtils.LoadAnimation(this,Resource.Animator.animation_pulse));
 
-                   
+
                     //
                     _settingsHamburgerView.SetOnClickListener(new OnClickListener(view =>
                     {

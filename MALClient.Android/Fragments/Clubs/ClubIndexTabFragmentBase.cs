@@ -20,6 +20,8 @@ namespace MALClient.Android.Fragments.Clubs
     {
         protected readonly ClubIndexViewModel ViewModel = ViewModelLocator.ClubIndex;
 
+        public abstract bool ShowJoinControls { get; }
+
         protected View ContainerTemplate(int i)
         {
             var view = Activity.LayoutInflater.Inflate(Resource.Layout.ClubsIndexItem, null);
@@ -34,17 +36,55 @@ namespace MALClient.Android.Fragments.Clubs
 
         protected void DataTemplateBasic(View view, int i, MalClubEntry arg3, ClubItemViewHolder arg4)
         {
+            arg4.Name.Text = arg3.Name;
+            arg4.Description.Text = arg3.Description;
+            if (string.IsNullOrEmpty(arg3.ImgUrl))
+            {
+                arg4.ImgPlaceholder.Visibility =ViewStates.Gone;
+                arg4.NoImageIcon.Visibility = ViewStates.Visible;
+                arg4.Image.Visibility = ViewStates.Invisible;
+            }
+            else
+            {
+                arg4.ImgPlaceholder.Visibility = ViewStates.Visible;
+                arg4.NoImageIcon.Visibility = ViewStates.Gone;
+                arg4.Image.Visibility = ViewStates.Visible;
+            }
+            arg4.Members.Text = arg3.Members;
 
+            if(string.IsNullOrEmpty(arg3.LastPost))
+                arg4.LastPostSection.Visibility = ViewStates.Gone;
+            else
+            {
+                arg4.LastPostSection.Visibility = ViewStates.Visible;
+                arg4.LastPostDate.Text = arg3.LastPost;
+            }
+
+            if(string.IsNullOrEmpty(arg3.LastCommentDate))
+                arg4.LastCommentSection.Visibility = ViewStates.Gone;
+            else
+            {
+                arg4.LastCommentSection.Visibility = ViewStates.Visible;
+                arg4.LastCommentDate.Text = arg3.LastCommentDate;
+            }
         }
 
         protected void DataTemplateFling(View view, int i, MalClubEntry arg3, ClubItemViewHolder arg4)
         {
-  
+            if (!string.IsNullOrEmpty(arg3.ImgUrl))
+            {
+                if (!arg4.Image.IntoIfLoaded(arg3.ImgUrl))
+                    arg4.Image.Visibility = ViewStates.Invisible;
+            }
         }
 
         protected void DataTemplateFull(View view, int i, MalClubEntry arg3, ClubItemViewHolder arg4)
         {
-
+            if (!string.IsNullOrEmpty(arg3.ImgUrl))
+            {
+                arg4.Image.SetImageResource(global::Android.Resource.Color.Transparent);
+                arg4.Image.Into(arg3.ImgUrl);
+            }
         }
 
         protected ClubItemViewHolder ViewHolderFactory(View view)
@@ -61,6 +101,8 @@ namespace MALClient.Android.Fragments.Clubs
             {
                 _view = view;
             }
+            private ImageView _noImageIcon;
+            private ProgressBar _imgPlaceholder;
             private ImageViewAsync _image;
             private TextView _name;
             private TextView _description;
@@ -69,6 +111,10 @@ namespace MALClient.Android.Fragments.Clubs
             private TextView _lastPostDate;
             private LinearLayout _lastPostSection;
             private TextView _members;
+
+            public ImageView NoImageIcon => _noImageIcon ?? (_noImageIcon = _view.FindViewById<ImageView>(Resource.Id.NoImageIcon));
+
+            public ProgressBar ImgPlaceholder => _imgPlaceholder ?? (_imgPlaceholder = _view.FindViewById<ProgressBar>(Resource.Id.ImgPlaceholder));
 
             public ImageViewAsync Image => _image ?? (_image = _view.FindViewById<ImageViewAsync>(Resource.Id.Image));
 

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Android.Runtime;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using MALClient.Adapters;
@@ -66,9 +67,11 @@ namespace MALClient.XShared.ViewModels.Clubs
             }
         }
 
+        
         public string SearchQuery
         {
             get { return _searchQuery; }
+            [Preserve]
             set
             {
                 _searchQuery = value;
@@ -104,6 +107,7 @@ namespace MALClient.XShared.ViewModels.Clubs
                 _queryType = value;
                 if (QueryType == MalClubQueries.QueryType.All)
                     LoadAllClubs();
+                RaisePropertyChanged();
             }
         }
 

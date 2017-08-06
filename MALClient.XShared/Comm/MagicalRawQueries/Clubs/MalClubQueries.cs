@@ -93,7 +93,7 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Clubs
                         //image scrapping
                     }
 
-                    current.Name = img.Attributes["alt"].Value;
+                    current.Name = WebUtility.HtmlDecode(img.Attributes["alt"].Value);
 
                     current.Description = WebUtility.HtmlDecode(tds[0]
                         .FirstOfDescendantsWithClass("div", "pt4 pb4 word-break").InnerText.Trim());

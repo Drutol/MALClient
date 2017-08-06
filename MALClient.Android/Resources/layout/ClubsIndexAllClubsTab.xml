@@ -1,37 +1,41 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:orientation="vertical"
-              android:background="?BrushDeepBackground">
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             xmlns:app="http://schemas.android.com/apk/res-auto"
+             android:orientation="vertical"
+             android:background="?BrushTextInverted">
   <LinearLayout
-    android:layout_width="match_parent" android:padding="8dp"
-    android:layout_height="wrap_content" android:clipToPadding="false">
-    <FrameLayout
-      android:layout_width="wrap_content" android:layout_marginEnd="5dp" android:padding="2dp" android:elevation="2dp"
-      android:layout_height="wrap_content" android:layout_gravity="bottom" android:layout_marginBottom="8dp">
-      <Spinner
-        android:layout_width="30dp"  android:background="@drawable/icon_filter" android:backgroundTint="?AccentColour"
-        android:layout_height="30dp" android:id="@+id/ComboBox"/>
-    </FrameLayout>
-    <EditText
-      android:layout_width="0dp" android:layout_weight="1"  android:layout_marginEnd="5dp" android:id="@+id/SearchEditBox"
-      android:layout_height="wrap_content"  android:hint="Search..." android:textColorHint="?BrushNoSearchResults" />
-    <Button
-      android:layout_width="wrap_content" style="@style/AccentButtonStyle" android:id="@+id/SearchButton"
-      android:layout_height="wrap_content" android:drawableStart="@drawable/icon_ok" android:drawableTint="#fff"/>
-  </LinearLayout>
-  <View style="@style/Divider"  android:layout_margin="5dp"/>
-  <ListView
-    android:id="@+id/List"
     android:layout_width="match_parent"
-    android:paddingTop="5dp"
-    android:layout_gravity="top"
-    android:layout_height="match_parent"
-    android:paddingBottom="5dp"
-    android:clipToPadding="false"
-    android:choiceMode="none"
-    android:dividerHeight="7dp"
-    android:divider="@color/Transparent" />
-</LinearLayout>
+    android:layout_height="match_parent" android:orientation="vertical">
+    <LinearLayout
+      android:layout_width="match_parent" android:padding="8dp" android:background="?BrushAnimeItemBackground" android:elevation="2dp"
+      android:layout_height="wrap_content" android:clipToPadding="false">
+      <EditText
+        android:layout_width="0dp" android:layout_weight="1"  android:layout_marginEnd="5dp" android:id="@+id/SearchEditBox"
+        android:layout_height="wrap_content"  android:hint="Search..." android:textColorHint="?BrushNoSearchResults" />
+      <ImageButton
+        android:layout_width="40dp" style="@style/AccentButtonStyle" android:id="@+id/SearchButton"
+        android:layout_height="40dp" android:src="@drawable/icon_go" android:tint="#fff"/>
+    </LinearLayout>
+    <ListView android:layout_marginTop="2dp"
+              android:id="@+id/List"
+              android:layout_width="match_parent"
+              android:paddingTop="5dp"
+              android:layout_gravity="top"
+              android:layout_height="match_parent"
+              android:paddingBottom="5dp"
+              android:clipToPadding="false"
+              android:choiceMode="none"
+              android:dividerHeight="7dp"
+              android:divider="@color/Transparent" />
+  </LinearLayout>
+  <android.support.design.widget.FloatingActionButton android:id="@+id/ActionButton"
+                                                      android:layout_width="wrap_content" app:backgroundTint="?AccentColourContrast"
+                                                      android:layout_height="wrap_content" android:src="@drawable/icon_filter" android:clickable="true" android:focusable="true"
+                                                      xmlns:app="http://schemas.android.com/apk/res-auto" app:fabSize="normal"
+                                                      android:tint="#fff"
+                                                      android:layout_marginBottom="16dp"
+                                                      android:layout_gravity="end|bottom"
+                                                      android:layout_marginEnd="16dp" />
+</FrameLayout>

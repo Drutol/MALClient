@@ -3,6 +3,7 @@ using Android.App;
 using Android.Graphics;
 using Android.Runtime;
 using Android.Support.V13.App;
+using Android.Util;
 using Android.Views;
 using Android.Widget;
 using Com.Astuetz;
@@ -68,6 +69,8 @@ namespace MALClient.Android.PagerAdapters
         {
             var txt = new TextView(p0.Context);
             txt.SetTextColor(new Color(ResourceExtension.BrushText));
+            txt.SetTextSize(ComplexUnitType.Sp, 18);
+            txt.LayoutParameters = new LinearLayout.LayoutParams(-2,-2) {Gravity = GravityFlags.CenterVertical};
             txt.Tag = p1;
             switch (p1)
             {

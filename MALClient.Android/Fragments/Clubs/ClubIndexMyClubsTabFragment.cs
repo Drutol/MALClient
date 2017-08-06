@@ -9,6 +9,7 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using GalaSoft.MvvmLight.Helpers;
 using MALClient.Models.Models.MalSpecific;
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Clubs;
@@ -19,15 +20,22 @@ namespace MALClient.Android.Fragments.Clubs
     {
         protected override void Init(Bundle savedInstanceState)
         {
-            throw new NotImplementedException();
+
         }
 
         protected override void InitBindings()
         {
-            List.InjectFlingAdapter(ViewModel.MyClubs, ViewHolderFactory,DataTemplateFull,DataTemplateFling,DataTemplateBasic,ContainerTemplate);
+            Bindings.Add(this.SetBinding(() => ViewModel.MyClubs).WhenSourceChanges(() =>
+            {
+                if (ViewModel.MyClubs == null)
+                    List.Adapter = null;
+                else
+                    List.InjectFlingAdapter(ViewModel.MyClubs, ViewHolderFactory, DataTemplateFull, DataTemplateFling, DataTemplateBasic, ContainerTemplate);
+            }));
+            
         }
 
-        public override int LayoutResourceId { get; }
+        public override int LayoutResourceId => Resource.Layout.ClubsIndexMyClubsTab;
 
         #region Views
 
@@ -36,5 +44,7 @@ namespace MALClient.Android.Fragments.Clubs
         public ListView List => _list ?? (_list = FindViewById<ListView>(Resource.Id.List));
 
         #endregion
+
+        public override bool ShowJoinControls { get; } = false;
     }
 }

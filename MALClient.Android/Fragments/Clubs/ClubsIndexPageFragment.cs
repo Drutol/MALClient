@@ -11,22 +11,39 @@ using Android.Support.V4.View;
 using Android.Views;
 using Android.Widget;
 using Com.Astuetz;
+using GalaSoft.MvvmLight.Helpers;
+using MALClient.Android.BindingConverters;
+using MALClient.Android.Listeners;
+using MALClient.Android.PagerAdapters;
+using MALClient.XShared.ViewModels;
+using MALClient.XShared.ViewModels.Clubs;
 
 namespace MALClient.Android.Fragments.Clubs
 {
     public class ClubsIndexPageFragment : MalFragmentBase
     {
+        private static int _lastPivotIndex;
+        private ClubIndexViewModel ViewModel = ViewModelLocator.ClubIndex;
+
         protected override void Init(Bundle savedInstanceState)
         {
-            throw new NotImplementedException();
+            ViewModel.NavigatedTo();
         }
 
         protected override void InitBindings()
         {
-            throw new NotImplementedException();
+            Bindings.Add(
+                this.SetBinding(() => ViewModel.Loading,
+                    () => LoadingSpinner.Visibility).ConvertSourceToTarget(Converters.BoolToVisibility));
+
+            Pivot.Adapter = new ClubsIndexPagerAdapter(FragmentManager);
+            TabStrip.SetViewPager(Pivot);
+            Pivot.SetCurrentItem(_lastPivotIndex,false);
+
+            Pivot.AddOnPageChangeListener(new OnPageChangedListener(i => _lastPivotIndex = i));
         }
 
-        public override int LayoutResourceId { get; }
+        public override int LayoutResourceId => Resource.Layout.ClubsIndexPage;
 
         #region Views
 

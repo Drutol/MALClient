@@ -32,7 +32,7 @@ namespace MALClient.XShared.Utils
         public static string UserName
         {
             get { return _userName; }
-            private set { _userName = value.Trim(); }
+            private set { _userName = value?.Trim(); }
         }
 
         public static string Password { get; set; }

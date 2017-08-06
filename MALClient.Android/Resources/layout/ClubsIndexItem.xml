@@ -1,0 +1,87 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:clickable="true"
+             android:focusable="true"
+             android:elevation="2dp"
+             android:foreground="?selectableItemBackground"
+             android:orientation="vertical"
+             android:background="?BrushAnimeItemBackground">
+
+  <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" android:orientation="horizontal">
+    <FrameLayout
+      android:layout_width="wrap_content" android:paddingEnd="2dp" android:clipToPadding="false"
+      android:layout_height="wrap_content">
+      <FFImageLoading.Views.ImageViewAsync android:id="@+id/Image" android:background="?BrushAnimeItemBackground" android:elevation="2dp"
+                 android:layout_width="100dp" android:adjustViewBounds="true" android:scaleType="centerCrop"
+                 android:layout_height="wrap_content"/>
+    </FrameLayout>
+    <FrameLayout
+      android:layout_width="0dp" android:layout_marginEnd="2dp" android:padding="4dp" android:elevation="2dp" android:clipToPadding="false"
+      android:layout_height="match_parent" android:layout_weight="1" android:orientation="vertical">
+      <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" android:orientation="vertical">
+        <TextView
+          android:layout_width="wrap_content" android:id="@+id/Name" tools:text="Some very fancy club nyan!"
+          android:layout_height="wrap_content" android:fontFamily="light" android:textColor="?BrushText"  android:maxLines="2" android:ellipsize="end"/>
+        <View style="@style/Divider" android:layout_margin="5dp"/>
+        <TextView
+          android:layout_width="wrap_content" android:id="@+id/Description" android:textSize="@dimen/FontSizeSemiNormal" tools:text="This club is very awesome and now I'mtrying this thing to ellipsize itself because testing hahah!" android:maxLines="3" android:ellipsize="end"
+          android:layout_height="wrap_content" android:fontFamily="@string/font_family_light" android:textColor="?BrushText"/>
+      </LinearLayout>
+      <LinearLayout
+        android:layout_width="match_parent" android:layout_gravity="bottom" android:orientation="horizontal"
+        android:layout_height="wrap_content">
+        <FrameLayout
+          android:layout_width="0dp" android:layout_weight="1"
+          android:layout_height="match_parent">
+          <LinearLayout android:id="@+id/LastCommentSection"
+                        android:layout_width="wrap_content" android:layout_gravity="start|bottom" android:background="@drawable/border_accent_underline"
+                        android:layout_height="wrap_content" android:orientation="vertical" android:padding="2dp" android:gravity="center_horizontal">
+            <TextView android:id="@+id/LastCommentDate"
+                      android:layout_width="wrap_content" android:textColor="?BrushText" android:fontFamily="@string/font_family_light" android:textSize="@dimen/FontSizeSemiNormal"
+                      android:layout_height="wrap_content" tools:text="Aug 3, 5:22 PM"/>
+            <TextView
+              android:layout_width="wrap_content" android:text="Last comment" android:textSize="@dimen/FontSizeTiny" android:fontFamily="@string/font_family_light" android:textColor="?BrushText"
+              android:layout_height="wrap_content" />
+          </LinearLayout>
+        </FrameLayout>
+        <FrameLayout
+          android:layout_width="0dp" android:layout_weight="1"
+          android:layout_height="match_parent">
+          <LinearLayout android:id="@+id/LastPostSection"
+                        android:layout_width="wrap_content" android:layout_gravity="end|bottom" android:background="@drawable/border_accent_underline"
+                        android:layout_height="wrap_content" android:orientation="vertical" android:padding="2dp" android:gravity="center_horizontal">
+            <TextView android:id="@+id/LastPostDate"
+                      android:layout_width="wrap_content" android:textColor="?BrushText" android:fontFamily="@string/font_family_light" android:textSize="@dimen/FontSizeSemiNormal"
+                      android:layout_height="wrap_content" tools:text="Aug 3, 5:22 PM"/>
+            <TextView
+              android:layout_width="wrap_content" android:text="Last post" android:textSize="@dimen/FontSizeTiny" android:fontFamily="@string/font_family_light" android:textColor="?BrushText"
+              android:layout_height="wrap_content" />
+          </LinearLayout>
+        </FrameLayout>
+
+      </LinearLayout>
+    </FrameLayout>
+    <FrameLayout
+      android:layout_width="wrap_content" android:padding="4dp" android:background="?BrushAnimeItemInnerBackground"
+      android:layout_height="match_parent">
+      <LinearLayout
+        android:layout_width="wrap_content" android:layout_gravity="center" android:background="@drawable/border_accent_underline"
+        android:layout_height="wrap_content" android:orientation="vertical" android:padding="2dp" android:gravity="center_horizontal">
+        <TextView android:id="@+id/Members"
+                  android:layout_width="wrap_content" android:textColor="?BrushText" android:fontFamily="@string/font_family_light" android:textSize="@dimen/FontSizeHuge"
+                  android:layout_height="wrap_content" tools:text="44"/>
+        <TextView
+          android:layout_width="wrap_content" android:text="Members" android:textSize="@dimen/FontSizeSmall" android:fontFamily="@string/font_family_light" android:textColor="?BrushText"
+          android:layout_height="wrap_content" />
+      </LinearLayout>
+    </FrameLayout>
+  </LinearLayout>
+
+</FrameLayout>

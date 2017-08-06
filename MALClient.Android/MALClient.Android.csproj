@@ -239,6 +239,7 @@
     <Compile Include="Adapters\PagerAdapters\AnimeDetailsPagerAdapter.cs" />
     <Compile Include="Adapters\PagerAdapters\ArticlesPagePagerAdapter.cs" />
     <Compile Include="Adapters\PagerAdapters\CalendarPagerAdapter.cs" />
+    <Compile Include="Adapters\PagerAdapters\ClubsIndexPagerAdapter.cs" />
     <Compile Include="Adapters\PagerAdapters\ForumIndexPagerAdapter.cs" />
     <Compile Include="Adapters\PagerAdapters\HistoryPagerAdapter.cs" />
     <Compile Include="Adapters\PagerAdapters\PersonDetailsPagerAdapter.cs" />
@@ -294,6 +295,10 @@
     </Compile>
     <Compile Include="Fragments\CalendarFragments\CalendarPageSummaryTabFragment.cs" />
     <Compile Include="Fragments\CalendarFragments\CalendarPageTabFragment.cs" />
+    <Compile Include="Fragments\Clubs\ClubIndexAllClubsTabFragment.cs" />
+    <Compile Include="Fragments\Clubs\ClubIndexMyClubsTabFragment.cs" />
+    <Compile Include="Fragments\Clubs\ClubIndexTabFragmentBase.cs" />
+    <Compile Include="Fragments\Clubs\ClubsIndexPageFragment.cs" />
     <Compile Include="Fragments\DetailsFragments\CharacterDetailsPageFragment.cs" />
     <Compile Include="Fragments\DetailsFragments\PersonDetailsPageVaTabFragment.cs" />
     <Compile Include="Fragments\DetailsFragments\PersonDetailsPageFragment.cs" />
@@ -1203,6 +1208,18 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\background_forum_board_avatar.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\ClubsIndexPage.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\ClubsIndexMyClubsTab.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\ClubsIndexAllClubsTab.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\ClubsIndexItem.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

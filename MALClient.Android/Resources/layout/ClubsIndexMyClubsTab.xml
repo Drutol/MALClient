@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:orientation="vertical"
+             android:background="?BrushDeepBackground">
+  <ListView
+    android:id="@+id/List"
+    android:layout_width="match_parent"
+    android:paddingTop="5dp"
+    android:layout_gravity="top"
+    android:layout_height="match_parent"
+    android:paddingBottom="5dp"
+    android:clipToPadding="false"
+    android:choiceMode="none"
+    android:dividerHeight="7dp"
+    android:divider="@color/Transparent" />
+</FrameLayout>

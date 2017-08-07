@@ -10,6 +10,7 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using FFImageLoading.Views;
+using MALClient.Android.Listeners;
 using MALClient.Models.Models.MalSpecific;
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Clubs;
@@ -20,12 +21,14 @@ namespace MALClient.Android.Fragments.Clubs
     {
         protected readonly ClubIndexViewModel ViewModel = ViewModelLocator.ClubIndex;
 
-        public abstract bool ShowJoinControls { get; }
-
         protected View ContainerTemplate(int i)
         {
             var view = Activity.LayoutInflater.Inflate(Resource.Layout.ClubsIndexItem, null);
             view.Click += ViewOnClick;
+            view.FindViewById(Resource.Id.JoinButton).SetOnClickListener(new OnClickListener(view1 =>
+            {
+                ViewModel.JoinClubCommand.Execute(view1.Tag.Unwrap<MalClubEntry>());
+            }));
             return view;
         }
 
@@ -66,6 +69,19 @@ namespace MALClient.Android.Fragments.Clubs
             {
                 arg4.LastCommentSection.Visibility = ViewStates.Visible;
                 arg4.LastCommentDate.Text = arg3.LastCommentDate;
+            }
+
+            if (arg3.JoinType != MalClubEntry.JoinAction.None)
+            {
+                arg4.JoinButton.Visibility = ViewStates.Visible;
+                arg4.RightSection.LayoutParameters.Width = DimensionsHelper.DpToPx(85);
+                arg4.JoinButton.Text = arg3.JoinButtonText;
+                arg4.JoinButton.Tag = view.Tag;
+            }
+            else
+            {
+                arg4.JoinButton.Visibility = ViewStates.Gone;
+                arg4.RightSection.LayoutParameters.Width = DimensionsHelper.DpToPx(75);
             }
         }
 
@@ -111,6 +127,8 @@ namespace MALClient.Android.Fragments.Clubs
             private TextView _lastPostDate;
             private LinearLayout _lastPostSection;
             private TextView _members;
+            private Button _joinButton;
+            private FrameLayout _rightSection;
 
             public ImageView NoImageIcon => _noImageIcon ?? (_noImageIcon = _view.FindViewById<ImageView>(Resource.Id.NoImageIcon));
 
@@ -131,6 +149,10 @@ namespace MALClient.Android.Fragments.Clubs
             public LinearLayout LastPostSection => _lastPostSection ?? (_lastPostSection = _view.FindViewById<LinearLayout>(Resource.Id.LastPostSection));
 
             public TextView Members => _members ?? (_members = _view.FindViewById<TextView>(Resource.Id.Members));
+
+            public Button JoinButton => _joinButton ?? (_joinButton = _view.FindViewById<Button>(Resource.Id.JoinButton));
+
+            public FrameLayout RightSection => _rightSection ?? (_rightSection = _view.FindViewById<FrameLayout>(Resource.Id.RightSection));
 
         }
     }

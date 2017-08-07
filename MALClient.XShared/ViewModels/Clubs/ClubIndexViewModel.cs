@@ -28,7 +28,7 @@ namespace MALClient.XShared.ViewModels.Clubs
         private List<MalClubEntry> _lastQueryClubs;
         private bool _emptyNoticeVisibility;
         private int _currentPage = 1;
-        private bool _moreButtonVisibility;
+        private bool _moreButtonVisibility = true;
         private MalClubQueries.QueryType _queryType = MalClubQueries.QueryType.My;
         private ICommand _joinClubCommand;
 
@@ -111,6 +111,8 @@ namespace MALClient.XShared.ViewModels.Clubs
             }
         }
 
+        
+        [Preserve]
         public MalClubQueries.SearchCategory SearchCategory { get; set; }
 
         public async void NavigatedTo(bool force = false)
@@ -134,19 +136,26 @@ namespace MALClient.XShared.ViewModels.Clubs
                 Loading = true;
                 _allClubs = await MalClubQueries.GetClubs(MalClubQueries.QueryType.All, 0);
                 Loading = false;
-
-                Clubs = new SmartObservableCollection<MalClubEntry>(_allClubs);
+                if (_allClubs != null && _allClubs.Any())
+                {
+                    Clubs = new SmartObservableCollection<MalClubEntry>(_allClubs);
+                    EmptyNoticeVisibility = false;
+                }
+                else
+                {
+                    Clubs = new SmartObservableCollection<MalClubEntry>();
+                    EmptyNoticeVisibility = true;
+                }
             }
         }
 
         public ICommand SearchCommand => new RelayCommand( async () =>
         {
-            if (SearchQuery.Length <= 2)
-            {
-                _dialogProvider.ShowMessageDialog("Invalid query.","Serach phrase needs to be at least 3 characters long.");
-                return;
-            }
             _currentPage = 1;
+#if ANDROID
+            Clubs.Clear();
+            EmptyNoticeVisibility = false;
+#endif
             Loading = true;
             _lastQueryClubs = await MalClubQueries.GetClubs(QueryType, 0, SearchCategory, SearchQuery);
             Loading = false;
@@ -161,14 +170,15 @@ namespace MALClient.XShared.ViewModels.Clubs
                 Clubs = new SmartObservableCollection<MalClubEntry>();
                 MoreButtonVisibility = false;
                 EmptyNoticeVisibility = true;
-
             }
         });
 
         public ICommand MoreCommand => new RelayCommand( async () =>
         {
             _currentPage++;
+            Loading = true;
             var clubs = await MalClubQueries.GetClubs(QueryType, _currentPage, SearchCategory, SearchQuery);
+            Loading = false;
             if (clubs != null)
             {
                 _lastQueryClubs.AddRange(clubs);

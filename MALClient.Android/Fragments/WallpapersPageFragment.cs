@@ -57,23 +57,23 @@ namespace MALClient.Android.Fragments
                     .ConvertSourceToTarget(Converters.BoolToVisibility));
 
             WallpapersPageList.InjectFlingAdapter(_wallpapers,DataTemplateFull,DataTemplateFling,ContainerTemplate,DataTemplateBasic  );
-
             if (Build.VERSION.SdkInt < BuildVersionCodes.M)
             {
                 WallpapersPageActionButtonLoadMore.Show();
             }
             else
             {
+                WallpapersPageActionButtonLoadMore.Visibility = ViewStates.Gone;
                 WallpapersPageList.SetOnScrollChangeListener(new ScrollListener(i =>
                 {
+                    if (ViewModel.LoadingWallpapersVisibility)
+                        return;
                     if (WallpapersPageList.Adapter.Count - WallpapersPageList.FirstVisiblePosition <= 2)
-                        WallpapersPageActionButtonLoadMore.Show();
-                    else
-                        WallpapersPageActionButtonLoadMore.Hide();
+                        ViewModel.GoForwardCommand.Execute(null);
                 }));
             }
 
-                        
+
             Bindings.Add(this.SetBinding(() => ViewModel.Wallpapers)
                 .WhenSourceChanges(() =>
                 {
@@ -120,6 +120,7 @@ namespace MALClient.Android.Fragments
             var view = Activity.LayoutInflater.Inflate(Resource.Layout.WallpapersPageItem, null);
             view.FindViewById(Resource.Id.WallpapersPageItemRootContainer).SetOnLongClickListener(new OnLongClickListener(OnLongClickAction));
             view.FindViewById(Resource.Id.WallpapersPageItemRootContainer).SetOnClickListener(new OnClickListener(OnClick));
+            view.FindViewById(Resource.Id.WallpapersPageItemResolution).Visibility = ViewStates.Gone;
             return view;
         }
 
@@ -127,59 +128,45 @@ namespace MALClient.Android.Fragments
 
         private void DataTemplateFling(View view, int i2, WallpaperItemViewModel arg3)
         {
-            var img = view.FindViewById<ImageViewAsync>(Resource.Id.WallpapersPageItemImage);
-            var placeholder = view.FindViewById(Resource.Id.WallpapersPageItemImgPlaceholder);
-            //if (img.IntoIfLoaded(arg3.Data.FileUrl,arg3.IsBlurred ? new BlurredTransformation(30) : null ))
-            //{
-            //    img.Visibility = ViewStates.Visible;
-            //    placeholder.Visibility = ViewStates.Gone;
-            //}
-            //else
-            //{
-            //    img.Visibility = ViewStates.Gone;
-            //    placeholder.Visibility = ViewStates.Visible;
-            //}
-            img.Visibility = ViewStates.Invisible;
-            placeholder.Visibility = ViewStates.Visible;
+            var img = view.FindViewById<ImageViewAsync>(Resource.Id.WallpapersPageItemImage);        
+            if (img.IntoIfLoaded(arg3.Data.FileUrl, arg3.IsBlurred ? new BlurredTransformation(40) : null))
+                img.Visibility = ViewStates.Gone;
         }
 
         private void DataTemplateFull(View view, int i2, WallpaperItemViewModel arg3)
         {
             var img = view.FindViewById<ImageViewAsync>(Resource.Id.WallpapersPageItemImage);
-            var placeholder = view.FindViewById(Resource.Id.WallpapersPageItemImgPlaceholder);
             if (img.Tag == null || (string) img.Tag != arg3.Data.FileUrl)
             {
                 img.SetImageResource(global::Android.Resource.Color.Transparent);
-                img.Into(arg3.Data.FileUrl, arg3.IsBlurred ? new BlurredTransformation(40) : null, OnCompleted, 350);
-                placeholder.Visibility = ViewStates.Visible;
+                img.Into(arg3.Data.Thumb, arg3.IsBlurred ? new BlurredTransformation(40) : null,null, 350);
             }
         }
 
-        private void OnCompleted(ImageViewAsync imageViewAsync)
-        {
-            Activity?.RunOnUiThread(() =>
-            {
-                try
-                {
-                    var parent = (imageViewAsync.Parent as View);
-                    parent.FindViewById(Resource.Id.WallpapersPageItemImgPlaceholder).Visibility = ViewStates.Gone;
-                    var vm = parent.Tag.Unwrap<WallpaperItemViewModel>();
-                    if (!string.IsNullOrEmpty(vm.Resolution))
-                        return;
+        //private void OnCompleted(ImageViewAsync imageViewAsync)
+        //{
+        //    Activity?.RunOnUiThread(() =>
+        //    {
+        //        try
+        //        {
+        //            var parent = (imageViewAsync.Parent as View);
+        //            var vm = parent.Tag.Unwrap<WallpaperItemViewModel>();
+        //            if (!string.IsNullOrEmpty(vm.Resolution))
+        //                return;
 
-                    var bounds = imageViewAsync.Drawable.Bounds;
-                    vm.Resolution = $"{bounds.Right}x{bounds.Bottom}";
-                    parent.FindViewById<TextView>(Resource.Id.WallpapersPageItemResolution).Text = vm.Resolution;
+        //            var bounds = imageViewAsync.Drawable.Bounds;
+        //            vm.Resolution = $"{bounds.Right}x{bounds.Bottom}";
+        //            parent.FindViewById<TextView>(Resource.Id.WallpapersPageItemResolution).Text = vm.Resolution;
 
-                    imageViewAsync.Visibility = ViewStates.Visible;
-                }
-                catch (Exception)
-                {
-                    // user navigated out and image has loaded in background
-                }
+        //            imageViewAsync.Visibility = ViewStates.Visible;
+        //        }
+        //        catch (Exception)
+        //        {
+        //            // user navigated out and image has loaded in background
+        //        }
                 
-            });
-        }
+        //    });
+        //}
 
         private void OnLongClickAction(View view)
         {

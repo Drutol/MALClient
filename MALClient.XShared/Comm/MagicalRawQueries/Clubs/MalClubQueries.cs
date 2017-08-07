@@ -54,11 +54,7 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Clubs
                 var response =
                     await client.GetAsync(
                         type == QueryType.All
-                            ? (category == SearchCategory.All
-                                ? (string.IsNullOrEmpty(searchQuery)
-                                    ? $"/clubs.php?p={page}"
-                                    : $"/clubs.php?catid=0&cn={searchQuery}&action=find")
-                                : $"/clubs.php?catid={(int) category}&cn={searchQuery}&action=find")
+                            ? $"/clubs.php?catid={(int) category}{(string.IsNullOrEmpty(searchQuery) || searchQuery.Length < 2 ? "" :$"&cn={searchQuery}&action=find")}&p={page}"
                             : "/clubs.php?action=myclubs");
 
                 if (!response.IsSuccessStatusCode)

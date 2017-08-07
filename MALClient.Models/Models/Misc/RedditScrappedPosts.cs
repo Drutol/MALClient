@@ -25,6 +25,7 @@ namespace MALClient.Models.Models.Misc
         public string FileUrl { get; set; }
         public bool Nsfw { get; set; }
         public int Upvotes { get; set; }
+        public string Thumb { get; set; }
         public DateTime DateTime { get; set; }
         public WallpaperSources Source { get; set; }
 

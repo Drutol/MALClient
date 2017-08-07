@@ -130,7 +130,7 @@ namespace MALClient.XShared.Comm.Anime
 
             lock (LastThings)
             {
-                if(!LastThings.ContainsKey(_subreddit))
+                if (!LastThings.ContainsKey(_subreddit))
                     LastThings[_subreddit] = new List<string>();
                 LastThings[_subreddit].Insert(_page, data.data.after as string);
             }
@@ -141,15 +141,29 @@ namespace MALClient.XShared.Comm.Anime
                         child =>
                             Regex.IsMatch(child.data.url,
                                 @"(http:|https:)\/\/(i.imgur.com|cdn.awwni.me|i.redd.it|i.reddituploads.com)\/(?!a\/).*"))
-                    .Select(child => new AnimeWallpaperData
+                    .Select(child =>
                     {
-                        FileUrl = WebUtility.HtmlDecode(child.data.url),
-                        Title = child.data.title,
-                        Nsfw = child.data.over_18,
-                        Upvotes = child.data.ups,
-                        RedditUrl = "https://www.reddit.com" + child.data.permalink,
-                        Source = _source,
-                        DateTime = Utils.Utilities.ConvertFromUnixTimestamp(child.data.created_utc)
+                        var wallpaperData = new AnimeWallpaperData
+                        {
+                            FileUrl = WebUtility.HtmlDecode(child.data.url),
+                            Nsfw = child.data.over_18,
+                            Title = child.data.title,
+                            Upvotes = child.data.ups,
+                            RedditUrl = "https://www.reddit.com" + child.data.permalink,
+                            Source = _source,
+                            DateTime = Utils.Utilities.ConvertFromUnixTimestamp(child.data.created_utc)
+                        };
+
+                        if (child.data.preview?.images.Any() ?? false)
+                        {
+                            wallpaperData.Thumb = WebUtility.HtmlDecode(child.data.preview?.images.First().resolutions.Last().url);
+                        }
+                        else
+                        {
+                            wallpaperData.Thumb = child.data.thumbnail;
+                        }
+                        
+                        return wallpaperData;
                     }).ToList();
         }
     }

@@ -45,6 +45,5 @@ namespace MALClient.Android.Fragments.Clubs
 
         #endregion
 
-        public override bool ShowJoinControls { get; } = false;
     }
 }

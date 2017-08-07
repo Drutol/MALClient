@@ -16,16 +16,20 @@ using Com.Mikepenz.Materialdrawer;
 using Com.Mikepenz.Materialdrawer.Model.Interfaces;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Helpers;
+using MALClient.Android.BindingConverters;
 using MALClient.Android.Listeners;
 using MALClient.Android.Resources;
 using MALClient.Models.Enums;
 using MALClient.XShared.Comm.MagicalRawQueries.Clubs;
 using MALClient.XShared.ViewModels;
+using SearchView = Android.Support.V7.Widget.SearchView;
 
 namespace MALClient.Android.Fragments.Clubs
 {
     public class ClubIndexAllClubsTabFragment : ClubIndexTabFragmentBase
     {
+        private bool _settingQuery;
+
         protected override void Init(Bundle savedInstanceState)
         {
 
@@ -36,9 +40,15 @@ namespace MALClient.Android.Fragments.Clubs
             Bindings.Add(this.SetBinding(() => ViewModel.Clubs).WhenSourceChanges(() =>
             {
                 if (ViewModel.MyClubs == null)
+                {
+                    List.ClearFlingAdapter();
                     List.Adapter = null;
+                }
                 else
+                {
+                    List.ClearFlingAdapter();
                     List.InjectFlingAdapter(ViewModel.Clubs, ViewHolderFactory, DataTemplateFull, DataTemplateFling, DataTemplateBasic, ContainerTemplate);
+                }
             }));
 
             Bindings.Add(this.SetBinding(() => ViewModel.QueryType).WhenSourceChanges(async () =>
@@ -51,12 +61,56 @@ namespace MALClient.Android.Fragments.Clubs
             }));
 
             Bindings.Add(
-                this.SetBinding(() => ViewModel.SearchQuery,
-                    () => SearchEditBox.Text,BindingMode.TwoWay));
+                this.SetBinding(() => ViewModel.EmptyNoticeVisibility,
+                    () => EmptyNotice.Visibility).ConvertSourceToTarget(Converters.BoolToVisibility));
 
-            SearchButton.SetOnClickListener(new OnClickListener(v => ViewModel.SearchCommand.Execute(null)));
+            Bindings.Add(this.SetBinding(() => ViewModel.SearchQuery).WhenSourceChanges(() =>
+            {
+                if(!_settingQuery)
+                    SearchView.SetQuery(ViewModel.SearchQuery,false);
+                if(ViewModel.SearchQuery?.Length > 2)
+                    ActionButton.Show();
+                else
+                    ActionButton.Hide();
+            }));
+
+            if (Build.VERSION.SdkInt >= BuildVersionCodes.M)
+            {
+                List.SetOnScrollChangeListener(new ScrollListener(i =>
+                {
+                    if (ViewModel.Loading || !ViewModel.MoreButtonVisibility || List.Adapter == null)
+                        return;
+                    if (List.Adapter.Count - List.FirstVisiblePosition <= 2)
+                        ViewModel.MoreCommand.Execute(null);
+                }));
+            }
+
+
+            SearchView.FindViewById(Resource.Id.search_close_btn).Alpha = 1;
+            SearchView.FindViewById(Resource.Id.search_close_btn).Clickable = true;
+            SearchView.FindViewById(Resource.Id.search_close_btn).SetOnClickListener(new OnClickListener(view =>
+            {
+                SearchView.SetQuery("",false);
+                ViewModel.SearchCommand.Execute(null);
+            }));
+
+            SearchView.QueryTextChange += SearchViewOnQueryTextChange;
+            SearchView.QueryTextSubmit += SearchViewOnQueryTextSubmit;
 
             ActionButton.SetOnClickListener(new OnClickListener(v=> OpenFiltersDrawer()));
+        }
+
+        private void SearchViewOnQueryTextSubmit(object sender, SearchView.QueryTextSubmitEventArgs queryTextSubmitEventArgs)
+        {
+            ViewModel.SearchCommand.Execute(null);
+        }
+
+        private void SearchViewOnQueryTextChange(object sender, SearchView.QueryTextChangeEventArgs queryTextChangeEventArgs)
+        {
+            _settingQuery = true;
+            ViewModel.SearchQuery = queryTextChangeEventArgs.NewText;
+            _settingQuery = false;
+            queryTextChangeEventArgs.Handled = true;
         }
 
         public override int LayoutResourceId => Resource.Layout.ClubsIndexAllClubsTab;
@@ -108,7 +162,8 @@ namespace MALClient.Android.Fragments.Clubs
                 Resource.Drawable.icon_filter);
             _rightDrawer.OnDrawerItemClickListener = new HamburgerItemClickListener((view, i, arg3) =>
             {
-                ViewModel.SearchCategory = (MalClubQueries.SearchCategory)arg3.Identifier;           
+                ViewModel.SearchCategory = (MalClubQueries.SearchCategory)arg3.Identifier;
+                ViewModel.SearchCommand.Execute(null);
 
                 _rightDrawer.OnDrawerItemClickListener = null;
                 _rightDrawer.CloseDrawer();
@@ -128,21 +183,20 @@ namespace MALClient.Android.Fragments.Clubs
 
         #region Views
 
-        private EditText _searchEditBox;
-        private ImageButton _searchButton;
+        private SearchView _searchView;
         private ListView _list;
         private FloatingActionButton _actionButton;
+        private TextView _emptyNotice;
 
-        public EditText SearchEditBox => _searchEditBox ?? (_searchEditBox = FindViewById<EditText>(Resource.Id.SearchEditBox));
-
-        public ImageButton SearchButton => _searchButton ?? (_searchButton = FindViewById<ImageButton>(Resource.Id.SearchButton));
+        public SearchView SearchView => _searchView ?? (_searchView = FindViewById<SearchView>(Resource.Id.SearchView));
 
         public ListView List => _list ?? (_list = FindViewById<ListView>(Resource.Id.List));
 
         public FloatingActionButton ActionButton => _actionButton ?? (_actionButton = FindViewById<FloatingActionButton>(Resource.Id.ActionButton));
 
+        public TextView EmptyNotice => _emptyNotice ?? (_emptyNotice = FindViewById<TextView>(Resource.Id.EmptyNotice));
+
         #endregion
 
-        public override bool ShowJoinControls { get; } = true;
     }
 }

@@ -11,12 +11,13 @@
     <LinearLayout
       android:layout_width="match_parent" android:padding="8dp" android:background="?BrushAnimeItemBackground" android:elevation="2dp"
       android:layout_height="wrap_content" android:clipToPadding="false">
-      <EditText
-        android:layout_width="0dp" android:layout_weight="1"  android:layout_marginEnd="5dp" android:id="@+id/SearchEditBox"
-        android:layout_height="wrap_content"  android:hint="Search..." android:textColorHint="?BrushNoSearchResults" />
-      <ImageButton
-        android:layout_width="40dp" style="@style/AccentButtonStyle" android:id="@+id/SearchButton"
-        android:layout_height="40dp" android:src="@drawable/icon_go" android:tint="#fff"/>
+      <android.support.v7.widget.SearchView android:id="@+id/SearchView"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_gravity="end"
+                                            xmlns:app="http://schemas.android.com/apk/res-auto"
+                                            app:showAsAction="collapseActionView|always"
+                                            app:iconifiedByDefault="false"/>
     </LinearLayout>
     <ListView android:layout_marginTop="2dp"
               android:id="@+id/List"
@@ -38,4 +39,7 @@
                                                       android:layout_marginBottom="16dp"
                                                       android:layout_gravity="end|bottom"
                                                       android:layout_marginEnd="16dp" />
+  <TextView android:gravity="center"
+            android:layout_width="wrap_content" android:id="@+id/EmptyNotice"
+            android:layout_height="wrap_content" android:fontFamily="@string/font_family_light" android:text="Nothing to show here..." android:layout_gravity="center" android:textColor="?AccentColour"/>
 </FrameLayout>

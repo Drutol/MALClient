@@ -58,7 +58,7 @@
                         android:layout_width="wrap_content" android:layout_gravity="start|bottom" android:background="@drawable/border_accent_underline"
                         android:layout_height="wrap_content" android:orientation="vertical" android:padding="2dp" android:gravity="center_horizontal">
             <TextView android:id="@+id/LastCommentDate"
-                      android:layout_width="wrap_content" android:textColor="?BrushText" android:fontFamily="@string/font_family_light" android:textSize="@dimen/FontSizeSemiNormal"
+                      android:layout_width="wrap_content" android:textColor="?BrushText" android:fontFamily="@string/font_family_light" android:textSize="@dimen/FontSizeSemiNormal" android:gravity="center"
                       android:layout_height="wrap_content" tools:text="Aug 3, 5:22 PM"/>
             <TextView
               android:layout_width="wrap_content" android:text="Last comment" android:textSize="@dimen/FontSizeTiny" android:fontFamily="@string/font_family_light" android:textColor="?BrushText"
@@ -72,7 +72,7 @@
                         android:layout_width="wrap_content" android:layout_gravity="end|bottom" android:background="@drawable/border_accent_underline"
                         android:layout_height="wrap_content" android:orientation="vertical" android:padding="2dp" android:gravity="center_horizontal">
             <TextView android:id="@+id/LastPostDate"
-                      android:layout_width="wrap_content" android:textColor="?BrushText" android:fontFamily="@string/font_family_light" android:textSize="@dimen/FontSizeSemiNormal"
+                      android:layout_width="wrap_content" android:textColor="?BrushText" android:fontFamily="@string/font_family_light" android:textSize="@dimen/FontSizeSemiNormal" android:gravity="center"
                       android:layout_height="wrap_content" tools:text="Aug 3, 5:22 PM"/>
             <TextView
               android:layout_width="wrap_content" android:text="Last post" android:textSize="@dimen/FontSizeTiny" android:fontFamily="@string/font_family_light" android:textColor="?BrushText"
@@ -96,7 +96,7 @@
                   android:layout_height="wrap_content" />
         <Button android:layout_marginTop="15dp" style="@style/AccentButtonStyle" tools:text="Request" android:textSize="@dimen/FontSizeSemiNormal"
                 android:layout_width="wrap_content" android:background="@drawable/inc_dec_btn_backgroud"
-                android:layout_height="wrap_content" android:id="@+id/JoinButton"/>
+                android:layout_height="wrap_content" android:id="@+id/JoinButton" android:textColor="?BrushText"/>
       </LinearLayout>
     </FrameLayout>
   </LinearLayout>

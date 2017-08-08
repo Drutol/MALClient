@@ -7,6 +7,7 @@ using Android.Util;
 using Android.Views;
 using Android.Widget;
 using Com.Astuetz;
+using Com.Mikepenz.Materialdrawer;
 using MALClient.Android.Fragments;
 using MALClient.Android.Fragments.Clubs;
 using MALClient.Android.Resources;
@@ -21,10 +22,10 @@ namespace MALClient.Android.PagerAdapters
         {
         }
 
-        public ClubsIndexPagerAdapter(FragmentManager fm) : base(fm)
+        public ClubsIndexPagerAdapter(FragmentManager fm,Drawer drawer) : base(fm)
         {
             _myClubsFragment = new ClubIndexMyClubsTabFragment();
-            _allClubsFragment = new ClubIndexAllClubsTabFragment();
+            _allClubsFragment = new ClubIndexAllClubsTabFragment(drawer);
         }
 
         private readonly MalFragmentBase _myClubsFragment;

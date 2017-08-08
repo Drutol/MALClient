@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using MALClient.XShared.Comm.MagicalRawQueries;
 using MALClient.XShared.Interfaces;
@@ -17,6 +18,7 @@ namespace MALClient.XShared.BL
         protected CsrfHttpClient _httpClient;
         private bool _skippedFirstError;
         protected DateTime? _contextExpirationTime;
+        private SemaphoreSlim _semaphoreSlim = new SemaphoreSlim(1);
 
         protected abstract Task<CsrfHttpClient> ObtainContext();
 
@@ -27,6 +29,7 @@ namespace MALClient.XShared.BL
 
         public virtual async Task<CsrfHttpClient> GetHttpContextAsync()
         {
+            await _semaphoreSlim.WaitAsync();
             try
             {
                 if (_contextExpirationTime == null || DateTime.Now.CompareTo(_contextExpirationTime.Value) > 0)
@@ -53,6 +56,10 @@ namespace MALClient.XShared.BL
                 _skippedFirstError = false;
                 return new CsrfHttpClient(new HttpClientHandler()) {Disabled = true};
 
+            }
+            finally
+            {
+                _semaphoreSlim.Release();
             }
         }
 

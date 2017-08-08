@@ -7,17 +7,22 @@
              android:background="?BrushTextInverted">
   <LinearLayout
     android:layout_width="match_parent"
-    android:layout_height="match_parent" android:orientation="vertical">
+    android:layout_height="match_parent" android:orientation="vertical" android:paddingBottom="2dp" android:clipToPadding="false">
     <LinearLayout
-      android:layout_width="match_parent" android:padding="8dp" android:background="?BrushAnimeItemBackground" android:elevation="2dp"
+      android:layout_width="match_parent" android:elevation="2dp" android:background="?BrushAnimeItemInnerBackground"
       android:layout_height="wrap_content" android:clipToPadding="false">
-      <android.support.v7.widget.SearchView android:id="@+id/SearchView"
-                                            android:layout_width="match_parent"
-                                            android:layout_height="wrap_content"
-                                            android:layout_gravity="end"
-                                            xmlns:app="http://schemas.android.com/apk/res-auto"
-                                            app:showAsAction="collapseActionView|always"
-                                            app:iconifiedByDefault="false"/>
+      <FrameLayout
+        android:layout_width="match_parent"   android:background="@drawable/border_accent_rightleft"
+        android:layout_height="match_parent" android:paddingBottom="6dp">
+        <android.support.v7.widget.SearchView android:id="@+id/SearchView"
+                                              android:layout_width="match_parent"
+                                              android:layout_height="wrap_content"
+                                              android:layout_gravity="end|center"
+                                              xmlns:app="http://schemas.android.com/apk/res-auto"
+                                              app:showAsAction="collapseActionView|always"
+                                              app:iconifiedByDefault="false"/>
+      </FrameLayout>
+
     </LinearLayout>
     <ListView android:layout_marginTop="2dp"
               android:id="@+id/List"

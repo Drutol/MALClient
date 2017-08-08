@@ -9,6 +9,7 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using Com.Mikepenz.Materialdrawer;
 using GalaSoft.MvvmLight.Helpers;
 using MALClient.Models.Models.MalSpecific;
 using MALClient.XShared.ViewModels;

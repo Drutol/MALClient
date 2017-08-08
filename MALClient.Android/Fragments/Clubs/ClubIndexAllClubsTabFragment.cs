@@ -30,6 +30,13 @@ namespace MALClient.Android.Fragments.Clubs
     {
         private bool _settingQuery;
 
+        private Drawer _rightDrawer;
+
+        public ClubIndexAllClubsTabFragment(Drawer drawer)
+        {
+            _rightDrawer = drawer;
+        }
+
         protected override void Init(Bundle savedInstanceState)
         {
 
@@ -48,15 +55,6 @@ namespace MALClient.Android.Fragments.Clubs
                 {
                     List.ClearFlingAdapter();
                     List.InjectFlingAdapter(ViewModel.Clubs, ViewHolderFactory, DataTemplateFull, DataTemplateFling, DataTemplateBasic, ContainerTemplate);
-                }
-            }));
-
-            Bindings.Add(this.SetBinding(() => ViewModel.QueryType).WhenSourceChanges(async () =>
-            {
-                if (ViewModel.QueryType == MalClubQueries.QueryType.All)
-                {
-                    await Task.Delay(400);
-                    InitDrawer();
                 }
             }));
 
@@ -102,6 +100,7 @@ namespace MALClient.Android.Fragments.Clubs
 
         private void SearchViewOnQueryTextSubmit(object sender, SearchView.QueryTextSubmitEventArgs queryTextSubmitEventArgs)
         {
+            AndroidUtilities.HideKeyboard();
             ViewModel.SearchCommand.Execute(null);
         }
 
@@ -116,30 +115,11 @@ namespace MALClient.Android.Fragments.Clubs
         public override int LayoutResourceId => Resource.Layout.ClubsIndexAllClubsTab;
 
         #region Hamburger
-        private Drawer _rightDrawer;
-
-        private void InitDrawer()
-        {
-            if (_rightDrawer != null)
-                return;
-
-            var builder = new DrawerBuilder().WithActivity(Activity);
-            builder.WithSliderBackgroundColorRes(ResourceExtension.BrushHamburgerBackgroundRes);
-            builder.WithStickyFooterShadow(true);
-            builder.WithDisplayBelowStatusBar(true);
-            builder.WithDrawerGravity((int)GravityFlags.Right);
-
-            builder.WithStickyHeaderShadow(true);
-            builder.WithStickyHeader(Resource.Layout.AnimeListPageDrawerHeader);
-
-            _rightDrawer = builder.Build();
-            _rightDrawer.DrawerLayout.SetDrawerLockMode(DrawerLayout.LockModeLockedClosed);
-            _rightDrawer.StickyHeader.SetBackgroundColor(new Color(ResourceExtension.BrushAppBars));
-            _rightDrawer.DrawerLayout.AddDrawerListener(new DrawerListener(() => ViewModelLocator.NavMgr.ResetOneTimeOverride(), null));
-        }
 
         private void OpenFiltersDrawer()
         {
+
+
             if (ViewModel.Loading || _rightDrawer == null)
                 return;
 
@@ -187,6 +167,8 @@ namespace MALClient.Android.Fragments.Clubs
         private ListView _list;
         private FloatingActionButton _actionButton;
         private TextView _emptyNotice;
+        private Drawer drawer;
+
 
         public SearchView SearchView => _searchView ?? (_searchView = FindViewById<SearchView>(Resource.Id.SearchView));
 

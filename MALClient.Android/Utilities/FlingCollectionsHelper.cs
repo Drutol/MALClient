@@ -149,7 +149,7 @@ namespace MALClient.Android
                 FlingStates.Remove(container);
             if (ViewHolders.ContainsKey(container))
                 ViewHolders.Remove(container);
-
+            
             container.SetOnScrollListener(null);
             container.Adapter = null;
         }

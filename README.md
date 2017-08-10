@@ -72,3 +72,9 @@ If you'd like for some reason to launch my app externally you can do so by using
 malclient://<your everyday MAL link>
 ```
 List of all accepted urls can be found [here](https://github.com/Drutol/MALClient/blob/714a73a3f4389a3212843fda243c1034c7347144/MALClient.XShared/Utils/MalLinkParser.cs)
+
+### Donations
+
+Well, if you really like my app I won't stop you:
+
+[![paypal](https://www.paypalobjects.com/webstatic/mktg/merchant_portal/button/donate.en.png)](https://www.paypal.me/drutol)

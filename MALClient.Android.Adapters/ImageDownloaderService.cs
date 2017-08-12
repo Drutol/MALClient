@@ -7,7 +7,6 @@ using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
-using Android.Icu.Text;
 using Android.Net;
 using Android.Provider;
 using Android.Widget;

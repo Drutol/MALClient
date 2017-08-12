@@ -154,6 +154,7 @@
     <Reference Include="HockeySDK.AndroidBindings, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\HockeySDK.Xamarin.4.1.4\lib\MonoAndroid403\HockeySDK.AndroidBindings.dll</HintPath>
     </Reference>
+    <Reference Include="Java.Interop" />
     <Reference Include="MaterialDrawer, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MaterialDrawer.Xamarin.Droid.5.3.6.2\lib\MonoAndroid403\MaterialDrawer.dll</HintPath>
       <Private>True</Private>
@@ -239,6 +240,7 @@
     <Compile Include="Adapters\PagerAdapters\AnimeDetailsPagerAdapter.cs" />
     <Compile Include="Adapters\PagerAdapters\ArticlesPagePagerAdapter.cs" />
     <Compile Include="Adapters\PagerAdapters\CalendarPagerAdapter.cs" />
+    <Compile Include="Adapters\PagerAdapters\ClubDetailsPagerAdapter.cs" />
     <Compile Include="Adapters\PagerAdapters\ClubsIndexPagerAdapter.cs" />
     <Compile Include="Adapters\PagerAdapters\ForumIndexPagerAdapter.cs" />
     <Compile Include="Adapters\PagerAdapters\HistoryPagerAdapter.cs" />
@@ -295,6 +297,10 @@
     </Compile>
     <Compile Include="Fragments\CalendarFragments\CalendarPageSummaryTabFragment.cs" />
     <Compile Include="Fragments\CalendarFragments\CalendarPageTabFragment.cs" />
+    <Compile Include="Fragments\Clubs\ClubDetailsPageFragment.cs" />
+    <Compile Include="Fragments\Clubs\ClubDetailsPageCommentsTabFragment.cs" />
+    <Compile Include="Fragments\Clubs\ClubDetailsPageDescriptionTabFragment.cs" />
+    <Compile Include="Fragments\Clubs\ClubDetailsPageGeneralTabFragment.cs" />
     <Compile Include="Fragments\Clubs\ClubIndexAllClubsTabFragment.cs" />
     <Compile Include="Fragments\Clubs\ClubIndexMyClubsTabFragment.cs" />
     <Compile Include="Fragments\Clubs\ClubIndexTabFragmentBase.cs" />
@@ -409,9 +415,11 @@
     <Compile Include="UserControls\LandscapeHelpers\HeightAdjustingListView.cs" />
     <Compile Include="UserControls\LandscapeHelpers\HeightAdjustingViewPager.cs" />
     <Compile Include="UserControls\LandscapeHelpers\OrientationDependentScrollView.cs" />
+    <Compile Include="UserControls\OverscrollingListView.cs" />
     <Compile Include="UserControls\ScrollableSwipeToRefreshLayout.cs" />
     <Compile Include="UserControls\CharView\Arc.cs" />
     <Compile Include="UserControls\CharView\Chart.cs" />
+    <Compile Include="UserControls\ToggleableScrollView.cs" />
     <Compile Include="UserControls\UserControlBase.cs" />
     <Compile Include="Utilities\AnimeImageExtensions.cs" />
     <Compile Include="Utilities\AnimeListAdapterExtensions.cs" />
@@ -1226,6 +1234,23 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\animator\animation_pulse.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\ClubDetailsPage.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\ClubDetailsPageGeneralTab.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\ClubDetailsPageCommentsPage.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\ClubDetailsPageDescriptionTab.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\HeaderedTextBlock.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

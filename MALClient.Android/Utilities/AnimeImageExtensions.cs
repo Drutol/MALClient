@@ -147,6 +147,14 @@ namespace MALClient.Android
             if (string.IsNullOrEmpty(originUrl))
                 return;
 
+
+
+            if (image.Tag != null && (string)image.Tag == originUrl)
+            {
+                image.Visibility = ViewStates.Visible;
+                return;
+            }
+
             image.Visibility = ViewStates.Invisible;
             try
             {
@@ -260,6 +268,11 @@ namespace MALClient.Android
                      originUrl = await originUrlTask;
                 });
 
+                if (image.Tag != null && (string)image.Tag == originUrl)
+                {
+                    image.Visibility = ViewStates.Visible;
+                    return;
+                }
 
                 if (token.IsCancellationRequested)
                     return;
@@ -273,6 +286,7 @@ namespace MALClient.Android
                     return;
 
                 image.Visibility = ViewStates.Invisible;
+                image.Tag = originUrl;
 
                 var work = ImageService.Instance.LoadUrl(originUrl);
                 work = work.Success(image.AnimateFadeIn);

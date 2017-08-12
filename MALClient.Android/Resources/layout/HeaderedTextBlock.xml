@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="horizontal" android:layout_width="match_parent"
+              android:layout_height="wrap_content" android:padding="2dp"
+              xmlns:tools="http://schemas.android.com/tools" android:gravity="top">
+
+  <TextView
+    android:layout_width="wrap_content" android:id="@+id/Header" android:textColor="?BrushNoSearchResults" android:fontFamily="@string/font_family_light"
+    android:layout_height="wrap_content" tools:text="Creator" android:layout_gravity="top"/>
+  <TextView
+    android:layout_width="wrap_content" android:textSize="@dimen/FontSizeBig" android:id="@+id/Text"
+    android:layout_marginStart="5dp" android:layout_marginTop="3dp" android:textColor="?BrushText"  android:fontFamily="@string/font_family_light"
+    android:layout_height="wrap_content" tools:text="Somebody"/>
+
+</LinearLayout>

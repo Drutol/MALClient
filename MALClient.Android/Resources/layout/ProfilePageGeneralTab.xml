@@ -10,8 +10,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_alignParentTop="true"
-    android:clipToPadding="false"
-    android:paddingBottom="60dp"
     android:id="@+id/ProfilePageGeneralTabScrollingContainer"
     android:layout_alignParentStart="true">
     <LinearLayout
@@ -118,9 +116,10 @@
       <TextView android:gravity="center" android:visibility="gone"
                 android:layout_width="wrap_content" android:id="@+id/ProfilePageGeneralTabCommentsEmptyNotice" android:text="No comments found..."
                 android:layout_height="wrap_content" android:fontFamily="@string/font_family_light" android:layout_gravity="center_horizontal" android:textColor="?BrushNoSearchResults"/>
-      <LinearLayout
+      <ListView
         android:layout_width="match_parent" android:layout_marginTop="5dp" android:dividerPadding="5dp"
-        android:id="@+id/ProfilePageGeneralTabCommentsList"
+        android:id="@+id/ProfilePageGeneralTabCommentsList" android:clipToPadding="false"
+        android:paddingBottom="60dp" android:nestedScrollingEnabled="true"
         android:layout_height="wrap_content" android:orientation="vertical" />
     </LinearLayout>
   </ScrollView>

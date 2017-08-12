@@ -365,7 +365,7 @@ namespace MALClient.Android.ViewModels
                     RefreshButtonVisibility = true;
                     RefreshDataCommand = new RelayCommand(() => ViewModelLocator.ClubDetails.Reload());
                     CurrentStatus = "Club details";
-                    //MainNavigationRequested?.Invoke(typeof(ClubDetailsPage), args);
+                    MainNavigationRequested?.Invoke(new ClubDetailsPageFragment(args as ClubDetailsPageNavArgs));
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(index), index, null);

@@ -77,14 +77,9 @@ namespace MALClient.Android.UserControls.ForumItems
 
         protected override void BindModelFling()
         {
-            if (ForumTopicPageItemAuthorImage.IntoIfLoaded(ViewModel.Data.Poster.MalUser.ImgUrl))
-            {
-                ForumTopicPageItemAuthorImage.Visibility = ViewStates.Visible;
-            }
-            else
-            {
+            if (!ForumTopicPageItemAuthorImage.IntoIfLoaded(ViewModel.Data.Poster.MalUser.ImgUrl))
                 ForumTopicPageItemAuthorImage.Visibility = ViewStates.Gone;
-            }
+            
 
             if (double.IsNaN(ViewModel.ComputedHtmlHeight))
             {
@@ -114,7 +109,6 @@ namespace MALClient.Android.UserControls.ForumItems
                 {
                     ForumTopicPageItemAuthorImage.Into(ViewModel.Data.Poster.MalUser.ImgUrl);
                 }
-                ForumTopicPageItemAuthorImage.Visibility = ViewStates.Visible;
             }
             ForumTopicPageItemWebView.Visibility = ViewStates.Visible;
 

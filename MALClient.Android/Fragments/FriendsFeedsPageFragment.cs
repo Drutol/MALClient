@@ -107,6 +107,8 @@ namespace MALClient.Android.Fragments
             string link = null;
             if(AnimeImageQuery.IsCached(userFeedEntryModel.Id,true, ref link))
                 img.Visibility = img.IntoIfLoaded(link) ? ViewStates.Visible : ViewStates.Gone;
+            else
+                img.Visibility = ViewStates.Gone;
 
             if (!accImg.IntoIfLoaded(userFeedEntryModel.User.ImgUrl,new CircleTransformation()))
                 accImg.Visibility = ViewStates.Gone;
@@ -115,18 +117,15 @@ namespace MALClient.Android.Fragments
         private void DataTemplateFull(View view, int i, UserFeedEntryModel userFeedEntryModel)
         {
             var img = view.FindViewById<ImageViewAsync>(Resource.Id.FriendsFeedsPageItemImage);
-            if (img.Tag == null || (string) img.Tag != $"{userFeedEntryModel.Date.Ticks}{userFeedEntryModel.User.Name}")
-            {
-                img.Tag = $"{userFeedEntryModel.Date.Ticks}{userFeedEntryModel.User.Name}";
-                string imgUrl = null;
-                if(AnimeImageQuery.IsCached(userFeedEntryModel.Id,true,ref imgUrl))
-                    img.Into(imgUrl); 
-                else
-                    img.IntoWithTask(AnimeImageQuery.GetImageUrl(userFeedEntryModel.Id, true));
+
+            string imgUrl = null;
+            if(AnimeImageQuery.IsCached(userFeedEntryModel.Id,true,ref imgUrl))
+                img.Into(imgUrl); 
+            else
+                img.IntoWithTask(AnimeImageQuery.GetImageUrl(userFeedEntryModel.Id, true));
 
                 
-                view.FindViewById(Resource.Id.FriendsFeedsPageItemUserImageButton).Tag = userFeedEntryModel.User.Wrap(); 
-            }
+            view.FindViewById(Resource.Id.FriendsFeedsPageItemUserImageButton).Tag = userFeedEntryModel.User.Wrap(); 
 
             var accImg = view.FindViewById<ImageViewAsync>(Resource.Id.FriendsFeedsPageItemUserImage);
             if (img.Tag == null || (string)img.Tag != userFeedEntryModel.User.ImgUrl)

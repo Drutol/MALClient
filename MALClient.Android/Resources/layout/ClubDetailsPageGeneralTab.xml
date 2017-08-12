@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+              android:background="?BrushDeepBackground">
+
+  <FrameLayout
+    android:layout_width="match_parent" android:padding="2dp"
+    android:layout_height="wrap_content" android:clipToPadding="false">
+    <LinearLayout
+      android:layout_width="match_parent" android:orientation="horizontal" android:elevation="2dp"
+      android:layout_height="wrap_content" android:background="?BrushAnimeItemBackground">
+      <FFImageLoading.Views.ImageViewAsync android:adjustViewBounds="true"
+                                           android:layout_width="110dp" android:scaleType="centerCrop"
+                                           android:layout_height="140dp" android:id="@+id/Image" />
+      <LinearLayout
+        android:layout_width="match_parent" android:background="?BrushAnimeItemBackground"
+        android:layout_height="match_parent" android:orientation="vertical">
+        <TextView
+          android:layout_width="match_parent" android:id="@+id/Title" tools:text="Some club" android:textColor="?BrushText" android:textSize="@dimen/FontSizeBig"
+          android:layout_height="wrap_content" android:gravity="center" android:maxLines="2" android:ellipsize="end"/>
+        <View style="@style/Divider"/>
+        <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="0dp" android:layout_weight="1">
+          <LinearLayout
+            android:layout_width="0dp" android:layout_weight="1" android:id="@+id/StatsList"
+            android:layout_height="match_parent" android:orientation="vertical"/>
+          <ScrollView
+            android:layout_width="0dp" android:layout_weight="1"
+            android:layout_height="match_parent">
+            <LinearLayout android:id="@+id/OfficersList"
+                          android:layout_width="match_parent" android:orientation="vertical"
+                          android:layout_height="wrap_content"/>
+          </ScrollView>
+
+        </LinearLayout>
+        <FrameLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content" android:orientation="horizontal">
+          <Button style="@style/AccentButtonStyle" android:elevation="2dp" android:id="@+id/ButtonForum"
+                  android:layout_width="wrap_content" android:backgroundTint="?AccentColour" android:textAllCaps="false"
+                  android:layout_height="wrap_content" android:text="Forum" android:textColor="#fff"/>
+          <Button android:layout_gravity="end" style="@style/AccentButtonStyle" android:elevation="2dp" android:id="@+id/ButtonLeave"
+                  android:layout_width="wrap_content" android:backgroundTint="?AccentColour" android:textAllCaps="false"
+                  android:layout_height="wrap_content" android:text="Leave" android:textColor="#fff"/>
+        </FrameLayout>
+      </LinearLayout>
+    </LinearLayout>
+  </FrameLayout>
+  <GridView
+    android:id="@+id/GridView"
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:layout_weight="1"
+    android:numColumns="auto_fit"
+    android:layout_gravity="center"
+    android:choiceMode="singleChoice" />
+  <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/AppBarBtnHeight"
+    android:background="?BrushAppBars">
+    <ToggleButton android:id="@+id/MembersToggle" android:layout_weight="1"
+                  android:layout_width="wrap_content" android:textOn="Members" android:textOff="Members" android:textAllCaps="false"
+                  android:layout_height="wrap_content" android:checked="false" android:background="@drawable/transparent_toggle_button"/>
+    <ToggleButton android:id="@+id/RelatedAnimeToggle" android:layout_weight="1"
+                  android:layout_width="wrap_content" android:textOn="Related Anime" android:textOff="Related Anime" android:textAllCaps="false"
+                  android:layout_height="wrap_content" android:checked="false" android:background="@drawable/transparent_toggle_button"/>
+    <ToggleButton android:id="@+id/RelatedMangaToggle" android:layout_weight="1"
+                  android:layout_width="wrap_content" android:textOn="Related Manga" android:textOff="Related Manga" android:textAllCaps="false"
+                  android:layout_height="wrap_content" android:checked="false" android:background="@drawable/transparent_toggle_button"/>
+  </LinearLayout>
+
+</LinearLayout>

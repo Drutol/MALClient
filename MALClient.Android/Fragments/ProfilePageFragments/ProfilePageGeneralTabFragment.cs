@@ -74,8 +74,6 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
                         ProfilePageGeneralTabMoreFriendsButton.Visibility = ViewStates.Gone;
                     }
 
-
-                    ProfilePageGeneralTabCommentsList.RemoveAllViews();
                     await Task.Delay(500);
                     PopulateComments();
                 }));
@@ -158,27 +156,36 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
             ProfilePageGeneralTabActionButton.SetOnClickListener(new OnClickListener(v => ProfilePageGeneralTabActionButtonOnClick()));
             ProfilePageGeneralTabCompareList.SetOnClickListener(new OnClickListener(v => ViewModel.NavigateComparisonCommand.Execute(null)));
             ProfilePageGeneralTabMoreFriendsButton.SetOnClickListener(new OnClickListener(v => ViewModel.NavigateFriendsCommand.Execute(null)));
-        }
 
-        private void AnimatePin(float from, float to)
-        {
-            var anim =
-                new RotateAnimation(from, to, Dimension.RelativeToSelf, .5f, Dimension.RelativeToSelf,
-                    .5f)
-                {
-                    Duration = 150,
-                    Interpolator = new LinearInterpolator(),
-                    FillAfter = true,
-                    FillEnabled = true
-                };
-            PinButtonIcon.StartAnimation(anim);
+
+
+            PopulateComments();
         }
 
 
+        private static int _unbounded = View.MeasureSpec.MakeMeasureSpec(0, MeasureSpecMode.Unspecified);
         private void PopulateComments()
         {
-            ProfilePageGeneralTabCommentsList.SetAdapter(
-                ViewModel.CurrentData.Comments.GetAdapter(GetCommentTemplateDelegate));
+            ProfilePageGeneralTabCommentsList.Adapter = 
+                ViewModel.CurrentData.Comments.GetAdapter(GetCommentTemplateDelegate);
+            ProfilePageGeneralTabCommentsList.Post(() =>
+            {
+
+                int grossElementHeight = 0;
+                for (int i = 0;
+                    i < (ProfilePageGeneralTabCommentsList.Adapter.Count > 4
+                        ? 4
+                        : ProfilePageGeneralTabCommentsList.Adapter.Count);
+                    i++)
+                {
+                    View childView =
+                        ProfilePageGeneralTabCommentsList.Adapter.GetView(i, null, ProfilePageGeneralTabCommentsList);
+                    childView.Measure(_unbounded, _unbounded);
+                    grossElementHeight += childView.MeasuredHeight;
+                }
+                ProfilePageGeneralTabCommentsList.LayoutParameters.Height = grossElementHeight;
+            });
+
         }
 
         private async void ProfilePageGeneralTabActionButtonOnClick()
@@ -263,7 +270,7 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
         private void OnCommentDeleteClick(View sender)
         {
             ViewModel.DeleteCommentCommand.Execute(sender.Tag.Unwrap<MalComment>());
-            ProfilePageGeneralTabCommentsList.RemoveView(sender);
+            //ProfilePageGeneralTabCommentsList.RemoveView(sender);
         }
 
         private void FriendButtonOnClick(View sender)
@@ -296,7 +303,7 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
         private Button _profilePageGeneralTabSendCommentButton;
         private LinearLayout _profilePageGeneralTabCommentSection;
         private TextView _profilePageGeneralTabCommentsEmptyNotice;
-        private LinearLayout _profilePageGeneralTabCommentsList;
+        private ListView _profilePageGeneralTabCommentsList;
         private ScrollView _profilePageGeneralTabScrollingContainer;
         private FloatingActionButton _profilePageGeneralTabActionButton;
 
@@ -332,7 +339,7 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
 
         public TextView ProfilePageGeneralTabCommentsEmptyNotice => _profilePageGeneralTabCommentsEmptyNotice ?? (_profilePageGeneralTabCommentsEmptyNotice = FindViewById<TextView>(Resource.Id.ProfilePageGeneralTabCommentsEmptyNotice));
 
-        public LinearLayout ProfilePageGeneralTabCommentsList => _profilePageGeneralTabCommentsList ?? (_profilePageGeneralTabCommentsList = FindViewById<LinearLayout>(Resource.Id.ProfilePageGeneralTabCommentsList));
+        public ListView ProfilePageGeneralTabCommentsList => _profilePageGeneralTabCommentsList ?? (_profilePageGeneralTabCommentsList = FindViewById<ListView>(Resource.Id.ProfilePageGeneralTabCommentsList));
 
         public ScrollView ProfilePageGeneralTabScrollingContainer => _profilePageGeneralTabScrollingContainer ?? (_profilePageGeneralTabScrollingContainer = FindViewById<ScrollView>(Resource.Id.ProfilePageGeneralTabScrollingContainer));
 

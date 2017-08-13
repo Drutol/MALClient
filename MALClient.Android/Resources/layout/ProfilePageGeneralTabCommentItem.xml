@@ -23,6 +23,18 @@
           android:layout_width="match_parent"  android:scaleType="centerCrop"
           android:layout_height="match_parent"
           android:id="@+id/ProfilePageGeneralTabCommentItemUserImg" />
+
+        <Button
+          android:id="@+id/ProfilePageGeneralTabCommentItemConvButton"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginEnd="10dp"
+          android:background="@drawable/button_underline_background_style"
+          android:minHeight="25dp"
+          android:minWidth="30dp"
+          android:padding="3dp"
+          android:text="Conversation"
+          android:textAllCaps="false" />
       </FrameLayout>
       <TextView
         android:layout_width="wrap_content" android:id="@+id/ProfilePageGeneralTabCommentItemUsername"
@@ -34,7 +46,7 @@
 
     <LinearLayout
       android:layout_width="0dp" android:orientation="vertical"
-      android:layout_height="wrap_content" android:layout_weight="1">
+      android:layout_height="match_parent" android:layout_weight="1">
       <TextView
         android:layout_width="wrap_content" android:id="@+id/ProfilePageGeneralTabCommentItemDate"
         android:layout_height="wrap_content" android:text="Jan 45" android:fontFamily="@string/font_family_light"
@@ -48,12 +60,6 @@
         android:layout_marginEnd="-5dp"
         android:layout_height="wrap_content">
 
-        <Button
-          android:layout_width="wrap_content" android:layout_marginEnd="10dp" android:minWidth="30dp"
-          android:minHeight="25dp" android:padding="3dp" android:textAllCaps="false"
-          android:layout_height="wrap_content" android:background="@drawable/button_underline_background_style"
-          android:text="Conversation"
-          android:id="@+id/ProfilePageGeneralTabCommentItemConvButton" />
         <Button
           android:layout_width="wrap_content" android:layout_marginEnd="10dp" android:minWidth="30dp"
           android:minHeight="25dp" android:padding="3dp" android:textAllCaps="false"

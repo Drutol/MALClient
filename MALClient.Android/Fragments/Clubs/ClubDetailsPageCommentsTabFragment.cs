@@ -18,6 +18,7 @@ using MALClient.Models.Models;
 using MALClient.Models.Models.MalSpecific;
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Clubs;
+using Org.Apache.Http.Conn;
 
 namespace MALClient.Android.Fragments.Clubs
 {
@@ -61,7 +62,12 @@ namespace MALClient.Android.Fragments.Clubs
 
             view.FindViewById(Resource.Id.ProfilePageGeneralTabCommentItemDeleteButton).Visibility = ViewStates.Gone;           
             view.FindViewById(Resource.Id.ProfilePageGeneralTabCommentItemConvButton).Visibility = ViewStates.Gone;
-            view.FindViewById(Resource.Id.ProfilePageGeneralTabCommentItemImgButton).Visibility = ViewStates.Gone;
+            view.FindViewById(Resource.Id.ProfilePageGeneralTabCommentItemImgButton).SetOnClickListener(
+                new OnClickListener(
+                    v =>
+                    {
+                        ViewModel.NavigateUserCommand.Execute(v.Tag.Unwrap<MalUser>());
+                    }));
 
 
             return view;
@@ -73,6 +79,7 @@ namespace MALClient.Android.Fragments.Clubs
             arg4.ProfilePageGeneralTabCommentItemDate.Text = malComment.Date;
             arg4.ProfilePageGeneralTabCommentItemContent.Text = malComment.Content;
 
+            arg4.ProfilePageGeneralTabCommentItemImgButton.Tag = malComment.User.Wrap();
         }
 
         private void DataTemplateFling(View view1, int i1, MalClubComment arg3, CommentViewHolder arg4)

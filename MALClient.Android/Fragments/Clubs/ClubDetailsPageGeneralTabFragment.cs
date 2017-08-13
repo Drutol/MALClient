@@ -2,20 +2,27 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
+using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
+using Android.Graphics;
 using Android.OS;
 using Android.Runtime;
 using Android.Support.V7.View.Menu;
 using Android.Views;
+using Android.Webkit;
 using Android.Widget;
 using FFImageLoading.Transformations;
 using FFImageLoading.Views;
 using GalaSoft.MvvmLight.Helpers;
 using MALClient.Android.Listeners;
+using MALClient.Android.Resources;
+using MALClient.Android.Web;
+using MALClient.Models.Enums;
 using MALClient.Models.Models;
 using MALClient.XShared.Comm.Anime;
+using MALClient.XShared.NavArgs;
+using MALClient.XShared.Utils;
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Clubs;
 
@@ -23,16 +30,7 @@ namespace MALClient.Android.Fragments.Clubs
 {
     public class ClubDetailsPageGeneralTabFragment : MalFragmentBase
     {
-        enum DisplayMode
-        {
-            Members,
-            Anime,
-            Manga
-        }
-
-
         private ClubDetailsViewModel ViewModel = ViewModelLocator.ClubDetails;
-        private DisplayMode _mode = DisplayMode.Members;
 
         protected override void Init(Bundle savedInstanceState)
         {
@@ -41,6 +39,19 @@ namespace MALClient.Android.Fragments.Clubs
 
         protected override void InitBindings()
         {
+            var client = new ListenableWebClient { NavigationInterceptOpportunity = NavigationInterceptOpportunity };
+            WebView.Settings.JavaScriptEnabled = true;
+            WebView.Settings.SetSupportZoom(true);
+            WebView.Settings.DisplayZoomControls = false;
+            WebView.SetWebViewClient(client);
+            WebView.Settings.SetLayoutAlgorithm(WebSettings.LayoutAlgorithm.SingleColumn);
+            WebView.SetBackgroundColor(new Color(ResourceExtension.BrushAnimeItemInnerBackground));
+
+            WebView.Post(() =>
+            {
+                WebView.SetInitialScale(700 * 100 / (int)DimensionsHelper.PxToDp(RootView.Width));
+            });
+
             Bindings.Add(this.SetBinding(() => ViewModel.Details).WhenSourceChanges(() =>
             {
                 if(ViewModel.Details == null)
@@ -50,7 +61,7 @@ namespace MALClient.Android.Fragments.Clubs
                 Title.Text = ViewModel.Details.Name;
 
                 StatsList.SetAdapter(ViewModel.Details.GeneralInfo.GetAdapter(GetTemplateDelegate));
-                OfficersList.SetAdapter(ViewModel.Details.GeneralInfo.GetAdapter(GetTemplateDelegate));
+                OfficersList.SetAdapter(ViewModel.Details.Officers.GetAdapter(GetTemplateDelegate));
 
                 if (ViewModel.Details.Joined)
                 {
@@ -70,109 +81,41 @@ namespace MALClient.Android.Fragments.Clubs
                 }
 
                 ButtonForum.SetOnClickListener(new OnClickListener(view => ViewModel.NavigateForumCommand.Execute(null)));
+                WebView.LoadDataWithBaseURL(null, ResourceLocator.CssManager.WrapWithCss(ViewModel.Details.DescriptionHtml, false, 780), "text/html; charset=utf-8", "UTF-8", null);
 
-                UpdateGridView();
             }));
 
 
-
+            
         }
 
-        private void UpdateGridView()
+
+        private async Task<string> NavigationInterceptOpportunity(string targetUrl)
         {
-            GridView.ClearFlingAdapter();
-            switch (_mode)
+            if (targetUrl != null)
             {
-                case DisplayMode.Members:
-                    GridView.InjectFlingAdapter(ViewModel.Members, MemberDataTemplateFull, MemberDataTemplateFling, MemberContainerTemplate);
-                    break;
-                case DisplayMode.Anime:
-                    GridView.InjectFlingAdapter(ViewModel.AnimeRelations,DataTemplateFull,DataTemplateFling,AnimeContainerTemplate,DataTemplateBasic);
-                    break;
-                case DisplayMode.Manga:
-                    GridView.InjectFlingAdapter(ViewModel.MangaRelations, DataTemplateFull, DataTemplateFling, MangaContainerTemplate, DataTemplateBasic);
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
+                var navArgs = MalLinkParser.GetNavigationParametersForUrl(targetUrl);
+                if (navArgs != null)
+                {
+                    if (navArgs.Item1 != PageIndex.PageAnimeDetails)
+                    {
+                        ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageClubDetails, ViewModel.LastArgs);
+                    }
+                    else
+                    {
+                        var arg = navArgs.Item2 as AnimeDetailsPageNavigationArgs;
+                        arg.Source = PageIndex.PageClubDetails;
+                        arg.PrevPageSetup = ViewModel.LastArgs;
+                    }
+
+
+                    ViewModelLocator.GeneralMain.Navigate(navArgs.Item1, navArgs.Item2);
+                }
             }
+            return null;
         }
 
-
-        #region MangaAndAnime
-
-
-        private View MangaContainerTemplate(int arg)
-        {
-            var view = Activity.LayoutInflater.Inflate(Resource.Layout.AnimeLightItem, null);
-            view.Click +=
-                (sender, args) => ViewModel.NavigateMangaDetailsCommand.Execute((sender as View).Tag
-                    .Unwrap<Tuple<string, string>>());
-            return view;
-        }
-
-        private View AnimeContainerTemplate(int i)
-        {
-            var view = Activity.LayoutInflater.Inflate(Resource.Layout.AnimeLightItem, null);
-            view.Click +=
-                (sender, args) => ViewModel.NavigateAnimeDetailsCommand.Execute((sender as View).Tag
-                    .Unwrap<Tuple<string, string>>());
-            return view;
-        }
-
-        private void DataTemplateBasic(View view1, int i, Tuple<string, string> arg3)
-        {
-            View.FindViewById<TextView>(Resource.Id.AnimeLightItemTitle).Text = arg3.Item1;
-        }
-
-
-
-        private void DataTemplateFling(View view1, int i, Tuple<string, string> arg3)
-        {
-            var img = view1.FindViewById<ImageViewAsync>(Resource.Id.ProfilePageGeneralTabFriendItemImage);
-
-            string link = null;
-            if (AnimeImageQuery.IsCached(int.Parse(arg3.Item2), true, ref link))
-                img.Visibility = img.IntoIfLoaded(link) ? ViewStates.Visible : ViewStates.Gone;
-
-        }
-
-        private void DataTemplateFull(View view1, int i, Tuple<string, string> arg3)
-        {
-            var img = view1.FindViewById<ImageViewAsync>(Resource.Id.ProfilePageGeneralTabFriendItemImage);
-            string imgUrl = null;
-            var id = int.Parse(arg3.Item2);
-            if (AnimeImageQuery.IsCached(id, true, ref imgUrl))
-                img.Into(imgUrl);
-            else
-                img.IntoWithTask(AnimeImageQuery.GetImageUrl(id, true));
-        }
-
-        #endregion
-
-
-        #region Members
-
-        private View MemberContainerTemplate(int i)
-        {
-            var view = Activity.LayoutInflater.Inflate(Resource.Layout.ProfilePageGeneralTabFriendItem,null);
-            view.Click +=
-                (sender, args) => ViewModel.NavigateUserCommand.Execute((sender as View).Tag.Unwrap<MalUser>());
-            return view;
-        }
-
-        private void MemberDataTemplateFling(View view1, int i, MalUser arg3)
-        {
-            var img = view1.FindViewById<ImageViewAsync>(Resource.Id.ProfilePageGeneralTabFriendItemImage);
-            if (img.IntoIfLoaded(arg3.ImgUrl))
-                img.Visibility = ViewStates.Invisible;
-        }
-
-        private void MemberDataTemplateFull(View view1, int i, MalUser arg3)
-        {
-            view1.FindViewById<ImageViewAsync>(Resource.Id.ProfilePageGeneralTabFriendItemImage).Into(arg3.ImgUrl);
-        }
-
-        #endregion
+       
 
 
         private View GetTemplateDelegate(int i, (string name, string value) valueTuple, View arg3)
@@ -196,10 +139,7 @@ namespace MALClient.Android.Fragments.Clubs
         private LinearLayout _officersList;
         private Button _buttonForum;
         private Button _buttonLeave;
-        private GridView _gridView;
-        private ToggleButton _membersToggle;
-        private ToggleButton _relatedAnimeToggle;
-        private ToggleButton _relatedMangaToggle;
+        private WebView _webView;
 
         public ImageViewAsync Image => _image ?? (_image = FindViewById<ImageViewAsync>(Resource.Id.Image));
 
@@ -213,13 +153,7 @@ namespace MALClient.Android.Fragments.Clubs
 
         public Button ButtonLeave => _buttonLeave ?? (_buttonLeave = FindViewById<Button>(Resource.Id.ButtonLeave));
 
-        public GridView GridView => _gridView ?? (_gridView = FindViewById<GridView>(Resource.Id.GridView));
-
-        public ToggleButton MembersToggle => _membersToggle ?? (_membersToggle = FindViewById<ToggleButton>(Resource.Id.MembersToggle));
-
-        public ToggleButton RelatedAnimeToggle => _relatedAnimeToggle ?? (_relatedAnimeToggle = FindViewById<ToggleButton>(Resource.Id.RelatedAnimeToggle));
-
-        public ToggleButton RelatedMangaToggle => _relatedMangaToggle ?? (_relatedMangaToggle = FindViewById<ToggleButton>(Resource.Id.RelatedMangaToggle));
+        public WebView WebView => _webView ?? (_webView = FindViewById<WebView>(Resource.Id.WebView));
 
         #endregion
     }

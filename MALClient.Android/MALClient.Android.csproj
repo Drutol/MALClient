@@ -299,7 +299,7 @@
     <Compile Include="Fragments\CalendarFragments\CalendarPageTabFragment.cs" />
     <Compile Include="Fragments\Clubs\ClubDetailsPageFragment.cs" />
     <Compile Include="Fragments\Clubs\ClubDetailsPageCommentsTabFragment.cs" />
-    <Compile Include="Fragments\Clubs\ClubDetailsPageDescriptionTabFragment.cs" />
+    <Compile Include="Fragments\Clubs\ClubDetailsPageRelationsTabFragment.cs" />
     <Compile Include="Fragments\Clubs\ClubDetailsPageGeneralTabFragment.cs" />
     <Compile Include="Fragments\Clubs\ClubIndexAllClubsTabFragment.cs" />
     <Compile Include="Fragments\Clubs\ClubIndexMyClubsTabFragment.cs" />
@@ -405,7 +405,6 @@
     <Compile Include="UserControls\AnimeItems\AnimeGridItem.cs" />
     <Compile Include="UserControls\AnimeItems\AnimeListItem.cs" />
     <Compile Include="UserControls\BBCodeEditor.cs" />
-    <Compile Include="UserControls\CharView\ChartView.cs" />
     <Compile Include="UserControls\ExpandableGridView.cs" />
     <Compile Include="UserControls\FavouriteButton.cs" />
     <Compile Include="UserControls\FavouriteItem.cs" />
@@ -417,8 +416,6 @@
     <Compile Include="UserControls\LandscapeHelpers\OrientationDependentScrollView.cs" />
     <Compile Include="UserControls\PriorityListView.cs" />
     <Compile Include="UserControls\ScrollableSwipeToRefreshLayout.cs" />
-    <Compile Include="UserControls\CharView\Arc.cs" />
-    <Compile Include="UserControls\CharView\Chart.cs" />
     <Compile Include="UserControls\ToggleableScrollView.cs" />
     <Compile Include="UserControls\UserControlBase.cs" />
     <Compile Include="Utilities\AnimeImageExtensions.cs" />
@@ -1248,7 +1245,7 @@
     <AndroidResource Include="Resources\layout\ClubDetailsPageCommentsPage.xml" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\layout\ClubDetailsPageDescriptionTab.xml" />
+    <AndroidResource Include="Resources\layout\ClubDetailsPageRelationsTab.xml" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\HeaderedTextBlock.xml" />

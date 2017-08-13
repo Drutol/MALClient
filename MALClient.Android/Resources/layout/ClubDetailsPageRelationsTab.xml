@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:orientation="vertical"
+             android:background="?BrushDeepBackground">
+  <GridView
+    android:id="@+id/GridView"
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:layout_weight="1"
+    android:numColumns="auto_fit"
+    android:layout_gravity="center"
+    android:choiceMode="singleChoice" />
+  <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/AppBarBtnHeight"
+    android:background="?BrushAppBars">
+    <ToggleButton android:id="@+id/MembersToggle" android:layout_weight="1"
+                  android:layout_width="wrap_content" android:textOn="Members" android:textOff="Members" android:textAllCaps="false"
+                  android:layout_height="wrap_content" android:checked="false" android:background="@drawable/transparent_toggle_button"/>
+    <ToggleButton android:id="@+id/RelatedAnimeToggle" android:layout_weight="1"
+                  android:layout_width="wrap_content" android:textOn="Related Anime" android:textOff="Related Anime" android:textAllCaps="false"
+                  android:layout_height="wrap_content" android:checked="false" android:background="@drawable/transparent_toggle_button"/>
+    <ToggleButton android:id="@+id/RelatedMangaToggle" android:layout_weight="1"
+                  android:layout_width="wrap_content" android:textOn="Related Manga" android:textOff="Related Manga" android:textAllCaps="false"
+                  android:layout_height="wrap_content" android:checked="false" android:background="@drawable/transparent_toggle_button"/>
+
+  </LinearLayout>
+</LinearLayout>

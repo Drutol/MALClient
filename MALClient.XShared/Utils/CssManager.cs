@@ -143,6 +143,7 @@ namespace MALClient.XShared.Utils
 		        color: BodyForegroundThemeColor;
                 font-family: 'Segoe UI';
                 min-width: MinimalWidthpx;
+                width: MinimalWidthpx;
 	        }";
         private const string CssHtmlBodyScrollEnabled =
             @"<style type=""text/css"">@charset ""UTF-8"";

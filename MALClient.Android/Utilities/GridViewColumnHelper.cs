@@ -64,6 +64,12 @@ namespace MALClient.Android
             UpdateGrid(view,GetColumns(config),config);
         }
 
+        public void DetachGrid(GridView view)
+        {
+            if(_grids.Contains(view))
+                _grids.Remove(view);
+        }
+
         private int GetColumns(Configuration newConfig)
         {
             var width = newConfig.ScreenWidthDp;

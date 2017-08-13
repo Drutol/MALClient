@@ -25,7 +25,7 @@ namespace MALClient.Android.PagerAdapters
         {
             _generalFragment = new ClubDetailsPageGeneralTabFragment();
             _commentsFragment = new ClubDetailsPageCommentsTabFragment();
-            _descriptionFragment = new ClubDetailsPageDescriptionTabFragment();
+            _descriptionFragment = new ClubDetailsPageRelationsTabFragment();
         }
 
         private MalFragmentBase _currentFragment;

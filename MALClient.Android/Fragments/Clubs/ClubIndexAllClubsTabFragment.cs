@@ -76,7 +76,8 @@ namespace MALClient.Android.Fragments.Clubs
             {
                 List.SetOnScrollChangeListener(new ScrollListener(i =>
                 {
-                    if (ViewModel.Loading || !ViewModel.MoreButtonVisibility || List.Adapter == null)
+                    if (ViewModel.Loading || !ViewModel.MoreButtonVisibility || List.Adapter == null ||
+                        ViewModel.QueryType == MalClubQueries.QueryType.My)
                         return;
                     if (List.Adapter.Count - List.FirstVisiblePosition <= 2)
                         ViewModel.MoreCommand.Execute(null);

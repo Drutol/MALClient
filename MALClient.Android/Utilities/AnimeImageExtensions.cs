@@ -144,7 +144,7 @@ namespace MALClient.Android
         public static void LoadImage(this ImageViewAsync image, string originUrl, ITransformation transformation,
             Action<ImageViewAsync> onCompleted, int? maxHeight, bool? imgLoaded)
         {
-            if (string.IsNullOrEmpty(originUrl))
+            if (string.IsNullOrEmpty(originUrl) || image == null)
                 return;
 
 

@@ -41,6 +41,7 @@ namespace MALClient.Android.Fragments.Clubs
         {
             Pivot.Adapter = new ClubDetailsPagerAdapter(FragmentManager);
             TabStrip.SetViewPager(Pivot);
+            TabStrip.CenterTabs();
             if (_lastIndex == null)
                 _lastIndex = 1;
 

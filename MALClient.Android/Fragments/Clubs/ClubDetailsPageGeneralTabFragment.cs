@@ -36,13 +36,16 @@ namespace MALClient.Android.Fragments.Clubs
 
         protected override void Init(Bundle savedInstanceState)
         {
-            throw new NotImplementedException();
+            
         }
 
         protected override void InitBindings()
         {
             Bindings.Add(this.SetBinding(() => ViewModel.Details).WhenSourceChanges(() =>
             {
+                if(ViewModel.Details == null)
+                    return;
+
                 Image.Into(ViewModel.Details.ImgUrl);
                 Title.Text = ViewModel.Details.Name;
 

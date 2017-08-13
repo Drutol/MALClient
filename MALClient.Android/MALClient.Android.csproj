@@ -438,6 +438,7 @@
     <Compile Include="Utilities\DimensionsHelper.cs" />
     <Compile Include="Utilities\JavaObjectWrapper.cs" />
     <Compile Include="Utilities\GridViewColumnHelper.cs" />
+    <Compile Include="ViewHolders\CommentViewHolder.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModel.cs" />
   </ItemGroup>

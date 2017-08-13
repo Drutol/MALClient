@@ -20,8 +20,9 @@ namespace MALClient.XShared.ViewModels.Clubs
 {
     public class ClubDetailsViewModel : ViewModelBase
     {
-        private bool _loading;
-        private ClubDetailsPageNavArgs _lastArgs;
+        public ClubDetailsPageNavArgs LastArgs { get; set; }
+
+        private bool _loading; 
         private MalClubDetails _details;
         private bool _loadingComments;
         private string _commentInput;
@@ -180,10 +181,10 @@ namespace MALClient.XShared.ViewModels.Clubs
 
         public async void NavigatedTo(ClubDetailsPageNavArgs args)
         {
-            if (args.Equals(_lastArgs))
+            if (args.Equals(LastArgs))
                 return;
             Details = null;
-            _lastArgs = args;
+            LastArgs = args;
 
             Loading = true;
             Details = await MalClubDetailsQuery.GetClubDetails(args.Id);
@@ -194,7 +195,7 @@ namespace MALClient.XShared.ViewModels.Clubs
         public async void Reload()
         {
             Loading = true;
-            Details = await MalClubDetailsQuery.GetClubDetails(_lastArgs.Id);
+            Details = await MalClubDetailsQuery.GetClubDetails(LastArgs.Id);
             Loading = false;
         }
 
@@ -234,21 +235,26 @@ namespace MALClient.XShared.ViewModels.Clubs
 
         public ICommand ReloadCommentsCommand => new RelayCommand(async () =>
         {
+            await ReloadComments();
+        });
+
+        public async Task ReloadComments()
+        {
             LoadingComments = true;
 
-            var details = await MalClubDetailsQuery.GetClubDetails(_lastArgs.Id, true);
+            var details = await MalClubDetailsQuery.GetClubDetails(LastArgs.Id, true);
 
             Details.RecentComments = details.RecentComments;
             Comments = new ObservableCollection<MalClubComment>(Details.RecentComments);
             Comments.CollectionChanged += CommentsOnCollectionChanged;
 
             LoadingComments = false;
-        });
+        }
 
         public ICommand LoadMoreMembersCommand => new RelayCommand(async () =>
         {
             LoadMoreUsersButtonVisibility = false;
-            var users = await MalClubDetailsQuery.GetMoreUsers(_lastArgs.Id);
+            var users = await MalClubDetailsQuery.GetMoreUsers(LastArgs.Id);
 
             if(users != null && users.Any())
                   Members = new ObservableCollection<MalUser>(Members.Union(users));
@@ -280,7 +286,7 @@ namespace MALClient.XShared.ViewModels.Clubs
                                                    new RelayCommand<MalUser>(
                                                        user =>
                                                        {
-                                                           ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageClubDetails, _lastArgs);
+                                                           ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageClubDetails, LastArgs);
                                                            ViewModelLocator.GeneralMain.Navigate(PageIndex.PageProfile,
                                                                new ProfilePageNavigationArgs
                                                                {
@@ -291,9 +297,9 @@ namespace MALClient.XShared.ViewModels.Clubs
 
         public ICommand NavigateForumCommand => new RelayCommand(() =>
         {
-            ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageClubDetails,_lastArgs);
+            ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageClubDetails,LastArgs);
             ViewModelLocator.GeneralMain.Navigate(PageIndex.PageForumIndex,
-                new ForumsBoardNavigationArgs(_lastArgs.Id,Details.Name));
+                new ForumsBoardNavigationArgs(LastArgs.Id,Details.Name));
         });
 
 
@@ -305,7 +311,7 @@ namespace MALClient.XShared.ViewModels.Clubs
                         entry =>
                         {
                             ViewModelLocator.GeneralMain.Navigate(PageIndex.PageAnimeDetails,
-                                new AnimeDetailsPageNavigationArgs(int.Parse(entry.Item2), entry.Item1, null, null, _lastArgs) { Source = PageIndex.PageClubDetails });
+                                new AnimeDetailsPageNavigationArgs(int.Parse(entry.Item2), entry.Item1, null, null, LastArgs) { Source = PageIndex.PageClubDetails });
                         }));
 
         public ICommand NavigateMangaDetailsCommand
@@ -316,7 +322,7 @@ namespace MALClient.XShared.ViewModels.Clubs
                         entry =>
                         {
                             ViewModelLocator.GeneralMain.Navigate(PageIndex.PageAnimeDetails,
-                                new AnimeDetailsPageNavigationArgs(int.Parse(entry.Item2), entry.Item1, null, null, _lastArgs) { Source = PageIndex.PageClubDetails, AnimeMode = false});
+                                new AnimeDetailsPageNavigationArgs(int.Parse(entry.Item2), entry.Item1, null, null, LastArgs) { Source = PageIndex.PageClubDetails, AnimeMode = false});
                         }));
 
         public ICommand LeaveClubCommand => new RelayCommand(async () =>

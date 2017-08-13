@@ -8,6 +8,7 @@ using Android.Views;
 using Android.Widget;
 using Com.Astuetz;
 using MALClient.Android.Fragments;
+using MALClient.Android.Fragments.Clubs;
 using MALClient.Android.Fragments.ProfilePageFragments;
 using MALClient.Android.Resources;
 using Orientation = Android.Widget.Orientation;
@@ -22,9 +23,9 @@ namespace MALClient.Android.PagerAdapters
 
         public ClubDetailsPagerAdapter(FragmentManager fm) : base(fm)
         {
-            _generalFragment = new ProfilePageGeneralTabFragment();
-            _commentsFragment = new ProfilePageFavouritesTabFragment();
-            _descriptionFragment = new ProfilePageStatsTabFragment();
+            _generalFragment = new ClubDetailsPageGeneralTabFragment();
+            _commentsFragment = new ClubDetailsPageCommentsTabFragment();
+            _descriptionFragment = new ClubDetailsPageDescriptionTabFragment();
         }
 
         private MalFragmentBase _currentFragment;

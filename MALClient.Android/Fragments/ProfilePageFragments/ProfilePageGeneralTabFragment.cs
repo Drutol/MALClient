@@ -21,6 +21,7 @@ using MALClient.Android.DIalogs;
 using MALClient.Android.Listeners;
 using MALClient.Android.Resources;
 using MALClient.Android.UserControls;
+using MALClient.Android.ViewHolders;
 using MALClient.Models.Models;
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Main;
@@ -425,36 +426,6 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
         public FloatingActionButton ProfilePageGeneralTabActionButton => _profilePageGeneralTabActionButton ?? (_profilePageGeneralTabActionButton = FindViewById<FloatingActionButton>(Resource.Id.ProfilePageGeneralTabActionButton));
 
         #endregion
-        class CommentViewHolder
-        {
-            private readonly View _view;
 
-            public CommentViewHolder(View view)
-            {
-                _view = view;
-            }
-
-            private ImageViewAsync _profilePageGeneralTabCommentItemUserImg;
-            private FrameLayout _profilePageGeneralTabCommentItemImgButton;
-            private TextView _profilePageGeneralTabCommentItemUsername;
-            private TextView _profilePageGeneralTabCommentItemDate;
-            private TextView _profilePageGeneralTabCommentItemContent;
-            private Button _profilePageGeneralTabCommentItemConvButton;
-            private Button _profilePageGeneralTabCommentItemDeleteButton;
-
-            public ImageViewAsync ProfilePageGeneralTabCommentItemUserImg => _profilePageGeneralTabCommentItemUserImg ?? (_profilePageGeneralTabCommentItemUserImg = _view.FindViewById<ImageViewAsync>(Resource.Id.ProfilePageGeneralTabCommentItemUserImg));
-
-            public FrameLayout ProfilePageGeneralTabCommentItemImgButton => _profilePageGeneralTabCommentItemImgButton ?? (_profilePageGeneralTabCommentItemImgButton = _view.FindViewById<FrameLayout>(Resource.Id.ProfilePageGeneralTabCommentItemImgButton));
-
-            public TextView ProfilePageGeneralTabCommentItemUsername => _profilePageGeneralTabCommentItemUsername ?? (_profilePageGeneralTabCommentItemUsername = _view.FindViewById<TextView>(Resource.Id.ProfilePageGeneralTabCommentItemUsername));
-
-            public TextView ProfilePageGeneralTabCommentItemDate => _profilePageGeneralTabCommentItemDate ?? (_profilePageGeneralTabCommentItemDate = _view.FindViewById<TextView>(Resource.Id.ProfilePageGeneralTabCommentItemDate));
-
-            public TextView ProfilePageGeneralTabCommentItemContent => _profilePageGeneralTabCommentItemContent ?? (_profilePageGeneralTabCommentItemContent = _view.FindViewById<TextView>(Resource.Id.ProfilePageGeneralTabCommentItemContent));
-
-            public Button ProfilePageGeneralTabCommentItemConvButton => _profilePageGeneralTabCommentItemConvButton ?? (_profilePageGeneralTabCommentItemConvButton = _view.FindViewById<Button>(Resource.Id.ProfilePageGeneralTabCommentItemConvButton));
-
-            public Button ProfilePageGeneralTabCommentItemDeleteButton => _profilePageGeneralTabCommentItemDeleteButton ?? (_profilePageGeneralTabCommentItemDeleteButton = _view.FindViewById<Button>(Resource.Id.ProfilePageGeneralTabCommentItemDeleteButton));
-        }
     }
 }

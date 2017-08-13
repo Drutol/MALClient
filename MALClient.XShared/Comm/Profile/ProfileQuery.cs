@@ -57,7 +57,10 @@ namespace MALClient.XShared.Comm.Profile
                 if (!force)
                     possibleData = await DataCache.RetrieveProfileData(_userName);
                 if (possibleData != null)
+                {
+                    possibleData.Cached = true;
                     return possibleData;
+                }
                 var raw = !updateFavsOnly
                     ? await (await (await ResourceLocator.MalHttpContextProvider.GetHttpContextAsync())
                         .GetAsync($"/profile/{_userName}")).Content.ReadAsStringAsync()

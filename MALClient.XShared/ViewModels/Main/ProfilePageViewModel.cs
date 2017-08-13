@@ -278,6 +278,9 @@ namespace MALClient.XShared.ViewModels.Main
                 EmptyFavPeopleNoticeVisibility = CurrentData.FavouritePeople.Count == 0;
                 EmptyCommentsNoticeVisibility = CurrentData.Comments.Count == 0;
                 OnInitialized?.Invoke();
+
+                if(CurrentData.Cached)
+                    RefreshCommentsCommand.Execute(null);
             }
             catch (Exception e)
             {

@@ -124,6 +124,12 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
                 this.SetBinding(() => ViewModel.PinProfileVisibility,
                     () => PinButton.Visibility).ConvertSourceToTarget(Converters.BoolToVisibility));
 
+            Bindings.Add(
+                this.SetBinding(() => ViewModel.LoadingCommentsVisiblity,
+                    () => UpdateSpinner.Visibility)
+                    .ConvertSourceToTarget(Converters.BoolToVisibility));
+
+
             Bindings.Add(this.SetBinding(() => ViewModel.IsPinned).WhenSourceChanges(() =>
             {
                 if(!ViewModel.PinProfileVisibility)
@@ -156,37 +162,155 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
             ProfilePageGeneralTabActionButton.SetOnClickListener(new OnClickListener(v => ProfilePageGeneralTabActionButtonOnClick()));
             ProfilePageGeneralTabCompareList.SetOnClickListener(new OnClickListener(v => ViewModel.NavigateComparisonCommand.Execute(null)));
             ProfilePageGeneralTabMoreFriendsButton.SetOnClickListener(new OnClickListener(v => ViewModel.NavigateFriendsCommand.Execute(null)));
-
+            ProfilePageGeneralTabMoreFriendsButton.SetOnClickListener(new OnClickListener(v => ViewModel.NavigateFriendsCommand.Execute(null)));
+            ReloadButton.SetOnClickListener(new OnClickListener(view => ViewModel.RefreshCommentsCommand.Execute(null)));
 
 
             PopulateComments();
+            ProfilePageGeneralTabScrollingContainer.ViewTreeObserver.ScrollChanged -= ViewTreeObserverOnScrollChanged;
+            ProfilePageGeneralTabScrollingContainer.ViewTreeObserver.ScrollChanged += ViewTreeObserverOnScrollChanged;
+            ProfilePageGeneralTabScrollingContainer.Touch -= RootViewOnTouch;
+            ProfilePageGeneralTabScrollingContainer.Touch += RootViewOnTouch;
+            ProfilePageGeneralTabCommentsList.Touch -= RootViewOnTouch;
+            ProfilePageGeneralTabCommentsList.Touch += RootViewOnTouch;
         }
 
+        #region ScrollHandling
 
+        private async void RootViewOnTouch(object sender, View.TouchEventArgs touchEventArgs)
+        {
+            touchEventArgs.Handled = false;
+            if (touchEventArgs.Event.Action == MotionEventActions.Up ||
+                touchEventArgs.Event.Action == MotionEventActions.Cancel)
+            {
+                await Task.Delay(200); //why? because fling... I should listen for when it ends but 200ms seem to do the job just fine /shrug
+                if (_disableNestedScrollingOnTouchUp)
+                {
+
+                    if (ProfilePageGeneralTabScrollingContainer.GetChildAt(0).Bottom >
+                        ProfilePageGeneralTabScrollingContainer.Height + ProfilePageGeneralTabScrollingContainer.ScrollY)
+                        ProfilePageGeneralTabCommentsList.NestedScrollingEnabled = false;
+
+                    _disableNestedScrollingOnTouchUp = false;
+                }
+            }
+        }
+
+        private bool _disableNestedScrollingOnTouchUp;
+        private void ViewTreeObserverOnScrollChanged(object sender, EventArgs eventArgs)
+        {
+            if (ProfilePageGeneralTabScrollingContainer.GetChildAt(0).Bottom <=
+                (ProfilePageGeneralTabScrollingContainer.Height + ProfilePageGeneralTabScrollingContainer.ScrollY))
+            {
+                ProfilePageGeneralTabCommentsList.NestedScrollingEnabled = true;
+            }
+            else
+            {
+                _disableNestedScrollingOnTouchUp = true;
+            }
+        }
+
+        #endregion
+
+        #region Comments
         private static int _unbounded = View.MeasureSpec.MakeMeasureSpec(0, MeasureSpecMode.Unspecified);
+
         private void PopulateComments()
         {
-            ProfilePageGeneralTabCommentsList.Adapter = 
-                ViewModel.CurrentData.Comments.GetAdapter(GetCommentTemplateDelegate);
-            ProfilePageGeneralTabCommentsList.Post(() =>
+            Bindings.Add(this.SetBinding(() => ViewModel.MalComments).WhenSourceChanges(() =>
             {
-
-                int grossElementHeight = 0;
-                for (int i = 0;
-                    i < (ProfilePageGeneralTabCommentsList.Adapter.Count > 4
-                        ? 4
-                        : ProfilePageGeneralTabCommentsList.Adapter.Count);
-                    i++)
+                ProfilePageGeneralTabCommentsList.InjectFlingAdapter(ViewModel.MalComments,
+                    view => new CommentViewHolder(view), DataTemplateFull, DataTemplateFling, DataTemplateBasic,
+                    ContainerTemplate);
+                ProfilePageGeneralTabCommentsList.Post(() =>
                 {
-                    View childView =
-                        ProfilePageGeneralTabCommentsList.Adapter.GetView(i, null, ProfilePageGeneralTabCommentsList);
-                    childView.Measure(_unbounded, _unbounded);
-                    grossElementHeight += childView.MeasuredHeight;
-                }
-                ProfilePageGeneralTabCommentsList.LayoutParameters.Height = grossElementHeight;
-            });
 
+                    int grossElementHeight = 0;
+                    if (ProfilePageGeneralTabCommentsList.Adapter.Count > 0)
+                    {
+                        for (int i = 0;
+                            i < (ProfilePageGeneralTabCommentsList.Adapter.Count > 4
+                                ? 4
+                                : ProfilePageGeneralTabCommentsList.Adapter.Count);
+                            i++)
+                        {
+                            View childView =
+                                ProfilePageGeneralTabCommentsList.Adapter.GetView(i, null, ProfilePageGeneralTabCommentsList);
+                            childView.Measure(_unbounded, _unbounded);
+                            grossElementHeight += childView.MeasuredHeight;
+                        }
+                    }
+                    else
+                    {
+                        grossElementHeight = DimensionsHelper.DpToPx(100);
+                    }
+
+
+                    ProfilePageGeneralTabCommentsList.LayoutParameters.Height = grossElementHeight;
+                    ProfilePageGeneralTabCommentsList.NestedScrollingEnabled = false;
+                });
+            }));
+            
         }
+
+        private View ContainerTemplate(int i1)
+        {
+            var view = Activity.LayoutInflater.Inflate(Resource.Layout.ProfilePageGeneralTabCommentItem, null);
+
+            view.FindViewById(Resource.Id.ProfilePageGeneralTabCommentItemDeleteButton)
+                .SetOnClickListener(new OnClickListener(OnCommentDeleteClick));
+            view.FindViewById(Resource.Id.ProfilePageGeneralTabCommentItemConvButton)
+                .SetOnClickListener(new OnClickListener(OnCommentConversationClick));
+            view.FindViewById(Resource.Id.ProfilePageGeneralTabCommentItemImgButton)
+                .SetOnClickListener(new OnClickListener(OnCommentAuthorClick));
+
+            return view;
+        }
+
+        private void DataTemplateBasic(View view1, int i1, MalComment malComment, CommentViewHolder arg4)
+        {
+            arg4.ProfilePageGeneralTabCommentItemUsername.Text = malComment.User.Name;
+            arg4.ProfilePageGeneralTabCommentItemDate.Text = malComment.Date;
+            arg4.ProfilePageGeneralTabCommentItemContent.Text = malComment.Content;
+            arg4.ProfilePageGeneralTabCommentItemDeleteButton.Visibility =
+                malComment.CanDelete ? ViewStates.Visible : ViewStates.Gone;
+            arg4.ProfilePageGeneralTabCommentItemConvButton.Visibility = string.IsNullOrEmpty(malComment.ComToCom)
+                ? ViewStates.Gone
+                : ViewStates.Visible;
+
+
+            arg4.ProfilePageGeneralTabCommentItemDeleteButton.Tag =
+                arg4.ProfilePageGeneralTabCommentItemConvButton.Tag =
+                    arg4.ProfilePageGeneralTabCommentItemImgButton.Tag = view1.Tag;
+        }
+
+        private void DataTemplateFling(View view1, int i1, MalComment arg3, CommentViewHolder arg4)
+        {
+            if(!arg4.ProfilePageGeneralTabCommentItemUserImg.IntoIfLoaded(arg3.User.ImgUrl))
+                arg4.ProfilePageGeneralTabCommentItemUserImg.Visibility = ViewStates.Invisible;
+        }
+
+        private void DataTemplateFull(View view1, int i1, MalComment arg3, CommentViewHolder arg4)
+        {
+            arg4.ProfilePageGeneralTabCommentItemUserImg.Into(arg3.User.ImgUrl);
+        }
+
+        private void OnCommentConversationClick(View sender)
+        {
+            ViewModel.NavigateConversationCommand.Execute(sender.Tag.Unwrap<MalComment>());
+        }
+
+        private void OnCommentDeleteClick(View sender)
+        {
+            ViewModel.DeleteCommentCommand.Execute(sender.Tag.Unwrap<MalComment>());
+        }
+
+        private void OnCommentAuthorClick(View sender)
+        {
+            ViewModel.NavigateProfileCommand.Execute((sender as View).Tag.Unwrap<MalComment>().User);
+        }
+
+        #endregion
 
         private async void ProfilePageGeneralTabActionButtonOnClick()
         {
@@ -194,42 +318,6 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
             if(!string.IsNullOrEmpty(str))
                 ViewModel.NavigateProfileCommand.Execute(new MalUser{Name = str});
         }
-
-        private View GetCommentTemplateDelegate(int i, MalComment malComment, View convertView)
-        {
-
-            var view = Activity.LayoutInflater.Inflate(Resource.Layout.ProfilePageGeneralTabCommentItem, null);
-
-            var delButton = view.FindViewById<Button>(Resource.Id.ProfilePageGeneralTabCommentItemDeleteButton);
-            var convButton = view.FindViewById<Button>(Resource.Id.ProfilePageGeneralTabCommentItemConvButton);
-            var imgButton = view.FindViewById<FrameLayout>(Resource.Id.ProfilePageGeneralTabCommentItemImgButton);
-
-            delButton.SetOnClickListener(new OnClickListener(OnCommentDeleteClick)); 
-            convButton.SetOnClickListener(new OnClickListener( OnCommentConversationClick)); 
-            imgButton.SetOnClickListener(new OnClickListener(OnCommentAuthorClick));
-
-            if(!string.IsNullOrEmpty(malComment.User.ImgUrl))
-                view.FindViewById<ImageViewAsync>(Resource.Id.ProfilePageGeneralTabCommentItemUserImg).Into(malComment.User.ImgUrl);
-
-            view.FindViewById<TextView>(Resource.Id.ProfilePageGeneralTabCommentItemUsername).Text =
-                malComment.User.Name;
-            view.FindViewById<TextView>(Resource.Id.ProfilePageGeneralTabCommentItemDate).Text = malComment.Date;
-            view.FindViewById<TextView>(Resource.Id.ProfilePageGeneralTabCommentItemContent).Text = malComment.Content;
-
-            view.FindViewById(Resource.Id.ProfilePageGeneralTabCommentItemDeleteButton).Visibility =
-                malComment.CanDelete ? ViewStates.Visible : ViewStates.Gone;
-            view.FindViewById(Resource.Id.ProfilePageGeneralTabCommentItemConvButton).Visibility =
-                string.IsNullOrEmpty(malComment.ComToCom) ? ViewStates.Gone : ViewStates.Visible;
-
-            view.Tag =
-                delButton.Tag =
-                    convButton.Tag = 
-                        imgButton.Tag = malComment.Wrap();
-            return view;
-        }
-
-
-
 
         private View GetFriendTemplateDelegate(int i, MalUser malUser, View convertView)
         {
@@ -262,29 +350,14 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
         }
 
 
-        private void OnCommentConversationClick(View sender)
-        {
-            ViewModel.NavigateConversationCommand.Execute(sender.Tag.Unwrap<MalComment>());
-        }
-
-        private void OnCommentDeleteClick(View sender)
-        {
-            ViewModel.DeleteCommentCommand.Execute(sender.Tag.Unwrap<MalComment>());
-            //ProfilePageGeneralTabCommentsList.RemoveView(sender);
-        }
 
         private void FriendButtonOnClick(View sender)
         {
             ViewModel.NavigateProfileCommand.Execute((sender as View).Tag.Unwrap<MalUser>());
         }
 
-        private void OnCommentAuthorClick(View sender)
-        {
-            ViewModel.NavigateProfileCommand.Execute((sender as View).Tag.Unwrap<MalComment>().User);
-        }
 
         public override int LayoutResourceId => Resource.Layout.ProfilePageGeneralTab;
-
         #region Views
 
         private ImageView _profilePageGeneralTabImagePlaceholder;
@@ -296,9 +369,11 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
         private Button _profilePageGeneralTabHistoryButton;
         private ImageView _pinButtonIcon;
         private FrameLayout _pinButton;
+        private ImageButton _profilePageGeneralTabMoreFriendsButton;
         private ExpandableGridView _profilePageGeneralTabFriendsGrid;
-        private Button _profilePageGeneralTabMoreFriendsButton;
         private TextView _profilePageGeneralTabFriendsEmptyNotice;
+        private ProgressBar _animeDetailsPageLoadingUpdateSpinner;
+        private ImageButton _reloadButton;
         private EditText _profilePageGeneralTabCommentInput;
         private Button _profilePageGeneralTabSendCommentButton;
         private LinearLayout _profilePageGeneralTabCommentSection;
@@ -325,11 +400,15 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
 
         public FrameLayout PinButton => _pinButton ?? (_pinButton = FindViewById<FrameLayout>(Resource.Id.PinButton));
 
+        public ImageButton ProfilePageGeneralTabMoreFriendsButton => _profilePageGeneralTabMoreFriendsButton ?? (_profilePageGeneralTabMoreFriendsButton = FindViewById<ImageButton>(Resource.Id.ProfilePageGeneralTabMoreFriendsButton));
+
         public ExpandableGridView ProfilePageGeneralTabFriendsGrid => _profilePageGeneralTabFriendsGrid ?? (_profilePageGeneralTabFriendsGrid = FindViewById<ExpandableGridView>(Resource.Id.ProfilePageGeneralTabFriendsGrid));
 
-        public Button ProfilePageGeneralTabMoreFriendsButton => _profilePageGeneralTabMoreFriendsButton ?? (_profilePageGeneralTabMoreFriendsButton = FindViewById<Button>(Resource.Id.ProfilePageGeneralTabMoreFriendsButton));
-
         public TextView ProfilePageGeneralTabFriendsEmptyNotice => _profilePageGeneralTabFriendsEmptyNotice ?? (_profilePageGeneralTabFriendsEmptyNotice = FindViewById<TextView>(Resource.Id.ProfilePageGeneralTabFriendsEmptyNotice));
+
+        public ProgressBar UpdateSpinner => _animeDetailsPageLoadingUpdateSpinner ?? (_animeDetailsPageLoadingUpdateSpinner = FindViewById<ProgressBar>(Resource.Id.AnimeDetailsPageLoadingUpdateSpinner));
+
+        public ImageButton ReloadButton => _reloadButton ?? (_reloadButton = FindViewById<ImageButton>(Resource.Id.ReloadButton));
 
         public EditText ProfilePageGeneralTabCommentInput => _profilePageGeneralTabCommentInput ?? (_profilePageGeneralTabCommentInput = FindViewById<EditText>(Resource.Id.ProfilePageGeneralTabCommentInput));
 
@@ -346,5 +425,36 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
         public FloatingActionButton ProfilePageGeneralTabActionButton => _profilePageGeneralTabActionButton ?? (_profilePageGeneralTabActionButton = FindViewById<FloatingActionButton>(Resource.Id.ProfilePageGeneralTabActionButton));
 
         #endregion
+        class CommentViewHolder
+        {
+            private readonly View _view;
+
+            public CommentViewHolder(View view)
+            {
+                _view = view;
+            }
+
+            private ImageViewAsync _profilePageGeneralTabCommentItemUserImg;
+            private FrameLayout _profilePageGeneralTabCommentItemImgButton;
+            private TextView _profilePageGeneralTabCommentItemUsername;
+            private TextView _profilePageGeneralTabCommentItemDate;
+            private TextView _profilePageGeneralTabCommentItemContent;
+            private Button _profilePageGeneralTabCommentItemConvButton;
+            private Button _profilePageGeneralTabCommentItemDeleteButton;
+
+            public ImageViewAsync ProfilePageGeneralTabCommentItemUserImg => _profilePageGeneralTabCommentItemUserImg ?? (_profilePageGeneralTabCommentItemUserImg = _view.FindViewById<ImageViewAsync>(Resource.Id.ProfilePageGeneralTabCommentItemUserImg));
+
+            public FrameLayout ProfilePageGeneralTabCommentItemImgButton => _profilePageGeneralTabCommentItemImgButton ?? (_profilePageGeneralTabCommentItemImgButton = _view.FindViewById<FrameLayout>(Resource.Id.ProfilePageGeneralTabCommentItemImgButton));
+
+            public TextView ProfilePageGeneralTabCommentItemUsername => _profilePageGeneralTabCommentItemUsername ?? (_profilePageGeneralTabCommentItemUsername = _view.FindViewById<TextView>(Resource.Id.ProfilePageGeneralTabCommentItemUsername));
+
+            public TextView ProfilePageGeneralTabCommentItemDate => _profilePageGeneralTabCommentItemDate ?? (_profilePageGeneralTabCommentItemDate = _view.FindViewById<TextView>(Resource.Id.ProfilePageGeneralTabCommentItemDate));
+
+            public TextView ProfilePageGeneralTabCommentItemContent => _profilePageGeneralTabCommentItemContent ?? (_profilePageGeneralTabCommentItemContent = _view.FindViewById<TextView>(Resource.Id.ProfilePageGeneralTabCommentItemContent));
+
+            public Button ProfilePageGeneralTabCommentItemConvButton => _profilePageGeneralTabCommentItemConvButton ?? (_profilePageGeneralTabCommentItemConvButton = _view.FindViewById<Button>(Resource.Id.ProfilePageGeneralTabCommentItemConvButton));
+
+            public Button ProfilePageGeneralTabCommentItemDeleteButton => _profilePageGeneralTabCommentItemDeleteButton ?? (_profilePageGeneralTabCommentItemDeleteButton = _view.FindViewById<Button>(Resource.Id.ProfilePageGeneralTabCommentItemDeleteButton));
+        }
     }
 }

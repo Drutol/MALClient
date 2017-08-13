@@ -415,7 +415,7 @@
     <Compile Include="UserControls\LandscapeHelpers\HeightAdjustingListView.cs" />
     <Compile Include="UserControls\LandscapeHelpers\HeightAdjustingViewPager.cs" />
     <Compile Include="UserControls\LandscapeHelpers\OrientationDependentScrollView.cs" />
-    <Compile Include="UserControls\OverscrollingListView.cs" />
+    <Compile Include="UserControls\PriorityListView.cs" />
     <Compile Include="UserControls\ScrollableSwipeToRefreshLayout.cs" />
     <Compile Include="UserControls\CharView\Arc.cs" />
     <Compile Include="UserControls\CharView\Chart.cs" />
@@ -1251,6 +1251,9 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\HeaderedTextBlock.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\border_accent_underline_wide.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

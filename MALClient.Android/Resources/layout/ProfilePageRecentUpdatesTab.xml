@@ -11,12 +11,12 @@
     <RelativeLayout
       android:layout_width="match_parent"
       android:layout_height="@dimen/AppBarBtnHeight"
-      android:background="?BrushAppBars">
+      android:background="?BrushAnimeItemInnerBackground">
       <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" android:text="Recent Anime"
         android:layout_centerInParent="true" android:textColor="?AccentColourLight"
-        android:fontFamily="@string/font_family_light" android:textSize="@dimen/FontSizeHuge"
+        android:textSize="@dimen/FontSizeHuge"
         android:layout_gravity="center" />
     </RelativeLayout>
     <RelativeLayout
@@ -44,12 +44,11 @@
     <RelativeLayout
       android:layout_width="match_parent"
       android:layout_height="@dimen/AppBarBtnHeight"
-      android:background="?BrushAppBars">
+      android:background="?BrushAnimeItemInnerBackground">
       <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" android:text="Recent Manga"
-        android:layout_centerInParent="true" android:textColor="?AccentColourLight"
-        android:fontFamily="@string/font_family_light" android:textSize="@dimen/FontSizeHuge"
+        android:layout_centerInParent="true" android:textColor="?AccentColourLight" android:textSize="@dimen/FontSizeHuge"
         android:layout_gravity="center" />
     </RelativeLayout>
     <RelativeLayout

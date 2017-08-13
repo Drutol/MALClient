@@ -4,23 +4,21 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             xmlns:tools="http://schemas.android.com/tools"
-            android:orientation="vertical">
+            android:orientation="vertical" android:background="?BrushAnimeItemInnerBackground">
 
-  <LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
+  <LinearLayout android:background="?BrushAnimeItemInnerBackground"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
     <FrameLayout
       android:layout_width="match_parent"
-      android:layout_height="@dimen/AppBarBtnHeight"
-      android:background="?BrushForumPinnedBoard">
+      android:layout_height="@dimen/AppBarBtnHeight">
 
       <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:fontFamily="@string/font_family_light"
         android:text="Anime Stats"
         android:textColor="?AccentColour"
         android:textSize="@dimen/FontSizeHuge" />
@@ -119,7 +117,7 @@
 
     <LinearLayout
       android:layout_width="match_parent"
-      android:layout_height="wrap_content"
+      android:layout_height="wrap_content" android:paddingTop="5dp" android:paddingBottom="5dp"
       android:background="?BrushAnimeItemBackground">
 
       <LinearLayout
@@ -130,14 +128,14 @@
         android:orientation="vertical">
 
         <FrameLayout
-          android:layout_width="match_parent" android:background="?BrushAnimeItemInnerBackground"
+          android:layout_width="match_parent" android:background="?BrushForumPinnedBoard"
           android:layout_height="wrap_content"
           android:layout_marginBottom="1dp"
           android:layout_marginStart="2dp"
-          android:layout_marginTop="1dp">
+          android:layout_marginTop="1dp" >
 
           <FrameLayout
-            android:layout_width="match_parent"
+            android:layout_width="match_parent" 
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:background="@drawable/border_accent_rightleft"
@@ -154,7 +152,7 @@
               android:text="Watching"
               android:textAlignment="center"
               android:textColor="?BrushText"
-              android:textSize="@dimen/FontSizeNormal" />
+              android:textSize="@dimen/FontSizeMedium" />
 
             <TextView
               android:id="@+id/WatchingAnimeCount"
@@ -166,11 +164,11 @@
               android:gravity="end|center_vertical"
               android:textAlignment="center"
               android:textColor="@color/WatchingColour"
-              android:textSize="@dimen/FontSizeNormal" />
+              android:textSize="@dimen/FontSizeMedium" />
           </FrameLayout>
         </FrameLayout>
         <FrameLayout
-          android:layout_width="match_parent" android:background="?BrushAnimeItemInnerBackground"
+          android:layout_width="match_parent" android:background="?BrushForumPinnedBoard"
           android:layout_height="wrap_content"
           android:layout_marginBottom="1dp"
           android:layout_marginStart="2dp"
@@ -194,7 +192,7 @@
               android:text="Completed"
               android:textAlignment="center"
               android:textColor="?BrushText"
-              android:textSize="@dimen/FontSizeNormal" />
+              android:textSize="@dimen/FontSizeMedium" />
 
             <TextView
               android:id="@+id/CompletedAnimeCount"
@@ -206,11 +204,11 @@
               android:gravity="end|center_vertical"
               android:textAlignment="center"
               android:textColor="@color/CompletedColour"
-              android:textSize="@dimen/FontSizeNormal" />
+              android:textSize="@dimen/FontSizeMedium" />
           </FrameLayout>
         </FrameLayout>
         <FrameLayout
-          android:layout_width="match_parent" android:background="?BrushAnimeItemInnerBackground"
+          android:layout_width="match_parent" android:background="?BrushForumPinnedBoard"
           android:layout_height="wrap_content"
           android:layout_marginBottom="1dp"
           android:layout_marginStart="2dp"
@@ -234,7 +232,7 @@
               android:text="On Hold"
               android:textAlignment="center"
               android:textColor="?BrushText"
-              android:textSize="@dimen/FontSizeNormal" />
+              android:textSize="@dimen/FontSizeMedium" />
 
             <TextView
               android:id="@+id/OnHoldAnimeCount"
@@ -246,11 +244,11 @@
               android:gravity="end|center_vertical"
               android:textAlignment="center"
               android:textColor="@color/OnHoldColour"
-              android:textSize="@dimen/FontSizeNormal" />
+              android:textSize="@dimen/FontSizeMedium" />
           </FrameLayout>
         </FrameLayout>
         <FrameLayout
-          android:layout_width="match_parent" android:background="?BrushAnimeItemInnerBackground"
+          android:layout_width="match_parent" android:background="?BrushForumPinnedBoard"
           android:layout_height="wrap_content"
           android:layout_marginBottom="1dp"
           android:layout_marginStart="2dp"
@@ -274,7 +272,7 @@
               android:text="Dropped"
               android:textAlignment="center"
               android:textColor="?BrushText"
-              android:textSize="@dimen/FontSizeNormal" />
+              android:textSize="@dimen/FontSizeMedium" />
 
             <TextView
               android:id="@+id/DroppedAnimeCount"
@@ -286,11 +284,11 @@
               android:gravity="end|center_vertical"
               android:textAlignment="center"
               android:textColor="@color/DroppedColour"
-              android:textSize="@dimen/FontSizeNormal" />
+              android:textSize="@dimen/FontSizeMedium" />
           </FrameLayout>
         </FrameLayout>
         <FrameLayout
-          android:layout_width="match_parent" android:background="?BrushAnimeItemInnerBackground"
+          android:layout_width="match_parent" android:background="?BrushForumPinnedBoard"
           android:layout_height="wrap_content"
           android:layout_marginBottom="1dp"
           android:layout_marginStart="2dp"
@@ -314,7 +312,7 @@
               android:text="Planned"
               android:textAlignment="center"
               android:textColor="?BrushText"
-              android:textSize="@dimen/FontSizeNormal" />
+              android:textSize="@dimen/FontSizeMedium" />
 
             <TextView
               android:id="@+id/PlannedAnimeCount"
@@ -326,7 +324,7 @@
               android:gravity="end|center_vertical"
               android:textAlignment="center"
               android:textColor="@color/PlannedColour"
-              android:textSize="@dimen/FontSizeNormal" />
+              android:textSize="@dimen/FontSizeMedium" />
           </FrameLayout>
         </FrameLayout>
       </LinearLayout>
@@ -340,7 +338,7 @@
         android:orientation="vertical">
 
         <FrameLayout
-          android:layout_width="match_parent" android:background="?BrushAnimeItemInnerBackground"
+          android:layout_width="match_parent" android:background="?BrushForumPinnedBoard"
           android:layout_height="wrap_content"
           android:layout_marginBottom="1dp"
           android:layout_marginStart="2dp"
@@ -364,7 +362,7 @@
               android:text="Total"
               android:textAlignment="center"
               android:textColor="?BrushText"
-              android:textSize="@dimen/FontSizeNormal" />
+              android:textSize="@dimen/FontSizeMedium" />
 
             <TextView
               android:id="@+id/TotalAnimeCount"
@@ -376,11 +374,11 @@
               android:gravity="end|center_vertical"
               android:textAlignment="center"
               android:textColor="?BrushText"
-              android:textSize="@dimen/FontSizeNormal" />
+              android:textSize="@dimen/FontSizeMedium" />
           </FrameLayout>
         </FrameLayout>
         <FrameLayout
-          android:layout_width="match_parent" android:background="?BrushAnimeItemInnerBackground"
+          android:layout_width="match_parent" android:background="?BrushForumPinnedBoard"
           android:layout_height="wrap_content"
           android:layout_marginBottom="1dp"
           android:layout_marginStart="2dp"
@@ -404,7 +402,7 @@
               android:text="Rewatched"
               android:textAlignment="center"
               android:textColor="?BrushText"
-              android:textSize="@dimen/FontSizeNormal" />
+              android:textSize="@dimen/FontSizeMedium" />
 
             <TextView
               android:id="@+id/RewatchedAnimeCount"
@@ -416,11 +414,11 @@
               android:gravity="end|center_vertical"
               android:textAlignment="center"
               android:textColor="?BrushText"
-              android:textSize="@dimen/FontSizeNormal" />
+              android:textSize="@dimen/FontSizeMedium" />
           </FrameLayout>
         </FrameLayout>
         <FrameLayout
-          android:layout_width="match_parent" android:background="?BrushAnimeItemInnerBackground"
+          android:layout_width="match_parent" android:background="?BrushForumPinnedBoard"
           android:layout_height="wrap_content"
           android:layout_marginBottom="1dp"
           android:layout_marginStart="2dp"
@@ -444,7 +442,7 @@
               android:text="Episodes"
               android:textAlignment="center"
               android:textColor="?BrushText"
-              android:textSize="@dimen/FontSizeNormal" />
+              android:textSize="@dimen/FontSizeMedium" />
 
             <TextView
               android:id="@+id/EpisodesAnimeCount"
@@ -456,13 +454,13 @@
               android:gravity="end|center_vertical"
               android:textAlignment="center"
               android:textColor="?BrushText"
-              android:textSize="@dimen/FontSizeNormal" />
+              android:textSize="@dimen/FontSizeMedium" />
           </FrameLayout>
         </FrameLayout>
 
         <!--<TextView android:id="@+id/AnimeDaysLabel" android:layout_gravity="center_horizontal" android:layout_marginTop="10dp"
-                          android:layout_width="wrap_content" android:text="Days: 47" android:fontFamily="@string/font_family_light" android:textSize="@dimen/FontSizeHuge"
-                          android:layout_height="wrap_content" android:textColor="?AccentColour"/>-->
+                                  android:layout_width="wrap_content" android:text="Days: 47" android:fontFamily="@string/font_family_light" android:textSize="@dimen/FontSizeHuge"
+                                  android:layout_height="wrap_content" android:textColor="?AccentColour"/>-->
         <TextView android:id="@+id/AnimeMeanLabel" android:layout_gravity="center_horizontal" android:layout_marginTop="10dp"
                   android:layout_width="wrap_content" android:text="Mean: 7.69" android:fontFamily="@string/font_family_light" android:textSize="@dimen/FontSizeHuge"
                   android:layout_height="wrap_content" android:textColor="?AccentColour"/>
@@ -471,15 +469,14 @@
     </LinearLayout>
 
     <FrameLayout
-      android:layout_width="match_parent" android:layout_marginTop="20dp"
+      android:layout_width="match_parent"
       android:layout_height="@dimen/AppBarBtnHeight"
-      android:background="?BrushForumPinnedBoard">
+      android:background="?BrushAnimeItemInnerBackground">
 
       <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:fontFamily="@string/font_family_light"
         android:text="Manga Stats"
         android:textColor="?AccentColour"
         android:textSize="@dimen/FontSizeHuge" />
@@ -587,7 +584,7 @@
         android:orientation="vertical">
 
         <FrameLayout
-          android:layout_width="match_parent" android:background="?BrushAnimeItemInnerBackground"
+          android:layout_width="match_parent" android:background="?BrushForumPinnedBoard"
           android:layout_height="wrap_content"
           android:layout_marginBottom="1dp"
           android:layout_marginStart="2dp"
@@ -611,7 +608,7 @@
               android:text="Reading"
               android:textAlignment="center"
               android:textColor="?BrushText"
-              android:textSize="@dimen/FontSizeNormal" />
+              android:textSize="@dimen/FontSizeMedium" />
 
             <TextView
               android:id="@+id/WatchingMangaCount"
@@ -623,11 +620,11 @@
               android:gravity="end|center_vertical"
               android:textAlignment="center"
               android:textColor="@color/WatchingColour"
-              android:textSize="@dimen/FontSizeNormal" />
+              android:textSize="@dimen/FontSizeMedium" />
           </FrameLayout>
         </FrameLayout>
         <FrameLayout
-          android:layout_width="match_parent" android:background="?BrushAnimeItemInnerBackground"
+          android:layout_width="match_parent" android:background="?BrushForumPinnedBoard"
           android:layout_height="wrap_content"
           android:layout_marginBottom="1dp"
           android:layout_marginStart="2dp"
@@ -651,7 +648,7 @@
               android:text="Completed"
               android:textAlignment="center"
               android:textColor="?BrushText"
-              android:textSize="@dimen/FontSizeNormal" />
+              android:textSize="@dimen/FontSizeMedium" />
 
             <TextView
               android:id="@+id/CompletedMangaCount"
@@ -663,11 +660,11 @@
               android:gravity="end|center_vertical"
               android:textAlignment="center"
               android:textColor="@color/CompletedColour"
-              android:textSize="@dimen/FontSizeNormal" />
+              android:textSize="@dimen/FontSizeMedium" />
           </FrameLayout>
         </FrameLayout>
         <FrameLayout
-          android:layout_width="match_parent" android:background="?BrushAnimeItemInnerBackground"
+          android:layout_width="match_parent" android:background="?BrushForumPinnedBoard"
           android:layout_height="wrap_content"
           android:layout_marginBottom="1dp"
           android:layout_marginStart="2dp"
@@ -691,7 +688,7 @@
               android:text="On Hold"
               android:textAlignment="center"
               android:textColor="?BrushText"
-              android:textSize="@dimen/FontSizeNormal" />
+              android:textSize="@dimen/FontSizeMedium" />
 
             <TextView
               android:id="@+id/OnHoldMangaCount"
@@ -703,11 +700,11 @@
               android:gravity="end|center_vertical"
               android:textAlignment="center"
               android:textColor="@color/OnHoldColour"
-              android:textSize="@dimen/FontSizeNormal" />
+              android:textSize="@dimen/FontSizeMedium" />
           </FrameLayout>
         </FrameLayout>
         <FrameLayout
-          android:layout_width="match_parent" android:background="?BrushAnimeItemInnerBackground"
+          android:layout_width="match_parent" android:background="?BrushForumPinnedBoard"
           android:layout_height="wrap_content"
           android:layout_marginBottom="1dp"
           android:layout_marginStart="2dp"
@@ -731,7 +728,7 @@
               android:text="Dropped"
               android:textAlignment="center"
               android:textColor="?BrushText"
-              android:textSize="@dimen/FontSizeNormal" />
+              android:textSize="@dimen/FontSizeMedium" />
 
             <TextView
               android:id="@+id/DroppedMangaCount"
@@ -743,11 +740,11 @@
               android:gravity="end|center_vertical"
               android:textAlignment="center"
               android:textColor="@color/DroppedColour"
-              android:textSize="@dimen/FontSizeNormal" />
+              android:textSize="@dimen/FontSizeMedium" />
           </FrameLayout>
         </FrameLayout>
         <FrameLayout
-          android:layout_width="match_parent" android:background="?BrushAnimeItemInnerBackground"
+          android:layout_width="match_parent" android:background="?BrushForumPinnedBoard"
           android:layout_height="wrap_content"
           android:layout_marginBottom="1dp"
           android:layout_marginStart="2dp"
@@ -771,7 +768,7 @@
               android:text="Planned"
               android:textAlignment="center"
               android:textColor="?BrushText"
-              android:textSize="@dimen/FontSizeNormal" />
+              android:textSize="@dimen/FontSizeMedium" />
 
             <TextView
               android:id="@+id/PlannedMangaCount"
@@ -783,7 +780,7 @@
               android:gravity="end|center_vertical"
               android:textAlignment="center"
               android:textColor="@color/PlannedColour"
-              android:textSize="@dimen/FontSizeNormal" />
+              android:textSize="@dimen/FontSizeMedium" />
           </FrameLayout>
         </FrameLayout>
       </LinearLayout>
@@ -798,7 +795,7 @@
         android:orientation="vertical">
 
         <FrameLayout
-          android:layout_width="match_parent" android:background="?BrushAnimeItemInnerBackground"
+          android:layout_width="match_parent" android:background="?BrushForumPinnedBoard"
           android:layout_height="wrap_content"
           android:layout_marginBottom="1dp"
           android:layout_marginStart="2dp"
@@ -822,7 +819,7 @@
               android:text="Total"
               android:textAlignment="center"
               android:textColor="?BrushText"
-              android:textSize="@dimen/FontSizeNormal" />
+              android:textSize="@dimen/FontSizeMedium" />
 
             <TextView
               android:id="@+id/TotalMangaCount"
@@ -834,11 +831,11 @@
               android:gravity="end|center_vertical"
               android:textAlignment="center"
               android:textColor="?BrushText"
-              android:textSize="@dimen/FontSizeNormal" />
+              android:textSize="@dimen/FontSizeMedium" />
           </FrameLayout>
         </FrameLayout>
         <FrameLayout
-          android:layout_width="match_parent" android:background="?BrushAnimeItemInnerBackground"
+          android:layout_width="match_parent" android:background="?BrushForumPinnedBoard"
           android:layout_height="wrap_content"
           android:layout_marginBottom="1dp"
           android:layout_marginStart="2dp"
@@ -862,7 +859,7 @@
               android:text="Reread"
               android:textAlignment="center"
               android:textColor="?BrushText"
-              android:textSize="@dimen/FontSizeNormal" />
+              android:textSize="@dimen/FontSizeMedium" />
 
             <TextView
               android:id="@+id/RereadMangaCount"
@@ -874,11 +871,11 @@
               android:gravity="end|center_vertical"
               android:textAlignment="center"
               android:textColor="?BrushText"
-              android:textSize="@dimen/FontSizeNormal" />
+              android:textSize="@dimen/FontSizeMedium" />
           </FrameLayout>
         </FrameLayout>
         <FrameLayout
-          android:layout_width="match_parent" android:background="?BrushAnimeItemInnerBackground"
+          android:layout_width="match_parent" android:background="?BrushForumPinnedBoard"
           android:layout_height="wrap_content"
           android:layout_marginBottom="1dp"
           android:layout_marginStart="2dp"
@@ -902,7 +899,7 @@
               android:text="Chapters"
               android:textAlignment="center"
               android:textColor="?BrushText"
-              android:textSize="@dimen/FontSizeNormal" />
+              android:textSize="@dimen/FontSizeMedium" />
 
             <TextView
               android:id="@+id/ChaptersMangaCount"
@@ -914,12 +911,12 @@
               android:gravity="end|center_vertical"
               android:textAlignment="center"
               android:textColor="?BrushText"
-              android:textSize="@dimen/FontSizeNormal" />
+              android:textSize="@dimen/FontSizeMedium" />
           </FrameLayout>
         </FrameLayout>
 
         <FrameLayout
-          android:layout_width="match_parent" android:background="?BrushAnimeItemInnerBackground"
+          android:layout_width="match_parent" android:background="?BrushForumPinnedBoard"
           android:layout_height="wrap_content"
           android:layout_marginBottom="1dp"
           android:layout_marginStart="2dp"
@@ -943,7 +940,7 @@
               android:text="Volumes"
               android:textAlignment="center"
               android:textColor="?BrushText"
-              android:textSize="@dimen/FontSizeNormal" />
+              android:textSize="@dimen/FontSizeMedium" />
 
             <TextView
               android:id="@+id/VolumesMangaCount"
@@ -955,7 +952,7 @@
               android:gravity="end|center_vertical"
               android:textAlignment="center"
               android:textColor="?BrushText"
-              android:textSize="@dimen/FontSizeNormal" />
+              android:textSize="@dimen/FontSizeMedium" />
           </FrameLayout>
         </FrameLayout>
 

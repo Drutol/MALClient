@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
 using MALClient.Models.Models.Favourites;
+using Newtonsoft.Json;
 
 namespace MALClient.Models.Models
 {
@@ -47,6 +48,8 @@ namespace MALClient.Models.Models
 
     public class ProfileData
     {
+        [JsonIgnore]
+        public bool Cached { get; set; }
         //
         //User details
         //

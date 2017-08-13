@@ -7,20 +7,20 @@
     android:pivotY="50%"
     android:repeatCount="infinite"
     android:repeatMode="reverse"
-    android:toXScale="0.8"
-    android:toYScale="0.8"
+    android:toXScale="0.65"
+    android:toYScale="0.65"
     android:startOffset="1000"
     android:interpolator="@android:interpolator/bounce" />
   <scale
     android:duration="600"
-    android:fromXScale=".9"
-    android:fromYScale=".9"
+    android:fromXScale="1"
+    android:fromYScale="1"
     android:pivotX="50%"
     android:pivotY="50%"
     android:repeatCount="infinite"
     android:repeatMode="reverse"
-    android:toXScale="1.15"
+    android:toXScale="1.35"
     android:startOffset="1300"
-    android:toYScale="1.15"
+    android:toYScale="1.35"
     android:interpolator="@android:interpolator/bounce" />
 </set>

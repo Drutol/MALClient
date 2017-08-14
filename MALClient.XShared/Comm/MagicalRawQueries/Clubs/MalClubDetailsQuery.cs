@@ -193,7 +193,17 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Clubs
 
                         current.Content = current.Content.Substring(0, current.Content.Length - 6);
                     }
-
+                    try
+                    {
+                        foreach (var image in htmlNode.WhereOfDescendantsWithClass("img", "userimg"))
+                        {
+                            current.Images.Add(image.Attributes["src"].Value);
+                        }
+                    }
+                    catch (Exception)
+                    {
+                        //images strike
+                    }
                     output.RecentComments.Add(current);
                 }
 
@@ -254,6 +264,18 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Clubs
                         current.Id = txt.Substring(0, pos - 1);
                         current.Content = current.Content.Substring(0, current.Content.Length - 6);
                     }
+                    try
+                    {
+                        foreach (var image in htmlNode.WhereOfDescendantsWithClass("img", "userimg"))
+                        {
+                            current.Images.Add(image.Attributes["src"].Value);
+                        }
+                    }
+                    catch (Exception)
+                    {
+                        //images strike
+                    }
+
 
                     output.Add(current);
                 }

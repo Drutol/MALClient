@@ -27,8 +27,9 @@ namespace MALClient.Android.ViewHolders
         private TextView _profilePageGeneralTabCommentItemUsername;
         private TextView _profilePageGeneralTabCommentItemDate;
         private TextView _profilePageGeneralTabCommentItemContent;
-        private Button _profilePageGeneralTabCommentItemConvButton;
+        private ImageViewAsync _image;
         private Button _profilePageGeneralTabCommentItemDeleteButton;
+        private Button _profilePageGeneralTabCommentItemConvButton;
 
         public ImageViewAsync ProfilePageGeneralTabCommentItemUserImg => _profilePageGeneralTabCommentItemUserImg ?? (_profilePageGeneralTabCommentItemUserImg = _view.FindViewById<ImageViewAsync>(Resource.Id.ProfilePageGeneralTabCommentItemUserImg));
 
@@ -40,8 +41,10 @@ namespace MALClient.Android.ViewHolders
 
         public TextView ProfilePageGeneralTabCommentItemContent => _profilePageGeneralTabCommentItemContent ?? (_profilePageGeneralTabCommentItemContent = _view.FindViewById<TextView>(Resource.Id.ProfilePageGeneralTabCommentItemContent));
 
-        public Button ProfilePageGeneralTabCommentItemConvButton => _profilePageGeneralTabCommentItemConvButton ?? (_profilePageGeneralTabCommentItemConvButton = _view.FindViewById<Button>(Resource.Id.ProfilePageGeneralTabCommentItemConvButton));
+        public ImageViewAsync Image => _image ?? (_image = _view.FindViewById<ImageViewAsync>(Resource.Id.Image));
 
         public Button ProfilePageGeneralTabCommentItemDeleteButton => _profilePageGeneralTabCommentItemDeleteButton ?? (_profilePageGeneralTabCommentItemDeleteButton = _view.FindViewById<Button>(Resource.Id.ProfilePageGeneralTabCommentItemDeleteButton));
+
+        public Button ProfilePageGeneralTabCommentItemConvButton => _profilePageGeneralTabCommentItemConvButton ?? (_profilePageGeneralTabCommentItemConvButton = _view.FindViewById<Button>(Resource.Id.ProfilePageGeneralTabCommentItemConvButton));
+        }
     }
-}

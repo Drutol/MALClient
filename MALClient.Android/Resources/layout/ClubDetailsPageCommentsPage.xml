@@ -5,24 +5,39 @@
                                                                android:layout_height="match_parent"
                                                                android:orientation="vertical"
                                                                android:background="?BrushDeepBackground">
-  <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical">
-    <LinearLayout
-      android:layout_width="match_parent" android:focusableInTouchMode="true"
-      android:layout_height="wrap_content" android:padding="10dp" android:orientation="vertical">
-      <EditText
-        android:layout_width="match_parent" android:textColorHint="?BrushNoSearchResults" android:id="@+id/CommentTextBox"
-        android:layout_height="wrap_content" android:inputType="textMultiLine" android:hint="Comment..." />
-      <Button android:layout_marginTop="5dp"
-              android:layout_width="wrap_content" android:id="@+id/CommentButton"
-              android:layout_height="wrap_content" style="@style/AccentButtonStyle" android:text="Send Comment"
-              android:padding="5dp" />
+  <FrameLayout android:layout_width="match_parent" android:layout_height="match_parent">
+    <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical">
+      <FrameLayout
+        android:layout_width="match_parent" android:paddingBottom="2dp" android:clipToPadding="false"
+        android:layout_height="wrap_content">
+        <LinearLayout
+          android:layout_width="match_parent" android:focusableInTouchMode="true" android:background="?BrushAnimeItemBackground"
+          android:layout_height="wrap_content" android:padding="10dp" android:orientation="vertical" android:elevation="2dp">
+          <EditText
+            android:layout_width="match_parent" android:textColorHint="?BrushNoSearchResults" android:id="@+id/CommentTextBox"
+            android:layout_height="wrap_content" android:inputType="textMultiLine" android:hint="Comment..." />
+          <Button android:layout_marginTop="5dp"
+                  android:layout_width="wrap_content" android:id="@+id/CommentButton"
+                  android:layout_height="wrap_content" style="@style/AccentButtonStyle" android:text="Send Comment"
+                  android:padding="5dp" />
+        </LinearLayout>
+      </FrameLayout>
+
+      <TextView android:gravity="center" android:visibility="gone"
+                android:layout_width="wrap_content" android:id="@+id/CommentsEmptyNotice" android:text="No comments found..."
+                android:layout_height="wrap_content" android:fontFamily="@string/font_family_light" android:layout_gravity="center_horizontal" android:textColor="?BrushNoSearchResults"/>
+      <ListView
+        android:layout_width="match_parent"  android:dividerPadding="5dp"
+        android:id="@+id/CommentsList"
+        android:layout_height="wrap_content" android:orientation="vertical" />
+
     </LinearLayout>
-    <TextView android:gravity="center" android:visibility="gone"
-              android:layout_width="wrap_content" android:id="@+id/CommentsEmptyNotice" android:text="No comments found..."
-              android:layout_height="wrap_content" android:fontFamily="@string/font_family_light" android:layout_gravity="center_horizontal" android:textColor="?BrushNoSearchResults"/>
-    <ListView
-      android:layout_width="match_parent" android:layout_marginTop="5dp" android:dividerPadding="5dp"
-      android:id="@+id/CommentsList"
-      android:layout_height="wrap_content" android:orientation="vertical" />
-  </LinearLayout>
+    <ProgressBar
+      android:id="@+id/LoadingMoreBar"
+      style="?android:attr/progressBarStyleHorizontal" android:visibility="gone"
+      android:indeterminateOnly="true"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content" android:layout_gravity="bottom"/>
+  </FrameLayout>
+
 </MALClient.Android.UserControls.ScrollableSwipeToRefreshLayout>

@@ -136,12 +136,15 @@ namespace MALClient.XShared.Utils
         }";
 
         private const string CssHtmlBodyMinWidth =
-            @"<style type=""text/css"">@charset ""UTF-8"";
+            @"
+            <meta name=""viewport"" content=""width=device-width, initial-scale=1, minimum-scale=1"">
+            <style type=""text/css"">@charset ""UTF-8"";
             html, body
 	        {
 		        background-color: BodyBackgroundThemeColor;
 		        color: BodyForegroundThemeColor;
                 font-family: 'Segoe UI';
+                -webkit-align-content: center;
                 min-width: MinimalWidthpx;
                 width: MinimalWidthpx;
 	        }";

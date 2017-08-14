@@ -12,6 +12,7 @@ namespace MALClient.Models.Models.MalSpecific
         public string Date { get; set; }
         public string Content { get; set; }
         public string Id { get; set; }
+        public List<string> Images { get; set; } = new List<string>();
     }
 
     public class MalClubDetails

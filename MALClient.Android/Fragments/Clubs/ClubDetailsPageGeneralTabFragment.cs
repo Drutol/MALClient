@@ -49,12 +49,13 @@ namespace MALClient.Android.Fragments.Clubs
 
             WebView.Post(() =>
             {
-                WebView.SetInitialScale(700 * 100 / (int)DimensionsHelper.PxToDp(RootView.Width));
+                var scale = (100 - 715 * 100 / RootView.Width) + 100;
+                WebView.SetInitialScale(scale);
             });
 
             Bindings.Add(this.SetBinding(() => ViewModel.Details).WhenSourceChanges(() =>
             {
-                if(ViewModel.Details == null)
+                if (ViewModel.Details == null)
                     return;
 
                 Image.Into(ViewModel.Details.ImgUrl);
@@ -67,11 +68,13 @@ namespace MALClient.Android.Fragments.Clubs
                 {
                     ButtonLeave.Visibility = ViewStates.Visible;
                     ButtonLeave.Text = "Leave";
-                    ButtonLeave.SetOnClickListener(new OnClickListener(view => ViewModel.LeaveClubCommand.Execute(null)));
+                    ButtonLeave.SetOnClickListener(
+                        new OnClickListener(view => ViewModel.LeaveClubCommand.Execute(null)));
                 }
                 else if (ViewModel.Details.IsPublic)
                 {
-                    ButtonLeave.SetOnClickListener(new OnClickListener(view => ViewModel.JoinClubCommand.Execute(null)));
+                    ButtonLeave.SetOnClickListener(
+                        new OnClickListener(view => ViewModel.JoinClubCommand.Execute(null)));
                     ButtonLeave.Visibility = ViewStates.Visible;
                     ButtonLeave.Text = "Join";
                 }
@@ -80,13 +83,16 @@ namespace MALClient.Android.Fragments.Clubs
                     ButtonLeave.Visibility = ViewStates.Gone;
                 }
 
-                ButtonForum.SetOnClickListener(new OnClickListener(view => ViewModel.NavigateForumCommand.Execute(null)));
-                WebView.LoadDataWithBaseURL(null, ResourceLocator.CssManager.WrapWithCss(ViewModel.Details.DescriptionHtml, false, 780), "text/html; charset=utf-8", "UTF-8", null);
+                ButtonForum.SetOnClickListener(
+                    new OnClickListener(view => ViewModel.NavigateForumCommand.Execute(null)));
+                WebView.LoadDataWithBaseURL(null,
+                    ResourceLocator.CssManager.WrapWithCss(ViewModel.Details.DescriptionHtml, false, 780),
+                    "text/html; charset=utf-8", "UTF-8", null);
 
             }));
 
 
-            
+
         }
 
 

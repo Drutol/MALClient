@@ -8,7 +8,7 @@
               android:background="?BrushDeepBackground">
 
   <FrameLayout
-    android:layout_width="match_parent" android:padding="2dp"
+    android:layout_width="match_parent" android:paddingBottom="2dp"
     android:layout_height="wrap_content" android:clipToPadding="false">
     <LinearLayout
       android:layout_width="match_parent" android:orientation="horizontal" android:elevation="2dp"

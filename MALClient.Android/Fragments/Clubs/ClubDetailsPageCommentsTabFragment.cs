@@ -37,14 +37,40 @@ namespace MALClient.Android.Fragments.Clubs
             {
                 CommentsList.ClearFlingAdapter();
                 CommentsList.InjectFlingAdapter(ViewModel.Comments, view => new CommentViewHolder(view),
-                    DataTemplateFull, DataTemplateFling, DataTemplateBasic, ContainerTemplate);
+                    DataTemplateFull, DataTemplateFling, DataTemplateBasic, ContainerTemplate,null,false,OnScrolled);
+            }));
+
+            Bindings.Add(this.SetBinding(() => ViewModel.LoadingComments).WhenSourceChanges(() =>
+            {
+                if (ViewModel.LoadingComments)
+                {
+                    LoadingMoreBar.Visibility = ViewStates.Visible;
+                }
+                else
+                {
+                    LoadingMoreBar.Visibility = ViewStates.Gone;
+                    OnScrolled();
+                }
             }));
 
             var refresh = RootView as ScrollableSwipeToRefreshLayout;
             refresh.ScrollingView = CommentsList;
             refresh.Refresh -= RefreshOnRefresh;
             refresh.Refresh += RefreshOnRefresh;
+
         }
+
+        private void OnScrolled()
+        {
+            if (ViewModel.LoadingComments || !ViewModel.MoreCommentsButtonVisibility)
+                return;
+
+            if (CommentsList.Adapter.Count - CommentsList.LastVisiblePosition <= 2)
+            {
+                ViewModel.LoadMoreCommentsCommand.Execute(null);
+            }
+        }
+
 
         private async void RefreshOnRefresh(object sender, EventArgs eventArgs)
         {
@@ -80,17 +106,34 @@ namespace MALClient.Android.Fragments.Clubs
             arg4.ProfilePageGeneralTabCommentItemContent.Text = malComment.Content;
 
             arg4.ProfilePageGeneralTabCommentItemImgButton.Tag = malComment.User.Wrap();
+
+            if (!malComment.Images.Any())
+                arg4.Image.Visibility = ViewStates.Gone;
         }
 
         private void DataTemplateFling(View view1, int i1, MalClubComment arg3, CommentViewHolder arg4)
         {
             if (!arg4.ProfilePageGeneralTabCommentItemUserImg.IntoIfLoaded(arg3.User.ImgUrl))
                 arg4.ProfilePageGeneralTabCommentItemUserImg.Visibility = ViewStates.Invisible;
+
+            if (arg3.Images.Any())
+            {
+                if (!arg4.Image.IntoIfLoaded(arg3.Images[0]))
+                {
+                    arg4.Image.SetImageResource(Resource.Drawable.icon_image_alt);
+                    arg4.Image.Visibility = ViewStates.Visible;
+                }
+            }
         }
 
         private void DataTemplateFull(View view1, int i1, MalClubComment arg3, CommentViewHolder arg4)
         {
             arg4.ProfilePageGeneralTabCommentItemUserImg.Into(arg3.User.ImgUrl);
+
+            if (arg3.Images.Any())
+            {
+                arg4.Image.Into(arg3.Images[0]);
+            }
         }
 
 
@@ -102,6 +145,7 @@ namespace MALClient.Android.Fragments.Clubs
         private Button _commentButton;
         private TextView _commentsEmptyNotice;
         private ListView _commentsList;
+        private ProgressBar _loadingMoreBar;
 
         public EditText CommentTextBox => _commentTextBox ?? (_commentTextBox = FindViewById<EditText>(Resource.Id.CommentTextBox));
 
@@ -110,6 +154,8 @@ namespace MALClient.Android.Fragments.Clubs
         public TextView CommentsEmptyNotice => _commentsEmptyNotice ?? (_commentsEmptyNotice = FindViewById<TextView>(Resource.Id.CommentsEmptyNotice));
 
         public ListView CommentsList => _commentsList ?? (_commentsList = FindViewById<ListView>(Resource.Id.CommentsList));
+
+        public ProgressBar LoadingMoreBar => _loadingMoreBar ?? (_loadingMoreBar = FindViewById<ProgressBar>(Resource.Id.LoadingMoreBar));
 
         #endregion
     }

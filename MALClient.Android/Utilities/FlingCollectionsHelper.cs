@@ -68,29 +68,54 @@ namespace MALClient.Android
 
         public static void InjectFlingAdapter<T, TViewHolder>(this AbsListView container, IList<T> items, Func<View, TViewHolder> holderFactory,
             Action<View, int, T, TViewHolder> dataTemplateFull, Action<View, int, T, TViewHolder> dataTemplateFling,
-            Action<View, int, T, TViewHolder> dataTemplateBasic, Func<int, View> containerTemplate, View footer = null, bool skipBugFix = false) where T : class
+            Action<View, int, T, TViewHolder> dataTemplateBasic, Func<int, View> containerTemplate, View footer = null, bool skipBugFix = false,Action onScrolled = null) where T : class
         {
             if (!FlingStates.ContainsKey(container))
                 FlingStates.Add(container, false);
             if (!ViewHolders.ContainsKey(container))
                 ViewHolders.Add(container, new Dictionary<View, object>());
-            container.MakeFlingAware(b =>
+            if (onScrolled == null)
             {
-                if (FlingStates[container] == b)
-                    return;
-                FlingStates[container] = b;
-                if (!b)
+                container.MakeFlingAware(b =>
                 {
-                    for (int i = 0; i < container.ChildCount; i++)
+                    if (FlingStates[container] == b)
+                        return;
+                    FlingStates[container] = b;
+                    if (!b)
                     {
-                        var view = container.GetChildAt(i);
-                        var item = view.Tag.Unwrap<T>();
-                        if (view.Tag?.ToString() == "Footer")
-                            continue;
-                        dataTemplateFull(view, items.IndexOf(item), item, (TViewHolder) ViewHolders[container][view]);
+                        for (int i = 0; i < container.ChildCount; i++)
+                        {
+                            var view = container.GetChildAt(i);
+                            var item = view.Tag.Unwrap<T>();
+                            if (view.Tag?.ToString() == "Footer")
+                                continue;
+                            dataTemplateFull(view, items.IndexOf(item), item, (TViewHolder)ViewHolders[container][view]);
+                        }
                     }
-                }
-            });
+                });
+            }
+            else
+            {
+                container.MakeFlingAware(b =>
+                {
+                    onScrolled.Invoke();
+                    if (FlingStates[container] == b)
+                        return;
+                    FlingStates[container] = b;
+                    if (!b)
+                    {
+                        for (int i = 0; i < container.ChildCount; i++)
+                        {
+                            var view = container.GetChildAt(i);
+                            var item = view.Tag.Unwrap<T>();
+                            if (view.Tag?.ToString() == "Footer")
+                                continue;
+                            dataTemplateFull(view, items.IndexOf(item), item, (TViewHolder)ViewHolders[container][view]);
+                        }
+                    }
+                });
+            }
+
             if (footer == null)
             {
                 container.Adapter = items.GetAdapter((i, arg2, arg3) =>

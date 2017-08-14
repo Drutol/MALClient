@@ -2,12 +2,13 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
+              xmlns:tools="http://schemas.android.com/tools"
               android:layout_height="wrap_content"
 
               android:orientation="horizontal">
-  <LinearLayout android:minHeight="125dp"
-                android:layout_width="match_parent" android:background="?BrushAnimeItemBackground" android:layout_marginTop="10dp"
-                android:layout_height="wrap_content">
+  <LinearLayout
+    android:layout_width="match_parent" android:background="?BrushAnimeItemBackground" android:layout_marginTop="10dp"
+    android:layout_height="wrap_content">
     <LinearLayout
       android:layout_width="100dp" android:orientation="vertical"
       android:layout_height="match_parent" android:background="?BrushAppBars">
@@ -23,18 +24,6 @@
           android:layout_width="match_parent"  android:scaleType="centerCrop"
           android:layout_height="match_parent"
           android:id="@+id/ProfilePageGeneralTabCommentItemUserImg" />
-
-        <Button
-          android:id="@+id/ProfilePageGeneralTabCommentItemConvButton"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:layout_marginEnd="10dp"
-          android:background="@drawable/button_underline_background_style"
-          android:minHeight="25dp"
-          android:minWidth="30dp"
-          android:padding="3dp"
-          android:text="Conversation"
-          android:textAllCaps="false" />
       </FrameLayout>
       <TextView
         android:layout_width="wrap_content" android:id="@+id/ProfilePageGeneralTabCommentItemUsername"
@@ -45,7 +34,7 @@
 
 
     <LinearLayout
-      android:layout_width="0dp" android:orientation="vertical"
+      android:layout_width="0dp" android:orientation="vertical"  android:minHeight="120dp"
       android:layout_height="match_parent" android:layout_weight="1">
       <TextView
         android:layout_width="wrap_content" android:id="@+id/ProfilePageGeneralTabCommentItemDate"
@@ -53,8 +42,11 @@
         android:textColor="?BrushNoSearchResults" android:layout_gravity="end" android:layout_margin="3dp" />
       <TextView
         android:layout_width="wrap_content" android:id="@+id/ProfilePageGeneralTabCommentItemContent"
-        android:layout_height="wrap_content" android:minHeight="60dp" android:text="Some comment"
+        android:layout_height="0dp" android:layout_weight="1" tools:text="Some comment"
         android:layout_margin="5dp" android:textColor="?BrushText" />
+      <FFImageLoading.Views.ImageViewAsync android:id="@+id/Image"
+                                           android:layout_width="match_parent" android:maxHeight="200dp" android:adjustViewBounds="true"
+                                           android:layout_height="wrap_content"/>
       <LinearLayout
         android:layout_width="wrap_content" android:layout_gravity="end"
         android:layout_marginEnd="-5dp"
@@ -66,6 +58,17 @@
           android:layout_height="wrap_content" android:background="@drawable/button_underline_background_style"
           android:text="Delete"
           android:id="@+id/ProfilePageGeneralTabCommentItemDeleteButton" />
+        <Button
+          android:id="@+id/ProfilePageGeneralTabCommentItemConvButton"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginEnd="10dp"
+          android:background="@drawable/button_underline_background_style"
+          android:minHeight="25dp"
+          android:minWidth="30dp"
+          android:padding="3dp"
+          android:text="Conversation"
+          android:textAllCaps="false" />
       </LinearLayout>
     </LinearLayout>
   </LinearLayout>

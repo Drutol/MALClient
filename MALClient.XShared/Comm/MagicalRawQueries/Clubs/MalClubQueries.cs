@@ -110,13 +110,16 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Clubs
                             current.JoinType = MalClubEntry.JoinAction.Join;
                         else if (tds[4].InnerText.Contains("Request"))
                             current.JoinType = MalClubEntry.JoinAction.Request;
-                        else if(tds[4].InnerText.Contains("Accept"))
+                        else if(tds[4].InnerHtml.Contains("value=\"Accept\""))
                         {
                             current.JoinType = MalClubEntry.JoinAction.AcceptDeny;
                             current.JoinData = tds[4].Descendants("input")
                                 .First(node => node.Attributes.Contains("name") &&
                                                node.Attributes["name"].Value == "id").Attributes["value"].Value;
                         }
+                        else
+                            current.JoinType = MalClubEntry.JoinAction.None;
+                            
                     }
                     else
                     {

@@ -14,8 +14,8 @@
       android:layout_width="match_parent" android:orientation="horizontal" android:elevation="2dp"
       android:layout_height="wrap_content" android:background="?BrushAnimeItemBackground">
       <FFImageLoading.Views.ImageViewAsync android:adjustViewBounds="true"
-                                           android:layout_width="110dp" android:scaleType="centerCrop"
-                                           android:layout_height="160dp" android:id="@+id/Image" />
+                                           android:layout_width="115dp" android:scaleType="centerCrop"
+                                           android:layout_height="180dp" android:id="@+id/Image" />
       <LinearLayout
         android:layout_width="match_parent" android:background="?BrushAnimeItemBackground"
         android:layout_height="match_parent" android:orientation="vertical">

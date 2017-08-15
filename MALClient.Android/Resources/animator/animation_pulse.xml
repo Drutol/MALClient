@@ -7,8 +7,8 @@
     android:pivotY="50%"
     android:repeatCount="infinite"
     android:repeatMode="reverse"
-    android:toXScale="0.65"
-    android:toYScale="0.65"
+    android:toXScale="0.85"
+    android:toYScale="0.85"
     android:startOffset="1000"
     android:interpolator="@android:interpolator/bounce" />
   <scale
@@ -19,8 +19,8 @@
     android:pivotY="50%"
     android:repeatCount="infinite"
     android:repeatMode="reverse"
-    android:toXScale="1.35"
+    android:toXScale="1.4"
     android:startOffset="1300"
-    android:toYScale="1.35"
+    android:toYScale="1.4"
     android:interpolator="@android:interpolator/bounce" />
 </set>

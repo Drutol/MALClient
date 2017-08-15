@@ -39,7 +39,7 @@ namespace MALClient.Android.Fragments.Clubs
         private ClubDetailsViewModel ViewModel = ViewModelLocator.ClubDetails;
 
         private DisplayMode _mode = DisplayMode.Members;
-        private GridViewColumnHelper _gridHelper = new GridViewColumnHelper(null, true);
+        private GridViewColumnHelper _gridHelper = new GridViewColumnHelper(null, true) {MinColumnsPortrait = 2};
 
         protected override void Init(Bundle savedInstanceState)
         {

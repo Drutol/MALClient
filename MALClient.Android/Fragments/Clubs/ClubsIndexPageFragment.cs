@@ -19,6 +19,7 @@ using MALClient.Android.BindingConverters;
 using MALClient.Android.Listeners;
 using MALClient.Android.PagerAdapters;
 using MALClient.Android.Resources;
+using MALClient.Models.Enums;
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Clubs;
 
@@ -31,6 +32,8 @@ namespace MALClient.Android.Fragments.Clubs
 
         protected override void Init(Bundle savedInstanceState)
         {
+            ViewModelLocator.NavMgr.DeregisterBackNav();
+            ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageAnimeList, null);
             ViewModel.NavigatedTo();
         }
 
@@ -43,6 +46,7 @@ namespace MALClient.Android.Fragments.Clubs
 
             Pivot.Adapter = new ClubsIndexPagerAdapter(FragmentManager,_rightDrawer);
             TabStrip.SetViewPager(Pivot);
+            TabStrip.CenterTabs();
             Pivot.SetCurrentItem(_lastPivotIndex,false);
 
             Pivot.AddOnPageChangeListener(new OnPageChangedListener(i => _lastPivotIndex = i));

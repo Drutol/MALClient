@@ -13,6 +13,7 @@ using Android.Widget;
 using Com.Astuetz;
 using GalaSoft.MvvmLight.Helpers;
 using MALClient.Android.BindingConverters;
+using MALClient.Android.Listeners;
 using MALClient.Android.PagerAdapters;
 using MALClient.XShared.NavArgs;
 using MALClient.XShared.ViewModels;
@@ -22,14 +23,16 @@ namespace MALClient.Android.Fragments.Clubs
 {
     public class ClubDetailsPageFragment : MalFragmentBase
     {
-        private readonly ClubDetailsPageNavArgs _args;
-        private int? _lastIndex;
+        private static ClubDetailsPageNavArgs _args;
+        private static int? _lastIndex;
 
         private ClubDetailsViewModel ViewModel = ViewModelLocator.ClubDetails;
 
         public ClubDetailsPageFragment(ClubDetailsPageNavArgs args)
         {
-            _args = args;
+            if (!args.Equals(_args))
+                _lastIndex = null;
+            _args = args;        
         }
 
         protected override void Init(Bundle savedInstanceState)
@@ -52,7 +55,7 @@ namespace MALClient.Android.Fragments.Clubs
                 this.SetBinding(() => ViewModel.Loading,
                     () => LoadingSpinner.Visibility).ConvertSourceToTarget(Converters.BoolToVisibility));
 
-
+            Pivot.AddOnPageChangeListener(new OnPageChangedListener(i => _lastIndex = i));
         }
 
         public override int LayoutResourceId => Resource.Layout.ClubDetailsPage;

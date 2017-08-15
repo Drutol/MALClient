@@ -11,6 +11,7 @@ using Android.Views;
 using Android.Widget;
 using Com.Mikepenz.Materialdrawer;
 using GalaSoft.MvvmLight.Helpers;
+using MALClient.Android.BindingConverters;
 using MALClient.Models.Models.MalSpecific;
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Clubs;
@@ -33,6 +34,11 @@ namespace MALClient.Android.Fragments.Clubs
                 else
                     List.InjectFlingAdapter(ViewModel.MyClubs, ViewHolderFactory, DataTemplateFull, DataTemplateFling, DataTemplateBasic, ContainerTemplate);
             }));
+
+            Bindings.Add(
+                this.SetBinding(() => ViewModel.EmptyNoticeVisibility,
+                    () => EmptyNotice.Visibility).ConvertSourceToTarget(Converters.BoolToVisibility));
+
             
         }
 
@@ -41,10 +47,12 @@ namespace MALClient.Android.Fragments.Clubs
         #region Views
 
         private ListView _list;
+        private TextView _emptyNotice;
 
         public ListView List => _list ?? (_list = FindViewById<ListView>(Resource.Id.List));
 
-        #endregion
+        public TextView EmptyNotice => _emptyNotice ?? (_emptyNotice = FindViewById<TextView>(Resource.Id.EmptyNotice));
 
+        #endregion
     }
 }

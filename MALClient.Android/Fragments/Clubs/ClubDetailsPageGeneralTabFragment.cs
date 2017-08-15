@@ -51,6 +51,7 @@ namespace MALClient.Android.Fragments.Clubs
             {
                 var scale = (100 - 715 * 100 / RootView.Width) + 100;
                 WebView.SetInitialScale(scale);
+                //WebView.SetPadding(DimensionsHelper.DpToPx(15),0,0,0);
             });
 
             Bindings.Add(this.SetBinding(() => ViewModel.Details).WhenSourceChanges(() =>
@@ -62,7 +63,7 @@ namespace MALClient.Android.Fragments.Clubs
                 Title.Text = ViewModel.Details.Name;
 
                 StatsList.SetAdapter(ViewModel.Details.GeneralInfo.GetAdapter(GetTemplateDelegate));
-                OfficersList.SetAdapter(ViewModel.Details.Officers.GetAdapter(GetTemplateDelegate));
+                OfficersList.SetAdapter(ViewModel.Details.Officers.GetAdapter(GetOfficerTemplateDelegate));
 
                 if (ViewModel.Details.Joined)
                 {
@@ -130,6 +131,16 @@ namespace MALClient.Android.Fragments.Clubs
 
             view.FindViewById<TextView>(Resource.Id.Header).Text = valueTuple.name;
             view.FindViewById<TextView>(Resource.Id.Text).Text = valueTuple.value;
+
+            return view;
+        }
+
+        private View GetOfficerTemplateDelegate(int i, (string name, string value) valueTuple, View arg3)
+        {
+            var view = Activity.LayoutInflater.Inflate(Resource.Layout.HeaderedTextBlock, null);
+
+            view.FindViewById<TextView>(Resource.Id.Header).Text = valueTuple.value;
+            view.FindViewById<TextView>(Resource.Id.Text).Text = valueTuple.name;
 
             return view;
         }

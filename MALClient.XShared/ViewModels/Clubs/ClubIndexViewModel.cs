@@ -31,6 +31,7 @@ namespace MALClient.XShared.ViewModels.Clubs
         private bool _moreButtonVisibility = true;
         private MalClubQueries.QueryType _queryType = MalClubQueries.QueryType.My;
         private ICommand _joinClubCommand;
+        private bool _myClubsEmptyNoticeVisibility;
 
         public ClubIndexViewModel(IMessageDialogProvider dialogProvider)
         {
@@ -99,6 +100,16 @@ namespace MALClient.XShared.ViewModels.Clubs
             }
         }
 
+        public bool MyClubsEmptyNoticeVisibility
+        {
+            get { return _myClubsEmptyNoticeVisibility; }
+            set
+            {
+                _myClubsEmptyNoticeVisibility = value;
+                RaisePropertyChanged();
+            }
+        }
+
         public MalClubQueries.QueryType QueryType
         {
             get { return _queryType; }
@@ -123,6 +134,7 @@ namespace MALClient.XShared.ViewModels.Clubs
                 {
                     Loading = true;
                     MyClubs = new ObservableCollection<MalClubEntry>(await MalClubQueries.GetClubs(QueryType, 0));
+                    MyClubsEmptyNoticeVisibility = !MyClubs.Any();
                     Loading = false;
 
                 }
@@ -218,6 +230,7 @@ namespace MALClient.XShared.ViewModels.Clubs
         {
             Loading = true;
             MyClubs = new ObservableCollection<MalClubEntry>(await MalClubQueries.GetClubs(MalClubQueries.QueryType.My, 0));
+            MyClubsEmptyNoticeVisibility = !MyClubs.Any();
             Loading = false;
         }
     }

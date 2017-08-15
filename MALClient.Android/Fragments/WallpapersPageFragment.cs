@@ -109,7 +109,6 @@ namespace MALClient.Android.Fragments
         {
             view.FindViewById<TextView>(Resource.Id.WallpapersPageItemDate).Text = arg3.Created;
             view.FindViewById<TextView>(Resource.Id.WallpapersPageItemSubreddit).Text = $"/r/{arg3.Data.Source}";
-            view.FindViewById<TextView>(Resource.Id.WallpapersPageItemResolution).Text = arg3.Resolution;
             view.FindViewById<TextView>(Resource.Id.WallpapersPageItemTitle).Text = arg3.Data.Title;
             view.FindViewById<TextView>(Resource.Id.WallpapersPageItemUpvotes).Text = arg3.Data.Upvotes.ToString();
             view.FindViewById(Resource.Id.WallpapersPageItemRootContainer).Tag = arg3.Wrap();
@@ -129,7 +128,7 @@ namespace MALClient.Android.Fragments
         private void DataTemplateFling(View view, int i2, WallpaperItemViewModel arg3)
         {
             var img = view.FindViewById<ImageViewAsync>(Resource.Id.WallpapersPageItemImage);        
-            if (img.IntoIfLoaded(arg3.Data.FileUrl, arg3.IsBlurred ? new BlurredTransformation(40) : null))
+            if (!img.IntoIfLoaded(arg3.Data.FileUrl, arg3.IsBlurred ? new BlurredTransformation(40) : null))
                 img.Visibility = ViewStates.Gone;
         }
 
@@ -138,7 +137,6 @@ namespace MALClient.Android.Fragments
             var img = view.FindViewById<ImageViewAsync>(Resource.Id.WallpapersPageItemImage);
             if (img.Tag == null || (string) img.Tag != arg3.Data.FileUrl)
             {
-                img.SetImageResource(global::Android.Resource.Color.Transparent);
                 img.Into(arg3.Data.Thumb, arg3.IsBlurred ? new BlurredTransformation(40) : null,null, 350);
             }
         }

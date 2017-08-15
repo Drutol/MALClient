@@ -53,6 +53,13 @@ namespace MALClient.Android.Fragments.Clubs
                 }
             }));
 
+            Bindings.Add(
+                this.SetBinding(() => ViewModel.CommentInput,
+                    () => CommentTextBox.Text,BindingMode.TwoWay));
+
+
+            CommentButton.SetOnClickListener(new OnClickListener(view => ViewModel.PostCommentCommand.Execute(null)));
+
             var refresh = RootView as ScrollableSwipeToRefreshLayout;
             refresh.ScrollingView = CommentsList;
             refresh.Refresh -= RefreshOnRefresh;

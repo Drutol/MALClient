@@ -45,13 +45,11 @@ namespace MALClient.Android.Fragments.Clubs
             {
                 arg4.ImgPlaceholder.Visibility =ViewStates.Gone;
                 arg4.NoImageIcon.Visibility = ViewStates.Visible;
-                arg4.Image.Visibility = ViewStates.Invisible;
             }
             else
             {
                 arg4.ImgPlaceholder.Visibility = ViewStates.Visible;
                 arg4.NoImageIcon.Visibility = ViewStates.Gone;
-                arg4.Image.Visibility = ViewStates.Visible;
             }
             arg4.Members.Text = arg3.Members;
 
@@ -98,8 +96,11 @@ namespace MALClient.Android.Fragments.Clubs
         {
             if (!string.IsNullOrEmpty(arg3.ImgUrl))
             {
-                arg4.Image.SetImageResource(global::Android.Resource.Color.Transparent);
                 arg4.Image.Into(arg3.ImgUrl);
+            }
+            else
+            {
+                arg4.Image.Visibility = ViewStates.Invisible;
             }
         }
 

@@ -8,8 +8,6 @@
     <com.astuetz.PagerSlidingTabStrip
       android:id="@+id/TabStrip"
       android:layout_width="match_parent"
-      xmlns:app="http://schemas.android.com/apk/res-auto"
-      app:pstsPaddingMiddle="true"
       android:layout_height="34dp"
       android:textColorPrimary="?AccentColour"
       android:background="?BrushPivotHeaderBackground" />

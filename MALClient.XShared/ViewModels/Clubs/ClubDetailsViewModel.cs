@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Android.Runtime;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using MALClient.Models.Enums;
@@ -31,7 +32,7 @@ namespace MALClient.XShared.ViewModels.Clubs
         private bool _moreCommentsButtonVisibility;
         private ICommand _navigateUserCommand;
         private ICommand _deleteCommentCommand;
-        private ObservableCollection<MalUser> _members;
+        private SmartObservableCollection<MalUser> _members;
         private bool _loadMoreUsersButtonVisibility;
         private ICommand _navigateAnimeDetailsCommand;
         private ICommand _navigateMangaDetailsCommand;
@@ -56,6 +57,7 @@ namespace MALClient.XShared.ViewModels.Clubs
             }
         }
 
+        [Preserve]
         public string CommentInput
         {
             get { return _commentInput; }
@@ -87,7 +89,7 @@ namespace MALClient.XShared.ViewModels.Clubs
             }
         }
 
-        public ObservableCollection<MalUser> Members
+        public SmartObservableCollection<MalUser> Members
         {
             get { return _members; }
             set
@@ -131,7 +133,7 @@ namespace MALClient.XShared.ViewModels.Clubs
                 Comments = new ObservableCollection<MalClubComment>(value.RecentComments);
                 Comments.CollectionChanged += CommentsOnCollectionChanged;
 
-                Members = new ObservableCollection<MalUser>(value.MembersPeek);
+                Members = new SmartObservableCollection<MalUser>(value.MembersPeek);
 
 
                 RaisePropertyChanged(() => GeneralInfo);
@@ -206,7 +208,7 @@ namespace MALClient.XShared.ViewModels.Clubs
 
             if (await MalClubQueries.PostComment(Details.Id, CommentInput))
             {
-                Comments.Add(new MalClubComment
+                Comments.Insert(0,new MalClubComment
                 {
                     Content = CommentInput,
                     Date = "Just Now",
@@ -253,11 +255,16 @@ namespace MALClient.XShared.ViewModels.Clubs
 
         public ICommand LoadMoreMembersCommand => new RelayCommand(async () =>
         {
+            if(!LoadMoreUsersButtonVisibility)
+                return;
+
             LoadMoreUsersButtonVisibility = false;
+
+
             var users = await MalClubDetailsQuery.GetMoreUsers(LastArgs.Id);
 
             if(users != null && users.Any())
-                  Members = new ObservableCollection<MalUser>(Members.Union(users));
+                    Members.AddRange(users.Except(Members));
 
 
         });

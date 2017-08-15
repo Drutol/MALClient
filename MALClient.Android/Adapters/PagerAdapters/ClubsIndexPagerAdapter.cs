@@ -72,6 +72,7 @@ namespace MALClient.Android.PagerAdapters
             txt.SetTextColor(new Color(ResourceExtension.BrushText));
             txt.SetTextSize(ComplexUnitType.Sp, 18);
             txt.LayoutParameters = new LinearLayout.LayoutParams(-2,-2) {Gravity = GravityFlags.CenterVertical};
+            txt.SetPadding(0, DimensionsHelper.DpToPx(4), 0, 0);
             txt.Tag = p1;
             switch (p1)
             {

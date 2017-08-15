@@ -11,6 +11,7 @@ using MALClient.Android.Fragments;
 using MALClient.Android.Fragments.Clubs;
 using MALClient.Android.Fragments.ProfilePageFragments;
 using MALClient.Android.Resources;
+using MALClient.XShared.ViewModels;
 using Orientation = Android.Widget.Orientation;
 
 namespace MALClient.Android.PagerAdapters
@@ -57,6 +58,12 @@ namespace MALClient.Android.PagerAdapters
             switch ((int)p0.Tag)
             {
                 case 0:
+                    if (ViewModelLocator.ClubDetails.LoadMoreUsersButtonVisibility)
+                    {
+                        ResourceLocator.SnackbarProvider.ShowText("Loading more members...");
+                        ViewModelLocator.ClubDetails.LoadMoreMembersCommand.Execute(null);
+                    }
+                    
                     _currentFragment = _descriptionFragment;
                     break;
                 case 1:
@@ -94,16 +101,16 @@ namespace MALClient.Android.PagerAdapters
             switch (p1)
             {
                 case 0:
-                    txt.Text = "Description";
-                    img.SetImageResource(Resource.Drawable.icon_acc_settings);
+                    txt.Text = "Related";
+                    img.SetImageResource(Resource.Drawable.icon_circles);
                     break;
                 case 1:
                     txt.Text = "General";
-                    img.SetImageResource(Resource.Drawable.icon_favourite);
+                    img.SetImageResource(Resource.Drawable.icon_home);
                     break;
                 case 2:
                     txt.Text = "Comments";
-                    img.SetImageResource(Resource.Drawable.icon_message);
+                    img.SetImageResource(Resource.Drawable.icon_forum);
                     break;
             }
 

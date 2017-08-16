@@ -31,17 +31,15 @@ namespace MALClient.Android.Adapters
 
         public bool NewChangelog { get; set; }
 
-        public string DateWithVersion => $"{_currentVersion} - 05.08.2017";
+        public string DateWithVersion => $"{_currentVersion} - 16.08.2017";
 
         public List<string> Changelog => new List<string>
         {
-            "Small graphical fixes here and there:",
-            "Grid items now have elevation",
-            "Recommendation tabs are now not outright ugly,",
-            "Peek posts in forum boards now have circular background",
-            "You can now refresh message thread via pull to refresh.",
-            "Okay... why so little and why so long since last update... I've been doing clubs! They took quite a bit of time but I've all logic ready and all what's left now is to write Android UI. (Windows 10 version is finished already). Stay tuned! :)",
-            "Oh and I'm running out of bigger stuff to do... if you have any ideas feel free to write me on github (preferably), email or wherever you can find me ^^"
+           "Added clubs! I'm pretty sure there are bugs... go catch them!",
+           "Profile page got visual tweaks.",
+           "Navigating to profile will now refresh comments if profile data was cached.",
+           "Heart in hamburger now has \"pulse\" animation ^^",
+           "Images page will now fetch thumbnails of lower quality... works better but it won't display resolution anymore :(",
         };
 
     }

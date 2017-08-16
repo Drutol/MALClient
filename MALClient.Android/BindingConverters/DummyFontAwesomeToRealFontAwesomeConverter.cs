@@ -63,6 +63,8 @@ namespace MALClient.Android.BindingConverters
                     return Resource.String.fa_icon_eye;
                 case FontAwesomeIcon.ClockOutline:
                     return Resource.String.fa_icon_clock_o;
+                case FontAwesomeIcon.Group:
+                    return Resource.String.fa_icon_group;
 
             }
 

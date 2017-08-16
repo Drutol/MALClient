@@ -12,6 +12,7 @@
         Navigated,
         CreatedTopic,
         CreatedReply,
-        RatePopUpAppeared
+        RatePopUpAppeared,
+        CreatedClubComment
     }
 }

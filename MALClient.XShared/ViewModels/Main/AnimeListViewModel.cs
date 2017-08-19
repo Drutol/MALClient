@@ -155,7 +155,7 @@ namespace MALClient.XShared.ViewModels.Main
         public event EmptyEventHander RemoveScrollHandlerRequest;
         public event EmptyEventHander RemoveScrollingConatinerReferenceRequest;
 
-        public async void Init(AnimeListPageNavigationArgs args)
+        public async Task Init(AnimeListPageNavigationArgs args)
         {
             //base
             _scrollHandlerAdded = false;

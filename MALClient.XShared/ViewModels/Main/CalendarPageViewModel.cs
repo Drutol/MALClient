@@ -19,6 +19,7 @@ namespace MALClient.XShared.ViewModels.Main
 {
     public class CalendarPivotPage
     {
+        public DayOfWeek DayOfWeek { get; set; }
         public string Header { get; set; }
         public string Sub { get; set; }
         public string FullHeader => Utils.Utilities.ShortDayToFullDay(Header); //full name
@@ -153,7 +154,7 @@ namespace MALClient.XShared.ViewModels.Main
 
         private bool _initialized;
 
-        public async void Init(bool force = false)
+        public async Task Init(bool force = false)
         {
             if (_initialized && !force)
             {
@@ -327,14 +328,25 @@ namespace MALClient.XShared.ViewModels.Main
             if (Settings.CalendarSwitchMonSun)
             {
                 CalendarData.Move(0, 6);
-                CalendarData[0].Header = Utils.Utilities.DayToString(DayOfWeek.Monday, true);
-                CalendarData[6].Header = Utils.Utilities.DayToString(DayOfWeek.Sunday, true);
+                CalendarData[0].Header = Utilities.DayToString(DayOfWeek.Monday, true);
+                CalendarData[0].DayOfWeek = DayOfWeek.Monday;
+                CalendarData[6].Header = Utilities.DayToString(DayOfWeek.Sunday, true);
+                CalendarData[6].DayOfWeek = DayOfWeek.Sunday;
                 for (int i = 1; i < 6; i++)
-                    CalendarData[i].Header = Utils.Utilities.DayToString((DayOfWeek) i + 1, true);
+                {
+                    CalendarData[i].Header = Utilities.DayToString((DayOfWeek) i + 1, true);
+                    CalendarData[i].DayOfWeek = (DayOfWeek) i + 1;
+                }
             }
             else
+            {
                 for (int i = 0; i < 7; i++)
-                    CalendarData[i].Header = Utils.Utilities.DayToString((DayOfWeek) i, true);
+                {
+                    CalendarData[i].Header = Utilities.DayToString((DayOfWeek) i, true);
+                    CalendarData[i].DayOfWeek = (DayOfWeek) i;
+                }
+            }
+
             List<CalendarPivotPage> emptyPages = new List<CalendarPivotPage>();
             foreach (var calendarPivotPage in CalendarData.Take(CalendarData.Count - 1))
             {

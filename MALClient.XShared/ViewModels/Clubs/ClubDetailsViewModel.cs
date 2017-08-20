@@ -265,7 +265,7 @@ namespace MALClient.XShared.ViewModels.Clubs
             var users = await MalClubDetailsQuery.GetMoreUsers(LastArgs.Id);
 
             if(users != null && users.Any())
-                    Members.AddRange(users.Except(Members));
+                    Members.AddRange(users.Except(Members,MalUser.NameComparer));
 
 
         });

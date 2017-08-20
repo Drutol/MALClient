@@ -43,7 +43,6 @@ namespace MALClient.Android.Widgets
                 var intent = new Intent(_applicationContext, typeof(MainActivity));
                 intent.PutExtra("launchArgs", $"https://myanimelist.net/anime/{vm.Id}");
                 views.SetOnClickFillInIntent(Resource.Id.Image,intent);
-                views.SetTextViewText(Resource.Id.Title,vm.Title);
 
                  Loadimage(vm, views);
       

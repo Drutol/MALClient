@@ -1,0 +1,9 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+  <!-- This is the line -->
+  <item android:bottom="-4dp" android:top="-4dp">
+    <shape>
+      <solid android:color="@android:color/transparent" />
+      <stroke android:width="2dp" android:color="#ff8c00" />
+    </shape>
+  </item>
+</layer-list>

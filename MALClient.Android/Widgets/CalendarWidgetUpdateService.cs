@@ -32,7 +32,7 @@ namespace MALClient.Android.Widgets
 
             int[] allWidgetIds = intent
                 .GetIntArrayExtra(AppWidgetManager.ExtraAppwidgetIds);
-
+            var layoutId = intent.GetIntExtra("ResourceId", Resource.Layout.CalendarWidgetLight);
             var views = new List<Tuple<RemoteViews,int>>();
             bool running = false;
             try
@@ -51,7 +51,7 @@ namespace MALClient.Android.Widgets
 
             foreach (var widgetId in allWidgetIds)
             {
-                var view = new RemoteViews(PackageName, Resource.Layout.CalendarWidget);
+                var view = new RemoteViews(PackageName, layoutId);
                 views.Add(new Tuple<RemoteViews, int>(view,widgetId)); 
 
                 manager.UpdateAppWidget(widgetId,view);

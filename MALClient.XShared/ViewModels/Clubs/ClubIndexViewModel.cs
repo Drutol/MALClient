@@ -133,7 +133,7 @@ namespace MALClient.XShared.ViewModels.Clubs
                 if (_myClubs == null)
                 {
                     Loading = true;
-                    MyClubs = new ObservableCollection<MalClubEntry>(await MalClubQueries.GetClubs(QueryType, 0));
+                    MyClubs = new ObservableCollection<MalClubEntry>(await MalClubQueries.GetClubs(QueryType, 0) ?? Enumerable.Empty<MalClubEntry>());
                     MyClubsEmptyNoticeVisibility = !MyClubs.Any();
                     Loading = false;
 
@@ -194,7 +194,10 @@ namespace MALClient.XShared.ViewModels.Clubs
             if (clubs != null)
             {
                 _lastQueryClubs.AddRange(clubs);
-                Clubs.AddRange(clubs);
+                if(Clubs != null)
+                    Clubs.AddRange(clubs);
+                else
+                    Clubs = new SmartObservableCollection<MalClubEntry>(clubs);
             }
             else
                 MoreButtonVisibility = false;

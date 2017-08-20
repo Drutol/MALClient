@@ -1263,15 +1263,24 @@
     <AndroidResource Include="Resources\drawable\icon_circles.xml" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\xml\calendar_widget_info.xml" />
+    <AndroidResource Include="Resources\xml\calendar_widget_info_light.xml" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\layout\CalendarWidget.xml" />
+    <AndroidResource Include="Resources\layout\CalendarWidgetLight.xml" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\CalendarWidgetItem.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\border_accent_rightleft_orange.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\xml\calendar_widget_info_dark.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\CalendarWidgetDark.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

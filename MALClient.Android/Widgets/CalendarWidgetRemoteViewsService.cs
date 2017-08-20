@@ -22,7 +22,13 @@ namespace MALClient.Android.Widgets
         
         class CalendarViewFactory : Java.Lang.Object, IRemoteViewsFactory
         {
+            private readonly Context _applicationContext;
             private List<AnimeItemViewModel> _items;
+
+            public CalendarViewFactory(Context applicationContext)
+            {
+                _applicationContext = applicationContext;
+            }
 
             public long GetItemId(int position)
             {
@@ -31,15 +37,13 @@ namespace MALClient.Android.Widgets
 
             public RemoteViews GetViewAt(int position)
             {
-                var views = new RemoteViews(Application.Context.PackageName, Resource.Layout.CalendarWidgetItem);
+                var views = new RemoteViews(_applicationContext.PackageName, Resource.Layout.CalendarWidgetItem);
                 var vm = _items[position];
 
-                var intent = new Intent(Application.Context, typeof(MainActivity));
-                intent.SetAction(DateTime.Now.Ticks.ToString());
+                var intent = new Intent(_applicationContext, typeof(MainActivity));
                 intent.PutExtra("launchArgs", $"https://myanimelist.net/anime/{vm.Id}");
-
+                views.SetOnClickFillInIntent(Resource.Id.Image,intent);
                 views.SetTextViewText(Resource.Id.Title,vm.Title);
-                views.SetOnClickPendingIntent(Resource.Id.Root, PendingIntent.GetActivity(Application.Context, 0, intent, PendingIntentFlags.UpdateCurrent));
 
                  Loadimage(vm, views);
       
@@ -49,7 +53,9 @@ namespace MALClient.Android.Widgets
             public void OnCreate()
             {
                 _items = ViewModelLocator.CalendarPage.CalendarData.First(
-                    page => page.DayOfWeek == DateTime.Now.DayOfWeek).Items;
+                        page => page.DayOfWeek == DateTime.Now.DayOfWeek).Items
+                    .OrderByDescending(model => model.MyEpisodes)
+                    .ThenByDescending(model => model.MyScore).ToList();
             }
 
             public void OnDataSetChanged()
@@ -76,7 +82,8 @@ namespace MALClient.Android.Widgets
 
         public override IRemoteViewsFactory OnGetViewFactory(Intent intent)
         {
-            return new CalendarViewFactory();
+            
+            return new CalendarViewFactory(ApplicationContext);
         }
     }
 }

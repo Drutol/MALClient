@@ -11,10 +11,12 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Java.Lang;
+using MALClient.Android.Activities;
 using MALClient.Android.Adapters;
 using MALClient.Models.Enums;
 using MALClient.XShared.Utils;
 using MALClient.XShared.ViewModels;
+using MALClient.XShared.ViewModels.Main;
 using Debug = System.Diagnostics.Debug;
 using Exception = System.Exception;
 
@@ -32,7 +34,7 @@ namespace MALClient.Android.Widgets
                 .GetIntArrayExtra(AppWidgetManager.ExtraAppwidgetIds);
 
             var views = new List<Tuple<RemoteViews,int>>();
-
+            bool running = false;
             try
             {
                 ResourceLocator.RegisterBase();
@@ -44,27 +46,35 @@ namespace MALClient.Android.Widgets
             }
             catch (Exception)
             {
-                //may be already registered... voodoo I guess
+                running = true;
             }
 
             foreach (var widgetId in allWidgetIds)
             {
                 var view = new RemoteViews(PackageName, Resource.Layout.CalendarWidget);
                 views.Add(new Tuple<RemoteViews, int>(view,widgetId)); 
+
                 manager.UpdateAppWidget(widgetId,view);
             }
+            CalendarPivotPage shows = null;
+            if (Credentials.Authenticated)
+            {
 
-            Debug.WriteLine("Fetching");
-            await ViewModelLocator.AnimeList.FetchData(true, AnimeListWorkModes.Anime);
+                if (!running)
+                {
+                    ViewModelLocator.AnimeList.ListSource = Credentials.UserName;
+                    await ViewModelLocator.AnimeList.FetchData(true, AnimeListWorkModes.Anime);
+                }
 
-            Debug.WriteLine("Loading calendar");
-            await ViewModelLocator.CalendarPage.Init(true);
+                await ViewModelLocator.CalendarPage.Init(true);
 
-            var shows =
-                ViewModelLocator.CalendarPage.CalendarData.FirstOrDefault(
-                    page => page.DayOfWeek == DateTime.Now.DayOfWeek);
+                shows =
+                    ViewModelLocator.CalendarPage.CalendarData.FirstOrDefault(
+                        page => page.DayOfWeek == DateTime.Now.DayOfWeek);
 
-            Debug.WriteLine($"Loaded shows == null = {shows == null}");
+                Debug.WriteLine($"Loaded shows == null = {shows == null}");
+            }
+
             if (shows != null)
             {
                 foreach (var view in views)
@@ -73,6 +83,10 @@ namespace MALClient.Android.Widgets
                     view.Item1.SetViewVisibility(Resource.Id.EmptyNotice, ViewStates.Gone);
                     view.Item1.SetViewVisibility(Resource.Id.GridView, ViewStates.Visible);
                     view.Item1.SetRemoteAdapter(Resource.Id.GridView,new Intent(ApplicationContext,typeof(CalendarWidgetRemoteViewsService)));
+
+                    var intentTemplate = new Intent(ApplicationContext, typeof(MainActivity));
+                    view.Item1.SetPendingIntentTemplate(Resource.Id.GridView, PendingIntent.GetActivity(ApplicationContext, 0, intentTemplate, 0));
+
                     manager.UpdateAppWidget(view.Item2, view.Item1);
                 }
             }

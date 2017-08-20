@@ -3,7 +3,7 @@
               android:layout_height="match_parent"
               android:background="#7f000000"
               android:orientation="vertical"
-              android:padding="8dp">
+              android:padding="4dp">
 
   <TextView
     android:layout_width="wrap_content"
@@ -18,7 +18,7 @@
     android:layout_height="wrap_content" android:layout_marginTop="8dp"
     android:indeterminate="true" android:layout_gravity="center_horizontal" />
   <GridView
-    android:layout_width="match_parent" android:columnWidth="120dp" android:visibility="gone"
+    android:layout_width="match_parent" android:columnWidth="115dp" android:visibility="gone"
     android:layout_marginTop="8dp" android:numColumns="auto_fit"
     android:layout_height="match_parent" android:id="@+id/GridView"/>
 

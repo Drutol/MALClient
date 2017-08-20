@@ -11,6 +11,7 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Java.Lang;
+using Debug = System.Diagnostics.Debug;
 
 namespace MALClient.Android.Widgets
 {
@@ -21,6 +22,7 @@ namespace MALClient.Android.Widgets
     {
         public override void OnUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds)
         {
+            Debug.WriteLine("Updating widget");
             ComponentName thisWidget = new ComponentName(context,
                 Class.FromType(typeof(CalendarWidgetProvider)));
             int[] allWidgetIds = appWidgetManager.GetAppWidgetIds(thisWidget);

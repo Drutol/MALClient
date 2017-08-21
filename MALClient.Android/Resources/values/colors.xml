@@ -22,7 +22,7 @@
   <color name="LightBrushDetailsGeneralBorder">#d3d3d3</color>
   <color name="LightBrushDetailsRelatedBackground">#f5f5f5</color>
   <color name="LightBrushDetailsBackground">#f0f0f0</color>
-  <color name="LightBrushDetailsUpperBackground">#d3d3d3</color>
+  <color name="LightBrushDetailsUpperBackground">#e4e4e4</color>
   <color name="LightBrushDetailsMoreButton">#E6E6E6</color>
   <color name="LightBrushPivotInnerHeaderBarBackground">#e6e6e6</color>
   <color name="LightBrushNewsBackground">#ffffff</color>
@@ -115,7 +115,17 @@
   <color name="LimeOpaqueAccentColour">#7f98c926</color>
   <color name="LimeAccentColourContrast">#a3218e</color>
 
+  <!-- Pink accent -->
+  <color name="PinkDarkBrushMessageBubbleMine">#983665</color>
+  <color name="PinkDarkBrushMessageBubbleOther">#802f56</color>
 
+  <color name="PinkLightBrushMessageBubbleMine">#fbbad9</color>
+  <color name="PinkLightBrushMessageBubbleOther">#fbaad1</color>
+
+  <color name="PinkAccentColour">#f754a2</color>
+  <color name="PinkAccentColourDark">#a8346b</color>
+  <color name="PinkAccentColourLight">#FF97C9</color>
+  <color name="PinkOpaqueAccentColour">#7ff754a2</color>
 
 
 

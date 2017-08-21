@@ -35,11 +35,9 @@ namespace MALClient.Android.Adapters
 
         public List<string> Changelog => new List<string>
         {
-           "Added clubs! I'm pretty sure there are bugs... go catch them!",
-           "Profile page got visual tweaks.",
-           "Navigating to profile will now refresh comments if profile data was cached.",
-           "Heart in hamburger now has \"pulse\" animation ^^",
-           "Images page will now fetch thumbnails of lower quality... works better but it won't display resolution anymore :(",
+           "Added widget (in 2 themes) which will display shows airing today as per calendar settings.",
+           "Added pink color theme as requested on GitHub!",
+           "Added paypal donation"
         };
 
     }

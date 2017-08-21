@@ -15,7 +15,8 @@ using Debug = System.Diagnostics.Debug;
 
 namespace MALClient.Android.Widgets
 {
-    [BroadcastReceiver(Label = "Anime Calendar Widget - Dark")]
+    [Preserve(AllMembers = true)]
+    [BroadcastReceiver(Label = "Airing - Dark")]
     [IntentFilter(new string[] { "android.appwidget.action.APPWIDGET_UPDATE" })]
     [MetaData("android.appwidget.provider", Resource = "@xml/calendar_widget_info_dark")]
     public class CalendarWidgetProviderDark : AppWidgetProvider
@@ -36,7 +37,8 @@ namespace MALClient.Android.Widgets
         }
     }
 
-    [BroadcastReceiver(Label = "Anime Calendar Widget - Light")]
+    [Preserve(AllMembers = true)]
+    [BroadcastReceiver(Label = "Airing - Light")]
     [IntentFilter(new string[] { "android.appwidget.action.APPWIDGET_UPDATE" })]
     [MetaData("android.appwidget.provider", Resource = "@xml/calendar_widget_info_light")]
     public class CalendarWidgetProviderLight : AppWidgetProvider

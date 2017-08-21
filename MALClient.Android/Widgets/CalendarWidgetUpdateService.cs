@@ -8,6 +8,7 @@ using Android.Appwidget;
 using Android.Content;
 using Android.OS;
 using Android.Runtime;
+using Android.Util;
 using Android.Views;
 using Android.Widget;
 using Java.Lang;
@@ -34,7 +35,7 @@ namespace MALClient.Android.Widgets
                 .GetIntArrayExtra(AppWidgetManager.ExtraAppwidgetIds);
             var layoutId = intent.GetIntExtra("ResourceId", Resource.Layout.CalendarWidgetLight);
             var views = new List<Tuple<RemoteViews,int>>();
-            bool running = false;
+           
             try
             {
                 ResourceLocator.RegisterBase();
@@ -44,11 +45,11 @@ namespace MALClient.Android.Widgets
                 ResourceLocator.RegisterDataCacheAdapter(new Adapters.DataCache(null));
                 Credentials.Init();
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                running = true;
+               
             }
-
+            bool running = ResourceLocator.AnimeLibraryDataStorage.AllLoadedAuthAnimeItems?.Any() ?? false;
             foreach (var widgetId in allWidgetIds)
             {
                 var view = new RemoteViews(PackageName, layoutId);
@@ -56,12 +57,14 @@ namespace MALClient.Android.Widgets
 
                 manager.UpdateAppWidget(widgetId,view);
             }
+
             CalendarPivotPage shows = null;
             if (Credentials.Authenticated)
             {
 
                 if (!running)
                 {
+                   
                     ViewModelLocator.AnimeList.ListSource = Credentials.UserName;
                     await ViewModelLocator.AnimeList.FetchData(true, AnimeListWorkModes.Anime);
                 }
@@ -72,11 +75,11 @@ namespace MALClient.Android.Widgets
                     ViewModelLocator.CalendarPage.CalendarData.FirstOrDefault(
                         page => page.DayOfWeek == DateTime.Now.DayOfWeek);
 
-                Debug.WriteLine($"Loaded shows == null = {shows == null}");
             }
 
-            if (shows != null)
+            if (shows != null && shows.Items.Any())
             {
+
                 foreach (var view in views)
                 {
                     view.Item1.SetViewVisibility(Resource.Id.LoadingSpinner, ViewStates.Gone);
@@ -96,6 +99,7 @@ namespace MALClient.Android.Widgets
                 {
                     view.Item1.SetViewVisibility(Resource.Id.LoadingSpinner,ViewStates.Gone);
                     view.Item1.SetViewVisibility(Resource.Id.EmptyNotice,ViewStates.Visible);
+                    view.Item1.SetViewVisibility(Resource.Id.GridView,ViewStates.Gone);
                     manager.UpdateAppWidget(view.Item2, view.Item1);
                 }
             }

@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using MALClient.Models.Enums;
 using MALClient.XShared.Comm.MagicalRawQueries;
@@ -46,8 +47,13 @@ namespace MALClient.XShared.Comm
             {
 #if ANDROID
                 var res = await _client.GetAsync(Request.RequestUri);
+                if (res.StatusCode == HttpStatusCode.Forbidden)
+                {
+                    HandleMalBuggines();
+                }
                 var content = await res.Content.ReadAsStringAsync();
                 return content;
+
 #else
                 var response = await Request.GetResponseAsync();
 
@@ -64,6 +70,16 @@ namespace MALClient.XShared.Comm
             {
                 ResourceLocator.ConnectionInfoProvider.HasInternetConnection = false;
 
+#if !ANDROID
+                if (e is WebException exc)
+                {
+                    if (((HttpWebResponse)exc.Response).StatusCode == HttpStatusCode.Forbidden)
+                    {
+                        HandleMalBuggines();   
+                    }
+                }
+#endif
+
 #if ANDROID
                 if(Credentials.Authenticated)
                     ResourceLocator.SnackbarProvider.ShowText("Operation failed, check your internet connection...");
@@ -71,6 +87,19 @@ namespace MALClient.XShared.Comm
             }
             ResourceLocator.ConnectionInfoProvider.HasInternetConnection = true;
             return responseString;
+        }
+
+        private static readonly SemaphoreSlim _buggedMalMessageSemaphore = new SemaphoreSlim(1);
+        private async void HandleMalBuggines()
+        {
+            if(_buggedMalMessageSemaphore.CurrentCount == 0)
+                return;
+            await _buggedMalMessageSemaphore.WaitAsync();
+            await ResourceLocator.MessageDialogProvider.ShowMessageDialogAsync(
+                "Looks like MAL has banned your IP supposedly for 10 failed log-in attempts... Truth be told they have this system bugged as reported on forums and it triggers on false-positives from time to time.\n\nYou will now have to either obtain new IP or wait for 2 hours without making any requests to MAL via apps. Sorry for inconvenince but I cannot do much about it :(", "Whoops!");
+            _buggedMalMessageSemaphore.Release();
+
+            //Couldn't handle it :(
         }
     }
 }

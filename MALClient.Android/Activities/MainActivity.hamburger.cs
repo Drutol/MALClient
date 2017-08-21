@@ -532,7 +532,7 @@ namespace MALClient.Android.Activities
                     break;
                 case Resource.Id.HamburgerProfileItemSupport:
                     _supportMenu = FlyoutMenuBuilder.BuildGenericFlyout(this, view,
-                        new List<string> {"Feedback","Review","Donate","Turn on ads"}, OnSupportMenuSelection);
+                        new List<string> {"Feedback","Review","Donate Google","Donate PayPal","Turn on ads"}, OnSupportMenuSelection);
                     _supportMenu.Show();
                     _supportMenu.OnHiddenWithoutSelection += (sender, args) =>
                     {
@@ -560,6 +560,9 @@ namespace MALClient.Android.Activities
                     _drawer.CloseDrawer();
                     break;
                 case 3:
+                    ResourceLocator.SystemControlsLauncherService.LaunchUri(new Uri("https://www.paypal.me/drutol"));
+                    break;
+                case 4:
                     ViewModelLocator.GeneralMain.Navigate(PageIndex.PageSettings,SettingsPageIndex.Ads);
                     SetActiveButton(HamburgerButtons.Settings);
                     _drawer.CloseDrawer();

@@ -193,7 +193,11 @@ namespace MALClient.XShared.ViewModels.Clubs
             Loading = false;
             if (clubs != null)
             {
-                _lastQueryClubs.AddRange(clubs);
+                if(_lastQueryClubs != null)
+                    _lastQueryClubs.AddRange(clubs);
+                else
+                    _lastQueryClubs = new List<MalClubEntry>(clubs);
+
                 if(Clubs != null)
                     Clubs.AddRange(clubs);
                 else

@@ -56,6 +56,9 @@
         <ImageButton android:id="@+id/SettingsPageGeneralColorLime" android:layout_marginStart="10dp"
                      android:src="@drawable/icon_ok" android:layout_width="40dp" android:layout_height="40dp"
                      android:background="@color/LimeAccentColour" android:tint="#fff"/>
+        <ImageButton android:id="@+id/SettingsPageGeneralColorPink" android:layout_marginStart="10dp"
+                     android:src="@drawable/icon_ok" android:layout_width="40dp" android:layout_height="40dp"
+                     android:background="@color/PinkAccentColour" android:tint="#fff"/>
       </LinearLayout>
 
       <TextView

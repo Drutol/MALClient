@@ -221,6 +221,7 @@ namespace MALClient.Android.Fragments.SettingsFragments
             SettingsPageGeneralColorPurple.Tag = (int) AndroidColorThemes.Purple;
             SettingsPageGeneralColorBlue.Tag = (int)AndroidColorThemes.Blue;
             SettingsPageGeneralColorLime.Tag = (int)AndroidColorThemes.Lime;
+            SettingsPageGeneralColorPink.Tag = (int)AndroidColorThemes.Pink;
 
             var colorListener = new OnClickListener(view =>
             {
@@ -232,36 +233,44 @@ namespace MALClient.Android.Fragments.SettingsFragments
             SettingsPageGeneralColorPurple.SetOnClickListener(colorListener);
             SettingsPageGeneralColorBlue.SetOnClickListener(colorListener);
             SettingsPageGeneralColorLime.SetOnClickListener(colorListener);
+            SettingsPageGeneralColorPink.SetOnClickListener(colorListener);
 
-        }     
+        }
 
+        private List<ImageButton> _accentButtons;
         private void UpdateColourSelection()
         {
+            if (_accentButtons == null)
+            {
+                _accentButtons = new List<ImageButton>()
+                {
+                    SettingsPageGeneralColorOrange,
+                    SettingsPageGeneralColorPurple,
+                    SettingsPageGeneralColorBlue,
+                    SettingsPageGeneralColorLime,
+                    SettingsPageGeneralColorPink,
+                };
+            }
+            foreach (var accentButton in _accentButtons)
+            {
+                accentButton.SetImageResource(Resource.Color.Transparent);
+            }
             switch (AndroidColourThemeHelper.CurrentTheme)
             {
                 case AndroidColorThemes.Orange:
                     SettingsPageGeneralColorOrange.SetImageResource(Resource.Drawable.icon_ok);
-                    SettingsPageGeneralColorPurple.SetImageResource(Resource.Color.Transparent);
-                    SettingsPageGeneralColorBlue.SetImageResource(Resource.Color.Transparent);
-                    SettingsPageGeneralColorLime.SetImageResource(Resource.Color.Transparent);
                     break;
                 case AndroidColorThemes.Purple:
                     SettingsPageGeneralColorPurple.SetImageResource(Resource.Drawable.icon_ok);
-                    SettingsPageGeneralColorOrange.SetImageResource(Resource.Color.Transparent);
-                    SettingsPageGeneralColorBlue.SetImageResource(Resource.Color.Transparent);
-                    SettingsPageGeneralColorLime.SetImageResource(Resource.Color.Transparent);
                     break;
                 case AndroidColorThemes.Blue:
                     SettingsPageGeneralColorBlue.SetImageResource(Resource.Drawable.icon_ok);
-                    SettingsPageGeneralColorPurple.SetImageResource(Resource.Color.Transparent);
-                    SettingsPageGeneralColorOrange.SetImageResource(Resource.Color.Transparent);
-                    SettingsPageGeneralColorLime.SetImageResource(Resource.Color.Transparent);
                     break;
                 case AndroidColorThemes.Lime:
                     SettingsPageGeneralColorLime.SetImageResource(Resource.Drawable.icon_ok);
-                    SettingsPageGeneralColorPurple.SetImageResource(Resource.Color.Transparent);
-                    SettingsPageGeneralColorOrange.SetImageResource(Resource.Color.Transparent);
-                    SettingsPageGeneralColorBlue.SetImageResource(Resource.Color.Transparent);
+                    break;
+                case AndroidColorThemes.Pink:
+                    SettingsPageGeneralColorPink.SetImageResource(Resource.Drawable.icon_ok);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();

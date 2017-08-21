@@ -15,6 +15,8 @@ namespace MALClient.Android.Fragments.SettingsFragments
 {
     public partial class SettingsGeneralFragment
     {
+        #region Views
+
         private RadioButton _settingsPageGeneralRadioAnimeList;
         private RadioButton _settingsPageGeneralRadioMangaList;
         private RadioGroup _settingsPageGeneralStartPageRadioGroup;
@@ -25,6 +27,7 @@ namespace MALClient.Android.Fragments.SettingsFragments
         private ImageButton _settingsPageGeneralColorPurple;
         private ImageButton _settingsPageGeneralColorBlue;
         private ImageButton _settingsPageGeneralColorLime;
+        private ImageButton _settingsPageGeneralColorPink;
         private Button _settingsPageGeneralThemeChangeApply;
         private Switch _settingsPageGeneralEnableSwipeSwitch;
         private Switch _settingsPageGeneralPullHigherSwitch;
@@ -87,6 +90,8 @@ namespace MALClient.Android.Fragments.SettingsFragments
         public ImageButton SettingsPageGeneralColorBlue => _settingsPageGeneralColorBlue ?? (_settingsPageGeneralColorBlue = FindViewById<ImageButton>(Resource.Id.SettingsPageGeneralColorBlue));
 
         public ImageButton SettingsPageGeneralColorLime => _settingsPageGeneralColorLime ?? (_settingsPageGeneralColorLime = FindViewById<ImageButton>(Resource.Id.SettingsPageGeneralColorLime));
+
+        public ImageButton SettingsPageGeneralColorPink => _settingsPageGeneralColorPink ?? (_settingsPageGeneralColorPink = FindViewById<ImageButton>(Resource.Id.SettingsPageGeneralColorPink));
 
         public Button SettingsPageGeneralThemeChangeApply => _settingsPageGeneralThemeChangeApply ?? (_settingsPageGeneralThemeChangeApply = FindViewById<Button>(Resource.Id.SettingsPageGeneralThemeChangeApply));
 
@@ -172,7 +177,7 @@ namespace MALClient.Android.Fragments.SettingsFragments
 
         public SeekBar SettingsPageGeneralAiringNotificationOffsetSlider => _settingsPageGeneralAiringNotificationOffsetSlider ?? (_settingsPageGeneralAiringNotificationOffsetSlider = FindViewById<SeekBar>(Resource.Id.SettingsPageGeneralAiringNotificationOffsetSlider));
 
-
+        #endregion
 
     }
 }

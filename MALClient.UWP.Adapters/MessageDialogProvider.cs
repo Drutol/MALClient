@@ -24,6 +24,20 @@ namespace MALClient.UWP.Adapters
 
         }
 
+        public async Task ShowMessageDialogAsync(string content, string title)
+        {
+            try
+            {
+                var msg = new MessageDialog(content, title);
+                await msg.ShowAsync();
+            }
+            catch (Exception)
+            {
+                //core window blah blah blah
+            }
+
+        }
+
         public async void ShowMessageDialogWithInput(string content, string title, string trueCommand,
             string falseCommand, Action callbackOnTrue, Action callBackOnFalse = null)
         {

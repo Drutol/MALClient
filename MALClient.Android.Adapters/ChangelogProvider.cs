@@ -31,13 +31,14 @@ namespace MALClient.Android.Adapters
 
         public bool NewChangelog { get; set; }
 
-        public string DateWithVersion => $"{_currentVersion} - 16.08.2017";
+        public string DateWithVersion => $"{_currentVersion} - 22.08.2017";
 
         public List<string> Changelog => new List<string>
         {
            "Added widget (in 2 themes) which will display shows airing today as per calendar settings.",
            "Added pink color theme as requested on GitHub!",
-           "Added paypal donation"
+           "Added paypal donation link in \"heart\" button.",
+           "A few fixes to clubs pages."
         };
 
     }

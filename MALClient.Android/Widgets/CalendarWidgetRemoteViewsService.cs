@@ -54,7 +54,9 @@ namespace MALClient.Android.Widgets
                 _items = ViewModelLocator.CalendarPage.CalendarData.First(
                         page => page.DayOfWeek == DateTime.Now.DayOfWeek).Items
                     .OrderByDescending(model => model.MyEpisodes)
-                    .ThenByDescending(model => model.MyScore).ToList();
+                    .ThenByDescending(model => model.MyScore)
+                    .Take(8)
+                    .ToList();
             }
 
             public void OnDataSetChanged()

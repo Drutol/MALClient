@@ -52,12 +52,14 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="BL\AiringInfoProvider.cs" />
     <Compile Include="BL\AnimeLibraryDataStorage.cs" />
     <Compile Include="BL\HandyDataStorage.cs" />
     <Compile Include="BL\HandyDataStorageModule.cs" />
     <Compile Include="BL\InitializationRoutines.cs" />
     <Compile Include="BL\MalHttpContextProviderBase.cs" />
     <Compile Include="Comm\Anime\AnimeAddQuery.cs" />
+    <Compile Include="Comm\Anime\AnimeAiringDataQuery.cs" />
     <Compile Include="Comm\Anime\AnimeCharactersStaffQuery.cs" />
     <Compile Include="Comm\Anime\AnimeDetailsAnnQuery.cs" />
     <Compile Include="Comm\Anime\AnimeDetailsHummingbirdQuery.cs" />
@@ -112,6 +114,7 @@
     <Compile Include="Comm\Query.cs" />
     <Compile Include="Comm\Search\CharactersSearchQuery.cs" />
     <Compile Include="Delegates\Delegates.cs" />
+    <Compile Include="Interfaces\IAiringInfoProvider.cs" />
     <Compile Include="Interfaces\IAnimeLibraryDataStorage.cs" />
     <Compile Include="Interfaces\IAiringNotificationsAdapter.cs" />
     <Compile Include="Interfaces\IHamburgerViewModel.cs" />

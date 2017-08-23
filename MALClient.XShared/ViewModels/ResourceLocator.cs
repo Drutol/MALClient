@@ -52,6 +52,8 @@ namespace MALClient.XShared.ViewModels
 
         public static IDispatcherAdapter DispatcherAdapter => SimpleIoc.Default.GetInstance<IDispatcherAdapter>();
 
+        public static IAiringInfoProvider AiringInfoProvider => SimpleIoc.Default.GetInstance<IAiringInfoProvider>();
+
 
         // Purely shared interfaces
 
@@ -61,6 +63,7 @@ namespace MALClient.XShared.ViewModels
         {
             SimpleIoc.Default.Register<IAnimeLibraryDataStorage,AnimeLibraryDataStorage>();
             SimpleIoc.Default.Register<IHandyDataStorage,HandyDataStorage>();
+            SimpleIoc.Default.Register<IAiringInfoProvider,AiringInfoProvider>();
         }
 
         #region UsedByBackgroundTask

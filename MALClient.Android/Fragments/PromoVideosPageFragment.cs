@@ -137,7 +137,6 @@ namespace MALClient.Android.Fragments
 
         private GridView _promoVideosPageGridView;
         private ProgressBar _promoVideosPageLoadingSpinner;
-        private bool _isFlingActive;
 
         public GridView PromoVideosPageGridView => _promoVideosPageGridView ?? (_promoVideosPageGridView = FindViewById<GridView>(Resource.Id.PromoVideosPageGridView));
 

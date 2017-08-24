@@ -168,7 +168,6 @@ namespace MALClient.Android.Fragments.Clubs
         private ListView _list;
         private FloatingActionButton _actionButton;
         private TextView _emptyNotice;
-        private Drawer drawer;
 
 
         public SearchView SearchView => _searchView ?? (_searchView = FindViewById<SearchView>(Resource.Id.SearchView));

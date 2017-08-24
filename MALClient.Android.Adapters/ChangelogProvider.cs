@@ -31,14 +31,13 @@ namespace MALClient.Android.Adapters
 
         public bool NewChangelog { get; set; }
 
-        public string DateWithVersion => $"{_currentVersion} - 22.08.2017";
+        public string DateWithVersion => $"{_currentVersion} - 24.08.2017";
 
         public List<string> Changelog => new List<string>
         {
-           "Added widget (in 2 themes) which will display shows airing today as per calendar settings.",
-           "Added pink color theme as requested on GitHub!",
-           "Added paypal donation link in \"heart\" button.",
-           "A few fixes to clubs pages."
+           "Added current episode numbers for airing anime! They are visible in details page and in watched update dialog (bold number).",
+           "Widget will now display next episode number.",
+           "Widget should now be a bit more stable... just a little tiny bit..."
         };
 
     }

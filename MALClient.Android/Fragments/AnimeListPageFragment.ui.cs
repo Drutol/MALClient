@@ -42,10 +42,6 @@ namespace MALClient.Android.Fragments
         private const string FabMenuDisplayModes = "Display modes";
         private const string FabMenuSetListSource = "Set list source";
 
-
-        private DroppyMenuPopup _sortingMenu;
-        private DroppyMenuPopup _filterMenu;
-        private DroppyMenuPopup _displayMenu;
         private DroppyMenuPopup _fabMenu;
         private FloatingActionMenu _actionMenu;
 

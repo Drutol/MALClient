@@ -43,6 +43,8 @@ namespace MALClient.Android.Widgets
                 ResourceLocator.RegisterPasswordVaultAdapter(new PasswordVaultProvider());
                 ResourceLocator.RegisterMessageDialogAdapter(new MessageDialogProvider());
                 ResourceLocator.RegisterDataCacheAdapter(new Adapters.DataCache(null));
+
+
                 Credentials.Init();
             }
             catch (Exception e)
@@ -59,23 +61,32 @@ namespace MALClient.Android.Widgets
             }
 
             CalendarPivotPage shows = null;
-            if (Credentials.Authenticated)
+
+            try
             {
-
-                if (!running)
+                if (Credentials.Authenticated)
                 {
-                   
-                    ViewModelLocator.AnimeList.ListSource = Credentials.UserName;
-                    await ViewModelLocator.AnimeList.FetchData(true, AnimeListWorkModes.Anime);
+                    
+                    if (!running)
+                    {
+                        await ResourceLocator.AiringInfoProvider.Init(false);
+                        ViewModelLocator.AnimeList.ListSource = Credentials.UserName;
+                        await ViewModelLocator.AnimeList.FetchData(true, AnimeListWorkModes.Anime);
+                    }
+
+                    await ViewModelLocator.CalendarPage.Init(true);
+
+                    shows =
+                        ViewModelLocator.CalendarPage.CalendarData.FirstOrDefault(
+                            page => page.DayOfWeek == DateTime.Now.DayOfWeek);
+
                 }
-
-                await ViewModelLocator.CalendarPage.Init(true);
-
-                shows =
-                    ViewModelLocator.CalendarPage.CalendarData.FirstOrDefault(
-                        page => page.DayOfWeek == DateTime.Now.DayOfWeek);
-
             }
+            catch (Exception)
+            {
+                //we have failed very very badly
+            }
+            
 
             if (shows != null && shows.Items.Any())
             {

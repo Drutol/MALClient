@@ -13,80 +13,78 @@
                   android:paddingEnd="1dp">
       <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:orientation="vertical"
                     android:layout_weight="1" android:layout_marginEnd="2dp">
-        <RelativeLayout android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:background="?BrushRowAlternate1">
+        <FrameLayout android:layout_width="match_parent"
+                     android:layout_height="40dp"
+                     android:background="?BrushRowAlternate1">
 
-          <RelativeLayout android:background="@drawable/border_accent_left" android:paddingStart="5dp"
-                          android:paddingEnd="5dp"
-                          android:layout_width="match_parent" android:layout_height="match_parent"
-                          android:gravity="center_vertical"
-                          android:layout_alignParentTop="true"
-                          android:layout_alignParentStart="true">
+          <FrameLayout android:background="@drawable/border_accent_left" android:paddingStart="5dp"
+                       android:paddingEnd="5dp"
+                       android:layout_width="match_parent" android:layout_height="match_parent"
+                       android:gravity="center_vertical">
             <TextView android:textSize="@dimen/FontSizeNormal" android:fontFamily="@string/font_family_light"
-                      android:layout_alignParentStart="true" android:layout_width="wrap_content" android:id="@+id/AnimeDetailsPageGeneralTabFragmentEpisodesLabel"
+                      android:layout_gravity="center_vertical" android:layout_width="wrap_content" android:id="@+id/AnimeDetailsPageGeneralTabFragmentEpisodesLabel"
                       android:layout_height="wrap_content" android:textColor="?BrushText" android:text="Episodes" />
             <TextView android:textSize="@dimen/FontSizeNormal" android:fontFamily="@string/font_family_medium"
-                      android:layout_alignParentEnd="true" android:layout_width="wrap_content"
+                      android:layout_gravity="center_vertical|end" android:layout_width="wrap_content"
                       android:layout_height="wrap_content" android:textColor="?BrushText"
                       android:id="@+id/AnimeDetailsPageGeneralTabFragmentEpisodes" />
-          </RelativeLayout>
-        </RelativeLayout>
-        <RelativeLayout android:layout_width="match_parent"
-                        android:layout_height="40dp" android:layout_marginTop="2dp"
-                        android:background="?BrushRowAlternate2">
+          </FrameLayout>
+        </FrameLayout>
+        <FrameLayout android:layout_width="match_parent"
+                     android:layout_height="40dp" android:layout_marginTop="2dp"
+                     android:background="?BrushRowAlternate2">
 
-          <RelativeLayout android:background="@drawable/border_accent_left" android:paddingStart="5dp"
-                          android:paddingEnd="5dp" android:layout_centerInParent="true"
-                          android:layout_width="match_parent" android:layout_height="match_parent"
-                          android:gravity="center_vertical">
+          <FrameLayout android:background="@drawable/border_accent_left" android:paddingStart="5dp"
+                       android:paddingEnd="5dp" android:layout_centerInParent="true"
+                       android:layout_width="match_parent" android:layout_height="match_parent"
+                       android:gravity="center_vertical">
             <TextView android:textSize="@dimen/FontSizeNormal" android:fontFamily="@string/font_family_light"
-                      android:layout_alignParentStart="true" android:layout_width="wrap_content"
+                      android:layout_gravity="center_vertical" android:layout_width="wrap_content"
                       android:layout_height="wrap_content" android:textColor="?BrushText" android:text="Score" />
             <TextView android:textSize="@dimen/FontSizeNormal" android:fontFamily="@string/font_family_medium"
-                      android:layout_alignParentEnd="true" android:layout_width="wrap_content"
+                      android:layout_gravity="center_vertical|end" android:layout_width="wrap_content"
                       android:layout_height="wrap_content" android:textColor="?BrushText"
                       android:id="@+id/AnimeDetailsPageGeneralTabFragmentScore" />
-          </RelativeLayout>
-        </RelativeLayout>
-        <RelativeLayout android:layout_width="match_parent"
-                        android:layout_height="40dp" android:layout_marginTop="2dp"
-                        android:background="?BrushRowAlternate1">
+          </FrameLayout>
+        </FrameLayout>
+        <FrameLayout android:layout_width="match_parent"
+                     android:layout_height="40dp" android:layout_marginTop="2dp"
+                     android:background="?BrushRowAlternate1">
 
-          <RelativeLayout android:background="@drawable/border_accent_left" android:paddingStart="5dp"
-                          android:paddingEnd="5dp" android:layout_centerInParent="true"
-                          android:layout_width="match_parent" android:layout_height="match_parent"
-                          android:gravity="center_vertical">
+          <FrameLayout android:background="@drawable/border_accent_left" android:paddingStart="5dp"
+                       android:paddingEnd="5dp" android:layout_centerInParent="true"
+                       android:layout_width="match_parent" android:layout_height="match_parent"
+                       android:gravity="center_vertical">
             <TextView android:textSize="@dimen/FontSizeNormal" android:fontFamily="@string/font_family_light"
-                      android:layout_alignParentStart="true" android:layout_width="wrap_content"
+                      android:layout_gravity="center_vertical" android:layout_width="wrap_content"
                       android:layout_height="wrap_content" android:textColor="?BrushText" android:text="Start" />
             <TextView android:textSize="@dimen/FontSizeNormal" android:fontFamily="@string/font_family_medium"
-                      android:layout_alignParentEnd="true" android:layout_width="wrap_content"
+                      android:layout_gravity="center_vertical|end" android:layout_width="wrap_content"
                       android:layout_height="wrap_content" android:textColor="?BrushText"
                       android:id="@+id/AnimeDetailsPageGeneralTabFragmentStart" />
-          </RelativeLayout>
-        </RelativeLayout>
+          </FrameLayout>
+        </FrameLayout>
         <FrameLayout android:id="@+id/AnimeDetailsPageGeneralTabFragmentMyStartButton"
                      android:layout_width="match_parent" android:clickable="true" android:focusable="true"
                      android:layout_height="40dp" android:layout_marginTop="2dp" android:longClickable="true"
                      android:foreground="?android:selectableItemBackground">
-          <RelativeLayout android:layout_width="match_parent"
-                          android:layout_height="match_parent"
-                          android:background="?BrushRowAlternate2">
+          <FrameLayout android:layout_width="match_parent"
+                       android:layout_height="match_parent"
+                       android:background="?BrushRowAlternate2">
 
-            <RelativeLayout android:background="@drawable/border_accent_left" android:paddingStart="5dp"
-                            android:paddingEnd="5dp" android:layout_centerInParent="true"
-                            android:layout_width="match_parent" android:layout_height="match_parent"
-                            android:gravity="center_vertical">
+            <FrameLayout android:background="@drawable/border_accent_left" android:paddingStart="5dp"
+                         android:paddingEnd="5dp" android:layout_centerInParent="true"
+                         android:layout_width="match_parent" android:layout_height="match_parent"
+                         android:gravity="center_vertical">
               <TextView android:textSize="@dimen/FontSizeNormal" android:fontFamily="@string/font_family_light"
-                        android:layout_alignParentStart="true" android:layout_width="wrap_content"
+                        android:layout_gravity="center_vertical" android:layout_width="wrap_content"
                         android:layout_height="wrap_content" android:textColor="?BrushText" android:text="My start" />
-              <TextView android:textSize="@dimen/FontSizeNormal" android:layout_alignParentEnd="true"
+              <TextView android:textSize="@dimen/FontSizeNormal" android:layout_gravity="center_vertical|end"
                         android:layout_width="wrap_content" android:layout_height="wrap_content"
                         android:textColor="?AccentColourDark"
                         android:id="@+id/AnimeDetailsPageGeneralTabFragmentMyStart" />
-            </RelativeLayout>
-          </RelativeLayout>
+            </FrameLayout>
+          </FrameLayout>
         </FrameLayout>
       </LinearLayout>
       <View
@@ -94,78 +92,78 @@
         android:layout_height="match_parent" android:background="?BrushDetailsGeneralBorder" />
       <LinearLayout android:layout_width="0dp" android:orientation="vertical" android:layout_height="wrap_content"
                     android:layout_weight="1" android:layout_marginStart="2dp">
-        <RelativeLayout android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:background="?BrushRowAlternate1">
+        <FrameLayout android:layout_width="match_parent"
+                     android:layout_height="40dp"
+                     android:background="?BrushRowAlternate1">
 
-          <RelativeLayout android:background="@drawable/border_accent_right" android:paddingStart="5dp"
-                          android:paddingEnd="5dp" android:layout_centerInParent="true"
-                          android:layout_width="match_parent" android:layout_height="match_parent"
-                          android:gravity="center_vertical">
+          <FrameLayout android:background="@drawable/border_accent_right" android:paddingStart="5dp"
+                       android:paddingEnd="5dp" android:layout_centerInParent="true"
+                       android:layout_width="match_parent" android:layout_height="match_parent"
+                       android:gravity="center_vertical">
             <TextView android:textSize="@dimen/FontSizeNormal" android:fontFamily="@string/font_family_light"
-                      android:layout_alignParentStart="true" android:layout_width="wrap_content"
+                      android:layout_gravity="center_vertical" android:layout_width="wrap_content"
                       android:layout_height="wrap_content" android:textColor="?BrushText" android:text="Type" />
             <TextView android:textSize="@dimen/FontSizeNormal" android:fontFamily="@string/font_family_medium"
-                      android:layout_alignParentEnd="true" android:layout_width="wrap_content"
+                      android:layout_gravity="center_vertical|end" android:layout_width="wrap_content"
                       android:layout_height="wrap_content" android:textColor="?BrushText"
                       android:id="@+id/AnimeDetailsPageGeneralTabFragmentType" />
-          </RelativeLayout>
-        </RelativeLayout>
-        <RelativeLayout android:layout_width="match_parent"
-                        android:layout_height="40dp" android:layout_marginTop="2dp"
-                        android:background="?BrushRowAlternate2">
+          </FrameLayout>
+        </FrameLayout>
+        <FrameLayout android:layout_width="match_parent"
+                     android:layout_height="40dp" android:layout_marginTop="2dp"
+                     android:background="?BrushRowAlternate2">
 
-          <RelativeLayout android:background="@drawable/border_accent_right" android:paddingStart="5dp"
-                          android:paddingEnd="5dp" android:layout_centerInParent="true"
-                          android:layout_width="match_parent" android:layout_height="match_parent"
-                          android:gravity="center_vertical">
+          <FrameLayout android:background="@drawable/border_accent_right" android:paddingStart="5dp"
+                       android:paddingEnd="5dp" android:layout_centerInParent="true"
+                       android:layout_width="match_parent" android:layout_height="match_parent"
+                       android:gravity="center_vertical">
             <TextView android:textSize="@dimen/FontSizeNormal" android:fontFamily="@string/font_family_light"
-                      android:layout_alignParentStart="true" android:layout_width="wrap_content"
+                      android:layout_gravity="center_vertical" android:layout_width="wrap_content"
                       android:layout_height="wrap_content" android:textColor="?BrushText" android:text="Status" />
             <TextView android:textSize="@dimen/FontSizeNormal" android:fontFamily="@string/font_family_medium"
-                      android:layout_alignParentEnd="true" android:layout_width="wrap_content"
+                      android:layout_gravity="center_vertical|end" android:layout_width="wrap_content"
                       android:layout_height="wrap_content" android:textColor="?BrushText"
-
+                      android:gravity="center"
                       android:id="@+id/AnimeDetailsPageGeneralTabFragmentStatus" />
-          </RelativeLayout>
-        </RelativeLayout>
-        <RelativeLayout android:layout_width="match_parent"
-                        android:layout_height="40dp" android:layout_marginTop="2dp"
-                        android:background="?BrushRowAlternate1">
+          </FrameLayout>
+        </FrameLayout>
+        <FrameLayout android:layout_width="match_parent"
+                     android:layout_height="40dp" android:layout_marginTop="2dp"
+                     android:background="?BrushRowAlternate1">
 
-          <RelativeLayout android:background="@drawable/border_accent_right" android:paddingStart="5dp"
-                          android:paddingEnd="5dp" android:layout_centerInParent="true"
-                          android:layout_width="match_parent" android:layout_height="match_parent"
-                          android:gravity="center_vertical">
+          <FrameLayout android:background="@drawable/border_accent_right" android:paddingStart="5dp"
+                       android:paddingEnd="5dp" android:layout_centerInParent="true"
+                       android:layout_width="match_parent" android:layout_height="match_parent"
+                       android:gravity="center_vertical">
             <TextView android:textSize="@dimen/FontSizeNormal" android:fontFamily="@string/font_family_light"
-                      android:layout_alignParentStart="true" android:layout_width="wrap_content"
+                      android:layout_gravity="center_vertical" android:layout_width="wrap_content"
                       android:layout_height="wrap_content" android:textColor="?BrushText" android:text="End" />
             <TextView android:textSize="@dimen/FontSizeNormal" android:fontFamily="@string/font_family_medium"
-                      android:layout_alignParentEnd="true" android:layout_width="wrap_content"
+                      android:layout_gravity="center_vertical|end" android:layout_width="wrap_content"
                       android:layout_height="wrap_content" android:textColor="?BrushText"
                       android:id="@+id/AnimeDetailsPageGeneralTabFragmentEnd" />
-          </RelativeLayout>
-        </RelativeLayout>
+          </FrameLayout>
+        </FrameLayout>
         <FrameLayout android:id="@+id/AnimeDetailsPageGeneralTabFragmentMyEndButton"
                      android:layout_width="match_parent" android:clickable="true" android:focusable="true"
                      android:layout_height="40dp" android:layout_marginTop="2dp" android:longClickable="true"
                      android:foreground="?android:selectableItemBackground">
-          <RelativeLayout android:layout_height="match_parent" android:layout_width="match_parent"
-                          android:background="?BrushRowAlternate2">
+          <FrameLayout android:layout_height="match_parent" android:layout_width="match_parent"
+                       android:background="?BrushRowAlternate2">
 
-            <RelativeLayout android:background="@drawable/border_accent_right" android:paddingStart="5dp"
-                            android:paddingEnd="5dp" android:layout_centerInParent="true"
-                            android:layout_width="match_parent" android:layout_height="match_parent"
-                            android:gravity="center_vertical">
+            <FrameLayout android:background="@drawable/border_accent_right" android:paddingStart="5dp"
+                         android:paddingEnd="5dp" android:layout_centerInParent="true"
+                         android:layout_width="match_parent" android:layout_height="match_parent"
+                         android:gravity="center_vertical">
               <TextView android:textSize="@dimen/FontSizeNormal" android:fontFamily="@string/font_family_light"
-                        android:layout_alignParentStart="true" android:layout_width="wrap_content"
+                        android:layout_gravity="center_vertical" android:layout_width="wrap_content"
                         android:layout_height="wrap_content" android:textColor="?BrushText" android:text="My end" />
-              <TextView android:textSize="@dimen/FontSizeNormal" android:layout_alignParentEnd="true"
+              <TextView android:textSize="@dimen/FontSizeNormal" android:layout_gravity="center_vertical|end"
                         android:layout_width="wrap_content" android:layout_height="wrap_content"
                         android:textColor="?AccentColourDark"
                         android:id="@+id/AnimeDetailsPageGeneralTabFragmentMyEnd" />
-            </RelativeLayout>
-          </RelativeLayout>
+            </FrameLayout>
+          </FrameLayout>
         </FrameLayout>
       </LinearLayout>
     </LinearLayout>

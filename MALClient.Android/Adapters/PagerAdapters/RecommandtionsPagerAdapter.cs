@@ -23,7 +23,6 @@ namespace MALClient.Android.PagerAdapters
         {
         }
 
-        private RecommendationItemFragment _currentFragment;
         private readonly Dictionary<int,RecommendationItemFragment> _pageFragments = new Dictionary<int, RecommendationItemFragment>();
         private readonly List<RecommendationItemViewModel> _items;
         private int? _fragmentWaitingForBinding;

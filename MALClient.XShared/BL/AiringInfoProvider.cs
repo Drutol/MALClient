@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Android.Runtime;
 using MALClient.Adapters;
 using MALClient.XShared.Comm.Anime;
 using MALClient.XShared.Interfaces;
@@ -26,7 +27,7 @@ namespace MALClient.XShared.BL
             _applicationDataService = applicationDataService;
         }
 
-        public async void Init()
+        public async Task Init(bool cacheOnly)
         {
             try
             {
@@ -40,7 +41,7 @@ namespace MALClient.XShared.BL
                 }
 
                 
-                if (data == null)
+                if ((data == null || !data.Any()) && !cacheOnly)
                 {
                     var json = await new AnimeAiringDataQuery().GetRequestResponse();
                     if (!string.IsNullOrEmpty(json))
@@ -50,6 +51,13 @@ namespace MALClient.XShared.BL
                         _dataCache.SaveData(json, CacheFileName, null);
                     }
                 }
+
+                if (data == null)
+                {
+                    _airingData = new List<AiringData>();
+                    return;
+                }
+
                 foreach (var airingData in data)
                 {
                     airingData.Episodes = airingData.Episodes.OrderBy(episode => episode.Timestamp).ToList();
@@ -62,19 +70,40 @@ namespace MALClient.XShared.BL
             }
         }
 
-        public bool TryGetCurrentEpisode(int id, ref int episode)
+        public bool TryGetCurrentEpisode(int id, out int episode, DateTime? forDay = null)
         {
+            episode = 0;
             var currentTimestamp = Utilities.ConvertToUnixTimestamp(DateTime.Now);
             var data = _airingData.FirstOrDefault(airingData => airingData.MalId == id);
             if (data == null)
                 return false;
 
-            episode = data.Episodes.First(ep => ep.Timestamp >= currentTimestamp).EpisodeNumber;
+            try
+            {
+                if (forDay == null)
+                    episode = data.Episodes.First(ep => ep.Timestamp >= currentTimestamp).EpisodeNumber - 1;
+                else
+                {
+                    var todaysMatch =
+                        data.Episodes.FirstOrDefault(ep => Utilities.ConvertFromUnixTimestamp(ep.Timestamp).DayOfYear ==
+                                                  forDay.Value.DayOfYear);
+                    if (todaysMatch != null)
+                        episode = todaysMatch.EpisodeNumber;
+                    else
+                        episode = data.Episodes.First(ep => ep.Timestamp >= currentTimestamp).EpisodeNumber;
 
+                }
+                if (episode <= 0)
+                    return false;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
             return true;
         }
 
-
+        [Preserve(AllMembers = true)]
         class Episode
         {
             [JsonProperty("t")]
@@ -83,6 +112,7 @@ namespace MALClient.XShared.BL
             public int EpisodeNumber { get; set; }
         }
 
+        [Preserve(AllMembers = true)]
         class AiringData
         {
             [JsonProperty("id")]

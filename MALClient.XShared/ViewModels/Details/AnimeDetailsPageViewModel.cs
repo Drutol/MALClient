@@ -969,7 +969,12 @@ namespace MALClient.XShared.ViewModels.Details
                         ? StartDate.Substring(0, 4)
                         : StartDate));
             RightDetailsRow.Add(new Tuple<string, string>("Type", Type));
-            RightDetailsRow.Add(new Tuple<string, string>("Status", Status));
+            if (string.Equals(Status, "Currently Airing", StringComparison.CurrentCultureIgnoreCase) && ResourceLocator.AiringInfoProvider.TryGetCurrentEpisode(Id,out int ep))
+            {
+                RightDetailsRow.Add(new Tuple<string, string>("Status", $"{Status}\nCurrent ep. {ep}"));
+            }
+            else
+                RightDetailsRow.Add(new Tuple<string, string>("Status", Status));
             RightDetailsRow.Add(new Tuple<string, string>("End",
                 EndDate == "0000-00-00" || string.IsNullOrEmpty(EndDate)
                     ? "?"

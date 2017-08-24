@@ -8,7 +8,7 @@ namespace MALClient.XShared.Interfaces
 {
     public interface IAiringInfoProvider
     {
-        void Init();
-        bool TryGetCurrentEpisode(int id, ref int episode);
+        Task Init(bool cacheOnly);
+        bool TryGetCurrentEpisode(int id, out int episode, DateTime? forDay = null);
     }
 }

@@ -172,7 +172,6 @@ namespace MALClient.Android.Fragments.AnimeDetailsPageTabs
 
         public TextView AnimeDetailsPageGeneralTabFragmentSynopsis => _animeDetailsPageGeneralTabFragmentSynopsis ?? (_animeDetailsPageGeneralTabFragmentSynopsis = FindViewById<TextView>(Resource.Id.AnimeDetailsPageGeneralTabFragmentSynopsis));
 
-
         #endregion
     }
 }

@@ -477,7 +477,7 @@ namespace MALClient.Android.Activities
 
                 }
                 ImageService.Instance
-                    .LoadUrl($"https://myanimelist.cdn-dena.com/images/userimages/{Credentials.Id}.jpg")
+                    .LoadUrl($"https://myanimelist.cdn-dena.com/images/userimages/{Credentials.Id}.jpg",TimeSpan.FromDays(1))
                     .FadeAnimation(false).Transform(new CircleTransformation())
                     .Into(_accountHamburgerView.FindViewById<ImageViewAsync>(Resource.Id.HamburgerProfileItemImage));
                 btn.WithView(_footerView);

@@ -240,11 +240,9 @@ namespace MALClient.Android.UserControls.AnimeItems
         private FrameLayout _animeCompactItemScoreButton;
         private TextView _animeCompactItemStatusLabel;
         private FrameLayout _animeCompactItemStatusButton;
-        private View _animeCompactItemAdaptiveItemRight;
-        private FrameLayout _animeCompactItemDecButton;
-        private FrameLayout _animeCompactItemIncButton;
         private Button _animeCompactItemWatchedButton;
         private LinearLayout _animeCompactItemEditSection;
+        private View _animeCompactItemAdaptiveItemRight;
 
         public TextView AnimeCompactItemGlobalScore => _animeCompactItemGlobalScore ?? (_animeCompactItemGlobalScore = FindViewById<TextView>(Resource.Id.AnimeCompactItemGlobalScore));
 

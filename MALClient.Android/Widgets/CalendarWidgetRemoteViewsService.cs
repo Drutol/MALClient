@@ -43,8 +43,16 @@ namespace MALClient.Android.Widgets
                 var intent = new Intent(_applicationContext, typeof(MainActivity));
                 intent.PutExtra("launchArgs", $"https://myanimelist.net/anime/{vm.Id}");
                 views.SetOnClickFillInIntent(Resource.Id.Image,intent);
-
-                 Loadimage(vm, views);
+                if (ResourceLocator.AiringInfoProvider.TryGetCurrentEpisode(vm.Id, out int ep, DateTime.Today))
+                {
+                    views.SetTextViewText(Resource.Id.EpisodeCount,$"ep. {ep}");
+                    views.SetViewVisibility(Resource.Id.EpisodeCount, ViewStates.Visible);
+                }
+                else
+                {
+                   views.SetViewVisibility(Resource.Id.EpisodeCount,ViewStates.Gone);
+                }
+                Loadimage(vm, views);
       
                 return views;
             }
@@ -76,8 +84,16 @@ namespace MALClient.Android.Widgets
 
             private void Loadimage(AnimeItemViewModel vm, RemoteViews views)
             {
-                var bitmap = ImageService.Instance.LoadUrl(vm.ImgUrl).AsBitmapDrawableAsync().Result;
-                views.SetImageViewBitmap(Resource.Id.Image,bitmap.Bitmap);
+                try
+                {
+                    var bitmap = ImageService.Instance.LoadUrl(vm.ImgUrl).AsBitmapDrawableAsync().Result;
+                    views.SetImageViewBitmap(Resource.Id.Image, bitmap.Bitmap);
+                }
+                catch (Exception)
+                {
+                    //probably no internet
+                }
+
             }
         }
 

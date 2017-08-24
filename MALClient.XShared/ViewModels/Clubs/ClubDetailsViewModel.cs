@@ -337,8 +337,16 @@ namespace MALClient.XShared.ViewModels.Clubs
         {
             Loading = true;
             await MalClubQueries.LeaveClub(Details.Id);
-            ViewModelLocator.ClubIndex.MyClubs.Remove(
-                ViewModelLocator.ClubIndex.MyClubs.First(entry => entry.Id == Details.Id));
+            try
+            {
+                ViewModelLocator.ClubIndex.MyClubs.Remove(
+                    ViewModelLocator.ClubIndex.MyClubs.First(entry => entry.Id == Details.Id));
+            }
+            catch (Exception)
+            {
+                //wutwut
+            }
+
             Reload();
         });
 

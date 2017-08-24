@@ -225,7 +225,7 @@ namespace MALClient.Android.Activities
                 trans.Replace(Resource.Id.MainContentFrame, fragment);
                 trans.CommitAllowingStateLoss();
             }
-            catch (Exception e)
+            catch (Exception)
             {
 
             }

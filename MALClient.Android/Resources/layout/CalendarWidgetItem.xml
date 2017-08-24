@@ -1,12 +1,46 @@
-﻿<FrameLayout android:layout_width="115dp"
+﻿<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="115dp"
              android:layout_height="167dp"
-             android:paddingBottom="2dp" android:paddingTop="6dp" android:paddingLeft="2dp" android:paddingRight="2dp"
              android:clipToPadding="false"
-             xmlns:android="http://schemas.android.com/apk/res/android">
-  <FrameLayout android:background="#f5f5f5"
-               android:layout_width="match_parent" android:elevation="2dp"
-               android:layout_height="match_parent" android:orientation="vertical">
-    <ImageView android:layout_height="160dp" android:scaleType="centerCrop" android:clickable="true" android:focusable="true"
-               android:layout_width="match_parent" android:adjustViewBounds="true" android:id="@+id/Image"/>
+             android:paddingBottom="2dp"
+             android:paddingLeft="2dp"
+             android:paddingRight="2dp"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:paddingTop="6dp">
+
+  <FrameLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f5f5f5"
+    android:elevation="2dp"
+    android:orientation="vertical">
+
+    <ImageView
+      android:id="@+id/Image"
+      android:layout_width="match_parent"
+      android:layout_height="160dp"
+      android:adjustViewBounds="true"
+      android:clickable="true"
+      android:focusable="true"
+      android:scaleType="centerCrop" />
+
+    <FrameLayout
+      android:layout_width="wrap_content"
+      android:layout_gravity="end|bottom" android:paddingTop="2dp" android:paddingLeft="2dp"
+      android:layout_height="wrap_content" android:clipToPadding="false">
+      <TextView
+        android:id="@+id/EpisodeCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="2dp"
+        android:background="#ff8c00"
+        android:paddingBottom="4dp"
+        android:paddingEnd="8dp"
+        android:paddingLeft="8dp"
+        android:paddingTop="4dp"
+        tools:text="ep. 12"
+        android:textColor="#fff" />
+    </FrameLayout>
+
   </FrameLayout>
 </FrameLayout>

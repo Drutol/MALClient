@@ -24,7 +24,7 @@ namespace MALClient.XShared.BL
             FavouritesManager.LoadData();
             AnimeImageQuery.Init();
             ViewModelLocator.ForumsMain.LoadPinnedTopics();
-            ResourceLocator.AiringInfoProvider.Init();
+            ResourceLocator.AiringInfoProvider.Init(false);
             if (Settings.NotificationCheckInRuntime && Credentials.Authenticated)
                 ResourceLocator.SchdeuledJobsManger.StartJob(ScheduledJob.FetchNotifications, 5, () =>
                 {

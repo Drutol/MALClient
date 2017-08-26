@@ -73,7 +73,7 @@ namespace MALClient.XShared.BL
         public bool TryGetCurrentEpisode(int id, out int episode, DateTime? forDay = null)
         {
             episode = 0;
-            var currentTimestamp = Utilities.ConvertToUnixTimestamp(DateTime.Now);
+            var currentTimestamp = Utilities.ConvertToUnixTimestamp(DateTime.UtcNow);
             var data = _airingData.FirstOrDefault(airingData => airingData.MalId == id);
             if (data == null)
                 return false;
@@ -100,6 +100,48 @@ namespace MALClient.XShared.BL
             {
                 return false;
             }
+            return true;
+        }
+
+        public bool TryGetNextAirDate(int id, DateTime forDay, out DateTime date)
+        {
+            date = DateTime.MinValue;
+            
+            var data = _airingData.FirstOrDefault(airingData => airingData.MalId == id);
+            if (data == null)
+                return false;
+
+            try
+            {
+                var todaysMatch =
+                    data.Episodes.FirstOrDefault(ep => Utilities.ConvertFromUnixTimestamp(ep.Timestamp).DayOfYear ==
+                                                       forDay.DayOfYear);
+                if (todaysMatch != null)
+                    date = Utilities.ConvertFromUnixTimestamp(todaysMatch.Timestamp);
+                else
+                {
+                    var currentTimestamp = Utilities.ConvertToUnixTimestamp(DateTime.UtcNow);
+                    date = Utilities.ConvertFromUnixTimestamp(data.Episodes.First(ep => ep.Timestamp >= currentTimestamp).Timestamp);
+                }
+
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        public bool TryGetAiringDay(int id, out DayOfWeek day)
+        {
+            day = DayOfWeek.Monday;
+            var data = _airingData.FirstOrDefault(airingData => airingData.MalId == id);
+            if (data == null || !data.Episodes.Any())
+                return false;
+
+            day = Utilities.ConvertFromUnixTimestamp(data.Episodes[0].Timestamp).DayOfWeek;
+
             return true;
         }
 

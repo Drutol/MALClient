@@ -194,32 +194,32 @@ namespace MALClient.XShared.ViewModels.Main
             {
                 try
                 {
-                    if (abstraction.AirDay > 0)
+                    if (ResourceLocator.AiringInfoProvider.TryGetAiringDay(abstraction.Id, out DayOfWeek dayOfWeek))
                     {
-                        int day = abstraction.AirDay - 1;
-                        if (Settings.AirDayOffset != 0)
-                        {
-                            var sum = Settings.AirDayOffset + day;
-                            if (sum > 6)
-                                day = sum - 7;
-                            else if (sum < 0)
-                                day = 7 + sum;
-                            else
-                                day += Settings.AirDayOffset;
-                        }
+                        int day = (int) dayOfWeek;
+                        //if (Settings.AirDayOffset != 0)
+                        //{
+                        //    var sum = Settings.AirDayOffset + day;
+                        //    if (sum > 6)
+                        //        day = sum - 7;
+                        //    else if (sum < 0)
+                        //        day = 7 + sum;
+                        //    else
+                        //        day += Settings.AirDayOffset;
+                        //}
                         if (day >= 0 && day <= 7)
                             CalendarData[day].Items.Add(abstraction.ViewModel);
-                        if (Settings.CalendarPullExactAiringTime && abstraction.VolatileData.ExactAiringTime == null)
-                        {
-                            if (abstraction.VolatileData.LastFailedAiringTimeFetchAttempt != null)
-                            {
-                                if (
-                                    (DateTime.UtcNow - abstraction.VolatileData.LastFailedAiringTimeFetchAttempt.Value)
-                                        .TotalDays < 1)
-                                    continue;
-                            }
-                            idsToFetchAiringTime.Add(abstraction);
-                        }
+                        //if (Settings.CalendarPullExactAiringTime && abstraction.VolatileData.ExactAiringTime == null)
+                        //{
+                        //    if (abstraction.VolatileData.LastFailedAiringTimeFetchAttempt != null)
+                        //    {
+                        //        if (
+                        //            (DateTime.UtcNow - abstraction.VolatileData.LastFailedAiringTimeFetchAttempt.Value)
+                        //                .TotalDays < 1)
+                        //            continue;
+                        //    }
+                        //    idsToFetchAiringTime.Add(abstraction);
+                        //}
                     }
                     else if (Settings.SelectedApiType == ApiType.Mal && !abstraction.LoadedVolatile)
                     {
@@ -299,30 +299,30 @@ namespace MALClient.XShared.ViewModels.Main
                     }
                     ProgressValue++;
                 }
-                foreach (var animeItemAbstraction in idsToFetchAiringTime)
-                {
-                    try
-                    {
-                        var data = await new AnimeDetailsMalQuery(animeItemAbstraction.MalId, true).GetDetails(false);
+                //foreach (var animeItemAbstraction in idsToFetchAiringTime)
+                //{
+                //    try
+                //    {
+                //        var data = await new AnimeDetailsMalQuery(animeItemAbstraction.MalId, true).GetDetails(false);
 
-                        var time = data.ExtractAiringTime();
-                        if (time != null)
-                        {
-                            DataCache.UpdateVolatileDataWithExactDate(animeItemAbstraction.Id, time);
-                            animeItemAbstraction.VolatileData.ExactAiringTime = time;
-                        }
-                        else
-                        {
-                            DataCache.RegisterVolatileDataAiringTimeFetchFailure(animeItemAbstraction.Id);
-                        }
-                    }
-                    catch (Exception)
-                    {
-                        //no data/no internet/mal is crazy (choose one or all)
-                    }
+                //        var time = data.ExtractAiringTime();
+                //        if (time != null)
+                //        {
+                //            DataCache.UpdateVolatileDataWithExactDate(animeItemAbstraction.Id, time);
+                //            animeItemAbstraction.VolatileData.ExactAiringTime = time;
+                //        }
+                //        else
+                //        {
+                //            DataCache.RegisterVolatileDataAiringTimeFetchFailure(animeItemAbstraction.Id);
+                //        }
+                //    }
+                //    catch (Exception)
+                //    {
+                //        //no data/no internet/mal is crazy (choose one or all)
+                //    }
 
-                    ProgressValue++;
-                }
+                //    ProgressValue++;
+                //}
             }
 
             if (Settings.CalendarSwitchMonSun)

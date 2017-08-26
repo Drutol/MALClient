@@ -81,7 +81,9 @@ namespace MALClient.XShared.BL
             try
             {
                 if (forDay == null)
-                    episode = data.Episodes.First(ep => ep.Timestamp >= currentTimestamp).EpisodeNumber - 1;
+                {
+                    episode = GetCurrentEpisode(data,currentTimestamp);
+                }
                 else
                 {
                     var todaysMatch =
@@ -90,7 +92,7 @@ namespace MALClient.XShared.BL
                     if (todaysMatch != null)
                         episode = todaysMatch.EpisodeNumber;
                     else
-                        episode = data.Episodes.First(ep => ep.Timestamp >= currentTimestamp).EpisodeNumber;
+                        episode = GetCurrentEpisode(data, currentTimestamp);
 
                 }
                 if (episode <= 0)
@@ -101,6 +103,20 @@ namespace MALClient.XShared.BL
                 return false;
             }
             return true;
+        }
+
+        private int GetCurrentEpisode(AiringData data, int currentTimestamp)
+        {
+            var next = data.Episodes.FirstOrDefault(ep => ep.Timestamp >= currentTimestamp);
+            if (next != null)
+                return next.EpisodeNumber - 1;
+
+            if (data.Episodes.Last().Timestamp < currentTimestamp)
+            {
+                return data.Episodes.Last().EpisodeNumber;
+            }
+
+            return 0;
         }
 
         public bool TryGetNextAirDate(int id, DateTime forDay, out DateTime date)
@@ -121,9 +137,17 @@ namespace MALClient.XShared.BL
                 else
                 {
                     var currentTimestamp = Utilities.ConvertToUnixTimestamp(DateTime.UtcNow);
-                    date = Utilities.ConvertFromUnixTimestamp(data.Episodes.First(ep => ep.Timestamp >= currentTimestamp).Timestamp);
+                    var next = data.Episodes.First(ep => ep.Timestamp >= currentTimestamp);
+                    if (next != null)
+                        date = Utilities.ConvertFromUnixTimestamp(next.Timestamp);
+                    else if (data.Episodes.Last().Timestamp < currentTimestamp)
+                    {
+                        date = Utilities.ConvertFromUnixTimestamp(data.Episodes.Last().Timestamp);
+                    }
+                    
                 }
-
+                if (date == DateTime.MinValue)
+                    return false;
             }
             catch (Exception)
             {

@@ -732,8 +732,10 @@ namespace MALClient.XShared.ViewModels
                 var diff = airDate - DateTime.UtcNow;
                 if (diff.TotalDays > 1)
                     return $"{diff.Days}d {diff.Hours}h {diff.Minutes}m";
-                return $"{diff.Hours}h {diff.Minutes}m";
-                
+                if(diff.TotalHours > 1)
+                    return $"{diff.Hours}h {diff.Minutes}m";
+                return $"{diff.Minutes}m";
+
             }
             //if (ParentAbstraction.ExactAiringTime != null && Airing)
             //{

@@ -31,13 +31,15 @@ namespace MALClient.Android.Adapters
 
         public bool NewChangelog { get; set; }
 
-        public string DateWithVersion => $"{_currentVersion} - 24.08.2017";
+        public string DateWithVersion => $"{_currentVersion} - 26.08.2017";
 
         public List<string> Changelog => new List<string>
         {
-           "Added current episode numbers for airing anime! They are visible in details page and in watched update dialog (bold number).",
-           "Widget will now display next episode number.",
-           "Widget should now be a bit more stable... just a little tiny bit..."
+            "Calendar now works based on MUCH more accurate airing data.",
+            "Anime aring countdows are much more accurate too.",
+            "I've added option to watch VideoAd on demand if you wish to support development. You can find the button for it in \"hearth\" hamburger button. I'm somewhat curious whether it's going to be more effective than curent banner ads ^^",
+            "Random crashfix when opening app from anime details link",
+
         };
 
     }

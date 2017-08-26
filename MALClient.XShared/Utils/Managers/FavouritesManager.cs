@@ -11,7 +11,7 @@ namespace MALClient.XShared.Utils.Managers
     public static class FavouritesManager
     {
         private static bool _changedSth;
-        private static Dictionary<FavouriteType,List<string>> KnownFavourites { get; set; }
+        private static Dictionary<FavouriteType,List<string>> KnownFavourites { get; set; } = new Dictionary<FavouriteType, List<string>>();
 
         public static async void LoadData()
         {

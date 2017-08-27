@@ -17,6 +17,7 @@ using MALClient.Android.BindingConverters;
 using MALClient.Android.CollectionAdapters;
 using MALClient.Android.Dialogs;
 using MALClient.Android.DIalogs;
+using MALClient.Android.Listeners;
 using MALClient.Android.Resources;
 using MALClient.Android.UserControls;
 using MALClient.Android.UserControls.ForumItems;
@@ -87,9 +88,9 @@ namespace MALClient.Android.Fragments.ForumFragments
                     () => ForumTopicPageToggleWatchingButton.Text));
 
 
-            ForumTopicPageGotoPageButton.Click += ForumTopicPageGotoPageButtonOnClick;
-            ForumTopicPageActionButton.Click += ForumTopicPageActionButtonOnClick;
-            ForumTopicPageToggleWatchingButton.Click += (sender, args) => ViewModel.ToggleWatchingCommand.Execute(null);
+            ForumTopicPageGotoPageButton.SetOnClickListener(new OnClickListener(v => ForumTopicPageGotoPageButtonOnClick()));
+            ForumTopicPageActionButton.SetOnClickListener(new OnClickListener(v => ForumTopicPageActionButtonOnClick()));
+            ForumTopicPageToggleWatchingButton.SetOnClickListener(new OnClickListener(v => ViewModel.ToggleWatchingCommand.Execute(null)));
 
             Bindings.Add(this.SetBinding(() => ViewModel.AvailablePages).WhenSourceChanges(() =>
             {
@@ -98,7 +99,7 @@ namespace MALClient.Android.Fragments.ForumFragments
             }));
         }
 
-        private async void ForumTopicPageGotoPageButtonOnClick(object o, EventArgs eventArgs)
+        private async void ForumTopicPageGotoPageButtonOnClick()
         {
             if (ViewModel.LoadingTopic)
                 return;
@@ -125,7 +126,7 @@ namespace MALClient.Android.Fragments.ForumFragments
             }
         }
 
-        private async void ForumTopicPageActionButtonOnClick(object o, EventArgs eventArgs)
+        private async void ForumTopicPageActionButtonOnClick()
         {
             var str = await TextInputDialogBuilder.BuildForumPostTextInputDialog(Context, TextInputDialogBuilder.ForumPostTextInputContext.Reply, "");
             if (!string.IsNullOrEmpty(str))
@@ -148,6 +149,7 @@ namespace MALClient.Android.Fragments.ForumFragments
             var item = _items[i];
             if (!(frame.ChildCount == 1 && frame.GetChildAt(0) as ForumTopicItem == item))
             {
+                (item.Parent as ViewGroup)?.RemoveView(item);
                 frame.RemoveAllViews();
                 frame.AddView(item);
             }

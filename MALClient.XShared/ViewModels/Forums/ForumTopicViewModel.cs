@@ -324,13 +324,23 @@ namespace MALClient.XShared.ViewModels.Forums
         public ICommand ToggleWatchingCommand => _toggleWatchingCommand ?? (_toggleWatchingCommand = new RelayCommand(
                                                      async () =>
                                                      {
-                                                         var res =
-                                                             await ForumTopicQueries.ToggleTopicWatching(
-                                                                 CurrentTopicData.Id);
-                                                         if(res == null)
-                                                             ResourceLocator.MessageDialogProvider.ShowMessageDialog("Unable to toggle watching status.","Something went wrong");
+                                                         try
+                                                         {
+                                                             var res =
+                                                                 await ForumTopicQueries.ToggleTopicWatching(
+                                                                     CurrentTopicData.Id);
+                                                             if (res == null)
+                                                                 throw new ArgumentNullException();
 
-                                                         ToggleWatchingButtonText = res == true ? "Watching" : "Stopped watching";
+                                                             ToggleWatchingButtonText =
+                                                                 res == true ? "Watching" : "Stopped watching";
+                                                         }
+                                                         catch (Exception e)
+                                                         {
+                                                             ResourceLocator.MessageDialogProvider.ShowMessageDialog(
+                                                                 "Unable to toggle watching status.",
+                                                                 "Something went wrong");
+                                                         }
                                                      }));
 
         public ICommand CreateReplyCommand => _createReplyCommand ?? (_createReplyCommand = new RelayCommand(

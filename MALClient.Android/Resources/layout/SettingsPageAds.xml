@@ -44,7 +44,7 @@
       <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" android:gravity="center"
-        android:text="You can turn them off at any time. No biggie. There's also VideoAd option to watch on demand, you can launch it from hearth button in hamburger. :)" />
+        android:text="You can turn them off at any time. No biggie. There's also VideoAd option to watch on demand, you can launch it from heart button in hamburger. :)" />
     </LinearLayout>
 
     <View

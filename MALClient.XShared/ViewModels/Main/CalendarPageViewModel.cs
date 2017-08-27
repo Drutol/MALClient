@@ -164,8 +164,6 @@ namespace MALClient.XShared.ViewModels.Main
             }
             InitPages();
             _initialized = true;
-            List<AnimeItemAbstraction> idsToFetch = new List<AnimeItemAbstraction>();
-            List<AnimeItemAbstraction> idsToFetchAiringTime = new List<AnimeItemAbstraction>();
 
             var abstractions = _animeLibraryDataStorage.AllLoadedAuthAnimeItems.Where(
                 abstraction => abstraction.Type == (int) AnimeType.TV && (
@@ -221,12 +219,12 @@ namespace MALClient.XShared.ViewModels.Main
                         //    idsToFetchAiringTime.Add(abstraction);
                         //}
                     }
-                    else if (Settings.SelectedApiType == ApiType.Mal && !abstraction.LoadedVolatile)
-                    {
-                        idsToFetch.Add(abstraction);
-                        if (Settings.CalendarPullExactAiringTime)
-                            idsToFetchAiringTime.Add(abstraction);
-                    }
+                    //else if (Settings.SelectedApiType == ApiType.Mal && !abstraction.LoadedVolatile)
+                    //{
+                    //    idsToFetch.Add(abstraction);
+                    //    if (Settings.CalendarPullExactAiringTime)
+                    //        idsToFetchAiringTime.Add(abstraction);
+                    //}
                 }
                 catch (Exception e)
                 {
@@ -235,95 +233,95 @@ namespace MALClient.XShared.ViewModels.Main
                 }
 
             }
-            if (idsToFetch.Count > 0 || idsToFetchAiringTime.Count > 0)
-            {
-                ProgressValue = 0;
-                CalendarBuildingVisibility = true;
-                MaxProgressValue = idsToFetch.Count + idsToFetchAiringTime.Count;
-                foreach (var abstraction in idsToFetch)
-                {
-                    try
-                    {
-                        var data =
-                            await
-                                new AnimeGeneralDetailsQuery().GetAnimeDetails(false, abstraction.Id.ToString(),
-                                    abstraction.Title, true);
-                        int day;
-                        try
-                        {
-                            day = data.StartDate != AnimeItemViewModel.InvalidStartEndDate &&
-                                  (string.Equals(data.Status, "Currently Airing",
-                                       StringComparison.CurrentCultureIgnoreCase) ||
-                                   string.Equals(data.Status, "Not yet aired", StringComparison.CurrentCultureIgnoreCase))
-                                ? (int) DateTime.Parse(data.StartDate).DayOfWeek + 1
-                                : -1;
-                            if (day == -1)
-                                abstraction.AirDay = -1;
-                        }
-                        catch (Exception)
-                        {
-                            day = -1;
-                        }
+            //if (idsToFetch.Count > 0 || idsToFetchAiringTime.Count > 0)
+            //{
+            //    ProgressValue = 0;
+            //    CalendarBuildingVisibility = true;
+            //    MaxProgressValue = idsToFetch.Count + idsToFetchAiringTime.Count;
+            //    foreach (var abstraction in idsToFetch)
+            //    {
+            //        try
+            //        {
+            //            var data =
+            //                await
+            //                    new AnimeGeneralDetailsQuery().GetAnimeDetails(false, abstraction.Id.ToString(),
+            //                        abstraction.Title, true);
+            //            int day;
+            //            try
+            //            {
+            //                day = data.StartDate != AnimeItemViewModel.InvalidStartEndDate &&
+            //                      (string.Equals(data.Status, "Currently Airing",
+            //                           StringComparison.CurrentCultureIgnoreCase) ||
+            //                       string.Equals(data.Status, "Not yet aired", StringComparison.CurrentCultureIgnoreCase))
+            //                    ? (int) DateTime.Parse(data.StartDate).DayOfWeek + 1
+            //                    : -1;
+            //                if (day == -1)
+            //                    abstraction.AirDay = -1;
+            //            }
+            //            catch (Exception)
+            //            {
+            //                day = -1;
+            //            }
 
-                        DataCache.RegisterVolatileData(abstraction.Id, new VolatileDataCache
-                        {
-                            DayOfAiring = day,
-                            GlobalScore = data.GlobalScore,
-                            AirStartDate =
-                                data.StartDate == AnimeItemViewModel.InvalidStartEndDate ? null : data.StartDate
-                        });
-                        if (day != -1)
-                        {
-                            abstraction.AirDay = day;
-                            abstraction.GlobalScore = data.GlobalScore;
-                            abstraction.AirStartDate = data.StartDate;
-                            abstraction.ViewModel.UpdateVolatileDataBindings();
-                            abstraction.LoadedVolatile = true;
-                            day--;
-                            if (Settings.AirDayOffset != 0)
-                            {
-                                var sum = Settings.AirDayOffset + day;
-                                if (sum > 6)
-                                    day = sum - 7;
-                                else if (sum < 0)
-                                    day = 7 + sum;
-                                else
-                                    day += Settings.AirDayOffset;
-                            }
-                            CalendarData[day].Items.Add(abstraction.ViewModel);
-                        }
-                    }
-                    catch (Exception e)
-                    {
-                        //searching for crash source
-                    }
-                    ProgressValue++;
-                }
-                //foreach (var animeItemAbstraction in idsToFetchAiringTime)
-                //{
-                //    try
-                //    {
-                //        var data = await new AnimeDetailsMalQuery(animeItemAbstraction.MalId, true).GetDetails(false);
+            //            DataCache.RegisterVolatileData(abstraction.Id, new VolatileDataCache
+            //            {
+            //                DayOfAiring = day,
+            //                GlobalScore = data.GlobalScore,
+            //                AirStartDate =
+            //                    data.StartDate == AnimeItemViewModel.InvalidStartEndDate ? null : data.StartDate
+            //            });
+            //            if (day != -1)
+            //            {
+            //                abstraction.AirDay = day;
+            //                abstraction.GlobalScore = data.GlobalScore;
+            //                abstraction.AirStartDate = data.StartDate;
+            //                abstraction.ViewModel.UpdateVolatileDataBindings();
+            //                abstraction.LoadedVolatile = true;
+            //                day--;
+            //                if (Settings.AirDayOffset != 0)
+            //                {
+            //                    var sum = Settings.AirDayOffset + day;
+            //                    if (sum > 6)
+            //                        day = sum - 7;
+            //                    else if (sum < 0)
+            //                        day = 7 + sum;
+            //                    else
+            //                        day += Settings.AirDayOffset;
+            //                }
+            //                CalendarData[day].Items.Add(abstraction.ViewModel);
+            //            }
+            //        }
+            //        catch (Exception e)
+            //        {
+            //            //searching for crash source
+            //        }
+            //        ProgressValue++;
+            //    }
+            //    //foreach (var animeItemAbstraction in idsToFetchAiringTime)
+            //    //{
+            //    //    try
+            //    //    {
+            //    //        var data = await new AnimeDetailsMalQuery(animeItemAbstraction.MalId, true).GetDetails(false);
 
-                //        var time = data.ExtractAiringTime();
-                //        if (time != null)
-                //        {
-                //            DataCache.UpdateVolatileDataWithExactDate(animeItemAbstraction.Id, time);
-                //            animeItemAbstraction.VolatileData.ExactAiringTime = time;
-                //        }
-                //        else
-                //        {
-                //            DataCache.RegisterVolatileDataAiringTimeFetchFailure(animeItemAbstraction.Id);
-                //        }
-                //    }
-                //    catch (Exception)
-                //    {
-                //        //no data/no internet/mal is crazy (choose one or all)
-                //    }
+            //    //        var time = data.ExtractAiringTime();
+            //    //        if (time != null)
+            //    //        {
+            //    //            DataCache.UpdateVolatileDataWithExactDate(animeItemAbstraction.Id, time);
+            //    //            animeItemAbstraction.VolatileData.ExactAiringTime = time;
+            //    //        }
+            //    //        else
+            //    //        {
+            //    //            DataCache.RegisterVolatileDataAiringTimeFetchFailure(animeItemAbstraction.Id);
+            //    //        }
+            //    //    }
+            //    //    catch (Exception)
+            //    //    {
+            //    //        //no data/no internet/mal is crazy (choose one or all)
+            //    //    }
 
-                //    ProgressValue++;
-                //}
-            }
+            //    //    ProgressValue++;
+            //    //}
+            //}
 
             if (Settings.CalendarSwitchMonSun)
             {

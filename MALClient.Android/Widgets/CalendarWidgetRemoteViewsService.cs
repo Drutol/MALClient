@@ -59,12 +59,20 @@ namespace MALClient.Android.Widgets
 
             public void OnCreate()
             {
-                _items = ViewModelLocator.CalendarPage.CalendarData.First(
-                        page => page.DayOfWeek == DateTime.Now.DayOfWeek).Items
-                    .OrderByDescending(model => model.MyEpisodes)
-                    .ThenByDescending(model => model.MyScore)
-                    .Take(8)
-                    .ToList();
+                try
+                {
+                    _items = ViewModelLocator.CalendarPage.CalendarData.First(
+                            page => page.DayOfWeek == DateTime.Now.DayOfWeek).Items
+                        .OrderByDescending(model => model.MyEpisodes)
+                        .ThenByDescending(model => model.MyScore)
+                        .Take(8)
+                        .ToList();
+                }
+                catch (Exception )
+                {
+                    _items = new List<AnimeItemViewModel>();
+                }
+
             }
 
             public void OnDataSetChanged()

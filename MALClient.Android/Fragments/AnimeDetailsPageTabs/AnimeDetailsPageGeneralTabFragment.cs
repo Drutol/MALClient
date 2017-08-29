@@ -56,6 +56,7 @@ namespace MALClient.Android.Fragments.AnimeDetailsPageTabs
                                     AnimeDetailsPageGeneralTabFragmentMyStart.Text = ViewModel.MyStartDate;
                                 }),
                                 date.Year, date.Month - 1, date.Day);
+                            dpd.SetButton((int)DialogButtonType.Neutral,"Reset",(sender, args) => ViewModel.ResetStartDateCommand.Execute(null));
                             dpd.Show();
                         }));
                         AnimeDetailsPageGeneralTabFragmentMyStartButton.SetOnLongClickListener(new OnLongClickListener(view => ViewModel.ResetStartDateCommand.Execute(null)));
@@ -75,6 +76,7 @@ namespace MALClient.Android.Fragments.AnimeDetailsPageTabs
                                     AnimeDetailsPageGeneralTabFragmentMyEnd.Text = ViewModel.MyEndDate;
                                 }),
                                 date.Year, date.Month - 1, date.Day);
+                            dpd.SetButton((int)DialogButtonType.Neutral, "Reset", (sender, args) => ViewModel.ResetEndDateCommand.Execute(null));
                             dpd.Show();
                         }));
                         AnimeDetailsPageGeneralTabFragmentMyEndButton.SetOnLongClickListener(new OnLongClickListener(view => ViewModel.ResetEndDateCommand.Execute(null)));

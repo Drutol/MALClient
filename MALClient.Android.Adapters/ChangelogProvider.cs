@@ -37,8 +37,8 @@ namespace MALClient.Android.Adapters
         {
             "Calendar now works based on MUCH more accurate airing data.",
             "Anime aring countdows are much more accurate too.",
-            "I've added option to watch VideoAd on demand if you wish to support development. You can find the button for it in \"hearth\" hamburger button. I'm somewhat curious whether it's going to be more effective than curent banner ads ^^",
-            "Random crashfix when opening app from anime details link",
+            "I've added option to watch VideoAd on demand if you wish to support development. You can find the button for it in \"heart\" hamburger button. I'm somewhat curious whether it's going to be more effective than curent banner ads ^^",
+            "Random crashfix when opening app from anime details link.",
 
         };
 

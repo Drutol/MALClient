@@ -114,6 +114,8 @@ namespace MALClient.Android.Widgets
                     manager.UpdateAppWidget(view.Item2, view.Item1);
                 }
             }
+
+            await Task.Delay(10000); //let the widget update in peace...
         }
     }
 }

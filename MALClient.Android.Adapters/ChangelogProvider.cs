@@ -31,15 +31,12 @@ namespace MALClient.Android.Adapters
 
         public bool NewChangelog { get; set; }
 
-        public string DateWithVersion => $"{_currentVersion} - 26.08.2017";
+        public string DateWithVersion => $"{_currentVersion} - 31.08.2017";
 
         public List<string> Changelog => new List<string>
         {
-            "Calendar now works based on MUCH more accurate airing data.",
-            "Anime aring countdows are much more accurate too.",
-            "I've added option to watch VideoAd on demand if you wish to support development. You can find the button for it in \"heart\" hamburger button. I'm somewhat curious whether it's going to be more effective than curent banner ads ^^",
-            "Random crashfix when opening app from anime details link.",
-
+            "Widget now has refresh button... why I didn't add it earlier is beyond me.",
+            "I've created an issue with app usage stats, if you're interested you can check them out on github."
         };
 
     }

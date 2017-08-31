@@ -79,15 +79,9 @@ namespace MALClient.Android.Fragments.HistoryFragments
         {
             view.FindViewById(Resource.Id.AnimeLightItemImgPlaceholder).Visibility = ViewStates.Gone;
             var image = view.FindViewById<ImageViewAsync>(Resource.Id.AnimeLightItemImage);
-            if (image.Tag == null || (string)image.Tag != tuple.Item1.ImgUrl)
-            {
+            if(!string.IsNullOrEmpty(tuple.Item1.ImgUrl))
                 image.AnimeInto(tuple.Item1.ImgUrl);
-                image.Tag = tuple.Item1.ImgUrl;
-            }
-            else
-            {
-                view.FindViewById(Resource.Id.AnimeLightItemImage).Visibility = ViewStates.Visible;
-            }
+
             view.FindViewById(Resource.Id.HistoryPageTabItemAnimeLightItem).Tag = tuple.Item1.Wrap();
         }
 

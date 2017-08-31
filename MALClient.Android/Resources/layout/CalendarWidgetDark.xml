@@ -1,66 +1,69 @@
 ﻿<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:background="#7f000000"
-              android:orientation="vertical">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#7f000000"
+    android:orientation="vertical">
 
   <FrameLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:clipToPadding="false"
-    android:paddingBottom="2dp">
-
-    <FrameLayout
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:background="#7f000000"
-      android:elevation="2dp">
+      android:clipToPadding="false"
+      android:paddingBottom="2dp">
 
-      <TextView
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:fontFamily="sans-serif-light"
-        android:gravity="center"
-        android:padding="4dp"
-        android:text="Shows airing today"
-        android:textColor="#fff"
-        android:textSize="16sp" />
+        android:background="#7f000000"
+        android:elevation="2dp" android:paddingStart="2dp" android:paddingEnd="2dp">
+
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_gravity="center_vertical|start"
+          android:fontFamily="sans-serif-light"
+          android:padding="4dp"
+          android:text="Shows airing today"
+          android:textColor="#fff"
+          android:textSize="16sp" />
+
+      <ImageButton android:id="@+id/RefreshButton"
+          android:layout_width="wrap_content" android:padding="2dp" android:tint="#fff"  android:layout_gravity="center_vertical|end" android:alpha=".5"
+          android:layout_height="match_parent" android:src="@drawable/icon_reload_blank" android:background="@color/Transparent" />
     </FrameLayout>
   </FrameLayout>
 
   <FrameLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+      android:layout_width="match_parent"
+      android:layout_height="match_parent">
 
     <GridView
-      android:id="@+id/GridView"
-      android:layout_width="match_parent"
-      android:layout_height="match_parent"
-      android:layout_margin="4dp"
-      android:columnWidth="115dp"
-      android:numColumns="auto_fit"
-      android:visibility="gone" />
+        android:id="@+id/GridView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="4dp"
+        android:columnWidth="115dp"
+        android:numColumns="auto_fit"
+        android:visibility="gone" />
 
     <TextView
-      android:id="@+id/EmptyNotice"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_gravity="center"
-      android:gravity="center"
-      android:text="Nothing is airing today..."
-      android:textColor="#e6e6e6"
-      android:visibility="gone" />
+        android:id="@+id/EmptyNotice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:text="Nothing is airing today..."
+        android:textColor="#e6e6e6"
+        android:visibility="gone" />
 
     <ProgressBar
-      android:id="@+id/LoadingSpinner"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_gravity="center"
-      android:indeterminate="true"
-      android:scaleX=".7"
-      android:scaleY=".7"
-      android:indeterminateTint="#ff8c00" />
+        android:id="@+id/LoadingSpinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:indeterminate="true"
+        android:scaleX=".7"
+        android:scaleY=".7"
+        android:indeterminateTint="#ff8c00" />
   </FrameLayout>
 
 

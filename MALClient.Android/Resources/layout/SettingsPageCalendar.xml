@@ -62,9 +62,9 @@
                 android:text="Make Sunday first day of the week" android:layout_height="wrap_content" />
         <Switch android:id="@+id/SettingsPageCalendarMiscRemoveEmptyDaysSwitch" android:layout_width="match_parent"
                 android:text="Remove empty days" android:layout_height="wrap_content" android:layout_marginTop="5dp" />
-        <Switch android:id="@+id/SettingsPageCalendarMiscExactAiringTimeSwitch" android:layout_width="match_parent"
+        <!--<Switch android:id="@+id/SettingsPageCalendarMiscExactAiringTimeSwitch" android:layout_width="match_parent"
                 android:text="Always show exact airing time (double download)" android:layout_height="wrap_content"
-                android:layout_marginTop="15dp" />
+                android:layout_marginTop="15dp" />-->
 
       </LinearLayout>
     </LinearLayout>

@@ -65,7 +65,7 @@ namespace MALClient.Android.Widgets
                             page => page.DayOfWeek == DateTime.Now.DayOfWeek).Items
                         .OrderByDescending(model => model.MyEpisodes)
                         .ThenByDescending(model => model.MyScore)
-                        .Take(8)
+                        .Take(14)
                         .ToList();
                 }
                 catch (Exception )

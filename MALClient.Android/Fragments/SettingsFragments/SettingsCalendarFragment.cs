@@ -56,9 +56,9 @@ namespace MALClient.Android.Fragments.SettingsFragments
             Bindings.Add(
                 this.SetBinding(() => ViewModel.CalendarRemoveEmptyDays,
                     () => SettingsPageCalendarMiscRemoveEmptyDaysSwitch.Checked, BindingMode.TwoWay));
-            Bindings.Add(
-                this.SetBinding(() => ViewModel.CalendarPullExactAiringTime,
-                    () => SettingsPageCalendarMiscExactAiringTimeSwitch.Checked, BindingMode.TwoWay));
+            //Bindings.Add(
+            //    this.SetBinding(() => ViewModel.CalendarPullExactAiringTime,
+            //        () => SettingsPageCalendarMiscExactAiringTimeSwitch.Checked, BindingMode.TwoWay));
             
         }
 

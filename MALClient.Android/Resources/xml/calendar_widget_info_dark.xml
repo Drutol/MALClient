@@ -3,7 +3,7 @@
     android:initialKeyguardLayout="@layout/CalendarWidgetDark"
     android:initialLayout="@layout/CalendarWidgetDark"
     android:minHeight="40dp"
-    android:minWidth="140dp"
+    android:minWidth="185dp"
     android:resizeMode="horizontal|vertical"
     android:updatePeriodMillis="7200000"
     android:widgetCategory="home_screen"/>

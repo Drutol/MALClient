@@ -27,8 +27,14 @@ namespace MALClient.Android.Widgets
     [IntentFilter(new[] { "android.intent.action.DATE_CHANGED" })]
     public class CalendarWidgetUpdateService : IntentService
     {
+        private static bool _running;
+
         protected override async void OnHandleIntent(Intent intent)
         {
+            if(_running)
+                return;
+            _running = true;
+
             AppWidgetManager manager = AppWidgetManager.GetInstance(this);
 
             int[] allWidgetIds = intent
@@ -44,7 +50,6 @@ namespace MALClient.Android.Widgets
                 ResourceLocator.RegisterMessageDialogAdapter(new MessageDialogProvider());
                 ResourceLocator.RegisterDataCacheAdapter(new Adapters.DataCache(null));
 
-
                 Credentials.Init();
             }
             catch (Exception e)
@@ -55,9 +60,14 @@ namespace MALClient.Android.Widgets
             foreach (var widgetId in allWidgetIds)
             {
                 var view = new RemoteViews(PackageName, layoutId);
-                views.Add(new Tuple<RemoteViews, int>(view,widgetId)); 
+                views.Add(new Tuple<RemoteViews, int>(view,widgetId));
 
-                manager.UpdateAppWidget(widgetId,view);
+                view.SetViewVisibility(Resource.Id.LoadingSpinner, ViewStates.Visible);
+                view.SetViewVisibility(Resource.Id.EmptyNotice, ViewStates.Gone);
+                view.SetViewVisibility(Resource.Id.RefreshButton, ViewStates.Gone);
+                view.SetViewVisibility(Resource.Id.GridView, ViewStates.Gone);
+
+                manager.PartiallyUpdateAppWidget(widgetId,view);
             }
 
             CalendarPivotPage shows = null;
@@ -87,19 +97,25 @@ namespace MALClient.Android.Widgets
                 //we have failed very very badly
             }
             
+            await Task.Delay(1000); // give visual feedback
+
 
             if (shows != null && shows.Items.Any())
             {
-
                 foreach (var view in views)
                 {
                     view.Item1.SetViewVisibility(Resource.Id.LoadingSpinner, ViewStates.Gone);
                     view.Item1.SetViewVisibility(Resource.Id.EmptyNotice, ViewStates.Gone);
                     view.Item1.SetViewVisibility(Resource.Id.GridView, ViewStates.Visible);
-                    view.Item1.SetRemoteAdapter(Resource.Id.GridView,new Intent(ApplicationContext,typeof(CalendarWidgetRemoteViewsService)));
+                    view.Item1.SetRemoteAdapter(Resource.Id.GridView,new Intent(ApplicationContext,typeof(CalendarWidgetRemoteViewsService)));           
 
                     var intentTemplate = new Intent(ApplicationContext, typeof(MainActivity));
                     view.Item1.SetPendingIntentTemplate(Resource.Id.GridView, PendingIntent.GetActivity(ApplicationContext, 0, intentTemplate, 0));
+
+                    var refreshIntent = new Intent(ApplicationContext, typeof(CalendarWidgetUpdateService));
+                    refreshIntent.PutExtra(AppWidgetManager.ExtraAppwidgetIds, new[] { view.Item2 });
+                    refreshIntent.PutExtra("ResourceId", layoutId);
+                    view.Item1.SetOnClickPendingIntent(Resource.Id.RefreshButton, PendingIntent.GetService(ApplicationContext, 0, refreshIntent, 0));
 
                     manager.UpdateAppWidget(view.Item2, view.Item1);
                 }
@@ -111,11 +127,30 @@ namespace MALClient.Android.Widgets
                     view.Item1.SetViewVisibility(Resource.Id.LoadingSpinner,ViewStates.Gone);
                     view.Item1.SetViewVisibility(Resource.Id.EmptyNotice,ViewStates.Visible);
                     view.Item1.SetViewVisibility(Resource.Id.GridView,ViewStates.Gone);
+                    
+
+                    var refreshIntent = new Intent(ApplicationContext, typeof(CalendarWidgetUpdateService));
+                    refreshIntent.PutExtra(AppWidgetManager.ExtraAppwidgetIds, new[] {view.Item2});
+                    refreshIntent.PutExtra("ResourceId", layoutId);
+                    view.Item1.SetOnClickPendingIntent(Resource.Id.RefreshButton, PendingIntent.GetService(ApplicationContext, 0, refreshIntent, 0));
+
+
                     manager.UpdateAppWidget(view.Item2, view.Item1);
                 }
             }
 
             await Task.Delay(10000); //let the widget update in peace...
+
+            _running = false;
+
+            foreach (var view in views)
+            {
+                view.Item1.SetViewVisibility(Resource.Id.RefreshButton, ViewStates.Visible);
+
+                manager.PartiallyUpdateAppWidget(view.Item2, view.Item1);
+            }
+
+            StopSelf();
         }
     }
 }

@@ -21,7 +21,7 @@ namespace MALClient.Android.Fragments.SettingsFragments
         private RadioGroup _settingsPageCalendarStartPageRadioGroup;
         private Switch _settingsPageCalendarMiscFirstDaySwitch;
         private Switch _settingsPageCalendarMiscRemoveEmptyDaysSwitch;
-        private Switch _settingsPageCalendarMiscExactAiringTimeSwitch;
+        //private Switch _settingsPageCalendarMiscExactAiringTimeSwitch;
 
         public CheckBox SettingsPageCalendarBuildOptionsWatchingCheckBox => _settingsPageCalendarBuildOptionsWatchingCheckBox ?? (_settingsPageCalendarBuildOptionsWatchingCheckBox = FindViewById<CheckBox>(Resource.Id.SettingsPageCalendarBuildOptionsWatchingCheckBox));
 
@@ -37,6 +37,6 @@ namespace MALClient.Android.Fragments.SettingsFragments
 
         public Switch SettingsPageCalendarMiscRemoveEmptyDaysSwitch => _settingsPageCalendarMiscRemoveEmptyDaysSwitch ?? (_settingsPageCalendarMiscRemoveEmptyDaysSwitch = FindViewById<Switch>(Resource.Id.SettingsPageCalendarMiscRemoveEmptyDaysSwitch));
 
-        public Switch SettingsPageCalendarMiscExactAiringTimeSwitch => _settingsPageCalendarMiscExactAiringTimeSwitch ?? (_settingsPageCalendarMiscExactAiringTimeSwitch = FindViewById<Switch>(Resource.Id.SettingsPageCalendarMiscExactAiringTimeSwitch));
+        //public Switch SettingsPageCalendarMiscExactAiringTimeSwitch => _settingsPageCalendarMiscExactAiringTimeSwitch ?? (_settingsPageCalendarMiscExactAiringTimeSwitch = FindViewById<Switch>(Resource.Id.SettingsPageCalendarMiscExactAiringTimeSwitch));
     }
 }

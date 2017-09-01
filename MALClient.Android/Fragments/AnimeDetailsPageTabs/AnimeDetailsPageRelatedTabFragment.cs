@@ -76,7 +76,7 @@ namespace MALClient.Android.Fragments.AnimeDetailsPageTabs
             string link = null;
 
             if (AnimeImageQuery.IsCached(arg3.Id, arg3.Type == RelatedItemType.Anime, ref link))
-                img.Visibility = img.IntoIfLoaded(link) ? ViewStates.Visible : ViewStates.Gone;
+                img.Visibility = img.IntoIfLoaded(link) ? ViewStates.Visible : ViewStates.Invisible;
             else
                 img.Visibility = ViewStates.Invisible;
 

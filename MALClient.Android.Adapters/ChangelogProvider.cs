@@ -31,12 +31,14 @@ namespace MALClient.Android.Adapters
 
         public bool NewChangelog { get; set; }
 
-        public string DateWithVersion => $"{_currentVersion} - 31.08.2017";
+        public string DateWithVersion => $"{_currentVersion} - 1.09.2017";
 
         public List<string> Changelog => new List<string>
         {
-            "Widget now has refresh button... why I didn't add it earlier is beyond me.",
-            "I've created an issue with app usage stats, if you're interested you can check them out on github."
+           "Added images to related tab in anime details.",
+           "Fixed one more crash when launching app from anime link.",
+           "Widget should respond better to refresh action.",
+           "If amount of episodes of airing show is unknown dialog with episodes will take current episode as max value."
         };
 
     }

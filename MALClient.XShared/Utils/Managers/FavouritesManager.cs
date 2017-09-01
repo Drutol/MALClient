@@ -53,7 +53,9 @@ namespace MALClient.XShared.Utils.Managers
 
         public static bool IsFavourite(FavouriteType type, string id)
         {
-            return KnownFavourites[type].Any(s => s == id);
+            if(KnownFavourites.ContainsKey(type))
+                return KnownFavourites[type].Any(s => s == id);
+            return false;
         }
 
         public static async Task AddFavourite(FavouriteType type, string id)

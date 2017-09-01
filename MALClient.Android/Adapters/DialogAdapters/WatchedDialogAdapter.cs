@@ -12,14 +12,16 @@ namespace MALClient.Android.DialogAdapters
     {
         private readonly Activity _context;
         private readonly int _currentEpisodes;
-        private readonly int? _currentEpisode;
+        private readonly int? _currentAiringEpisode;
         public List<int> Items { get; } 
 
-        public WatchedDialogAdapter(Activity context, int currentEpisodes, int maxEpisodes, int? currentEpisode)
+        public WatchedDialogAdapter(Activity context, int currentEpisodes, int maxEpisodes, int? currentAiringEpisode)
         {
             _context = context;
             _currentEpisodes = currentEpisodes;
-            _currentEpisode = currentEpisode;
+            _currentAiringEpisode = currentAiringEpisode;
+            if (currentAiringEpisode != null && maxEpisodes == 0)
+                maxEpisodes = currentEpisodes;
 
             var numbers = new List<int>();
             if (maxEpisodes == 0)
@@ -65,7 +67,7 @@ namespace MALClient.Android.DialogAdapters
                 txt.LayoutParameters = new ViewGroup.LayoutParams(size,size);          
                 txt.TextAlignment = TextAlignment.Center;
                 txt.Gravity = GravityFlags.Center;
-                if(_currentEpisode == ep)
+                if(_currentAiringEpisode == ep)
                     txt.SetTypeface(Typeface.SansSerif, TypefaceStyle.Bold);
                 view = txt;
             }

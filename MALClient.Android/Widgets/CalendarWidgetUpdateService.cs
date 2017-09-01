@@ -24,10 +24,10 @@ using Exception = System.Exception;
 namespace MALClient.Android.Widgets
 {
     [Service(Exported = true)]
-    [IntentFilter(new[] { "android.intent.action.DATE_CHANGED" })]
     public class CalendarWidgetUpdateService : IntentService
     {
         private static bool _running;
+        private List<Tuple<RemoteViews, int>> _views;
 
         protected override async void OnHandleIntent(Intent intent)
         {
@@ -35,12 +35,12 @@ namespace MALClient.Android.Widgets
                 return;
             _running = true;
 
-            AppWidgetManager manager = AppWidgetManager.GetInstance(this);
+            var manager = AppWidgetManager.GetInstance(this);
 
             int[] allWidgetIds = intent
                 .GetIntArrayExtra(AppWidgetManager.ExtraAppwidgetIds);
             var layoutId = intent.GetIntExtra("ResourceId", Resource.Layout.CalendarWidgetLight);
-            var views = new List<Tuple<RemoteViews,int>>();
+            _views = new List<Tuple<RemoteViews,int>>();
            
             try
             {
@@ -60,11 +60,11 @@ namespace MALClient.Android.Widgets
             foreach (var widgetId in allWidgetIds)
             {
                 var view = new RemoteViews(PackageName, layoutId);
-                views.Add(new Tuple<RemoteViews, int>(view,widgetId));
+                _views.Add(new Tuple<RemoteViews, int>(view,widgetId));
 
                 view.SetViewVisibility(Resource.Id.LoadingSpinner, ViewStates.Visible);
                 view.SetViewVisibility(Resource.Id.EmptyNotice, ViewStates.Gone);
-                view.SetViewVisibility(Resource.Id.RefreshButton, ViewStates.Gone);
+                //view.SetViewVisibility(Resource.Id.RefreshButton, ViewStates.Gone);
                 view.SetViewVisibility(Resource.Id.GridView, ViewStates.Gone);
 
                 manager.PartiallyUpdateAppWidget(widgetId,view);
@@ -102,7 +102,7 @@ namespace MALClient.Android.Widgets
 
             if (shows != null && shows.Items.Any())
             {
-                foreach (var view in views)
+                foreach (var view in _views)
                 {
                     view.Item1.SetViewVisibility(Resource.Id.LoadingSpinner, ViewStates.Gone);
                     view.Item1.SetViewVisibility(Resource.Id.EmptyNotice, ViewStates.Gone);
@@ -122,7 +122,7 @@ namespace MALClient.Android.Widgets
             }
             else
             {
-                foreach (var view in views)
+                foreach (var view in _views)
                 {
                     view.Item1.SetViewVisibility(Resource.Id.LoadingSpinner,ViewStates.Gone);
                     view.Item1.SetViewVisibility(Resource.Id.EmptyNotice,ViewStates.Visible);
@@ -139,18 +139,16 @@ namespace MALClient.Android.Widgets
                 }
             }
 
-            await Task.Delay(10000); //let the widget update in peace...
+            await Task.Delay(6000); //let the widget update in peace...
 
+        }
+
+        public override void OnDestroy()
+        {
             _running = false;
-
-            foreach (var view in views)
-            {
-                view.Item1.SetViewVisibility(Resource.Id.RefreshButton, ViewStates.Visible);
-
-                manager.PartiallyUpdateAppWidget(view.Item2, view.Item1);
-            }
-
-            StopSelf();
+            base.OnDestroy();
         }
     }
+
+    
 }

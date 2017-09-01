@@ -9,12 +9,15 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using FFImageLoading.Views;
 using GalaSoft.MvvmLight.Helpers;
 using MALClient.Android.Activities;
 using MALClient.Android.BindingConverters;
 using MALClient.Android.Listeners;
 using MALClient.Android.Resources;
+using MALClient.Models.Enums;
 using MALClient.Models.Models.AnimeScrapped;
+using MALClient.XShared.Comm.Anime;
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Details;
 
@@ -36,8 +39,8 @@ namespace MALClient.Android.Fragments.AnimeDetailsPageTabs
 
         protected override void InitBindings()
         {
-            AnimeDetailsPageRelatedTabsList.Adapter = ViewModel.RelatedAnime.GetAdapter(RelatedItemTemplateDelegate);
-            AnimeDetailsPageRelatedTabsList.OnItemClickListener = new OnItemClickListener<RelatedAnimeData>(data => ViewModel.NavigateDetailsCommand.Execute(data));
+            AnimeDetailsPageRelatedTabsList.InjectFlingAdapter(ViewModel.RelatedAnime, DataTemplateFull,
+                DataTemplateFling, ContainerTemplate, DataTemplateBasic);
 
 
             Bindings.Add(
@@ -50,19 +53,44 @@ namespace MALClient.Android.Fragments.AnimeDetailsPageTabs
                     () => AnimeDetailsPageRelatedTabLoadingOverlay.Visibility).ConvertSourceToTarget(Converters.BoolToVisibility));
         }
 
-
-        private View RelatedItemTemplateDelegate(int i, RelatedAnimeData relatedAnimeData, View convertView)
+        private void DataTemplateBasic(View view, int i, RelatedAnimeData relatedAnimeData)
         {
-            var view = convertView ??
-                       MainActivity.CurrentContext.LayoutInflater.Inflate(Resource.Layout.AnimeRelatedItem, null);
-
-
-            view.Tag = relatedAnimeData.Wrap();
             view.FindViewById<TextView>(Resource.Id.AnimeRelatedItemContent).Text = relatedAnimeData.WholeRelation + relatedAnimeData.Title;
+        }
 
+        private View ContainerTemplate(int i)
+        {
+            var view = Activity.LayoutInflater.Inflate(Resource.Layout.AnimeRelatedItem, null);
+            view.FindViewById(Resource.Id.RootContainer).Click += OnClick;
             return view;
         }
 
+        private void OnClick(object sender, EventArgs eventArgs)
+        {
+            ViewModel.NavigateDetailsCommand.Execute(((sender as View).Parent as View).Tag.Unwrap<RelatedAnimeData>());
+        }
+
+        private void DataTemplateFling(View view1, int i, RelatedAnimeData arg3)
+        {
+            var img = view1.FindViewById<ImageViewAsync>(Resource.Id.Image);
+            string link = null;
+
+            if (AnimeImageQuery.IsCached(arg3.Id, arg3.Type == RelatedItemType.Anime, ref link))
+                img.Visibility = img.IntoIfLoaded(link) ? ViewStates.Visible : ViewStates.Gone;
+            else
+                img.Visibility = ViewStates.Invisible;
+
+        }
+
+        private void DataTemplateFull(View view1, int i, RelatedAnimeData arg3)
+        {
+            var img = view1.FindViewById<ImageViewAsync>(Resource.Id.Image);
+            string imgUrl = null;
+            if (AnimeImageQuery.IsCached(arg3.Id, arg3.Type == RelatedItemType.Anime, ref imgUrl))
+                img.Into(imgUrl);
+            else
+                img.IntoWithTask(AnimeImageQuery.GetImageUrl(arg3.Id, arg3.Type == RelatedItemType.Anime));
+        }
 
         public static AnimeDetailsPageRelatedTabFragment Instance  => new AnimeDetailsPageRelatedTabFragment();
 

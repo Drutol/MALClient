@@ -62,9 +62,7 @@ It's rather robust MyAnimeList client application interfacing with both "officia
 ### Compilation
 You should be able to compile this thing out of the box, you may have to generate certificate for UWP though.
 ### Code
-There are a few "dreadful places" but I think this code won't damage your eyes too much. (no promises!)
-
-If you are looking for methods to communicate with MAL go to Comm folder in XShared project where you will find all queries.
+Well... there's a metric ton of legacy thingies especially in navigation and first pages like anime list or anime details. I'm not proud of these but I'm not planning to rewrite them. Stuff that has been added later on is nicer and somewhat decently organised. I started this app when I knew nothing so yeah, works but code is smelly.
 ### "Protocol"
 
 If you'd like for some reason to launch my app externally you can do so by using this protocol:

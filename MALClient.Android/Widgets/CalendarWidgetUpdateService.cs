@@ -26,15 +26,10 @@ namespace MALClient.Android.Widgets
     [Service(Exported = true)]
     public class CalendarWidgetUpdateService : IntentService
     {
-        private static bool _running;
         private List<Tuple<RemoteViews, int>> _views;
 
         protected override async void OnHandleIntent(Intent intent)
         {
-            if(_running)
-                return;
-            _running = true;
-
             var manager = AppWidgetManager.GetInstance(this);
 
             int[] allWidgetIds = intent
@@ -143,11 +138,6 @@ namespace MALClient.Android.Widgets
 
         }
 
-        public override void OnDestroy()
-        {
-            _running = false;
-            base.OnDestroy();
-        }
     }
 
     

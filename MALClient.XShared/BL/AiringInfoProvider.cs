@@ -164,7 +164,7 @@ namespace MALClient.XShared.BL
             if (data == null || !data.Episodes.Any())
                 return false;
 
-            day = Utilities.ConvertFromUnixTimestamp(data.Episodes[0].Timestamp).DayOfWeek;
+            day = Utilities.ConvertFromUnixTimestamp(data.Episodes[0].Timestamp).ToLocalTime().DayOfWeek;
 
             return true;
         }

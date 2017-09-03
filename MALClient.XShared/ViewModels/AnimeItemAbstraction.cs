@@ -24,17 +24,20 @@ namespace MALClient.XShared.ViewModels
 
         private AnimeItemViewModel _viewModel;
 
-        public int AirDay
-        {
-            get { return VolatileData.DayOfAiring; }
-            set
-            {
-                if(value <= 0)
-                    return;
-                VolatileData.DayOfAiring = value;
-                DataCache.UpdateVolatileDataAirDay(Id,value);
-            }
-        }
+        //public int AirDay
+        //{
+        //    get { return VolatileData.DayOfAiring; }
+        //    set
+        //    {
+        //        if(value <= 0)
+        //            return;
+        //        VolatileData.DayOfAiring = value;
+        //        DataCache.UpdateVolatileDataAirDay(Id,value);
+        //    }
+        //}
+
+        public int AirDay { get; set; }
+
 
         public string AirStartDate
         {
@@ -63,6 +66,11 @@ namespace MALClient.XShared.ViewModels
                 MyStartDate = entry.MyStartDate;
                 MyEndDate = entry.MyEndDate;
             }
+
+            if (ResourceLocator.AiringInfoProvider.TryGetAiringDay(Id, out DayOfWeek day))
+                AirDay = (int) day+1;
+            else
+                AirDay = -1;
 
             if (!DataCache.TryRetrieveDataForId(id ?? Id, out VolatileDataCache data)) return;
             VolatileData = data;

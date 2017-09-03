@@ -16,15 +16,15 @@
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <PackageCertificateKeyFile>MALClient.Dekstop_StoreKey.pfx</PackageCertificateKeyFile>
     <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
     <AppxSymbolPackageEnabled>True</AppxSymbolPackageEnabled>
     <AppxBundle>Always</AppxBundle>
     <AppxBundlePlatforms>x86|x64</AppxBundlePlatforms>
     <AppxPackageDir>C:\Users\dogie\Documents\VsBuilds\</AppxPackageDir>
-    <PackageCertificateThumbprint>12E2EA07745358740A1071A716461C53697C6A10</PackageCertificateThumbprint>
     <HockeyAppResourceId>b79e78858bdf44c4bfc3a1f37c8fd90c</HockeyAppResourceId>
     <RuntimeIdentifiers>win10-arm;win10-arm-aot;win10-x86;win10-x86-aot;win10-x64;win10-x64-aot</RuntimeIdentifiers>
+    <PackageCertificateThumbprint>905CC98BB13FCCB25E9CC8B0FCDB3AA5408F3D50</PackageCertificateThumbprint>
+    <PackageCertificateKeyFile>MALClient.UWP.Desktop_StoreKey.pfx</PackageCertificateKeyFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -281,6 +281,7 @@
     <Content Include="Assets\upperappbarlogowhite.png" />
     <Content Include="Assets\Wide310x150Logo.scale-100.png" />
     <Content Include="Assets\Wide310x150Logo.scale-400.png" />
+    <None Include="MALClient.UWP.Desktop_StoreKey.pfx" />
     <None Include="Package.StoreAssociation.xml" />
     <Content Include="Properties\Default.rd.xml">
       <SubType>Designer</SubType>
@@ -571,31 +572,31 @@
       <Version>4.1.6</Version>
     </PackageReference>
     <PackageReference Include="HtmlAgilityPack">
-      <Version>1.4.9.5</Version>
+      <Version>1.5.1</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Net.Http">
       <Version>2.2.29</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
-      <Version>5.3.3</Version>
+      <Version>5.3.4</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Services.Store.SDK">
       <Version>10.1705.16001</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Uwp.UI">
-      <Version>1.4.1</Version>
+      <Version>2.0.0</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Uwp.UI.Animations">
-      <Version>1.4.1</Version>
+      <Version>2.0.0</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Uwp.UI.Controls">
-      <Version>1.4.1</Version>
+      <Version>2.0.0</Version>
     </PackageReference>
     <PackageReference Include="MvvmLightLibs">
       <Version>5.3.0</Version>
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json">
-      <Version>10.0.2</Version>
+      <Version>10.0.3</Version>
     </PackageReference>
     <PackageReference Include="System.Net.Http">
       <Version>4.3.2</Version>
@@ -608,7 +609,7 @@
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
+    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
     <AssemblyOriginatorKeyFile>

@@ -185,22 +185,19 @@ namespace MALClient.XShared.ViewModels
                 if (_airDayBrush != null)
                     return _airDayBrush.Value;
 
-                if (ParentAbstraction.AirStartDate != null && !ParentAbstraction.AirStartDate.Contains("00"))
+                if (ResourceLocator.AiringInfoProvider.TryGetNextAirDate(Id,DateTime.Today, out DateTime airingDate))
                 {
-                    var diff = DateTimeOffset.Parse(ParentAbstraction.AirStartDate).Subtract(DateTimeOffset.Now);
-                    if (diff.TotalSeconds > 0)
-                    {
-                        _airDayBrush = true;
-                        _airDayTillBind = diff.TotalDays < 1
-                            ? _airDayTillBind = diff.TotalHours.ToString("N0") + "h"
-                            : diff.TotalDays.ToString("N0") + "d";
-                        RaisePropertyChanged(() => AirDayTillBind);
-                    }
-                    else
-                        _airDayBrush = false;
+                    var diff = airingDate - DateTime.UtcNow;
+
+                    _airDayBrush = false;
+                    _airDayTillBind = diff.TotalDays < 1
+                        ? _airDayTillBind = diff.TotalHours.ToString("N0") + "h"
+                        : diff.TotalDays.ToString("N0") + "d";
+                    RaisePropertyChanged(() => AirDayTillBind);
+
                 }
                 else
-                    _airDayBrush = false;
+                    _airDayBrush = true;
 
                 return _airDayBrush;
             }

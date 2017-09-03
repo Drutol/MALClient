@@ -6,6 +6,7 @@ using MALClient.Models.Enums;
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Main;
 using Microsoft.Toolkit.Uwp.UI;
+using Microsoft.Toolkit.Uwp.UI.Extensions;
 using WinRTXamlToolkit.Controls.Extensions;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238

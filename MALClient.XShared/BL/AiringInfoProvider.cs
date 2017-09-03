@@ -19,7 +19,21 @@ namespace MALClient.XShared.BL
 
         private readonly IDataCache _dataCache;
         private readonly IApplicationDataService _applicationDataService;
+
         private List<AiringData> _airingData;
+        private List<AiringData> AiringShows
+        {
+            get { return _airingData; }
+            set
+            {
+                _airingData = value;
+                _lookupDictionary =
+                    new NullDictionary<int, AiringData>(
+                        value.ToDictionary(data => data.MalId, data => data));
+            }
+        }
+
+        private NullDictionary<int, AiringData> _lookupDictionary;
 
         public AiringInfoProvider(IDataCache dataCache,IApplicationDataService applicationDataService)
         {
@@ -54,7 +68,7 @@ namespace MALClient.XShared.BL
 
                 if (data == null)
                 {
-                    _airingData = new List<AiringData>();
+                    AiringShows = new List<AiringData>();
                     return;
                 }
 
@@ -62,11 +76,11 @@ namespace MALClient.XShared.BL
                 {
                     airingData.Episodes = airingData.Episodes.OrderBy(episode => episode.Timestamp).ToList();
                 }
-                _airingData = data;
+                AiringShows = data;
             }
             catch (Exception)
             {
-                _airingData = new List<AiringData>();
+                AiringShows = new List<AiringData>();
             }
         }
 
@@ -74,7 +88,7 @@ namespace MALClient.XShared.BL
         {
             episode = 0;
             var currentTimestamp = Utilities.ConvertToUnixTimestamp(DateTime.UtcNow);
-            var data = _airingData.FirstOrDefault(airingData => airingData.MalId == id);
+            var data = _lookupDictionary[id];
             if (data == null)
                 return false;
 
@@ -122,8 +136,8 @@ namespace MALClient.XShared.BL
         public bool TryGetNextAirDate(int id, DateTime forDay, out DateTime date)
         {
             date = DateTime.MinValue;
-            
-            var data = _airingData.FirstOrDefault(airingData => airingData.MalId == id);
+
+            var data = _lookupDictionary[id];
             if (data == null)
                 return false;
 
@@ -160,7 +174,7 @@ namespace MALClient.XShared.BL
         public bool TryGetAiringDay(int id, out DayOfWeek day)
         {
             day = DayOfWeek.Monday;
-            var data = _airingData.FirstOrDefault(airingData => airingData.MalId == id);
+            var data = _lookupDictionary[id];
             if (data == null || !data.Episodes.Any())
                 return false;
 
@@ -187,6 +201,33 @@ namespace MALClient.XShared.BL
             public int MalId { get; set; }
             [JsonProperty("airing")]
             public List<Episode> Episodes { get; set; }
+        }
+
+        class NullDictionary<TKey, TVal> : Dictionary<TKey, TVal>
+        {
+            public NullDictionary()
+            {
+                
+            }
+
+            public NullDictionary(Dictionary<TKey,TVal> source)
+            {
+                foreach (var val in source)
+                {
+                    Add(val.Key,val.Value);
+                }
+            }
+
+            public new TVal this[TKey key]
+            {
+                get
+                {
+                    if(ContainsKey(key))
+                        return base[key];
+                    return default(TVal);              
+                }
+                set => base[key] = value;
+            }
         }
     }
 }

@@ -410,6 +410,16 @@ namespace MALClient.Android.Activities
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
+                if (Settings.DarkThemeAmoled)
+                {
+                    Theme.ApplyStyle(Resource.Style.BlackTheme, true);
+                    IsAmoledApplied = true;
+                }
+                else
+                {
+                    IsAmoledApplied = false;
+                }
+                
             }
             else
             {

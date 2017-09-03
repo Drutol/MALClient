@@ -13,6 +13,7 @@ using MALClient.Models.Models;
 using MALClient.Models.Models.Anime;
 using MALClient.Models.Models.AnimeScrapped;
 using MALClient.Models.Models.Library;
+using MALClient.XShared.BL;
 using MALClient.XShared.Comm;
 using MALClient.XShared.Comm.Anime;
 using MALClient.XShared.Delegates;
@@ -157,6 +158,7 @@ namespace MALClient.XShared.ViewModels.Main
 
         public async Task Init(AnimeListPageNavigationArgs args)
         {
+            await InitializationRoutines.AwaitableCompletion.Task; //wait for all necessary modelus to complete loading
             //base
             _scrollHandlerAdded = false;
             Initializing = true;
@@ -973,8 +975,9 @@ namespace MALClient.XShared.ViewModels.Main
                         target.Add(new AnimeItemAbstraction(animeData as SeasonalAnimeData, WorkMode != AnimeListWorkModes.TopManga));
                     else
                     {
-                        if(animeData.AirDay != -1)
-                            abstraction.AirDay = animeData.AirDay;
+                        //AnimeAirDay
+                        //if(animeData.AirDay != -1)
+                        //    abstraction.AirDay = animeData.AirDay;
                         if (updateScore)
                             abstraction.GlobalScore = animeData.Score;
                         abstraction.Index = animeData.Index;
@@ -1364,8 +1367,8 @@ namespace MALClient.XShared.ViewModels.Main
                                    string.Equals(data.Status, "Not yet aired", StringComparison.CurrentCultureIgnoreCase))
                                 ? (int)DateTime.Parse(data.StartDate).DayOfWeek + 1
                                 : -1;
-                            if (day == -1)
-                                abstraction.AirDay = -1;
+                            //if (day == -1)
+                            //    abstraction.AirDay = -1;
                         }
                         catch (Exception)
                         {

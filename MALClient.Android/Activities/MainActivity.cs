@@ -48,6 +48,7 @@ namespace MALClient.Android.Activities
     public partial class MainActivity : AppCompatActivity , IDimensionsProvider
     {
         public static MainActivity CurrentContext { get; private set; }
+        public static bool IsAmoledApplied { get; private set; }
         public static int CurrentTheme { get; private set; }
         public static AndroidColorThemes CurrentAccent { get; set; }
 
@@ -80,7 +81,6 @@ namespace MALClient.Android.Activities
             SetRightTheme();
             ResourceExtension.Init();
             base.OnCreate(bundle);
-            await InitializationRoutines.AwaitableCompletion.Task; //wait for all necessary modelus to complete loading
             if (Resources.DisplayMetrics.WidthPixels >= 1080)
                 Settings.MakeGridItemsSmaller = true;
 

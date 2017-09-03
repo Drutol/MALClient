@@ -89,7 +89,12 @@ namespace MALClient.Android.Fragments.SettingsFragments
             Bindings.Add(
                 this.SetBinding(() => ViewModel.ReverseSwipingDirection,
                     () => SettingsPageGeneralReverseSwipeOrder.Checked, BindingMode.TwoWay));
+
+            Bindings.Add(
+                this.SetBinding(() => ViewModel.DarkThemeAmoled,
+                    () => SettingsPageGeneralAmoledSwitch.Checked, BindingMode.TwoWay));
             //
+
             SettingsPageGeneralAnimeSortRadioGroup.Check(GetViewIdForAnimeSortOption(Settings.AnimeSortOrder));
             SettingsPageGeneralAnimeSortRadioGroup.SetOnCheckedChangeListener(new OnCheckedListener(i =>
             {
@@ -215,7 +220,9 @@ namespace MALClient.Android.Fragments.SettingsFragments
                     (SettingsPageGeneralAiringNotificationOffsetSlider.Progress - 24).ToString();
             };
 
-            UpdateColourSelection();
+            Bindings.Add(this.SetBinding(() => ViewModel.DarkThemeAmoled).WhenSourceChanges(UpdateColourSelection));
+
+            
 
             SettingsPageGeneralColorOrange.Tag = (int) AndroidColorThemes.Orange;
             SettingsPageGeneralColorPurple.Tag = (int) AndroidColorThemes.Purple;
@@ -238,6 +245,8 @@ namespace MALClient.Android.Fragments.SettingsFragments
         }
 
         private List<ImageButton> _accentButtons;
+        private bool _amoledDarkTheme;
+
         private void UpdateColourSelection()
         {
             if (_accentButtons == null)
@@ -276,7 +285,9 @@ namespace MALClient.Android.Fragments.SettingsFragments
                     throw new ArgumentOutOfRangeException();
             }
             SettingsPageGeneralThemeChangeApply.Visibility =
-                    Converters.BoolToVisibility(Settings.SelectedTheme != MainActivity.CurrentTheme || AndroidColourThemeHelper.CurrentTheme != MainActivity.CurrentAccent);
+                Converters.BoolToVisibility(Settings.SelectedTheme != MainActivity.CurrentTheme ||
+                                            AndroidColourThemeHelper.CurrentTheme != MainActivity.CurrentAccent ||
+                                            Settings.DarkThemeAmoled != MainActivity.IsAmoledApplied);
         }
 
         #region TemplateDelegates

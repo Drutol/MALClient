@@ -928,8 +928,6 @@ namespace MALClient.XShared.ViewModels.Details
                            string.Equals(Status, "Not yet aired", StringComparison.CurrentCultureIgnoreCase))
                         ? (int) DateTime.Parse(StartDate).DayOfWeek + 1
                         : -1;
-                    if (day == -1)
-                        model.ParentAbstraction.AirDay = -1; //no longer airing
                 }
                 catch (Exception)
                 {

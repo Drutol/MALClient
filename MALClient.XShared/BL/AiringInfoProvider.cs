@@ -62,7 +62,7 @@ namespace MALClient.XShared.BL
                     {
                         _applicationDataService[UpdateStorakeKey] = DateTime.Now.ToBinary();
                         data = JsonConvert.DeserializeObject<List<AiringData>>(json);
-                        _dataCache.SaveData(json, CacheFileName, null);
+                        _dataCache.SaveData(data, CacheFileName, null);
                     }
                 }
 

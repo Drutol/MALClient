@@ -31,14 +31,13 @@ namespace MALClient.Android.Adapters
 
         public bool NewChangelog { get; set; }
 
-        public string DateWithVersion => $"{_currentVersion} - 1.09.2017";
+        public string DateWithVersion => $"{_currentVersion} - 03.09.2017";
 
         public List<string> Changelog => new List<string>
         {
-           "Added images to related tab in anime details.",
-           "Fixed one more crash when launching app from anime link.",
-           "Widget should respond better to refresh action.",
-           "If amount of episodes of airing show is unknown dialog with episodes will take current episode as max value."
+           "Further unified airing data. Now Grid&List items will display smaller countdown to episode if it's airing today and countdown to first episode if its more than a week away.",
+           "Added switch in settings to make dark theme darker to make it better on AMOLED displays. Requested on GitHub.",
+           "There will be now more reviews for show in details, capped at 20.",
         };
 
     }

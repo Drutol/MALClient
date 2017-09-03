@@ -67,6 +67,13 @@ namespace MALClient.XShared.Utils
             set { ApplicationDataService["SelectedTheme"] = value; }
         }
 
+
+        public static bool DarkThemeAmoled
+        {
+            get { return (bool)(ApplicationDataService[nameof(DarkThemeAmoled)] ?? false); }
+            set { ApplicationDataService[nameof(DarkThemeAmoled)] = value; }
+        }
+
         public static bool IsCachingEnabled
         {
             get
@@ -135,7 +142,7 @@ namespace MALClient.XShared.Utils
 
         public static int ReviewsToPull
         {
-            get { return (int) (ApplicationDataService["ReviewsToPull"] ?? 16); }
+            get { return (int) (ApplicationDataService["ReviewsToPull"] ?? 20); }
             set { ApplicationDataService["ReviewsToPull"] = value; }
         }
 

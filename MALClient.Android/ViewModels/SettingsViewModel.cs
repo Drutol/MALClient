@@ -50,6 +50,16 @@ namespace MALClient.Android.ViewModels
             set { Settings.AskBeforeSendingCrashReports = value; }
         }
 
+        public bool DarkThemeAmoled
+        {
+            get { return Settings.DarkThemeAmoled; }
+            set
+            {
+                Settings.DarkThemeAmoled = value;
+                RaisePropertyChanged();
+            }
+        }
+
 
         public override void LoadCachedEntries()
         {

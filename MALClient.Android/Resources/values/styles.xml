@@ -289,6 +289,15 @@
     <item name="BrushForumPinnedBoard">@color/DarkBrushForumPinnedBoard</item>
   </style>
 
+  <style name="BlackTheme">
+    <item name="BrushDeepBackground">@android:color/black</item>
+    <item name="BrushAppBarUpper">@android:color/black</item>
+    <item name="BrushPivotHeaderBackground">@android:color/black</item>
+    <item name="BrushDetailsBackground">@android:color/black</item>
+    <item name="BrushDetailsUpperBackground">@android:color/black</item>
+    <item name="android:colorPrimaryDark">@android:color/black</item>
+  </style>
+
   <style name="Theme.MALClient.Light" parent="Theme.AppCompat.Light.NoActionBar">
 
     <item name="BrushText">@color/LightBrushText</item>

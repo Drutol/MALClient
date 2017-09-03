@@ -24,6 +24,7 @@ namespace MALClient.XShared.ViewModels
 
         private AnimeItemViewModel _viewModel;
 
+        //private int _airDay;
         //public int AirDay
         //{
         //    get { return VolatileData.DayOfAiring; }
@@ -36,7 +37,8 @@ namespace MALClient.XShared.ViewModels
         //    }
         //}
 
-        public int AirDay { get; set; }
+
+        public int AirDay { get; }
 
 
         public string AirStartDate
@@ -147,7 +149,6 @@ namespace MALClient.XShared.ViewModels
         }
 
         private List<string> _tags;
-        private int _airDay;
 
         public List<string> Tags => _tags ?? (_tags = string.IsNullOrEmpty(Notes)
             ? new List<string>()

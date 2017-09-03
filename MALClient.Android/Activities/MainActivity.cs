@@ -80,7 +80,7 @@ namespace MALClient.Android.Activities
             SetRightTheme();
             ResourceExtension.Init();
             base.OnCreate(bundle);
-
+            await InitializationRoutines.AwaitableCompletion.Task; //wait for all necessary modelus to complete loading
             if (Resources.DisplayMetrics.WidthPixels >= 1080)
                 Settings.MakeGridItemsSmaller = true;
 

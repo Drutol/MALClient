@@ -185,16 +185,24 @@ namespace MALClient.XShared.ViewModels
                 if (_airDayBrush != null)
                     return _airDayBrush.Value;
 
-                if (ResourceLocator.AiringInfoProvider.TryGetNextAirDate(Id,DateTime.Today, out DateTime airingDate))
+                if (ResourceLocator.AiringInfoProvider.TryGetNextAirDate(Id, DateTime.Today, out DateTime airingDate))
                 {
                     var diff = airingDate - DateTime.UtcNow;
 
-                    _airDayBrush = false;
-                    _airDayTillBind = diff.TotalDays < 1
-                        ? _airDayTillBind = diff.TotalHours.ToString("N0") + "h"
-                        : diff.TotalDays.ToString("N0") + "d";
-                    RaisePropertyChanged(() => AirDayTillBind);
+                    if (diff.TotalDays > 0 && (diff.TotalDays < 1 || diff.TotalDays > 7))
+                    {
+                        _airDayTillBind = diff.TotalDays < 1
+                            ? _airDayTillBind = diff.TotalHours.ToString("N0") + "h"
+                            : diff.TotalDays.ToString("N0") + "d";
+                        RaisePropertyChanged(() => AirDayTillBind);
+                    }
+                    else if(diff.TotalDays < 0)
+                    {
+                        _airDayTillBind = "Aired!";
+                    }
 
+                    //make day grayed if it's not airing yet
+                    _airDayBrush = diff.TotalDays > 7;
                 }
                 else
                     _airDayBrush = true;

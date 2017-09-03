@@ -187,15 +187,24 @@ namespace MALClient.Android.UserControls
                 if (ViewModel.AirDayBrush == true)
                 {
                     AnimeGridItemTopLeftInfoMain.SetTextColor(new Color(110, 110, 110)); //gray
+                }
+                else
+                {
+                    AnimeGridItemTopLeftInfoMain.SetTextColor(new Color(255, 255, 255));
+                }
+
+                if (!string.IsNullOrEmpty(ViewModel.AirDayTillBind))
+                {
                     AnimeGridItemTopLeftInfoSub.Text = ViewModel.AirDayTillBind;
                     AnimeGridItemTopLeftInfoSub.Visibility = ViewStates.Visible;
                 }
                 else
                 {
-                    AnimeGridItemTopLeftInfoMain.SetTextColor(new Color(255, 255, 255));
                     AnimeGridItemTopLeftInfoSub.Visibility = ViewStates.Gone;
                 }
             }
+
+
 
             if (_displayTimeTillAir)
             {

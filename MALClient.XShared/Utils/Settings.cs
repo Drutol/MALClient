@@ -135,7 +135,7 @@ namespace MALClient.XShared.Utils
 
         public static int ReviewsToPull
         {
-            get { return (int) (ApplicationDataService["ReviewsToPull"] ?? 8); }
+            get { return (int) (ApplicationDataService["ReviewsToPull"] ?? 16); }
             set { ApplicationDataService["ReviewsToPull"] = value; }
         }
 

@@ -17,20 +17,23 @@ namespace MALClient.XShared.BL
     /// </summary>
     public static class InitializationRoutines
     {
-        public static void InitApp()
+        public static TaskCompletionSource<bool> AwaitableCompletion { get; } = new TaskCompletionSource<bool>();
+
+        public static async Task InitApp()
         {
             ResourceLocator.ConnectionInfoProvider.Init();
             Credentials.Init();
             FavouritesManager.LoadData();
             AnimeImageQuery.Init();
             ViewModelLocator.ForumsMain.LoadPinnedTopics();
-            ResourceLocator.AiringInfoProvider.Init(false);
+            await ResourceLocator.AiringInfoProvider.Init(false);
             if (Settings.NotificationCheckInRuntime && Credentials.Authenticated)
                 ResourceLocator.SchdeuledJobsManger.StartJob(ScheduledJob.FetchNotifications, 5, () =>
                 {
                     ResourceLocator.NotificationsTaskManager.CallTask(BgTasks.Notifications);
                 });
             ResourceLocator.HandyDataStorage.Init();
+            AwaitableCompletion.SetResult(true);
         }
 
         public static void InitPostUpdate()

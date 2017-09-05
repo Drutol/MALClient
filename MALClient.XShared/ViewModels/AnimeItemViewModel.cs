@@ -192,7 +192,7 @@ namespace MALClient.XShared.ViewModels
                     if (diff.TotalDays > 0 && (diff.TotalDays < 1 || diff.TotalDays > 7))
                     {
                         _airDayTillBind = diff.TotalDays < 1
-                            ? _airDayTillBind = diff.TotalHours.ToString("N0") + "h"
+                            ? _airDayTillBind = diff.TotalHours < 1 ? $"{diff.TotalMinutes:N0}m" : $"{diff.TotalHours:N0}h"
                             : diff.TotalDays.ToString("N0") + "d";
                         RaisePropertyChanged(() => AirDayTillBind);
                     }

@@ -147,7 +147,7 @@ namespace MALClient.XShared.ViewModels.Clubs
             }
         }
 
-
+        
         private void CommentsOnCollectionChanged(object sender,
             NotifyCollectionChangedEventArgs notifyCollectionChangedEventArgs)
         {

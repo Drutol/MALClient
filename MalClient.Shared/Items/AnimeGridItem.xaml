@@ -101,7 +101,7 @@
                     <SymbolIcon Symbol="Favorite" Margin="0,2" Foreground="White" Visibility="{x:Bind ViewModel.IsFavouriteVisibility,Mode=OneWay,Converter={StaticResource BoolToVisibilityConverter}}"/>
                 </StackPanel>
             </Grid>
-            <Grid Grid.Row="0" MinWidth="40" MaxWidth="70" HorizontalAlignment="Left" VerticalAlignment="Top"
+            <Grid Grid.Row="0" MinWidth="40" MaxWidth="80" HorizontalAlignment="Left" VerticalAlignment="Top"
                   Visibility="{x:Bind ViewModel.TopLeftInfoBind,Converter={StaticResource AnyTextToVisibilityConverter},Mode=OneWay}">
                 <Grid.Background>
                     <SolidColorBrush Color="Black" Opacity=".75" />

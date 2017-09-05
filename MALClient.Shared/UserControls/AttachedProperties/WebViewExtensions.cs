@@ -37,7 +37,8 @@ namespace MALClient.UWP.Shared.UserControls.AttachedProperties
                 }
             }
             SetComputedHeight(view,0);
-            view.NavigateToString(ResourceLocator.CssManager.WrapWithCss(dependencyPropertyChangedEventArgs.NewValue as string,GetStyleImages(dependencyObject),GetMinimumWidth(dependencyObject)));
+            var minWidth = GetMinimumWidth(dependencyObject);
+            view.NavigateToString(ResourceLocator.CssManager.WrapWithCss(dependencyPropertyChangedEventArgs.NewValue as string,GetStyleImages(dependencyObject),minWidth > 0 ? (int?)minWidth : null));
         }
 
         private static async void ViewOnScriptNotify(object sender, NotifyEventArgs e)
@@ -89,7 +90,7 @@ namespace MALClient.UWP.Shared.UserControls.AttachedProperties
         }
 
         public static readonly DependencyProperty MinimumWidthProperty = DependencyProperty.RegisterAttached(
-            "MinimumWidth", typeof(int), typeof(WebViewExtensions), new PropertyMetadata(default(int)));
+            "MinimumWidth", typeof(int), typeof(WebViewExtensions), new PropertyMetadata(-1));
 
         public static void SetMinimumWidth(DependencyObject element, int value)
         {

@@ -37,7 +37,7 @@
             <ColumnDefinition MinWidth="400" MaxWidth="760"/>
         </Grid.ColumnDefinitions>
 
-        <Grid Grid.Column="0">
+        <Grid Grid.Column="0" BorderBrush="{StaticResource SystemControlHighlightListAccentHighBrush}" BorderThickness="0,0,1,0">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="200"/>
@@ -93,7 +93,7 @@
                             <Button Content="Leave" Margin="10,0" Visibility="{Binding Details.Joined}" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" Background="{ThemeResource BrushDeepBackground}" Command="{Binding LeaveClubCommand}" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
                             <Button Content="Join" Margin="10,0" Visibility="{Binding Details.Joined,Converter={StaticResource InvertedBoolToVisConverter}}" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" Background="{ThemeResource BrushDeepBackground}" Command="{Binding JoinClubCommand}" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
                         </StackPanel>
-                        
+
                     </Grid>
                 </Grid>
                 <controls:Expander Grid.Row="1" Header="Club Relations" >
@@ -108,9 +108,9 @@
                                         <DataTemplate>
                                             <StackPanel>
                                                 <Image Source="{Binding ImgUrl}" Width="110" Height="110" Stretch="UniformToFill">
-                                                <ToolTipService.ToolTip>
-                                                    <ToolTip Content="{Binding Name}"/>
-                                                </ToolTipService.ToolTip>
+                                                    <ToolTipService.ToolTip>
+                                                        <ToolTip Content="{Binding Name}"/>
+                                                    </ToolTipService.ToolTip>
                                                 </Image>
                                                 <Grid Background="{ThemeResource BrushAppBars}" Padding="4" HorizontalAlignment="Stretch">
                                                     <TextBlock Text="{Binding Name}" HorizontalAlignment="Center" TextTrimming="CharacterEllipsis"/>
@@ -136,7 +136,7 @@
                                         </DataTemplate>
                                     </GridView.ItemTemplate>
                                 </GridView>
-                                
+
                                 <TextBlock Text="No related anime..." Visibility="{Binding NoAnimeRelationsEmptyNoticeVisibility}" Foreground="{StaticResource SystemControlBackgroundAccentBrush}" FontWeight="SemiLight" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             </Grid>
                         </PivotItem>
@@ -158,7 +158,7 @@
                                 <TextBlock Text="No related anime..." Visibility="{Binding NoMangaRelationsEmptyNoticeVisibility}" Foreground="{StaticResource SystemControlBackgroundAccentBrush}" FontWeight="SemiLight" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             </Grid>
 
-                            
+
                         </PivotItem>
                         <!--<PivotItem Header="Related Characters">
                         
@@ -182,7 +182,7 @@
                         </Grid>
                     </StackPanel>
 
-                    
+
                     <ListView Grid.Row="1" ItemsSource="{Binding Comments}" Margin="0,10,0,0">
                         <ListView.ItemContainerStyle>
                             <Style TargetType="ListViewItem">
@@ -267,11 +267,9 @@
 
             </Grid>
         </Grid>
-        
-        <Grid Grid.Column="1" BorderBrush="{StaticResource SystemControlHighlightListAccentHighBrush}" BorderThickness="1,0,0,0">
-            <WebView HorizontalAlignment="Stretch" VerticalAlignment="Stretch" attachedProperties:WebViewExtensions.MinimumWidth="760" attachedProperties:WebViewExtensions.ResizeToFit="False" 
+
+            <WebView Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" attachedProperties:WebViewExtensions.MinimumWidth="760" attachedProperties:WebViewExtensions.ResizeToFit="False" 
                      attachedProperties:WebViewExtensions.Content="{Binding Details.DescriptionHtml}" attachedProperties:WebViewExtensions.StyleImages="False"/>
-        </Grid>
 
 
         <Grid Grid.ColumnSpan="2"

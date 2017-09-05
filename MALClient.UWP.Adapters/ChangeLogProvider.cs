@@ -13,14 +13,12 @@ namespace MALClient.UWP.Adapters
         public bool NewChangelog { get; set; }
         public string CurrentVersion => UWPUtilities.GetAppVersion();
 
-        public string DateWithVersion =>  $"v{UWPUtilities.GetAppVersion()} - 03.07.2017";
+        public string DateWithVersion =>  $"v{UWPUtilities.GetAppVersion()} - 05.07.2017";
 
         public List<string> Changelog => new List<string>
         {
-            "Added clubs.",
-            "Calendar now works on much more precise data.",
-            "Currently airing shows will now display current episode.",
-            "Profile page got visual tweaks."
+            "Hotfix for forums",
+            "Slightly improved countdowns on grid items.",
         };
 
 

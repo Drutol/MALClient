@@ -63,7 +63,7 @@ namespace MALClient.XShared.Comm.Anime
             i = i < 1 ? 1 : i;
             try
             {
-                foreach (var htmlNode in doc.WhereOfDescendantsWithClass("div", "seasonal-anime js-seasonal-anime"))
+                foreach (var htmlNode in doc.WhereOfDescendantsWithPartialClass("div", "seasonal-anime js-seasonal-anime"))
                 {
                     var model = AnimeSeasonalQuery.ParseFromHtml(htmlNode,i,false);
                     if(model == null)

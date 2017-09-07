@@ -122,7 +122,8 @@ namespace MALClient.XShared.Comm.Anime
 
         public static SeasonalAnimeData ParseFromHtml(HtmlNode htmlNode,int index,bool parseDate = true)
         {
-            if (htmlNode.Attributes["class"]?.Value != "seasonal-anime js-seasonal-anime")
+            if (!htmlNode.Attributes.Contains("class") ||
+                !htmlNode.Attributes["class"].Value.Contains("seasonal-anime js-seasonal-anime"))
                 return null;
             var imageNode =
                 htmlNode.FirstOfDescendantsWithClass("div", "image");

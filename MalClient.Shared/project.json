@@ -2,7 +2,7 @@
   "dependencies": {
     "FontAwesome.UWP": "4.7.0.9",
     "HockeySDK.UWP": "4.1.6",
-    "HtmlAgilityPack": "1.5.1",
+    "HtmlAgilityPack": "1.5.5",
     "Microsoft.NETCore.UniversalWindowsPlatform": "5.3.4",
     "Microsoft.Toolkit.Uwp.Notifications": "2.0.0",
     "Microsoft.Toolkit.Uwp.UI.Controls": "2.0.0",

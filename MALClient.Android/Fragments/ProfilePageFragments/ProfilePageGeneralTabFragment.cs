@@ -17,6 +17,7 @@ using FFImageLoading;
 using FFImageLoading.Views;
 using GalaSoft.MvvmLight.Helpers;
 using MALClient.Android.BindingConverters;
+using MALClient.Android.Dialogs;
 using MALClient.Android.DIalogs;
 using MALClient.Android.Listeners;
 using MALClient.Android.Resources;
@@ -102,11 +103,23 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
                 {
                     ProfilePageGeneralTabCommentInput.Visibility = ViewStates.Visible;
                     ProfilePageGeneralTabSendCommentButton.Visibility = ViewStates.Visible;
+
+                    if(ViewModel.CurrentData.IsFriend)
+                        ProfilePageGeneralTabRemoveFriendButton.Visibility = ViewStates.Visible;
+                    else
+                        ProfilePageGeneralTabRemoveFriendButton.Visibility = ViewStates.Gone;
+
+                    if(ViewModel.CurrentData.CanAddFriend)
+                        ProfilePageGeneralTabSendRequestButton.Visibility = ViewStates.Visible;
+                    else
+                        ProfilePageGeneralTabSendRequestButton.Visibility = ViewStates.Gone;
                 }
                 else
                 {
                     ProfilePageGeneralTabCommentInput.Visibility = ViewStates.Gone;
                     ProfilePageGeneralTabSendCommentButton.Visibility = ViewStates.Gone;
+                    ProfilePageGeneralTabSendRequestButton.Visibility = ViewStates.Gone;
+                    ProfilePageGeneralTabRemoveFriendButton.Visibility = ViewStates.Gone;
                 }
             }));
 
@@ -114,9 +127,7 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
                 this.SetBinding(() => ViewModel.IsMyProfile,
                     () => ProfilePageGeneralTabCompareList.Visibility)
                     .ConvertSourceToTarget(Converters.BoolToVisibilityInverted));
-
-            
-
+          
             Bindings.Add(
                 this.SetBinding(() => ViewModel.CommentText,
                     () => ProfilePageGeneralTabCommentInput.Text,BindingMode.TwoWay));
@@ -127,7 +138,7 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
 
             Bindings.Add(
                 this.SetBinding(() => ViewModel.LoadingCommentsVisiblity,
-                    () => UpdateSpinner.Visibility)
+                    () => AnimeDetailsPageLoadingUpdateSpinner.Visibility)
                     .ConvertSourceToTarget(Converters.BoolToVisibility));
 
 
@@ -165,6 +176,8 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
             ProfilePageGeneralTabMoreFriendsButton.SetOnClickListener(new OnClickListener(v => ViewModel.NavigateFriendsCommand.Execute(null)));
             ProfilePageGeneralTabMoreFriendsButton.SetOnClickListener(new OnClickListener(v => ViewModel.NavigateFriendsCommand.Execute(null)));
             ReloadButton.SetOnClickListener(new OnClickListener(view => ViewModel.RefreshCommentsCommand.Execute(null)));
+            ProfilePageGeneralTabSendRequestButton.SetOnClickListener(new OnClickListener(view => AddFriendDialog.Instance.ShowDialog(ViewModel.CurrentData)));
+            ProfilePageGeneralTabRemoveFriendButton.SetOnClickListener(new OnClickListener(view => ViewModel.RemoveFriendCommand.Execute(null)));
 
 
             PopulateComments();
@@ -359,6 +372,7 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
 
 
         public override int LayoutResourceId => Resource.Layout.ProfilePageGeneralTab;
+
         #region Views
 
         private ImageView _profilePageGeneralTabImagePlaceholder;
@@ -370,6 +384,8 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
         private Button _profilePageGeneralTabHistoryButton;
         private ImageView _pinButtonIcon;
         private FrameLayout _pinButton;
+        private ImageButton _profilePageGeneralTabSendRequestButton;
+        private ImageButton _profilePageGeneralTabRemoveFriendButton;
         private ImageButton _profilePageGeneralTabMoreFriendsButton;
         private ExpandableGridView _profilePageGeneralTabFriendsGrid;
         private TextView _profilePageGeneralTabFriendsEmptyNotice;
@@ -401,13 +417,17 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
 
         public FrameLayout PinButton => _pinButton ?? (_pinButton = FindViewById<FrameLayout>(Resource.Id.PinButton));
 
+        public ImageButton ProfilePageGeneralTabSendRequestButton => _profilePageGeneralTabSendRequestButton ?? (_profilePageGeneralTabSendRequestButton = FindViewById<ImageButton>(Resource.Id.ProfilePageGeneralTabSendRequestButton));
+
+        public ImageButton ProfilePageGeneralTabRemoveFriendButton => _profilePageGeneralTabRemoveFriendButton ?? (_profilePageGeneralTabRemoveFriendButton = FindViewById<ImageButton>(Resource.Id.ProfilePageGeneralTabRemoveFriendButton));
+
         public ImageButton ProfilePageGeneralTabMoreFriendsButton => _profilePageGeneralTabMoreFriendsButton ?? (_profilePageGeneralTabMoreFriendsButton = FindViewById<ImageButton>(Resource.Id.ProfilePageGeneralTabMoreFriendsButton));
 
         public ExpandableGridView ProfilePageGeneralTabFriendsGrid => _profilePageGeneralTabFriendsGrid ?? (_profilePageGeneralTabFriendsGrid = FindViewById<ExpandableGridView>(Resource.Id.ProfilePageGeneralTabFriendsGrid));
 
         public TextView ProfilePageGeneralTabFriendsEmptyNotice => _profilePageGeneralTabFriendsEmptyNotice ?? (_profilePageGeneralTabFriendsEmptyNotice = FindViewById<TextView>(Resource.Id.ProfilePageGeneralTabFriendsEmptyNotice));
 
-        public ProgressBar UpdateSpinner => _animeDetailsPageLoadingUpdateSpinner ?? (_animeDetailsPageLoadingUpdateSpinner = FindViewById<ProgressBar>(Resource.Id.AnimeDetailsPageLoadingUpdateSpinner));
+        public ProgressBar AnimeDetailsPageLoadingUpdateSpinner => _animeDetailsPageLoadingUpdateSpinner ?? (_animeDetailsPageLoadingUpdateSpinner = FindViewById<ProgressBar>(Resource.Id.AnimeDetailsPageLoadingUpdateSpinner));
 
         public ImageButton ReloadButton => _reloadButton ?? (_reloadButton = FindViewById<ImageButton>(Resource.Id.ReloadButton));
 

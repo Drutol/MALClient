@@ -113,5 +113,8 @@ namespace MALClient.Models.Models
         public List<int> RecentAnime { get;} = new List<int>();
         //Recent Manga 
         public List<int> RecentManga { get; } = new List<int>();
+
+        public bool IsFriend { get; set; }
+        public bool CanAddFriend { get; set; }
     }
 }

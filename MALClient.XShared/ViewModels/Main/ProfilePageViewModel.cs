@@ -662,6 +662,40 @@ namespace MALClient.XShared.ViewModels.Main
                                 });
                         }));
 
+        public ICommand SendFriendRequestCommand =>
+            _sendFriendRequestCommand ?? (_sendFriendRequestCommand = new RelayCommand<string>(
+                async message =>
+                {
+                    if(CurrentData.ProfileMemId == null)
+                        return;
+                    if (await MalFriendsQueries.SendFriendRequest(CurrentData.ProfileMemId, message))
+                    {
+                        ResourceLocator.SnackbarProvider.ShowText("Request sent");
+                    }
+                }));
+
+        public ICommand RemoveFriendCommand =>
+            _removeFriendCommand ?? (_removeFriendCommand = new RelayCommand(
+                () =>
+                {
+                    if (CurrentData.ProfileMemId == null)
+                        return;
+
+                    ResourceLocator.MessageDialogProvider.ShowMessageDialogWithInput(
+                        "Are you sure about removing this user from your friend list?", "You sure?", "Yup", "Nah",
+                        async () =>
+                        {
+                            if (await MalFriendsQueries.RemoveFriend(
+                                CurrentData.ProfileMemId))
+                            {
+                                ResourceLocator.SnackbarProvider.ShowText("Friend removed");
+                            }
+                        });
+
+
+                }));
+
+
 
         public bool PinProfileVisibility
             =>
@@ -971,6 +1005,8 @@ namespace MALClient.XShared.ViewModels.Main
         private ICommand _navigateProfileCommand;
         private ICommand _navigateFriendsCommand;
         private bool _isMyProfile;
+        private ICommand _sendFriendRequestCommand;
+        private ICommand _removeFriendCommand;
 
 
         public double ComputedHtmlHeight

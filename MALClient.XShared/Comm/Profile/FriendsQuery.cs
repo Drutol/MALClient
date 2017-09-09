@@ -44,14 +44,13 @@ namespace MALClient.XShared.Comm.Profile
                     }
                     catch (Exception)
                     {
-                        //I've a feeling thast it'll change soon
+                        //I've a feeling that it'll change soon
                     }
                     current.User.Name = WebUtility.HtmlDecode(htmlNode.Descendants("strong").First().InnerText.Trim());
                     var divs = htmlNode.ChildNodes[1].ChildNodes.Where(node => node.Name == "div").ToList();
                     current.LastOnline = WebUtility.HtmlDecode(divs[2].InnerText.Trim());
                     if(divs.Count == 4)
                         current.FriendsSince = WebUtility.HtmlDecode(divs[3].InnerText.Trim());
-
                     output.Add(current);
                 }
             }

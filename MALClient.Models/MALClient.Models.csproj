@@ -118,6 +118,7 @@
     <Compile Include="Models\MalSpecific\MalClubDetails.cs" />
     <Compile Include="Models\MalSpecific\MalClubEntry.cs" />
     <Compile Include="Models\MalSpecific\MalFriend.cs" />
+    <Compile Include="Models\MalSpecific\MalFriendRequest.cs" />
     <Compile Include="Models\MalSpecific\UserFeedEntryModel.cs" />
     <Compile Include="Models\MalSpecific\MalMessageModel.cs" />
     <Compile Include="Models\MalSpecific\MalNewsUnitModel.cs" />

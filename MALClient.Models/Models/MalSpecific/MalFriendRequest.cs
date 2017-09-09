@@ -6,11 +6,10 @@ using System.Threading.Tasks;
 
 namespace MALClient.Models.Models.MalSpecific
 {
-    public class MalFriend
+    public class MalFriendRequest
     {
-        public MalUser User { get; set; } = new MalUser();
-        public string LastOnline { get; set; }
-        public string FriendsSince { get; set; }
+        public MalUser User { get; } = new MalUser();
+        public string Message { get; set; }
         public string Id { get; set; }
     }
 }

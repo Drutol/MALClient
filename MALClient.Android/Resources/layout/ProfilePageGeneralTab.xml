@@ -1,151 +1,162 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:background="?BrushDeepBackground" >
-
-  <ScrollView
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_alignParentTop="true"
-    android:id="@+id/ProfilePageGeneralTabScrollingContainer"
-    android:layout_alignParentStart="true">
-    <LinearLayout
+    android:orientation="vertical"
+    android:background="?BrushDeepBackground" >
+
+  <ScrollView
       android:layout_width="match_parent"
-      android:layout_height="wrap_content" android:orientation="vertical">
+      android:layout_height="match_parent"
+      android:layout_alignParentTop="true"
+      android:id="@+id/ProfilePageGeneralTabScrollingContainer"
+      android:layout_alignParentStart="true">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" android:orientation="vertical">
       <LinearLayout android:background="?BrushAnimeItemBackground" android:layout_gravity="center_vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="155dp">
+          android:layout_width="match_parent"
+          android:layout_height="155dp">
         <LinearLayout android:elevation="5dp"
-                      android:layout_width="wrap_content" android:background="?BrushAppBars"
-                      android:layout_height="match_parent" android:orientation="vertical">
-          <FrameLayout android:layout_gravity="top"
-                       android:layout_width="wrap_content"
-                       android:layout_height="wrap_content" >
+            android:layout_width="wrap_content" android:background="?BrushAppBars"
+            android:layout_height="match_parent" android:orientation="vertical">
+          <FrameLayout android:layout_gravity="top" android:minHeight="100dp"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content" >
             <ImageView
-              android:layout_width="wrap_content" android:id="@+id/ProfilePageGeneralTabImagePlaceholder" android:layout_marginTop="10dp"
-              android:layout_height="wrap_content" android:layout_gravity="center" android:src="@drawable/icon_help" android:tint="#fff"/>
+                android:layout_width="wrap_content" android:id="@+id/ProfilePageGeneralTabImagePlaceholder" android:layout_marginTop="10dp"
+                android:layout_height="wrap_content" android:layout_gravity="center" android:src="@drawable/icon_help" android:tint="#fff"/>
             <FFImageLoading.Views.ImageViewAsync
-              android:layout_width="100dp" android:id="@+id/ProfilePageGeneralTabAnimeUserImg" android:adjustViewBounds="true"
-              android:layout_height="wrap_content" android:layout_margin="10dp" android:maxHeight="145dp" android:layout_gravity="top"/>
+                android:layout_width="100dp" android:id="@+id/ProfilePageGeneralTabAnimeUserImg" android:adjustViewBounds="true"
+                android:layout_height="wrap_content" android:layout_margin="10dp" android:maxHeight="145dp" android:layout_gravity="top"/>
           </FrameLayout>
         </LinearLayout>
 
         <android.support.v4.widget.NestedScrollView
-          android:layout_width="0dp" android:layout_weight="1" android:paddingTop="5dp" android:paddingBottom="5dp"
-          android:layout_height="wrap_content" android:orientation="vertical">
+            android:layout_width="0dp" android:layout_weight="1" android:paddingTop="5dp" android:paddingBottom="5dp"
+            android:layout_height="wrap_content" android:orientation="vertical">
           <LinearLayout
-            android:layout_width="match_parent" android:id="@+id/ProfilePageGeneralTabDetailsList"
-            android:layout_height="wrap_content" android:orientation="vertical" />
+              android:layout_width="match_parent" android:id="@+id/ProfilePageGeneralTabDetailsList"
+              android:layout_height="wrap_content" android:orientation="vertical" />
         </android.support.v4.widget.NestedScrollView>
 
       </LinearLayout>
       <LinearLayout android:gravity="center_horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" android:background="?BrushAnimeItemInnerBackground">
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content" android:background="?BrushAnimeItemInnerBackground">
         <Button
-          android:layout_width="wrap_content"
-          android:layout_height="31dp" style="@style/AccentButtonStyle" android:layout_marginStart="5dp" android:layout_marginTop="5dp" android:layout_marginBottom="5dp"
-          android:text="Anime list"
-          android:id="@+id/ProfilePageGeneralTabAnimeListButton" />
+            android:layout_width="wrap_content"
+            android:layout_height="31dp" style="@style/AccentButtonStyle" android:layout_marginStart="5dp" android:layout_marginTop="5dp" android:layout_marginBottom="5dp"
+            android:text="Anime list"
+            android:id="@+id/ProfilePageGeneralTabAnimeListButton" />
         <ImageButton
-          android:layout_width="31dp" android:background="?AccentColourDark" android:tint="#fff"
-          android:layout_height="31dp" style="@style/AccentButtonStyle" android:layout_marginTop="5dp"
-          android:src="@drawable/icon_compare" android:padding="0dp" android:foreground="?selectableItemBackground"
-          android:id="@+id/ProfilePageGeneralTabCompareList" android:elevation="0dp"/>
+            android:layout_width="31dp" android:background="?AccentColourDark" android:tint="#fff"
+            android:layout_height="31dp" style="@style/AccentButtonStyle" android:layout_marginTop="5dp"
+            android:src="@drawable/icon_compare" android:padding="0dp" android:foreground="?selectableItemBackground"
+            android:id="@+id/ProfilePageGeneralTabCompareList" android:elevation="0dp"/>
 
         <Button
-          android:layout_width="wrap_content" android:id="@+id/ProfilePageGeneralTabMangaListButton"
-          android:layout_height="31dp" style="@style/AccentButtonStyle" android:layout_margin="5dp"
-          android:text="Manga list" />
+            android:layout_width="wrap_content" android:id="@+id/ProfilePageGeneralTabMangaListButton"
+            android:layout_height="31dp" style="@style/AccentButtonStyle" android:layout_margin="5dp"
+            android:text="Manga list" />
 
         <Button
-          android:layout_width="wrap_content" android:id="@+id/ProfilePageGeneralTabHistoryButton"
-          android:layout_height="31dp" style="@style/AccentButtonStyle" android:layout_margin="5dp"
-          android:text="History" />
+            android:layout_width="wrap_content" android:id="@+id/ProfilePageGeneralTabHistoryButton"
+            android:layout_height="31dp" style="@style/AccentButtonStyle" android:layout_margin="5dp"
+            android:text="History" />
 
         <FrameLayout android:id="@+id/PinButton" android:layout_height="31dp" android:layout_width="31dp" android:layout_margin="5dp" android:clickable="true" android:focusable="true" android:foreground="?selectableItemBackground"
-                     android:background="?OpaqueAccentColour" android:layout_gravity="center" android:elevation="2dp">
+            android:background="?OpaqueAccentColour" android:layout_gravity="center" android:elevation="2dp">
           <ImageView
-            android:layout_width="wrap_content" android:layout_gravity="center" android:tint="#fff"
-            android:layout_height="wrap_content" android:src="@drawable/icon_pin" android:padding="4dp" android:id="@+id/PinButtonIcon"/>
+              android:layout_width="wrap_content" android:layout_gravity="center" android:tint="#fff"
+              android:layout_height="wrap_content" android:src="@drawable/icon_pin" android:padding="4dp" android:id="@+id/PinButtonIcon"/>
         </FrameLayout>
 
       </LinearLayout>
       <LinearLayout
-        android:layout_width="match_parent" android:orientation="vertical"
-        android:layout_height="wrap_content" android:background="?BrushAnimeItemBackground">
+          android:layout_width="match_parent" android:orientation="vertical"
+          android:layout_height="wrap_content" android:background="?BrushAnimeItemBackground">
         <FrameLayout android:background="@drawable/border_accent_left"
-                     android:layout_width="match_parent" android:paddingEnd="4dp" android:paddingStart="8dp"
-                     android:layout_height="wrap_content">
+            android:layout_width="match_parent" android:paddingEnd="4dp" android:paddingStart="8dp"
+            android:layout_height="wrap_content">
           <TextView
-            android:layout_width="wrap_content" android:layout_gravity="center_vertical"
-            android:layout_height="wrap_content" android:textColor="?AccentColour" android:text="Friends"
-            android:textSize="@dimen/FontSizeHuge"/>
-          <ImageButton android:id="@+id/ProfilePageGeneralTabMoreFriendsButton"
-                       android:layout_width="40dp" android:background="?selectableItemBackground" android:layout_gravity="end"
-                       android:layout_height="40dp" android:src="@drawable/icon_more" android:tint="?AccentColourLight"/>
+              android:layout_width="wrap_content" android:layout_gravity="center_vertical"
+              android:layout_height="wrap_content" android:textColor="?AccentColour" android:text="Friends"
+              android:textSize="@dimen/FontSizeHuge"/>
+          <LinearLayout
+              android:layout_width="wrap_content" android:layout_gravity="end"
+              android:layout_height="match_parent">
+            <ImageButton android:id="@+id/ProfilePageGeneralTabSendRequestButton"
+                android:layout_width="40dp" android:background="?selectableItemBackground"
+                android:layout_height="40dp" android:src="@drawable/icon_friend_add" android:tint="?AccentColourLight"/>
+            <ImageButton android:id="@+id/ProfilePageGeneralTabRemoveFriendButton"
+                android:layout_width="40dp" android:background="?selectableItemBackground"
+                android:layout_height="40dp" android:src="@drawable/icon_friend_remove" android:tint="?AccentColourLight"/>
+            <ImageButton android:id="@+id/ProfilePageGeneralTabMoreFriendsButton"
+                android:layout_width="40dp" android:background="?selectableItemBackground"
+                android:layout_height="40dp" android:src="@drawable/icon_more" android:tint="?AccentColourLight"/>
+          </LinearLayout>
+
         </FrameLayout>
 
         <LinearLayout
-          android:layout_width="match_parent" android:background="?BrushAnimeItemBackground"
-          android:layout_height="wrap_content" android:orientation="vertical">
+            android:layout_width="match_parent" android:background="?BrushAnimeItemBackground"
+            android:layout_height="wrap_content" android:orientation="vertical">
           <MALClient.Android.UserControls.ExpandableGridView android:id="@+id/ProfilePageGeneralTabFriendsGrid"
-                                                             android:layout_width="match_parent" android:paddingStart="5dp" android:paddingEnd="5dp"
-                                                             android:layout_height="wrap_content"
-                                                             android:numColumns="auto_fit" />
+              android:layout_width="match_parent" android:paddingStart="5dp" android:paddingEnd="5dp"
+              android:layout_height="wrap_content"
+              android:numColumns="auto_fit" />
         </LinearLayout>
 
         <TextView android:gravity="center" android:visibility="gone"
-                  android:layout_width="wrap_content" android:id="@+id/ProfilePageGeneralTabFriendsEmptyNotice" android:text="Nothing to show here..."
-                  android:layout_height="wrap_content" android:fontFamily="@string/font_family_light" android:layout_gravity="center_horizontal" android:textColor="?BrushNoSearchResults"/>
+            android:layout_width="wrap_content" android:id="@+id/ProfilePageGeneralTabFriendsEmptyNotice" android:text="Nothing to show here..."
+            android:layout_height="wrap_content" android:fontFamily="@string/font_family_light" android:layout_gravity="center_horizontal" android:textColor="?BrushNoSearchResults"/>
       </LinearLayout>
 
       <LinearLayout
-        android:layout_width="match_parent" android:focusableInTouchMode="true" android:id="@+id/ProfilePageGeneralTabCommentSection"
-        android:layout_height="wrap_content"  android:orientation="vertical" android:background="?BrushAnimeItemBackground">
+          android:layout_width="match_parent" android:focusableInTouchMode="true" android:id="@+id/ProfilePageGeneralTabCommentSection"
+          android:layout_height="wrap_content"  android:orientation="vertical" android:background="?BrushAnimeItemBackground">
         <FrameLayout android:background="@drawable/border_accent_left"
-                     android:layout_width="match_parent" android:paddingStart="8dp" android:paddingEnd="4dp"
-                     android:layout_height="wrap_content">
+            android:layout_width="match_parent" android:paddingStart="8dp" android:paddingEnd="4dp"
+            android:layout_height="wrap_content">
           <LinearLayout android:layout_gravity="center_vertical" android:gravity="center"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
-            <TextView
               android:layout_width="wrap_content"
-              android:layout_height="wrap_content" android:textColor="?AccentColour" android:text="Comments"
-              android:textSize="@dimen/FontSizeHuge" />
+              android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:textColor="?AccentColour" android:text="Comments"
+                android:textSize="@dimen/FontSizeHuge" />
             <ProgressBar android:layout_width="40dp" android:indeterminateTint="?AccentColour" android:id="@+id/AnimeDetailsPageLoadingUpdateSpinner"
-                         android:indeterminateTintMode="src_in" android:layout_height="40dp" android:padding="10dp"
-                         android:indeterminate="true" android:layout_centerInParent="true" />
+                android:indeterminateTintMode="src_in" android:layout_height="40dp" android:padding="10dp"
+                android:indeterminate="true" android:layout_centerInParent="true" />
           </LinearLayout>
 
           <ImageButton android:id="@+id/ReloadButton"
-                       android:layout_width="40dp" android:background="?selectableItemBackground" android:layout_gravity="end|center_vertical"
-                       android:layout_height="40dp" android:src="@drawable/icon_reload" android:tint="?AccentColourLight"/>
+              android:layout_width="40dp" android:background="?selectableItemBackground" android:layout_gravity="end|center_vertical"
+              android:layout_height="40dp" android:src="@drawable/icon_reload" android:tint="?AccentColourLight"/>
         </FrameLayout>
 
         <EditText android:layout_marginStart="8dp" android:layout_marginEnd="8dp"
-                  android:layout_width="match_parent" android:textColorHint="?BrushNoSearchResults" android:id="@+id/ProfilePageGeneralTabCommentInput"
-                  android:layout_height="wrap_content" android:inputType="textMultiLine" android:hint="Comment..." />
+            android:layout_width="match_parent" android:textColorHint="?BrushNoSearchResults" android:id="@+id/ProfilePageGeneralTabCommentInput"
+            android:layout_height="wrap_content" android:inputType="textMultiLine" android:hint="Comment..." />
         <Button android:layout_marginTop="5dp" android:layout_marginStart="8dp"
-                android:layout_width="wrap_content" android:id="@+id/ProfilePageGeneralTabSendCommentButton"
-                android:layout_height="wrap_content" style="@style/AccentButtonStyle" android:text="Send Comment"
-                android:padding="5dp" />
+            android:layout_width="wrap_content" android:id="@+id/ProfilePageGeneralTabSendCommentButton"
+            android:layout_height="wrap_content" style="@style/AccentButtonStyle" android:text="Send Comment"
+            android:padding="5dp" />
       </LinearLayout>
       <TextView android:gravity="center" android:visibility="gone"
-                android:layout_width="wrap_content" android:id="@+id/ProfilePageGeneralTabCommentsEmptyNotice" android:text="No comments found..."
-                android:layout_height="wrap_content" android:fontFamily="@string/font_family_light" android:layout_gravity="center_horizontal" android:textColor="?BrushNoSearchResults"/>
+          android:layout_width="wrap_content" android:id="@+id/ProfilePageGeneralTabCommentsEmptyNotice" android:text="No comments found..."
+          android:layout_height="wrap_content" android:fontFamily="@string/font_family_light" android:layout_gravity="center_horizontal" android:textColor="?BrushNoSearchResults"/>
       <ListView
-        android:layout_width="match_parent" android:layout_marginTop="5dp" android:dividerPadding="5dp"
-        android:id="@+id/ProfilePageGeneralTabCommentsList" android:clipToPadding="false"
-        android:paddingBottom="76dp"
-        android:layout_height="wrap_content" android:orientation="vertical" />
+          android:layout_width="match_parent" android:layout_marginTop="5dp" android:dividerPadding="5dp"
+          android:id="@+id/ProfilePageGeneralTabCommentsList" android:clipToPadding="false"
+          android:paddingBottom="76dp"
+          android:layout_height="wrap_content" android:orientation="vertical" />
     </LinearLayout>
   </ScrollView>
   <android.support.design.widget.FloatingActionButton android:id="@+id/ProfilePageGeneralTabActionButton"
-                                                      android:layout_width="wrap_content" app:backgroundTint="?AccentColourContrast" android:layout_alignParentEnd="true" android:layout_alignParentBottom="true" android:layout_margin="16dp"
-                                                      android:layout_height="wrap_content" android:src="@drawable/icon_go" android:clickable="true" android:focusable="true" android:tint="#fff"
-                                                      xmlns:app="http://schemas.android.com/apk/res-auto" app:fabSize="normal" />
+      android:layout_width="wrap_content" app:backgroundTint="?AccentColourContrast" android:layout_alignParentEnd="true" android:layout_alignParentBottom="true" android:layout_margin="16dp"
+      android:layout_height="wrap_content" android:src="@drawable/icon_go" android:clickable="true" android:focusable="true" android:tint="#fff"
+      xmlns:app="http://schemas.android.com/apk/res-auto" app:fabSize="normal" />
 </RelativeLayout>

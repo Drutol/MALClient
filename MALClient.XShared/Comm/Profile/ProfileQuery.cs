@@ -535,7 +535,7 @@ namespace MALClient.XShared.Comm.Profile
                 }
 
 
-                if (_userName == Credentials.UserName) //umm why do we need someone's favs?
+                if (_userName.Equals(Credentials.UserName,StringComparison.CurrentCultureIgnoreCase)) //umm why do we need someone's favs?
                 {
                     FavouritesManager.ForceNewSet(FavouriteType.Anime,
                         current.FavouriteAnime.Select(i => i.ToString()).ToList());
@@ -547,6 +547,11 @@ namespace MALClient.XShared.Comm.Profile
                         current.FavouritePeople.Select(i => i.Id).ToList());
                 }
 
+                current.IsFriend =
+                    doc.FirstOrDefaultOfDescendantsWithClass("a", "icon-user-function icon-remove js-user-function") != null;
+
+                current.CanAddFriend =
+                    doc.FirstOrDefaultOfDescendantsWithClass("a", "icon-user-function icon-request js-user-function disabled") != null;
 
                 if (!updateFavsOnly)
                     DataCache.SaveProfileData(_userName, current);

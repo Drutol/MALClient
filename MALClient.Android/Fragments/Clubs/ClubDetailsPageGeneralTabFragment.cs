@@ -96,7 +96,6 @@ namespace MALClient.Android.Fragments.Clubs
 
         }
 
-
         private async Task<string> NavigationInterceptOpportunity(string targetUrl)
         {
             if (targetUrl != null)

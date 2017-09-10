@@ -270,6 +270,7 @@
     <Compile Include="Dialogs\ChangelogDialog.cs" />
     <Compile Include="Dialogs\ForumDialogBuilder.cs" />
     <Compile Include="Dialogs\PinnedUsersDialog.cs" />
+    <Compile Include="Dialogs\ProfileDescriptionDialog.cs" />
     <Compile Include="Dialogs\TextInputDialogBuilder.cs" />
     <Compile Include="Flyouts\AnimeDetailsPageMoreFlyoutBuilder.cs" />
     <Compile Include="Flyouts\AnimeItemFlyoutBuilder.cs" />
@@ -1308,6 +1309,9 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\FriendsPageRequestItem.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\ProfileDescriptionDialog.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

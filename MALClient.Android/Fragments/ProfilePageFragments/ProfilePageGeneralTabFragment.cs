@@ -177,7 +177,7 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
             ReloadButton.SetOnClickListener(new OnClickListener(view => ViewModel.RefreshCommentsCommand.Execute(null)));
             ProfilePageGeneralTabSendRequestButton.SetOnClickListener(new OnClickListener(view => AddFriendDialog.Instance.ShowDialog(Activity,ViewModel.CurrentData,this)));
             ProfilePageGeneralTabRemoveFriendButton.SetOnClickListener(new OnClickListener(view => ViewModel.RemoveFriendCommand.Execute(null)));
-
+            AboutButton.SetOnClickListener(new OnClickListener(view => ProfileDescriptionDialog.Instance.ShowDialog(Activity,RootView,ViewModel.CurrentData.HtmlContent)));
 
             PopulateComments();
             ProfilePageGeneralTabScrollingContainer.ViewTreeObserver.ScrollChanged -= ViewTreeObserverOnScrollChanged;
@@ -376,6 +376,7 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
 
         private ImageView _profilePageGeneralTabImagePlaceholder;
         private ImageViewAsync _profilePageGeneralTabAnimeUserImg;
+        private Button _aboutButton;
         private LinearLayout _profilePageGeneralTabDetailsList;
         private Button _profilePageGeneralTabAnimeListButton;
         private ImageButton _profilePageGeneralTabCompareList;
@@ -401,6 +402,8 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
         public ImageView ProfilePageGeneralTabImagePlaceholder => _profilePageGeneralTabImagePlaceholder ?? (_profilePageGeneralTabImagePlaceholder = FindViewById<ImageView>(Resource.Id.ProfilePageGeneralTabImagePlaceholder));
 
         public ImageViewAsync ProfilePageGeneralTabAnimeUserImg => _profilePageGeneralTabAnimeUserImg ?? (_profilePageGeneralTabAnimeUserImg = FindViewById<ImageViewAsync>(Resource.Id.ProfilePageGeneralTabAnimeUserImg));
+
+        public Button AboutButton => _aboutButton ?? (_aboutButton = FindViewById<Button>(Resource.Id.AboutButton));
 
         public LinearLayout ProfilePageGeneralTabDetailsList => _profilePageGeneralTabDetailsList ?? (_profilePageGeneralTabDetailsList = FindViewById<LinearLayout>(Resource.Id.ProfilePageGeneralTabDetailsList));
 

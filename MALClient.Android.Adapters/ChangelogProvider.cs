@@ -31,13 +31,16 @@ namespace MALClient.Android.Adapters
 
         public bool NewChangelog { get; set; }
 
-        public string DateWithVersion => $"{_currentVersion} - 03.09.2017";
+        public string DateWithVersion => $"{_currentVersion} - 10.09.2017";
 
         public List<string> Changelog => new List<string>
         {
-           "Further unified airing data. Now Grid&List items will display smaller countdown to episode if it's airing today and countdown to first episode if its more than a week away.",
-           "Added switch in settings to make dark theme darker to make it better on AMOLED displays. Requested on GitHub.",
-           "There will be now more reviews for show in details, capped at 20.",
+           "Added friend requests. You can now add friends and manage pending requests.",
+           "Added about section in profile page containing user description.",
+           "Fixed 'more' button in hamburger's top anime section; it won't show anime status filters from now on",
+           "Fixed lack of content in certain genre categories.",
+           "A few fixes to widget.",
+           "Disabled GIFs in forums as they were causing deadlocks... I'll enable them once the problem is solved."
         };
 
     }

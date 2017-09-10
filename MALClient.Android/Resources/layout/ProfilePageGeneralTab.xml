@@ -21,7 +21,7 @@
         <LinearLayout android:elevation="5dp"
             android:layout_width="wrap_content" android:background="?BrushAppBars"
             android:layout_height="match_parent" android:orientation="vertical">
-          <FrameLayout android:layout_gravity="top" android:minHeight="100dp"
+          <FrameLayout android:layout_gravity="top" android:minHeight="120dp"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content" >
             <ImageView
@@ -31,6 +31,9 @@
                 android:layout_width="100dp" android:id="@+id/ProfilePageGeneralTabAnimeUserImg" android:adjustViewBounds="true"
                 android:layout_height="wrap_content" android:layout_margin="10dp" android:maxHeight="145dp" android:layout_gravity="top"/>
           </FrameLayout>
+          <Button style="@style/AccentButtonStyle" android:textColor="?BrushText" android:layout_gravity="center" android:id="@+id/AboutButton"
+              android:layout_width="wrap_content" android:text="About" android:background="@drawable/button_underline_background_style"
+              android:layout_height="wrap_content" />
         </LinearLayout>
 
         <android.support.v4.widget.NestedScrollView

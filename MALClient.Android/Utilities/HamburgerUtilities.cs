@@ -35,6 +35,9 @@ namespace MALClient.Android
                         frame.Visibility = ViewStates.Visible;
                     else
                         frame.Visibility = ViewStates.Gone;
+
+                    frame.SetOnClickListener(new OnClickListener(_moreButtonAction));
+
                     return;
                 }
                 if(p0.Tag == null)

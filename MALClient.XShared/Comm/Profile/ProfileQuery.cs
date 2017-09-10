@@ -527,7 +527,7 @@ namespace MALClient.XShared.Comm.Profile
 
                 try
                 {
-                    current.HtmlContent = doc.FirstOfDescendantsWithClass("div", "word-break").OuterHtml;
+                    current.HtmlContent = doc.FirstOfDescendantsWithClass("div", "profile-about-user js-truncate-inner").OuterHtml;
                 }
                 catch (Exception)
                 {

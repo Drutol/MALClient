@@ -62,7 +62,7 @@ namespace MALClient.Android.Widgets
                 //view.SetViewVisibility(Resource.Id.RefreshButton, ViewStates.Gone);
                 view.SetViewVisibility(Resource.Id.GridView, ViewStates.Gone);
 
-                manager.PartiallyUpdateAppWidget(widgetId,view);
+                manager.UpdateAppWidget(widgetId,view);
             }
 
             CalendarPivotPage shows = null;

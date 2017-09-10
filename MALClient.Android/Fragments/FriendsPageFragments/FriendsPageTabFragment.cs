@@ -14,28 +14,20 @@ using FFImageLoading.Views;
 using GalaSoft.MvvmLight.Helpers;
 using MALClient.Android.BindingConverters;
 using MALClient.Android.Listeners;
+using MALClient.Android.UserControls;
 using MALClient.Models.Models.MalSpecific;
-using MALClient.XShared.NavArgs;
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Main;
 
-namespace MALClient.Android.Fragments
+namespace MALClient.Android.Fragments.FriendsPageFragments
 {
-    public class FriendsPageFragment : MalFragmentBase
+    public class FriendsPageTabFragment : MalFragmentBase
     {
-        private readonly FriendsPageNavArgs _navArgs;
-
         private FriendsPageViewModel ViewModel = ViewModelLocator.Friends;
-
-        public FriendsPageFragment(FriendsPageNavArgs args)
-        {
-            _navArgs = args;
-        }
-
 
         protected override void Init(Bundle savedInstanceState)
         {
-            ViewModel.NavigatedTo(_navArgs);
+            
         }
 
         protected override void InitBindings()
@@ -46,9 +38,26 @@ namespace MALClient.Android.Fragments
 
             Bindings.Add(this.SetBinding(() => ViewModel.Friends).WhenSourceChanges(() =>
             {
+                if (ViewModel.Friends == null)
+                    return;
                 ListView.InjectFlingAdapter(ViewModel.Friends, HolderFactory, DataTemplateFull,
                     DataTemplateFling, DataTemplateBasic, ContainerTemplate);
             }));
+
+            Bindings.Add(
+                this.SetBinding(() => ViewModel.FriendsEmptyNoticeVisibility,
+                    () => EmptyNotice.Visibility).ConvertSourceToTarget(Converters.BoolToVisibility));
+
+
+            var sc = RootView as ScrollableSwipeToRefreshLayout;
+            sc.ScrollingView = ListView;
+            sc.Refresh += ScOnRefresh;
+        }
+
+        private void ScOnRefresh(object sender, EventArgs eventArgs)
+        {
+            (RootView as ScrollableSwipeToRefreshLayout).Refreshing = false;
+            ViewModel.RefreshFriendsCommand.Execute(null);
         }
 
         private FriendsItemViewHolder HolderFactory(View view) => new FriendsItemViewHolder(view);
@@ -56,7 +65,7 @@ namespace MALClient.Android.Fragments
 
         private View ContainerTemplate(int i)
         {
-            var view =  Activity.LayoutInflater.Inflate(Resource.Layout.FriendsPageItem, null);
+            var view = Activity.LayoutInflater.Inflate(Resource.Layout.FriendsPageItem, null);
             view.SetOnClickListener(new OnClickListener(OnFriendClick));
 
             return view;
@@ -64,7 +73,7 @@ namespace MALClient.Android.Fragments
 
         private void OnFriendClick(View view)
         {
-            ViewModel.NavigateUserCommand.Execute(view.Tag.Unwrap<MalFriend>());
+            ViewModel.NavigateUserCommand.Execute(view.Tag.Unwrap<MalFriend>().User);
         }
 
         private void DataTemplateBasic(View view, int i, MalFriend model, FriendsItemViewHolder holder)
@@ -76,27 +85,34 @@ namespace MALClient.Android.Fragments
 
         private void DataTemplateFling(View view, int i, MalFriend model, FriendsItemViewHolder holder)
         {
-            holder.Image.Visibility = holder.Image.IntoIfLoaded(model.User.ImgUrl,new CircleTransformation()) ? ViewStates.Visible : ViewStates.Gone;
+            holder.Image.Visibility = holder.Image.IntoIfLoaded(model.User.ImgUrl, new CircleTransformation()) ? ViewStates.Visible : ViewStates.Gone;
         }
 
         private void DataTemplateFull(View view, int i, MalFriend model, FriendsItemViewHolder holder)
         {
-            holder.Image.Into(model.User.ImgUrl,new CircleTransformation());
+            holder.Image.Into(model.User.ImgUrl, new CircleTransformation());
             holder.Image.Visibility = ViewStates.Visible;
         }
 
-        public override int LayoutResourceId => Resource.Layout.FriendsPage;
+        public override void OnDestroy()
+        {
+            ListView.ClearFlingAdapter();
+            base.OnDestroy();
+        }
+
+        public override int LayoutResourceId => Resource.Layout.FriendsPageTab;
 
         #region Views
 
         private ListView _listView;
         private ProgressBar _loadingSpinner;
-
+        private TextView _emptyNotice;
 
         public ListView ListView => _listView ?? (_listView = FindViewById<ListView>(Resource.Id.ListView));
 
-        public ProgressBar LoadingSpinner => _loadingSpinner ??
-                                             (_loadingSpinner = FindViewById<ProgressBar>(Resource.Id.LoadingSpinner));
+        public ProgressBar LoadingSpinner => _loadingSpinner ?? (_loadingSpinner = FindViewById<ProgressBar>(Resource.Id.LoadingSpinner));
+
+        public TextView EmptyNotice => _emptyNotice ?? (_emptyNotice = FindViewById<TextView>(Resource.Id.EmptyNotice));
 
         #endregion
 

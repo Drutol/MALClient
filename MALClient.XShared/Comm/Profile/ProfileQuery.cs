@@ -551,7 +551,7 @@ namespace MALClient.XShared.Comm.Profile
                     doc.FirstOrDefaultOfDescendantsWithClass("a", "icon-user-function icon-remove js-user-function") != null;
 
                 current.CanAddFriend =
-                    doc.FirstOrDefaultOfDescendantsWithClass("a", "icon-user-function icon-request js-user-function disabled") != null;
+                    doc.FirstOrDefaultOfDescendantsWithClass("a", "icon-user-function icon-request js-user-function") != null;
 
                 if (!updateFavsOnly)
                     DataCache.SaveProfileData(_userName, current);

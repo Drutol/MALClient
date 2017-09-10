@@ -174,9 +174,8 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
             ProfilePageGeneralTabActionButton.SetOnClickListener(new OnClickListener(v => ProfilePageGeneralTabActionButtonOnClick()));
             ProfilePageGeneralTabCompareList.SetOnClickListener(new OnClickListener(v => ViewModel.NavigateComparisonCommand.Execute(null)));
             ProfilePageGeneralTabMoreFriendsButton.SetOnClickListener(new OnClickListener(v => ViewModel.NavigateFriendsCommand.Execute(null)));
-            ProfilePageGeneralTabMoreFriendsButton.SetOnClickListener(new OnClickListener(v => ViewModel.NavigateFriendsCommand.Execute(null)));
             ReloadButton.SetOnClickListener(new OnClickListener(view => ViewModel.RefreshCommentsCommand.Execute(null)));
-            ProfilePageGeneralTabSendRequestButton.SetOnClickListener(new OnClickListener(view => AddFriendDialog.Instance.ShowDialog(ViewModel.CurrentData)));
+            ProfilePageGeneralTabSendRequestButton.SetOnClickListener(new OnClickListener(view => AddFriendDialog.Instance.ShowDialog(Activity,ViewModel.CurrentData,this)));
             ProfilePageGeneralTabRemoveFriendButton.SetOnClickListener(new OnClickListener(view => ViewModel.RemoveFriendCommand.Execute(null)));
 
 

@@ -243,6 +243,7 @@
     <Compile Include="Adapters\PagerAdapters\ArticlesPagePagerAdapter.cs" />
     <Compile Include="Adapters\PagerAdapters\CalendarPagerAdapter.cs" />
     <Compile Include="Adapters\PagerAdapters\ClubDetailsPagerAdapter.cs" />
+    <Compile Include="Adapters\PagerAdapters\FriendsPagePagerAdapter.cs" />
     <Compile Include="Adapters\PagerAdapters\ClubsIndexPagerAdapter.cs" />
     <Compile Include="Adapters\PagerAdapters\ForumIndexPagerAdapter.cs" />
     <Compile Include="Adapters\PagerAdapters\HistoryPagerAdapter.cs" />
@@ -320,7 +321,9 @@
     <Compile Include="Fragments\ForumFragments\Tabs\ForumIndexPageFragmentBoardsTabFragment.cs" />
     <Compile Include="Fragments\ForumFragments\Tabs\ForumIndexPageFragmentRecentsTabFragment.cs" />
     <Compile Include="Fragments\FriendsFeedsPageFragment.cs" />
-    <Compile Include="Fragments\FriendsPageFragment.cs" />
+    <Compile Include="Fragments\FriendsPageFragments\FriendsPageFragment.cs" />
+    <Compile Include="Fragments\FriendsPageFragments\FriendsPageRequestsTabFragment.cs" />
+    <Compile Include="Fragments\FriendsPageFragments\FriendsPageTabFragment.cs" />
     <Compile Include="Fragments\HistoryFragments\HistoryPageFragment.cs" />
     <Compile Include="Fragments\HistoryFragments\HistoryPageTabFragment.cs" />
     <Compile Include="Fragments\ListComparisonPageFragment.cs" />
@@ -1296,6 +1299,15 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\icon_friend_add.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\FriendRequestDialog.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\FriendsPageTab.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\FriendsPageRequestItem.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

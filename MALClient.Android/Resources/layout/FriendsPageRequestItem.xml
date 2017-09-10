@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:clickable="true" android:focusable="true" android:foreground="?selectableItemBackground">
+  <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="horizontal"
+      android:paddingStart="2dp"
+      android:background="@drawable/border_accent_left">
+    <FrameLayout android:background="?BrushAnimeItemInnerBackground"
+        android:layout_width="100dp" android:elevation="2dp"
+        android:layout_height="match_parent">
+      <ProgressBar android:scaleX=".7" android:scaleY=".7"
+          android:layout_width="wrap_content" android:id="@+id/ImgPlaceholder"
+          android:layout_height="wrap_content" android:indeterminateTint="?BrushAnimeItemBackground"
+          android:indeterminate="true" android:layout_gravity="center" android:indeterminateTintMode="src_in"/>
+      <FFImageLoading.Views.ImageViewAsync android:id="@+id/Image"
+          android:layout_width="75dp" android:layout_gravity="center"
+          android:layout_height="75dp" android:scaleType="centerCrop"/>
+    </FrameLayout>
+    <LinearLayout android:background="?BrushAnimeItemBackground"
+        android:layout_width="match_parent" android:gravity="center_horizontal" android:orientation="vertical"
+        android:layout_height="wrap_content" android:padding="10dp">
+      <TextView android:id="@+id/Name"
+          android:layout_width="wrap_content" tools:text="Drutol"  android:textSize="@dimen/FontSizeBig" android:textColor="?BrushText" android:background="@drawable/border_accent_underline"
+          android:layout_height="wrap_content" />
+      <TextView android:layout_marginTop="10dp" android:id="@+id/Message"
+          android:layout_width="wrap_content" android:textColor="?BrushText" android:fontFamily="@string/font_family_light"
+          android:layout_height="wrap_content" tools:text="Friends since 3rd March 2017" android:textStyle="italic"/>
+      <LinearLayout android:layout_marginTop="10dp"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content">
+        <Button android:textColor="#fff" android:id="@+id/AcceptButton"
+            android:layout_width="wrap_content" android:backgroundTint="?AccentColour" android:text="Accept"
+            android:layout_height="wrap_content" android:textAllCaps="false"/>
+        <Button android:textColor="#fff" android:id="@+id/DenyButton"
+            android:layout_width="wrap_content" android:backgroundTint="?AccentColour" android:text="Deny"
+            android:layout_height="wrap_content" android:textAllCaps="false"/>
+      </LinearLayout>
+
+    </LinearLayout>
+  </LinearLayout>
+</FrameLayout>

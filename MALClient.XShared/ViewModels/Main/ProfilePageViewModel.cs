@@ -670,6 +670,7 @@ namespace MALClient.XShared.ViewModels.Main
                         return;
                     if (await MalFriendsQueries.SendFriendRequest(CurrentData.ProfileMemId, message))
                     {
+                        CurrentData.CanAddFriend = false;
                         ResourceLocator.SnackbarProvider.ShowText("Request sent");
                     }
                 }));

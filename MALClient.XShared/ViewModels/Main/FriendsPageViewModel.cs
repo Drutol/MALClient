@@ -8,6 +8,7 @@ using System.Windows.Input;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using MALClient.Models.Enums;
+using MALClient.Models.Models;
 using MALClient.Models.Models.MalSpecific;
 using MALClient.XShared.Comm.MagicalRawQueries.Profile;
 using MALClient.XShared.Comm.Profile;
@@ -44,7 +45,7 @@ namespace MALClient.XShared.ViewModels.Main
                 Loading = true;
                 Friends = new ObservableCollection<MalFriend>();
 
-                var result = await new FriendsQuery(args.TargetUser.Name).GetFriends();
+                var result = (await new FriendsQuery(args.TargetUser.Name).GetFriends()) ?? new List<MalFriend>();
                 _friendsCache[args.TargetUser.Name.ToLower()] = result;
 
                 Friends = new ObservableCollection<MalFriend>(result);
@@ -54,7 +55,8 @@ namespace MALClient.XShared.ViewModels.Main
             if (args.TargetUser.Name.Equals(Credentials.UserName, StringComparison.CurrentCultureIgnoreCase))
             {
                 ShowPending = true;
-                RefreshPendingCommand.Execute(null);
+                if(_requests == null)
+                    RefreshPendingCommand.Execute(null);
             }
             else
                 ShowPending = false;
@@ -144,8 +146,22 @@ namespace MALClient.XShared.ViewModels.Main
             RequestsEmptyNoticeVisibility = !Requests.Any();
         });
 
+        public ICommand RefreshFriendsCommand => new RelayCommand(async () =>
+        {
+            Loading = true;
+            Friends = new ObservableCollection<MalFriend>();
+
+            var result = (await new FriendsQuery(_lastArgs.TargetUser.Name).GetFriends()) ?? new List<MalFriend>();
+            _friendsCache[_lastArgs.TargetUser.Name.ToLower()] = result;
+
+            Friends = new ObservableCollection<MalFriend>(result);
+            Loading = false;
+
+            FriendsEmptyNoticeVisibility = !Friends.Any();
+        });
+
         public ICommand NavigateUserCommand => _navigateUserCommand ?? (_navigateUserCommand =
-                                                   new RelayCommand<MalFriend>(
+                                                   new RelayCommand<MalUser>(
                                                        friend =>
                                                        {
                                                            ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageFriends,_lastArgs);
@@ -153,7 +169,7 @@ namespace MALClient.XShared.ViewModels.Main
                                                                new ProfilePageNavigationArgs
                                                                {
                                                                    AllowBackNavReset = false,
-                                                                   TargetUser = friend.User.Name
+                                                                   TargetUser = friend.Name
                                                                });
                                                        }));
 

@@ -28,6 +28,7 @@ namespace MALClient.Android.Widgets
             public CalendarViewFactory(Context applicationContext)
             {
                 _applicationContext = applicationContext;
+
             }
 
             public long GetItemId(int position)
@@ -59,6 +60,12 @@ namespace MALClient.Android.Widgets
 
             public void OnCreate()
             {
+
+
+            }
+
+            public void OnDataSetChanged()
+            {
                 try
                 {
                     _items = ViewModelLocator.CalendarPage.CalendarData.First(
@@ -68,16 +75,10 @@ namespace MALClient.Android.Widgets
                         .Take(14)
                         .ToList();
                 }
-                catch (Exception )
+                catch (Exception)
                 {
                     _items = new List<AnimeItemViewModel>();
                 }
-
-            }
-
-            public void OnDataSetChanged()
-            {
-
             }
 
             public void OnDestroy()

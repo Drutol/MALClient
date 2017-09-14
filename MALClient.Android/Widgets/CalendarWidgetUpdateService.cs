@@ -7,6 +7,7 @@ using Android.App;
 using Android.Appwidget;
 using Android.Content;
 using Android.OS;
+using Android.Preferences;
 using Android.Runtime;
 using Android.Util;
 using Android.Views;
@@ -75,19 +76,23 @@ namespace MALClient.Android.Widgets
                     if (!running)
                     {
                         await ResourceLocator.AiringInfoProvider.Init(false);
+
                         ViewModelLocator.AnimeList.ListSource = Credentials.UserName;
                         await ViewModelLocator.AnimeList.FetchData(true, AnimeListWorkModes.Anime);
+
                     }
+                    if (ResourceLocator.AiringInfoProvider.InitializationSuccess && (ResourceLocator.AnimeLibraryDataStorage.AllLoadedAuthAnimeItems?.Any() ?? false))
+                    {
+                        await ViewModelLocator.CalendarPage.Init(true);
 
-                    await ViewModelLocator.CalendarPage.Init(true);
-
-                    shows =
-                        ViewModelLocator.CalendarPage.CalendarData.FirstOrDefault(
-                            page => page.DayOfWeek == DateTime.Now.DayOfWeek);
-
+                        shows =
+                            ViewModelLocator.CalendarPage.CalendarData.FirstOrDefault(
+                                page => page.DayOfWeek == DateTime.Now.DayOfWeek);
+                    }
+                   
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 //we have failed very very badly
             }
@@ -111,6 +116,19 @@ namespace MALClient.Android.Widgets
                     refreshIntent.PutExtra(AppWidgetManager.ExtraAppwidgetIds, new[] { view.Item2 });
                     refreshIntent.PutExtra("ResourceId", layoutId);
                     view.Item1.SetOnClickPendingIntent(Resource.Id.RefreshButton, PendingIntent.GetService(ApplicationContext, 0, refreshIntent, 0));
+
+                    var preferences = PreferenceManager.GetDefaultSharedPreferences(ApplicationContext);
+                    var ids = preferences.GetStringSet("lastWidgetItems", new List<string>()).Select(int.Parse).ToList();
+                    if (!ids.OrderBy(i => i).SequenceEqual(shows.Items.Select(model => model.Id).OrderBy(i => i)))
+                    {
+                        manager.NotifyAppWidgetViewDataChanged(view.Item2, Resource.Id.GridView);
+
+                        var edit = preferences.Edit();
+                        edit.PutStringSet("lastWidgetItems", shows.Items.Select(model => model.Id.ToString()).ToList());
+                        edit.Commit();
+                    }
+                  
+                    
 
                     manager.UpdateAppWidget(view.Item2, view.Item1);
                 }

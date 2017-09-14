@@ -69,9 +69,11 @@ namespace MALClient.XShared.BL
                 if (data == null)
                 {
                     AiringShows = new List<AiringData>();
+                    InitializationSuccess = false;
                     return;
                 }
 
+                InitializationSuccess = true;
                 foreach (var airingData in data)
                 {
                     airingData.Episodes = airingData.Episodes.OrderBy(episode => episode.Timestamp).ToList();
@@ -182,6 +184,8 @@ namespace MALClient.XShared.BL
 
             return true;
         }
+
+        public bool InitializationSuccess { get; set; }
 
         [Preserve(AllMembers = true)]
         class Episode

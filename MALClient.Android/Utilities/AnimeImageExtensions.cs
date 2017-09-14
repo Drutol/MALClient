@@ -23,7 +23,7 @@ namespace MALClient.Android
 
         #region AnimeInto
 
-        private static string GetImgUrl(string originUrl)
+        public static string GetImgUrl(string originUrl)
         {
             if (Settings.PullHigherQualityImages && !FailedImgs.Contains(originUrl))
             {

@@ -19,7 +19,10 @@ namespace MALClient.Android.Fragments
 {
     public partial class AnimeDetailsPageFragment
     {
+        #region Views
+
         private ImageViewAsync _animeDetailsPageShowCoverImage;
+        private FrameLayout _imageContainer;
         private TextView _animeDetailsPageWatchedLabel;
         private TextView _animeDetailsPageReadVolumesLabel;
         private Button _animeDetailsPageScoreButton;
@@ -40,6 +43,8 @@ namespace MALClient.Android.Fragments
         private RelativeLayout _animeDetailsPageLoadingOverlay;
 
         public ImageViewAsync AnimeDetailsPageShowCoverImage => _animeDetailsPageShowCoverImage ?? (_animeDetailsPageShowCoverImage = FindViewById<ImageViewAsync>(Resource.Id.AnimeDetailsPageShowCoverImage));
+
+        public FrameLayout ImageContainer => _imageContainer ?? (_imageContainer = FindViewById<FrameLayout>(Resource.Id.ImageContainer));
 
         public TextView AnimeDetailsPageWatchedLabel => _animeDetailsPageWatchedLabel ?? (_animeDetailsPageWatchedLabel = FindViewById<TextView>(Resource.Id.AnimeDetailsPageWatchedLabel));
 
@@ -77,6 +82,7 @@ namespace MALClient.Android.Fragments
 
         public RelativeLayout AnimeDetailsPageLoadingOverlay => _animeDetailsPageLoadingOverlay ?? (_animeDetailsPageLoadingOverlay = FindViewById<RelativeLayout>(Resource.Id.AnimeDetailsPageLoadingOverlay));
 
+        #endregion
 
     }
 }

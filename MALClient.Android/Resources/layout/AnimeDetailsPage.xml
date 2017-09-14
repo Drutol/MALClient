@@ -1,141 +1,141 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-                android:layout_height="match_parent">
+    android:layout_height="match_parent">
   <ScrollView
-    android:layout_width="match_parent" android:fillViewport="true"
-    android:layout_height="match_parent"
-    android:layout_alignParentTop="true"
-    android:layout_alignParentStart="true">
+      android:layout_width="match_parent" android:fillViewport="true"
+      android:layout_height="match_parent"
+      android:layout_alignParentTop="true"
+      android:layout_alignParentStart="true">
     <LinearLayout
-      android:orientation="vertical" android:background="?BrushDetailsUpperBackground"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content">
-      <FrameLayout
-        android:layout_width="match_parent" android:paddingBottom="2dp" android:clipToPadding="false"
+        android:orientation="vertical" android:background="?BrushDetailsUpperBackground"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content">
+      <FrameLayout
+          android:layout_width="match_parent" android:paddingBottom="2dp" android:clipToPadding="false"
+          android:layout_height="wrap_content">
         <RelativeLayout android:layout_width="match_parent" android:layout_height="140dp" android:elevation="2dp" android:background="?BrushDetailsUpperBackground">
           <LinearLayout android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="?BrushDetailsUpperBackground"
-                        android:orientation="horizontal">
+              android:layout_height="wrap_content"
+              android:background="?BrushDetailsUpperBackground"
+              android:orientation="horizontal">
             <FrameLayout
-              android:layout_width="wrap_content"
-              android:layout_height="140dp">
+                android:layout_width="wrap_content" android:foreground="?selectableItemBackground" android:id="@+id/ImageContainer"
+                android:layout_height="140dp" android:clickable="true" android:focusable="true">
 
               <FFImageLoading.Views.ImageViewAsync android:layout_width="@dimen/ShowImageWidthSmall"
-                                                   android:layout_height="@dimen/ShowImageHeightSmall"
-                                                   android:scaleType="fitXY"
-                                                   android:id="@+id/AnimeDetailsPageShowCoverImage" />
+                  android:layout_height="@dimen/ShowImageHeightSmall"
+                  android:scaleType="fitXY"
+                  android:id="@+id/AnimeDetailsPageShowCoverImage" />
 
 
               <View
-                android:layout_width="110dp"
-                android:layout_height="1dp" android:background="?AccentColour" android:layout_gravity="bottom"/>
+                  android:layout_width="110dp"
+                  android:layout_height="1dp" android:background="?AccentColour" android:layout_gravity="bottom"/>
 
             </FrameLayout>
             <LinearLayout android:layout_width="wrap_content"
-                          android:layout_height="match_parent"
-                          android:id="@+id/AnimeDetailsPageUpdateSection" android:gravity="center_vertical"
-                          android:orientation="horizontal" android:paddingStart="10dp">
+                android:layout_height="match_parent"
+                android:id="@+id/AnimeDetailsPageUpdateSection" android:gravity="center_vertical"
+                android:orientation="horizontal" android:paddingStart="10dp">
               <LinearLayout android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical">
+                  android:layout_height="wrap_content"
+                  android:orientation="vertical">
                 <TextView android:layout_width="wrap_content"
-                          android:layout_height="25dp"
-                          android:layout_marginTop="5dp"
-                          android:text="Score"
-                          android:textColor="?BrushText" android:gravity="center" />
+                    android:layout_height="25dp"
+                    android:layout_marginTop="5dp"
+                    android:text="Score"
+                    android:textColor="?BrushText" android:gravity="center" />
                 <TextView android:layout_width="wrap_content"
-                          android:layout_height="25dp"
-                          android:layout_marginTop="5dp"
-                          android:text="Status"
-                          android:textColor="?BrushText" android:gravity="center" />
+                    android:layout_height="25dp"
+                    android:layout_marginTop="5dp"
+                    android:text="Status"
+                    android:textColor="?BrushText" android:gravity="center" />
                 <TextView android:layout_width="wrap_content"
-                          android:layout_height="wrap_content"
-                          android:id="@+id/AnimeDetailsPageWatchedLabel"
-                          android:minHeight="25dp"
-                          android:maxWidth="60dp"
-                          android:layout_marginTop="5dp"
-                          android:text="Watched episodes"
-                          android:textColor="?BrushText"
-                          android:gravity="left" />
+                    android:layout_height="wrap_content"
+                    android:id="@+id/AnimeDetailsPageWatchedLabel"
+                    android:minHeight="25dp"
+                    android:maxWidth="60dp"
+                    android:layout_marginTop="5dp"
+                    android:text="Watched episodes"
+                    android:textColor="?BrushText"
+                    android:gravity="left" />
                 <TextView android:layout_width="wrap_content"
-                          android:layout_height="wrap_content"
-                          android:id="@+id/AnimeDetailsPageReadVolumesLabel"
-                          android:minHeight="25dp"
-                          android:visibility="gone"
-                          android:layout_marginTop="5dp"
-                          android:text="Volumes"
-                          android:textColor="?BrushText" android:gravity="center" />
+                    android:layout_height="wrap_content"
+                    android:id="@+id/AnimeDetailsPageReadVolumesLabel"
+                    android:minHeight="25dp"
+                    android:visibility="gone"
+                    android:layout_marginTop="5dp"
+                    android:text="Volumes"
+                    android:textColor="?BrushText" android:gravity="center" />
               </LinearLayout>
               <LinearLayout android:layout_marginLeft="15dp" android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" android:orientation="vertical">
+                  android:layout_height="wrap_content" android:orientation="vertical">
                 <Button android:layout_width="wrap_content" android:minWidth="40dp"
-                        android:id="@+id/AnimeDetailsPageScoreButton"
-                        android:background="@drawable/button_underline_background_style"
-                        android:layout_height="25dp"
-                        android:layout_marginTop="3dp"
-                        android:layout_marginBottom="2dp"
-                        android:textAllCaps="false"
-                        android:clickable="true"
-                        android:text="8/10"
-                        android:textColor="?BrushText" />
+                    android:id="@+id/AnimeDetailsPageScoreButton"
+                    android:background="@drawable/button_underline_background_style"
+                    android:layout_height="25dp"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginBottom="2dp"
+                    android:textAllCaps="false"
+                    android:clickable="true"
+                    android:text="8/10"
+                    android:textColor="?BrushText" />
                 <Button android:layout_width="wrap_content" android:minWidth="40dp"
-                        android:id="@+id/AnimeDetailsPageStatusButton"
-                        android:background="@drawable/button_underline_background_style"
-                        android:layout_height="25dp"
-                        android:textAllCaps="false"
-                        android:layout_marginTop="5dp"
-                        android:text="Plan to watch"
-                        android:textColor="?BrushText" />
+                    android:id="@+id/AnimeDetailsPageStatusButton"
+                    android:background="@drawable/button_underline_background_style"
+                    android:layout_height="25dp"
+                    android:textAllCaps="false"
+                    android:layout_marginTop="5dp"
+                    android:text="Plan to watch"
+                    android:textColor="?BrushText" />
                 <Button android:layout_width="wrap_content" android:minWidth="40dp"
-                        android:id="@+id/AnimeDetailsPageWatchedButton"
-                        android:background="@drawable/button_underline_background_style"
-                        android:layout_height="25dp"
-                        android:textAllCaps="false"
-                        android:layout_marginTop="12dp"
-                        android:text="5/23"
-                        android:textColor="?BrushText" />
+                    android:id="@+id/AnimeDetailsPageWatchedButton"
+                    android:background="@drawable/button_underline_background_style"
+                    android:layout_height="25dp"
+                    android:textAllCaps="false"
+                    android:layout_marginTop="12dp"
+                    android:text="5/23"
+                    android:textColor="?BrushText" />
                 <Button android:layout_width="wrap_content" android:minWidth="40dp"
-                        android:id="@+id/AnimeDetailsPageReadVolumesButton"
-                        android:background="@drawable/button_underline_background_style"
-                        android:layout_height="25dp"
-                        android:textAllCaps="false"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginBottom="2dp"
-                        android:text="4/44"
-                        android:visibility="gone"
-                        android:textColor="?BrushText" />
+                    android:id="@+id/AnimeDetailsPageReadVolumesButton"
+                    android:background="@drawable/button_underline_background_style"
+                    android:layout_height="25dp"
+                    android:textAllCaps="false"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="2dp"
+                    android:text="4/44"
+                    android:visibility="gone"
+                    android:textColor="?BrushText" />
               </LinearLayout>
 
             </LinearLayout>
             <!-- Inc Dec section -->
             <RelativeLayout android:layout_width="match_parent" android:layout_height="match_parent"
-                            android:id="@+id/AnimeDetailsPageIncDecSection">
+                android:id="@+id/AnimeDetailsPageIncDecSection">
               <LinearLayout android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:padding="10dp"
-                            android:layout_alignParentEnd="true"
-                            android:orientation="vertical">
+                  android:layout_height="wrap_content"
+                  android:padding="10dp"
+                  android:layout_alignParentEnd="true"
+                  android:orientation="vertical">
                 <FrameLayout android:layout_width="wrap_content"
-                             android:layout_height="wrap_content"
-                             android:clickable="true"
-                             android:focusable="true"
-                             android:foreground="?android:selectableItemBackground"
-                             android:id="@+id/AnimeDetailsPageIncrementButton">
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?android:selectableItemBackground"
+                    android:id="@+id/AnimeDetailsPageIncrementButton">
                   <ImageView android:layout_width="@dimen/IncrementDecrementButtonWidth"
-                             android:layout_height="@dimen/IncrementDecrementButtonWidth"
-                             android:background="@drawable/inc_dec_btn_backgroud"
-                             android:src="@drawable/icon_add" android:padding="5dp" />
+                      android:layout_height="@dimen/IncrementDecrementButtonWidth"
+                      android:background="@drawable/inc_dec_btn_backgroud"
+                      android:src="@drawable/icon_add" android:padding="5dp" />
                 </FrameLayout>
                 <FrameLayout android:layout_marginTop="10dp" android:foreground="?android:selectableItemBackground"
-                             android:clickable="true" android:focusable="true" android:layout_width="wrap_content"
-                             android:layout_height="wrap_content" android:id="@+id/AnimeDetailsPageDecrementButton">
+                    android:clickable="true" android:focusable="true" android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:id="@+id/AnimeDetailsPageDecrementButton">
                   <ImageView android:layout_width="@dimen/IncrementDecrementButtonWidth"
-                             android:layout_height="@dimen/IncrementDecrementButtonWidth"
-                             android:background="@drawable/inc_dec_btn_backgroud"
-                             android:src="@drawable/icon_minus" android:padding="5dp" />
+                      android:layout_height="@dimen/IncrementDecrementButtonWidth"
+                      android:background="@drawable/inc_dec_btn_backgroud"
+                      android:src="@drawable/icon_minus" android:padding="5dp" />
                 </FrameLayout>
 
               </LinearLayout>
@@ -143,60 +143,60 @@
           </LinearLayout>
           <!-- Add to my list section -->
           <LinearLayout android:layout_marginStart="130dp" android:layout_marginEnd="20dp"
-                        android:id="@+id/AnimeDetailsPageAddSection" android:layout_width="match_parent"
-                        android:layout_height="wrap_content" android:orientation="vertical" android:visibility="gone" android:paddingBottom="20dp"
-                        android:layout_centerVertical="true">
+              android:id="@+id/AnimeDetailsPageAddSection" android:layout_width="match_parent"
+              android:layout_height="wrap_content" android:orientation="vertical" android:visibility="gone" android:paddingBottom="20dp"
+              android:layout_centerVertical="true">
             <TextView android:layout_gravity="center_horizontal"
-                      android:textColor="?AccentColour"
-                      android:fontFamily="@string/font_family_light"
-                      android:layout_marginBottom="10dp"
-                      android:layout_width="wrap_content"
-                      android:layout_height="wrap_content"
-                      android:text="This entry is not on your list yet." />
+                android:textColor="?AccentColour"
+                android:fontFamily="@string/font_family_light"
+                android:layout_marginBottom="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="This entry is not on your list yet." />
             <FrameLayout android:id="@+id/AnimeDetailsPageAddButton"
-                         android:clickable="true"
-                         android:focusable="true"
-                         android:foreground="?android:selectableItemBackground"
-                         android:layout_width="match_parent"
-                         android:layout_height="45dp"
-                         android:background="@drawable/inc_dec_btn_backgroud"
-                         android:layout_centerVertical="true">
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?android:selectableItemBackground"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="@drawable/inc_dec_btn_backgroud"
+                android:layout_centerVertical="true">
               <LinearLayout android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:gravity="center"
-                            android:orientation="horizontal"
-                            android:paddingRight="5dp">
+                  android:layout_height="match_parent"
+                  android:gravity="center"
+                  android:orientation="horizontal"
+                  android:paddingRight="5dp">
                 <ImageView android:layout_width="30dp"
-                           android:layout_height="30dp"
-                           android:layout_gravity="center_vertical"
-                           android:src="@drawable/icon_add"
-                           android:scaleType="fitXY" />
+                    android:layout_height="30dp"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/icon_add"
+                    android:scaleType="fitXY" />
                 <TextView android:layout_width="wrap_content"
-                          android:text="Add to my list"
-                          android:textColor="?BrushText"
-                          android:layout_height="wrap_content"
-                          android:fontFamily="@string/font_family_light" />
+                    android:text="Add to my list"
+                    android:textColor="?BrushText"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@string/font_family_light" />
               </LinearLayout>
             </FrameLayout>
           </LinearLayout>
           <!--Fav More section-->
           <LinearLayout android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_alignParentBottom="true">
+              android:layout_height="wrap_content"
+              android:layout_alignParentRight="true"
+              android:layout_alignParentBottom="true">
             <ProgressBar android:layout_width="40dp" android:indeterminateTint="?AccentColour" android:id="@+id/AnimeDetailsPageLoadingUpdateSpinner"
-                         android:indeterminateTintMode="src_in" android:layout_height="40dp" android:padding="10dp"
-                         android:indeterminate="true" android:layout_centerInParent="true" />
+                android:indeterminateTintMode="src_in" android:layout_height="40dp" android:padding="10dp"
+                android:indeterminate="true" android:layout_centerInParent="true" />
             <ImageButton android:layout_width="40dp" android:layout_height="40dp"
-                         android:background="?selectableItemBackground"
-                         android:clickable="true"
-                         android:focusable="true"
-                         android:id="@+id/AnimeDetailsPageFavouriteButton" android:layout_gravity="center_vertical"
-                         android:src="@drawable/icon_favourite" android:layout_marginEnd="5dp" />
+                android:background="?selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                android:id="@+id/AnimeDetailsPageFavouriteButton" android:layout_gravity="center_vertical"
+                android:src="@drawable/icon_favourite" android:layout_marginEnd="5dp" />
             <ImageButton android:layout_width="40dp" android:layout_height="40dp"
-                         android:background="?selectableItemBackground"
-                         android:id="@+id/AnimeDetailsPageMoreButton"
-                         android:src="@drawable/icon_more_vertical" />
+                android:background="?selectableItemBackground"
+                android:id="@+id/AnimeDetailsPageMoreButton"
+                android:src="@drawable/icon_more_vertical" />
 
           </LinearLayout>
         </RelativeLayout>
@@ -204,24 +204,24 @@
 
 
       <com.astuetz.PagerSlidingTabStrip
-        android:id="@+id/AnimeDetailsPageTabStrip"
-        android:layout_width="match_parent"
-        android:layout_height="25dp"
-        android:textColorPrimary="?AccentColour"
-        android:background="?BrushPivotHeaderBackground" />
+          android:id="@+id/AnimeDetailsPageTabStrip"
+          android:layout_width="match_parent"
+          android:layout_height="25dp"
+          android:textColorPrimary="?AccentColour"
+          android:background="?BrushPivotHeaderBackground" />
       <MALClient.Android.UserControls.HeightAdjustingViewPager
-        android:id="@+id/AnimeDetailsPagePivot"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?BrushDetailsBackground" />
+          android:id="@+id/AnimeDetailsPagePivot"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:background="?BrushDetailsBackground" />
     </LinearLayout>
   </ScrollView>
 
   <RelativeLayout android:visibility="gone" android:id="@+id/AnimeDetailsPageLoadingOverlay"
-                  android:layout_width="match_parent" android:layout_height="match_parent"
-                  android:background="?BrushLoading">
+      android:layout_width="match_parent" android:layout_height="match_parent"
+      android:background="?BrushLoading">
     <ProgressBar android:layout_width="wrap_content" android:indeterminateTint="?AccentColour"
-                 android:indeterminateTintMode="src_in" android:layout_height="wrap_content"
-                 android:indeterminate="true" android:layout_centerInParent="true" />
+        android:indeterminateTintMode="src_in" android:layout_height="wrap_content"
+        android:indeterminate="true" android:layout_centerInParent="true" />
   </RelativeLayout>
 </RelativeLayout>

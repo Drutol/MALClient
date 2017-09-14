@@ -14,6 +14,7 @@ using FFImageLoading.Transformations;
 using FFImageLoading.Views;
 using MALClient.Android.Fragments.ProfilePageFragments;
 using MALClient.Android.Listeners;
+using MALClient.Android.Listeners.DialogListeners;
 using MALClient.Models.Models;
 using MALClient.Models.Models.MalSpecific;
 using MALClient.XShared.ViewModels;
@@ -44,7 +45,8 @@ namespace MALClient.Android.Dialogs
             dialogBuilder.SetGravity((int)GravityFlags.Center);
             dialogBuilder.SetContentHolder(new ViewHolder(Resource.Layout.FriendRequestDialog));
             dialogBuilder.SetContentBackgroundResource(global::Android.Resource.Color.Transparent);
-            dialogBuilder.SetCancelable(true);
+            dialogBuilder.SetOnDismissListener(
+                new DialogDismissedListener(() => ViewModelLocator.NavMgr.ResetOneTimeOverride()));
 
             _dialog = dialogBuilder.Create();
 

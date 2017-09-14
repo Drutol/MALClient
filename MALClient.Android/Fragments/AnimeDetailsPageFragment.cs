@@ -18,6 +18,7 @@ using FFImageLoading;
 using GalaSoft.MvvmLight.Helpers;
 using MALClient.Android.Activities;
 using MALClient.Android.BindingConverters;
+using MALClient.Android.Dialogs;
 using MALClient.Android.DIalogs;
 using MALClient.Android.Flyouts;
 using MALClient.Android.Listeners;
@@ -179,6 +180,8 @@ namespace MALClient.Android.Fragments
                     OnMoreFlyoutClick);
                 _menu.Show();
             }));
+            ImageContainer.SetOnClickListener(new OnClickListener(view =>
+                KeyImageDialog.Instance.ShowDialog(Activity, ViewModel.DetailImage)));
 
 
 

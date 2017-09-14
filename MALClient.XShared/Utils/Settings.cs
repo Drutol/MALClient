@@ -309,6 +309,12 @@ namespace MALClient.XShared.Utils
             set { ApplicationDataService[nameof(ReverseSwipingDirection)] = value; }
         }
 
+        public static bool DisplayScoreDialogAfterCompletion
+        {
+            get { return (bool) (ApplicationDataService[nameof(DisplayScoreDialogAfterCompletion)] ?? false); }
+            set { ApplicationDataService[nameof(DisplayScoreDialogAfterCompletion)] = value; }
+        }
+
         public static bool DetailsListRecomsView
         {
             get { return (bool) (ApplicationDataService["DetailsListRecomsView"] ?? true); }

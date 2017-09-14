@@ -269,6 +269,7 @@
     <Compile Include="Dialogs\AnimeUpdateDialogBuilder.cs" />
     <Compile Include="Dialogs\ChangelogDialog.cs" />
     <Compile Include="Dialogs\ForumDialogBuilder.cs" />
+    <Compile Include="Dialogs\KeyImageDialog.cs" />
     <Compile Include="Dialogs\PinnedUsersDialog.cs" />
     <Compile Include="Dialogs\ProfileDescriptionDialog.cs" />
     <Compile Include="Dialogs\TextInputDialogBuilder.cs" />
@@ -425,6 +426,7 @@
     <Compile Include="UserControls\ScrollableSwipeToRefreshLayout.cs" />
     <Compile Include="UserControls\ToggleableScrollView.cs" />
     <Compile Include="UserControls\UserControlBase.cs" />
+    <Compile Include="UserControls\ZoomableImageView.cs" />
     <Compile Include="Utilities\AnimeImageExtensions.cs" />
     <Compile Include="Utilities\AnimeListAdapterExtensions.cs" />
     <Compile Include="Utilities\CssManager.cs" />
@@ -464,6 +466,9 @@
       <SubType>Designer</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\layout\ProfilePageGeneralTabCommentItem.xml" />
+    <AndroidResource Include="Resources\layout\AnimeDetailsKeyImageDialog.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\MainPage.xml">

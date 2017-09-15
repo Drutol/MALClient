@@ -35,12 +35,11 @@ namespace MALClient.Android.Adapters
 
         public List<string> Changelog => new List<string>
         {
-           "Added friend requests. You can now add friends and manage pending requests.",
-           "Added about section in profile page containing user description.",
-           "Fixed 'more' button in hamburger's top anime section; it won't show anime status filters from now on",
-           "Fixed lack of content in certain genre categories.",
-           "A few fixes to widget.",
-           "Disabled GIFs in forums as they were causing deadlocks... I'll enable them once the problem is solved."
+           "I believe I've finally fixed widget. Fingers crossed.",
+           "Added option to display score dialog after unraked is marked as completed.",
+           "Clicking on cover image in anime details page will now show zoomable version + button to download.",
+           "About button in profile page now looks a bit less awful.",
+           "Fixed duplicated messages issue."
         };
 
     }

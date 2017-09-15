@@ -13,6 +13,7 @@ using Android.Widget;
 using FFImageLoading.Views;
 using GalaSoft.MvvmLight.Helpers;
 using MALClient.Android.BindingConverters;
+using MALClient.Android.Listeners;
 using MALClient.Android.Resources;
 using MALClient.Android.UserControls;
 using MALClient.Models.Enums;
@@ -71,7 +72,10 @@ namespace MALClient.Android.Fragments.MessagingFragments
                 this.SetBinding(() => ViewModel.MessageText,
                     () => MessagingDetailsPageMessageTextBox.Text, BindingMode.TwoWay));
 
-            MessagingDetailsPageSendButton.Click += MessagingDetailsPageSendButtonOnClick;
+            MessagingDetailsPageSendButton.SetOnClickListener(new OnClickListener(view =>
+            {
+                ViewModel.SendMessageCommand.Execute(null);
+            }));
 
             Bindings.Add(
                 this.SetBinding(() => ViewModel.LoadingVisibility,
@@ -111,11 +115,6 @@ namespace MALClient.Android.Fragments.MessagingFragments
             ViewModel.RefreshData();
         }
 
-        private void MessagingDetailsPageSendButtonOnClick(object sender, EventArgs eventArgs)
-        {
-
-            ViewModel.SendMessageCommand.Execute(null);
-        }
 
         private View GetMessageTemplateDelegate(int i, MalMessageModel malMessageModel, View arg3)
         {

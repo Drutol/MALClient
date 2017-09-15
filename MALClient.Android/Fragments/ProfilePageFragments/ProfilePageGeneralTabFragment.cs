@@ -376,7 +376,7 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
 
         private ImageView _profilePageGeneralTabImagePlaceholder;
         private ImageViewAsync _profilePageGeneralTabAnimeUserImg;
-        private Button _aboutButton;
+        private FloatingActionButton _aboutButton;
         private LinearLayout _profilePageGeneralTabDetailsList;
         private Button _profilePageGeneralTabAnimeListButton;
         private ImageButton _profilePageGeneralTabCompareList;
@@ -403,7 +403,7 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
 
         public ImageViewAsync ProfilePageGeneralTabAnimeUserImg => _profilePageGeneralTabAnimeUserImg ?? (_profilePageGeneralTabAnimeUserImg = FindViewById<ImageViewAsync>(Resource.Id.ProfilePageGeneralTabAnimeUserImg));
 
-        public Button AboutButton => _aboutButton ?? (_aboutButton = FindViewById<Button>(Resource.Id.AboutButton));
+        public FloatingActionButton AboutButton => _aboutButton ?? (_aboutButton = FindViewById<FloatingActionButton>(Resource.Id.AboutButton));
 
         public LinearLayout ProfilePageGeneralTabDetailsList => _profilePageGeneralTabDetailsList ?? (_profilePageGeneralTabDetailsList = FindViewById<LinearLayout>(Resource.Id.ProfilePageGeneralTabDetailsList));
 

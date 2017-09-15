@@ -30,10 +30,15 @@
             <FFImageLoading.Views.ImageViewAsync
                 android:layout_width="100dp" android:id="@+id/ProfilePageGeneralTabAnimeUserImg" android:adjustViewBounds="true"
                 android:layout_height="wrap_content" android:layout_margin="10dp" android:maxHeight="145dp" android:layout_gravity="top"/>
+            <android.support.design.widget.FloatingActionButton xmlns:app="http://schemas.android.com/apk/res-auto" app:fabSize="mini"
+                android:backgroundTint="?AccentColour"
+                android:textColor="#fff" android:scaleX=".8" android:scaleY=".8"
+                android:src="@drawable/icon_info" android:tint="#fff"
+                android:layout_gravity="end|bottom" android:id="@+id/AboutButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
           </FrameLayout>
-          <Button style="@style/AccentButtonStyle" android:textColor="?BrushText" android:layout_gravity="center" android:id="@+id/AboutButton"
-              android:layout_width="wrap_content" android:text="About" android:background="@drawable/button_underline_background_style"
-              android:layout_height="wrap_content" />
+
         </LinearLayout>
 
         <android.support.v4.widget.NestedScrollView
@@ -66,7 +71,7 @@
 
         <Button
             android:layout_width="wrap_content" android:id="@+id/ProfilePageGeneralTabHistoryButton"
-            android:layout_height="31dp" style="@style/AccentButtonStyle" android:layout_margin="5dp"
+            android:layout_height="31dp" style="@style/AccentButtonStyle" android:layout_marginTop="5dp"
             android:text="History" />
 
         <FrameLayout android:id="@+id/PinButton" android:layout_height="31dp" android:layout_width="31dp" android:layout_margin="5dp" android:clickable="true" android:focusable="true" android:foreground="?selectableItemBackground"
@@ -78,7 +83,7 @@
 
       </LinearLayout>
       <LinearLayout
-          android:layout_width="match_parent" android:orientation="vertical"
+          android:layout_width="match_parent" android:orientation="vertical" android:elevation="2dp"
           android:layout_height="wrap_content" android:background="?BrushAnimeItemBackground">
         <FrameLayout android:background="@drawable/border_accent_left"
             android:layout_width="match_parent" android:paddingEnd="4dp" android:paddingStart="8dp"
@@ -146,7 +151,7 @@
         <Button android:layout_marginTop="5dp" android:layout_marginStart="8dp"
             android:layout_width="wrap_content" android:id="@+id/ProfilePageGeneralTabSendCommentButton"
             android:layout_height="wrap_content" style="@style/AccentButtonStyle" android:text="Send Comment"
-            android:padding="5dp" />
+            android:padding="5dp" android:layout_marginBottom="5dp" />
       </LinearLayout>
       <TextView android:gravity="center" android:visibility="gone"
           android:layout_width="wrap_content" android:id="@+id/ProfilePageGeneralTabCommentsEmptyNotice" android:text="No comments found..."

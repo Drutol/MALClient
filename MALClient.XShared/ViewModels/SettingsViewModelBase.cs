@@ -357,6 +357,12 @@ namespace MALClient.XShared.ViewModels
             }
         }
 
+        public bool DisplayScoreDialogAfterCompletion
+        {
+            get { return Settings.DisplayScoreDialogAfterCompletion; }
+            set { Settings.DisplayScoreDialogAfterCompletion = value; }
+        }
+
         public  bool CalendarIncludeWatching
         {
             get { return Settings.CalendarIncludeWatching; }

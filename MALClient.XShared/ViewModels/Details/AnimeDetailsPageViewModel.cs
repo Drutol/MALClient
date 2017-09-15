@@ -569,7 +569,7 @@ namespace MALClient.XShared.ViewModels.Details
                 (Settings.OverrideValidStartEndDate || !StartDateValid))
             {
                 _startDateTimeOffset = DateTimeOffset.Now;
-                _animeItemReference.StartDate = DateTimeOffset.Now.ToString("yyyy-MM-dd",CultureInfo.InvariantCulture);
+                _animeItemReference.StartDate = DateTimeOffset.Now.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
                 StartDateValid = true;
                 RaisePropertyChanged(() => StartDateTimeOffset);
                 RaisePropertyChanged(() => MyStartDate);
@@ -589,7 +589,8 @@ namespace MALClient.XShared.ViewModels.Details
                 if (prevStatus == AnimeStatus.PlanToWatch) //we have just insta completed the series
                 {
                     _startDateTimeOffset = DateTimeOffset.Now;
-                    _animeItemReference.StartDate = DateTimeOffset.Now.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+                    _animeItemReference.StartDate =
+                        DateTimeOffset.Now.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
                     StartDateValid = true;
                     RaisePropertyChanged(() => StartDateTimeOffset);
                     RaisePropertyChanged(() => MyStartDate);
@@ -607,7 +608,8 @@ namespace MALClient.XShared.ViewModels.Details
                     (Settings.OverrideValidStartEndDate || _animeItemReference.StartDate == "0000-00-00"))
                 {
                     _startDateTimeOffset = DateTimeOffset.Now;
-                    _animeItemReference.StartDate = DateTimeOffset.Now.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+                    _animeItemReference.StartDate =
+                        DateTimeOffset.Now.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
                     StartDateValid = true;
                     RaisePropertyChanged(() => StartDateTimeOffset);
                     RaisePropertyChanged(() => MyStartDate);
@@ -632,12 +634,19 @@ namespace MALClient.XShared.ViewModels.Details
             if (response != "Updated" && Settings.SelectedApiType == ApiType.Mal)
                 MyStatus = prevStatus;
 
-            if (_animeItemReference is AnimeItemViewModel)
+            if (_animeItemReference is AnimeItemViewModel vm)
+            {
                 if (MyStatus == AnimeStatus.Completed && MyEpisodes != AllEpisodes && AllEpisodes != 0)
                 {
-                    ((AnimeItemViewModel) _animeItemReference).PromptForWatchedEpsChange(AllEpisodes);
+                    vm.PromptForWatchedEpsChange(AllEpisodes);
                     RaisePropertyChanged(() => MyEpisodesBind);
                 }
+
+                if (MyStatus == AnimeStatus.Completed && MyScore == 0 && Settings.DisplayScoreDialogAfterCompletion)
+                {
+                    vm.PromptForScoreChange();
+                }
+            }
             LoadingUpdate = false;
         }
 

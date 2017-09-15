@@ -16,6 +16,7 @@ using MALClient.Adapters.Credentials;
 using MALClient.Android.Activities;
 using MALClient.Android.Adapters;
 using MALClient.Android.BackgroundTasks;
+using MALClient.Android.DIalogs;
 using MALClient.Android.Managers;
 using MALClient.Android.ViewModels;
 using MALClient.XShared.Interfaces;
@@ -26,6 +27,14 @@ namespace MALClient.Android
 {
     public static class AndroidViewModelLocator
     {
+        class DialogProvider : IDialogsProvider
+        {
+            public void ShowScoreDialog(AnimeItemViewModel vm)
+            {
+                AnimeUpdateDialogBuilder.BuildScoreDialog(vm,f => vm.ChangeScore(f.ToString("N0")));
+            }
+        }
+
         public static void RegisterDependencies()
         {
             ViewModelLocator.Mobile = true;
@@ -57,6 +66,7 @@ namespace MALClient.Android
             SimpleIoc.Default.Register<IConnectionInfoProvider, ConnectionInfoProvider>();
             SimpleIoc.Default.Register<IDispatcherAdapter, DispatcherAdapter>();
             SimpleIoc.Default.Register<IAiringNotificationsAdapter, AiringNotificationsAdapter>();
+            SimpleIoc.Default.Register<IDialogsProvider, DialogProvider>();
 
         }
 

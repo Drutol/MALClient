@@ -1033,6 +1033,9 @@ namespace MALClient.XShared.ViewModels
             if (MyStatus == AnimeStatus.Completed && _allEpisodes != 0)
                  PromptForWatchedEpsChange(_allEpisodes);
 
+            if (Settings.DisplayScoreDialogAfterCompletion && MyStatus == AnimeStatus.Completed && MyScore == 0)
+                PromptForScoreChange();
+
             LoadingUpdate = false;
         }
 
@@ -1215,6 +1218,11 @@ namespace MALClient.XShared.ViewModels
 
         }
 
+        public void PromptForScoreChange()
+        {
+            ResourceLocator.DialogsProvider.ShowScoreDialog(this);
+        }
+
         #endregion
 
         public void MangaFocusChanged(bool focusManga)
@@ -1264,6 +1272,7 @@ namespace MALClient.XShared.ViewModels
                     "0.5 - Appaling"
                 };
         }
+
 
     }
 }

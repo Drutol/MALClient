@@ -39,6 +39,7 @@ namespace MALClient.Android.Fragments.SettingsFragments
         private Switch _settingsPageGeneralPreferEnglishTitleSwitch;
         private Switch _settingsPageGeneralSmallerGridItems;
         private Switch _settingsPageGeneralReverseSwipeOrder;
+        private Switch _settingsPageGeneralDisplayScoreDialog;
         private RadioButton _settingsPageGeneralAnimeSortTitleRadioBtn;
         private RadioButton _settingsPageGeneralAnimeScoreTitleRadioBtn;
         private RadioButton _settingsPageGeneralAnimeWatchedTitleRadioBtn;
@@ -116,6 +117,8 @@ namespace MALClient.Android.Fragments.SettingsFragments
 
         public Switch SettingsPageGeneralReverseSwipeOrder => _settingsPageGeneralReverseSwipeOrder ?? (_settingsPageGeneralReverseSwipeOrder = FindViewById<Switch>(Resource.Id.SettingsPageGeneralReverseSwipeOrder));
 
+        public Switch SettingsPageGeneralDisplayScoreDialog => _settingsPageGeneralDisplayScoreDialog ?? (_settingsPageGeneralDisplayScoreDialog = FindViewById<Switch>(Resource.Id.SettingsPageGeneralDisplayScoreDialog));
+
         public RadioButton SettingsPageGeneralAnimeSortTitleRadioBtn => _settingsPageGeneralAnimeSortTitleRadioBtn ?? (_settingsPageGeneralAnimeSortTitleRadioBtn = FindViewById<RadioButton>(Resource.Id.SettingsPageGeneralAnimeSortTitleRadioBtn));
 
         public RadioButton SettingsPageGeneralAnimeScoreTitleRadioBtn => _settingsPageGeneralAnimeScoreTitleRadioBtn ?? (_settingsPageGeneralAnimeScoreTitleRadioBtn = FindViewById<RadioButton>(Resource.Id.SettingsPageGeneralAnimeScoreTitleRadioBtn));
@@ -181,6 +184,5 @@ namespace MALClient.Android.Fragments.SettingsFragments
         public SeekBar SettingsPageGeneralAiringNotificationOffsetSlider => _settingsPageGeneralAiringNotificationOffsetSlider ?? (_settingsPageGeneralAiringNotificationOffsetSlider = FindViewById<SeekBar>(Resource.Id.SettingsPageGeneralAiringNotificationOffsetSlider));
 
         #endregion
-
     }
 }

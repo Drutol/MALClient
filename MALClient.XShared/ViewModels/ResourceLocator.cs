@@ -54,6 +54,8 @@ namespace MALClient.XShared.ViewModels
 
         public static IAiringInfoProvider AiringInfoProvider => SimpleIoc.Default.GetInstance<IAiringInfoProvider>();
 
+        public static IDialogsProvider DialogsProvider => SimpleIoc.Default.GetInstance<IDialogsProvider>();
+
 
         // Purely shared interfaces
 

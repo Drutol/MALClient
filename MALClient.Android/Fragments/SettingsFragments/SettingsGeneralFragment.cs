@@ -93,6 +93,10 @@ namespace MALClient.Android.Fragments.SettingsFragments
             Bindings.Add(
                 this.SetBinding(() => ViewModel.DarkThemeAmoled,
                     () => SettingsPageGeneralAmoledSwitch.Checked, BindingMode.TwoWay));
+
+            Bindings.Add(
+                this.SetBinding(() => ViewModel.DisplayScoreDialogAfterCompletion,
+                    () => SettingsPageGeneralDisplayScoreDialog.Checked, BindingMode.TwoWay));
             //
 
             SettingsPageGeneralAnimeSortRadioGroup.Check(GetViewIdForAnimeSortOption(Settings.AnimeSortOrder));

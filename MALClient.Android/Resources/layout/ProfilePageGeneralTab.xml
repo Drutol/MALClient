@@ -30,13 +30,10 @@
             <FFImageLoading.Views.ImageViewAsync
                 android:layout_width="100dp" android:id="@+id/ProfilePageGeneralTabAnimeUserImg" android:adjustViewBounds="true"
                 android:layout_height="wrap_content" android:layout_margin="10dp" android:maxHeight="145dp" android:layout_gravity="top"/>
-            <android.support.design.widget.FloatingActionButton xmlns:app="http://schemas.android.com/apk/res-auto" app:fabSize="mini"
-                android:backgroundTint="?AccentColour"
-                android:textColor="#fff" android:scaleX=".8" android:scaleY=".8"
-                android:src="@drawable/icon_info" android:tint="#fff"
-                android:layout_gravity="end|bottom" android:id="@+id/AboutButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+            <android.support.design.widget.FloatingActionButton android:id="@+id/AboutButton"
+                android:layout_width="wrap_content" app:backgroundTint="?AccentColourDark" android:scaleX=".8" android:scaleY=".8" android:tint="#fff"
+                android:layout_height="wrap_content" android:src="@drawable/icon_info" android:clickable="true" android:focusable="true"
+                xmlns:app="http://schemas.android.com/apk/res-auto" app:fabSize="mini" android:layout_gravity="end|bottom"/>
           </FrameLayout>
 
         </LinearLayout>

@@ -195,7 +195,7 @@ namespace MALClient.Android.Fragments
             switch ((int)(sender as View).Tag)
             {
                 case Resource.Drawable.icon_filter:
-                    OpenFiltersDrawer();
+                    OpenFiltersDrawer(true);
                     break;
                 case Resource.Drawable.icon_sort:
                     OpenSortingDrawer();

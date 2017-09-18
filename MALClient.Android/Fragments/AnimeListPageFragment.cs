@@ -125,12 +125,24 @@ namespace MALClient.Android.Fragments
             builder.WithStickyHeader(Resource.Layout.AnimeListPageDrawerHeader);
 
             RightDrawer = builder.Build();
-            RightDrawer.DrawerLayout.SetDrawerLockMode(DrawerLayout.LockModeLockedClosed);
+            //RightDrawer.DrawerLayout.SetDrawerLockMode(DrawerLayout.LockModeLockedClosed);
             RightDrawer.StickyHeader.SetBackgroundColor(new Color(ResourceExtension.BrushAppBars));
-            RightDrawer.DrawerLayout.AddDrawerListener(new DrawerListener(() => ViewModelLocator.NavMgr.ResetOneTimeOverride(),() => _actionMenu.Close(true)));
+            RightDrawer.DrawerLayout.AddDrawerListener(new DrawerListener(
+            onClose: () =>
+            {
+                OpenFiltersDrawer(false);
+                ViewModelLocator.NavMgr.ResetOneTimeOverride();
+            },
+            onOpen: () =>
+            {
+                ViewModelLocator.NavMgr.RegisterOneTimeMainOverride(new RelayCommand(CloseDrawer));
+                _actionMenu.Close(true);
+            }));
+
+            OpenFiltersDrawer(false);
         }
 
-        private void OpenFiltersDrawer()
+        private void OpenFiltersDrawer(bool open)
         {
             var f1 = HamburgerUtilities.GetBaseSecondaryItem();
             f1.WithName(ViewModel.Filter1Label);
@@ -163,18 +175,25 @@ namespace MALClient.Android.Fragments
             RightDrawer.StickyHeader.FindViewById<TextView>(Resource.Id.AnimeListPageDrawerHeaderText).Text = "Filters";
             RightDrawer.StickyHeader.FindViewById<ImageView>(Resource.Id.AnimeListPageDrawerHeaderIcon).SetImageResource(
                 Resource.Drawable.icon_filter);
+
+
+
+            if (open)
+            {
+                
+                RightDrawer.OpenDrawer();
+                _actionMenu.Close(true);
+            }
+
             RightDrawer.OnDrawerItemClickListener = new HamburgerItemClickListener((view, i, arg3) =>
             {
-                ViewModel.CurrentStatus = (int) arg3.Identifier;
+                if(view == null)
+                    return;
+                ViewModel.CurrentStatus = (int)arg3.Identifier;
                 ViewModel.RefreshList();
                 RightDrawer.OnDrawerItemClickListener = null;
                 RightDrawer.CloseDrawer();
             });
-
-
-            ViewModelLocator.NavMgr.RegisterOneTimeMainOverride(new RelayCommand(CloseDrawer));
-            RightDrawer.OpenDrawer();
-            _actionMenu.Close(true);
         }
 
         private void OpenSortingDrawer()

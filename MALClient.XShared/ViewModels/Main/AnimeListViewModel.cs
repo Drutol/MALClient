@@ -16,6 +16,7 @@ using MALClient.Models.Models.Library;
 using MALClient.XShared.BL;
 using MALClient.XShared.Comm;
 using MALClient.XShared.Comm.Anime;
+using MALClient.XShared.Comm.Manga;
 using MALClient.XShared.Delegates;
 using MALClient.XShared.Interfaces;
 using MALClient.XShared.NavArgs;
@@ -1111,6 +1112,17 @@ namespace MALClient.XShared.ViewModels.Main
             if (requestedMode == AnimeListWorkModes.Anime ? _animeLibraryDataStorage.AllLoadedAnimeItemAbstractions.Count == 0 : _animeLibraryDataStorage.AllLoadedMangaItemAbstractions.Count == 0)
             {
                 List<ILibraryData> data = null;
+                List<ILibraryData> cachedData = null;
+                List<ILibraryData> cachedDataManga = null;
+                if (Settings.EnableOfflineSync &&
+                    ResourceLocator.ConnectionInfoProvider.HasInternetConnection)
+                {
+                    if(Settings.AnimeSyncRequired)
+                        cachedData = await DataCache.RetrieveDataForUser(ListSource, AnimeListWorkModes.Anime);
+                    if (Settings.MangaSyncRequired)
+                        cachedDataManga = await DataCache.RetrieveDataForUser(ListSource, AnimeListWorkModes.Manga);
+                    force = cachedData != null || cachedDataManga != null;
+                }
                 await Task.Run(async () => data =
                     await new LibraryListQuery(ListSource, requestedMode).GetLibrary(force));
                 if (data?.Count == 0)
@@ -1126,11 +1138,58 @@ namespace MALClient.XShared.ViewModels.Main
                 {
                     case AnimeListWorkModes.Anime:
 
+                        if (cachedData != null) //we have to sync
+                        {
+                            foreach (var cachedEntry in cachedData)
+                            {
+                                var syncedItem =
+                                    data.FirstOrDefault(libraryData => libraryData.Id == cachedEntry.Id);
+                                if (syncedItem != null)
+                                {
+                                    if (cachedEntry.LastWatched > syncedItem.LastWatched)
+                                    {
+                                        var query = new AnimeUpdateQuery(
+                                            new AnimeItemAbstraction(true, cachedEntry as AnimeLibraryItemData)
+                                                .ViewModel);
+                                        await query.GetRequestResponse();
+                                    }
+                                }
+                            }
+                            Settings.AnimeSyncRequired = false;
+                            await Task.Run(async () => data =
+                                await new LibraryListQuery(ListSource, requestedMode).GetLibrary(force));
+                        }
+
+                        if (cachedDataManga != null) //we have to sync
+                        {
+                            var mangaData = await Task.Run(async () =>
+                                await new LibraryListQuery(ListSource, AnimeListWorkModes.Manga).GetLibrary(force));
+                            foreach (var cachedEntry in cachedDataManga)
+                            {
+                                var syncedItem =
+                                    mangaData.FirstOrDefault(libraryData => libraryData.Id == cachedEntry.Id);
+                                if (syncedItem != null)
+                                {
+                                    if (cachedEntry.LastWatched > syncedItem.LastWatched)
+                                    {
+                                        var query = new MangaUpdateQuery(
+                                            new AnimeItemAbstraction(true, cachedEntry as MangaLibraryItemData)
+                                                .ViewModel);
+                                        await query.GetRequestResponse();
+                                    }
+                                }
+                            }
+                            Settings.MangaSyncRequired = false;
+                        }
+
+
+
                         foreach (var item in data)
                             _animeLibraryDataStorage.AllLoadedAnimeItemAbstractions.Add(new AnimeItemAbstraction(auth, item as AnimeLibraryItemData));
 
                         if (string.Equals(ListSource, Credentials.UserName, StringComparison.CurrentCultureIgnoreCase))
                             _animeLibraryDataStorage.AllLoadedAuthAnimeItems = _animeLibraryDataStorage.AllLoadedAnimeItemAbstractions;
+
                         break;
                     case AnimeListWorkModes.Manga:
                         foreach (var item in data)

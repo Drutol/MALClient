@@ -40,7 +40,7 @@ namespace MALClient.XShared.Comm
 #endif
 
 
-        public virtual async Task<string> GetRequestResponse(bool wantMsg = true, string statusBarMsg = null)
+        public virtual async Task<string> GetRequestResponse()
         {
             var responseString = "";
             try
@@ -82,12 +82,14 @@ namespace MALClient.XShared.Comm
 
 #if ANDROID
                 if(Credentials.Authenticated)
-                    ResourceLocator.SnackbarProvider.ShowText("Operation failed, check your internet connection...");
+                    ResourceLocator.SnackbarProvider.ShowText(SnackbarMessageOnFail);
 #endif
             }
             ResourceLocator.ConnectionInfoProvider.HasInternetConnection = true;
             return responseString;
         }
+
+        public virtual string SnackbarMessageOnFail => "Operation failed, check your internet connection...";
 
         private static readonly SemaphoreSlim _buggedMalMessageSemaphore = new SemaphoreSlim(1);
         private async void HandleMalBuggines()

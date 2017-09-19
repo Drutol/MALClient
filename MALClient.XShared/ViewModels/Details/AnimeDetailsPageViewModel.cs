@@ -538,6 +538,9 @@ namespace MALClient.XShared.ViewModels.Details
 
         private Query GetAppropriateUpdateQuery(int? rewatchCount = null)
         {
+            if (AnimeItemReference is AnimeItemViewModel vm)
+                vm.ParentAbstraction.LastWatched = DateTime.Now;
+
             if (rewatchCount == null)
             {
                 if (AnimeMode)
@@ -633,7 +636,8 @@ namespace MALClient.XShared.ViewModels.Details
             var response = await GetAppropriateUpdateQuery().GetRequestResponse();
             if (response != "Updated" && Settings.SelectedApiType == ApiType.Mal)
                 MyStatus = prevStatus;
-
+                
+            
             if (_animeItemReference is AnimeItemViewModel vm)
             {
                 if (MyStatus == AnimeStatus.Completed && MyEpisodes != AllEpisodes && AllEpisodes != 0)

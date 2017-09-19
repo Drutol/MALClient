@@ -70,20 +70,22 @@ namespace MALClient.XShared.Comm.Anime
             }
         }
 
-        public override async Task<string> GetRequestResponse(bool wantMsg = true, string statusBarMsg = null)
+        public override async Task<string> GetRequestResponse()
         {
             //make sure that only one update is executing in order to avoid some synchonization issues
             try
             {
                 await _updateSemaphore.WaitAsync();
-                var result = await base.GetRequestResponse(wantMsg, statusBarMsg);
+                var result = await base.GetRequestResponse();
+
+                if (string.IsNullOrEmpty(result) && Settings.EnableOfflineSync)
+                {
+                    result = "Updated";
+                    Settings.AnimeSyncRequired = true;
+                }
 
                 ResourceLocator.ApplicationDataService[RoamingDataTypes.LastLibraryUpdate] = DateTime.Now.ToBinary();
                 return result;
-            }
-            catch (Exception e)
-            {
-                throw;
             }
             finally
             {
@@ -91,6 +93,8 @@ namespace MALClient.XShared.Comm.Anime
             }
 
         }
+
+        public override string SnackbarMessageOnFail => "Your changes will be synced with MAL on next app launch when online.";
 
         private void UpdateAnimeMal(int id, int watchedEps, int myStatus, int myScore, string startDate, string endDate, string notes,bool rewatching)
         {

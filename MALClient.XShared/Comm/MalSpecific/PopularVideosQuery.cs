@@ -25,7 +25,7 @@ namespace MALClient.XShared.Comm.MalSpecific
         public async Task<List<AnimeVideoData>> GetVideos()
         {
             var output = new List<AnimeVideoData>();
-            var raw = await GetRequestResponse(false);
+            var raw = await GetRequestResponse();
             if (string.IsNullOrEmpty(raw))
                 return output;
 

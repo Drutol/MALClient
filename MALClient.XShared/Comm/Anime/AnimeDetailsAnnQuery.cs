@@ -31,7 +31,7 @@ namespace MALClient.XShared.Comm.Anime
             if (possibleData != null)
                 return possibleData;
 
-            var raw = await GetRequestResponse(false, "");
+            var raw = await GetRequestResponse();
             if (string.IsNullOrEmpty(raw))
                 return null;
 

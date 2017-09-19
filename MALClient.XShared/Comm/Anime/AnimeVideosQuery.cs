@@ -36,7 +36,7 @@ namespace MALClient.XShared.Comm.Anime
             if (output.Any())
                 return output;
 
-            var raw = await GetRequestResponse(false);
+            var raw = await GetRequestResponse();
             if (string.IsNullOrEmpty(raw))
                 return output;
 

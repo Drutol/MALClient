@@ -44,7 +44,7 @@ namespace MALClient.XShared.Comm.Anime
                 : await DataCache.RetrieveData<List<AnimeCharacter>>($"staff_{_animeId}", "MangaDetails", 7) ??
                   new List<AnimeCharacter>();
 
-            var raw = await GetRequestResponse(false);
+            var raw = await GetRequestResponse();
             if (string.IsNullOrEmpty(raw))
                 return null;
 
@@ -104,7 +104,7 @@ namespace MALClient.XShared.Comm.Anime
                   new AnimeStaffData();
             if (output.AnimeCharacterPairs.Count > 0 || output.AnimeStaff.Count > 0) return output;
 
-            var raw = await GetRequestResponse(false);
+            var raw = await GetRequestResponse();
             if (string.IsNullOrEmpty(raw))
                 return null;
 

@@ -34,8 +34,8 @@ namespace MALClient.XShared.Comm.Anime
                         {
                             data = animeMode
                             ? await new AnimeSearchQuery(Utils.Utilities.CleanAnimeTitle(title), requestedApiType)
-                                .GetRequestResponse(false)
-                            : await new MangaSearchQuery(Utils.Utilities.CleanAnimeTitle(title)).GetRequestResponse(false);
+                                .GetRequestResponse()
+                            : await new MangaSearchQuery(Utils.Utilities.CleanAnimeTitle(title)).GetRequestResponse();
                         }
                   
                         if (string.IsNullOrEmpty(data) || !data.Contains(id))
@@ -44,8 +44,8 @@ namespace MALClient.XShared.Comm.Anime
                             var correctTitle = await AnimeTitleQuery.GetTitle(int.Parse(id), animeMode);
                             data = animeMode
                             ? await new AnimeSearchQuery(Utils.Utilities.CleanAnimeTitle(correctTitle), requestedApiType)
-                                .GetRequestResponse(false)
-                            : await new MangaSearchQuery(Utils.Utilities.CleanAnimeTitle(correctTitle)).GetRequestResponse(false);
+                                .GetRequestResponse()
+                            : await new MangaSearchQuery(Utils.Utilities.CleanAnimeTitle(correctTitle)).GetRequestResponse();
                         }
 
                         data = WebUtility.HtmlDecode(data);

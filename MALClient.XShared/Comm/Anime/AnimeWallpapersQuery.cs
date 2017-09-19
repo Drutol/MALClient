@@ -122,7 +122,7 @@ namespace MALClient.XShared.Comm.Anime
 
         private async Task<List<AnimeWallpaperData>> GetWallpapers()
         {
-            var raw = await GetRequestResponse(false);
+            var raw = await GetRequestResponse();
             if (string.IsNullOrEmpty(raw))
                 return null;
 

@@ -881,6 +881,7 @@ namespace MALClient.XShared.ViewModels
 
         private Query GetAppropriateUpdateQuery()
         {
+            ParentAbstraction.LastWatched = DateTime.Now;
             if (ParentAbstraction.RepresentsAnime)
                 return new AnimeUpdateQuery(this);
             return new MangaUpdateQuery(this);

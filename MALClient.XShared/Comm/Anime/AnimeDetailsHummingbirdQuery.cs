@@ -33,7 +33,7 @@ namespace MALClient.XShared.Comm.Anime
             if (possibleData != null)
                 return possibleData;
             Request.Headers["X-Client-Id"] = _passPhrase;
-            var raw = await GetRequestResponse(false);
+            var raw = await GetRequestResponse();
 
             try
             {
@@ -69,7 +69,7 @@ namespace MALClient.XShared.Comm.Anime
         public async Task<int> GetHummingbirdId(bool force = false)
         {
             Request.Headers["X-Client-Id"] = _passPhrase;
-            var raw = await GetRequestResponse(false);
+            var raw = await GetRequestResponse();
 
             try
             {

@@ -25,7 +25,7 @@ namespace MALClient.XShared.Comm.Search
         {
             var output = new List<AnimeCharacter>();
 
-            var raw = await GetRequestResponse(false);
+            var raw = await GetRequestResponse();
             if (string.IsNullOrEmpty(raw))
                 return null;
             var doc = new HtmlDocument();

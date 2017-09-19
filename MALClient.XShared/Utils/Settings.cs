@@ -315,6 +315,24 @@ namespace MALClient.XShared.Utils
             set { ApplicationDataService[nameof(DisplayScoreDialogAfterCompletion)] = value; }
         }
 
+        public static bool EnableOfflineSync
+        {
+            get { return (bool) (ApplicationDataService[nameof(EnableOfflineSync)] ?? true); }
+            set { ApplicationDataService[nameof(EnableOfflineSync)] = value; }
+        }
+
+        public static bool AnimeSyncRequired
+        {
+            get { return (bool) (ApplicationDataService[nameof(AnimeSyncRequired)] ?? false); }
+            set { ApplicationDataService[nameof(AnimeSyncRequired)] = value; }
+        }
+
+        public static bool MangaSyncRequired
+        {
+            get { return (bool) (ApplicationDataService[nameof(MangaSyncRequired)] ?? false); }
+            set { ApplicationDataService[nameof(MangaSyncRequired)] = value; }
+        }
+
         public static bool DetailsListRecomsView
         {
             get { return (bool) (ApplicationDataService["DetailsListRecomsView"] ?? true); }

@@ -137,7 +137,7 @@ namespace MALClient.XShared.ViewModels.Main
             {
                 if (CurrentApiType == ApiType.Mal)
                 {
-                    var response = await new AuthQuery(ApiType.Mal).GetRequestResponse(false);
+                    var response = await new AuthQuery(ApiType.Mal).GetRequestResponse();
                     if (string.IsNullOrEmpty(response))
                         throw new Exception();
                     var doc = XDocument.Parse(response);
@@ -148,7 +148,7 @@ namespace MALClient.XShared.ViewModels.Main
                 }
                 else //hummingbird
                 {
-                    var response = await new AuthQuery(ApiType.Hummingbird).GetRequestResponse(false);
+                    var response = await new AuthQuery(ApiType.Hummingbird).GetRequestResponse();
                     if (string.IsNullOrEmpty(response))
                         throw new Exception();
                     if (response.Contains("\"error\": \"Invalid credentials\""))

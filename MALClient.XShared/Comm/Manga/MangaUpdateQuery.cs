@@ -40,11 +40,22 @@ namespace MALClient.XShared.Comm.Manga
         {
         }
 
-        public override Task<string> GetRequestResponse(bool wantMsg = true, string statusBarMsg = null)
+        public override async Task<string> GetRequestResponse()
         {
+            var result = await base.GetRequestResponse();
+            if (string.IsNullOrEmpty(result) && Settings.EnableOfflineSync)
+            {
+                result = "Updated";
+                Settings.MangaSyncRequired = true;
+            }
+
             ResourceLocator.ApplicationDataService[RoamingDataTypes.LastLibraryUpdate] = DateTime.Now.ToBinary();
-            return base.GetRequestResponse(wantMsg, statusBarMsg);
+            return result;
         }
+
+
+        public override string SnackbarMessageOnFail => "Your changes will be synced with MAL on next app launch when online.";
+
 
         private MangaUpdateQuery(int id, int watchedEps, int myStatus, int myScore, int myVol, string startDate,
             string endDate,string notes,bool rereading)

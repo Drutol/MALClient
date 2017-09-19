@@ -137,14 +137,14 @@ namespace MALClient.XShared.Utils
                 switch (Settings.SelectedApiType)
                 {
                     case ApiType.Mal:
-                        response = await new AuthQuery(ApiType.Mal).GetRequestResponse(false);
+                        response = await new AuthQuery(ApiType.Mal).GetRequestResponse();
                         if (string.IsNullOrEmpty(response))
                             throw new Exception();
                         var doc = XDocument.Parse(response);
                         SetId(int.Parse(doc.Element("user").Element("id").Value));
                         break;
                     case ApiType.Hummingbird:
-                        response = await new AuthQuery(ApiType.Hummingbird).GetRequestResponse(false);
+                        response = await new AuthQuery(ApiType.Hummingbird).GetRequestResponse();
                         if (string.IsNullOrEmpty(response))
                             throw new Exception();
                         if (response.Contains("\"error\": \"Invalid credentials\""))

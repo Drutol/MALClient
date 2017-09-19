@@ -581,7 +581,7 @@ namespace MALClient.XShared.ViewModels
                         async () =>
                             data =
                                 JsonConvert.DeserializeObject<List<NewsData>>(
-                                    await new NewsQuery().GetRequestResponse(false)));
+                                    await new NewsQuery().GetRequestResponse()));
             }
             catch (Exception)
             {

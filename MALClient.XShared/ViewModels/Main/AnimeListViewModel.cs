@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using GalaSoft.MvvmLight;
@@ -456,6 +457,45 @@ namespace MALClient.XShared.ViewModels.Main
                     items = items.Where(item => item.Type == type);
                     alreadyFiltered = true;
                 }
+                else if (Regex.IsMatch(query,@"^ep>\d+$"))
+                {
+                    var eps = GetNumberFromQuery('>');
+                    items = items.Where(item => item.AllEpisodes > eps);
+                    alreadyFiltered = true;
+                }
+                else if (Regex.IsMatch(query,@"^ep<\d+$"))
+                {
+                    var eps = GetNumberFromQuery('<');
+                    items = items.Where(item => item.AllEpisodes < eps);
+                    alreadyFiltered = true;
+                }
+                else if (Regex.IsMatch(query,@"^ep=\d+$"))
+                {
+                    var eps = GetNumberFromQuery('=');
+                    items = items.Where(item => item.AllEpisodes == eps);
+                    alreadyFiltered = true;
+                }
+                else if (Regex.IsMatch(query,@"^score>\d+$"))
+                {
+                    var score = GetNumberFromQuery('>');
+                    items = items.Where(item => item.MyScore > score);
+                    alreadyFiltered = true;
+                }
+                else if (Regex.IsMatch(query, @"^score<\d+$"))
+                {
+                    var score = GetNumberFromQuery('<');
+                    items = items.Where(item => item.MyScore < score);
+                    alreadyFiltered = true;
+                }
+                else if (Regex.IsMatch(query, @"^score=\d+$"))
+                {
+                    var score = GetNumberFromQuery('=');
+                    items = items.Where(item => item.MyScore == score);
+                    alreadyFiltered = true;
+                }
+
+                int GetNumberFromQuery(char separator) => int.Parse(query.Split(separator).Last());
+
 
                 _invalidatePreviousSearchResults = alreadyFiltered; //mangaa will not yield anything more manga
                 if (!alreadyFiltered)
@@ -1138,8 +1178,10 @@ namespace MALClient.XShared.ViewModels.Main
                 {
                     case AnimeListWorkModes.Anime:
 
+                        bool failed = false;
                         if (cachedData != null) //we have to sync
                         {
+                            AnimeUpdateQuery.SuppressOfflineSync = true;
                             foreach (var cachedEntry in cachedData)
                             {
                                 var syncedItem =
@@ -1151,19 +1193,30 @@ namespace MALClient.XShared.ViewModels.Main
                                         var query = new AnimeUpdateQuery(
                                             new AnimeItemAbstraction(true, cachedEntry as AnimeLibraryItemData)
                                                 .ViewModel);
-                                        await query.GetRequestResponse();
+                                        var result = await query.GetRequestResponse();
+                                        if (result != "Updated")
+                                        {
+                                            failed = true;
+                                            break;
+                                        }
                                     }
                                 }
                             }
-                            Settings.AnimeSyncRequired = false;
-                            await Task.Run(async () => data =
-                                await new LibraryListQuery(ListSource, requestedMode).GetLibrary(force));
+                            AnimeUpdateQuery.SuppressOfflineSync = false;
+                            if (!failed) //403 for example
+                            {
+                                Settings.AnimeSyncRequired = false;
+                                await Task.Run(async () => data =
+                                    await new LibraryListQuery(ListSource, requestedMode).GetLibrary(force));
+                            }
+                            
                         }
 
-                        if (cachedDataManga != null) //we have to sync
+                        if (cachedDataManga != null && !failed) //we have to sync
                         {
                             var mangaData = await Task.Run(async () =>
                                 await new LibraryListQuery(ListSource, AnimeListWorkModes.Manga).GetLibrary(force));
+                            MangaUpdateQuery.SuppressOfflineSync = true;
                             foreach (var cachedEntry in cachedDataManga)
                             {
                                 var syncedItem =
@@ -1175,11 +1228,20 @@ namespace MALClient.XShared.ViewModels.Main
                                         var query = new MangaUpdateQuery(
                                             new AnimeItemAbstraction(true, cachedEntry as MangaLibraryItemData)
                                                 .ViewModel);
-                                        await query.GetRequestResponse();
+                                        var result = await query.GetRequestResponse();
+                                        if (result != "Updated")
+                                        {
+                                            failed = true;
+                                            break;
+                                        }
                                     }
                                 }
                             }
-                            Settings.MangaSyncRequired = false;
+                            MangaUpdateQuery.SuppressOfflineSync = false;
+                            if (!failed) //403 for example
+                            {
+                                Settings.MangaSyncRequired = false;
+                            }
                         }
 
 

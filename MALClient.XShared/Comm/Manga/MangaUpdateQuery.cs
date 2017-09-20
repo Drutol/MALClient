@@ -11,6 +11,7 @@ namespace MALClient.XShared.Comm.Manga
 {
     public class MangaUpdateQuery : Query
     {
+        public static bool SuppressOfflineSync { get; set; }
         public static bool UpdatedSomething { get; set; } //used for data saving on suspending in app.xaml.cs
 
         /// <summary>
@@ -43,7 +44,7 @@ namespace MALClient.XShared.Comm.Manga
         public override async Task<string> GetRequestResponse()
         {
             var result = await base.GetRequestResponse();
-            if (string.IsNullOrEmpty(result) && Settings.EnableOfflineSync)
+            if (string.IsNullOrEmpty(result) && !SuppressOfflineSync && Settings.EnableOfflineSync)
             {
                 result = "Updated";
                 Settings.MangaSyncRequired = true;

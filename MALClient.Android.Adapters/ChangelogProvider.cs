@@ -35,11 +35,9 @@ namespace MALClient.Android.Adapters
 
         public List<string> Changelog => new List<string>
         {
-           "I believe I've finally fixed widget. Fingers crossed.",
-           "Added option to display score dialog after unraked is marked as completed.",
-           "Clicking on cover image in anime details page will now show zoomable version + button to download.",
-           "About button in profile page now looks a bit less awful.",
-           "Fixed duplicated messages issue."
+           "Added offline sync! Any changes made without internet will be stored locally and synced on next app launch, they also may be synced during runtime once internet comes back but that's not guaranteed.",
+           "Added two filters to anime list, you can now for example type \"score>8\" or \"ep<12\" in search bar to show shows that meet given condition. If you'd like to see any other create issue on github ^^.",
+           "Swiping from right side in anime list will now result in displaying filters drawer."
         };
 
     }

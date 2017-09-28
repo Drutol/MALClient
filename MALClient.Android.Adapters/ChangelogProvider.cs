@@ -31,13 +31,14 @@ namespace MALClient.Android.Adapters
 
         public bool NewChangelog { get; set; }
 
-        public string DateWithVersion => $"{_currentVersion} - 10.09.2017";
+        public string DateWithVersion => $"{_currentVersion} - 28.09.2017";
 
         public List<string> Changelog => new List<string>
         {
-           "Added offline sync! Any changes made without internet will be stored locally and synced on next app launch, they also may be synced during runtime once internet comes back but that's not guaranteed.",
-           "Added two filters to anime list, you can now for example type \"score>8\" or \"ep<12\" in search bar to show shows that meet given condition. If you'd like to see any other create issue on github ^^.",
-           "Swiping from right side in anime list will now result in displaying filters drawer."
+           "Minor fixes and crashfixes here and there",
+           "Images in related tab are slightly bigger",
+           "Added yet another feedback option, this time it's in app chat where you can send me messages :) As always refer to heart button in hamburger.",
+           "Unfortunately update freqency will decrease from now on. University is starting and both, uni and my work combined leave veeery little free time for development. I'm planning to rework images page next time :)"
         };
 
     }

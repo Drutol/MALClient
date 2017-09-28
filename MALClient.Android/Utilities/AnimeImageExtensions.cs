@@ -25,6 +25,9 @@ namespace MALClient.Android
 
         public static string GetImgUrl(string originUrl)
         {
+            if (string.IsNullOrEmpty(originUrl))
+                return null;
+
             if (Settings.PullHigherQualityImages && !FailedImgs.Contains(originUrl))
             {
                 var pos = originUrl.IndexOf(".jpg", StringComparison.InvariantCulture);

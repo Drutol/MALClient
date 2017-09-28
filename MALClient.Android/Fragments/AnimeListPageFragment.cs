@@ -65,6 +65,7 @@ namespace MALClient.Android.Fragments
 
         public override void OnResume()
         {
+            RightDrawer?.DrawerLayout?.SetDrawerLockMode(DrawerLayout.LockModeUnlocked);
             MainActivity.CurrentContext.HamburgerOpened += CurrentContextOnHamburgerOpened;
             base.OnResume();
         }
@@ -110,6 +111,12 @@ namespace MALClient.Android.Fragments
 
         #region SortingFilterHamburgers
 
+        public override void OnPause()
+        {
+            RightDrawer.DrawerLayout.SetDrawerLockMode(DrawerLayout.LockModeLockedClosed);
+            base.OnPause();
+        }
+
         private void InitDrawer()
         {
             if(RightDrawer != null)
@@ -125,7 +132,7 @@ namespace MALClient.Android.Fragments
             builder.WithStickyHeader(Resource.Layout.AnimeListPageDrawerHeader);
 
             RightDrawer = builder.Build();
-            //RightDrawer.DrawerLayout.SetDrawerLockMode(DrawerLayout.LockModeLockedClosed);
+            RightDrawer.DrawerLayout.SetDrawerLockMode(DrawerLayout.LockModeUnlocked);
             RightDrawer.StickyHeader.SetBackgroundColor(new Color(ResourceExtension.BrushAppBars));
             RightDrawer.DrawerLayout.AddDrawerListener(new DrawerListener(
             onClose: () =>

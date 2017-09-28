@@ -14,8 +14,8 @@
         android:paddingStart="2dp"     android:minHeight="40dp">
 
       <FrameLayout android:id="@+id/ImageContainer"
-          android:layout_width="55dp"
-          android:layout_height="70dp">
+          android:layout_width="75dp"
+          android:layout_height="105dp">
         <ProgressBar
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -26,8 +26,8 @@
             android:scaleX=".5"
             android:scaleY=".5" />
         <FFImageLoading.Views.ImageViewAsync
-            android:layout_width="55dp" android:scaleType="centerCrop" android:id="@+id/Image"
-            android:layout_height="match_parent" android:adjustViewBounds="true" />
+            android:layout_width="75dp" android:scaleType="centerCrop" android:id="@+id/Image"
+            android:layout_height="105dp" android:adjustViewBounds="true" />
       </FrameLayout>
 
 

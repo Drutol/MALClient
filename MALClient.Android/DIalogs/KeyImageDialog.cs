@@ -40,8 +40,14 @@ namespace MALClient.Android.Dialogs
 
         public void ShowDialog(Context context, string link)
         {
+            var animeLink = AnimeImageExtensions.GetImgUrl(link);
+            if (animeLink == null || link == "https://myanimelist.cdn-dena.com/images/anime//0.jpg")
+            {
+                ResourceLocator.SnackbarProvider.ShowText("Failed obatining image.");
+                return;
+            }
             var dialogBuilder = DialogPlus.NewDialog(context);
-            dialogBuilder.SetGravity((int) GravityFlags.Center);
+            dialogBuilder.SetGravity((int)GravityFlags.Center);
             dialogBuilder.SetContentHolder(new ViewHolder(Resource.Layout.AnimeDetailsKeyImageDialog));
             dialogBuilder.SetContentBackgroundResource(global::Android.Resource.Color.Transparent);
             dialogBuilder.SetOnDismissListener(
@@ -51,12 +57,12 @@ namespace MALClient.Android.Dialogs
 
             var dialogView = _dialog.HolderView;
 
-            //dialogView.FindViewById<ImageViewAsync>(Resource.Id.Image).SetImageBitmap((await ImageService.Instance.LoadUrl(link).AsBitmapDrawableAsync()).Bitmap);
-            dialogView.FindViewById<ImageViewAsync>(Resource.Id.Image).Into(AnimeImageExtensions.GetImgUrl(link),null,
+
+            dialogView.FindViewById<ImageViewAsync>(Resource.Id.Image).Into(AnimeImageExtensions.GetImgUrl(animeLink), null,
                 async =>
                 {
                     var zoomable = async as ZoomableImageView;
-                    zoomable.bmHeight = (async.Drawable as SelfDisposingBitmapDrawable).Bitmap.Height;                   
+                    zoomable.bmHeight = (async.Drawable as SelfDisposingBitmapDrawable).Bitmap.Height;
                     zoomable.bmWidth = (async.Drawable as SelfDisposingBitmapDrawable).Bitmap.Width;
                 });
             dialogView.FindViewById(Resource.Id.SaveButton).SetOnClickListener(

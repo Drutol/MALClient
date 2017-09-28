@@ -1142,7 +1142,7 @@ namespace MALClient.XShared.ViewModels.Details
             DetailedDataVisibility = true;
             //Now we can build elements here
             var i = 1;
-            foreach (var genre in data.Information.FirstOrDefault(s => s.StartsWith("Genres:")).Substring(7).Split(',') ?? Enumerable.Empty<string>())
+            foreach (var genre in data.Information.FirstOrDefault(s => s.StartsWith("Genres:"))?.Substring(7).Split(',') ?? Enumerable.Empty<string>())
             {
                 if (i%2 == 0)
                     LeftGenres.Add(Utils.Utilities.FirstCharToUpper(genre));
@@ -1187,8 +1187,7 @@ namespace MALClient.XShared.ViewModels.Details
 
                 if (parts[0] == "Broadcast" && parts[1] != "Unknown")
                 {
-                    var vm = _animeItemReference as AnimeItemViewModel;
-                    if (vm != null)
+                    if (_animeItemReference is AnimeItemViewModel vm)
                     {
                         if (vm.ParentAbstraction.LoadedVolatile)
                         {
@@ -1211,13 +1210,13 @@ namespace MALClient.XShared.ViewModels.Details
             foreach (var statistic in data.Statistics)
             {
                 var infoString = statistic;
-                var pos = infoString.IndexOf("1 indicates");
+                var pos = infoString.IndexOf("1 indicates", StringComparison.Ordinal);
                 if (pos != -1)
                     continue;
-                pos = infoString.IndexOf("2 based");
+                pos = infoString.IndexOf("2 based", StringComparison.Ordinal);
                 if (pos != -1)
                     infoString = infoString.Substring(0, pos - 2);
-                pos = infoString.IndexOf("(scored");
+                pos = infoString.IndexOf("(scored", StringComparison.Ordinal);
                 if (pos != -1)
                     infoString = infoString.Substring(0, pos - 2);
 

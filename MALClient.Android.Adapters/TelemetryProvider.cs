@@ -37,6 +37,7 @@ namespace MALClient.Android.Adapters
             CrashManager.Register(_context, Secrets.AndroidHockeyId, new HockeyListener());
             MetricsManager.Register(_app, Secrets.AndroidHockeyId);
             MetricsManager.EnableUserMetrics();
+            FeedbackManager.Register(_app,Secrets.AndroidHockeyId);
 #endif
         }
 

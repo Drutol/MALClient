@@ -533,7 +533,7 @@ namespace MALClient.Android.Activities
                     break;
                 case Resource.Id.HamburgerProfileItemSupport:
                     _supportMenu = FlyoutMenuBuilder.BuildGenericFlyout(this, view,
-                        new List<string> {"GitHub Feedback","Review","Donate Google","Donate PayPal","Turn on ads","Watch VideoAd","Feedback"}, OnSupportMenuSelection);
+                        new List<string> {"GitHub Feedback","Review","Donate Google","Donate PayPal","Turn on ads","Watch VideoAd","Feedback (Chat)"}, OnSupportMenuSelection);
                     _supportMenu.Show();
                     _supportMenu.OnHiddenWithoutSelection += (sender, args) =>
                     {

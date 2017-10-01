@@ -79,7 +79,7 @@ namespace MALClient.Android.Fragments.ForumFragments
                 if (ViewModel.Messages != null)
                 {
                     _items = ViewModel.Messages.Select(model => new ForumTopicItem(Activity)).ToList();
-                    ForumTopicPagePostsList.InjectFlingAdapter(ViewModel.Messages,DataTemplateFull,DataTemplateFling,ContainerTemplate);
+                    ForumTopicPagePostsList.InjectFlingAdapter(ViewModel.Messages,DataTemplateFull,DataTemplateFling,ContainerTemplate,DataTemplateBasic);
                 }
             }));
 
@@ -98,6 +98,8 @@ namespace MALClient.Android.Fragments.ForumFragments
                 UpdatePageSelection();
             }));
         }
+
+
 
         private async void ForumTopicPageGotoPageButtonOnClick()
         {
@@ -143,31 +145,29 @@ namespace MALClient.Android.Fragments.ForumFragments
             return new FrameLayout(Activity) { LayoutParameters = new ViewGroup.LayoutParams(-1,-2)};
         }
 
-        private void DataTemplateFling(View view, int i, ForumTopicMessageEntryViewModel arg3)
+        private void DataTemplateBasic(View view, int i, ForumTopicMessageEntryViewModel arg3)
         {
             var frame = view as FrameLayout;
             var item = _items[i];
             if (!(frame.ChildCount == 1 && frame.GetChildAt(0) as ForumTopicItem == item))
             {
-                (item.Parent as ViewGroup)?.RemoveView(item);
+                if(item.Parent is FrameLayout parent)
+                    parent.RemoveView(item);
                 frame.RemoveAllViews();
                 frame.AddView(item);
             }
+        }
 
-
+        private void DataTemplateFling(View view, int i, ForumTopicMessageEntryViewModel arg3)
+        {
+            var item = _items[i];
             item.BindModelOnce(arg3, true);
             // ((ForumTopicItem)view).BindModel(arg3,true);
         }
 
         private void DataTemplateFull(View view, int i, ForumTopicMessageEntryViewModel arg3)
         {
-            var frame = view as FrameLayout;
             var item = _items[i];
-            if (!(frame.ChildCount == 1 && frame.GetChildAt(0) as ForumTopicItem == item))
-            {
-                frame.RemoveAllViews();
-                frame.AddView(item);
-            }
             item.BindModelOnce(arg3, false);
             // ((ForumTopicItem)view).BindModel(arg3, false);
         }

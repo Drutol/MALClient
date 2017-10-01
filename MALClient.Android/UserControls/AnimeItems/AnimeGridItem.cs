@@ -184,7 +184,7 @@ namespace MALClient.Android.UserControls
             {
                 AnimeGridItemTopLeftInfo.Visibility = ViewStates.Visible;
                 AnimeGridItemTopLeftInfoMain.Text = ViewModel.TopLeftInfoBind;
-                if (ViewModel.AirDayBrush == true)
+                if (ViewModel.AirDayBrush == true && ViewModel.AnimeItemDisplayContext != AnimeItemDisplayContext.Index)
                 {
                     AnimeGridItemTopLeftInfoMain.SetTextColor(new Color(110, 110, 110)); //gray
                 }
@@ -293,7 +293,7 @@ namespace MALClient.Android.UserControls
                 AnimeGridItemBackSurfaceAdd.LayoutParameters.Width = DimensionsHelper.DpToPx(66);
                 AnimeGridItemBackSurfaceSubtract.LayoutParameters.Width = DimensionsHelper.DpToPx(72);
 
-                AnimeGridItemBackSurfaceAdd.GetChildAt(0).TranslationX /= 1.1f;
+                AnimeGridItemBackSurfaceAdd.GetChildAt(0).TranslationX /= 1.2f;
 
                 AnimeGridItemCurrentWatchingStatus.SetTextSize(ComplexUnitType.Sp, 13);
                 AnimeGridItemWatchedStatus.SetTextSize(ComplexUnitType.Sp, 13);

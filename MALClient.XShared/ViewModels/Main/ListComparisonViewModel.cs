@@ -162,7 +162,7 @@ namespace MALClient.XShared.ViewModels.Main
 
         public async void NavigatedTo(ListComparisonPageNavigationArgs args)
         {
-            if(args.Equals(_navArgs))
+            if (args.Equals(_navArgs))
                 return;
             CurrentItems = new SmartObservableCollection<ComparisonItemViewModel>();
             RaisePropertyChanged(() => CurrentItems);
@@ -173,25 +173,30 @@ namespace MALClient.XShared.ViewModels.Main
             OtherData = await DataCache.RetrieveProfileData(args.CompareWith.Name);
             RaisePropertyChanged(() => MyData);
             RaisePropertyChanged(() => OtherData);
-
-            var otherItems = _animeLibraryDataStorage.OthersAbstractions[_navArgs.CompareWith.Name].Item1;
-
-            foreach (var myItem in _animeLibraryDataStorage.AllLoadedAuthAnimeItems)
+            try
             {
-                var sharedItem = otherItems.FirstOrDefault(abstraction => abstraction.Id == myItem.Id);
+                var otherItems = _animeLibraryDataStorage.OthersAbstractions[_navArgs.CompareWith.Name].Item1;
 
-                if(sharedItem != null)
-                    _allSharedItems.Add(new ComparisonItemViewModel(myItem.ViewModel,sharedItem.ViewModel));
-                else
-                    _allMyItems.Add(new ComparisonItemViewModel(myItem.ViewModel,null));
+                foreach (var myItem in _animeLibraryDataStorage.AllLoadedAuthAnimeItems)
+                {
+                    var sharedItem = otherItems.FirstOrDefault(abstraction => abstraction.Id == myItem.Id);
+
+                    if (sharedItem != null)
+                        _allSharedItems.Add(new ComparisonItemViewModel(myItem.ViewModel, sharedItem.ViewModel));
+                    else
+                        _allMyItems.Add(new ComparisonItemViewModel(myItem.ViewModel, null));
+                }
+                var usedIds = _allSharedItems.Concat(_allMyItems).Select(model => model.MyEntry.Id);
+                _allOtherItems = otherItems.Where(other => !usedIds.Any(i => i == other.Id))
+                    .Select(abstraction => new ComparisonItemViewModel(null, abstraction.ViewModel)).ToList();
+
+                Loading = false;
+                RefreshList();
             }
-            var usedIds = _allSharedItems.Concat(_allMyItems).Select(model => model.MyEntry.Id);
-            _allOtherItems = otherItems.Where(other => !usedIds.Any(i => i == other.Id))
-                .Select(abstraction => new ComparisonItemViewModel(null, abstraction.ViewModel)).ToList();
-
-            Loading = false;
-            RefreshList();
-
+            catch (Exception)
+            {
+                ResourceLocator.SnackbarProvider.ShowText("Error while retrieving aniem list.");
+            }
         }
 
         public ICommand NavigateDetailsCommand => new RelayCommand<ComparisonItemViewModel>(viewModel =>

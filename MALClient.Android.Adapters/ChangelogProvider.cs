@@ -31,14 +31,12 @@ namespace MALClient.Android.Adapters
 
         public bool NewChangelog { get; set; }
 
-        public string DateWithVersion => $"{_currentVersion} - 28.09.2017";
+        public string DateWithVersion => $"{_currentVersion} - 01.10.2017";
 
         public List<string> Changelog => new List<string>
         {
-           "Minor fixes and crashfixes here and there",
-           "Images in related tab are slightly bigger",
-           "Added yet another feedback option, this time it's in app chat where you can send me messages :) As always refer to heart button in hamburger.",
-           "Unfortunately update freqency will decrease from now on. University is starting and both, uni and my work combined leave veeery little free time for development. I'm planning to rework images page next time :)"
+           "Various changes and fixes here and there and also over there. Should crash less ^^",
+           "Landscape in anime details page has been somewhat reverted to... non-existence because it caused more problems than it was worth. It's pretty tricky layout and I'll need more time to do it properly.",
         };
 
     }

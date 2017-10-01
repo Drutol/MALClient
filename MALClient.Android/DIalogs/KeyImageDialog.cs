@@ -58,7 +58,7 @@ namespace MALClient.Android.Dialogs
             var dialogView = _dialog.HolderView;
 
 
-            dialogView.FindViewById<ImageViewAsync>(Resource.Id.Image).Into(AnimeImageExtensions.GetImgUrl(animeLink), null,
+            dialogView.FindViewById<ImageViewAsync>(Resource.Id.Image).Into(animeLink, null,
                 async =>
                 {
                     var zoomable = async as ZoomableImageView;

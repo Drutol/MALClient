@@ -67,7 +67,7 @@ namespace MALClient.Android.Dialogs
             
             webView.Post(() =>
             {
-                var scale = (100 - 735 * 100 / dialogView.Width == 0 ? 300 : dialogView.Width ) + 100;
+                var scale = (100 - 735 * 100 / (dialogView.Width == 0 ? 300 : dialogView.Width) ) + 100;
                 webView.SetInitialScale(scale);
                 //WebView.SetPadding(DimensionsHelper.DpToPx(15),0,0,0);
             });

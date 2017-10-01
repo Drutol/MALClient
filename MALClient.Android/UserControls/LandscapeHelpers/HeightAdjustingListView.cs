@@ -50,7 +50,7 @@ namespace MALClient.Android.UserControls
 
         protected override void OnConfigurationChanged(Configuration newConfig)
         {
-            EnableAdjustments = newConfig.Orientation == Orientation.Landscape;
+            //EnableAdjustments = newConfig.Orientation == Orientation.Landscape;
             base.OnConfigurationChanged(newConfig);
         }
 

@@ -47,7 +47,6 @@ namespace MALClient.Android.Fragments.AnimeDetailsPageTabs
 
         protected override void InitBindings()
         {
-
             AnimeDetailsPageRecomTabsList.InjectFlingAdapter(ViewModel.Recommendations,DataTemplateFull,DataTemplateFling,ContainerTemplate,DataTemplateBasic);
             AnimeDetailsPageRecomTabsList.OnItemClickListener = new OnItemClickListener<DirectRecommendationData>(data => ViewModel.NavigateDetailsCommand.Execute(data));
 
@@ -121,39 +120,22 @@ namespace MALClient.Android.Fragments.AnimeDetailsPageTabs
         private void DataTemplateFling(View view, int i, DirectRecommendationData animeRecomData)
         {
             var img = view.FindViewById<ImageViewAsync>(Resource.Id.AnimeRecomItemImage);
-            if (img.IntoIfLoaded(animeRecomData.ImageUrl))
-            {
-                img.Visibility = ViewStates.Visible;
-                view.FindViewById(Resource.Id.AnimeRecomItemImagePlaceholder).Visibility = ViewStates.Gone;
-            }
-            else
+            if (!img.IntoIfLoaded(animeRecomData.ImageUrl))
             {
                 img.Visibility = ViewStates.Invisible;
-                view.FindViewById(Resource.Id.AnimeRecomItemImagePlaceholder).Visibility = ViewStates.Visible;
             }
            
         }
 
         private void DataTemplateFull(View view, int i, DirectRecommendationData animeRecomData)
-        {
-            
+        {      
             var img = view.FindViewById<ImageViewAsync>(Resource.Id.AnimeRecomItemImage);
-            if (img.Tag == null || (string) img.Tag != animeRecomData.ImageUrl)
-            {
-                Debug.WriteLine(animeRecomData.ImageUrl);
-                img.Into(animeRecomData.ImageUrl);
-            }
-            else
-            {
-                img.Visibility = ViewStates.Visible;
-            }
-            view.FindViewById(Resource.Id.AnimeRecomItemImagePlaceholder).Visibility = ViewStates.Gone;
-
+            img.Into(animeRecomData.ImageUrl);
         }
 
         public override void OnConfigurationChanged(Configuration newConfig)
         {
-            SetUpForOrientation(newConfig.Orientation);
+            //SetUpForOrientation(newConfig.Orientation);
             base.OnConfigurationChanged(newConfig);
         }
 

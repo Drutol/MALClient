@@ -49,7 +49,7 @@ namespace MALClient.Android.UserControls
 
         protected override void OnConfigurationChanged(Configuration newConfig)
         {
-            AllowScroll = newConfig.Orientation == Orientation.Portrait;
+            //AllowScroll = newConfig.Orientation == Orientation.Portrait;
             base.OnConfigurationChanged(newConfig);
         }
 

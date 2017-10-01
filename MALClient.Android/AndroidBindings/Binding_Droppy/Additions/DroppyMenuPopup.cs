@@ -1,5 +1,8 @@
 using System;
 using System.Windows.Input;
+using Android.Graphics;
+using Android.Views;
+using Android.Widget;
 
 namespace Com.Shehabic.Droppy
 { 
@@ -8,6 +11,7 @@ namespace Com.Shehabic.Droppy
         public static event EventHandler<Action> OverrideRequested;
         public static event EventHandler ResetOverrideRequested;
         public event EventHandler OnHiddenWithoutSelection;
+
 
         class FlyoutDismissListener : Java.Lang.Object, IOnDismissCallback
         {
@@ -28,6 +32,8 @@ namespace Com.Shehabic.Droppy
 
         public object Tag { get; set; }
 
+        
+
         public void Show()
         {
             ShowBase();
@@ -38,6 +44,13 @@ namespace Com.Shehabic.Droppy
                 OnHiddenWithoutSelection?.Invoke(this,EventArgs.Empty);
             });
             MOnDismissCallback = new FlyoutDismissListener(() => ResetOverrideRequested.Invoke(this,EventArgs.Empty));
+
+            MenuView.SetPadding(0,0,0,0);
+            var view = MPopupView.GetChildAt(0);
+            (view.LayoutParameters as ViewGroup.MarginLayoutParams).SetMargins(0,0,0,0);
+            //view.SetPadding(0,0,0,0);
+
+            
         }
 
         public void Dismiss(bool animated)

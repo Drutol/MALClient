@@ -44,8 +44,6 @@ namespace MALClient.Android.Fragments
         private GridViewColumnHelper _gridViewColumnHelper;
         public static Drawer RightDrawer { get; set; }
 
-
-
         public AnimeListPageFragment(AnimeListPageNavigationArgs args)
         {
             _prevArgs = args;
@@ -237,6 +235,8 @@ namespace MALClient.Android.Fragments
                 Resource.Drawable.icon_sort);
             RightDrawer.OnDrawerItemClickListener = new HamburgerItemClickListener((view, i, arg3) =>
             {
+                if (view == null)
+                    return;
                 if (arg3.Identifier == 998877)
                 {
                     ViewModel.SortDescending =! ViewModel.SortDescending;
@@ -285,6 +285,8 @@ namespace MALClient.Android.Fragments
                 Resource.Drawable.icon_eye);
             RightDrawer.OnDrawerItemClickListener = new HamburgerItemClickListener((view, i, arg3) =>
             {
+                if (view == null)
+                    return;
                 ViewModel.CurrentlySelectedDisplayMode =
                     new Tuple<AnimeListDisplayModes, string>((AnimeListDisplayModes) arg3.Identifier, null);
                 RightDrawer.OnDrawerItemClickListener = null;
@@ -315,6 +317,8 @@ namespace MALClient.Android.Fragments
                 Resource.Drawable.icon_fav_outline);
             RightDrawer.OnDrawerItemClickListener = new HamburgerItemClickListener((view, i, arg3) =>
             {
+                if (view == null)
+                    return;
                 ViewModelLocator.GeneralMain.Navigate(PageIndex.PageAnimeList,AnimeListPageNavigationArgs.TopAnime((TopAnimeType)i));
                 RightDrawer.OnDrawerItemClickListener = null;
                 RightDrawer.CloseDrawer();
@@ -379,6 +383,8 @@ namespace MALClient.Android.Fragments
 
             RightDrawer.OnDrawerItemClickListener = new HamburgerItemClickListener((view, i, arg3) =>
             {
+                if (view == null)
+                    return;
                 ViewModel.SeasonalUrlsSelectedIndex = i;
                 RightDrawer.OnDrawerItemClickListener = null;
                 RightDrawer.CloseDrawer();

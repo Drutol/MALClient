@@ -7,8 +7,8 @@
     android:layout_width="match_parent" android:gravity="center_horizontal" android:layout_gravity="center"
     android:layout_height="wrap_content" android:orientation="vertical">
     <MALClient.Android.UserControls.ZoomableImageView android:layout_marginTop="16dp" android:background="?BrushAnimeItemBackground" android:elevation="2dp" android:id="@+id/Image"
-                                                      android:layout_width="386dp" android:scaleType="center" android:adjustViewBounds="true"
-                                                      android:layout_height="600dp"/>
+                                                      android:layout_width="366dp" android:scaleType="center" android:adjustViewBounds="true"
+                                                      android:layout_height="560dp"/>
     <Button android:id="@+id/SaveButton"
             android:layout_width="wrap_content" android:textAllCaps="false" android:text="Save" android:backgroundTint="?AccentColour" android:textColor="#fff"
             android:layout_height="wrap_content" />

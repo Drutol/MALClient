@@ -95,7 +95,7 @@ namespace MALClient.Android.Fragments.AnimeDetailsPageTabs
 
         public override void OnConfigurationChanged(Configuration newConfig)
         {
-            SetUpForOrientation(newConfig.Orientation);
+            //SetUpForOrientation(newConfig.Orientation);
             _gridHelper.OnConfigurationChanged(newConfig);
             base.OnConfigurationChanged(newConfig);
         }

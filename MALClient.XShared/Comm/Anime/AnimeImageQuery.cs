@@ -63,9 +63,7 @@ namespace MALClient.XShared.Comm.Anime
             var task = anime ? AnimeImageTasks[id] : MangaImageTasks[id];
             if (task == null)
             {
-                await _semaphore.WaitAsync();
                 task = new AnimeImageQuery(id, anime).FetchImageUrl();
-                _semaphore.Release();
                 if (anime)
                 {
                     AnimeImageTasks[id] = task;
@@ -74,33 +72,58 @@ namespace MALClient.XShared.Comm.Anime
                 {
                     MangaImageTasks[id] = task;
                 }
-            }
 
-            var link = await task;
+                await _semaphore.WaitAsync();
+                var link = await task;
+                _semaphore.Release();
 
-            
-            if (anime)
-            {
-                lock (CachedAnimeImages)
+                if (anime)
                 {
-                    if (!CachedAnimeImages.ContainsKey(id))
-                        CachedAnimeImages.Add(id, link);
-                    if (AnimeImageTasks.ContainsKey(id))
-                        AnimeImageTasks.Remove(id);
+                    lock (CachedAnimeImages)
+                    {
+                        if (!CachedAnimeImages.ContainsKey(id))
+                            CachedAnimeImages.Add(id, link);
+                        if (AnimeImageTasks.ContainsKey(id))
+                            AnimeImageTasks.Remove(id);
+                    }
                 }
+                else
+                {
+                    lock (CachedMangaImages)
+                    {
+                        if (!CachedMangaImages.ContainsKey(id))
+                            CachedMangaImages.Add(id, link);
+                        if (MangaImageTasks.ContainsKey(id))
+                            MangaImageTasks.Remove(id);
+                    }
+                }
+
+                return link;
             }
             else
             {
-                lock (CachedMangaImages)
+                var sem = new SemaphoreSlim(0);
+                await task.ContinueWith(task1 => sem.Release());
+                await Task.Delay(10);
+                if (anime)
                 {
-                    if (!CachedMangaImages.ContainsKey(id))
-                        CachedMangaImages.Add(id, link);
-                    if (MangaImageTasks.ContainsKey(id))
-                        MangaImageTasks.Remove(id);
-                }
-            }
+                    lock (CachedAnimeImages)
+                    {
+                        if (CachedAnimeImages.ContainsKey(id))
+                            return CachedAnimeImages[id];
+                    }
 
-            return link;
+                }
+                else
+                {
+                    lock (CachedMangaImages)
+                    {
+                        if (CachedMangaImages.ContainsKey(id))
+                            return CachedMangaImages[id];
+                    }
+                }
+                return null;
+            }        
         }
 
         private async Task<string> FetchImageUrl()

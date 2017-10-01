@@ -85,7 +85,7 @@ namespace MALClient.Android
                 }
                 else
                 {
-                    if (image.Tag == null)
+                    if (image.Tag == null && !LoadedImgs.Contains(targetUrl))
                     {
                         work = work.Success(image.AnimateFadeIn);
                     }
@@ -242,7 +242,7 @@ namespace MALClient.Android
             
         }
 
-        private static readonly Dictionary<View, CancellationTokenSource> CancellationTokenSources = new Dictionary<View, CancellationTokenSource>();
+        
 
         public static async void IntoWithTask(this ImageViewAsync image, Task<string> originUrlTask,
             ITransformation transformation = null)
@@ -250,53 +250,11 @@ namespace MALClient.Android
             try
             {
 
-                CancellationToken token;
-                lock (CancellationTokenSources)
-                {
-                    if (CancellationTokenSources.ContainsKey(image))
-                    {
-                        CancellationTokenSources[image].Cancel();
-                        CancellationTokenSources.Remove(image);
-                    }
+                var originUrl = await originUrlTask;
+                
 
-                    var src = new CancellationTokenSource();
-                    CancellationTokenSources.Add(image, src);
-                    token = src.Token;
-                }
 
-                string originUrl = null;
-
-                await Task.Run(async () =>
-                {
-                     originUrl = await originUrlTask;
-                });
-
-                if (image.Tag != null && (string)image.Tag == originUrl)
-                {
-                    image.Visibility = ViewStates.Visible;
-                    return;
-                }
-
-                if (token.IsCancellationRequested)
-                    return;
-
-                lock (CancellationTokenSources)
-                {
-                    CancellationTokenSources.Remove(image);
-                }
-
-                if (string.IsNullOrEmpty(originUrl))
-                    return;
-
-                image.Visibility = ViewStates.Invisible;
-                image.Tag = originUrl;
-
-                var work = ImageService.Instance.LoadUrl(originUrl);
-                work = work.Success(image.AnimateFadeIn);
-                if (transformation == null)
-                    work.FadeAnimation(false).Into(image);
-                else
-                    work.FadeAnimation(false).Transform(transformation).Into(image);
+                Into(image,originUrl,transformation);
 
             }
             catch (Exception)

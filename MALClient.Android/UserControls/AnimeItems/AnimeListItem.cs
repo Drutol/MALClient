@@ -131,7 +131,7 @@ namespace MALClient.Android.UserControls.AnimeItems
                 AnimeListItemTopLeftInfo.Visibility = ViewStates.Visible;
                 AnimeListItemTopLeftInfoMain.Text = ViewModel.TopLeftInfoBind;
 
-                if (ViewModel.AirDayBrush == true)
+                if (ViewModel.AirDayBrush == true && ViewModel.AnimeItemDisplayContext != AnimeItemDisplayContext.Index)
                 {
                     AnimeListItemTopLeftInfoMain.SetTextColor(new Color(110, 110, 110));
                     AnimeListItemTitle.SetMargins(5, 0, 72, 0);

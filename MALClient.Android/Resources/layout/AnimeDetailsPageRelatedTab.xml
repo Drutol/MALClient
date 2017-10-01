@@ -8,7 +8,7 @@
     android:background="?BrushDeepBackground"
     android:padding="5dp">
     <ListView android:layout_width="match_parent" android:divider="@color/Transparent" android:dividerHeight="15dp"
-              android:layout_height="wrap_content" android:id="@+id/AnimeDetailsPageRelatedTabsList" />
+              android:layout_height="match_parent" android:id="@+id/AnimeDetailsPageRelatedTabsList" />
   </LinearLayout>
   <TextView android:layout_centerInParent="true" android:visibility="gone"
       android:layout_width="wrap_content" android:id="@+id/AnimeDetailsPageRelatedTabEmptyNotice"

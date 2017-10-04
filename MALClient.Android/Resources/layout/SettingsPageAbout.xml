@@ -159,7 +159,7 @@
       android:textSize="@dimen/FontSizeHuge" />
 
     <TextView android:lineSpacingExtra="2dp"
-              android:layout_width="wrap_content" android:text="This app was written using C# and Xamarin, with business logic shared across Windows and Android. It's a vaiable alternative to java... what isn't... かな..." android:layout_marginTop="10dp"
+              android:layout_width="wrap_content" android:text="This app was written using C# and Xamarin, with business logic shared across Windows and Android. It's a viable alternative to java... what isn't... かな..." android:layout_marginTop="10dp"
               android:layout_height="wrap_content" android:textColor="?BrushText"/>
 
   </LinearLayout>

@@ -1161,7 +1161,7 @@ namespace MALClient.XShared.ViewModels.Main
                         cachedData = await DataCache.RetrieveDataForUser(ListSource, AnimeListWorkModes.Anime);
                     if (Settings.MangaSyncRequired)
                         cachedDataManga = await DataCache.RetrieveDataForUser(ListSource, AnimeListWorkModes.Manga);
-                    force = cachedData != null || cachedDataManga != null;
+                    force = cachedData != null || cachedDataManga != null || force;
                 }
                 await Task.Run(async () => data =
                     await new LibraryListQuery(ListSource, requestedMode).GetLibrary(force));

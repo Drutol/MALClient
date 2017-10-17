@@ -1,18 +1,47 @@
 # MALClient
-It's rather robust MyAnimeList client application interfacing with both "official" api and the website api with wild endpoints with cookies and such. Right now it's available on Windows 10 devices and Android version coming really soon.
+<p align="center">
+  <img src="images/square-150-logo.png">
+  <br>
+  It's rather robust MyAnimeList client application interfacing with both "official" api and the website api with wild endpoints with cookies and such. Right now it's available on Windows 10 devices and Android version coming really soon.
+</p>
 
-![](https://github.com/Drutol/MALClient/blob/master/MALClient.Dekstop/Assets/Square150x150Logo.scale-100.png)
-<a href="https://www.microsoft.com/store/apps/9nblggh5f3bl?ocid=badge"><img src="https://assets.windowsphone.com/f2f77ec7-9ba9-4850-9ebe-77e366d08adc/English_Get_it_Win_10_InvariantCulture_Default.png" width="47.5%" alt="Get it on Windows 10" /></a>
-<a href='https://play.google.com/store/apps/details?id=com.drutol.malclient&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' width="47.5%" src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png'/></a>
+<table >
+  <tbody>
+    <tr>
+      <td>
+        <a href="https://www.microsoft.com/store/apps/9nblggh5f3bl?ocid=badge">
+          <img src="https://assets.windowsphone.com/f2f77ec7-9ba9-4850-9ebe-77e366d08adc/English_Get_it_Win_10_InvariantCulture_Default.png" width="150px" alt="Get it on Windows 10" />
+        </a>
+      </td>
+      <td>
+        <a href='https://play.google.com/store/apps/details?id=com.drutol.malclient&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'>
+          <img alt='Get it on Google Play' width="220px" src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png'/>
+        </a>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
 ### Screenshots
-
 #### UWP
+<p align="center">
+  <img src="images/uwp-preview.png" width="80%">
+</p>
 
-![](http://i.imgur.com/HxFkygB.png)
+#### UWP Dark Theme
+<p align="center">
+  <img src="images/uwp-dark-theme-preview.jpg" width="80%">
+</p>
+
+#### UWP Light Theme
+<p align="center">
+  <img src="images/uwp-light-theme-preview.jpg" width="80%">
+</p>
 
 #### Android
-
-![](http://i.imgur.com/Iqull3i.png)
+<p align="center">
+  <img src="images/android-preview.png" width="80%">
+</p>
 
 ### Features
 * Anime and manga list updates.

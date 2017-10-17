@@ -25,22 +25,22 @@
 ### Screenshots
 #### UWP
 <p align="center">
-  <img src="images/uwp-preview.png" width="80%">
+  <img src="images/uwp-preview.png">
 </p>
 
 #### UWP Dark Theme
 <p align="center">
-  <img src="images/uwp-dark-theme-preview.jpg" width="80%">
+  <img src="images/uwp-dark-theme-preview.jpg">
 </p>
 
 #### UWP Light Theme
 <p align="center">
-  <img src="images/uwp-light-theme-preview.jpg" width="80%">
+  <img src="images/uwp-light-theme-preview.jpg">
 </p>
 
 #### Android
 <p align="center">
-  <img src="images/android-preview.png" width="80%">
+  <img src="images/android-preview.png">
 </p>
 
 ### Features

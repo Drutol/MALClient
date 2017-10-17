@@ -28,14 +28,10 @@
   <img src="images/uwp-preview.png">
 </p>
 
-#### UWP Dark Theme
+#### UWP Dark & Light Theme
 <p align="center">
-  <img src="images/uwp-dark-theme-preview.jpg">
-</p>
-
-#### UWP Light Theme
-<p align="center">
-  <img src="images/uwp-light-theme-preview.jpg">
+  <img src="images/uwp-dark-theme-preview.jpg" width="49%">
+  <img src="images/uwp-light-theme-preview.jpg" width="49%">
 </p>
 
 #### Android

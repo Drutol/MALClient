@@ -1,7 +1,7 @@
 <h1 align="center">MALClient</h1>
 
 <p align="center">
-  <img src="images/square-150-logo.png">
+  <img src="MALClient.Android/Resources/drawable/Icon.png" width="150px">
   <br><br>
   It's rather robust MyAnimeList client application interfacing with both "official" api and the website api with wild endpoints with cookies and such. Right now it's available on Windows 10 devices and Android version coming really soon.
 </p>

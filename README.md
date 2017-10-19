@@ -29,12 +29,6 @@
   <img src="images/uwp-preview.png">
 </p>
 
-#### UWP Dark & Light Theme
-<p align="center">
-  <img src="images/uwp-dark-theme-preview.jpg" width="49%">
-  <img src="images/uwp-light-theme-preview.jpg" width="49%">
-</p>
-
 #### Android
 <p align="center">
   <img src="images/android-preview.png">

@@ -133,8 +133,8 @@
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-                <TextBlock Text="{Binding Title}" Margin="2" Height="Auto" FontWeight="SemiBold"
-                           TextWrapping="WrapWholeWords" TextTrimming="CharacterEllipsis" />
+                <TextBlock Text="{Binding Title}" Margin="4,2" Height="Auto" FontWeight="Normal"
+                           TextWrapping="WrapWholeWords" TextTrimming="CharacterEllipsis" FontSize="16.2" />
                 <ProgressBar Margin="0,2" IsIndeterminate="True" Grid.Column="0" Grid.ColumnSpan="2"
                              Visibility="{x:Bind ViewModel.LoadingUpdate,Mode=OneWay,Converter={StaticResource BoolToVisibilityConverter}}"
                              VerticalAlignment="Bottom" HorizontalAlignment="Stretch" />

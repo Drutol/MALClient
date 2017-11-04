@@ -8,6 +8,7 @@
             <SolidColorBrush x:Key="BrushText" Color="Black" />
             <SolidColorBrush x:Key="BrushTextInverted" Color="White" />
             <SolidColorBrush x:Key="BrushDeepBackground" Color="White" />
+            <Color x:Key="BrushDeepBackgroundColor">White</Color>
             <SolidColorBrush x:Key="BrushAppBars" Color="#dbdbdb" />
             <SolidColorBrush x:Key="BrushPivotHeaderBackground" Color="#E1E1E1" />
             <SolidColorBrush x:Key="BrushHamburgerBackground" Color="#eaeaea" />
@@ -47,6 +48,7 @@
             <SolidColorBrush x:Key="BrushText" Color="White" />
             <SolidColorBrush x:Key="BrushTextInverted" Color="Black" />
             <SolidColorBrush x:Key="BrushDeepBackground" Color="#0a0a0a" />
+            <Color x:Key="BrushDeepBackgroundColor">#0a0a0a</Color>
             <SolidColorBrush x:Key="BrushAppBars" Color="#151515" />
             <SolidColorBrush x:Key="BrushPivotHeaderBackground" Color="#202020" />
             <SolidColorBrush x:Key="BrushHamburgerBackground" Color="#1f1f1f" />

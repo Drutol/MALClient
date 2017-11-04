@@ -304,9 +304,17 @@
                 </StackPanel>
             </Grid>
         </Grid>
-        <CommandBar Grid.Row="2" x:Name="BottomCommandBar" Background="{ThemeResource BrushAppBars}">
+        <CommandBar Grid.Row="2" x:Name="BottomCommandBar">
+            <CommandBar.Background>
+                <AcrylicBrush 
+                    BackgroundSource="Backdrop"
+                    TintTransitionDuration="0:0:1"
+                    TintColor="{StaticResource BrushDeepBackgroundColor}"
+                    TintOpacity="0.4"
+                    FallbackColor="{StaticResource BrushDeepBackgroundColor}"/>
+            </CommandBar.Background>
             <CommandBar.SecondaryCommands>
-                <AppBarButton
+                <AppBarButton 
                     Visibility="{Binding AppBtnListSourceVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
                     Icon="Contact2" Label="List source">
                     <AppBarButton.Flyout>
@@ -327,10 +335,10 @@
                 </AppBarButton>
                 <AppBarButton Visibility="{Binding LoadAllDetailsButtonVisiblity,Converter={StaticResource BoolToVisibilityConverter}}" Label="Load all details" Command="{Binding LoadAllItemsDetailsCommand}"/>
             </CommandBar.SecondaryCommands>
-            <AppBarButton Icon="Back" Label="Go back to my list" Command="{Binding GoBackToMyListCommand}"
+            <AppBarButton Style="{ThemeResource AppBarButtonRevealStyle}" Icon="Back" Label="Go back to my list" Command="{Binding GoBackToMyListCommand}"
                           Visibility="{Binding AppBtnGoBackToMyListVisibility,Converter={StaticResource BoolToVisibilityConverter}}" />
-            <AppBarButton Icon="Refresh" Label="Reload" Command="{Binding RefreshCommand}" />
-            <AppBarButton Icon="View" Label="Display mode">
+            <AppBarButton Style="{ThemeResource AppBarButtonRevealStyle}" Icon="Refresh" Label="Reload" Command="{Binding RefreshCommand}" />
+            <AppBarButton Style="{ThemeResource AppBarButtonRevealStyle}" Icon="View" Label="Display mode">
                 <AppBarButton.Flyout>
                     <Flyout x:Name="ViewsFlyout">
                         <ListView ItemsSource="{Binding DisplayModes}"
@@ -349,7 +357,7 @@
                     </Flyout>
                 </AppBarButton.Flyout>
             </AppBarButton>
-            <AppBarButton Icon="Calendar" Label="Select season"
+            <AppBarButton Style="{ThemeResource AppBarButtonRevealStyle}" Icon="Calendar" Label="Select season"
                           Visibility="{Binding AppbarBtnPinTileVisibility,Converter={StaticResource BoolToVisibilityConverter}}">
                 <AppBarButton.Flyout>
                     <Flyout x:Name="FlyoutSeasonSelection">
@@ -384,7 +392,7 @@
                     </Flyout>
                 </AppBarButton.Flyout>
             </AppBarButton>
-            <AppBarButton Icon="Filter" Label="Filter">
+            <AppBarButton Style="{ThemeResource AppBarButtonRevealStyle}" Icon="Filter" Label="Filter">
                 <AppBarButton.Flyout>
                     <Flyout x:Name="FiltersFlyout">
                         <ListView
@@ -402,7 +410,7 @@
                     </Flyout>
                 </AppBarButton.Flyout>
             </AppBarButton>
-            <AppBarButton Icon="Shuffle" Label="Select one at random" Command="{Binding SelectAtRandomCommand}" />
+            <AppBarButton Style="{ThemeResource AppBarButtonRevealStyle}" Icon="Shuffle" Label="Select one at random" Command="{Binding SelectAtRandomCommand}" />
         </CommandBar>
     </Grid>
 </Page>

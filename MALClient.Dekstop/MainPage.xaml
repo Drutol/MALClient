@@ -5,10 +5,10 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:toolkit="using:WinRTXamlToolkit.Controls"
     xmlns:new="using:MALClient.UWP.UserControls.New"
-    xmlns:ui="using:Microsoft.Advertising.WinRT.UI"
     xmlns:xamlConverters="using:MALClient.UWP.Shared.XamlConverters"
     xmlns:userControls="using:MALClient.UWP.Shared.UserControls"
     xmlns:attachedProperties="using:MALClient.UWP.Shared.UserControls.AttachedProperties"
+    xmlns:ui="using:Microsoft.Advertising.WinRT.UI"
     x:Class="MALClient.UWP.MainPage"
     mc:Ignorable="d">
 

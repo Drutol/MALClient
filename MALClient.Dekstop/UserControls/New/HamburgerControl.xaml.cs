@@ -61,12 +61,12 @@ namespace MALClient.UWP.UserControls.New
 
         private void Button_PointerEntered(object sender, PointerRoutedEventArgs e)
         {
-            (sender as Button).Background = _b2;
+            //(sender as Button).Background = _b2;
         }
 
         private void Button_PointerExited(object sender, PointerRoutedEventArgs e)
         {
-            (sender as Button).Background = new SolidColorBrush(Colors.Transparent);
+            //(sender as Button).Background = new SolidColorBrush(Colors.Transparent);
         }
 
         private void ButtonExpandAnimeFiltersOnRightClick(object sender, RoutedEventArgs e)

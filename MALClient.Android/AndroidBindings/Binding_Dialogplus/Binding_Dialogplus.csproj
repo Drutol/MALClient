@@ -14,7 +14,7 @@
     <AssemblyName>Binding_Dialogplus</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <AndroidUseLatestPlatformSdk>True</AndroidUseLatestPlatformSdk>
-    <TargetFrameworkVersion>v7.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v8.0</TargetFrameworkVersion>
     <AndroidClassParser>jar2xml</AndroidClassParser>
     <AndroidCodegenTarget>XamarinAndroid</AndroidCodegenTarget>
     <NuGetPackageImportStamp>

@@ -44,7 +44,15 @@
     </Page.Transitions>
 
 
-    <Grid Background="{ThemeResource BrushDetailsBackground}">
+    <Grid>
+        <Grid.Background>
+            <AcrylicBrush 
+                BackgroundSource="HostBackdrop"
+                TintTransitionDuration="0:0:1"
+                TintColor="{StaticResource BrushDeepBackgroundColor}"
+                TintOpacity="0.6"
+                FallbackColor="{StaticResource BrushDeepBackgroundColor}"/>
+        </Grid.Background>
         <Grid.Resources>
             <ResourceDictionary>
                 <ResourceDictionary.MergedDictionaries>
@@ -57,7 +65,15 @@
             <!--Img + Details-->
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Grid Row="0" Background="{ThemeResource BrushDetailsUpperBackground}">
+        <Grid Row="0">
+            <Grid.Background>
+                <AcrylicBrush 
+                    BackgroundSource="HostBackdrop"
+                    TintTransitionDuration="0:0:1"
+                    TintColor="{StaticResource BrushDeepBackgroundColor}"
+                    TintOpacity="0.7"
+                    FallbackColor="{StaticResource BrushDeepBackgroundColor}"/>
+            </Grid.Background>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <!--Img-->

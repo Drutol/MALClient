@@ -111,7 +111,7 @@
             <Setter Property="Background" Value="{ThemeResource ButtonRevealBackground}" />
             <Setter Property="Foreground" Value="{ThemeResource ButtonForeground}" />
             <Setter Property="BorderBrush" Value="{ThemeResource ButtonRevealBorderBrush}" />
-            <Setter Property="BorderThickness" Value="2" />
+            <Setter Property="BorderThickness" Value="1" />
             <Setter Property="Padding" Value="8,4,8,4" />
             <Setter Property="HorizontalAlignment" Value="Left" />
             <Setter Property="VerticalAlignment" Value="Center" />
@@ -194,7 +194,7 @@
                               BackgroundSource="HostBackdrop"
                                TintTransitionDuration="0:0:1"
                               TintColor="{StaticResource BrushDeepBackgroundColor}"
-                              TintOpacity="0.4"
+                              TintOpacity="0.7"
                               FallbackColor="{StaticResource BrushDeepBackgroundColor}"/>
             </Grid.Background>
             <Grid.RowDefinitions>

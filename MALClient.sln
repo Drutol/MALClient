@@ -4,7 +4,7 @@ VisualStudioVersion = 15.0.26430.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MALClient.UWP.Shared", "MalClient.Shared\MALClient.UWP.Shared.csproj", "{FBD14EC9-E60E-4155-BD43-210F3096CA5A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MALClient.UWP.Desktop", "MALClient.Dekstop\MALClient.UWP.Desktop.csproj", "{C8C93EE9-5473-49AC-94CE-8BD964F2CB29}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MALClient.UWP.Desktop", "MALClient.Desktop\MALClient.UWP.Desktop.csproj", "{C8C93EE9-5473-49AC-94CE-8BD964F2CB29}"
 	ProjectSection(ProjectDependencies) = postProject
 		{22C7343B-FEF3-45B2-91C3-79EF25C0CAC5} = {22C7343B-FEF3-45B2-91C3-79EF25C0CAC5}
 		{9F8E953E-47A6-4F72-A2FE-BEF7A2DAE850} = {9F8E953E-47A6-4F72-A2FE-BEF7A2DAE850}
@@ -66,7 +66,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Binding_Droppy", "MALClient
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MALClient.UWP.BGTaskLiveTilesNotifications", "MALClient.UWP.BGTaskLiveTilesNotifications\MALClient.UWP.BGTaskLiveTilesNotifications.csproj", "{22C7343B-FEF3-45B2-91C3-79EF25C0CAC5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MALCLient.UrlInterceptor", "MALCLient.UrlInterceptor\MALCLient.UrlInterceptor.csproj", "{33777EF3-06CB-4289-B479-7B301645F82B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MALClient.UrlInterceptor", "MALClient.UrlInterceptor\MALClient.UrlInterceptor.csproj", "{33777EF3-06CB-4289-B479-7B301645F82B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UrlInterceptor", "UrlInterceptor", "{B72B7F82-B518-4496-AC4B-AF249A121CEE}"
 EndProject

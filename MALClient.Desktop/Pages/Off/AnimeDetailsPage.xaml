@@ -51,7 +51,7 @@
                 TintTransitionDuration="0:0:1"
                 TintColor="{StaticResource BrushDeepBackgroundColor}"
                 TintOpacity="0.7"
-                FallbackColor="{StaticResource BrushDeepBackgroundColor}"/>
+                FallbackColor="{StaticResource ColorDetailsBackground}"/>
         </Grid.Background>
         <Grid.Resources>
             <ResourceDictionary>

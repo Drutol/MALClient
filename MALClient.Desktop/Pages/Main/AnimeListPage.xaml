@@ -27,7 +27,6 @@
 
     <Grid Background="{ThemeResource BrushDeepBackground}">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
@@ -41,96 +40,7 @@
                 </Style>
             </ResourceDictionary>
         </Grid.Resources>
-        <Grid Grid.Row="0"
-                    Visibility="Visible" Background="{ThemeResource BrushPivotInnerHeaderBarBackground}">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-            <Button Height="33" Background="{ThemeResource BrushPivotInnerHeaderBarBackground}" Visibility="{x:Bind ViewModel.AppBtnSortingVisibility,Converter={StaticResource BoolToVisibilityConverter},Mode=OneWay}" BorderThickness="1"
-                                                                Style="{StaticResource ButtonRevealStyle}">
-                <SymbolIcon Symbol="Sort" />
-                <Button.Flyout>
-                    <MenuFlyout x:Name="SortingFlyout">
-                        <derived:RadioToggleMenuFlyoutItem x:Name="SortTitle" Text="Title"
-                                                            Command="{Binding SetSortModeCommand}" CommandParameter="0"
-                                                            GroupName="SortOptionsPivotUpperItems" />
-                        <derived:RadioToggleMenuFlyoutItem x:Name="SortScore" Text="Score"
-                                                            Command="{Binding SetSortModeCommand}" CommandParameter="1"
-                                                            GroupName="SortOptionsPivotUpperItems" />
-                        <derived:RadioToggleMenuFlyoutItem x:Name="Sort3" Text="{Binding Sort3Label}"
-                                                            Command="{Binding SetSortModeCommand}" CommandParameter="2"
-                                                            GroupName="SortOptionsPivotUpperItems" />
-                        <derived:RadioToggleMenuFlyoutItem x:Name="SortAiring" Text="Soonest airing"
-                                                            Command="{Binding SetSortModeCommand}" CommandParameter="3"
-                                                            GroupName="SortOptionsPivotUpperItems"
-                                                            Visibility="{Binding SortAirDayVisibility,Converter={StaticResource BoolToVisibilityConverter}}" />
-                        <derived:RadioToggleMenuFlyoutItem x:Name="SortLastWatched" Text="Last updated"
-                                                            Command="{Binding SetSortModeCommand}"
-                                                            CommandParameter="4" GroupName="SortOptionsPivotUpperItems" />
-                        <derived:RadioToggleMenuFlyoutItem x:Name="SortStartDate" Text="Start date"
-                                                            Command="{Binding SetSortModeCommand}"
-                                                            Visibility="{Binding MalApiSpecificControlsVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
-                                                            CommandParameter="5" GroupName="SortOptionsPivotUpperItems" />
-                        <derived:RadioToggleMenuFlyoutItem x:Name="SortEndDate" Text="End date"
-                                                            Command="{Binding SetSortModeCommand}"
-                                                            Visibility="{Binding MalApiSpecificControlsVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
-                                                            CommandParameter="6" GroupName="SortOptionsPivotUpperItems" />  
-                        <derived:RadioToggleMenuFlyoutItem x:Name="SortSeason" Text="Season"
-                                                            Command="{Binding SetSortModeCommand}"
-                                                            Visibility="{Binding MalApiSpecificControlsVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
-                                                            CommandParameter="8" GroupName="SortOptionsPivotUpperItems" />
-                        <derived:RadioToggleMenuFlyoutItem x:Name="SortNone" Text="None"
-                                                            Command="{Binding SetSortModeCommand}" CommandParameter="7"
-                                                            GroupName="SortOptionsPivotUpperItems" />
-                        <MenuFlyoutSeparator />
-                        <ToggleMenuFlyoutItem x:Name="BtnOrderDescending" Text="Descending" Click="ChangeSortOrder" />
-                    </MenuFlyout>
-                </Button.Flyout>
-            </Button>
-            <Pivot Grid.Column="1" x:Name="UpperNavBarPivot" Style="{StaticResource PivotHamburgerStyle}" HorizontalAlignment="Stretch"
-                   Visibility="{Binding WorkMode,Converter={StaticResource WorkModeToPivotFilterVisibility},ConverterParameter={StaticResource WorkModeAnyOther}}"
-                   SelectionChanged="UpperNavBarPivotOnSelectionChanged"
-                   SelectedIndex="{x:Bind ViewModel.StatusSelectorSelectedIndex,Mode=OneWay}">
-                <Pivot.Resources>
-                    <Style TargetType="PivotHeaderItem" BasedOn="{StaticResource PivotHeaderItemHamburgerStyle}" />
-                </Pivot.Resources>
-                <Pivot.Items>
-                    <PivotItem Header="{Binding Filter1Label}" />
-                    <PivotItem Header="Completed" />
-                    <PivotItem Header="On hold" />
-                    <PivotItem Header="Dropped" />
-                    <PivotItem Header="{Binding Filter5Label}" />
-                    <PivotItem Header="{Binding StatusAllLabel}" />
-                </Pivot.Items>
-                <Pivot.HeaderTemplate>
-                    <DataTemplate>
-                        <Grid>
-                            <TextBlock FontSize="15" FontWeight="Medium" Text="{Binding}" Margin="5,0" />
-                        </Grid>
-                    </DataTemplate>
-                </Pivot.HeaderTemplate>
-                <Pivot.ItemTemplate>
-                    <DataTemplate />
-                </Pivot.ItemTemplate>
-            </Pivot>
-            <Pivot Grid.Column="1" x:Name="PivotSeasonSelection" Style="{StaticResource PivotHamburgerStyle}"
-                   Visibility="{Binding WorkMode,Converter={StaticResource WorkModeToPivotFilterVisibility},ConverterParameter={StaticResource WorkModeSeasonal}}"
-                   SelectedIndex="{Binding SeasonalUrlsSelectedIndex,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
-                   ItemsSource="{Binding SeasonSelection}">
-                <Pivot.Resources>
-                    <Style TargetType="PivotHeaderItem" BasedOn="{StaticResource PivotHeaderItemHamburgerStyle}" />
-                </Pivot.Resources>
-                <Pivot.HeaderTemplate>
-                    <DataTemplate>
-                        <TextBlock FontSize="15" FontWeight="Medium" Text="{Binding Name}" Margin="5,0" />
-                    </DataTemplate>
-                </Pivot.HeaderTemplate>
-                <Pivot.ItemTemplate>
-                    <DataTemplate />
-                </Pivot.ItemTemplate>
-            </Pivot>
-        </Grid>
+
         <userControls:AlternatingListView x:Name="AnimeCompactItemsIndefinite" Grid.Row="1" HorizontalAlignment="Stretch"
                                       Margin="3,1,0,1" Padding="3,0,0,0"
                                       ItemsSource="{Binding AnimeCompactItems}" SelectionMode="Single"
@@ -223,8 +133,8 @@
                 </Grid>
             </GridView.Footer>
         </GridView>
-        <GridView x:Name="AnimesGridIndefinite" Grid.Row="1" Margin="1,1,-16,0" ItemsSource="{Binding AnimeGridItems}"
-                  MinWidth="200" IsItemClickEnabled="True"
+        <GridView x:Name="AnimesGridIndefinite" Grid.Row="0" Margin="1,1,-16,0" ItemsSource="{Binding AnimeGridItems}"
+                  MinWidth="200" IsItemClickEnabled="True" Padding="0,33,0,0"
                   RightTapped="AnimesGridIndefinite_OnRightTapped" SelectionMode="Single" ShowsScrollingPlaceholders="False"
                   HorizontalAlignment="Center" IsRightTapEnabled="True" ItemClick="AnimesGridIndefinite_OnItemClick"
                   Visibility="{Binding DisplayMode,Converter={StaticResource DisplayModeToPresenterControlVisibility},ConverterParameter={StaticResource IndefiniteGridString}}">
@@ -264,6 +174,103 @@
                 </Grid>
             </GridView.Footer>
         </GridView>
+        <Grid Grid.Row="0" Visibility="Visible" VerticalAlignment="Top">
+            <Grid.Background>
+                <AcrylicBrush 
+                    BackgroundSource="Backdrop"
+                    TintTransitionDuration="0:0:1"
+                    TintColor="{StaticResource BrushDeepBackgroundColor}"
+                    TintOpacity="0.4"
+                    FallbackColor="{StaticResource ColorPivotInnerHeaderBarBackground}"/>
+            </Grid.Background>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Button Height="33" Background="{ThemeResource BrushPivotInnerHeaderBarBackground}" Visibility="{x:Bind ViewModel.AppBtnSortingVisibility,Converter={StaticResource BoolToVisibilityConverter},Mode=OneWay}" BorderThickness="1"
+                                                                Style="{StaticResource ButtonRevealStyle}">
+                <SymbolIcon Symbol="Sort" />
+                <Button.Flyout>
+                    <MenuFlyout x:Name="SortingFlyout">
+                        <derived:RadioToggleMenuFlyoutItem x:Name="SortTitle" Text="Title"
+                                                            Command="{Binding SetSortModeCommand}" CommandParameter="0"
+                                                            GroupName="SortOptionsPivotUpperItems" />
+                        <derived:RadioToggleMenuFlyoutItem x:Name="SortScore" Text="Score"
+                                                            Command="{Binding SetSortModeCommand}" CommandParameter="1"
+                                                            GroupName="SortOptionsPivotUpperItems" />
+                        <derived:RadioToggleMenuFlyoutItem x:Name="Sort3" Text="{Binding Sort3Label}"
+                                                            Command="{Binding SetSortModeCommand}" CommandParameter="2"
+                                                            GroupName="SortOptionsPivotUpperItems" />
+                        <derived:RadioToggleMenuFlyoutItem x:Name="SortAiring" Text="Soonest airing"
+                                                            Command="{Binding SetSortModeCommand}" CommandParameter="3"
+                                                            GroupName="SortOptionsPivotUpperItems"
+                                                            Visibility="{Binding SortAirDayVisibility,Converter={StaticResource BoolToVisibilityConverter}}" />
+                        <derived:RadioToggleMenuFlyoutItem x:Name="SortLastWatched" Text="Last updated"
+                                                            Command="{Binding SetSortModeCommand}"
+                                                            CommandParameter="4" GroupName="SortOptionsPivotUpperItems" />
+                        <derived:RadioToggleMenuFlyoutItem x:Name="SortStartDate" Text="Start date"
+                                                            Command="{Binding SetSortModeCommand}"
+                                                            Visibility="{Binding MalApiSpecificControlsVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
+                                                            CommandParameter="5" GroupName="SortOptionsPivotUpperItems" />
+                        <derived:RadioToggleMenuFlyoutItem x:Name="SortEndDate" Text="End date"
+                                                            Command="{Binding SetSortModeCommand}"
+                                                            Visibility="{Binding MalApiSpecificControlsVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
+                                                            CommandParameter="6" GroupName="SortOptionsPivotUpperItems" />
+                        <derived:RadioToggleMenuFlyoutItem x:Name="SortSeason" Text="Season"
+                                                            Command="{Binding SetSortModeCommand}"
+                                                            Visibility="{Binding MalApiSpecificControlsVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
+                                                            CommandParameter="8" GroupName="SortOptionsPivotUpperItems" />
+                        <derived:RadioToggleMenuFlyoutItem x:Name="SortNone" Text="None"
+                                                            Command="{Binding SetSortModeCommand}" CommandParameter="7"
+                                                            GroupName="SortOptionsPivotUpperItems" />
+                        <MenuFlyoutSeparator />
+                        <ToggleMenuFlyoutItem x:Name="BtnOrderDescending" Text="Descending" Click="ChangeSortOrder" />
+                    </MenuFlyout>
+                </Button.Flyout>
+            </Button>
+            <Pivot Grid.Column="1" x:Name="UpperNavBarPivot" Style="{StaticResource PivotHamburgerStyle}" HorizontalAlignment="Stretch"
+                   Visibility="{Binding WorkMode,Converter={StaticResource WorkModeToPivotFilterVisibility},ConverterParameter={StaticResource WorkModeAnyOther}}"
+                   SelectionChanged="UpperNavBarPivotOnSelectionChanged"
+                   SelectedIndex="{x:Bind ViewModel.StatusSelectorSelectedIndex,Mode=OneWay}">
+                <Pivot.Resources>
+                    <Style TargetType="PivotHeaderItem" BasedOn="{StaticResource PivotHeaderItemHamburgerStyle}" />
+                </Pivot.Resources>
+                <Pivot.Items>
+                    <PivotItem Header="{Binding Filter1Label}" />
+                    <PivotItem Header="Completed" />
+                    <PivotItem Header="On hold" />
+                    <PivotItem Header="Dropped" />
+                    <PivotItem Header="{Binding Filter5Label}" />
+                    <PivotItem Header="{Binding StatusAllLabel}" />
+                </Pivot.Items>
+                <Pivot.HeaderTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <TextBlock FontSize="15" FontWeight="Medium" Text="{Binding}" Margin="5,0" />
+                        </Grid>
+                    </DataTemplate>
+                </Pivot.HeaderTemplate>
+                <Pivot.ItemTemplate>
+                    <DataTemplate />
+                </Pivot.ItemTemplate>
+            </Pivot>
+            <Pivot Grid.Column="1" x:Name="PivotSeasonSelection" Style="{StaticResource PivotHamburgerStyle}"
+                   Visibility="{Binding WorkMode,Converter={StaticResource WorkModeToPivotFilterVisibility},ConverterParameter={StaticResource WorkModeSeasonal}}"
+                   SelectedIndex="{Binding SeasonalUrlsSelectedIndex,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                   ItemsSource="{Binding SeasonSelection}">
+                <Pivot.Resources>
+                    <Style TargetType="PivotHeaderItem" BasedOn="{StaticResource PivotHeaderItemHamburgerStyle}" />
+                </Pivot.Resources>
+                <Pivot.HeaderTemplate>
+                    <DataTemplate>
+                        <TextBlock FontSize="15" FontWeight="Medium" Text="{Binding Name}" Margin="5,0" />
+                    </DataTemplate>
+                </Pivot.HeaderTemplate>
+                <Pivot.ItemTemplate>
+                    <DataTemplate />
+                </Pivot.ItemTemplate>
+            </Pivot>
+        </Grid>
         <StackPanel Margin="{Binding ElementName=AnimesPivot, Path=Margin}" Grid.Row="1" HorizontalAlignment="Center"
                     VerticalAlignment="Center">
             <TextBlock

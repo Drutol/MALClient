@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using MALClient.Models.Enums;
 using MALClient.Models.Models.AnimeScrapped;
@@ -69,7 +70,7 @@ namespace MALClient.XShared.ViewModels
                 MyEndDate = entry.MyEndDate;
             }
 
-            if (ResourceLocator.AiringInfoProvider.TryGetAiringDay(Id, out DayOfWeek day))
+            if (ResourceLocator.AiringInfoProvider.TryGetAiringDay(id ?? Id, out DayOfWeek day))
                 AirDay = (int) day+1;
             else
                 AirDay = -1;
@@ -85,8 +86,7 @@ namespace MALClient.XShared.ViewModels
             _seasonalData = data;           
             Index = data.Index;
             RepresentsAnime = anime;
-            int eps;
-            if (!int.TryParse(data.Episodes, out eps))
+            if (!int.TryParse(data.Episodes, out var eps))
                 eps = 0;
             AllEpisodes = eps;
         }

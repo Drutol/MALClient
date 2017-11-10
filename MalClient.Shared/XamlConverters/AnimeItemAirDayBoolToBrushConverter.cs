@@ -4,6 +4,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Media;
 using MALClient.XShared.Utils;
+using MALClient.XShared.ViewModels;
 
 namespace MALClient.UWP.Shared.XamlConverters
 {
@@ -11,8 +12,13 @@ namespace MALClient.UWP.Shared.XamlConverters
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            if((bool)value)
-                return new SolidColorBrush(Settings.SelectedTheme == (int)ApplicationTheme.Dark ? Colors.Gray : Colors.LightGray);
+            if(value != null)
+            {
+                var model = (AnimeItemViewModel)value;
+                if (model.AirDayBrush == true && model.AnimeItemDisplayContext != AnimeItemDisplayContext.Index)
+                    return new SolidColorBrush(Settings.SelectedTheme == (int)ApplicationTheme.Dark ? Colors.Gray : Colors.LightGray);
+            }
+            
             return new SolidColorBrush(Colors.White);
         }
 

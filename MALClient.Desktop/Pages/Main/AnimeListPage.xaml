@@ -41,8 +41,8 @@
             </ResourceDictionary>
         </Grid.Resources>
 
-        <userControls:AlternatingListView x:Name="AnimeCompactItemsIndefinite" Grid.Row="1" HorizontalAlignment="Stretch"
-                                      Margin="3,1,0,1" Padding="3,0,0,0"
+        <userControls:AlternatingListView x:Name="AnimeCompactItemsIndefinite" Grid.Row="0" HorizontalAlignment="Stretch"
+                                      Margin="3,1,0,1" Padding="3,33,0,0"
                                       ItemsSource="{Binding AnimeCompactItems}" SelectionMode="Single"
                                       RightTapped="AnimeCompactItemsIndefinite_OnRightTapped"
                                       ItemClick="AnimeCompactItemsIndefinite_OnItemClick"
@@ -86,10 +86,10 @@
                 </Grid>
             </ListView.Footer>
         </userControls:AlternatingListView>
-        <GridView x:Name="AnimesItemsIndefinite" Grid.Row="1" ItemsSource="{Binding AnimeListItems}" MinWidth="400"
+        <GridView x:Name="AnimesItemsIndefinite" Grid.Row="0" ItemsSource="{Binding AnimeListItems}" MinWidth="400"
                   RightTapped="AnimesItemsIndefinite_OnRightTapped" SelectionMode="Single"
                   HorizontalAlignment="Center" HorizontalContentAlignment="Stretch"
-                  ItemClick="AnimesItemsIndefinite_OnItemClick"
+                  ItemClick="AnimesItemsIndefinite_OnItemClick" Padding="0,33,0,0"
                   IsItemClickEnabled="True" ShowsScrollingPlaceholders="False"
                   Visibility="{Binding DisplayMode,Converter={StaticResource DisplayModeToPresenterControlVisibility},ConverterParameter={StaticResource IndefiniteListString}}">
             <GridView.ItemContainerStyle>
@@ -282,7 +282,7 @@
                     Visibility="{Binding BtnSetSourceVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
                     Click="ShowListSourceFlyout" />
         </StackPanel>
-        <Grid Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+        <Grid Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
               Visibility="{Binding Loading,Converter={StaticResource BoolToVisibilityConverter}}"
               Background="{ThemeResource BrushLoading}">
             <ProgressRing
@@ -312,7 +312,7 @@
                 </StackPanel>
             </Grid>
         </Grid>
-        <CommandBar Grid.Row="2" x:Name="BottomCommandBar">
+        <CommandBar Grid.Row="1" x:Name="BottomCommandBar">
             <CommandBar.Background>
                 <AcrylicBrush 
                     BackgroundSource="Backdrop"

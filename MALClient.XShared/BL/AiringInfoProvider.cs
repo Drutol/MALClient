@@ -80,7 +80,7 @@ namespace MALClient.XShared.BL
                 }
                 AiringShows = data;
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 AiringShows = new List<AiringData>();
             }

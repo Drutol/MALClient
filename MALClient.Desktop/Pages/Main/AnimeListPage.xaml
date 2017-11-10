@@ -47,7 +47,8 @@
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Button Height="33" Background="{ThemeResource BrushPivotInnerHeaderBarBackground}" Visibility="{x:Bind ViewModel.AppBtnSortingVisibility,Converter={StaticResource BoolToVisibilityConverter},Mode=OneWay}">
+            <Button Height="33" Background="{ThemeResource BrushPivotInnerHeaderBarBackground}" Visibility="{x:Bind ViewModel.AppBtnSortingVisibility,Converter={StaticResource BoolToVisibilityConverter},Mode=OneWay}" BorderThickness="1"
+                                                                Style="{StaticResource ButtonRevealStyle}">
                 <SymbolIcon Symbol="Sort" />
                 <Button.Flyout>
                     <MenuFlyout x:Name="SortingFlyout">

@@ -81,7 +81,12 @@
             <Grid Grid.Row="0" MinWidth="37" Width="Auto" HorizontalAlignment="Right" VerticalAlignment="Top"
                   Visibility="{x:Bind ViewModel.UpdateButtonsVisibility,Mode=OneWay,Converter={StaticResource BoolToVisibilityConverter}}">
                 <Grid.Background>
-                    <SolidColorBrush Color="Black" Opacity=".75" />
+                    <AcrylicBrush 
+                        BackgroundSource="Backdrop"
+                        TintTransitionDuration="0:0:1"
+                        TintColor="{StaticResource BrushDeepBackgroundColor}"
+                        TintOpacity="0.5"
+                        FallbackColor="{StaticResource BrushDeepBackgroundColor}"/>
                 </Grid.Background>
                 <StackPanel Margin="1">
                     <TextBlock Text="{x:Bind ViewModel.MyStatusBindShort,Mode=OneWay}" Foreground="White"
@@ -120,7 +125,12 @@
             <Grid Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Bottom"
                   Visibility="{x:Bind ViewModel.Type,Converter={StaticResource AnyTextToVisibilityConverter},Mode=OneWay}">
                 <Grid.Background>
-                    <SolidColorBrush Color="Black" Opacity=".75" />
+                    <AcrylicBrush 
+                        BackgroundSource="Backdrop"
+                        TintTransitionDuration="0:0:1"
+                        TintColor="{StaticResource BrushDeepBackgroundColor}"
+                        TintOpacity="0.5"
+                        FallbackColor="{StaticResource BrushDeepBackgroundColor}"/>
                 </Grid.Background>
                 <TextBlock x:Name="TypeTextBlock" Text="{Binding Type,Mode=OneWay}" Foreground="White" FontWeight="SemiLight" FontStyle="Italic"
                            FontSize="13"
@@ -163,11 +173,16 @@
             <StackPanel Orientation="Horizontal" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Bottom">
                 <Grid>
                     <Grid.Background>
-                        <SolidColorBrush Color="Black" Opacity=".75" />
+                        <AcrylicBrush 
+                            BackgroundSource="Backdrop"
+                            TintTransitionDuration="0:0:1"
+                            TintColor="{StaticResource BrushDeepBackgroundColor}"
+                            TintOpacity="0.5"
+                            FallbackColor="{StaticResource BrushDeepBackgroundColor}"/>
                     </Grid.Background>
                     <Button  Background="Transparent"
                         Height="40" Width="40"
-                        Visibility="Visible" RenderTransformOrigin="0.5,0.5" Click="BtnMoreClick">
+                        Visibility="Visible" RenderTransformOrigin="0.5,0.5" Click="BtnMoreClick" BorderThickness="1" Style="{StaticResource ButtonRevealStyle}">
                         <SymbolIcon Symbol="More" RenderTransformOrigin="0.5,0.5"
                                     Foreground="WhiteSmoke" />
                     </Button>

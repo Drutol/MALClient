@@ -190,12 +190,12 @@
     <Grid VerticalAlignment="Stretch">
         <Grid>
             <Grid.Background>
-                <AcrylicBrush 
-                              BackgroundSource="HostBackdrop"
-                               TintTransitionDuration="0:0:1"
-                              TintColor="{StaticResource BrushDeepBackgroundColor}"
-                              TintOpacity="0.7"
-                              FallbackColor="{StaticResource BrushDeepBackgroundColor}"/>
+                <AcrylicBrush
+                    BackgroundSource="HostBackdrop"
+                    TintTransitionDuration="0:0:1"
+                    TintColor="{StaticResource BrushDeepBackgroundColor}"
+                    TintOpacity="0.7"
+                    FallbackColor="{StaticResource BrushDeepBackgroundColor}"/>
             </Grid.Background>
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
@@ -852,7 +852,7 @@
                 <MenuFlyoutSeparator HorizontalAlignment="Left" Margin="5,5,10,5" x:Name="BottomSeparator" />
                 <Button HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch"
                                 Background="Transparent"
-                                BorderThickness="0"
+                                BorderThickness="1"
                                 PointerEntered="Button_PointerEntered"
                                 PointerExited="Button_PointerExited" Visibility="Visible">
                     <Button.Flyout>
@@ -970,7 +970,10 @@
                 </Button>
                 <Grid Background="{ThemeResource BrushHamburgerInnerBackground}" Visibility="{Binding ProfileButtonVisibility,Converter={StaticResource BoolToVisibilityConverter}}"  Margin="0,0,-1,0" VerticalAlignment="Center" HorizontalAlignment="Stretch">
                     <StackPanel x:Name="SubProfileSection" Orientation="Horizontal" HorizontalAlignment="Center">
-                        <Button BorderThickness="0" Visibility="{Binding MalApiSpecificButtonsVisibility}" Background="Transparent"
+                        <StackPanel.Resources>
+                            <Style TargetType="Button" BasedOn="{StaticResource RevealButton}"/>
+                        </StackPanel.Resources>
+                        <Button Visibility="{Binding MalApiSpecificButtonsVisibility}" Background="Transparent"
                                         Width="40" Height="40">
                             <ToolTipService.ToolTip>
                                 <ToolTip Content="Pinned profiles"/>
@@ -1002,21 +1005,21 @@
                             </Button.Flyout>
                             <SymbolIcon HorizontalAlignment="Center" Margin="0,0,2,0" VerticalAlignment="Center" Symbol="People"/>
                         </Button>
-                        <Button BorderThickness="0" Command="{Binding ButtonNavigationCommand}" CommandParameter="25" Visibility="{Binding MalApiSpecificButtonsVisibility}" Background="Transparent"
+                        <Button Command="{Binding ButtonNavigationCommand}" CommandParameter="25" Visibility="{Binding MalApiSpecificButtonsVisibility}" Background="Transparent"
                                         Width="40" Height="40">
                             <ToolTipService.ToolTip>
                                 <ToolTip Content="My friends feed"/>
                             </ToolTipService.ToolTip>
                             <SymbolIcon HorizontalAlignment="Center" Margin="0,0,2,0" VerticalAlignment="Center" Symbol="ContactInfo"/>
                         </Button>
-                        <Button BorderThickness="0" Command="{Binding Source={StaticResource Locator},Path=ForumsMain.NavigateRecentTopicsCommand}" Visibility="{Binding MalApiSpecificButtonsVisibility}" Background="Transparent"
+                        <Button Command="{Binding Source={StaticResource Locator},Path=ForumsMain.NavigateRecentTopicsCommand}" Visibility="{Binding MalApiSpecificButtonsVisibility}" Background="Transparent"
                                         Width="40" Height="40">
                             <ToolTipService.ToolTip>
                                 <ToolTip Content="My recent topics"/>
                             </ToolTipService.ToolTip>
                             <SymbolIcon HorizontalAlignment="Center" Margin="0,0,2,0" VerticalAlignment="Center" Symbol="Comment"/>
                         </Button>
-                        <Button BorderThickness="0" Command="{Binding ButtonNavigationCommand}" Visibility="{Binding MalApiSpecificButtonsVisibility}"
+                        <Button Command="{Binding ButtonNavigationCommand}" Visibility="{Binding MalApiSpecificButtonsVisibility}"
                                         CommandParameter="19" Background="Transparent"
                                         Width="40" Height="40">
                             <ToolTipService.ToolTip>
@@ -1025,7 +1028,7 @@
                             <SymbolIcon HorizontalAlignment="Center" VerticalAlignment="Center" Symbol="Clock"
                                                 Margin="0,0,0,2" />
                         </Button>
-                        <Button BorderThickness="0" Command="{Binding ButtonNavigationCommand}" Visibility="{Binding MalApiSpecificButtonsVisibility}"
+                        <Button Command="{Binding ButtonNavigationCommand}" Visibility="{Binding MalApiSpecificButtonsVisibility}"
                                         CommandParameter="16" Background="Transparent"
                                         Width="40" Height="40" >
                             <ToolTipService.ToolTip>
@@ -1034,7 +1037,7 @@
                             <SymbolIcon HorizontalAlignment="Center" VerticalAlignment="Center" Symbol="Mail"
                                                 Margin="0,0,0,2" />
                         </Button>
-                        <Button BorderThickness="0" Command="{Binding ButtonNavigationCommand}" Visibility="{Binding MalApiSpecificButtonsVisibility}"
+                        <Button Command="{Binding ButtonNavigationCommand}" Visibility="{Binding MalApiSpecificButtonsVisibility}"
                                         CommandParameter="26" Background="Transparent"
                                         Width="40" Height="40" >
                             <ToolTipService.ToolTip>
@@ -1048,11 +1051,12 @@
                 </Grid>
                 <Button HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch"
                                 Background="Transparent"
-                                BorderThickness="0"
+                                BorderThickness="1"
                                 PointerEntered="Button_PointerEntered"
                                 PointerExited="Button_PointerExited"
                                 Command="{Binding ButtonNavigationCommand}"
-                                CommandParameter="2">
+                                CommandParameter="2"
+                                >
                     <Grid Height="40">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="60" />

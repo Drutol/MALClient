@@ -26,8 +26,8 @@
                 <DataTemplate>
                     <Button Command="{Binding Settings.RequestNavigationCommand,Source={StaticResource Locator}}"
                             CommandParameter="{Binding PageType}" Background="Transparent"
-                            HorizontalAlignment="Stretch" Padding="0" HorizontalContentAlignment="Left"
-                            Margin="5,6,15,6">
+                            HorizontalAlignment="Stretch" Padding="5,5,0,5" HorizontalContentAlignment="Left"
+                            Margin="0,0,0,0" BorderThickness="1" Style="{StaticResource ButtonRevealStyle}">
                         <Grid HorizontalAlignment="Left">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />

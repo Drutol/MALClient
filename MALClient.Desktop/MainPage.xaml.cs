@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Devices.Input;
+using Windows.ApplicationModel.Core;
 using Windows.UI.Core;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
@@ -35,6 +36,14 @@ namespace MALClient.UWP
         public MainPage()
         {
             InitializeComponent();
+            // It's OK to place this here?
+            CoreApplicationViewTitleBar coreTitleBar = CoreApplication.GetCurrentView().TitleBar;
+            coreTitleBar.ExtendViewIntoTitleBar = true; 
+            TitleBar.Height = coreTitleBar.Height;
+            Window.Current.SetTitleBar(MainTitleBar);
+            coreTitleBar.LayoutMetricsChanged += TitleBar_LayoutMetricsChanged;
+            coreTitleBar.IsVisibleChanged += TitleBar_IsVisibleChanged;
+
             Loaded += (sender, args) =>
             {
                 LogoImage.Source =
@@ -301,6 +310,23 @@ namespace MALClient.UWP
         private void ButtonCloseChangelogOnClick(object sender, RoutedEventArgs e)
         {
             ViewModelLocator.GeneralMain.ChangelogVisibility = false;
+        }
+        // Titlebar stuff
+        private void TitleBar_LayoutMetricsChanged(CoreApplicationViewTitleBar coreTitleBar, object args)
+        {
+            TitleBar.Height = coreTitleBar.Height;
+        }
+
+        private void TitleBar_IsVisibleChanged(CoreApplicationViewTitleBar sender, object args)
+        {
+            if (sender.IsVisible)
+            {
+                TitleBar.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                TitleBar.Visibility = Visibility.Collapsed;
+            }
         }
     }
 }

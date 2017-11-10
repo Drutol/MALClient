@@ -78,7 +78,7 @@
                                        Stretch="UniformToFill">
                                     <interactivity:Interaction.Behaviors>
                                         <behaviors:Blur x:Name="BlurBehavior"
-                                                        Value="1.5"
+                                                        Value="5"
                                                         Duration="0"
                                                         Delay="0"
                                                         AutomaticallyStart="True"/>
@@ -119,7 +119,7 @@
                             <Grid Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" HorizontalAlignment="Stretch"
                                   VerticalAlignment="Stretch">
                                 <Grid.Background>
-                                    <SolidColorBrush Color="Black" Opacity=".2" />
+                                    <SolidColorBrush Color="Black" Opacity=".5" />
                                 </Grid.Background>
                                 
                                 <Grid HorizontalAlignment="Stretch" Padding="10" VerticalAlignment="Stretch"
@@ -241,11 +241,19 @@
         
         <TextBlock Text="Nothing to show here..." Foreground="{ThemeResource BrushNoSearchResults}" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding EmptyNoticeVisibility}"/>
         
-        <Grid x:Name="Header" Background="Transparent" Grid.Row="0" VerticalAlignment="Top" SizeChanged="Header_OnSizeChanged">
+        <Grid x:Name="Header" Grid.Row="0" VerticalAlignment="Top" SizeChanged="Header_OnSizeChanged">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
+            <Grid.Background>
+                <AcrylicBrush 
+                    BackgroundSource="Backdrop"
+                    TintTransitionDuration="0:0:1"
+                    TintColor="{StaticResource BrushDeepBackgroundColor}"
+                    TintOpacity="0.6"
+                    FallbackColor="{StaticResource BrushDeepBackgroundColor}"/>
+            </Grid.Background>
 
             <Grid x:Name="HeaderBlurBg" Grid.ColumnSpan="2"/>
             <Grid Grid.ColumnSpan="2" BorderThickness="0,0,0,1">

@@ -849,7 +849,7 @@
                             <Setter Property="Margin" Value="3,0,0,0" />
                         </Style>
                 </StackPanel.Resources>
-                <MenuFlyoutSeparator HorizontalAlignment="Left" Margin="5,5,10,5" x:Name="BottomSeparator" />
+                <MenuFlyoutSeparator HorizontalAlignment="Left" Margin="5,5,10,5" x:Name="BottomSeparator" Background="{StaticResource SystemControlBackgroundAccentBrush}" />
                 <Button HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch"
                                 Background="Transparent"
                                 BorderThickness="1"
@@ -968,7 +968,7 @@
                                            Grid.Column="1" VerticalAlignment="Center" TextAlignment="Center" />
                     </Grid>
                 </Button>
-                <Grid Background="{ThemeResource BrushHamburgerInnerBackground}" Visibility="{Binding ProfileButtonVisibility,Converter={StaticResource BoolToVisibilityConverter}}"  Margin="0,0,-1,0" VerticalAlignment="Center" HorizontalAlignment="Stretch">
+                <Grid Background="Transparent" Visibility="{Binding ProfileButtonVisibility,Converter={StaticResource BoolToVisibilityConverter}}"  Margin="0,0,-1,0" VerticalAlignment="Center" HorizontalAlignment="Stretch">
                     <StackPanel x:Name="SubProfileSection" Orientation="Horizontal" HorizontalAlignment="Center">
                         <StackPanel.Resources>
                             <Style TargetType="Button" BasedOn="{StaticResource RevealButton}"/>

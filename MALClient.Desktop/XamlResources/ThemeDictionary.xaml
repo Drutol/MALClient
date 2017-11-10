@@ -39,7 +39,7 @@
             <SolidColorBrush x:Key="BrushPinTileDialogOverlay" Color="#F0F0F0" Opacity=".75" />
             <SolidColorBrush x:Key="BrushPinTileDialogBackground" Color="#a8a8a8" />
             <SolidColorBrush x:Key="BrushSettingsSubtitle" Color="#555555" />
-            <SolidColorBrush x:Key="BrushFavouriteStarBackground" Color="White" Opacity=".5"/>
+            <AcrylicBrush x:Key="BrushFavouriteStarBackground" BackgroundSource="Backdrop" TintTransitionDuration="0:0:1" TintColor="{StaticResource BrushDeepBackgroundColor}" TintOpacity="0.5" FallbackColor="{StaticResource BrushDeepBackgroundColor}"/>
             <SolidColorBrush x:Key="BrushNoSearchResults" Color="#B9B9B9"/>
             <SolidColorBrush x:Key="BrushMediaElementShadow" Color="WhiteSmoke" Opacity=".9"/>
             <SolidColorBrush x:Key="BrushLoadingAllShadow" Color="WhiteSmoke" Opacity=".9"/>
@@ -79,7 +79,7 @@
             <SolidColorBrush x:Key="BrushPinTileDialogOverlay" Color="#2a2c2a" Opacity=".75" />
             <SolidColorBrush x:Key="BrushPinTileDialogBackground" Color="#303030" />
             <SolidColorBrush x:Key="BrushSettingsSubtitle" Color="LightGray" />
-            <SolidColorBrush x:Key="BrushFavouriteStarBackground" Color="Black" Opacity=".75"/>
+            <AcrylicBrush x:Key="BrushFavouriteStarBackground" BackgroundSource="Backdrop" TintTransitionDuration="0:0:1" TintColor="{StaticResource BrushDeepBackgroundColor}" TintOpacity="0.5" FallbackColor="{StaticResource BrushDeepBackgroundColor}"/>
             <SolidColorBrush x:Key="BrushNoSearchResults" Color="#B9B9B9"/>
             <SolidColorBrush x:Key="BrushMediaElementShadow" Color="Black" Opacity=".9"/>
             <SolidColorBrush x:Key="BrushLoadingAllShadow" Color="Black" Opacity=".7"/>

@@ -13,7 +13,7 @@
     </UserControl.Resources>
     <ToggleButton x:Name="Root" Padding="0" Margin="0" Height="40" Width="40" Background="Transparent"
                               IsChecked="{Binding IsFavourite}" Command="{Binding ToggleFavouriteCommand}"
-                              IsEnabled="{Binding IsFavouriteButtonEnabled}">
+                              IsEnabled="{Binding IsFavouriteButtonEnabled}"  BorderThickness="1" Style="{StaticResource ToggleButtonRevealStyle}">
         <SymbolIcon Symbol="{Binding IsFavourite,Converter={StaticResource FavouriteToSymbolConverter},FallbackValue=None}" />
         <ToolTipService.ToolTip>
             <ToolTip Content="Favourite"/>

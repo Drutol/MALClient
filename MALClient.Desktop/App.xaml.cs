@@ -188,13 +188,29 @@ namespace MALClient.UWP
             JumpListManager.InitJumpList();
 
             var tb = ApplicationView.GetForCurrentView().TitleBar;
-            tb.BackgroundColor =
-                tb.ButtonBackgroundColor =
-                    tb.InactiveBackgroundColor =
-                        tb.ButtonInactiveBackgroundColor =
-                            Settings.SelectedTheme == (int) ApplicationTheme.Dark
-                                ? Color.FromArgb(255, 41, 41, 41)
-                                : Colors.White;
+            bool dark = Settings.SelectedTheme == (int)ApplicationTheme.Dark;
+            if(dark)
+            {
+                tb.ButtonBackgroundColor = Colors.Transparent;
+                tb.ButtonForegroundColor = Colors.White;
+                tb.ButtonHoverBackgroundColor = Color.FromArgb(30, 255, 255, 255);
+                tb.ButtonHoverForegroundColor = Colors.White;
+                tb.ButtonInactiveBackgroundColor = Colors.Transparent;
+                tb.ButtonInactiveForegroundColor = Colors.Gray;
+                tb.ButtonPressedBackgroundColor = Color.FromArgb(80, 255, 255, 255);
+                tb.ButtonPressedForegroundColor = Colors.White;
+            }
+            else
+            {
+                tb.ButtonBackgroundColor = Colors.Transparent;
+                tb.ButtonForegroundColor = Colors.Black;
+                tb.ButtonHoverBackgroundColor = Color.FromArgb(30, 0, 0, 0);
+                tb.ButtonHoverForegroundColor = Colors.Black;
+                tb.ButtonInactiveBackgroundColor = Colors.Transparent;
+                tb.ButtonInactiveForegroundColor = Colors.Gray;
+                tb.ButtonPressedBackgroundColor = Color.FromArgb(80, 0, 0, 0);
+                tb.ButtonPressedForegroundColor = Colors.Black;
+            }
             ProcessUpdate();
             StoreLogoWorkaroundHacker.Hack();
             _initialized = true;

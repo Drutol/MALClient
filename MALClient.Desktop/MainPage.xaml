@@ -103,7 +103,7 @@
                     BackgroundSource="HostBackdrop"
                     TintTransitionDuration="0:0:1"
                     TintColor="{StaticResource BrushDeepBackgroundColor}"
-                    TintOpacity="0.7"
+                    TintOpacity="0.85"
                     FallbackColor="{StaticResource BrushDeepBackgroundColor}"/>
             </Grid.Background>
             <Grid x:Name="MainTitleBar" Width="Auto" Height="Auto"  Background="Transparent">
@@ -116,7 +116,7 @@
                     BackgroundSource="HostBackdrop"
                     TintTransitionDuration="0:0:1"
                     TintColor="{StaticResource BrushDeepBackgroundColor}"
-                    TintOpacity="0.7"
+                    TintOpacity="0.85"
                     FallbackColor="{StaticResource BrushDeepBackgroundColor}"/>
             </Grid.Background>
             <Grid.ColumnDefinitions>

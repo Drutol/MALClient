@@ -50,7 +50,7 @@
                 BackgroundSource="HostBackdrop"
                 TintTransitionDuration="0:0:1"
                 TintColor="{StaticResource BrushDeepBackgroundColor}"
-                TintOpacity="0.8"
+                TintOpacity="0.7"
                 FallbackColor="{StaticResource BrushDeepBackgroundColor}"/>
         </Grid.Background>
         <Grid.Resources>
@@ -289,7 +289,9 @@
                         IsChecked="{x:Bind ViewModel.AreAirNotificationsEnabled,Mode=OneWay}"
                         HorizontalAlignment="Stretch"
                         Background="Transparent"
-                        Margin="0,5,0,0">
+                        Margin="0,5,0,0"
+                        BorderThickness="1"
+                        Style="{StaticResource ToggleButtonRevealStyle}">
                     <ToolTipService.ToolTip>
                         <ToolTip Content="Toggle airing notifications." />
                     </ToolTipService.ToolTip>
@@ -394,7 +396,7 @@
                         IsEnabled="{Binding IsAddAnimeButtonEnabled}"
                         Background="{ThemeResource AppBarBackgroundThemeBrush}"
                         Margin="20,10,20,0"
-                        BorderThickness="2" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}">
+                        BorderThickness="1" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" Style="{StaticResource ButtonRevealStyle}">
                     <StackPanel Orientation="Horizontal">
                         <SymbolIcon Symbol="Add" />
                         <TextBlock Margin="10,0,0,0" Text="Add to my list" />
@@ -796,8 +798,9 @@
                                         Visibility="{Binding LoadCharactersButtonVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
                                         Background="{ThemeResource AppBarBackgroundThemeBrush}"
                                         Margin="5,10"
-                                        BorderThickness="2"
-                                        BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" />
+                                        BorderThickness="1"
+                                        BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" 
+                                        Style="{StaticResource ButtonRevealStyle}"/>
                                 <ProgressRing IsActive="True" Width="40" Height="40" Margin="0,5"
                                               Visibility="{Binding LoadingCharactersVisibility,Converter={StaticResource BoolToVisibilityConverter}}" />
                                 <Grid HorizontalAlignment="Center"

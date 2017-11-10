@@ -96,7 +96,7 @@
                                     <items:AnimeGridItem DataContext="{Binding}" DisplayAirTillTime="True" DisplayContext="AirDay"/>
                                     <Button HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="0,0,0,90"
                                             Command="{Binding Source={StaticResource Locator},Path=CalendarPage.ExportToCalendarCommand}"
-                                            CommandParameter="{Binding}">
+                                            CommandParameter="{Binding}"  BorderThickness="1" Style="{StaticResource ButtonRevealStyle}">
                                         <Button.Background>
                                             <SolidColorBrush Color="Black" Opacity=".75"/>
                                         </Button.Background>

@@ -66,7 +66,7 @@
                 <Grid Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                       Background="{ThemeResource BrushPivotInnerHeaderBarBackground}">
                     <Button HorizontalAlignment="Center" VerticalAlignment="Top" Background="Transparent"
-                            Margin="0,4,0,0">
+                            Margin="0,4,0,0" BorderThickness="1" Style="{StaticResource ButtonRevealStyle}">
                         <Button.Flyout>
                             <Flyout x:Name="GotoFlyout">
                                 <AutoSuggestBox MinWidth="150" x:Name="GoToInputBox" PlaceholderText="Username..." KeyDown="GoToInputBox_OnKeyDown" QuerySubmitted="SearchBox_OnQuerySubmitted" QueryIcon="Find"/>
@@ -132,7 +132,7 @@
                             <SymbolIcon Symbol="Help" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
                             <Image Stretch="Uniform" Source="{Binding CurrentData.User.ImgUrl}"/>
                             <Grid Background="{ThemeResource BrushFavouriteStarBackground}"  HorizontalAlignment="Left" VerticalAlignment="Bottom">
-                                <Button Background="Transparent" Width="40" Height="40" Command="{Binding NavigateMessagingCommand}">
+                                <Button Background="Transparent" Width="40" Height="40" Command="{Binding NavigateMessagingCommand}" BorderThickness="1" Style="{StaticResource ButtonRevealStyle}">
                                     <SymbolIcon Symbol="Mail"></SymbolIcon>
                                 </Button>
                             </Grid>                            
@@ -163,18 +163,18 @@
                                 <StackPanel Orientation="Horizontal">
                                     <Button Content="Anime list" Margin="5,0" Foreground="White"
                                             Command="{Binding NavigateAnimeListCommand}"
-                                            Background="{StaticResource SystemControlBackgroundAccentBrush}" />
+                                            Background="{StaticResource SystemControlBackgroundAccentBrush}" BorderThickness="1" Style="{StaticResource ButtonRevealStyle}"/>
                                         <Button Content="Manga list" Margin="5,0" Foreground="White"
                                             Command="{Binding NavigateMangaListCommand}"
-                                            Background="{StaticResource SystemControlBackgroundAccentBrush}" />
+                                            Background="{StaticResource SystemControlBackgroundAccentBrush}" BorderThickness="1" Style="{StaticResource ButtonRevealStyle}"/>
                                         <Button Content="History" Margin="5,0" Foreground="White"
                                             Command="{Binding NavigateHistoryCommand}"
-                                            Background="{StaticResource SystemControlBackgroundAccentBrush}" IsEnabled="{Binding LoadingOhersLibrariesProgressVisiblity,Converter={StaticResource BoolInverterConverter}}"/>
+                                            Background="{StaticResource SystemControlBackgroundAccentBrush}" IsEnabled="{Binding LoadingOhersLibrariesProgressVisiblity,Converter={StaticResource BoolInverterConverter}}" BorderThickness="1" Style="{StaticResource ButtonRevealStyle}"/>
                                     <Button Content="Clubs" Margin="5,0" Foreground="White"
                                             Command="{Binding NavigateClubsCommand}" Visibility="{Binding IsMyProfile}"
-                                            Background="{StaticResource SystemControlBackgroundAccentBrush}"/>
+                                            Background="{StaticResource SystemControlBackgroundAccentBrush}" BorderThickness="1" Style="{StaticResource ButtonRevealStyle}"/>
                                     <ToggleButton Margin="5,0" IsChecked="{Binding IsPinned,Mode=TwoWay}"
-                                                  Visibility="{Binding PinProfileVisibility,Converter={StaticResource BoolToVisibilityConverter}}">
+                                                  Visibility="{Binding PinProfileVisibility,Converter={StaticResource BoolToVisibilityConverter}}" BorderThickness="1" Style="{StaticResource ToggleButtonRevealStyle}">
                                         <SymbolIcon Foreground="White"
                                             Symbol="{Binding IsPinned,Converter={StaticResource PinUnpinSymbolIconConverter}}" />
                                         <ToolTipService.ToolTip>
@@ -182,7 +182,7 @@
                                                 Content="When you pin someone you can quickly access their profile from hamburger menu." />
                                         </ToolTipService.ToolTip>
                                     </ToggleButton>
-                                    <Button HorizontalAlignment="Right" Margin="0" IsEnabled="{Binding LoadingOhersLibrariesProgressVisiblity,Converter={StaticResource BoolInverterConverter}}" Visibility="{Binding IsMyProfile,Converter={StaticResource BoolInverterConverter}}" Command="{Binding NavigateComparisonCommand}">
+                                    <Button HorizontalAlignment="Right" Margin="0" IsEnabled="{Binding LoadingOhersLibrariesProgressVisiblity,Converter={StaticResource BoolInverterConverter}}" Visibility="{Binding IsMyProfile,Converter={StaticResource BoolInverterConverter}}" Command="{Binding NavigateComparisonCommand}" BorderThickness="1" Style="{StaticResource ButtonRevealStyle}">
                                         <SymbolIcon Symbol="ReShare"/>
                                         <ToolTipService.ToolTip>
                                             <ToolTip Content="Compare lists." />
@@ -220,13 +220,13 @@
                 </Grid>
                 <Grid Grid.Column="1" Grid.Row="1" Background="{ThemeResource BrushPivotHeaderBackground}" HorizontalAlignment="Stretch" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" BorderThickness="2,0">
                     <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
-                        <ToggleButton Padding="10" Background="Transparent"  HorizontalAlignment="Center"  IsChecked="{Binding AreFavsExpanded,Mode=TwoWay}">
+                        <ToggleButton Padding="10" Background="Transparent"  HorizontalAlignment="Center"  IsChecked="{Binding AreFavsExpanded,Mode=TwoWay}" BorderThickness="1" Style="{StaticResource ToggleButtonRevealStyle}">
                             <StackPanel>
                                 <SymbolIcon Symbol="Favorite"/>
                                 <TextBlock Text="Show favourites" Margin="0,10,0,0"/>
                             </StackPanel>
                         </ToggleButton>
-                        <ToggleButton x:Name="ToggleAboutMeButton" Margin="10,0,0,0" Padding="10" Background="Transparent"  HorizontalAlignment="Center" Command="{Binding ToggleAboutCommand}">
+                        <ToggleButton x:Name="ToggleAboutMeButton" Margin="10,0,0,0" Padding="10" Background="Transparent"  HorizontalAlignment="Center" Command="{Binding ToggleAboutCommand}" BorderThickness="1" Style="{StaticResource ToggleButtonRevealStyle}">
                             <StackPanel>
                                 <SymbolIcon Symbol="View"/>
                                 <TextBlock Text="Show about me" Margin="0,10,0,0"/>
@@ -815,7 +815,7 @@
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
                     <Button Grid.Row="0" HorizontalAlignment="Right" Background="Transparent" VerticalAlignment="Top"
-                            Command="{Binding RefreshCommentsCommand}">
+                            Command="{Binding RefreshCommentsCommand}" BorderThickness="1" Style="{StaticResource ButtonRevealStyle}">
                         <SymbolIcon Symbol="Refresh" Margin="5" />
                     </Button>
                     <StackPanel Grid.Row="0">
@@ -833,7 +833,7 @@
                                  PlaceholderText="Type comment..." />
                         <Button Content="Send Comment" Margin="20,0" Foreground="White"
                                 Command="{Binding SendCommentCommand}" IsEnabled="{Binding IsSendCommentButtonEnabled}"
-                                Background="{StaticResource SystemControlBackgroundAccentBrush}" />
+                                Background="{StaticResource SystemControlBackgroundAccentBrush}" BorderThickness="1" Style="{StaticResource ButtonRevealStyle}"/>
                     </StackPanel>
                     <ListView Grid.Row="2" Margin="10" ItemsSource="{Binding MalComments}" SelectionMode="None">
                         <ListView.ItemContainerStyle>
@@ -854,7 +854,7 @@
                                     <StackPanel Background="{ThemeResource BrushAppBars}" Margin="-5,-5,0,-5" Padding="5">
                                         <Button Padding="0" Margin="0,20,0,0" Width="75" Height="75"
                                                 HorizontalAlignment="Center" Click="ButtonBase_OnClick"
-                                                Tag="{Binding User.Name}">
+                                                Tag="{Binding User.Name}" BorderThickness="1" Style="{StaticResource ButtonRevealStyle}">
                                             <Image Stretch="UniformToFill" HorizontalAlignment="Stretch"
                                                    VerticalAlignment="Stretch">
                                                 <Image.Source>

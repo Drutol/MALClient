@@ -41,8 +41,8 @@
             <ToggleButton 
                       Height="40" Width="40"
                       IsChecked="{Binding IsFavourite}" Command="{Binding ToggleFavouriteCommand}"
-                      IsEnabled="{Binding IsFavouriteButtonEnabled}">
-                <SymbolIcon Symbol="{Binding IsFavourite,Converter={StaticResource IsFavouriteToSymbolConverter}}" />
+                      IsEnabled="{Binding IsFavouriteButtonEnabled}" BorderThickness="1" Style="{StaticResource ToggleButtonRevealStyle}">
+                <SymbolIcon Symbol="{Binding IsFavourite,Converter={StaticResource IsFavouriteToSymbolConverter}}"/>
                 <ToolTipService.ToolTip>
                     <ToolTip Content="Favourite" />
                 </ToolTipService.ToolTip>

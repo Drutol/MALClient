@@ -50,7 +50,7 @@
                 BackgroundSource="HostBackdrop"
                 TintTransitionDuration="0:0:1"
                 TintColor="{StaticResource BrushDeepBackgroundColor}"
-                TintOpacity="0.6"
+                TintOpacity="0.7"
                 FallbackColor="{StaticResource BrushDeepBackgroundColor}"/>
         </Grid.Background>
         <Grid.Resources>
@@ -96,6 +96,11 @@
             <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right"
                         VerticalAlignment="Bottom"
                         Background="Transparent" Margin="0,5,0,0">
+                <StackPanel.Resources>
+                    <Style TargetType="Button" BasedOn="{StaticResource ButtonRevealStyle}">
+                        <Setter Property="BorderThickness" Value="1" />
+                    </Style>
+                </StackPanel.Resources>
                 <!--<Button Margin="0,5,0,0" Height="40" HorizontalAlignment="Stretch" Command="{Binding NavigateWallpapersPage}"              
                         Background="Transparent">
                     <ToolTipService.ToolTip>
@@ -261,7 +266,7 @@
                     </Button.Flyout>
                     <SymbolIcon Symbol="Tag" />
                 </Button>
-                <Button Height="40" HorizontalAlignment="Stretch"
+                <Button Margin="0,5,0,0" Height="40" HorizontalAlignment="Stretch"
                         Command="{Binding CopyToClipboardCommand}"
                         Background="Transparent">
                     <ToolTipService.ToolTip>
@@ -284,7 +289,9 @@
                         IsChecked="{x:Bind ViewModel.AreAirNotificationsEnabled,Mode=OneWay}"
                         HorizontalAlignment="Stretch"
                         Background="Transparent"
-                        Margin="0,5,0,0">
+                        Margin="0,5,0,0"
+                        BorderThickness="1"
+                        Style="{StaticResource ToggleButtonRevealStyle}">
                     <ToolTipService.ToolTip>
                         <ToolTip Content="Toggle airing notifications." />
                     </ToolTipService.ToolTip>
@@ -389,7 +396,7 @@
                         IsEnabled="{Binding IsAddAnimeButtonEnabled}"
                         Background="{ThemeResource AppBarBackgroundThemeBrush}"
                         Margin="20,10,20,0"
-                        BorderThickness="2" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}">
+                        BorderThickness="1" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" Style="{StaticResource ButtonRevealStyle}">
                     <StackPanel Orientation="Horizontal">
                         <SymbolIcon Symbol="Add" />
                         <TextBlock Margin="10,0,0,0" Text="Add to my list" />
@@ -791,8 +798,9 @@
                                         Visibility="{Binding LoadCharactersButtonVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
                                         Background="{ThemeResource AppBarBackgroundThemeBrush}"
                                         Margin="5,10"
-                                        BorderThickness="2"
-                                        BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" />
+                                        BorderThickness="1"
+                                        BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" 
+                                        Style="{StaticResource ButtonRevealStyle}"/>
                                 <ProgressRing IsActive="True" Width="40" Height="40" Margin="0,5"
                                               Visibility="{Binding LoadingCharactersVisibility,Converter={StaticResource BoolToVisibilityConverter}}" />
                                 <Grid HorizontalAlignment="Center"
@@ -835,7 +843,9 @@
                                                                 HorizontalAlignment="Stretch"
                                                                 Command="{Binding Source={StaticResource Locator},Path=AnimeDetails.NavigateCharacterDetailsCommand}"
                                                                 CommandParameter="{Binding AnimeCharacter.Data}"
-                                                                HorizontalContentAlignment="Stretch">
+                                                                HorizontalContentAlignment="Stretch"
+                                                                BorderThickness="1"
+                                                                Style="{StaticResource ButtonRevealStyle}">
                                                             <Grid VerticalAlignment="Stretch"
                                                                   HorizontalAlignment="Stretch">
                                                                 <Grid.RowDefinitions>
@@ -886,7 +896,9 @@
                                                                 Background="Transparent" HorizontalAlignment="Stretch"
                                                                 Command="{Binding Source={StaticResource Locator},Path=AnimeDetails.NavigateStaffDetailsCommand}"
                                                                 CommandParameter="{Binding AnimeStaffPerson.Data}"
-                                                                HorizontalContentAlignment="Stretch">
+                                                                HorizontalContentAlignment="Stretch"
+                                                                BorderThickness="1"
+                                                                Style="{StaticResource ButtonRevealStyle}">
                                                             <Grid VerticalAlignment="Stretch"
                                                                   HorizontalAlignment="Stretch">
                                                                 <Grid.RowDefinitions>
@@ -962,7 +974,9 @@
                                                     <Button Padding="0" Margin="0" Background="Transparent"
                                                             HorizontalAlignment="Stretch"
                                                             Command="{Binding Source={StaticResource Locator},Path=AnimeDetails.NavigateStaffDetailsCommand}"
-                                                            CommandParameter="{Binding Data}">
+                                                            CommandParameter="{Binding Data}"
+                                                            BorderThickness="1"
+                                                            Style="{StaticResource ButtonRevealStyle}">
                                                         <Grid HorizontalAlignment="Stretch">
                                                             <Grid.RowDefinitions>
                                                                 <RowDefinition Height="250" />

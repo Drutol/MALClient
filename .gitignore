@@ -217,10 +217,10 @@ ModelManifest.xml
 *.resw
 Components/
 *.appx
+_pkginfo.txt
+*.targets
+
 MALClient.Mobile/BundleArtifacts/
 MALClient.Desktop/BundleArtifacts/
-_pkginfo.txt
 MALClient.Android/Resources/Resource.Designer.cs
-*.targets
-/MALClient.Dekstop/BundleArtifacts
 MALClient.XShared/Secrets.cs

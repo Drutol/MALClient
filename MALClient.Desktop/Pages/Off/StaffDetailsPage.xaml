@@ -52,9 +52,9 @@
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
                 </ScrollViewer>
-                <Button Grid.Row="1" Margin="0,5,0,0" Height="36" HorizontalAlignment="Right"
+                <Button Grid.Row="1" Margin="0,0,0,0" Height="36" HorizontalAlignment="Right"
                         Command="{Binding OpenInMalCommand}" 
-                        Background="Transparent">
+                        Background="Transparent" BorderThickness="1" Style="{StaticResource ButtonRevealStyle}">
                     <ToolTipService.ToolTip>
                         <ToolTip Content="Open in browser." />
                     </ToolTipService.ToolTip>
@@ -95,7 +95,7 @@
                                             </Grid.ColumnDefinitions>
                                             <Button Grid.Column="0" Padding="0" Margin="0" Background="Transparent" HorizontalAlignment="Stretch"
                                         Command="{Binding Source={StaticResource Locator},Path=StaffDetails.NavigateAnimeDetailsCommand}" 
-                                        CommandParameter="{Binding AnimeLightEntry}">
+                                        CommandParameter="{Binding AnimeLightEntry}" BorderThickness="1" Style="{StaticResource ButtonRevealStyle}">
                                                 <Grid DataContext="{Binding AnimeLightEntry}">
                                                     <Grid.RowDefinitions>
                                                         <RowDefinition Height="210"/>
@@ -116,7 +116,7 @@
                                             </Button>
                                             <Button Grid.Column="1" Padding="0" Margin="0" Background="Transparent" HorizontalAlignment="Stretch"
                                         Command="{Binding Source={StaticResource Locator},Path=StaffDetails.NavigateCharacterDetailsCommand}" 
-                                        CommandParameter="{Binding AnimeCharacter}">
+                                        CommandParameter="{Binding AnimeCharacter}" BorderThickness="1" Style="{StaticResource ButtonRevealStyle}">
                                                 <Grid DataContext="{Binding AnimeCharacter}" HorizontalAlignment="Stretch">
                                                     <Grid.RowDefinitions>
                                                         <RowDefinition Height="210"/>

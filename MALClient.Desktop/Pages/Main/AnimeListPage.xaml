@@ -133,8 +133,8 @@
                 </Grid>
             </GridView.Footer>
         </GridView>
-        <GridView x:Name="AnimesGridIndefinite" Grid.Row="0" Margin="1,1,-16,0" ItemsSource="{Binding AnimeGridItems}"
-                  MinWidth="200" IsItemClickEnabled="True" Padding="0,33,0,0"
+        <GridView x:Name="AnimesGridIndefinite" Grid.Row="0" Margin="1,1,-16,-48" ItemsSource="{Binding AnimeGridItems}"
+                  MinWidth="200" IsItemClickEnabled="True" Padding="0,33,0,48"
                   RightTapped="AnimesGridIndefinite_OnRightTapped" SelectionMode="Single" ShowsScrollingPlaceholders="False"
                   HorizontalAlignment="Center" IsRightTapEnabled="True" ItemClick="AnimesGridIndefinite_OnItemClick"
                   Visibility="{Binding DisplayMode,Converter={StaticResource DisplayModeToPresenterControlVisibility},ConverterParameter={StaticResource IndefiniteGridString}}">
@@ -180,7 +180,7 @@
                     BackgroundSource="Backdrop"
                     TintTransitionDuration="0:0:1"
                     TintColor="{StaticResource BrushDeepBackgroundColor}"
-                    TintOpacity="0.4"
+                    TintOpacity="0.7"
                     FallbackColor="{StaticResource ColorPivotInnerHeaderBarBackground}"/>
             </Grid.Background>
             <Grid.ColumnDefinitions>
@@ -318,7 +318,7 @@
                     BackgroundSource="Backdrop"
                     TintTransitionDuration="0:0:1"
                     TintColor="{StaticResource BrushDeepBackgroundColor}"
-                    TintOpacity="0.4"
+                    TintOpacity="0.7"
                     FallbackColor="{StaticResource BrushDeepBackgroundColor}"/>
             </CommandBar.Background>
             <CommandBar.SecondaryCommands>

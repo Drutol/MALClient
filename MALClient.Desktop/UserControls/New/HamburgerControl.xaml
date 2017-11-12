@@ -204,8 +204,9 @@
             <ScrollViewer Grid.Row="0" Grid.Column="0" VerticalScrollBarVisibility="Hidden" Width="250">
                 <Grid VerticalAlignment="Stretch">
                     <Grid.Resources>
-                        <Style TargetType="Button" BasedOn="{StaticResource RevealButton}">
+                        <Style TargetType="Button" BasedOn="{StaticResource ButtonRevealStyle}">
                             <Setter Property="Padding" Value="1,0" />
+                            <Setter Property="BorderThickness" Value="1" />
                         </Style>
                         <Style TargetType="SymbolIcon">
                             <Setter Property="Margin" Value="3,0,0,0" />
@@ -842,14 +843,15 @@
             </ScrollViewer>
             <StackPanel Grid.Row="1" Margin="{Binding BottomStackPanelMargin}" VerticalAlignment="Bottom" Width="250">
                 <StackPanel.Resources>
-                    <Style TargetType="Button" BasedOn="{StaticResource RevealButton}">
+                    <Style TargetType="Button" BasedOn="{StaticResource ButtonRevealStyle}">
                         <Setter Property="Padding" Value="1,0" />
+                        <Setter Property="BorderThickness" Value="1" />
                     </Style>
-                        <Style TargetType="SymbolIcon">
+                    <Style TargetType="SymbolIcon">
                             <Setter Property="Margin" Value="3,0,0,0" />
                         </Style>
                 </StackPanel.Resources>
-                <MenuFlyoutSeparator HorizontalAlignment="Left" Margin="5,5,10,5" x:Name="BottomSeparator" Background="{StaticResource SystemControlBackgroundAccentBrush}" />
+                <MenuFlyoutSeparator HorizontalAlignment="Left" Margin="0,0,0,10" x:Name="BottomSeparator" Background="{StaticResource SystemControlBackgroundAccentBrush}" />
                 <Button HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch"
                                 Background="Transparent"
                                 BorderThickness="1"
@@ -870,7 +872,7 @@
                         </Grid.ColumnDefinitions>
                         <TextBlock Text="&#xE006;" FontFamily="Segoe MDL2 Assets"
                                            HorizontalAlignment="Center" Grid.Column="0"
-                                           VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5"
+                                           VerticalAlignment="Center" RenderTransformOrigin="1,0.5"
                                            Visibility="{Binding AdLoadingSpinnerVisibility,Converter={StaticResource VisiblityInverterConverter}}">
                             <TextBlock.RenderTransform>
                                 <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
@@ -955,7 +957,7 @@
                                         BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" />
                         <Ellipse Grid.Column="0"
                                        Width="35"
-                                       Height="35" Margin="2,1,0,1"
+                                       Height="35" Margin="-3,1,0,1"
                                        Visibility="{Binding UsrImgPlaceholderVisibility,Converter={StaticResource VisiblityInverterConverter}}" >
                             <Ellipse.Fill>
                                 <ImageBrush Stretch="UniformToFill" ImageSource="{Binding UserImage}"/>
@@ -971,7 +973,9 @@
                 <Grid Background="Transparent" Visibility="{Binding ProfileButtonVisibility,Converter={StaticResource BoolToVisibilityConverter}}"  Margin="0,0,-1,0" VerticalAlignment="Center" HorizontalAlignment="Stretch">
                     <StackPanel x:Name="SubProfileSection" Orientation="Horizontal" HorizontalAlignment="Center">
                         <StackPanel.Resources>
-                            <Style TargetType="Button" BasedOn="{StaticResource RevealButton}"/>
+                            <Style TargetType="Button" BasedOn="{StaticResource ButtonRevealStyle}">
+                                <Setter Property="BorderThickness" Value="1"/>
+                            </Style>
                         </StackPanel.Resources>
                         <Button Visibility="{Binding MalApiSpecificButtonsVisibility}" Background="Transparent"
                                         Width="40" Height="40">
@@ -1059,7 +1063,7 @@
                                 >
                     <Grid Height="40">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="60" />
+                            <ColumnDefinition Width="50" />
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="40" />
                         </Grid.ColumnDefinitions>
@@ -1071,7 +1075,7 @@
                                             Foreground="{Binding ElementName=TxtSettings , Path=Foreground}" />
                         <TextBlock x:Name="TxtSettings" Text="Settings &amp; More" HorizontalAlignment="Left"
                                            Foreground="{Binding Path=TxtForegroundBrushes[Settings]}"
-                                           Grid.Column="1" VerticalAlignment="Center" TextAlignment="Center" />
+                                           Grid.Column="1" VerticalAlignment="Center" TextAlignment="Center" Margin="10,0" />
                     </Grid>
                 </Button>
             </StackPanel>

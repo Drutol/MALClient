@@ -51,7 +51,7 @@
 
 
 
-        <GridView x:Name="GridView" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Padding="0,4,0,0" ItemsSource="{Binding CurrentItems}"
+        <GridView x:Name="GridView" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,0,0,-48" Padding="0,4,0,48" ItemsSource="{Binding CurrentItems}"
                   SelectionMode="Single" ContainerContentChanging="GridView_OnContainerContentChanging" IsItemClickEnabled="True" ItemClick="GridView_OnItemClick">
             <GridView.ItemsPanel>
                 <ItemsPanelTemplate>
@@ -251,19 +251,10 @@
                     BackgroundSource="Backdrop"
                     TintTransitionDuration="0:0:1"
                     TintColor="{StaticResource BrushDeepBackgroundColor}"
-                    TintOpacity="0.6"
+                    TintOpacity="0.7"
                     FallbackColor="{StaticResource BrushDeepBackgroundColor}"/>
             </Grid.Background>
 
-            <Grid x:Name="HeaderBlurBg" Grid.ColumnSpan="2"/>
-            <Grid Grid.ColumnSpan="2" BorderThickness="0,0,0,1">
-                <Grid.BorderBrush>
-                    <SolidColorBrush Color="White" Opacity=".4"></SolidColorBrush>
-                </Grid.BorderBrush>
-                <Grid.Background>
-                    <SolidColorBrush Color="Black" Opacity=".4"/>
-                </Grid.Background>
-            </Grid>
             <Grid Grid.ColumnSpan="2">
                 <Grid.Background>
                     <SolidColorBrush Color="{StaticResource SystemAccentColor}" Opacity=".065"></SolidColorBrush>
@@ -413,6 +404,14 @@
 
         </Grid>
         <CommandBar Grid.Row="1" IsSticky="True">
+            <CommandBar.Background>
+                <AcrylicBrush 
+                    BackgroundSource="Backdrop"
+                    TintTransitionDuration="0:0:1"
+                    TintColor="{StaticResource BrushDeepBackgroundColor}"
+                    TintOpacity="0.7"
+                    FallbackColor="{StaticResource BrushDeepBackgroundColor}"/>
+            </CommandBar.Background>
             <CommandBar.Resources>
                 <ResourceDictionary>
                     <ResourceDictionary.MergedDictionaries>
@@ -440,7 +439,7 @@
 
             </CommandBar.Resources>
 
-            <AppBarButton Icon="Crop" Label="Comaprison filter">
+            <AppBarButton Style="{ThemeResource AppBarButtonRevealStyle}" Icon="Crop" Label="Comaprison filter">
                 <AppBarButton.Flyout>
                     <Flyout x:Name="ComparisonFilters">
                         <ListView x:Name="ComparisonFiltersList" Style="{StaticResource FancyOptBiggerListFlyoutStyle}" Width="170"
@@ -471,7 +470,7 @@
                 </AppBarButton.Flyout>
             </AppBarButton>
 
-            <AppBarButton Icon="Filter" Label="Filter">
+            <AppBarButton Style="{ThemeResource AppBarButtonRevealStyle}" Icon="Filter" Label="Filter">
                 <AppBarButton.Flyout>
                     <Flyout x:Name="FiltersFlyout">
                         <StackPanel>
@@ -516,7 +515,7 @@
                 </AppBarButton.Flyout>
             </AppBarButton>
 
-            <AppBarButton Icon="Sort" Label="Sort">
+            <AppBarButton Style="{ThemeResource AppBarButtonRevealStyle}" Icon="Sort" Label="Sort">
                 <AppBarButton.Flyout>
                     <Flyout x:Name="SortFlyout">
                         <StackPanel>

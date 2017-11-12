@@ -41,7 +41,7 @@
                 <TextBlock Text="Hummingbird" VerticalAlignment="Center" FontWeight="Medium" FontSize="19" />
             </StackPanel>
         </userControls:LockableToggleButton>-->
-        <Grid Grid.ColumnSpan="2" Grid.Column="0" Margin="0,10,0,0">
+        <Grid Grid.ColumnSpan="2" Grid.Column="0" Padding="0,10,0,10">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
@@ -59,7 +59,7 @@
                     <TextBlock Text="Password:" HorizontalAlignment="Center" Margin="0,2" FontWeight="SemiBold" />
                     <PasswordBox x:Name="UserPassword" KeyDown="Password_OnKeyDown" Password="{Binding PasswordInput,Mode=TwoWay}"/>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="5">
-                        <Button Content="Log In" Command="{Binding LogInCommand}" HorizontalAlignment="Center" Margin="3,3" />
+                        <Button Content="Log In" Command="{Binding LogInCommand}" HorizontalAlignment="Center" Margin="3,3" BorderThickness="1" Style="{StaticResource ButtonRevealStyle}"/>
                         <ProgressRing  IsActive="True" Visibility="{Binding Authenticating,Converter={StaticResource BoolToVisibilityConverter}}" Margin="5,0" />
                     </StackPanel>
                 </StackPanel>
@@ -67,7 +67,8 @@
             <Button Grid.Row="1" Command="{Binding LogOutCommand}" VerticalAlignment="Bottom"
                     HorizontalAlignment="Center" Visibility="{Binding LogOutButtonVisibility}" Content="Log out" Margin="3,3"
                     Background="{ThemeResource AppBarBackgroundThemeBrush}"
-                    BorderThickness="2" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" />
+                    BorderThickness="1"
+                    Style="{StaticResource ButtonRevealStyle}" />
             <Button Grid.Row="1" Content="Register!" Style="{StaticResource TextBlockButtonStyle}"
                     VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="5" Command="{Binding NavigateRegister}" />
             <Button Grid.Row="1" Content="Problems?" Style="{StaticResource TextBlockButtonStyle}"

@@ -109,7 +109,12 @@
             <Grid Grid.Row="0" MinWidth="40" MaxWidth="80" HorizontalAlignment="Left" VerticalAlignment="Top"
                   Visibility="{x:Bind ViewModel.TopLeftInfoBind,Converter={StaticResource AnyTextToVisibilityConverter},Mode=OneWay}">
                 <Grid.Background>
-                    <SolidColorBrush Color="Black" Opacity=".75" />
+                    <AcrylicBrush 
+                        BackgroundSource="Backdrop"
+                        TintTransitionDuration="0:0:1"
+                        TintColor="{StaticResource BrushDeepBackgroundColor}"
+                        TintOpacity="0.5"
+                        FallbackColor="{StaticResource BrushDeepBackgroundColor}"/>
                 </Grid.Background>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>

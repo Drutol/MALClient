@@ -32,7 +32,6 @@ namespace MALClient.UWP.Pages.Main
     public sealed partial class ListComparisonPage : Page
     {
         private ListComparisonViewModel _viewModel = ViewModelLocator.Comparison;
-        private BlurHelper _blurHelper;
         private TypeInfo _typeInfo;
         private ScrollViewer _myScrollViewer;
         private CompositionPropertySet _scrollProperties;
@@ -83,7 +82,6 @@ namespace MALClient.UWP.Pages.Main
 
         private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
         {
-            _blurHelper = new BlurHelper(HeaderBlurBg,false);
 
             ComparisonFiltersList.SelectedIndex = (int)_viewModel.ComparisonFilter;
             var index = (int) _viewModel.StatusFilter;

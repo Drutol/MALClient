@@ -23,7 +23,7 @@
     <AppxPackageDir>C:\Users\dogie\Documents\VsBuilds\</AppxPackageDir>
     <HockeyAppResourceId>b79e78858bdf44c4bfc3a1f37c8fd90c</HockeyAppResourceId>
     <RuntimeIdentifiers>win10-arm;win10-arm-aot;win10-x86;win10-x86-aot;win10-x64;win10-x64-aot</RuntimeIdentifiers>
-    <PackageCertificateThumbprint>905CC98BB13FCCB25E9CC8B0FCDB3AA5408F3D50</PackageCertificateThumbprint>
+    <PackageCertificateThumbprint>5A42F2D8D8A9ED8DE6290192961E1AA82606F344</PackageCertificateThumbprint>
     <PackageCertificateKeyFile>MALClient.UWP.Desktop_StoreKey.pfx</PackageCertificateKeyFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">

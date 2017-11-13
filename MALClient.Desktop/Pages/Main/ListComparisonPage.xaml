@@ -28,6 +28,13 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
+        <Grid.Resources>
+            <ResourceDictionary>
+                <Style TargetType="ScrollBar">
+                    <Setter Property="Margin" Value="0,125,0,48"/>
+                </Style>
+            </ResourceDictionary>
+        </Grid.Resources>
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
                 <VisualState x:Name="Wide">
@@ -254,13 +261,6 @@
                     TintOpacity="0.7"
                     FallbackColor="{StaticResource BrushDeepBackgroundColor}"/>
             </Grid.Background>
-
-            <Grid Grid.ColumnSpan="2">
-                <Grid.Background>
-                    <SolidColorBrush Color="{StaticResource SystemAccentColor}" Opacity=".065"></SolidColorBrush>
-                </Grid.Background>
-            </Grid>
-
 
             <ProgressBar IsIndeterminate="True" Grid.ColumnSpan="2" VerticalAlignment="Center" HorizontalAlignment="Stretch" Visibility="{Binding Loading}" Margin="50,0"/>
             <!--<SymbolIcon x:Name="HeaderIcon" Grid.ColumnSpan="2" Grid.RowSpan="2" RenderTransformOrigin="0.5,0.5" Symbol="Switch"

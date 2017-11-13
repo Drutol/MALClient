@@ -108,6 +108,13 @@
             </Grid.Background>
             <Grid x:Name="MainTitleBar" Width="Auto" Height="Auto"  Background="Transparent">
             </Grid>
+            <Button Grid.Column="1" IsTabStop="False" HorizontalAlignment="Left"
+                    VerticalAlignment="Center" Width="48" Height="32"
+                    Command="{Binding NavigateMainBackCommand}"
+                    Visibility="{Binding NavigateMainBackButtonVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
+                    Background="Transparent" BorderThickness="0">
+                <TextBlock FontFamily="Segoe MDL2 Assets" FontSize="12" Text="&#xE830;"></TextBlock>
+            </Button>
         </Grid>
 
         <Grid Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1">
@@ -139,13 +146,7 @@
                 <Image x:Name="LogoImage" Width="250"
                        Stretch="Uniform" />
             </Grid>
-            <Button Grid.Column="1" IsTabStop="False" HorizontalAlignment="Right"
-                    VerticalAlignment="Center" Width="45" Height="48"
-                    Command="{Binding NavigateMainBackCommand}"
-                    Visibility="{Binding NavigateMainBackButtonVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
-                    Background="{ThemeResource SystemControlHighlightListAccentLowBrush}" BorderThickness="1" Style="{StaticResource ButtonRevealStyle}">
-                <SymbolIcon Symbol="Back" Foreground="White" />
-            </Button>
+
             <StackPanel Orientation="Horizontal" Grid.Column="2">
 
                 <TextBlock x:Name="CurrentStatus" FontWeight="Bold" Text="{Binding CurrentStatus}"

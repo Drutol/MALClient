@@ -1,2 +1,0 @@
-MainPackage=C:\Users\dogie\Documents\MALClient\MALClient.Dekstop\bin\x86\Release\MALClient.UWP.Desktop_5.3.28.0_x86.appx
-SymbolPackage=C:\Users\dogie\Documents\VsBuilds\MALClient.UWP.Desktop_5.3.28.0_Test\MALClient.UWP.Desktop_5.3.28.0_x86.appxsym

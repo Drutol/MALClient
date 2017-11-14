@@ -20,6 +20,8 @@ using MALClient.UWP.Shared.ViewModels.Interfaces;
 using MALClient.UWP.ViewModels;
 using MALClient.XShared.Utils;
 using MALClient.XShared.ViewModels;
+using Windows.UI;
+using Windows.UI.Xaml.Media;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -43,6 +45,7 @@ namespace MALClient.UWP
             Window.Current.SetTitleBar(MainTitleBar);
             coreTitleBar.LayoutMetricsChanged += TitleBar_LayoutMetricsChanged;
             coreTitleBar.IsVisibleChanged += TitleBar_IsVisibleChanged;
+            Window.Current.Activated += TitleBar_Activated;
 
             Loaded += (sender, args) =>
             {
@@ -315,6 +318,8 @@ namespace MALClient.UWP
         private void TitleBar_LayoutMetricsChanged(CoreApplicationViewTitleBar coreTitleBar, object args)
         {
             TitleBar.Height = coreTitleBar.Height;
+            TitleBarLeft.Margin = new Thickness(coreTitleBar.SystemOverlayLeftInset, 0, 0, 0);
+            TitleBarRight.Margin = new Thickness(0, 0, coreTitleBar.SystemOverlayRightInset, 0);
         }
 
         private void TitleBar_IsVisibleChanged(CoreApplicationViewTitleBar sender, object args)
@@ -327,6 +332,23 @@ namespace MALClient.UWP
             {
                 TitleBar.Visibility = Visibility.Collapsed;
             }
+        }
+        private void TitleBar_Activated(object sender, WindowActivatedEventArgs e)
+        {
+            SolidColorBrush foreground = null;
+            bool dark = Settings.SelectedTheme == (int)ApplicationTheme.Dark;
+            if (e.WindowActivationState != CoreWindowActivationState.Deactivated)
+                if (dark)
+                    foreground = new SolidColorBrush(Colors.White);
+                else
+                    foreground = new SolidColorBrush(Colors.Black);
+            else
+                foreground = new SolidColorBrush(Colors.Gray);
+            BackButtonText.Foreground = foreground;
+            ReloadButtonText.Foreground = foreground;
+            UpButtonText.Foreground = foreground;
+            CurrentStatus.Foreground = foreground;
+            SearchButtonText.Foreground = foreground;
         }
     }
 }

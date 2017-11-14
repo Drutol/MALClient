@@ -15,10 +15,10 @@
     </Page.Resources>
     
     <Grid Background="{ThemeResource BrushDeepBackground}">
-        <GridView ItemsSource="{Binding Feeds}" HorizontalAlignment="Center" SelectionMode="Single" IsItemClickEnabled="True" ItemClick="OnItemClick">
+        <GridView ItemsSource="{Binding Feeds}" HorizontalAlignment="Stretch" SelectionMode="Single" IsItemClickEnabled="True" ItemClick="OnItemClick">
             <GridView.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <ItemsWrapGrid Margin="0,0,16,0" Orientation="Horizontal" HorizontalAlignment="Stretch"
+                    <ItemsWrapGrid Margin="0,0,16,0" Orientation="Horizontal" HorizontalAlignment="Center"
                                    ItemWidth="200" ItemHeight="325" />
                 </ItemsPanelTemplate>
             </GridView.ItemsPanel>

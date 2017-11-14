@@ -106,15 +106,72 @@
                     TintOpacity="0.85"
                     FallbackColor="{StaticResource BrushDeepBackgroundColor}"/>
             </Grid.Background>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
             <Grid x:Name="MainTitleBar" Width="Auto" Height="Auto"  Background="Transparent">
             </Grid>
-            <Button Grid.Column="1" IsTabStop="False" HorizontalAlignment="Left"
+            <Grid x:Name="TitleBarLeft" HorizontalAlignment="Left">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="0" IsTabStop="False" HorizontalAlignment="Left"
                     VerticalAlignment="Center" Width="48" Height="32"
                     Command="{Binding NavigateMainBackCommand}"
                     Visibility="{Binding NavigateMainBackButtonVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
                     Background="Transparent" BorderThickness="0">
-                <TextBlock FontFamily="Segoe MDL2 Assets" FontSize="12" Text="&#xE830;"></TextBlock>
-            </Button>
+                    <TextBlock x:Name="BackButtonText" FontFamily="Segoe MDL2 Assets" FontSize="12" Text="&#xE830;"/>
+                </Button>
+                <StackPanel Orientation="Horizontal" Grid.Column="1">
+                    <TextBlock x:Name="CurrentStatus" FontWeight="Bold" Text="{Binding CurrentStatus}"
+                           TextTrimming="CharacterEllipsis" FontSize="13"
+                           VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="10,0,0,0"/>
+                    <TextBlock x:Name="CurrentStatusSub" FontWeight="Normal" Text="{Binding CurrentStatusSub}"
+                           TextTrimming="CharacterEllipsis" FontSize="12"
+                           Foreground="{ThemeResource BrushSettingsSubtitle}"
+                           VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="10,0,0,0"/>
+                </StackPanel>
+            </Grid>
+            <Grid x:Name="TitleBarRight" HorizontalAlignment="Right">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <AutoSuggestBox x:Name="SearchInput" Grid.Column="1" ItemsSource="{Binding CurrentHintSet}"
+                                HorizontalAlignment="Stretch" VerticalAlignment="Center"
+                                QuerySubmitted="SearchInput_OnQuerySubmitted"
+                                Text="{Binding CurrentSearchQuery, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                Visibility="{Binding SearchInputVisibility, Converter={StaticResource BoolToVisibilityConverter}}"
+                                PlaceholderText="Search..." Height="32" Width="400"/>
+                <userControls:LockableToggleButton IsTabStop="False" LockToggle="{Binding SearchToggleLock}"
+                                               IsThreeState="False"
+                                               VerticalAlignment="Center" Width="48" Height="32" Grid.Column="2"
+                                               Background="Transparent" Click="ToggleButton_OnClick"
+                                               IsChecked="{Binding SearchToggleStatus,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                               Command="{Binding ToggleSearchCommand}"
+                                               Visibility="{Binding SearchToggleVisibility, Converter={StaticResource BoolToVisibilityConverter}}"
+                                               BorderThickness="0">
+                    <TextBlock x:Name="SearchButtonText" FontFamily="Segoe MDL2 Assets" FontSize="14" Text="&#xE11A;"/>
+                </userControls:LockableToggleButton>
+                <Button IsTabStop="False"
+                    VerticalAlignment="Center" Width="48" Height="32" Grid.Column="3" Background="Transparent"
+                    Command="{Binding RefreshDataCommand}"
+                    Visibility="{Binding RefreshButtonVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
+                    BorderThickness="0">
+                    <TextBlock x:Name="ReloadButtonText" FontFamily="Segoe MDL2 Assets" FontSize="14" Text="&#xE72C;"/>
+                </Button>
+                <Button IsTabStop="False" Grid.Column="4" Background="Transparent" Height="32" Width="48"
+                        Visibility="{Binding ScrollToTopButtonVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
+                        Command="{Binding GoTopCommand}" BorderThickness="0">
+                    <TextBlock x:Name="UpButtonText" FontFamily="Segoe MDL2 Assets" FontSize="12" Text="&#xE74A;"/>
+                </Button>
+            </Grid>
         </Grid>
 
         <Grid Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1">
@@ -139,34 +196,13 @@
                         FontFamily="Segoe MDL2 Assets"
                         BorderThickness="1"
                         Content="&#xE700;" Visibility="Visible"
-                        Width="60" Height="45" Background="Transparent" FontSize="20"
+                        Width="60" Height="48" Background="Transparent" FontSize="20"
                         Foreground="{StaticResource SystemControlBackgroundAccentBrush}"
                         Command="{Binding ReversePaneCommand}" 
                         Style="{StaticResource ButtonRevealStyle}"/>
                 <Image x:Name="LogoImage" Width="250"
                        Stretch="Uniform" />
             </Grid>
-
-            <StackPanel Orientation="Horizontal" Grid.Column="2">
-
-                <TextBlock x:Name="CurrentStatus" FontWeight="Bold" Text="{Binding CurrentStatus}"
-                           TextTrimming="CharacterEllipsis"
-                           VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="10,0,0,0"
-                           Visibility="{Binding Visibility, Converter={StaticResource VisiblityInverterConverter}, ElementName=SearchInput}" />
-                <TextBlock x:Name="CurrentStatusSub" FontWeight="Normal" Text="{Binding CurrentStatusSub}"
-                           TextTrimming="CharacterEllipsis" FontSize="14"
-                           Foreground="{ThemeResource BrushSettingsSubtitle}"
-                           VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="10,0,0,0"
-                           Visibility="{Binding Visibility, Converter={StaticResource VisiblityInverterConverter}, ElementName=SearchInput}" />
-            </StackPanel>
-            <Button IsTabStop="False" HorizontalAlignment="Right"
-                    VerticalAlignment="Center" Width="45" Height="48" Grid.Column="3" Background="Transparent"
-                    Command="{Binding RefreshDataCommand}"
-                    Visibility="{Binding RefreshButtonVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
-                    BorderThickness="1"
-                    Style="{StaticResource ButtonRevealStyle}">
-                <SymbolIcon Symbol="Refresh" />
-            </Button>
             <Grid Grid.Column="4" Background="Transparent" HorizontalAlignment="Stretch" Width="16"
                   Visibility="{Binding OffContentVisibility,Converter={StaticResource BoolToVisibilityConverter}}" />
             <Grid Column="5"
@@ -215,12 +251,6 @@
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-                <AutoSuggestBox x:Name="SearchInput" ItemsSource="{Binding CurrentHintSet}"
-                                HorizontalAlignment="Stretch" VerticalAlignment="Center"
-                                QuerySubmitted="SearchInput_OnQuerySubmitted"
-                                Text="{Binding CurrentSearchQuery, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                Visibility="{Binding SearchInputVisibility, Converter={StaticResource BoolToVisibilityConverter}}"
-                                PlaceholderText="Search..." />
                 <Grid Grid.Column="1"
                       Visibility="{Binding StatusFilterVisibilityLock,Converter={StaticResource BoolToVisibilityConverter}}">
                     <Button IsTabStop="False" Background="Transparent" Height="48" Width="45"
@@ -241,23 +271,7 @@
                                     Foreground="{Binding IsSearchFilterActive,Converter={StaticResource SearchFilterStatusToBrushConverter}}" />
                     </Button>
                 </Grid>
-                <Button IsTabStop="False" Grid.Column="1" Background="Transparent" Height="48" Width="45"
-                        Visibility="{Binding ScrollToTopButtonVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
-                        Command="{Binding GoTopCommand}" BorderThickness="1" Style="{StaticResource ButtonRevealStyle}">
-                    <SymbolIcon Symbol="Up" />
-                </Button>
             </Grid>
-            <userControls:LockableToggleButton IsTabStop="False" LockToggle="{Binding SearchToggleLock}"
-                                               HorizontalAlignment="Right" IsThreeState="False"
-                                               VerticalAlignment="Center" Width="45" Height="48" Grid.Column="3"
-                                               Background="Transparent" Click="ToggleButton_OnClick"
-                                               IsChecked="{Binding SearchToggleStatus,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
-                                               Command="{Binding ToggleSearchCommand}"
-                                               Visibility="{Binding SearchToggleVisibility, Converter={StaticResource BoolToVisibilityConverter}}"
-                                               BorderThickness="1"
-                                               Style="{StaticResource ToggleButtonRevealStyle}">
-                <SymbolIcon Symbol="Find" />
-            </userControls:LockableToggleButton>
         </Grid>
         <Grid VerticalAlignment="Stretch" Grid.Row="2">
             <Grid.Resources>

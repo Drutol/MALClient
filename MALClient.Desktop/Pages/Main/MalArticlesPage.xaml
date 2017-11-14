@@ -18,9 +18,9 @@
                  NavigationStarting="ArticleWebView_OnNavigationStarting" RequestedTheme="Dark"
                  HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                  Visibility="{Binding WebViewVisibility,Converter={StaticResource BoolToVisibilityConverter}}" />
-        <GridView SelectionMode="None" ItemsSource="{Binding Articles}" HorizontalAlignment="Center"
+        <GridView SelectionMode="None" ItemsSource="{Binding Articles}" HorizontalAlignment="Stretch"
                   IsItemClickEnabled="True" ItemClick="ListViewBase_OnItemClick"
-                  Visibility="{Binding ArticleIndexVisibility,Converter={StaticResource BoolToVisibilityConverter}}" Margin="0,0,-10,0">
+                  Visibility="{Binding ArticleIndexVisibility,Converter={StaticResource BoolToVisibilityConverter}}" Margin="0,0,0,0">
             <GridView.ItemContainerStyle>
                 <Style TargetType="GridViewItem">
                     <Setter Property="Margin" Value="5" />
@@ -31,7 +31,7 @@
             </GridView.ItemContainerStyle>
             <GridView.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <ItemsWrapGrid ItemWidth="500" ItemHeight="270" Orientation="Horizontal" Margin="0,0,10,0" />
+                    <ItemsWrapGrid ItemWidth="500" ItemHeight="270" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,0" />
                 </ItemsPanelTemplate>
             </GridView.ItemsPanel>
             <GridView.ItemContainerTransitions>

@@ -128,7 +128,7 @@
                 <StackPanel Orientation="Horizontal" Grid.Column="1">
                     <TextBlock x:Name="CurrentStatus" FontWeight="Bold" Text="{Binding CurrentStatus}"
                            TextTrimming="CharacterEllipsis" FontSize="13"
-                           VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="10,0,0,0"/>
+                           VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="10,-3,0,0"/>
                     <TextBlock x:Name="CurrentStatusSub" FontWeight="Normal" Text="{Binding CurrentStatusSub}"
                            TextTrimming="CharacterEllipsis" FontSize="12"
                            Foreground="{ThemeResource BrushSettingsSubtitle}"
@@ -139,6 +139,7 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
                     <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="Auto"/>
@@ -159,14 +160,30 @@
                                                BorderThickness="0">
                     <TextBlock x:Name="SearchButtonText" FontFamily="Segoe MDL2 Assets" FontSize="14" Text="&#xE11A;"/>
                 </userControls:LockableToggleButton>
+                <Button IsTabStop="False" Background="Transparent" Height="32" Width="48" Grid.Column="3"
+                            Visibility="{Binding SearchFilterButtonVisibility,Converter={StaticResource BoolToVisibilityConverter}}" BorderThickness="0">
+                    <Button.Flyout>
+                        <Flyout>
+                            <ListView ItemsSource="{Binding SearchFilterOptions}"
+                                          SelectedIndex="{Binding SearchFilterSelectedIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding}" />
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                        </Flyout>
+                    </Button.Flyout>
+                    <TextBlock x:Name="FilterButtonText" FontFamily="Segoe MDL2 Assets" FontSize="14" Text="&#xE71C;" Foreground="{Binding IsSearchFilterActive,Converter={StaticResource SearchFilterStatusToBrushConverter}}"/>
+                </Button>
                 <Button IsTabStop="False"
-                    VerticalAlignment="Center" Width="48" Height="32" Grid.Column="3" Background="Transparent"
+                    VerticalAlignment="Center" Width="48" Height="32" Grid.Column="4" Background="Transparent"
                     Command="{Binding RefreshDataCommand}"
                     Visibility="{Binding RefreshButtonVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
                     BorderThickness="0">
                     <TextBlock x:Name="ReloadButtonText" FontFamily="Segoe MDL2 Assets" FontSize="14" Text="&#xE72C;"/>
                 </Button>
-                <Button IsTabStop="False" Grid.Column="4" Background="Transparent" Height="32" Width="48"
+                <Button IsTabStop="False" Grid.Column="5" Background="Transparent" Height="32" Width="48"
                         Visibility="{Binding ScrollToTopButtonVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
                         Command="{Binding GoTopCommand}" BorderThickness="0">
                     <TextBlock x:Name="UpButtonText" FontFamily="Segoe MDL2 Assets" FontSize="12" Text="&#xE74A;"/>
@@ -174,14 +191,13 @@
             </Grid>
         </Grid>
 
-        <Grid Width="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1">
+        <Grid Width="Auto" HorizontalAlignment="Left" VerticalAlignment="Stretch" Grid.Row="1">
             <Grid.Background>
                 <AcrylicBrush
                     BackgroundSource="HostBackdrop"
-                    TintTransitionDuration="0:0:1"
                     TintColor="{StaticResource BrushDeepBackgroundColor}"
-                    TintOpacity="0.85"
-                    FallbackColor="{StaticResource BrushDeepBackgroundColor}"/>
+                    TintOpacity="0.7"
+                    FallbackColor="{StaticResource ColorHamburgerBackground}"/>
             </Grid.Background>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
@@ -203,7 +219,24 @@
                 <Image x:Name="LogoImage" Width="250"
                        Stretch="Uniform" />
             </Grid>
-            <Grid Grid.Column="4" Background="Transparent" HorizontalAlignment="Stretch" Width="16"
+        </Grid>
+        <Grid Width="Auto" HorizontalAlignment="Right" VerticalAlignment="Stretch" Grid.Row="1">
+            <Grid.Background>
+                <AcrylicBrush 
+                BackgroundSource="HostBackdrop"
+                TintColor="{StaticResource BrushDeepBackgroundColor}"
+                TintOpacity="0.7"
+                FallbackColor="{StaticResource ColorDetailsBackground}"/>
+            </Grid.Background>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" MaxWidth="50" />
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="4" Background="{ThemeResource BrushSplitter}" HorizontalAlignment="Stretch" Width="16"
                   Visibility="{Binding OffContentVisibility,Converter={StaticResource BoolToVisibilityConverter}}" />
             <Grid Column="5"
                   Visibility="{Binding OffContentVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
@@ -246,32 +279,6 @@
                     <SymbolIcon Symbol="Refresh" />
                 </Button>
             </Grid>
-            <Grid Margin="10,0,-5,0" Grid.Column="2" HorizontalAlignment="Stretch">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-                <Grid Grid.Column="1"
-                      Visibility="{Binding StatusFilterVisibilityLock,Converter={StaticResource BoolToVisibilityConverter}}">
-                    <Button IsTabStop="False" Background="Transparent" Height="48" Width="45"
-                            Visibility="{Binding SearchFilterButtonVisibility,Converter={StaticResource BoolToVisibilityConverter}}">
-                        <Button.Flyout>
-                            <Flyout>
-                                <ListView ItemsSource="{Binding SearchFilterOptions}"
-                                          SelectedIndex="{Binding SearchFilterSelectedIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-                                    <ListView.ItemTemplate>
-                                        <DataTemplate>
-                                            <TextBlock Text="{Binding}" />
-                                        </DataTemplate>
-                                    </ListView.ItemTemplate>
-                                </ListView>
-                            </Flyout>
-                        </Button.Flyout>
-                        <SymbolIcon Symbol="Filter"
-                                    Foreground="{Binding IsSearchFilterActive,Converter={StaticResource SearchFilterStatusToBrushConverter}}" />
-                    </Button>
-                </Grid>
-            </Grid>
         </Grid>
         <Grid VerticalAlignment="Stretch" Grid.Row="2">
             <Grid.Resources>
@@ -292,7 +299,7 @@
                     <ColumnDefinition x:Name="SplitterColumn" MaxWidth="16" Width="0" />
                     <ColumnDefinition x:Name="OffContentColumn" Width="Auto" MaxWidth="600" />
                 </Grid.ColumnDefinitions>
-                <Grid Grid.Column="0" Grid.ColumnSpan="{Binding MainContentColumnSpan}">
+                <Grid Grid.Column="0" Margin="0,-48,0,0"  Grid.ColumnSpan="{Binding MainContentColumnSpan}">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="*" />

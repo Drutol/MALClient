@@ -45,13 +45,13 @@
                 <DataTemplate />
             </Pivot.ItemTemplate>
         </Pivot>
-        <GridView HorizontalAlignment="Center" Grid.Row="1" ItemsSource="{Binding FoundCharacters}" IsItemClickEnabled="True" ItemClick="CharacterItemOnClick">
+        <GridView HorizontalAlignment="Stretch" Grid.Row="1" ItemsSource="{Binding FoundCharacters}" IsItemClickEnabled="True" ItemClick="CharacterItemOnClick">
             <GridView.ItemContainerStyle>
                 <Style TargetType="GridViewItem">
                     <Setter Property="Margin" Value="5" />
                     <Setter Property="Padding" Value="2" />
                     <Setter Property="Width" Value="200" />
-                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                    <Setter Property="HorizontalAlignment" Value="Center" />
                     <Setter Property="Background" Value="{ThemeResource BrushAnimeItemBackground}" />
                 </Style>
             </GridView.ItemContainerStyle>

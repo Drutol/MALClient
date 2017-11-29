@@ -3,7 +3,7 @@
 <p align="center">
   <img src="MALClient.Android/Resources/drawable/Icon.png" width="150px">
   <br><br>
-  It's rather robust MyAnimeList client application interfacing with both "official" api and the website api with wild endpoints with cookies and such. Right now it's available on Windows 10 devices and Android version coming really soon.
+  It's rather robust MyAnimeList client application interfacing with both "official" api and the website api with wild endpoints with cookies and such. Right now it's available on Windows 10 devices and Android.
 </p>
 
 <table >
@@ -36,7 +36,7 @@
 
 ### Features
 * Anime and manga list updates.
-  * Score,Status,Episodes,Volumes
+  * Score, Status, Episodes, Volumes
   * Tags
   * Favourites
   * Start/End date
@@ -52,24 +52,24 @@
   * Recommendations
   * Personalized anime/manga suggestions.
   * Related
-  * Characters&Staff
-  * Mal statisctics
+  * Characters & Staff
+  * Mal statistics
   * Promotional videos
 * Top anime/manga.
   * With multiple categories
 * Seasonal anime
   * With multiple season selection
 * Anime by studio and genre
-* Global anime&manga recommendations
+* Global anime & manga recommendations
 * Calendar
-  * With countdowns to nex episode
+  * With countdowns to next episode
 * Mal articles
   * Mal news
 * Live tiles
 * Mal messaging 
 * Tons of settings
 * Mal profile
-  * With navigation accross others' profiles
+  * With navigation across other's profiles
   * Profile comments, you can add new ones too!
   * Profile comment converstion
 * Forums

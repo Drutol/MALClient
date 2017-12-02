@@ -324,12 +324,19 @@
                               MinWidth="300" MaxWidth="600" HorizontalAlignment="Right" VerticalAlignment="Top"
                               MaxHeight="600" BorderThickness="1"
                               BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"
-                              Margin="0,40,20,0">
+                              Margin="0,50,40,0">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="*" />
                             </Grid.RowDefinitions>
-                            <Grid Background="{StaticResource SystemControlBackgroundAccentBrush}">
+                            <Grid.Background>
+                                <AcrylicBrush 
+                                        BackgroundSource="Backdrop"
+                                        TintColor="{StaticResource BrushDeepBackgroundColor}"
+                                        TintOpacity="0.6"
+                                        FallbackColor="{StaticResource BrushDeepBackgroundColor}"/>
+                            </Grid.Background>
+                            <Grid Background="Transparent">
                                 <TextBlock Text="New update! What's new?" FontWeight="Bold" Foreground="White"
                                            HorizontalAlignment="Left" Margin="10,5" />
                                 <Button Style="{StaticResource TextBlockButtonStyle}" HorizontalAlignment="Right" Foreground="White"
@@ -337,17 +344,10 @@
                                     <SymbolIcon Symbol="Cancel"/>
                                 </Button>
                             </Grid>
-                            <Grid Padding="20" Grid.Row="1">
-                                <Grid.Background>
-                                    <AcrylicBrush 
-                                        BackgroundSource="Backdrop"
-                                        TintColor="{StaticResource BrushDeepBackgroundColor}"
-                                        TintOpacity="0.6"
-                                        FallbackColor="{StaticResource BrushDeepBackgroundColor}"/>
-                                </Grid.Background>
+                            <Grid Padding="20,10,20,15" Grid.Row="1">
                                 <StackPanel>
                                     <TextBlock FontWeight="SemiBold" Text="{Binding ChangelogHeader}"
-                                               TextWrapping="WrapWholeWords" Margin="0,5" />
+                                               TextWrapping="WrapWholeWords" Margin="0,0,0,5" />
                                     <MenuFlyoutSeparator Margin="-20,0,-20,5" Background="{ThemeResource BrushText}" />
                                     <ItemsControl ItemsSource="{Binding ChangelogContent}">
                                         <ItemsControl.ItemTemplate>

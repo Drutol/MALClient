@@ -295,7 +295,7 @@
         </Grid>
         <Grid Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
               Visibility="{Binding LoadingAllDetailsVisibility,Converter={StaticResource BoolToVisibilityConverter}}">
-            <Grid HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="20,0" Padding="10"  BorderThickness="1"  BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}">
+            <Grid HorizontalAlignment="Stretch" VerticalAlignment="Center" MaxWidth="500" Padding="10"  BorderThickness="1"  BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}">
                 <Grid.Background>
                     <AcrylicBrush 
                     BackgroundSource="Backdrop"

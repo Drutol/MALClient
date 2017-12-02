@@ -393,9 +393,8 @@
                 <Button HorizontalAlignment="Stretch" Height="50"
                         Command="{Binding AddAnimeCommand}"
                         IsEnabled="{Binding IsAddAnimeButtonEnabled}"
-                        Background="{ThemeResource AppBarBackgroundThemeBrush}"
                         Margin="20,10,20,0"
-                        BorderThickness="1" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" Style="{StaticResource ButtonRevealStyle}">
+                        BorderThickness="1" Style="{StaticResource ButtonRevealStyle}">
                     <StackPanel Orientation="Horizontal">
                         <SymbolIcon Symbol="Add" />
                         <TextBlock Margin="10,0,0,0" Text="Add to my list" />

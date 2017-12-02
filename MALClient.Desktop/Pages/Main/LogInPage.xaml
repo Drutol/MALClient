@@ -46,9 +46,14 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-            <StackPanel Grid.Row="0" Padding="10" HorizontalAlignment="Center" CornerRadius="10">
+            <StackPanel Grid.Row="0" Padding="10" HorizontalAlignment="Center" BorderThickness="1"
+                              BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}">
                 <StackPanel.Background>
-                    <SolidColorBrush Color="Black" Opacity=".6"/>
+                    <AcrylicBrush 
+                        BackgroundSource="Backdrop"
+                        TintColor="{StaticResource BrushDeepBackgroundColor}"
+                        TintOpacity="0.6"
+                        FallbackColor="{StaticResource BrushDeepBackgroundColor}"/>
                 </StackPanel.Background>
                 <Image Source="/Assets/Wide310x150Logo.png"  Width="310" Height="150"
                    VerticalAlignment="Center" />
@@ -66,7 +71,6 @@
             </StackPanel>
             <Button Grid.Row="1" Command="{Binding LogOutCommand}" VerticalAlignment="Bottom"
                     HorizontalAlignment="Center" Visibility="{Binding LogOutButtonVisibility}" Content="Log out" Margin="3,3"
-                    Background="{ThemeResource AppBarBackgroundThemeBrush}"
                     BorderThickness="1"
                     Style="{StaticResource ButtonRevealStyle}" />
             <Button Grid.Row="1" Content="Register!" Style="{StaticResource TextBlockButtonStyle}"

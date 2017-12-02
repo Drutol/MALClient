@@ -345,7 +345,7 @@
                     <ToggleButton HorizontalAlignment="Stretch" IsRightTapEnabled="True"
                                   RightTapped="RewatchedButtonOnRightClick" VerticalAlignment="Stretch"
                                   IsChecked="{Binding IsRewatching,Mode=TwoWay}" Background="Transparent"
-                                  Visibility="{Binding MalApiSpecificControlsVisibility,Converter={StaticResource BoolToVisibilityConverter}}">
+                                  Visibility="{Binding MalApiSpecificControlsVisibility,Converter={StaticResource BoolToVisibilityConverter}}"  BorderThickness="1" Style="{StaticResource ToggleButtonRevealStyle}">
                         <ToolTipService.ToolTip>
                             <ToolTip Content="Rewatching. Right click to set amount of times rewatched." />
                         </ToolTipService.ToolTip>

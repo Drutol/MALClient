@@ -40,12 +40,12 @@ namespace MALClient.UWP.Pages.Off.SettingsPages
             }
         }
 
-        private async void LaunchIssues(object sender, RoutedEventArgs e)
+        private void LaunchIssues(object sender, RoutedEventArgs e)
         {
             ResourceLocator.SystemControlsLauncherService.LaunchUri(new Uri("https://github.com/Drutol/MALClient/issues"));
         }
 
-        private async void LaunchRepo(object sender, RoutedEventArgs e)
+        private void LaunchRepo(object sender, RoutedEventArgs e)
         {
             ResourceLocator.SystemControlsLauncherService.LaunchUri(new Uri("https://github.com/Drutol/MALClient"));
         }

@@ -71,7 +71,7 @@ namespace MALClient.UWP.Pages.Forums
             (FlyoutBase.GetAttachedFlyout(btn)).ShowAt(btn);
         }
 
-        private async void BetaForumsFeedback(object sender, RoutedEventArgs e)
+        private void BetaForumsFeedback(object sender, RoutedEventArgs e)
         {
             ResourceLocator.SystemControlsLauncherService.LaunchUri(new Uri("https://github.com/Mordonus/MALClient/issues/44"));
         }

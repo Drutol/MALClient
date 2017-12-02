@@ -34,6 +34,11 @@
                         <WrapGrid Orientation="Horizontal"/>
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
+                <ItemsControl.Resources>
+                    <Style TargetType="Button" BasedOn="{StaticResource ButtonRevealStyle}">
+                        <Setter Property="BorderThickness" Value="1" />
+                    </Style>
+                </ItemsControl.Resources>
                 <Button Background="Transparent" Width="40" Height="40" Tag="{StaticResource B}" Loaded="ButtonOnLoaded"
                     Click="EditorButtonOnClick">
                     <ToolTipService.ToolTip>
@@ -106,7 +111,7 @@
                 </Button>
             </ItemsControl>
             <Button x:Name="PreviewButton" Background="Transparent" Width="40" Height="40" HorizontalAlignment="Right" VerticalAlignment="Top" 
-                    Click="PreviewButtonOnClick">
+                    Click="PreviewButtonOnClick" Style="{StaticResource ButtonRevealStyle}" BorderThickness="1">
                 <ToolTipService.ToolTip>
                     <ToolTip Content="Preview" />
                 </ToolTipService.ToolTip>

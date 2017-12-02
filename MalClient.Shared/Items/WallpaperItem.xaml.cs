@@ -33,9 +33,7 @@ namespace MALClient.UWP.Shared.Items
             {
                 ViewModel.Resolution = $"{Bitmap.PixelWidth}x{Bitmap.PixelHeight}";
                 if (ViewModel.IsBlurred)
-                    await Image.Blur(10, 0).StartAsync();
-                else
-                    await Image.Blur(0, 0).StartAsync();
+                    await Image.Blur(20, 0).StartAsync();
             }
             ResolutionGrid.Visibility = Visibility.Visible;
             ImgLoading.Visibility = Visibility.Collapsed;

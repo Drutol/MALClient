@@ -88,7 +88,7 @@ namespace MALClient.UWP.BGTaskNotifications
                                 (Settings.EnabledNotificationTypes & notification.Type) == notification.Type).ToList();
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 //http exec error
             }

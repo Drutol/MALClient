@@ -47,7 +47,12 @@
             <Grid x:Name="BoundingGrid" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="-1,0,-1,0">
                 <Grid VerticalAlignment="Top" HorizontalAlignment="Left">
                     <Grid.Background>
-                        <SolidColorBrush Color="Black" Opacity=".75" />
+                        <AcrylicBrush 
+                        BackgroundSource="Backdrop"
+                        TintTransitionDuration="0:0:1"
+                        TintColor="{StaticResource BrushDeepBackgroundColor}"
+                        TintOpacity="0.5"
+                        FallbackColor="{StaticResource BrushDeepBackgroundColor}"/>
                     </Grid.Background>
                     <TextBlock Margin="5" FontWeight="SemiLight" Foreground="White">
                         /r/<Run Text="{Binding Data.Source}" />
@@ -56,7 +61,12 @@
                 <Grid x:Name="ResolutionGrid" VerticalAlignment="Bottom" HorizontalAlignment="Left"
                       Visibility="Collapsed">
                     <Grid.Background>
-                        <SolidColorBrush Color="Black" Opacity=".75" />
+                        <AcrylicBrush 
+                        BackgroundSource="Backdrop"
+                        TintTransitionDuration="0:0:1"
+                        TintColor="{StaticResource BrushDeepBackgroundColor}"
+                        TintOpacity="0.5"
+                        FallbackColor="{StaticResource BrushDeepBackgroundColor}"/>
                     </Grid.Background>
                     <TextBlock Margin="5" FontWeight="SemiLight" Foreground="White">
                         <Run Text="{Binding Resolution}" />
@@ -64,7 +74,12 @@
                 </Grid>
                 <Grid VerticalAlignment="Bottom" HorizontalAlignment="Right">
                     <Grid.Background>
-                        <SolidColorBrush Color="Black" Opacity=".75" />
+                        <AcrylicBrush 
+                        BackgroundSource="Backdrop"
+                        TintTransitionDuration="0:0:1"
+                        TintColor="{StaticResource BrushDeepBackgroundColor}"
+                        TintOpacity="0.5"
+                        FallbackColor="{StaticResource BrushDeepBackgroundColor}"/>
                     </Grid.Background>
                     <TextBlock Margin="5" FontWeight="SemiLight" Foreground="White">
                         <Run Text="{Binding Created}" />

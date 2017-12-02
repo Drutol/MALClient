@@ -129,7 +129,7 @@ namespace MALClient.UWP.Adapters
                     await FileIO.WriteTextAsync(file, json);
                 });
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 //magic
             }

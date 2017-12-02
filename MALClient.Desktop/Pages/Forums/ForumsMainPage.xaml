@@ -16,13 +16,13 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Grid Background="{ThemeResource BrushAnimeItemInnerBackground}">
+        <Grid Background="{ThemeResource BrushAnimeItemInnerBackground}" Margin="0,0,0,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
-            <Button>
+            <Button Style="{StaticResource ButtonRevealStyle}" BorderThickness="1">
                 <Button.Flyout>
                     <Flyout x:Name="PinnedTopicsFlyout">
                         <Grid>
@@ -110,7 +110,12 @@
                 </ItemsControl>
             </ScrollViewer>
             <StackPanel Grid.Column="2" Orientation="Horizontal">
-          
+                <StackPanel.Resources>
+                    <Style TargetType="Button" BasedOn="{StaticResource ButtonRevealStyle}">
+                        <Setter Property="BorderThickness" Value="1" />
+                    </Style>
+                </StackPanel.Resources>
+
                 <Button Background="Transparent"  Command="{Binding NavigateRecentTopicsCommand}">
                     <ToolTipService.ToolTip>
                         <ToolTip Content="My recent topics"/>

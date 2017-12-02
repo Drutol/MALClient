@@ -323,7 +323,8 @@
                               attachedProperties:AnimatedVisibilityExtension.AnimatedVisiblity="{Binding ChangelogVisibility}"
                               MinWidth="300" MaxWidth="600" HorizontalAlignment="Right" VerticalAlignment="Top"
                               MaxHeight="600" BorderThickness="1"
-                              BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}">
+                              BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"
+                              Margin="0,40,20,0">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="*" />
@@ -336,7 +337,14 @@
                                     <SymbolIcon Symbol="Cancel"/>
                                 </Button>
                             </Grid>
-                            <Grid Padding="20" Grid.Row="1" Background="{ThemeResource BrushDeepBackground}">
+                            <Grid Padding="20" Grid.Row="1">
+                                <Grid.Background>
+                                    <AcrylicBrush 
+                                        BackgroundSource="Backdrop"
+                                        TintColor="{StaticResource BrushDeepBackgroundColor}"
+                                        TintOpacity="0.6"
+                                        FallbackColor="{StaticResource BrushDeepBackgroundColor}"/>
+                                </Grid.Background>
                                 <StackPanel>
                                     <TextBlock FontWeight="SemiBold" Text="{Binding ChangelogHeader}"
                                                TextWrapping="WrapWholeWords" Margin="0,5" />
@@ -405,14 +413,20 @@
                 </Grid>
             </Grid>
         </Grid>
-        <Grid x:Name="PinDialog" Opacity="0"
+        <Grid x:Name="PinDialog"
               DataContext="{Binding Source={StaticResource UwpLocator},Path=PinTileDialog}"
               Visibility="{Binding GeneralVisibility}"
-              VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="1"
-              Background="{ThemeResource BrushPinTileDialogOverlay}" Tapped="PinDialog_OnTapped">
-            <Grid x:Name="PinDialogInner" Margin="20,20,20,78"
-                  Background="{ThemeResource BrushPinTileDialogBackground}" VerticalAlignment="Center"
-                  HorizontalAlignment="Stretch" MaxWidth="450" Padding="10">
+              VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="2"
+              Background="Transparent" Tapped="PinDialog_OnTapped" Margin="0,-48,0,0">
+            <Grid x:Name="PinDialogInner" Margin="0,50,0,60" VerticalAlignment="Center"
+                  HorizontalAlignment="Stretch" MaxWidth="550" Padding="10" BorderThickness="1"  BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}">
+                <Grid.Background>
+                    <AcrylicBrush 
+                    BackgroundSource="Backdrop"
+                    TintColor="{StaticResource BrushDeepBackgroundColor}"
+                    TintOpacity="0.7"
+                    FallbackColor="{StaticResource BrushDeepBackgroundColor}"/>
+                </Grid.Background>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
@@ -607,8 +621,8 @@
                                 </StackPanel>
                             </StackPanel>
                         </StackPanel>
-                        <Button Grid.Row="3" Margin="5,6,5,0" Content="Pin" HorizontalAlignment="Stretch"
-                                Command="{Binding PinThingCommand}" IsEnabled="{Binding IsPinEnabled}" />
+                        <Button Grid.Row="3" Margin="5,6,0,0" Content="Pin" HorizontalAlignment="Stretch"
+                                Command="{Binding PinThingCommand}" IsEnabled="{Binding IsPinEnabled}" Style="{StaticResource ButtonRevealStyle}" BorderThickness="1" />
                     </Grid>
                 </ScrollViewer>
             </Grid>

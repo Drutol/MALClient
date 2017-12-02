@@ -69,7 +69,7 @@ namespace MALClient.UWP
             OnLaunchedOrActivated(e);
         }
 
-        protected async void OnLaunchedOrActivated(IActivatedEventArgs e)
+        private async void OnLaunchedOrActivated(IActivatedEventArgs e)
         {
             var rootFrame = Window.Current.Content as Frame;
             Tuple<int, string> navArgs = null;
@@ -113,7 +113,7 @@ namespace MALClient.UWP
                     {
                         var id = arg.Substring(0, pos);
                         arg = arg.Substring(pos + 1);
-                        MalNotificationsQuery.MarkNotifiactionsAsRead(new MalNotification(id));
+                        await MalNotificationsQuery.MarkNotifiactionsAsRead(new MalNotification(id));
                     }
                     if (arg.Contains(";"))
                     {
@@ -224,7 +224,7 @@ namespace MALClient.UWP
                 if (task == BgTasks.Notifications)
                     new NotificationsBackgroundTask().Run(null);
             }
-            catch (Exception e)
+            catch (Exception)
             {
 
             }
@@ -237,7 +237,7 @@ namespace MALClient.UWP
             ApplicationData.Current.LocalSettings.Values["AppVersion"] = UWPUtilities.GetAppVersion();
         }
 
-        private async void LaunchUri(string url)
+        private void LaunchUri(string url)
         {
             try
             {

@@ -22,7 +22,14 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <GridView ItemsSource="{Binding Wallpapers}">
+        <Grid.Resources>
+            <ResourceDictionary>
+                <Style TargetType="ScrollBar">
+                    <Setter Property="Margin" Value="0,0,0,48"/>
+                </Style>
+            </ResourceDictionary>
+        </Grid.Resources>
+        <GridView ItemsSource="{Binding Wallpapers}" Margin="0,0,0,-48" Padding="0,0,0,48">
             <GridView.ItemsPanel>
                 <ItemsPanelTemplate>
                     <derived:TrueVariableWarpGrid SqeezeChildren="True" Orientation="Horizontal"/>
@@ -43,10 +50,18 @@
                       IsActive="True"
                       Visibility="{Binding LoadingWallpapersVisibility,Converter={StaticResource BoolToVisibilityConverter}}" />
         <CommandBar Grid.Row="1">
+            <CommandBar.Background>
+                <AcrylicBrush 
+                    BackgroundSource="Backdrop"
+                    TintTransitionDuration="0:0:1"
+                    TintColor="{StaticResource BrushDeepBackgroundColor}"
+                    TintOpacity="0.7"
+                    FallbackColor="{StaticResource BrushDeepBackgroundColor}"/>
+            </CommandBar.Background>
             <CommandBar.SecondaryCommands>
                 <AppBarButton Label="Refresh" Icon="Refresh" Command="{Binding RefreshCommand}"/>
             </CommandBar.SecondaryCommands>
-            <AppBarButton Label="Sources" Icon="ClosePane" x:Name="SourcesAppBarBtn">
+            <AppBarButton Style="{ThemeResource AppBarButtonRevealStyle}" Label="Sources" Icon="ClosePane" x:Name="SourcesAppBarBtn">
                 <AppBarButton.Flyout>
                     <MenuFlyout>
                         <ToggleMenuFlyoutItem x:Name="SourceAnWp" Text="/r/AnimeWallpaper" Click="SourcesToggleButtonOnClick" Tag="0"/>
@@ -59,7 +74,7 @@
                     </MenuFlyout>
                 </AppBarButton.Flyout>
             </AppBarButton>
-            <AppBarButton Label="Amount of wallpapers" Icon="GoToStart">
+            <AppBarButton Style="{ThemeResource AppBarButtonRevealStyle}" Label="Amount of wallpapers" Icon="GoToStart">
                 <AppBarButton.Flyout>
                     <MenuFlyout>
                         <derived:RadioToggleMenuFlyoutItem x:Name="AmountMore" Text="More" Click="AmountOfWallpaperMenuFlyoutItemOnClick" GroupName="WallpapersAmountOf" Tag="6"/>
@@ -69,8 +84,8 @@
                 </AppBarButton.Flyout>
             </AppBarButton>
             <AppBarSeparator/>
-            <AppBarButton Label="Previous page" Icon="Previous" Command="{Binding GoBackwardsCommand}" IsEnabled="{Binding IsGoBackwardsButtonEnabled}"/>
-            <AppBarButton Label="Next page" Icon="Next" Command="{Binding GoForwardCommand}" IsEnabled="{Binding LoadingWallpapersVisibility,Converter={StaticResource BoolInverterConverter}}"/>
+            <AppBarButton Style="{ThemeResource AppBarButtonRevealStyle}" Label="Previous page" Icon="Previous" Command="{Binding GoBackwardsCommand}" IsEnabled="{Binding IsGoBackwardsButtonEnabled}"/>
+            <AppBarButton Style="{ThemeResource AppBarButtonRevealStyle}" Label="Next page" Icon="Next" Command="{Binding GoForwardCommand}" IsEnabled="{Binding LoadingWallpapersVisibility,Converter={StaticResource BoolInverterConverter}}"/>
         </CommandBar>
     </Grid>
 </Page>

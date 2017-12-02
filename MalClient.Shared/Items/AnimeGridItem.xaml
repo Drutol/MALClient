@@ -83,7 +83,6 @@
                 <Grid.Background>
                     <AcrylicBrush 
                         BackgroundSource="Backdrop"
-                        TintTransitionDuration="0:0:1"
                         TintColor="{StaticResource BrushDeepBackgroundColor}"
                         TintOpacity="0.5"
                         FallbackColor="{StaticResource BrushDeepBackgroundColor}"/>
@@ -111,7 +110,6 @@
                 <Grid.Background>
                     <AcrylicBrush 
                         BackgroundSource="Backdrop"
-                        TintTransitionDuration="0:0:1"
                         TintColor="{StaticResource BrushDeepBackgroundColor}"
                         TintOpacity="0.5"
                         FallbackColor="{StaticResource BrushDeepBackgroundColor}"/>
@@ -132,7 +130,6 @@
                 <Grid.Background>
                     <AcrylicBrush 
                         BackgroundSource="Backdrop"
-                        TintTransitionDuration="0:0:1"
                         TintColor="{StaticResource BrushDeepBackgroundColor}"
                         TintOpacity="0.5"
                         FallbackColor="{StaticResource BrushDeepBackgroundColor}"/>
@@ -180,7 +177,6 @@
                     <Grid.Background>
                         <AcrylicBrush 
                             BackgroundSource="Backdrop"
-                            TintTransitionDuration="0:0:1"
                             TintColor="{StaticResource BrushDeepBackgroundColor}"
                             TintOpacity="0.4"
                             FallbackColor="{StaticResource BrushDeepBackgroundColor}"/>

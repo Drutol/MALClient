@@ -35,6 +35,14 @@
                     <derived:TrueVariableWarpGrid SqeezeChildren="True" Orientation="Horizontal"/>
                 </ItemsPanelTemplate>
             </GridView.ItemsPanel>
+            <GridView.ItemContainerTransitions>
+                <TransitionCollection>
+                    <PopupThemeTransition FromVerticalOffset="100" />
+                    <AddDeleteThemeTransition />
+                    <ReorderThemeTransition />
+                    <RepositionThemeTransition />
+                </TransitionCollection>
+            </GridView.ItemContainerTransitions>
             <GridView.ItemTemplate>
                 <DataTemplate>
                     <items:WallpaperItem DataContext="{Binding}" MaxWidth="700" MaxHeight="500" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>

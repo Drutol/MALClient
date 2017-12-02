@@ -204,11 +204,14 @@
                 <Grid VerticalAlignment="Stretch">
                     <Grid.Resources>
                         <Style TargetType="Button" BasedOn="{StaticResource ButtonRevealStyle}">
-                            <Setter Property="Padding" Value="1,0" />
+                            <Setter Property="Padding" Value="0,0" />
                             <Setter Property="BorderThickness" Value="1" />
                         </Style>
                         <Style TargetType="SymbolIcon">
                             <Setter Property="Margin" Value="3,0,0,0" />
+                        </Style>
+                        <Style TargetType="Border">
+                            <Setter Property="Margin" Value="0,7"/>
                         </Style>
                     </Grid.Resources>
                     <Grid.RowDefinitions>
@@ -843,12 +846,15 @@
             <StackPanel Grid.Row="1" Margin="{Binding BottomStackPanelMargin}" VerticalAlignment="Bottom" Width="250">
                 <StackPanel.Resources>
                     <Style TargetType="Button" BasedOn="{StaticResource ButtonRevealStyle}">
-                        <Setter Property="Padding" Value="1,0" />
+                        <Setter Property="Padding" Value="0,0" />
                         <Setter Property="BorderThickness" Value="1" />
                     </Style>
                     <Style TargetType="SymbolIcon">
-                            <Setter Property="Margin" Value="3,0,0,0" />
-                        </Style>
+                        <Setter Property="Margin" Value="3,0,0,0" />
+                    </Style>
+                    <Style TargetType="Border">
+                        <Setter Property="Margin" Value="0,7"/>
+                    </Style>
                 </StackPanel.Resources>
                 <MenuFlyoutSeparator HorizontalAlignment="Left" Margin="0,0,0,10" x:Name="BottomSeparator" Background="{StaticResource SystemControlBackgroundAccentBrush}" />
                 <Button HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch"

@@ -112,6 +112,7 @@
                     <PopupThemeTransition FromVerticalOffset="100" />
                     <AddDeleteThemeTransition />
                     <ReorderThemeTransition />
+                    <RepositionThemeTransition />
                 </TransitionCollection>
             </GridView.ItemContainerTransitions>
             <GridView.ItemsPanel>
@@ -182,7 +183,6 @@
             <Grid.Background>
                 <AcrylicBrush 
                     BackgroundSource="Backdrop"
-                    TintTransitionDuration="0:0:1"
                     TintColor="{StaticResource BrushDeepBackgroundColor}"
                     TintOpacity="0.7"
                     FallbackColor="{StaticResource ColorPivotInnerHeaderBarBackground}"/>
@@ -295,7 +295,7 @@
         </Grid>
         <Grid Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
               Visibility="{Binding LoadingAllDetailsVisibility,Converter={StaticResource BoolToVisibilityConverter}}">
-            <Grid HorizontalAlignment="Stretch" VerticalAlignment="Center" MaxWidth="500" Padding="10"  BorderThickness="1"  BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}">
+            <Grid HorizontalAlignment="Stretch" VerticalAlignment="Center" MaxWidth="500" Padding="30,10"  BorderThickness="1"  BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}">
                 <Grid.Background>
                     <AcrylicBrush 
                     BackgroundSource="Backdrop"
@@ -305,7 +305,7 @@
                 </Grid.Background>
                 <StackPanel VerticalAlignment="Center">
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10" >
-                        <TextBlock Text="Loading all items details... "/>
+                        <TextBlock Text="Loading all items details..."/>
                         <TextBlock Text="{Binding LoadingItemsStatus}"/>
                     </StackPanel>
                     <Grid>
@@ -326,7 +326,6 @@
             <CommandBar.Background>
                 <AcrylicBrush 
                     BackgroundSource="Backdrop"
-                    TintTransitionDuration="0:0:1"
                     TintColor="{StaticResource BrushDeepBackgroundColor}"
                     TintOpacity="0.7"
                     FallbackColor="{StaticResource BrushDeepBackgroundColor}"/>

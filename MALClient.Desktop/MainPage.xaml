@@ -101,7 +101,6 @@
             <Grid.Background>
                 <AcrylicBrush
                     BackgroundSource="HostBackdrop"
-                    TintTransitionDuration="0:0:1"
                     TintColor="{StaticResource BrushDeepBackgroundColor}"
                     TintOpacity="0.85"
                     FallbackColor="{StaticResource BrushDeepBackgroundColor}"/>
@@ -128,11 +127,11 @@
                 <StackPanel Orientation="Horizontal" Grid.Column="1">
                     <TextBlock x:Name="CurrentStatus" FontWeight="Bold" Text="{Binding CurrentStatus}"
                            TextTrimming="CharacterEllipsis" FontSize="13"
-                           VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="10,-3,0,0"/>
+                           VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="10,-3,0,0" IsHitTestVisible="False"/>
                     <TextBlock x:Name="CurrentStatusSub" FontWeight="Normal" Text="{Binding CurrentStatusSub}"
                            TextTrimming="CharacterEllipsis" FontSize="12"
                            Foreground="{ThemeResource BrushSettingsSubtitle}"
-                           VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="10,0,0,0"/>
+                           VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="10,0,0,0" IsHitTestVisible="False"/>
                 </StackPanel>
             </Grid>
             <Grid x:Name="TitleBarRight" HorizontalAlignment="Right">
@@ -213,7 +212,6 @@
                         BorderThickness="1"
                         Content="&#xE700;" Visibility="Visible"
                         Width="60" Height="48" Background="Transparent" FontSize="20"
-                        Foreground="{StaticResource SystemControlBackgroundAccentBrush}"
                         Command="{Binding ReversePaneCommand}" 
                         Style="{StaticResource ButtonRevealStyle}"/>
                 <Image x:Name="LogoImage" Width="250"
@@ -299,7 +297,7 @@
                     <ColumnDefinition x:Name="SplitterColumn" MaxWidth="16" Width="0" />
                     <ColumnDefinition x:Name="OffContentColumn" Width="Auto" MaxWidth="600" />
                 </Grid.ColumnDefinitions>
-                <Grid Grid.Column="0" Margin="0,-48,0,0"  Grid.ColumnSpan="{Binding MainContentColumnSpan}">
+                <Grid Grid.Column="0" Margin="0,-48,0,0" Grid.ColumnSpan="{Binding MainContentColumnSpan}">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="*" />
@@ -391,7 +389,7 @@
                       attachedProperties:AnimatedVisibilityExtension.AnimatedVisiblity="{Binding MediaElementVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
                       attachedProperties:AnimatedVisibilityExtension.AnimatedVisibleStoryboard="{StaticResource MediaElementFadeInStoryboard}"
                       Visibility="Collapsed" Background="{ThemeResource BrushMediaElementShadow}"
-                      attachedProperties:AnimatedVisibilityExtension.AnimatedCollapsedStoryboard="{StaticResource MediaElementFadeOutStoryboard}">
+                      attachedProperties:AnimatedVisibilityExtension.AnimatedCollapsedStoryboard="{StaticResource MediaElementFadeOutStoryboard}" Margin="0,-48,0,0">
                     <Button HorizontalAlignment="Left" Margin="0,5,5,0" Width="45" Height="45" VerticalAlignment="Top"
                             Style="{StaticResource FancyButtonStyle}" Command="{Binding CopyMediaElementUrlCommand}">
                         <ToolTipService.ToolTip>
@@ -419,7 +417,7 @@
               VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="2"
               Background="Transparent" Tapped="PinDialog_OnTapped" Margin="0,-48,0,0">
             <Grid x:Name="PinDialogInner" Margin="0,50,0,60" VerticalAlignment="Center"
-                  HorizontalAlignment="Stretch" MaxWidth="550" Padding="10" BorderThickness="1"  BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}">
+                  HorizontalAlignment="Stretch" MaxWidth="550" Padding="10" BorderThickness="1" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}">
                 <Grid.Background>
                     <AcrylicBrush 
                     BackgroundSource="Backdrop"

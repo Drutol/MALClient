@@ -39,7 +39,7 @@
                             Thanks for checking out this application , I'd like to let you know that this app is open source and you can find its code here:
                         </TextBlock>
                         <Button Content="Show me the code!" Margin="10" HorizontalAlignment="Center"
-                                Click="LaunchRepo" />
+                                Click="LaunchRepo" Style="{StaticResource ButtonRevealStyle}" BorderThickness="1" />
                         <TextBlock VerticalAlignment="Center" TextWrapping="WrapWholeWords">
                             <LineBreak />
                             This application is built on top of official MyAnimeList API + AnimeNewsNetwork's Encyclopedia and Hummingbird API for anime details.
@@ -58,7 +58,7 @@
                         </TextBlock>
                         <Button Content="Take me to issues board!" Margin="10"
                                 HorizontalAlignment="Center"
-                                Click="LaunchIssues" />
+                                Click="LaunchIssues" Style="{StaticResource ButtonRevealStyle}" BorderThickness="1" />
                         <TextBlock VerticalAlignment="Center" TextWrapping="WrapWholeWords">
                             I'm checking it daily so don't hesitate to post there :)
                         </TextBlock>

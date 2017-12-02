@@ -12,7 +12,7 @@
         <xamlConverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
     </Page.Resources>
     <Grid Background="{ThemeResource BrushDeepBackground}" HorizontalAlignment="Stretch">
-        <GridView ItemsSource="{Binding Videos}" ItemClick="ListViewBase_OnItemClick" HorizontalAlignment="Center" Background="Transparent" IsItemClickEnabled="True">
+        <GridView ItemsSource="{Binding Videos}" ItemClick="ListViewBase_OnItemClick" HorizontalAlignment="Stretch" Background="Transparent" IsItemClickEnabled="True">
             <GridView.ItemContainerStyle>
                 <Style TargetType="GridViewItem">
                     <Setter Property="Margin" Value="5" />
@@ -23,7 +23,7 @@
             </GridView.ItemContainerStyle>
             <GridView.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <ItemsWrapGrid ItemWidth="225" ItemHeight="360" Orientation="Horizontal" Margin="0,0,10,0" />
+                    <ItemsWrapGrid ItemWidth="225" ItemHeight="360" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,10,0" />
                 </ItemsPanelTemplate>
             </GridView.ItemsPanel>
             <GridView.ItemContainerTransitions>

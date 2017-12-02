@@ -794,10 +794,8 @@
                                 <Button HorizontalAlignment="Center" Content="Load characters"
                                         Command="{Binding LoadCharactersCommand}"
                                         Visibility="{Binding LoadCharactersButtonVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
-                                        Background="{ThemeResource AppBarBackgroundThemeBrush}"
                                         Margin="5,10"
                                         BorderThickness="1"
-                                        BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" 
                                         Style="{StaticResource ButtonRevealStyle}"/>
                                 <ProgressRing IsActive="True" Width="40" Height="40" Margin="0,5"
                                               Visibility="{Binding LoadingCharactersVisibility,Converter={StaticResource BoolToVisibilityConverter}}" />

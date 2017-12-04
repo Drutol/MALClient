@@ -34,6 +34,7 @@ namespace MALClient.UWP
     {
         private double _prevOffContntWidth;
         private Timer _timer;
+		private bool _paneState;
 
         public MainPage()
         {
@@ -49,11 +50,6 @@ namespace MALClient.UWP
 
             Loaded += (sender, args) =>
             {
-                LogoImage.Source =
-                    new BitmapImage(
-                        new Uri(Settings.SelectedTheme == (int)ApplicationTheme.Dark
-                            ? "ms-appx:///Assets/upperappbarlogowhite.png"
-                            : "ms-appx:///Assets/upperappbarlogoblue.png"));
                 var vm = DesktopViewModelLocator.Main;
                 vm.MainNavigationRequested += Navigate;
                 vm.OffNavigationRequested += NavigateOff;
@@ -160,9 +156,11 @@ namespace MALClient.UWP
             if(args.PropertyName == "MenuPaneState")
             {
                 var paneState = (sender as MainViewModel).MenuPaneState;
-                HamburgerControl.Width = paneState ? 250 : 60;
-                LogoImage.Visibility = paneState ? Visibility.Visible : Visibility.Collapsed;
-            }
+				_paneState = paneState;
+				HamburgerControl.Width = paneState ? 250 : 48;
+				HamburgerTopGrid.Width = paneState ? 250 : 48;
+				TitleBarLeft.Margin = new Thickness(paneState ? 250 : 48, 0, 0, 0);
+			}
             else if (args.PropertyName == "OffContentVisibility")
             {
                 SplitterColumn.Width = new GridLength(ViewModelLocator.GeneralMain.OffContentVisibility ? 16 : 0);
@@ -318,8 +316,13 @@ namespace MALClient.UWP
         private void TitleBar_LayoutMetricsChanged(CoreApplicationViewTitleBar coreTitleBar, object args)
         {
             TitleBar.Height = coreTitleBar.Height;
-            TitleBarLeft.Margin = new Thickness(coreTitleBar.SystemOverlayLeftInset, 0, 0, 0);
-            TitleBarRight.Margin = new Thickness(0, 0, coreTitleBar.SystemOverlayRightInset, 0);
+			HamburgerTopGrid.Margin = new Thickness(0, -coreTitleBar.Height, 0, 0);
+			HamburgerTopGrid.Padding = new Thickness(0, coreTitleBar.Height, 0, 0);
+			OffContentTopGrid.Margin = new Thickness(0, -coreTitleBar.Height, 0, 0);
+			OffContentTopGrid.Padding = new Thickness(0, coreTitleBar.Height, 0, 0);
+			//TitleBarLeft.Margin = new Thickness(coreTitleBar.SystemOverlayLeftInset, 0, 0, 0); TODO: Right To Left handling
+			TitleBarLeft.Margin = new Thickness(_paneState ? 250 : 48, 0, 0, 0);
+			TitleBarRight.Margin = new Thickness(0, 0, coreTitleBar.SystemOverlayRightInset, 0);
         }
 
         private void TitleBar_IsVisibleChanged(CoreApplicationViewTitleBar sender, object args)

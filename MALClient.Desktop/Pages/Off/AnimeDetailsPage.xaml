@@ -49,7 +49,7 @@
             <AcrylicBrush 
                 BackgroundSource="HostBackdrop"
                 TintColor="{StaticResource BrushDeepBackgroundColor}"
-                TintOpacity="0.7"
+                TintOpacity="0.75"
                 FallbackColor="{StaticResource ColorDetailsBackground}"/>
         </Grid.Background>
         <Grid.Resources>
@@ -64,16 +64,8 @@
             <!--Img + Details-->
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Grid Row="0">
-            <Grid.Background>
-                <AcrylicBrush 
-                    BackgroundSource="HostBackdrop"
-                    TintTransitionDuration="0:0:1"
-                    TintColor="{StaticResource BrushDeepBackgroundColor}"
-                    TintOpacity="0.7"
-                    FallbackColor="{StaticResource BrushDeepBackgroundColor}"/>
-            </Grid.Background>
-            <Grid.ColumnDefinitions>
+		<Grid Row="0">
+			<Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <!--Img-->
                 <ColumnDefinition Width="*" />
@@ -1632,14 +1624,10 @@
             </Pivot.Items>
         </Pivot>
 
-        <Grid Grid.Row="0" Grid.RowSpan="2" Visibility="{Binding LoadingGlobal}" attachedProperties:AnimatedVisibilityExtension.AnimatedVisiblity="{Binding LoadingGlobal}"
+		<Grid Grid.Row="0" Grid.RowSpan="2" Visibility="{Binding LoadingGlobal}" attachedProperties:AnimatedVisibilityExtension.AnimatedVisiblity="{Binding LoadingGlobal}"
              attachedProperties:AnimatedVisibilityExtension.AnimatedVisibleStoryboard="{StaticResource OverlayFadeInStoryboard}"
              attachedProperties:AnimatedVisibilityExtension.AnimatedCollapsedStoryboard="{StaticResource OverlayFadeOutStoryboard}">
-            <Grid.Background>
-                <SolidColorBrush Color="Black" Opacity=".1"/>
-            </Grid.Background>
-            <Grid x:Name="LoadingOverlay" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-            <ProgressRing HorizontalAlignment="Stretch" Width="75" Height="75" VerticalAlignment="Stretch"
+			<ProgressRing HorizontalAlignment="Stretch" Width="75" Height="75" VerticalAlignment="Stretch"
                           IsActive="True" />
         </Grid>
 

@@ -21,7 +21,6 @@ namespace MALClient.UWP.Pages.Off
 {
     public sealed partial class AnimeDetailsPage : Page
     {
-        private BlurHelper _overlayBlurHelper;
         public AnimeDetailsPage()
         {
             InitializeComponent();
@@ -32,7 +31,6 @@ namespace MALClient.UWP.Pages.Off
         {
             UpdatePivotHeaderSizes();
             SizeChanged += OnSizeChanged;
-            _overlayBlurHelper = new BlurHelper(LoadingOverlay, false);
         }
 
         private void OnSizeChanged(object sender, SizeChangedEventArgs sizeChangedEventArgs)

@@ -91,50 +91,125 @@
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="LogoImage.Visibility" Value="Collapsed" />
-                        <Setter Target="HamburgerControl.Width" Value="60" />
+                        <Setter Target="HamburgerControl.Width" Value="48" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
 
-        <Grid x:Name="TitleBar" Width="Auto" Grid.Row="0">
-            <Grid.Background>
-                <AcrylicBrush
+		<Grid x:Name="HamburgerTopGrid" Width="Auto" HorizontalAlignment="Left" VerticalAlignment="Stretch" Grid.Row="1">
+			<Grid.Background>
+				<AcrylicBrush
                     BackgroundSource="HostBackdrop"
                     TintColor="{StaticResource BrushDeepBackgroundColor}"
-                    TintOpacity="0.85"
-                    FallbackColor="{StaticResource BrushDeepBackgroundColor}"/>
-            </Grid.Background>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
-            <Grid x:Name="MainTitleBar" Width="Auto" Height="Auto"  Background="Transparent">
-            </Grid>
-            <Grid x:Name="TitleBarLeft" HorizontalAlignment="Left">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
-                <Button Grid.Column="0" IsTabStop="False" HorizontalAlignment="Left"
-                    VerticalAlignment="Center" Width="48" Height="32"
-                    Command="{Binding NavigateMainBackCommand}"
-                    Visibility="{Binding NavigateMainBackButtonVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
-                    Background="Transparent" BorderThickness="0">
-                    <TextBlock x:Name="BackButtonText" FontFamily="Segoe MDL2 Assets" FontSize="12" Text="&#xE830;"/>
-                </Button>
-                <StackPanel Orientation="Horizontal" Grid.Column="1">
-                    <TextBlock x:Name="CurrentStatus" FontWeight="Bold" Text="{Binding CurrentStatus}"
+                    TintOpacity="0.5"
+                    FallbackColor="{StaticResource ColorHamburgerBackground}"/>
+			</Grid.Background>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="Auto" />
+			</Grid.ColumnDefinitions>
+			<Grid>
+				<Button IsTabStop="False" HorizontalAlignment="Left"
+                        BorderThickness="1"
+                       Visibility="Visible"
+                        Width="48" Height="48" Background="Transparent" 
+                        Command="{Binding ReversePaneCommand}" 
+                        Style="{StaticResource ButtonRevealStyle}">
+					<TextBlock FontFamily="Segoe MDL2 Assets" FontSize="16" Text="&#xE700;"/>
+				</Button>
+			</Grid>
+		</Grid>
+
+		<Grid Width="Auto" HorizontalAlignment="Right" VerticalAlignment="Stretch" Grid.Row="1">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="Auto" />
+				<ColumnDefinition Width="Auto" />
+				<ColumnDefinition Width="*" />
+				<ColumnDefinition Width="*" MaxWidth="50" />
+				<ColumnDefinition Width="Auto"/>
+				<ColumnDefinition Width="Auto" />
+			</Grid.ColumnDefinitions>
+			<Grid Grid.Column="4" Background="{ThemeResource BrushSplitter}" HorizontalAlignment="Stretch" Width="16"
+                  Visibility="{Binding OffContentVisibility,Converter={StaticResource BoolToVisibilityConverter}}" />
+			<Grid x:Name="OffContentTopGrid" Column="5"
+                  Visibility="{Binding OffContentVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
+                  Width="{Binding OffContentStatusBarWidth}">
+				<Grid.Background>
+					<AcrylicBrush 
+					BackgroundSource="HostBackdrop"
+					TintColor="{StaticResource BrushDeepBackgroundColor}"
+					TintOpacity="0.75"
+					FallbackColor="{StaticResource ColorDetailsBackground}"/>
+				</Grid.Background>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="Auto" />
+					<ColumnDefinition Width="*" />
+					<ColumnDefinition Width="50" />
+					<ColumnDefinition Width="50" />
+				</Grid.ColumnDefinitions>
+				<Button IsTabStop="False" HorizontalAlignment="Right"
+                        Background="{ThemeResource SystemControlHighlightListAccentLowBrush}"
+                        VerticalAlignment="Center" Width="45" Height="48" Grid.Column="0"
+                        Command="{Binding NavigateBackCommand}"
+                        Visibility="{Binding NavigateOffBackButtonVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
+                        BorderThickness="1"
+                        Style="{StaticResource ButtonRevealStyle}">
+					<SymbolIcon Symbol="Back" Foreground="White" />
+				</Button>
+				<Button IsTabStop="False" HorizontalAlignment="Right"
+                        VerticalAlignment="Center" Width="45" Height="48" Grid.Column="3" Background="Transparent"
+                        Command="{Binding HideOffContentCommand}"
+                        BorderThickness="1"
+                        Style="{StaticResource ButtonRevealStyle}">
+					<SymbolIcon Symbol="Clear" />
+				</Button>
+				<TextBlock x:Name="CurrentOffStatus" Grid.Column="1" FontWeight="Bold"
+                           Text="{Binding CurrentOffStatus}"
+                           TextTrimming="CharacterEllipsis" Margin="10,0,0,0" TextWrapping="WrapWholeWords"
+                           MaxLines="2"
+                           VerticalAlignment="Center" HorizontalAlignment="Stretch"
+                           IsTextSelectionEnabled="{Binding IsCurrentStatusSelectable}" />
+				<Button IsTabStop="False" HorizontalAlignment="Right"
+                        VerticalAlignment="Center" Width="45" Height="48" Grid.Column="2" Background="Transparent"
+                        Margin="0,0,-5,0"
+                        Command="{Binding RefreshOffDataCommand}"
+                        Visibility="{Binding OffRefreshButtonVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
+                        BorderThickness="1"
+                        Style="{StaticResource ButtonRevealStyle}">
+					<SymbolIcon Symbol="Refresh" />
+				</Button>
+			</Grid>
+		</Grid>
+
+		<Grid x:Name="TitleBar" Background="Transparent" Width="Auto" Grid.Row="0">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition />
+			</Grid.ColumnDefinitions>
+			<Grid x:Name="MainTitleBar" Width="Auto" Height="Auto"  Background="Transparent">
+			</Grid>
+			<Button Grid.Column="0" IsTabStop="False" HorizontalAlignment="Left"
+				VerticalAlignment="Center" Width="48" Height="32"
+				Command="{Binding NavigateMainBackCommand}"
+				Visibility="{Binding NavigateMainBackButtonVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
+				Background="Transparent" BorderThickness="0">
+				<TextBlock x:Name="BackButtonText" FontFamily="Segoe MDL2 Assets" FontSize="12" Text="&#xE830;"/>
+			</Button>
+			<Grid x:Name="TitleBarLeft" HorizontalAlignment="Left">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="Auto"/>
+				</Grid.ColumnDefinitions>
+				<StackPanel Orientation="Horizontal">
+					<TextBlock x:Name="CurrentStatus" FontWeight="Bold" Text="{Binding CurrentStatus}"
                            TextTrimming="CharacterEllipsis" FontSize="13"
                            VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="10,-3,0,0" IsHitTestVisible="False"/>
-                    <TextBlock x:Name="CurrentStatusSub" FontWeight="Normal" Text="{Binding CurrentStatusSub}"
+					<TextBlock x:Name="CurrentStatusSub" FontWeight="Normal" Text="{Binding CurrentStatusSub}"
                            TextTrimming="CharacterEllipsis" FontSize="12"
                            Foreground="{ThemeResource BrushSettingsSubtitle}"
                            VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="10,0,0,0" IsHitTestVisible="False"/>
-                </StackPanel>
-            </Grid>
-            <Grid x:Name="TitleBarRight" HorizontalAlignment="Right">
+				</StackPanel>
+			</Grid>
+
+			<Grid x:Name="TitleBarRight" HorizontalAlignment="Right">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
                     <ColumnDefinition Width="Auto" />
@@ -190,94 +265,6 @@
             </Grid>
         </Grid>
 
-        <Grid Width="Auto" HorizontalAlignment="Left" VerticalAlignment="Stretch" Grid.Row="1">
-            <Grid.Background>
-                <AcrylicBrush
-                    BackgroundSource="HostBackdrop"
-                    TintColor="{StaticResource BrushDeepBackgroundColor}"
-                    TintOpacity="0.7"
-                    FallbackColor="{StaticResource ColorHamburgerBackground}"/>
-            </Grid.Background>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" MaxWidth="50" />
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
-            <Grid>
-                <Button IsTabStop="False" HorizontalAlignment="Left" FontWeight="Bold"
-                        FontFamily="Segoe MDL2 Assets"
-                        BorderThickness="1"
-                        Content="&#xE700;" Visibility="Visible"
-                        Width="60" Height="48" Background="Transparent" FontSize="20"
-                        Command="{Binding ReversePaneCommand}" 
-                        Style="{StaticResource ButtonRevealStyle}"/>
-                <Image x:Name="LogoImage" Width="250"
-                       Stretch="Uniform" />
-            </Grid>
-        </Grid>
-        <Grid Width="Auto" HorizontalAlignment="Right" VerticalAlignment="Stretch" Grid.Row="1">
-            <Grid.Background>
-                <AcrylicBrush 
-                BackgroundSource="HostBackdrop"
-                TintColor="{StaticResource BrushDeepBackgroundColor}"
-                TintOpacity="0.7"
-                FallbackColor="{StaticResource ColorDetailsBackground}"/>
-            </Grid.Background>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" MaxWidth="50" />
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
-            <Grid Grid.Column="4" Background="{ThemeResource BrushSplitter}" HorizontalAlignment="Stretch" Width="16"
-                  Visibility="{Binding OffContentVisibility,Converter={StaticResource BoolToVisibilityConverter}}" />
-            <Grid Column="5"
-                  Visibility="{Binding OffContentVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
-                  Width="{Binding OffContentStatusBarWidth}">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="50" />
-                    <ColumnDefinition Width="50" />
-                </Grid.ColumnDefinitions>
-                <Button IsTabStop="False" HorizontalAlignment="Right"
-                        Background="{ThemeResource SystemControlHighlightListAccentLowBrush}"
-                        VerticalAlignment="Center" Width="45" Height="48" Grid.Column="0"
-                        Command="{Binding NavigateBackCommand}"
-                        Visibility="{Binding NavigateOffBackButtonVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
-                        BorderThickness="1"
-                        Style="{StaticResource ButtonRevealStyle}">
-                    <SymbolIcon Symbol="Back" Foreground="White" />
-                </Button>
-                <Button IsTabStop="False" HorizontalAlignment="Right"
-                        VerticalAlignment="Center" Width="45" Height="48" Grid.Column="3" Background="Transparent"
-                        Command="{Binding HideOffContentCommand}"
-                        BorderThickness="1"
-                        Style="{StaticResource ButtonRevealStyle}">
-                    <SymbolIcon Symbol="Clear" />
-                </Button>
-                <TextBlock x:Name="CurrentOffStatus" Grid.Column="1" FontWeight="Bold"
-                           Text="{Binding CurrentOffStatus}"
-                           TextTrimming="CharacterEllipsis" Margin="10,0,0,0" TextWrapping="WrapWholeWords"
-                           MaxLines="2"
-                           VerticalAlignment="Center" HorizontalAlignment="Stretch"
-                           IsTextSelectionEnabled="{Binding IsCurrentStatusSelectable}" />
-                <Button IsTabStop="False" HorizontalAlignment="Right"
-                        VerticalAlignment="Center" Width="45" Height="48" Grid.Column="2" Background="Transparent"
-                        Margin="0,0,-5,0"
-                        Command="{Binding RefreshOffDataCommand}"
-                        Visibility="{Binding OffRefreshButtonVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
-                        BorderThickness="1"
-                        Style="{StaticResource ButtonRevealStyle}">
-                    <SymbolIcon Symbol="Refresh" />
-                </Button>
-            </Grid>
-        </Grid>
         <Grid VerticalAlignment="Stretch" Grid.Row="2">
             <Grid.Resources>
                 <ResourceDictionary>

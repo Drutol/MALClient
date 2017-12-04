@@ -166,8 +166,8 @@ namespace MALClient.UWP.UserControls.New
             else //closed
             {
                 ViewModel.HamburgerWidthChanged(false);
-                MidSeparator.Width = BottomSeparator.Width = 60;
-                Mid2Separator.Width = BottomSeparator.Width = 60;
+                MidSeparator.Width = BottomSeparator.Width = 48;
+                Mid2Separator.Width = BottomSeparator.Width = 48;
                 if (_topCategoriesExpanded)
                 {
                     CollapseTopAnimeCategoriesStoryboard.Begin();

@@ -193,14 +193,14 @@
                 <AcrylicBrush
                     BackgroundSource="HostBackdrop"
                     TintColor="{StaticResource BrushDeepBackgroundColor}"
-                    TintOpacity="0.7"
+                    TintOpacity="0.5"
                     FallbackColor="{StaticResource ColorHamburgerBackground}"/>
             </Grid.Background>
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <ScrollViewer Grid.Row="0" Grid.Column="0" VerticalScrollBarVisibility="Hidden" Width="250">
+            <ScrollViewer Grid.Row="0" Grid.Column="0" VerticalScrollBarVisibility="Hidden" Margin="0,8,0,0" Width="250">
                 <Grid VerticalAlignment="Stretch">
                     <Grid.Resources>
                         <Style TargetType="Button" BasedOn="{StaticResource ButtonRevealStyle}">
@@ -211,8 +211,8 @@
                             <Setter Property="Margin" Value="3,0,0,0" />
                         </Style>
                         <Style TargetType="Border">
-                            <Setter Property="Margin" Value="0,7"/>
-                        </Style>
+							<Setter Property="Margin" Value="0,8"/>
+						</Style>
                     </Grid.Resources>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" MinHeight="200" />
@@ -228,11 +228,11 @@
                                 CommandParameter="0">
                             <Grid Height="Auto">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="60" />
+                                    <ColumnDefinition Width="48" />
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
                                 <Grid.RowDefinitions>
-                                    <RowDefinition Height="45" />
+                                    <RowDefinition Height="40" />
                                     <RowDefinition Height="Auto" />
                                 </Grid.RowDefinitions>
                                 <Border
@@ -293,9 +293,9 @@
                                 PointerExited="Button_PointerExited"
                                 Command="{Binding ButtonNavigationCommand}"
                                 CommandParameter="3">
-                            <Grid Height="45">
+                            <Grid Height="40">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="60" />
+                                    <ColumnDefinition Width="48" />
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
                                 <Border
@@ -320,9 +320,9 @@
                                 PointerExited="Button_PointerExited"
                                 Command="{Binding ButtonNavigationCommand}"
                                 CommandParameter="8">
-                            <Grid Height="45">
+                            <Grid Height="40">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="60" />
+                                    <ColumnDefinition Width="48" />
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
                                 <Border
@@ -348,9 +348,9 @@
                                 Command="{Binding ButtonNavigationCommand}"
                                 CommandParameter="7"
                                 Visibility="{Binding MalApiSpecificButtonsVisibility}">
-                            <Grid Height="45">
+                            <Grid Height="40">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="60" />
+                                    <ColumnDefinition Width="48" />
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
                                 <Border
@@ -378,11 +378,11 @@
                                 CommandParameter="11">
                             <Grid Height="Auto">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="60" />
+                                    <ColumnDefinition Width="48" />
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
                                 <Grid.RowDefinitions>
-                                    <RowDefinition Height="45" />
+                                    <RowDefinition Height="40" />
                                     <RowDefinition Height="Auto" />
                                 </Grid.RowDefinitions>
                                 <Border
@@ -480,9 +480,9 @@
                                 PointerExited="Button_PointerExited"
                                 Command="{Binding ButtonNavigationCommand}"
                                 CommandParameter="13">
-                            <Grid Height="45">
+                            <Grid Height="40">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="60" />
+                                    <ColumnDefinition Width="48" />
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
                                 <Border
@@ -513,11 +513,11 @@
                                 CommandParameter="9">
                                 <Grid Height="Auto">
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="60" />
+                                        <ColumnDefinition Width="48" />
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
                                     <Grid.RowDefinitions>
-                                        <RowDefinition Height="45" />
+                                        <RowDefinition Height="40" />
                                         <RowDefinition Height="Auto" />
                                     </Grid.RowDefinitions>
                                     <Border
@@ -581,9 +581,9 @@
                                 Command="{Binding ButtonNavigationCommand}"
                                 CommandParameter="10"
                                 Visibility="{Binding MalApiSpecificButtonsVisibility}">
-                                <Grid Height="45">
+                                <Grid Height="40">
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="60" />
+                                        <ColumnDefinition Width="48" />
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
                                     <Border
@@ -608,9 +608,9 @@
                                 PointerExited="Button_PointerExited"
                                 Command="{Binding ButtonNavigationCommand}"
                                 CommandParameter="12">
-                                <Grid Height="45">
+                                <Grid Height="40">
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="60" />
+                                        <ColumnDefinition Width="48" />
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
                                     <Border
@@ -647,9 +647,9 @@
                                 PointerExited="Button_PointerExited"
                                 Command="{Binding ButtonNavigationCommand}"
                                 CommandParameter="14">
-                                <Grid Height="45">
+                                <Grid Height="40">
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="60" />
+                                        <ColumnDefinition Width="48" />
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
                                     <Border
@@ -678,9 +678,9 @@
                                 PointerExited="Button_PointerExited"
                                 Command="{Binding ButtonNavigationCommand}"
                                 CommandParameter="15">
-                                <Grid Height="45">
+                                <Grid Height="40">
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="60" />
+                                        <ColumnDefinition Width="48" />
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
                                     <Border
@@ -723,9 +723,9 @@
                                 PointerExited="Button_PointerExited"
                                 Command="{Binding ButtonNavigationCommand}"
                                 CommandParameter="18">
-                                <Grid Height="45">
+                                <Grid Height="40">
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="60" />
+                                        <ColumnDefinition Width="48" />
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
                                     <Border
@@ -754,9 +754,9 @@
                                 PointerExited="Button_PointerExited"
                                 Command="{Binding ButtonNavigationCommand}"
                                 CommandParameter="23">
-                                <Grid Height="45">
+                                <Grid Height="40">
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="60" />
+                                        <ColumnDefinition Width="48" />
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
                                     <Border
@@ -786,9 +786,9 @@
                                 PointerExited="Button_PointerExited"
                                 Command="{Binding ButtonNavigationCommand}"
                                 CommandParameter="24">
-                            <Grid Height="45">
+                            <Grid Height="40">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="60" />
+                                    <ColumnDefinition Width="48" />
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
                                 <Border
@@ -818,9 +818,9 @@
                                 PointerExited="Button_PointerExited"
                                 Command="{Binding ButtonNavigationCommand}"
                                 CommandParameter="22">
-                            <Grid Height="45">
+                            <Grid Height="40">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="60" />
+                                    <ColumnDefinition Width="48" />
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
                                 <Border
@@ -853,10 +853,10 @@
                         <Setter Property="Margin" Value="3,0,0,0" />
                     </Style>
                     <Style TargetType="Border">
-                        <Setter Property="Margin" Value="0,7"/>
+                        <Setter Property="Margin" Value="0,8"/>
                     </Style>
                 </StackPanel.Resources>
-                <MenuFlyoutSeparator HorizontalAlignment="Left" Margin="0,0,0,10" x:Name="BottomSeparator" Background="{StaticResource SystemControlBackgroundAccentBrush}" />
+                <MenuFlyoutSeparator HorizontalAlignment="Left" Margin="0,0,0,00" x:Name="BottomSeparator" Background="{StaticResource SystemControlBackgroundAccentBrush}" />
                 <Button HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch"
                                 Background="Transparent"
                                 BorderThickness="1"
@@ -872,12 +872,12 @@
                     </Button.Flyout>
                     <Grid Height="37">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="60" />
+                            <ColumnDefinition Width="48" />
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
                         <TextBlock Text="&#xE006;" FontFamily="Segoe MDL2 Assets"
                                            HorizontalAlignment="Center" Grid.Column="0"
-                                           VerticalAlignment="Center" RenderTransformOrigin="1,0.5"
+                                           VerticalAlignment="Center" RenderTransformOrigin="0.7,0.5"
                                            Visibility="{Binding AdLoadingSpinnerVisibility,Converter={StaticResource VisiblityInverterConverter}}">
                             <TextBlock.RenderTransform>
                                 <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
@@ -914,7 +914,7 @@
                                 PointerExited="Button_PointerExited" Click="OpenRepo">
                     <Grid Height="37">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="60" />
+                            <ColumnDefinition Width="48" />
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
                         <Image x:Name="FeedbackImage" Stretch="UniformToFill" Width="30" Height="30" Margin="0,0,0,4" />
@@ -931,7 +931,7 @@
                                 CommandParameter="4" Visibility="{x:Bind ViewModel.LogInButtonVisibility,Mode=OneWay}">
                     <Grid Height="37">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="60" />
+                            <ColumnDefinition Width="48" />
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
                         <Border BorderThickness="{Binding TxtBorderBrushThicknesses[LogIn]}"
@@ -952,17 +952,17 @@
                                 Visibility="{Binding ProfileButtonVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
                                 Command="{Binding ButtonNavigationCommand}"
                                 CommandParameter="5">
-                    <Grid Height="45">
+                    <Grid Height="40">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="60" />
+                            <ColumnDefinition Width="48" />
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
                         <Border Grid.Column="0"
                                         BorderThickness="{Binding TxtBorderBrushThicknesses[Profile]}"
                                         BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" />
                         <Ellipse Grid.Column="0"
-                                       Width="35"
-                                       Height="35" Margin="-3,1,0,1"
+                                       Width="32"
+                                       Height="32" Margin="-1,1,0,1"
                                        Visibility="{Binding UsrImgPlaceholderVisibility,Converter={StaticResource VisiblityInverterConverter}}" >
                             <Ellipse.Fill>
                                 <ImageBrush Stretch="UniformToFill" ImageSource="{Binding UserImage}"/>
@@ -1068,7 +1068,7 @@
                                 >
                     <Grid Height="40">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="50" />
+                            <ColumnDefinition Width="42" />
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="40" />
                         </Grid.ColumnDefinitions>

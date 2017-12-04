@@ -39,7 +39,6 @@ namespace MALClient.UWP
         public MainPage()
         {
             InitializeComponent();
-            // It's OK to place this here?
             CoreApplicationViewTitleBar coreTitleBar = CoreApplication.GetCurrentView().TitleBar;
             coreTitleBar.ExtendViewIntoTitleBar = true; 
             TitleBar.Height = coreTitleBar.Height;
@@ -159,12 +158,15 @@ namespace MALClient.UWP
 				_paneState = paneState;
 				HamburgerControl.Width = paneState ? 250 : 48;
 				HamburgerTopGrid.Width = paneState ? 250 : 48;
-				TitleBarLeft.Margin = new Thickness(paneState ? 250 : 48, 0, 0, 0);
+				TitleBarLeft.Margin = new Thickness(Math.Max(_paneState ? 250 : 48, CoreApplication.GetCurrentView().TitleBar.SystemOverlayLeftInset), 0, 0, 0);
 			}
             else if (args.PropertyName == "OffContentVisibility")
             {
-                SplitterColumn.Width = new GridLength(ViewModelLocator.GeneralMain.OffContentVisibility ? 16 : 0);
-            }
+				SplitterColumn.Width = new GridLength(ViewModelLocator.GeneralMain.OffContentVisibility ? 16 : 0);
+
+				var width = ViewModelLocator.GeneralMain.OffContentVisibility ? (DataContext as MainViewModel).OffContentStatusBarWidth : 0;
+				TitleBarRight.Margin = new Thickness(0, 0, Math.Max(width, CoreApplication.GetCurrentView().TitleBar.SystemOverlayRightInset), 0);
+			}
             else if (args.PropertyName == nameof(ViewModelLocator.GeneralMain.AdsContainerVisibility))
             {
                 if(ViewModelLocator.GeneralMain.AdsContainerVisibility)
@@ -250,7 +252,7 @@ namespace MALClient.UWP
                 if (vm.AreThereItemsWaitingForLoad)
                     vm.RefreshList();
             }
-            if(RootContentGrid.ColumnDefinitions[2].ActualWidth == 0)
+            if(RootContentGrid.ColumnDefinitions[2].ActualWidth == 0) 
                 DesktopViewModelLocator.Main.HideOffContentCommand.Execute(null);
             
             _prevOffContntWidth = RootContentGrid.ColumnDefinitions[2].ActualWidth;
@@ -259,8 +261,8 @@ namespace MALClient.UWP
         private void OffContent_OnSizeChanged(object sender, SizeChangedEventArgs e)
         {
             (DataContext as MainViewModel).OffContentStatusBarWidth = e.NewSize.Width;
-        }
-
+			TitleBarRight.Margin = new Thickness(0, 0, Math.Max(e.NewSize.Width, CoreApplication.GetCurrentView().TitleBar.SystemOverlayRightInset), 0);
+		}
 
         private void OffContent_OnPointerPressed(object sender, PointerRoutedEventArgs e)
         {
@@ -320,10 +322,10 @@ namespace MALClient.UWP
 			HamburgerTopGrid.Padding = new Thickness(0, coreTitleBar.Height, 0, 0);
 			OffContentTopGrid.Margin = new Thickness(0, -coreTitleBar.Height, 0, 0);
 			OffContentTopGrid.Padding = new Thickness(0, coreTitleBar.Height, 0, 0);
-			//TitleBarLeft.Margin = new Thickness(coreTitleBar.SystemOverlayLeftInset, 0, 0, 0); TODO: Right To Left handling
-			TitleBarLeft.Margin = new Thickness(_paneState ? 250 : 48, 0, 0, 0);
-			TitleBarRight.Margin = new Thickness(0, 0, coreTitleBar.SystemOverlayRightInset, 0);
-        }
+			TitleBarLeft.Margin = new Thickness(Math.Max(_paneState ? 250 : 48, coreTitleBar.SystemOverlayLeftInset), 0, 0, 0);
+			var width = ViewModelLocator.GeneralMain.OffContentVisibility ? (DataContext as MainViewModel).OffContentStatusBarWidth : 0;
+			TitleBarRight.Margin = new Thickness(0, 0, Math.Max(width, coreTitleBar.SystemOverlayRightInset), 0);
+		}
 
         private void TitleBar_IsVisibleChanged(CoreApplicationViewTitleBar sender, object args)
         {

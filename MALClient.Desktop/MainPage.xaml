@@ -223,7 +223,7 @@
                                 QuerySubmitted="SearchInput_OnQuerySubmitted"
                                 Text="{Binding CurrentSearchQuery, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                 Visibility="{Binding SearchInputVisibility, Converter={StaticResource BoolToVisibilityConverter}}"
-                                PlaceholderText="Search..." Height="32" Width="400"/>
+                                PlaceholderText="Search..." Height="32" Width="300"/>
                 <userControls:LockableToggleButton IsTabStop="False" LockToggle="{Binding SearchToggleLock}"
                                                IsThreeState="False"
                                                VerticalAlignment="Center" Width="48" Height="32" Grid.Column="2"

@@ -46,7 +46,9 @@
             <SolidColorBrush x:Key="BrushNoSearchResults" Color="#B9B9B9"/>
             <SolidColorBrush x:Key="BrushMediaElementShadow" Color="WhiteSmoke" Opacity=".9"/>
             <SolidColorBrush x:Key="BrushLoadingAllShadow" Color="WhiteSmoke" Opacity=".9"/>
-        </ResourceDictionary>
+			<SolidColorBrush x:Key="AnimeGridItemText" Color="Black"/>
+			<SolidColorBrush x:Key="AnimeGridItemTextDays" Color="#383838"/>
+		</ResourceDictionary>
         <ResourceDictionary x:Key="Dark">
             <SolidColorBrush x:Key="BrushText" Color="White" />
             <SolidColorBrush x:Key="BrushTextInverted" Color="Black" />
@@ -89,6 +91,8 @@
             <SolidColorBrush x:Key="BrushNoSearchResults" Color="#B9B9B9"/>
             <SolidColorBrush x:Key="BrushMediaElementShadow" Color="Black" Opacity=".9"/>
             <SolidColorBrush x:Key="BrushLoadingAllShadow" Color="Black" Opacity=".7"/>
-        </ResourceDictionary>
+			<SolidColorBrush x:Key="AnimeGridItemText" Color="White"/>
+			<SolidColorBrush x:Key="AnimeGridItemTextDays" Color="LightGray"/>
+		</ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
 </ResourceDictionary>

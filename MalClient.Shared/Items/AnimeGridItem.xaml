@@ -42,25 +42,25 @@
         <Grid x:Name="DecrementField" Visibility="Collapsed" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
               Grid.Column="0" Background="Black">
             <StackPanel Margin="0,0,10,0" HorizontalAlignment="Center" VerticalAlignment="Center">
-                <SymbolIcon Symbol="Remove" Foreground="White" RenderTransformOrigin="0.5,0.5"
+                <SymbolIcon Symbol="Remove" Foreground="{StaticResource AnimeGridItemText}" RenderTransformOrigin="0.5,0.5"
                             HorizontalAlignment="Center">
                     <SymbolIcon.RenderTransform>
                         <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
                     </SymbolIcon.RenderTransform>
                 </SymbolIcon>
-                <TextBlock Text="Decrement" FontWeight="SemiLight" HorizontalAlignment="Center" Foreground="White" />
+                <TextBlock Text="Decrement" FontWeight="SemiLight" HorizontalAlignment="Center" Foreground="{StaticResource AnimeGridItemText}" />
             </StackPanel>
         </Grid>
         <Grid x:Name="IncrementField" Visibility="Collapsed" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
               Grid.Column="1" Background="Black">
             <StackPanel Margin="10,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center">
-                <SymbolIcon Symbol="Add" Foreground="White" RenderTransformOrigin="0.5,0.5"
+                <SymbolIcon Symbol="Add" Foreground="{StaticResource AnimeGridItemText}" RenderTransformOrigin="0.5,0.5"
                             HorizontalAlignment="Center">
                     <SymbolIcon.RenderTransform>
                         <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
                     </SymbolIcon.RenderTransform>
                 </SymbolIcon>
-                <TextBlock Text="Increment" FontWeight="SemiLight" HorizontalAlignment="Center" Foreground="White" />
+                <TextBlock Text="Increment" FontWeight="SemiLight" HorizontalAlignment="Center" Foreground="{StaticResource AnimeGridItemText}" />
             </StackPanel>
         </Grid>
         <Grid Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Stretch">
@@ -88,21 +88,21 @@
                         FallbackColor="{StaticResource BrushDeepBackgroundColor}"/>
                 </Grid.Background>
                 <StackPanel Margin="1">
-                    <TextBlock Text="{x:Bind ViewModel.MyStatusBindShort,Mode=OneWay}" Foreground="White"
+					<TextBlock Text="{x:Bind ViewModel.MyStatusBindShort,Mode=OneWay}" Foreground="{StaticResource AnimeGridItemText}"
                                FontWeight="SemiBold"
                                HorizontalAlignment="Center" />
                     <Button Background="Transparent" Padding="0" x:Name="WatchedFlyoutButton"
                             Style="{StaticResource ButtonDisabledStyle}"
-                            Content="{x:Bind ViewModel.MyEpisodesBindShort,Mode=OneWay}" Foreground="White"
+                            Content="{x:Bind ViewModel.MyEpisodesBindShort,Mode=OneWay}" Foreground="{StaticResource AnimeGridItemText}"
                             FontWeight="SemiLight" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"
                             IsEnabled="{x:Bind ViewModel.UpdateButtonsEnableState,Mode=OneWay}"
                             BorderThickness="0,0,0,1"
                             HorizontalAlignment="Center" Click="WatchedFlyoutButton_OnClick" />
                     <!--<MenuFlyoutSeparator Background="LightGray" />-->
-                    <TextBlock Text="{x:Bind ViewModel.MyScoreBindShort,Mode=OneWay}" Foreground="White"
+                    <TextBlock Text="{x:Bind ViewModel.MyScoreBindShort,Mode=OneWay}" Foreground="{StaticResource AnimeGridItemText}"
                                FontWeight="SemiLight" Margin="0,5,0,0"
                                HorizontalAlignment="Center" />
-                    <SymbolIcon Symbol="Favorite" Margin="0,2" Foreground="White" Visibility="{x:Bind ViewModel.IsFavouriteVisibility,Mode=OneWay,Converter={StaticResource BoolToVisibilityConverter}}"/>
+                    <SymbolIcon Symbol="Favorite" Margin="0,2" Foreground="{StaticResource AnimeGridItemText}" Visibility="{x:Bind ViewModel.IsFavouriteVisibility,Mode=OneWay,Converter={StaticResource BoolToVisibilityConverter}}"/>
                 </StackPanel>
             </Grid>
             <Grid Grid.Row="0" MinWidth="40" MaxWidth="80" HorizontalAlignment="Left" VerticalAlignment="Top"
@@ -123,7 +123,7 @@
                        Foreground="{x:Bind ViewModel,Mode=OneWay,Converter={StaticResource AnimeItemAirDayBoolToBrushConverter}}" FontSize="20" />
                 <TextBlock Grid.Column="1" Margin="2,1,3,4" Text="{x:Bind ViewModel.AirDayTillBind,Mode=OneWay}" Visibility="{x:Bind ViewModel.AirDayTillBind,Converter={StaticResource AnyTextToVisibilityConverter}}" FontWeight="SemiLight" 
                        HorizontalAlignment="Center" VerticalAlignment="Bottom"
-                       Foreground="LightGray" FontSize="14" FontStyle="Italic" />
+                       Foreground="{StaticResource AnimeGridItemTextDays}" FontSize="14" FontStyle="Italic" />
             </Grid>
             <Grid Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Bottom"
                   Visibility="{x:Bind ViewModel.Type,Converter={StaticResource AnyTextToVisibilityConverter},Mode=OneWay}">
@@ -134,7 +134,7 @@
                         TintOpacity="0.5"
                         FallbackColor="{StaticResource BrushDeepBackgroundColor}"/>
                 </Grid.Background>
-                <TextBlock x:Name="TypeTextBlock" Text="{Binding Type,Mode=OneWay}" Foreground="White" FontWeight="SemiLight" FontStyle="Italic"
+                <TextBlock x:Name="TypeTextBlock" Text="{Binding Type,Mode=OneWay}" Foreground="{StaticResource AnimeGridItemText}" FontWeight="SemiLight" FontStyle="Italic"
                            FontSize="13"
                            VerticalAlignment="Bottom" Margin="5,0,5,5" />
             </Grid>
@@ -185,14 +185,14 @@
                         Height="40" Width="40"
                         Visibility="Visible" RenderTransformOrigin="0.5,0.5" Click="BtnMoreClick" BorderThickness="1" Style="{StaticResource ButtonRevealStyle}">
                         <SymbolIcon Symbol="More" RenderTransformOrigin="0.5,0.5"
-                                    Foreground="WhiteSmoke" />
+                                    Foreground="{StaticResource AnimeGridItemText}" />
                     </Button>
                 </Grid>
                 <Grid x:Name="TimeTillNextAirGrid" VerticalAlignment="Bottom" Visibility="Collapsed">
                     <Grid.Background>
                         <SolidColorBrush Color="Black" Opacity=".75" />
                     </Grid.Background>
-                    <TextBlock x:Name="TimeTillNextAir" FontWeight="SemiLight" Margin="5,0" Foreground="White"/>
+                    <TextBlock x:Name="TimeTillNextAir" FontWeight="SemiLight" Margin="5,0" Foreground="{StaticResource AnimeGridItemText}"/>
                 </Grid>
             </StackPanel>
         </Grid>

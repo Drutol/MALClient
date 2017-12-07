@@ -18,9 +18,9 @@ namespace MALClient.UWP.Shared.XamlConverters
                 if (model.AirDayBrush == true && model.AnimeItemDisplayContext != AnimeItemDisplayContext.Index)
                     return new SolidColorBrush(Settings.SelectedTheme == (int)ApplicationTheme.Dark ? Colors.Gray : Colors.LightGray);
             }
-            
-            return new SolidColorBrush(Colors.White);
-        }
+
+			return new SolidColorBrush(Settings.SelectedTheme == (int)ApplicationTheme.Dark ? Colors.White : Colors.Black);
+		}
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)
         {

@@ -80,18 +80,16 @@
                     <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowWidth="720" />
                     </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <Setter Target="LogoImage.Visibility" Value="Visible" />
-                        <Setter Target="HamburgerControl.Width" Value="250" />
+					<VisualState.Setters>
+						<Setter Target="HamburgerControl.Width" Value="250" />
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState>
                     <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowWidth="500" />
                     </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <Setter Target="LogoImage.Visibility" Value="Collapsed" />
-                        <Setter Target="HamburgerControl.Width" Value="48" />
+					<VisualState.Setters>
+						<Setter Target="HamburgerControl.Width" Value="48" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>

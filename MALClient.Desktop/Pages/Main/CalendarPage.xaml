@@ -48,7 +48,7 @@
                                         <RowDefinition Height="Auto" />
                                     </Grid.RowDefinitions>
                                     <TextBlock Margin="20,0,0,0" FontSize="20" Text="{Binding Item1}" />
-                                    <MenuFlyoutSeparator Grid.Row="1" />
+                                    <MenuFlyoutSeparator Grid.Row="1" Margin="0,0,10,0" />
                                     <GridView IsRightTapEnabled="True" RightTapped="AnimesGridIndefinite_OnRightTapped"
                                               ItemClick="ItemsViewBase_OnItemClick" Grid.Row="2"
                                               ItemsSource="{Binding Item2}">
@@ -84,8 +84,8 @@
                     <Setter Property="ItemContainerStyle">
                         <Setter.Value>
                             <Style TargetType="GridViewItem">
-                                <Setter Property="Padding" Value="5,5" />
-                                <Setter Property="Margin" Value="2,5" />
+                                <Setter Property="Padding" Value="0,0" />
+                                <Setter Property="Margin" Value="6,5" />
                             </Style>
                         </Setter.Value>
                     </Setter>
@@ -94,7 +94,7 @@
                             <DataTemplate>
                                 <Grid>
                                     <items:AnimeGridItem DataContext="{Binding}" DisplayAirTillTime="True" DisplayContext="AirDay"/>
-                                    <Button HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="0,0,0,90"
+                                    <Button HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="0,0,0,90" Padding="9"
                                             Command="{Binding Source={StaticResource Locator},Path=CalendarPage.ExportToCalendarCommand}"
                                             CommandParameter="{Binding}"  BorderThickness="1" Style="{StaticResource ButtonRevealStyle}">
                                         <Button.Background>
@@ -133,13 +133,16 @@
                 </DataTemplate>
             </Pivot.HeaderTemplate>
         </Pivot>
-        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{ThemeResource BrushLoadingNonTransparent}"
-              Visibility="{Binding CalendarBuildingVisibility,Converter={StaticResource BoolToVisibilityConverter}}">
-            <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Center">
-                <ProgressBar HorizontalAlignment="Stretch" Margin="40,0" VerticalAlignment="Center"
+        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent"
+             Visibility="{Binding CalendarBuildingVisibility,Converter={StaticResource BoolToVisibilityConverter}}">
+			<Grid HorizontalAlignment="Stretch" VerticalAlignment="Center" MaxWidth="500" Padding="30,10"  BorderThickness="1"  BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"
+				  Background="{StaticResource PopUpBackground}">
+				<StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Center">
+					<TextBlock  HorizontalAlignment="Center" Margin="5" Text="Building calendar, please wait..." />
+					<ProgressBar HorizontalAlignment="Stretch" Margin="40,10" VerticalAlignment="Center"
                          Value="{Binding ProgressValue}" Maximum="{Binding MaxProgressValue}" />
-                <TextBlock  HorizontalAlignment="Center" Margin="5" Text="Building calendar, please wait..." />
-            </StackPanel>
-        </Grid>
+				</StackPanel>
+			</Grid>
+		</Grid>
     </Grid>
 </Page>

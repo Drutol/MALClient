@@ -71,23 +71,18 @@
                 <RowDefinition Height="*" />
                 <RowDefinition Height="50" />
             </Grid.RowDefinitions>
-            <Image controlsExt:ImageExtensions.FadeInOnLoaded="True" Grid.ColumnSpan="2" Stretch="Fill" ImageOpened="Image_OnImageOpened"
+            <Image controlsExt:ImageExtensions.FadeInOnLoaded="True" Grid.ColumnSpan="2" Stretch="UniformToFill" ImageOpened="Image_OnImageOpened"
+				   HorizontalAlignment="Center"
                    MaxWidth="{Binding MaxWidth}" attachedProperties:AnimeImageExtensions.MalBaseImageSource="{x:Bind ViewModel.ImgUrl}">
                 <!--<Image.Source>
                     <BitmapImage UriSource="{x:Bind ViewModel.ImgUrl}" DecodePixelHeight="325"
                                  DecodePixelType="Logical" DecodePixelWidth="{Binding MaxWidth}" />
                 </Image.Source>-->
             </Image>
-            <Grid Grid.Row="0" MinWidth="37" Width="Auto" HorizontalAlignment="Right" VerticalAlignment="Top"
-                  Visibility="{x:Bind ViewModel.UpdateButtonsVisibility,Mode=OneWay,Converter={StaticResource BoolToVisibilityConverter}}">
-                <Grid.Background>
-                    <AcrylicBrush 
-                        BackgroundSource="Backdrop"
-                        TintColor="{StaticResource BrushDeepBackgroundColor}"
-                        TintOpacity="0.5"
-                        FallbackColor="{StaticResource BrushDeepBackgroundColor}"/>
-                </Grid.Background>
-                <StackPanel Margin="1">
+			<Grid Grid.Row="0" MinWidth="37" Width="Auto" HorizontalAlignment="Right" VerticalAlignment="Top"
+                  Visibility="{x:Bind ViewModel.UpdateButtonsVisibility,Mode=OneWay,Converter={StaticResource BoolToVisibilityConverter}}"
+				  Background="{StaticResource AnimeGridItemGridBackground}">
+				<StackPanel Margin="1">
 					<TextBlock Text="{x:Bind ViewModel.MyStatusBindShort,Mode=OneWay}" Foreground="{StaticResource AnimeGridItemText}"
                                FontWeight="SemiBold"
                                HorizontalAlignment="Center" />
@@ -105,16 +100,10 @@
                     <SymbolIcon Symbol="Favorite" Margin="0,2" Foreground="{StaticResource AnimeGridItemText}" Visibility="{x:Bind ViewModel.IsFavouriteVisibility,Mode=OneWay,Converter={StaticResource BoolToVisibilityConverter}}"/>
                 </StackPanel>
             </Grid>
-            <Grid Grid.Row="0" MinWidth="40" MaxWidth="80" HorizontalAlignment="Left" VerticalAlignment="Top"
-                  Visibility="{x:Bind ViewModel.TopLeftInfoBind,Converter={StaticResource AnyTextToVisibilityConverter},Mode=OneWay}">
-                <Grid.Background>
-                    <AcrylicBrush 
-                        BackgroundSource="Backdrop"
-                        TintColor="{StaticResource BrushDeepBackgroundColor}"
-                        TintOpacity="0.5"
-                        FallbackColor="{StaticResource BrushDeepBackgroundColor}"/>
-                </Grid.Background>
-                <Grid.ColumnDefinitions>
+			<Grid Grid.Row="0" MinWidth="40" MaxWidth="80" HorizontalAlignment="Left" VerticalAlignment="Top"
+                  Visibility="{x:Bind ViewModel.TopLeftInfoBind,Converter={StaticResource AnyTextToVisibilityConverter},Mode=OneWay}"
+				  Background="{StaticResource AnimeGridItemGridBackground}">
+				<Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
@@ -125,16 +114,10 @@
                        HorizontalAlignment="Center" VerticalAlignment="Bottom"
                        Foreground="{StaticResource AnimeGridItemTextDays}" FontSize="14" FontStyle="Italic" />
             </Grid>
-            <Grid Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Bottom"
-                  Visibility="{x:Bind ViewModel.Type,Converter={StaticResource AnyTextToVisibilityConverter},Mode=OneWay}">
-                <Grid.Background>
-                    <AcrylicBrush 
-                        BackgroundSource="Backdrop"
-                        TintColor="{StaticResource BrushDeepBackgroundColor}"
-                        TintOpacity="0.5"
-                        FallbackColor="{StaticResource BrushDeepBackgroundColor}"/>
-                </Grid.Background>
-                <TextBlock x:Name="TypeTextBlock" Text="{Binding Type,Mode=OneWay}" Foreground="{StaticResource AnimeGridItemText}" FontWeight="SemiLight" FontStyle="Italic"
+			<Grid Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Bottom"
+                  Visibility="{x:Bind ViewModel.Type,Converter={StaticResource AnyTextToVisibilityConverter},Mode=OneWay}"
+				  Background="{StaticResource AnimeGridItemGridBackground}">
+				<TextBlock x:Name="TypeTextBlock" Text="{Binding Type,Mode=OneWay}" Foreground="{StaticResource AnimeGridItemText}" FontWeight="SemiLight" FontStyle="Italic"
                            FontSize="13"
                            VerticalAlignment="Bottom" Margin="5,0,5,5" />
             </Grid>
@@ -173,15 +156,8 @@
 
             </Grid>
             <StackPanel Orientation="Horizontal" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Bottom">
-                <Grid>
-                    <Grid.Background>
-                        <AcrylicBrush 
-                            BackgroundSource="Backdrop"
-                            TintColor="{StaticResource BrushDeepBackgroundColor}"
-                            TintOpacity="0.4"
-                            FallbackColor="{StaticResource BrushDeepBackgroundColor}"/>
-                    </Grid.Background>
-                    <Button  Background="Transparent"
+				<Grid Background="{StaticResource AnimeGridItemGridBackground}">
+					<Button Background="Transparent"
                         Height="40" Width="40"
                         Visibility="Visible" RenderTransformOrigin="0.5,0.5" Click="BtnMoreClick" BorderThickness="1" Style="{StaticResource ButtonRevealStyle}">
                         <SymbolIcon Symbol="More" RenderTransformOrigin="0.5,0.5"

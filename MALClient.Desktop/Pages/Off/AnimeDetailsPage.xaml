@@ -75,7 +75,7 @@
                 <RowDefinition Height="225" />
             </Grid.RowDefinitions>
             <Image controlsExt:ImageExtensions.FadeInOnLoaded="True" Margin="1,1,1,1"
-                   Grid.Column="0" Stretch="Fill"
+                   Grid.Column="0" Stretch="Uniform"
                    attachedProperties:AnimeImageExtensions.MalBaseImageSource="{Binding DetailImage}"
                    Height="200" Width="134" IsRightTapEnabled="True" RightTapped="UIElement_OnRightTapped">
                 <FlyoutBase.AttachedFlyout>

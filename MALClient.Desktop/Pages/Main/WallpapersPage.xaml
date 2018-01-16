@@ -57,7 +57,7 @@
         <ProgressRing Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" Width="75" Height="75"
                       IsActive="True"
                       Visibility="{Binding LoadingWallpapersVisibility,Converter={StaticResource BoolToVisibilityConverter}}" />
-        <CommandBar Grid.Row="1">
+		<CommandBar Grid.Row="1" Style="{StaticResource CommandBarRevealStyle}">
             <CommandBar.Background>
                 <AcrylicBrush 
                     BackgroundSource="Backdrop"

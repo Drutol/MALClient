@@ -127,6 +127,6 @@
         </Grid>
         <TextBox Grid.Row="1" x:Name="ContentBox" AcceptsReturn="True" TextWrapping="Wrap"
                  TextChanged="ContentBox_OnTextChanged"  HorizontalAlignment="Stretch" IsSpellCheckEnabled="True"
-                 VerticalAlignment="Stretch" />
+                 VerticalAlignment="Stretch" BorderBrush="{StaticResource SystemControlTransparentRevealBorderBrush}" />
     </Grid>
 </UserControl>

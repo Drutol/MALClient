@@ -146,7 +146,6 @@
 					<ColumnDefinition Width="50" />
 				</Grid.ColumnDefinitions>
 				<Button IsTabStop="False" HorizontalAlignment="Right"
-                        Background="{ThemeResource SystemControlHighlightListAccentLowBrush}"
                         VerticalAlignment="Center" Width="45" Height="48" Grid.Column="0"
                         Command="{Binding NavigateBackCommand}"
                         Visibility="{Binding NavigateOffBackButtonVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
@@ -401,16 +400,10 @@
               Visibility="{Binding GeneralVisibility}"
               VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="2"
               Background="Transparent" Tapped="PinDialog_OnTapped" Margin="0,-48,0,0">
-            <Grid x:Name="PinDialogInner" Margin="0,50,0,60" VerticalAlignment="Center"
-                  HorizontalAlignment="Stretch" MaxWidth="550" Padding="10" BorderThickness="1" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}">
-                <Grid.Background>
-                    <AcrylicBrush 
-                    BackgroundSource="Backdrop"
-                    TintColor="{StaticResource BrushDeepBackgroundColor}"
-                    TintOpacity="0.7"
-                    FallbackColor="{StaticResource BrushDeepBackgroundColor}"/>
-                </Grid.Background>
-                <Grid.RowDefinitions>
+			<Grid x:Name="PinDialogInner" Margin="0,50,0,60" VerticalAlignment="Center"
+                  HorizontalAlignment="Stretch" MaxWidth="550" Padding="10" BorderThickness="1" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"
+				  Background="{StaticResource PopUpBackground}">
+				<Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />

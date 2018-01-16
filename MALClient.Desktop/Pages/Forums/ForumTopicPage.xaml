@@ -88,14 +88,14 @@
                                     <TextBlock Text="{x:Bind Data.Poster.Posts}" />
                                     <StackPanel Orientation="Horizontal">
                                         <Button Width="40" Height="40" Command="{x:Bind GoToPostersOtherPosts}" Foreground="{ThemeResource BrushText}"
-                                                Style="{StaticResource ButtonRevealStyle}" BorderThickness="1">
+                                                Style="{StaticResource ButtonRevealStyle}" BorderThickness="1" Background="Transparent">
                                             <ToolTipService.ToolTip>
                                                 <ToolTip Content="See user's recent posts."/>
                                             </ToolTipService.ToolTip>
                                             <SymbolIcon Symbol="BrowsePhotos"/>
                                         </Button>
                                         <Button Visibility="{x:Bind MessagingVisible,Converter={StaticResource BoolToVisibilityConverter}}" Width="40" Height="40" CommandParameter="{x:Bind Data.Poster.MalUser}" Command="{Binding Source={StaticResource Locator},Path=ForumsTopic.NavigateMessagingCommand}"
-                                                Style="{StaticResource ButtonRevealStyle}" BorderThickness="1">
+                                                Style="{StaticResource ButtonRevealStyle}" BorderThickness="1" Background="Transparent">
                                             <ToolTipService.ToolTip>
                                                 <ToolTip Content="Send private message."/>
                                             </ToolTipService.ToolTip>

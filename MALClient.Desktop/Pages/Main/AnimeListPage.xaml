@@ -49,7 +49,6 @@
                                       ItemsSource="{Binding AnimeCompactItems}" SelectionMode="Single"
                                       RightTapped="AnimeCompactItemsIndefinite_OnRightTapped"
                                       ItemClick="AnimeCompactItemsIndefinite_OnItemClick"
-                                      ShowsScrollingPlaceholders="False"
                                       IsItemClickEnabled="True"
                                       Visibility="{Binding DisplayMode,Converter={StaticResource DisplayModeToPresenterControlVisibility},ConverterParameter={StaticResource IndefiniteCompactListString}}">
             <userControls:AlternatingListView.ItemContainerStyle>
@@ -93,7 +92,7 @@
                   RightTapped="AnimesItemsIndefinite_OnRightTapped" SelectionMode="Single"
                   HorizontalAlignment="Center" HorizontalContentAlignment="Stretch"
                   ItemClick="AnimesItemsIndefinite_OnItemClick" Padding="0,33,0,48" Margin="0,0,0,-48"
-                  IsItemClickEnabled="True" ShowsScrollingPlaceholders="False"
+                  IsItemClickEnabled="True"
                   Visibility="{Binding DisplayMode,Converter={StaticResource DisplayModeToPresenterControlVisibility},ConverterParameter={StaticResource IndefiniteListString}}">
             <GridView.ItemContainerStyle>
                 <Style TargetType="GridViewItem">
@@ -139,7 +138,7 @@
         </GridView>
         <GridView x:Name="AnimesGridIndefinite" Grid.Row="0" Margin="0,0,0,-48" ItemsSource="{Binding AnimeGridItems}"
                   MinWidth="200" IsItemClickEnabled="True" Padding="0,33,0,48"
-                  RightTapped="AnimesGridIndefinite_OnRightTapped" SelectionMode="Single" ShowsScrollingPlaceholders="False"
+                  RightTapped="AnimesGridIndefinite_OnRightTapped" SelectionMode="Single"
                   HorizontalAlignment="Stretch" IsRightTapEnabled="True" ItemClick="AnimesGridIndefinite_OnItemClick"
                   Visibility="{Binding DisplayMode,Converter={StaticResource DisplayModeToPresenterControlVisibility},ConverterParameter={StaticResource IndefiniteGridString}}">
             <GridView.ItemContainerStyle>
@@ -293,36 +292,30 @@
                 HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="75" Height="75"
                 IsActive="True" />
         </Grid>
-        <Grid Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-              Visibility="{Binding LoadingAllDetailsVisibility,Converter={StaticResource BoolToVisibilityConverter}}">
-            <Grid HorizontalAlignment="Stretch" VerticalAlignment="Center" MaxWidth="500" Padding="30,10"  BorderThickness="1"  BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}">
-                <Grid.Background>
-                    <AcrylicBrush 
-                    BackgroundSource="Backdrop"
-                    TintColor="{StaticResource BrushDeepBackgroundColor}"
-                    TintOpacity="0.7"
-                    FallbackColor="{StaticResource BrushDeepBackgroundColor}"/>
-                </Grid.Background>
-                <StackPanel VerticalAlignment="Center">
+        <Grid Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent"
+             Visibility="{Binding LoadingAllDetailsVisibility,Converter={StaticResource BoolToVisibilityConverter}}" >
+			<Grid HorizontalAlignment="Stretch" VerticalAlignment="Center" MaxWidth="500" Padding="30,10"  BorderThickness="1"  BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"
+				Background="{StaticResource PopUpBackground}">
+				<StackPanel VerticalAlignment="Center">
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10" >
-                        <TextBlock Text="Loading all items details..."/>
-                        <TextBlock Text="{Binding LoadingItemsStatus}"/>
-                    </StackPanel>
+						<TextBlock>
+							<Run Text="Loading all items details..."/>
+							<Run Text="{Binding LoadingItemsStatus}"/>
+						</TextBlock>
+					</StackPanel>
                     <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="Auto"/>
-                        </Grid.ColumnDefinitions>
-                        <TextBlock Text="0"/>
-                        <ProgressBar Grid.Column="1"  HorizontalAlignment="Stretch" Margin="10,0" Value="{Binding ItemsLoaded}" Minimum="0" Maximum="{Binding AllItemsToLoad}"/>
-                        <TextBlock Grid.Column="2" Text="{Binding AllItemsToLoad}"/>
-                    </Grid>
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="Auto"/>
+							<ColumnDefinition Width="*"/>
+							<ColumnDefinition Width="Auto"/>
+						</Grid.ColumnDefinitions>
+						<ProgressBar Grid.Column="1" HorizontalAlignment="Stretch" Margin="10,0" Value="{Binding ItemsLoaded}" Minimum="0" Maximum="{Binding AllItemsToLoad}"/>
+					</Grid>
                     <Button Style="{StaticResource TextBlockButtonStyle}" Content="Cancel" Margin="0,10" HorizontalAlignment="Center" Command="{Binding CancelLoadingAllItemsCommand}"/>
                 </StackPanel>
             </Grid>
         </Grid>
-        <CommandBar Grid.Row="1" x:Name="BottomCommandBar">
+        <CommandBar Grid.Row="1" x:Name="BottomCommandBar" Style="{StaticResource CommandBarRevealStyle}">
             <CommandBar.Background>
                 <AcrylicBrush 
                     BackgroundSource="Backdrop"

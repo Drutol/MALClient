@@ -60,9 +60,9 @@
                 <StackPanel HorizontalAlignment="Center" VerticalAlignment="Top" MaxWidth="300" Width="Auto"
                         MinWidth="200">
                     <TextBlock Text="Username:" HorizontalAlignment="Center" Margin="0,2" FontWeight="SemiBold" />
-                    <TextBox KeyDown="UserName_OnKeyDown" Text="{Binding UserNameInput,Mode=TwoWay}" />
+					<TextBox KeyDown="UserName_OnKeyDown" Text="{Binding UserNameInput,Mode=TwoWay}" BorderBrush="{StaticResource SystemControlTransparentRevealBorderBrush}" />
                     <TextBlock Text="Password:" HorizontalAlignment="Center" Margin="0,2" FontWeight="SemiBold" />
-                    <PasswordBox x:Name="UserPassword" KeyDown="Password_OnKeyDown" Password="{Binding PasswordInput,Mode=TwoWay}"/>
+					<PasswordBox x:Name="UserPassword" KeyDown="Password_OnKeyDown" Password="{Binding PasswordInput,Mode=TwoWay}" BorderBrush="{StaticResource SystemControlTransparentRevealBorderBrush}"/>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="5">
                         <Button Content="Log In" Command="{Binding LogInCommand}" HorizontalAlignment="Center" Margin="3,3" BorderThickness="1" Style="{StaticResource ButtonRevealStyle}"/>
                         <ProgressRing  IsActive="True" Visibility="{Binding Authenticating,Converter={StaticResource BoolToVisibilityConverter}}" Margin="5,0" />

@@ -269,17 +269,17 @@
                                 <GridView Grid.Row="1" RightTapped="AnimesGridIndefinite_OnRightTapped"
                                   ItemsSource="{Binding FavAnime}" HorizontalAlignment="Center"
                                   IsItemClickEnabled="True" ItemClick="OnAnimeItemClick">
-                                    <GridView.ItemContainerStyle>
-                                        <Style TargetType="GridViewItem">
-                                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                                            <Setter Property="VerticalAlignment" Value="Stretch" />
-                                            <Setter Property="Padding" Value="5,5" />
-                                            <Setter Property="Margin" Value="0,5" />
-                                            <Setter Property="Width" Value="200" />
-                                            <Setter Property="Height" Value="350" />
-                                        </Style>
-                                    </GridView.ItemContainerStyle>
-                                    <GridView.ItemTemplate>
+									<GridView.ItemContainerStyle>
+										<Style TargetType="GridViewItem">
+											<Setter Property="Margin" Value="6,5" />
+										</Style>
+									</GridView.ItemContainerStyle>
+									<GridView.ItemsPanel>
+										<ItemsPanelTemplate>
+											<ItemsWrapGrid Orientation="Horizontal" ItemWidth="200" ItemHeight="350" />
+										</ItemsPanelTemplate>
+									</GridView.ItemsPanel>
+									<GridView.ItemTemplate>
                                         <DataTemplate>
                                             <items:AnimeGridItem DataContext="{Binding}" />
                                         </DataTemplate>
@@ -307,17 +307,17 @@
                                 <GridView Grid.Row="1" RightTapped="AnimesGridIndefinite_OnRightTapped"
                                   ItemsSource="{Binding FavManga}" HorizontalAlignment="Center"
                                   IsItemClickEnabled="True" ItemClick="OnAnimeItemClick">
-                                    <GridView.ItemContainerStyle>
-                                        <Style TargetType="GridViewItem">
-                                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                                            <Setter Property="VerticalAlignment" Value="Stretch" />
-                                            <Setter Property="Padding" Value="5,5" />
-                                            <Setter Property="Margin" Value="0,5" />
-                                            <Setter Property="Width" Value="200" />
-                                            <Setter Property="Height" Value="350" />
-                                        </Style>
-                                    </GridView.ItemContainerStyle>
-                                    <GridView.ItemTemplate>
+									<GridView.ItemContainerStyle>
+										<Style TargetType="GridViewItem">
+											<Setter Property="Margin" Value="6,5" />
+										</Style>
+									</GridView.ItemContainerStyle>
+									<GridView.ItemsPanel>
+										<ItemsPanelTemplate>
+											<ItemsWrapGrid Orientation="Horizontal" ItemWidth="200" ItemHeight="350" />
+										</ItemsPanelTemplate>
+									</GridView.ItemsPanel>
+									<GridView.ItemTemplate>
                                         <DataTemplate>
                                             <items:AnimeGridItem DataContext="{Binding}" />
                                         </DataTemplate>
@@ -428,9 +428,19 @@
                             <GridView HorizontalAlignment="Center" RightTapped="AnimesGridIndefinite_OnRightTapped"
                                       ItemsSource="{Binding RecentAnime}"
                                       IsItemClickEnabled="True" ItemClick="OnAnimeItemClick">
-                                <GridView.ItemTemplate>
+								<GridView.ItemContainerStyle>
+									<Style TargetType="GridViewItem">
+										<Setter Property="Margin" Value="6,5" />
+									</Style>
+								</GridView.ItemContainerStyle>
+								<GridView.ItemsPanel>
+									<ItemsPanelTemplate>
+										<ItemsWrapGrid Orientation="Horizontal" ItemWidth="200" ItemHeight="350" />
+									</ItemsPanelTemplate>
+								</GridView.ItemsPanel>
+								<GridView.ItemTemplate>
                                     <DataTemplate>
-                                        <items:AnimeGridItem DataContext="{Binding}" />
+                                        <items:AnimeGridItem DataContext="{Binding}"  />
                                     </DataTemplate>
                                 </GridView.ItemTemplate>
                             </GridView>
@@ -456,7 +466,17 @@
                         <GridView Margin="0,5,0,0" Grid.Row="1" RightTapped="AnimesGridIndefinite_OnRightTapped"
                                   ItemsSource="{Binding RecentManga}" HorizontalAlignment="Center"
                                   IsItemClickEnabled="True" ItemClick="OnAnimeItemClick">
-                            <GridView.ItemTemplate>
+							<GridView.ItemContainerStyle>
+								<Style TargetType="GridViewItem">
+									<Setter Property="Margin" Value="6,5" />
+								</Style>
+							</GridView.ItemContainerStyle>
+							<GridView.ItemsPanel>
+								<ItemsPanelTemplate>
+									<ItemsWrapGrid Orientation="Horizontal" ItemWidth="200" ItemHeight="350" />
+								</ItemsPanelTemplate>
+							</GridView.ItemsPanel>
+							<GridView.ItemTemplate>
                                 <DataTemplate>
                                     <items:AnimeGridItem DataContext="{Binding}" />
                                 </DataTemplate>
@@ -830,7 +850,7 @@
                                 Visibility="{Binding CommentInputBoxVisibility,Converter={StaticResource BoolToVisibilityConverter}}">
                         <TextBox AcceptsReturn="True" HorizontalAlignment="Stretch"
                                  Text="{Binding CommentText,Mode=TwoWay}" Margin="20,5" MinHeight="50" TextWrapping="Wrap"
-                                 PlaceholderText="Type comment..." />
+                                 PlaceholderText="Type comment..." BorderBrush="{StaticResource SystemControlTransparentRevealBorderBrush}" />
                         <Button Content="Send Comment" Margin="20,0" Foreground="White"
                                 Command="{Binding SendCommentCommand}" IsEnabled="{Binding IsSendCommentButtonEnabled}"
                                 Background="{StaticResource SystemControlBackgroundAccentBrush}" BorderThickness="1" Style="{StaticResource ButtonRevealStyle}"/>

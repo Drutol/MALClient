@@ -80,7 +80,7 @@
             <ProgressRing IsActive="True" HorizontalAlignment="Center" VerticalAlignment="Center" Height="75"
                           Width="75" />
         </Grid>
-        <CommandBar Grid.Row="1" Background="{ThemeResource BrushAppBars}">
+		<CommandBar Grid.Row="1" Background="{ThemeResource BrushAppBars}" Style="{StaticResource CommandBarRevealStyle}">
             <AppBarButton Icon="Message" Label="New message" Command="{Binding ComposeNewCommand}" />
             <AppBarToggleButton Icon="MailForward" Label="Sent messages"
                                 IsChecked="{Binding DisplaySentMessages,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />

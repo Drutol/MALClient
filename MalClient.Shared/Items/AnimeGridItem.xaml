@@ -159,7 +159,7 @@
 				<Grid Background="{StaticResource AnimeGridItemGridBackground}">
 					<Button Background="Transparent"
                         Height="40" Width="40"
-                        Visibility="Visible" RenderTransformOrigin="0.5,0.5" Click="BtnMoreClick" BorderThickness="1" Style="{StaticResource ButtonRevealStyle}">
+                        Visibility="Visible" RenderTransformOrigin="0.5,0.5" Click="BtnMoreClick" BorderThickness="1" > <!--Style="{StaticResource ButtonRevealStyle}" -->
                         <SymbolIcon Symbol="More" RenderTransformOrigin="0.5,0.5"
                                     Foreground="{StaticResource AnimeGridItemText}" />
                     </Button>

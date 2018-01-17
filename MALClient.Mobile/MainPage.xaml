@@ -280,10 +280,10 @@
         <Grid x:Name="PinDialog" Opacity="0" DataContext="{Binding Source={StaticResource UwpLocator},Path=PinTileDialog}"
               Visibility="{Binding GeneralVisibility}"
               VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="1"
-              Background="{ThemeResource BrushPinTileDialogOverlay}" Tapped="PinDialog_OnTapped">
+              Background="Transparent" Tapped="PinDialog_OnTapped">
             <Grid x:Name="PinDialogInner" Margin="15,15,15,55"
-                  Background="{ThemeResource BrushPinTileDialogBackground}" VerticalAlignment="Center"
-                  HorizontalAlignment="Stretch" MaxWidth="450" Padding="10">
+                  Background="{StaticResource PopUpBackground}" VerticalAlignment="Center"
+                  HorizontalAlignment="Stretch" MaxWidth="450" Padding="10" BorderThickness="1" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />

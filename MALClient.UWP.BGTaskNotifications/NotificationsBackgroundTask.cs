@@ -183,7 +183,9 @@ namespace MALClient.UWP.BGTaskNotifications
             _waitCount++;
             var toastContent = BuildToast(notification);
             await _toastSemaphore.WaitAsync();
-            ToastNotificationManager.CreateToastNotifier().Show(new ToastNotification(toastContent.GetXml()));
+			var toast = new ToastNotification(toastContent.GetXml());
+			toast.RemoteId = notification.Id; // GH#166
+            ToastNotificationManager.CreateToastNotifier().Show(toast);
             await Task.Delay(500);
             _toastSemaphore.Release();
             _waitCount--;

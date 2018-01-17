@@ -401,7 +401,7 @@ namespace MALClient.UWP.Shared.Managers
                     imgUri,
                     TileSize.Square150x150);
 
-                tile.WideLogo = wideImgUri;
+                tile.VisualElements.Wide310x150Logo = wideImgUri;
                 RegisterTile(entry.Id.ToString());
                 await tile.RequestCreateAsync();
                 RegisterTileCache(entry.Id, new PinnedTileCache { ImgUri = imgUri, WideImgUri = wideImgUri, Settings = settings });

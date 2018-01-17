@@ -106,7 +106,7 @@
                                 Grid.Column="0">
                             <Image x:Name="DetailImage" controlsExt:ImageExtensions.FadeInOnLoaded="True"
                                    Tapped="Image_OnTapped" Margin="1,1,1,1"
-                                   attachedProperties:AnimeImageExtensions.MalBaseImageSource="{Binding DetailImage}" Stretch="Fill" >
+                                   attachedProperties:AnimeImageExtensions.MalBaseImageSource="{Binding DetailImage}" Stretch="Uniform" >
                                 <FlyoutBase.AttachedFlyout>
                                     <MenuFlyout x:Name="ImageSaveFlyout">
                                         <MenuFlyoutItem Text="Save" Command="{Binding SaveImageCommand}" CommandParameter="mal" />

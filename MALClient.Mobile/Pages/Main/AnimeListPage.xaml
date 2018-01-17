@@ -209,7 +209,6 @@
                                       Margin="3,1,-2,1" Padding="3,0,0,0"
                                       ItemsSource="{Binding AnimeCompactItems}" SelectionMode="Single"
                                       SelectionChanged="AnimesItemsIndefinite_OnSelectionChanged"
-                                      ShowsScrollingPlaceholders="False"
                                       IsItemClickEnabled="True"
                                       Visibility="{Binding DisplayMode,Converter={StaticResource DisplayModeToPresenterControlVisibility},ConverterParameter={StaticResource IndefiniteCompactListString}}">
             <userControls:AlternatingListView.ItemContainerStyle>
@@ -250,7 +249,7 @@
             </ListView.Footer>
         </userControls:AlternatingListView>
         <ListView x:Name="AnimesItemsIndefinite" ItemsSource="{Binding AnimeListItems}"
-                  SelectionChanged="AnimesItemsIndefinite_OnSelectionChanged" ShowsScrollingPlaceholders="False"
+                  SelectionChanged="AnimesItemsIndefinite_OnSelectionChanged"
                   Visibility="{Binding DisplayMode,Converter={StaticResource DisplayModeToPresenterControlVisibility},ConverterParameter={StaticResource IndefiniteListString}}">
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
@@ -284,12 +283,11 @@
             </ListView.Footer>
         </ListView>
         <GridView x:Name="AnimesGridIndefinite" ItemsSource="{Binding AnimeGridItems}"
-                  SelectionChanged="AnimesItemsIndefinite_OnSelectionChanged" HorizontalAlignment="Center"
-                  ShowsScrollingPlaceholders="False" 
+                  SelectionChanged="AnimesItemsIndefinite_OnSelectionChanged" HorizontalAlignment="Stretch"
                   Visibility="{Binding DisplayMode,Converter={StaticResource DisplayModeToPresenterControlVisibility},ConverterParameter={StaticResource IndefiniteGridString}}">
             <GridView.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <ItemsWrapGrid x:Name="GridViewWrapPanel" CacheLength="10" Orientation="Horizontal" ItemHeight="345" ItemWidth="{Binding MaxWidth}"/>
+                    <ItemsWrapGrid x:Name="GridViewWrapPanel" CacheLength="10" Orientation="Horizontal" HorizontalAlignment="Center" ItemHeight="345" ItemWidth="{Binding MaxWidth}"/>
                 </ItemsPanelTemplate>
             </GridView.ItemsPanel>
             <GridView.ItemTemplate>
@@ -341,23 +339,23 @@
         </Grid>
         <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
               Visibility="{Binding LoadingAllDetailsVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
-              Background="{ThemeResource BrushLoadingNonTransparent}">
-            <Grid HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="10,0" CornerRadius="10" Padding="10" Background="{ThemeResource BrushLoadingAllShadow}">
+              Background="Transparent">
+			<Grid HorizontalAlignment="Stretch" VerticalAlignment="Center" MaxWidth="350" Padding="10" Background="{ThemeResource PopUpBackground}" BorderThickness="1" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}">
                 <StackPanel VerticalAlignment="Center">
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10" >
-                        <TextBlock Text="Loading all items details...  "/>
-                        <TextBlock Text="{Binding LoadingItemsStatus}"/>
-                    </StackPanel>
+						<TextBlock>
+							<Run Text="Loading all items details..."/>
+							<Run Text="{Binding LoadingItemsStatus}"/>
+						</TextBlock>
+					</StackPanel>
                     <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="Auto"/>
-                        </Grid.ColumnDefinitions>
-                        <TextBlock Text="0"/>
-                        <ProgressBar Grid.Column="1"  HorizontalAlignment="Stretch" Margin="10,0" Value="{Binding ItemsLoaded}" Minimum="0" Maximum="{Binding AllItemsToLoad}"/>
-                        <TextBlock Grid.Column="2" Text="{Binding AllItemsToLoad}"/>
-                    </Grid>
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="Auto"/>
+							<ColumnDefinition Width="*"/>
+							<ColumnDefinition Width="Auto"/>
+						</Grid.ColumnDefinitions>
+						<ProgressBar Grid.Column="1"  HorizontalAlignment="Stretch" Margin="10,0" Value="{Binding ItemsLoaded}" Minimum="0" Maximum="{Binding AllItemsToLoad}"/>
+					</Grid>
                     <Button Style="{StaticResource TextBlockButtonStyle}" Content="Cancel" Margin="0,10" HorizontalAlignment="Center" Command="{Binding CancelLoadingAllItemsCommand}"/>
                 </StackPanel>
             </Grid>

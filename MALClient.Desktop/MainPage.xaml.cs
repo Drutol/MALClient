@@ -164,7 +164,7 @@ namespace MALClient.UWP
             {
 				SplitterColumn.Width = new GridLength(ViewModelLocator.GeneralMain.OffContentVisibility ? 16 : 0);
 
-				var width = ViewModelLocator.GeneralMain.OffContentVisibility ? (DataContext as MainViewModel).OffContentStatusBarWidth : 0;
+				var width = ViewModelLocator.GeneralMain.OffContentVisibility ? (DataContext as MainViewModel).OffContentStatusBarWidth + 16 : 0;
 				TitleBarRight.Margin = new Thickness(0, 0, Math.Max(width, CoreApplication.GetCurrentView().TitleBar.SystemOverlayRightInset), 0);
 			}
             else if (args.PropertyName == nameof(ViewModelLocator.GeneralMain.AdsContainerVisibility))
@@ -323,7 +323,7 @@ namespace MALClient.UWP
 			OffContentTopGrid.Margin = new Thickness(0, -coreTitleBar.Height, 0, 0);
 			OffContentTopGrid.Padding = new Thickness(0, coreTitleBar.Height, 0, 0);
 			TitleBarLeft.Margin = new Thickness(Math.Max(_paneState ? 250 : 48, coreTitleBar.SystemOverlayLeftInset), 0, 0, 0);
-			var width = ViewModelLocator.GeneralMain.OffContentVisibility ? (DataContext as MainViewModel).OffContentStatusBarWidth : 0;
+			var width = ViewModelLocator.GeneralMain.OffContentVisibility ? (DataContext as MainViewModel).OffContentStatusBarWidth + 16 : 0;
 			TitleBarRight.Margin = new Thickness(0, 0, Math.Max(width, coreTitleBar.SystemOverlayRightInset), 0);
 		}
 

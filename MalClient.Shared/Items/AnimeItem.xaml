@@ -33,7 +33,7 @@
         </Grid.ColumnDefinitions>
 
         <Image controlsExt:ImageExtensions.FadeInOnLoaded="True"
-                Stretch="Fill"
+               Stretch="Fill"
                HorizontalAlignment="Left"
                Width="Auto"
                MaxWidth="120" Margin="1,1" attachedProperties:AnimeImageExtensions.MalBaseImageSource="{x:Bind ViewModel.ImgUrl}"/>
@@ -127,14 +127,13 @@
                             HorizontalAlignment="Right" Click="BtnWatchedEpsOnClick" />
                 </StackPanel>
                 <Button Grid.Column="1" Grid.Row="1" Content="{Binding MyStatusBind,Mode=OneWay}" Margin="0,0,1,0"
-                        Style="{StaticResource ButtonRevealStyle}"
                         Background="{ThemeResource SystemControlBackgroundAccentBrush}"
                         BorderThickness="1"
                         Height="Auto"
                         HorizontalAlignment="Right"
                         IsEnabled="{x:Bind ViewModel.UpdateButtonsEnableState,Mode=OneWay}"
                         Visibility="{x:Bind ViewModel.UpdateButtonsVisibility,Mode=OneWay,Converter={StaticResource BoolToVisibilityConverter}}"
-                        Click="BtnStatusOnClick">
+                        Click="BtnStatusOnClick"> <!--Style="{StaticResource ButtonRevealStyle}"-->
                     <Button.ContentTemplate>
                         <DataTemplate>
                             <TextBlock Text="{Binding}" Foreground="White" TextTrimming="CharacterEllipsis" />
@@ -142,14 +141,13 @@
                     </Button.ContentTemplate>
                 </Button>
                 <Button Grid.Column="2" Grid.Row="1" Content="{x:Bind ViewModel.MyScoreBind,Mode=OneWay}" Margin="1,0,0,0"
-                        Style="{StaticResource ButtonRevealStyle}"
                         Background="{ThemeResource SystemControlBackgroundAccentBrush}" 
                         BorderThickness="1"
                         Height="Auto"
                         HorizontalAlignment="Right"
                         IsEnabled="{x:Bind ViewModel.UpdateButtonsEnableState,Mode=OneWay}"
                         Visibility="{x:Bind ViewModel.UpdateButtonsVisibility,Mode=OneWay,Converter={StaticResource BoolToVisibilityConverter}}"
-                        Click="BtnScoreOnClick">
+                        Click="BtnScoreOnClick"> <!--Style="{StaticResource ButtonRevealStyle}"-->
                     <Button.ContentTemplate>
                         <DataTemplate>
                             <TextBlock Text="{Binding}" Foreground="White" TextTrimming="CharacterEllipsis" />

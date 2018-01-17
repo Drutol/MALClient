@@ -95,7 +95,7 @@
                             <DataTemplate>
                                 <Grid>
                                     <items:AnimeGridItem DataContext="{Binding}" DisplayAirTillTime="True" DisplayContext="AirDay" AllowSwipeInGivenContext="False"/>
-                                    <Button HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="0,0,0,90"
+                                    <Button HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="0,0,0,90" Padding="7"
                                             Command="{Binding Source={StaticResource Locator},Path=CalendarPage.ExportToCalendarCommand}"
                                             CommandParameter="{Binding}">
                                         <Button.Background>
@@ -138,14 +138,15 @@
             </Pivot.HeaderTemplate>
         </Pivot>
         <Grid HorizontalAlignment="Stretch" VerticalAlignment="Center"
-              Visibility="{Binding CalendarBuildingVisibility,Converter={StaticResource BoolToVisibilityConverter}}">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-            <ProgressBar HorizontalAlignment="Stretch" Margin="40,0" VerticalAlignment="Center"
+             Visibility="{Binding CalendarBuildingVisibility,Converter={StaticResource BoolToVisibilityConverter}}">
+			<Grid HorizontalAlignment="Stretch" VerticalAlignment="Center" MaxWidth="350" Padding="10,10"  BorderThickness="1"  BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"
+				  Background="{StaticResource PopUpBackground}">
+				<StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Center">
+					<TextBlock  HorizontalAlignment="Center" Margin="5" Text="Building calendar, please wait..." />
+					<ProgressBar HorizontalAlignment="Stretch" Margin="40,10" VerticalAlignment="Center"
                          Value="{Binding ProgressValue}" Maximum="{Binding MaxProgressValue}" />
-            <TextBlock Grid.Row="1" HorizontalAlignment="Center" Margin="5" Text="Building calendar, please wait..." />
-        </Grid>
+				</StackPanel>
+			</Grid>
+		</Grid>
     </Grid>
 </Page>

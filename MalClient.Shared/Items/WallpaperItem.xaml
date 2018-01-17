@@ -45,43 +45,19 @@
                 <TextBlock x:Name="DlProgress" Text="Waiting..." HorizontalAlignment="Center" Margin="0,5" />
             </StackPanel>
             <Grid x:Name="BoundingGrid" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="-1,0,-1,0">
-                <Grid VerticalAlignment="Top" HorizontalAlignment="Left">
-                    <Grid.Background>
-                        <AcrylicBrush 
-                        BackgroundSource="Backdrop"
-                        TintTransitionDuration="0:0:1"
-                        TintColor="{StaticResource BrushDeepBackgroundColor}"
-                        TintOpacity="0.5"
-                        FallbackColor="{StaticResource BrushDeepBackgroundColor}"/>
-                    </Grid.Background>
-                    <TextBlock Margin="5" FontWeight="SemiLight" Foreground="White">
+				<Grid VerticalAlignment="Top" HorizontalAlignment="Left" Background="{StaticResource AnimeGridItemGridBackground}">
+					<TextBlock Margin="5" FontWeight="SemiLight" Foreground="White">
                         /r/<Run Text="{Binding Data.Source}" />
                     </TextBlock>
                 </Grid>
-                <Grid x:Name="ResolutionGrid" VerticalAlignment="Bottom" HorizontalAlignment="Left"
-                      Visibility="Collapsed">
-                    <Grid.Background>
-                        <AcrylicBrush 
-                        BackgroundSource="Backdrop"
-                        TintTransitionDuration="0:0:1"
-                        TintColor="{StaticResource BrushDeepBackgroundColor}"
-                        TintOpacity="0.5"
-                        FallbackColor="{StaticResource BrushDeepBackgroundColor}"/>
-                    </Grid.Background>
-                    <TextBlock Margin="5" FontWeight="SemiLight" Foreground="White">
+				<Grid x:Name="ResolutionGrid" VerticalAlignment="Bottom" HorizontalAlignment="Left"
+                      Visibility="Collapsed" Background="{StaticResource AnimeGridItemGridBackground}">
+					<TextBlock Margin="5" FontWeight="SemiLight" Foreground="White">
                         <Run Text="{Binding Resolution}" />
                     </TextBlock>
                 </Grid>
-                <Grid VerticalAlignment="Bottom" HorizontalAlignment="Right">
-                    <Grid.Background>
-                        <AcrylicBrush 
-                        BackgroundSource="Backdrop"
-                        TintTransitionDuration="0:0:1"
-                        TintColor="{StaticResource BrushDeepBackgroundColor}"
-                        TintOpacity="0.5"
-                        FallbackColor="{StaticResource BrushDeepBackgroundColor}"/>
-                    </Grid.Background>
-                    <TextBlock Margin="5" FontWeight="SemiLight" Foreground="White">
+				<Grid VerticalAlignment="Bottom" HorizontalAlignment="Right" Background="{StaticResource AnimeGridItemGridBackground}">
+					<TextBlock Margin="5" FontWeight="SemiLight" Foreground="White">
                         <Run Text="{Binding Created}" />
                     </TextBlock>
                 </Grid>

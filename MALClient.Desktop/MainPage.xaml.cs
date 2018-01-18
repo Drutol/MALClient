@@ -261,7 +261,7 @@ namespace MALClient.UWP
         private void OffContent_OnSizeChanged(object sender, SizeChangedEventArgs e)
         {
             (DataContext as MainViewModel).OffContentStatusBarWidth = e.NewSize.Width;
-			TitleBarRight.Margin = new Thickness(0, 0, Math.Max(e.NewSize.Width, CoreApplication.GetCurrentView().TitleBar.SystemOverlayRightInset), 0);
+			TitleBarRight.Margin = new Thickness(0, 0, Math.Max(e.NewSize.Width + 16, CoreApplication.GetCurrentView().TitleBar.SystemOverlayRightInset), 0);
 		}
 
         private void OffContent_OnPointerPressed(object sender, PointerRoutedEventArgs e)

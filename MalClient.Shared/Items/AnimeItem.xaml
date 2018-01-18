@@ -27,34 +27,33 @@
           Background="{ThemeResource BrushAnimeItemBackground}">
         <!--ManipulationStarted="ManipStarted" ManipulationDelta="ManipDelta"
           ManipulationMode="TranslateRailsX,TranslateX,System,TranslateInertia"-->
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="120" />
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
-
-        <Image controlsExt:ImageExtensions.FadeInOnLoaded="True"
-               Stretch="Fill"
-               HorizontalAlignment="Left"
-               Width="Auto"
-               MaxWidth="120" Margin="1,1" attachedProperties:AnimeImageExtensions.MalBaseImageSource="{x:Bind ViewModel.ImgUrl}"/>
-        <Button Grid.Row="0" Grid.Column="0" Margin="1,0,0,0"
-                HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="40"
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="120" />
+			<ColumnDefinition Width="*" />
+		</Grid.ColumnDefinitions>
+		<Grid>
+			<Image controlsExt:ImageExtensions.FadeInOnLoaded="True"
+				Stretch="UniformToFill"
+				HorizontalAlignment="Center"
+				Width="Auto"
+				MaxWidth="120" Margin="1,1" attachedProperties:AnimeImageExtensions.MalBaseImageSource="{x:Bind ViewModel.ImgUrl}"/>
+		</Grid>
+		<Grid Grid.Row="0" Grid.Column="0" Margin="1,0,0,1" HorizontalAlignment="Left" VerticalAlignment="Bottom" Background="{StaticResource AnimeGridItemGridBackground}">
+			<Button Grid.Row="0" Grid.Column="0"
+                Height="40"
                 Visibility="Visible" Click="BtnMoreOnClick">
-            <Button.Background>
-                <SolidColorBrush Color="Black" Opacity=".75" />
-            </Button.Background>
-            <SymbolIcon Symbol="More" Foreground="White" />
-        </Button>
-        <Button Grid.Row="0" Grid.Column="0" Margin="0,0,1,1" Command="{x:Bind ViewModel.AddAnimeCommand,Mode=OneWay}"
-                HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="40"
-                Visibility="{x:Bind ViewModel.AddToListVisibility,Mode=OneWay,Converter={StaticResource BoolToVisibilityConverter}}"
-                BorderThickness="1" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}">
-            <Button.Background>
-                <SolidColorBrush Color="Black" Opacity=".75" />
-            </Button.Background>
-            <SymbolIcon Symbol="Add" Foreground="White" />
-        </Button>
-        <ProgressBar Grid.Row="0" Grid.Column="1" IsIndeterminate="True"
+				<SymbolIcon Symbol="More" Foreground="White" />
+			</Button>
+		</Grid>
+		<Grid Grid.Row="0" Grid.Column="0" Margin="0,0,1,1" HorizontalAlignment="Right" VerticalAlignment="Bottom" Background="{StaticResource AnimeGridItemGridBackground}">
+			<Button Grid.Row="0" Grid.Column="0" Command="{x:Bind ViewModel.AddAnimeCommand,Mode=OneWay}"
+					Height="40"
+					Visibility="{x:Bind ViewModel.AddToListVisibility,Mode=OneWay,Converter={StaticResource BoolToVisibilityConverter}}"
+					BorderThickness="1" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}">
+				<SymbolIcon Symbol="Add" Foreground="White" />
+			</Button>
+		</Grid>
+		<ProgressBar Grid.Row="0" Grid.Column="1" IsIndeterminate="True"
                      HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Visibility="{x:Bind ViewModel.LoadingUpdate,Mode=OneWay,Converter={StaticResource BoolToVisibilityConverter}}" />
         <Grid Grid.Row="0" Grid.Column="1" HorizontalAlignment="Stretch"
               VerticalAlignment="Stretch">

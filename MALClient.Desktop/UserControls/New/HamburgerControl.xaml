@@ -535,7 +535,7 @@
                                            VerticalAlignment="Center"
                                            TextAlignment="Center" />
                                     <Button x:Name="ExpandMangaFiltersButton" Grid.Row="0" Background="Transparent"
-                                        Click="ButtonExpandMangaFiltersOnClick" BorderThickness="0" Width="35" Height="35" Margin="0,0,5,0"
+                                        Click="ButtonExpandMangaFiltersOnClick" BorderThickness="0" Width="34" Height="34" Margin="0,0,5,0"
                                         Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Stretch"
                                         RenderTransformOrigin="0.5,0.5">
                                         <Button.RenderTransform>

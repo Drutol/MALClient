@@ -9,6 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using MALClient.Models.Enums;
 using MALClient.XShared.Comm.MagicalRawQueries;
+using MALClient.XShared.Comm.MalSpecific;
 using MALClient.XShared.Utils;
 using MALClient.XShared.ViewModels;
 using ModernHttpClient;

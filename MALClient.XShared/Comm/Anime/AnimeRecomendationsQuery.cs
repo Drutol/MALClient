@@ -52,10 +52,10 @@ namespace MALClient.XShared.Comm.Anime
                     {
                         var titleNodes =
                             recomNode.Descendants("a").Where(node => node.Attributes.Count == 2).Take(2).ToArray();
-                        var titles = titleNodes.Select(node => node.Attributes["title"].Value).ToArray();
+                        var titles = titleNodes.Select(node => WebUtility.HtmlDecode(node.InnerText.Trim())).ToArray();
                         var ids =
                             titleNodes.Select(
-                                node => Convert.ToInt32(node.Attributes["href"].Value.Substring(6).Split('/')[1]))
+                                node => TryGetIdFromThisFreakingInconsistentHtmlTag(node.Attributes["href"].Value))
                                 .ToArray();
 
                         output.Add(new RecommendationData
@@ -67,9 +67,19 @@ namespace MALClient.XShared.Comm.Anime
                             RecommendationTitle = titles[1],
                             Description = WebUtility.HtmlDecode(desc.InnerText).Trim()
                         });
+
+
+                        int TryGetIdFromThisFreakingInconsistentHtmlTag(string value)
+                        {
+                            var tokens = value.Split('/');
+                            if (tokens.Length == 6)
+                                return Convert.ToInt32(tokens[4]);
+
+                            return Convert.ToInt32(tokens[2]);
+                        }
                     }
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
                     //
                 }

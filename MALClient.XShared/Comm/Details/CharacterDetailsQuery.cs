@@ -50,10 +50,10 @@ namespace MALClient.XShared.Comm.Details
                     foreach (var descendant in table.Descendants("tr"))
                     {
                         var links = descendant.Descendants("a").ToList();
-                        if (links[0].Attributes["href"].Value.StartsWith("/anime"))
+                        if (links[0].Attributes["href"].Value.Contains("/anime/"))
                         {
                             var curr = new AnimeLightEntry { IsAnime = true };
-                            curr.Id = int.Parse(links[0].Attributes["href"].Value.Split('/')[2]);
+                            curr.Id = int.Parse(links[0].Attributes["href"].Value.Split('/')[4]);
                             var img = links[0].Descendants("img").First().Attributes["src"].Value;
                             if (!img.Contains("questionmark"))
                             {
@@ -66,7 +66,7 @@ namespace MALClient.XShared.Comm.Details
                         else
                         {
                             var curr = new AnimeLightEntry { IsAnime = false };
-                            curr.Id = int.Parse(links[0].Attributes["href"].Value.Split('/')[2]);
+                            curr.Id = int.Parse(links[0].Attributes["href"].Value.Split('/')[4]);
                             var img = links[0].Descendants("img").First().Attributes["src"].Value;
                             if (!img.Contains("questionmark"))
                             {
@@ -111,7 +111,7 @@ namespace MALClient.XShared.Comm.Details
                             }
                             current.ImgUrl = imgUrl;
                             var info = descendant.Descendants("td").Last();
-                            current.Id = info.ChildNodes[0].Attributes["href"].Value.Split('/')[2];
+                            current.Id = info.ChildNodes[0].Attributes["href"].Value.Split('/')[4];
                             current.Name = WebUtility.HtmlDecode(info.ChildNodes[0].InnerText.Trim());
                             current.Notes = info.ChildNodes[2].InnerText;
                             output.VoiceActors.Add(current);

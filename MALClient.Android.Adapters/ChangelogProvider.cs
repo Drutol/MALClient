@@ -31,12 +31,21 @@ namespace MALClient.Android.Adapters
 
         public bool NewChangelog { get; set; }
 
-        public string DateWithVersion => $"{_currentVersion} - 01.10.2017";
+        public string DateWithVersion => $"{_currentVersion} - 19.01.2018";
 
         public List<string> Changelog => new List<string>
         {
-           "Various changes and fixes here and there and also over there. Should crash less ^^",
-           "Landscape in anime details page has been somewhat reverted to... non-existence because it caused more problems than it was worth. It's pretty tricky layout and I'll need more time to do it properly.",
+            "Hello! Happy new year!\nA bit late... I know :) Sorry for such long period of inactivity, I got burned out, University & work took their toll on my time and such. Anyway, today's changes:",
+            "Upgraded tons of libraries so things should work better.",
+            "Upgraded Android SDK to 8.0",
+            "Fixed characters pages.",
+            "Fixed staff pages.",
+            "You will be able to see your own history even when you set your list to be private.",
+            "Fixed recommendations in details and general ones.",
+            "Current episode completion of airing anime will be visible next to entry type like so \"TV 3/12\"",
+            "Current episode highlight will be now much more visible in episode chooser.",
+            "Okay... sooo... yeah. MAL is said to be releasing new API which should make things easier both for me and you, it's supposed to be availble in the coming months. I'll be definitely using it so things will stop breaking after some time ^^ Other than that? I'm still on hiatus, just a bit more let's say \"shallow\" hiatus. For any news check github... or just wait for another news-ish changelog :)"
+
         };
 
     }

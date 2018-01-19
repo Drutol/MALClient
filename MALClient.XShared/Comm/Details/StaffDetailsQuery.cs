@@ -108,7 +108,7 @@ namespace MALClient.XShared.Comm.Details
                                 }
                                 var link = tds[1].Descendants("a").First();
                                 show.IsAnime = true;
-                                show.Id = int.Parse(link.Attributes["href"].Value.Split('/')[2]);
+                                show.Id = int.Parse(link.Attributes["href"].Value.Split('/')[4]);
                                 show.Title = WebUtility.HtmlDecode(link.InnerText.Trim());
                                 current.AnimeLightEntry = show;
 
@@ -116,7 +116,7 @@ namespace MALClient.XShared.Comm.Details
                                 character.FromAnime = true;
                                 character.ShowId = show.Id.ToString();
                                 link = tds[2].Descendants("a").First();
-                                character.Id = link.Attributes["href"].Value.Split('/')[2];
+                                character.Id = link.Attributes["href"].Value.Split('/')[4];
                                 character.Name = WebUtility.HtmlDecode(link.InnerText.Trim());
                                 character.Notes = WebUtility.HtmlDecode(tds[2].Descendants("div").Last().InnerText);
 
@@ -141,7 +141,7 @@ namespace MALClient.XShared.Comm.Details
                                 }
                                 var link = tds[1].Descendants("a").First();
                                 show.IsAnime = !link.Attributes["href"].Value.Contains("/manga/");
-                                show.Id = int.Parse(link.Attributes["href"].Value.Split('/')[2]);
+                                show.Id = int.Parse(link.Attributes["href"].Value.Split('/')[4]);
                                 show.Title = WebUtility.HtmlDecode(link.InnerText.Trim());
                                 show.Notes =
                                     WebUtility.HtmlDecode(

@@ -84,6 +84,8 @@ namespace MALClient.Models.Enums
         Manglobe = 32,
         [EnumUtilities.Description("TYO Animations")]
         TYO_Animations = 333,
+        [EnumUtilities.Description("White Fox")]
+        WhiteFox = 314,
     }
 
 

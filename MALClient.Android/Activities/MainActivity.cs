@@ -132,7 +132,7 @@ namespace MALClient.Android.Activities
                 if (requiredPermission.Any())
                 {
                     ActivityCompat.RequestPermissions(this,
-                        requiredPermission.ToArray(),129055);
+                        requiredPermission.ToArray(),12);
                 }
                 _addedNavHandlers = true;
             }
@@ -162,7 +162,7 @@ namespace MALClient.Android.Activities
 
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, Permission[] grantResults)
         {
-            if(requestCode == 129055)
+            if(requestCode == 12)
                 if (grantResults.Any(permission => permission == Permission.Denied))
                     ResourceLocator.MessageDialogProvider.ShowMessageDialog("Hey hey, You've just declined some permissions... App won't work well without them and you have been warned!","Umm...");
 

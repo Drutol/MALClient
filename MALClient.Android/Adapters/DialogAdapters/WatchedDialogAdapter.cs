@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Android.App;
 using Android.Graphics;
+using Android.Util;
 using Android.Views;
 using Android.Widget;
 using MALClient.Android.Resources;
@@ -67,13 +68,24 @@ namespace MALClient.Android.DialogAdapters
                 txt.LayoutParameters = new ViewGroup.LayoutParams(size,size);          
                 txt.TextAlignment = TextAlignment.Center;
                 txt.Gravity = GravityFlags.Center;
-                if(_currentAiringEpisode == ep)
-                    txt.SetTypeface(Typeface.SansSerif, TypefaceStyle.Bold);
                 view = txt;
             }
 
+  
+
             txt = txt ?? view as TextView;
             txt.Text = ep.ToString();
+
+            if (_currentAiringEpisode == ep)
+            {
+                txt.SetTypeface(Typeface.SansSerif, TypefaceStyle.Bold);
+                txt.SetTextSize(ComplexUnitType.Sp, 19.5f);
+            }
+            else
+            {
+                txt.SetTypeface(Typeface.SansSerif, TypefaceStyle.Normal);
+                txt.SetTextSize(ComplexUnitType.Sp, 15);
+            }
 
             if (ep <= _currentEpisodes)
             {

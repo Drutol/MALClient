@@ -82,6 +82,7 @@
                     </VisualState.StateTriggers>
 					<VisualState.Setters>
 						<Setter Target="HamburgerControl.Width" Value="250" />
+						<Setter Target="HamburgerTopGrid.Width" Value="250" />
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState>
@@ -90,6 +91,7 @@
                     </VisualState.StateTriggers>
 					<VisualState.Setters>
 						<Setter Target="HamburgerControl.Width" Value="48" />
+						<Setter Target="HamburgerTopGrid.Width" Value="48" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
@@ -127,7 +129,7 @@
 				<ColumnDefinition Width="Auto"/>
 				<ColumnDefinition Width="Auto" />
 			</Grid.ColumnDefinitions>
-			<Grid Grid.Column="4" Background="{ThemeResource BrushSplitter}" HorizontalAlignment="Stretch" Width="16"
+			<Grid x:Name="TopSplitter" Grid.Column="4" Background="{ThemeResource BrushSplitter}" HorizontalAlignment="Stretch" Width="16"
                   Visibility="{Binding OffContentVisibility,Converter={StaticResource BoolToVisibilityConverter}}" />
 			<Grid x:Name="OffContentTopGrid" Column="5"
                   Visibility="{Binding OffContentVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
@@ -191,11 +193,13 @@
 				Background="Transparent" BorderThickness="0">
 				<TextBlock x:Name="BackButtonText" FontFamily="Segoe MDL2 Assets" FontSize="12" Text="&#xE830;"/>
 			</Button>
+			<!-- Start Integrated Header -->
 			<Grid x:Name="TitleBarLeft" HorizontalAlignment="Left">
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Width="Auto"/>
 				</Grid.ColumnDefinitions>
-				<StackPanel Orientation="Horizontal">
+				<!-- Left -->
+				<!--<StackPanel Orientation="Horizontal">
 					<TextBlock x:Name="CurrentStatus" FontWeight="Bold" Text="{Binding CurrentStatus}"
                            TextTrimming="CharacterEllipsis" FontSize="13"
                            VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="10,-3,0,0" IsHitTestVisible="False"/>
@@ -203,7 +207,7 @@
                            TextTrimming="CharacterEllipsis" FontSize="12"
                            Foreground="{ThemeResource BrushSettingsSubtitle}"
                            VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="10,0,0,0" IsHitTestVisible="False"/>
-				</StackPanel>
+				</StackPanel>-->
 			</Grid>
 
 			<Grid x:Name="TitleBarRight" HorizontalAlignment="Right">
@@ -215,7 +219,8 @@
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
-                <AutoSuggestBox x:Name="SearchInput" Grid.Column="1" ItemsSource="{Binding CurrentHintSet}"
+				<!-- Right -->
+                <!--<AutoSuggestBox x:Name="SearchInput" Grid.Column="1" ItemsSource="{Binding CurrentHintSet}"
                                 HorizontalAlignment="Stretch" VerticalAlignment="Center"
                                 QuerySubmitted="SearchInput_OnQuerySubmitted"
                                 Text="{Binding CurrentSearchQuery, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -258,8 +263,9 @@
                         Visibility="{Binding ScrollToTopButtonVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
                         Command="{Binding GoTopCommand}" BorderThickness="0">
                     <TextBlock x:Name="UpButtonText" FontFamily="Segoe MDL2 Assets" FontSize="12" Text="&#xE74A;"/>
-                </Button>
+                </Button>-->
             </Grid>
+			<!-- End Integrated Header -->
         </Grid>
 
         <Grid VerticalAlignment="Stretch" Grid.Row="2">
@@ -274,8 +280,8 @@
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <new:HamburgerControl x:Name="HamburgerControl" Grid.Column="0" />
-            <Grid x:Name="RootContentGrid" Grid.Column="1" Background="{ThemeResource BrushDeepBackground}">
+			<new:HamburgerControl x:Name="HamburgerControl" Grid.Column="0" />
+			<Grid x:Name="RootContentGrid" Grid.Column="1" Background="{ThemeResource BrushDeepBackground}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition x:Name="SplitterColumn" MaxWidth="16" Width="0" />
@@ -284,7 +290,8 @@
                 <Grid Grid.Column="0" Margin="0,-48,0,0" Grid.ColumnSpan="{Binding MainContentColumnSpan}">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
-                        <RowDefinition Height="*" />
+                        <RowDefinition Height="48" />
+						<RowDefinition Height="*" />
                     </Grid.RowDefinitions>
                     <Grid Background="{ThemeResource BrushDeepBackground}"
                           Visibility="{Binding AdsContainerVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
@@ -294,7 +301,74 @@
                         <ui:AdControl x:Name="AdControl" AdUnitId="315597" Height="90" Width="728"
                                       ApplicationId="0b4d3120-9383-4469-9e80-812a15f124e3" IsAutoRefreshEnabled="True" />
                     </Grid>
-                    <Grid Grid.Row="1">
+					<!-- Start Classic Header -->
+					<Grid Grid.Row="1">
+						<!-- Left -->
+						<StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+							<TextBlock x:Name="CurrentStatus" FontWeight="Bold" Text="{Binding CurrentStatus}"
+									TextTrimming="CharacterEllipsis"
+									VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="10,-3,0,0" IsHitTestVisible="False"/>
+							<TextBlock x:Name="CurrentStatusSub" FontWeight="Normal" Text="{Binding CurrentStatusSub}"
+									TextTrimming="CharacterEllipsis" 
+									Foreground="{ThemeResource BrushSettingsSubtitle}"
+									VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="10,0,0,0" IsHitTestVisible="False"/>
+						</StackPanel>
+						<!-- Right -->
+						<StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+							<StackPanel.Resources>
+								<Style TargetType="Button" BasedOn="{StaticResource ButtonRevealStyle}">
+									<Setter Property="BorderThickness" Value="1" />
+									<Setter Property="Background" Value="Transparent" />
+								</Style>
+							</StackPanel.Resources>
+							<AutoSuggestBox x:Name="SearchInput" Grid.Column="1" ItemsSource="{Binding CurrentHintSet}"
+									HorizontalAlignment="Stretch" VerticalAlignment="Center"
+									QuerySubmitted="SearchInput_OnQuerySubmitted"
+									Text="{Binding CurrentSearchQuery, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+									Visibility="{Binding SearchInputVisibility, Converter={StaticResource BoolToVisibilityConverter}}"
+									PlaceholderText="Search..." Height="32" MinWidth="250" />
+							<userControls:LockableToggleButton IsTabStop="False" LockToggle="{Binding SearchToggleLock}"
+                                               IsThreeState="False"
+                                               VerticalAlignment="Center" Width="48" Height="48"
+                                               Background="Transparent" Click="ToggleButton_OnClick"
+                                               IsChecked="{Binding SearchToggleStatus,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                               Command="{Binding ToggleSearchCommand}"
+                                               Visibility="{Binding SearchToggleVisibility, Converter={StaticResource BoolToVisibilityConverter}}"
+                                               BorderThickness="1" Style="{StaticResource ToggleButtonRevealStyle}">
+								<SymbolIcon Symbol="Find" />
+							</userControls:LockableToggleButton>
+							<Button IsTabStop="False" Background="Transparent" Height="48" Width="48"
+									Visibility="{Binding SearchFilterButtonVisibility,Converter={StaticResource BoolToVisibilityConverter}}">
+								<Button.Flyout>
+									<Flyout>
+										<ListView ItemsSource="{Binding SearchFilterOptions}"
+                                          SelectedIndex="{Binding SearchFilterSelectedIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+											<ListView.ItemTemplate>
+												<DataTemplate>
+													<TextBlock Text="{Binding}" />
+												</DataTemplate>
+											</ListView.ItemTemplate>
+										</ListView>
+									</Flyout>
+								</Button.Flyout>
+								<SymbolIcon Symbol="Filter"
+											Foreground="{Binding IsSearchFilterActive,Converter={StaticResource SearchFilterStatusToBrushConverter}}" />
+							</Button>
+							<Button IsTabStop="False"
+									VerticalAlignment="Center" Width="48" Height="48" Background="Transparent"
+									Command="{Binding RefreshDataCommand}"
+									Visibility="{Binding RefreshButtonVisibility,Converter={StaticResource BoolToVisibilityConverter}}" >
+								<SymbolIcon Symbol="Refresh" />
+							</Button>
+							<Button IsTabStop="False" Grid.Column="5" Height="48" Width="48"
+									Visibility="{Binding ScrollToTopButtonVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
+									Command="{Binding GoTopCommand}">
+								<SymbolIcon Symbol="Up" />
+							</Button>
+						</StackPanel>
+					</Grid>
+					<!-- End Classic Header -->
+                    <Grid Grid.Row="2">
                         <!--Changelog-->
                         <Frame
                             x:Name="MainContent" PointerPressed="MainContent_OnPointerPressed"

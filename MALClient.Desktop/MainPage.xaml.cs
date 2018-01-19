@@ -322,6 +322,7 @@ namespace MALClient.UWP
 			HamburgerTopGrid.Padding = new Thickness(0, coreTitleBar.Height, 0, 0);
 			OffContentTopGrid.Margin = new Thickness(0, -coreTitleBar.Height, 0, 0);
 			OffContentTopGrid.Padding = new Thickness(0, coreTitleBar.Height, 0, 0);
+			TopSplitter.Margin = new Thickness(0, -coreTitleBar.Height, 0, 0);
 			TitleBarLeft.Margin = new Thickness(Math.Max(_paneState ? 250 : 48, coreTitleBar.SystemOverlayLeftInset), 0, 0, 0);
 			var width = ViewModelLocator.GeneralMain.OffContentVisibility ? (DataContext as MainViewModel).OffContentStatusBarWidth + 16 : 0;
 			TitleBarRight.Margin = new Thickness(0, 0, Math.Max(width, coreTitleBar.SystemOverlayRightInset), 0);
@@ -350,10 +351,12 @@ namespace MALClient.UWP
             else
                 foreground = new SolidColorBrush(Colors.Gray);
             BackButtonText.Foreground = foreground;
-            ReloadButtonText.Foreground = foreground;
-            UpButtonText.Foreground = foreground;
-            CurrentStatus.Foreground = foreground;
-            SearchButtonText.Foreground = foreground;
-        }
-    }
+			// if (integrated) {
+			// ReloadButtonText.Foreground = foreground;
+			// UpButtonText.Foreground = foreground;
+			// SearchButtonText.Foreground = foreground;
+			// CurrentStatus.Foreground = foreground;
+			// }
+		}
+	}
 }

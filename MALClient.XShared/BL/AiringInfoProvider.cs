@@ -43,6 +43,9 @@ namespace MALClient.XShared.BL
 
         public async Task Init(bool cacheOnly)
         {
+            if(_airingData != null)
+                return;
+
             try
             {
                 List<AiringData> data = null;

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 
 using Android.App;
+using Android.App.Job;
 using Android.Appwidget;
 using Android.Content;
 using Android.OS;
@@ -17,29 +18,30 @@ namespace MALClient.Android.Widgets
 {
     [Preserve(AllMembers = true)]
     [BroadcastReceiver(Label = "Airing - Dark")]
-    [IntentFilter(new string[] { "android.appwidget.action.APPWIDGET_UPDATE" })]
+    [IntentFilter(new string[] {"android.appwidget.action.APPWIDGET_UPDATE"})]
     [MetaData("android.appwidget.provider", Resource = "@xml/calendar_widget_info_dark")]
     public class CalendarWidgetProviderDark : AppWidgetProvider
     {
         public override void OnUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds)
         {
-            Debug.WriteLine("Updating widget");
             ComponentName thisWidget = new ComponentName(context,
                 Class.FromType(typeof(CalendarWidgetProviderDark)));
             int[] allWidgetIds = appWidgetManager.GetAppWidgetIds(thisWidget);
 
-            // Build the intent to call the service
-            Intent intent = new Intent(context.ApplicationContext, typeof(CalendarWidgetUpdateService));
-            intent.PutExtra(AppWidgetManager.ExtraAppwidgetIds, allWidgetIds);
-            intent.PutExtra("ResourceId", Resource.Layout.CalendarWidgetDark);
-            // Update the widgets via the service
-            context.StartService(intent);
+            // Update the widgets via the JobScheduler
+            var bundle = new PersistableBundle();
+            bundle.PutIntArray(AppWidgetManager.ExtraAppwidgetIds, allWidgetIds);
+            bundle.PutInt("ResourceId", Resource.Layout.CalendarWidgetDark);
+            var component = new ComponentName(context, Class.FromType(typeof(CalendarWidgetUpdateService)));
+            var scheduler = (JobScheduler)context.GetSystemService(Context.JobSchedulerService);
+            scheduler.Schedule(new JobInfo.Builder(2, component).SetRequiredNetworkType(NetworkType.Any)
+                .SetExtras(bundle).Build());
         }
     }
 
     [Preserve(AllMembers = true)]
     [BroadcastReceiver(Label = "Airing - Light")]
-    [IntentFilter(new string[] { "android.appwidget.action.APPWIDGET_UPDATE" })]
+    [IntentFilter(new string[] {"android.appwidget.action.APPWIDGET_UPDATE"})]
     [MetaData("android.appwidget.provider", Resource = "@xml/calendar_widget_info_light")]
     public class CalendarWidgetProviderLight : AppWidgetProvider
     {
@@ -49,13 +51,15 @@ namespace MALClient.Android.Widgets
                 Class.FromType(typeof(CalendarWidgetProviderLight)));
             int[] allWidgetIds = appWidgetManager.GetAppWidgetIds(thisWidget);
 
-            // Build the intent to call the service
-            Intent intent = new Intent(context.ApplicationContext, typeof(CalendarWidgetUpdateService));
-            intent.PutExtra(AppWidgetManager.ExtraAppwidgetIds, allWidgetIds);
-            intent.PutExtra("ResourceId", Resource.Layout.CalendarWidgetLight);
 
-            // Update the widgets via the service
-            context.StartService(intent);
+            // Update the widgets via the JobScheduler
+            var bundle = new PersistableBundle();
+            bundle.PutIntArray(AppWidgetManager.ExtraAppwidgetIds, allWidgetIds);
+            bundle.PutInt("ResourceId", Resource.Layout.CalendarWidgetLight);
+            var component = new ComponentName(context, Class.FromType(typeof(CalendarWidgetUpdateService)));
+            var scheduler = (JobScheduler) context.GetSystemService(Context.JobSchedulerService);
+            scheduler.Schedule(new JobInfo.Builder(2, component).SetRequiredNetworkType(NetworkType.Any)
+                .SetExtras(bundle).Build());
         }
     }
 }

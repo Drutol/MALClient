@@ -38,12 +38,19 @@ namespace MALClient.Android.BackgroundTasks
             }
             var items = ResourceLocator.HandyDataStorage.RegisteredAiringNotifications;
             var expiredItems = new List<AiringShowNotificationEntry>();
+            await ResourceLocator.AiringInfoProvider.Init(false);
             bool updated = false;
             var notificationManager = (NotificationManager)context.GetSystemService(Context.NotificationService);
             foreach (var entry in items.StoredItems)
             {
-                var notificationToTrigger = (DateTime.Now.Subtract(entry.StartAirTime).Days / 7) + 1;
-                if (entry.TriggeredNotifications == notificationToTrigger)
+                var intId = int.Parse(entry.Id);
+                if (!ResourceLocator.AiringInfoProvider.TryGetCurrentEpisode(intId, out var notificationToTrigger,
+                    DateTime.Today))
+                {
+                    expiredItems.Add(entry);
+                    continue;
+                }
+                if (notificationToTrigger == entry.TriggeredNotifications)
                     continue;
 
                 var notificationIntent = new Intent(context, typeof(MainActivity));
@@ -56,14 +63,31 @@ namespace MALClient.Android.BackgroundTasks
                     .SetContentTitle("New anime episode is on air!")
                     .SetContentText($"Episode {notificationToTrigger} of {entry.Title} has just aired!")
                     .SetAutoCancel(true)
-                    .SetLargeIcon((await ImageService.Instance.LoadUrl(entry.ImageUrl).AsBitmapDrawableAsync()).Bitmap)
                     .SetGroup("airing")
                     .SetContentIntent(pendingIntent)
                     .SetSound(RingtoneManager.GetDefaultUri(RingtoneType.Notification));
 
+                try
+                {
+                    notificationBuilder.SetLargeIcon(
+                        (await ImageService.Instance.LoadUrl(entry.ImageUrl).AsBitmapDrawableAsync()).Bitmap);
+                }
+                catch (Exception e)
+                {
+                    //no image
+                }
+
+
                 entry.TriggeredNotifications = notificationToTrigger;
                 if (entry.EpisodeCount == entry.TriggeredNotifications)
                     expiredItems.Add(entry);
+                else
+                {
+                    if (!ResourceLocator.AiringInfoProvider.TryGetNextAirDate(intId,
+                        DateTime.Today.Add(TimeSpan.FromDays(.9)), out var nextAir))
+                        expiredItems.Add(entry);
+                }
+
                 notificationManager.Notify($"{entry.Id};ep{notificationToTrigger}".GetHashCode(),
                     notificationBuilder.Build());
                 updated = true;

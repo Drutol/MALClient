@@ -23,44 +23,40 @@ namespace MALClient.UWP.Adapters
         {
             var notifier = ToastNotificationManager.CreateToastNotifier();
 
-            var date = DateTime.SpecifyKind(entry.StartAirTime, DateTimeKind.Unspecified);
-            TimeZoneInfo.ConvertTime(date, _jstTimeZone, TimeZoneInfo.Utc);
-            entry.StartAirTime = date.ToLocalTime().Add(TimeSpan.FromHours(Settings.AiringNotificationOffset));
-            var airedEps = (DateTime.Now.Subtract(entry.StartAirTime).Days / 7) + 1;
-            for (int i = airedEps; i < entry.EpisodeCount; i++)
-            {
-                var toast = new ScheduledToastNotification(new ToastContent
-                        {
-                            Launch = $"https://myanimelist.net/anime/{entry.Id}",
+            //for (int i = airedEps; i < entry.EpisodeCount; i++)
+            //{
+            //    var toast = new ScheduledToastNotification(new ToastContent
+            //            {
+            //                Launch = $"https://myanimelist.net/anime/{entry.Id}",
 
-                            Scenario = ToastScenario.Default,
+            //                Scenario = ToastScenario.Default,
 
-                            Visual = new ToastVisual
-                            {
-                                BindingGeneric = new ToastBindingGeneric
-                                {
-                                    AppLogoOverride = new ToastGenericAppLogo {Source = Logo},
-                                    HeroImage = new ToastGenericHeroImage {Source = entry.ImageUrl},
-                                    Children =
-                                    {
-                                        new AdaptiveText
-                                        {
-                                            Text = "New anime episode is on air!"
-                                        },
+            //                Visual = new ToastVisual
+            //                {
+            //                    BindingGeneric = new ToastBindingGeneric
+            //                    {
+            //                        AppLogoOverride = new ToastGenericAppLogo {Source = Logo},
+            //                        HeroImage = new ToastGenericHeroImage {Source = entry.ImageUrl},
+            //                        Children =
+            //                        {
+            //                            new AdaptiveText
+            //                            {
+            //                                Text = "New anime episode is on air!"
+            //                            },
 
-                                        new AdaptiveText
-                                        {
-                                            Text = $"Episode {i} of {entry.Title} has just aired!",
-                                            HintStyle = AdaptiveTextStyle.Subtitle,
-                                        }
-                                    },
-                                },
-                            },
-                        }.GetXml(), new DateTimeOffset(entry.StartAirTime.Add(TimeSpan.FromDays(7 * i))),
-                        TimeSpan.FromMinutes(5), 1)
-                    {Tag = $"{entry.Id};ep{i}"};
-                notifier.AddToSchedule(toast);
-            }
+            //                            new AdaptiveText
+            //                            {
+            //                                Text = $"Episode {i} of {entry.Title} has just aired!",
+            //                                HintStyle = AdaptiveTextStyle.Subtitle,
+            //                            }
+            //                        },
+            //                    },
+            //                },
+            //            }.GetXml(), new DateTimeOffset(entry.StartAirTime.Add(TimeSpan.FromDays(7 * i))),
+            //            TimeSpan.FromMinutes(5), 1)
+            //        {Tag = $"{entry.Id};ep{i}"};
+            //    notifier.AddToSchedule(toast);
+            //}
         }
 
         public void RemoveToasts(string id)

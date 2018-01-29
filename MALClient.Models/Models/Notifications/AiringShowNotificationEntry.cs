@@ -9,7 +9,6 @@ namespace MALClient.Models.Models.Notifications
     public class AiringShowNotificationEntry
     {
         public string Title { get; set; }
-        public DateTime StartAirTime { get; set; }
         public string  Id { get; set; }
         public int TriggeredNotifications { get; set; }
         public int EpisodeCount { get; set; }

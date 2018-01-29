@@ -89,6 +89,11 @@ namespace MALClient.Android.Fragments
                 AnimeDetailsPageDecrementButton.Alpha = ViewModel.IsDecrementButtonEnabled ? 1 : .35f;
             }));
 
+            Bindings.Add(this.SetBinding(() => ViewModel.AnimeMode).WhenSourceChanges(() =>
+            {
+                AnimeDetailsPagePivot.Adapter.NotifyDataSetChanged();
+            }));
+
             Bindings.Add(this.SetBinding(() => ViewModel.AddAnimeVisibility)
                 .WhenSourceChanges(() =>
                 {

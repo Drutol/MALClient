@@ -23,12 +23,6 @@ namespace MALClient.Android.Adapters
 
         public void ScheduleToast(AiringShowNotificationEntry entry)
         {
-
-            var date = DateTime.SpecifyKind(entry.StartAirTime, DateTimeKind.Unspecified);
-            date = TimeZoneInfo.ConvertTimeToUtc(date, _jstTimeZone);
-            entry.StartAirTime = date.ToLocalTime().Add(TimeSpan.FromHours(Settings.AiringNotificationOffset));
-            entry.TriggeredNotifications = (DateTime.Now.Subtract(entry.StartAirTime).Days / 7) + 1;
-
             ResourceLocator.HandyDataStorage.RegisteredAiringNotifications.StoredItems.Add(entry);
             ResourceLocator.NotificationsTaskManager.StartTask(BgTasks.AiredNotification);
         }

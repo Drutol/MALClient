@@ -721,24 +721,11 @@ namespace MALClient.XShared.ViewModels.Details
                 {
                     AreAirNotificationsEnabled = true;
                     var vm = (_animeItemReference as AnimeItemViewModel);
-                    if (vm.ParentAbstraction.ExactAiringTime == null)
-                    {
-                        LoadDetails();
-                        var sem = new SemaphoreSlim(0);
-                        var handler = new EmptyEventHander(() => sem.Release());
-                        OnDetailsLoaded += handler;
-                        LoadDetails();
-                        await sem.WaitAsync();
-                        OnDetailsLoaded -= handler;
-                        if(vm.ParentAbstraction.ExactAiringTime == null)
-                            return;
-                    }
                     _airingNotificationsAdapter.ScheduleToast(new AiringShowNotificationEntry
                     {
                         EpisodeCount = AllEpisodes,
                         Id = Id.ToString(),
                         ImageUrl = DetailImage,
-                        StartAirTime = DateTime.Parse(StartDate).Add(vm.ParentAbstraction.ExactAiringTime.Time),
                         Title = Title
                     });
                 }

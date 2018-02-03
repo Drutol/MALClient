@@ -7,6 +7,7 @@ using Android.App;
 using Android.Content;
 using Android.OS;
 using Android.Runtime;
+using Android.Util;
 using Android.Views;
 using Android.Widget;
 using FFImageLoading;
@@ -74,9 +75,11 @@ namespace MALClient.Android.Widgets
                         .ThenByDescending(model => model.MyScore)
                         .Take(14)
                         .ToList();
+                    Log.Debug("MalClient - Widget", $"Todays airing items count {_items.Count}");
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
+                    Log.Debug("MalClient - Widget", e.ToString());
                     _items = new List<AnimeItemViewModel>();
                 }
             }

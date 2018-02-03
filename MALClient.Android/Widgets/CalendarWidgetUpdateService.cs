@@ -72,7 +72,6 @@ namespace MALClient.Android.Widgets
 
             protected override Void RunInBackground(params Void[] @params)
             {
-
                 RunUpdate().Wait();
                 return default(Void);
             }
@@ -84,6 +83,23 @@ namespace MALClient.Android.Widgets
                 int[] allWidgetIds = _info.Extras.GetIntArray(AppWidgetManager.ExtraAppwidgetIds);
                 var layoutId = _info.Extras.GetInt("ResourceId", Resource.Layout.CalendarWidgetLight);
                 _views = new List<Tuple<RemoteViews, int>>();
+                var preferences = PreferenceManager.GetDefaultSharedPreferences(_parent.ApplicationContext);
+
+                if (preferences.Contains("lastWidgetUpdate"))
+                {
+                    long lastUpdateBinary = preferences.GetLong("lastWidgetUpdate", 0);
+                    var date = DateTime.FromBinary(lastUpdateBinary);
+                    if (date.DayOfYear == DateTime.Today.DayOfYear)
+                    {
+                        Log.Debug("MalClient - Widget", "There was an update today, skipping.");
+                        _parent.JobFinished(_info, false);
+                        return;
+                    }
+                }
+
+                var editor = preferences.Edit();
+                editor.PutLong("lastWidgetUpdate", DateTime.Today.ToBinary());
+                editor.Commit();
 
                 try
                 {
@@ -164,10 +180,10 @@ namespace MALClient.Android.Widgets
                         refreshIntent.PutExtra("ResourceId", layoutId);
                         view.Item1.SetOnClickPendingIntent(Resource.Id.RefreshButton, PendingIntent.GetService(_parent.ApplicationContext, 0, refreshIntent, 0));
 
-                        var preferences = PreferenceManager.GetDefaultSharedPreferences(_parent.ApplicationContext);
                         var ids = preferences.GetStringSet("lastWidgetItems", new List<string>()).Select(int.Parse).ToList();
                         if (!ids.OrderBy(i => i).SequenceEqual(shows.Items.Select(model => model.Id).OrderBy(i => i)))
                         {
+                            Log.Debug("MalClient - Widget", "New items detected. Refreshing data source.");
                             manager.NotifyAppWidgetViewDataChanged(view.Item2, Resource.Id.GridView);
 
                             var edit = preferences.Edit();

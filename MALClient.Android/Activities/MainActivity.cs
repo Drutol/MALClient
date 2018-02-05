@@ -24,6 +24,7 @@ using HockeyApp.Android.Metrics;
 using MALClient.Adapters;
 using MALClient.Android.DIalogs;
 using MALClient.Android.Fragments;
+using MALClient.Android.Managers;
 using MALClient.Android.Resources;
 using MALClient.Android.ViewModels;
 using MALClient.Models.Enums;
@@ -42,7 +43,7 @@ using Debug = System.Diagnostics.Debug;
 
 namespace MALClient.Android.Activities
 {
-    [Activity(Label = "MALClient", ScreenOrientation = ScreenOrientation.Portrait,
+    [Activity(Label = "MALClient", ScreenOrientation = ScreenOrientation.Portrait, ResizeableActivity = true,
         Icon = "@drawable/icon",WindowSoftInputMode = SoftInput.AdjustUnspecified,MainLauncher = true,LaunchMode = LaunchMode.SingleInstance,
         Theme = "@style/Theme.Splash",ConfigurationChanges = ConfigChanges.Orientation|ConfigChanges.ScreenSize)]
     public partial class MainActivity : AppCompatActivity , IDimensionsProvider
@@ -56,6 +57,7 @@ namespace MALClient.Android.Activities
 
         private bool _addedNavHandlers;
         private static bool _staticInitPerformed;
+        private static bool _firstCreation = true;
 
         private MainViewModel _viewModel;
         private MainViewModel ViewModel => _viewModel ?? (_viewModel = SimpleIoc.Default.GetInstance<MainViewModel>());
@@ -158,6 +160,13 @@ namespace MALClient.Android.Activities
                 _staticInitPerformed = true;
             }
 
+            //basically splitscreen
+            if (_lastFragment != null && !_firstCreation)
+            {
+                ViewModelOnMainNavigationRequested(_lastFragment);
+            }
+
+            _firstCreation = false;
         }
 
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, Permission[] grantResults)
@@ -217,10 +226,12 @@ namespace MALClient.Android.Activities
         }
 
 
+        private static Fragment _lastFragment;
         private void ViewModelOnMainNavigationRequested(Fragment fragment)
         {
             try
             {
+                _lastFragment = fragment;
                 var trans = FragmentManager.BeginTransaction();
                 trans.SetCustomAnimations(Resource.Animator.animation_slide_btm,
                     Resource.Animator.animation_fade_out,

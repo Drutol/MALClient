@@ -17,10 +17,11 @@ using MALClient.XShared.ViewModels;
 
 namespace MALClient.Android.Widgets
 {
+    [global::Android.Runtime.Preserve(AllMembers = true)]
     [Service(Permission = "android.permission.BIND_REMOTEVIEWS")]
     public class CalendarWidgetRemoteViewsService : RemoteViewsService
     {
-        
+        [global::Android.Runtime.Preserve(AllMembers = true)]
         class CalendarViewFactory : Java.Lang.Object, IRemoteViewsFactory
         {
             private readonly Context _applicationContext;

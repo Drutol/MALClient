@@ -26,11 +26,21 @@ using Void = Java.Lang.Void;
 
 namespace MALClient.Android.Widgets
 {
+    [global::Android.Runtime.Preserve(AllMembers = true)]
     [Service(Exported = true)]
     public class CalendarWidgetUpdateStarterService : IntentService
     {
         protected override void OnHandleIntent(Intent intent)
         {
+            var preferences = PreferenceManager.GetDefaultSharedPreferences(ApplicationContext);
+            if (preferences.Contains("lastWidgetUpdate"))
+            {
+                var editor = preferences.Edit();
+                editor.Remove("lastWidgetUpdate");
+                editor.Commit();
+            }
+
+
             var bundle = new PersistableBundle();
             bundle.PutIntArray(AppWidgetManager.ExtraAppwidgetIds, intent.GetIntArrayExtra(AppWidgetManager.ExtraAppwidgetIds));
             bundle.PutInt("ResourceId", intent.GetIntExtra("ResourceId",0));
@@ -40,8 +50,8 @@ namespace MALClient.Android.Widgets
                 .SetExtras(bundle).Build());
         }
     }
-    
-    
+
+    [global::Android.Runtime.Preserve(AllMembers = true)]
     [Service(Exported = true, Permission = "android.permission.BIND_JOB_SERVICE")]
     public class CalendarWidgetUpdateService : JobService
     {
@@ -57,6 +67,7 @@ namespace MALClient.Android.Widgets
             return false;
         }
 
+        [global::Android.Runtime.Preserve(AllMembers = true)]
         class CalendarTask : AsyncTask<Java.Lang.Void, Java.Lang.Void, Java.Lang.Void>
         {
             private readonly CalendarWidgetUpdateService _parent;
@@ -72,6 +83,7 @@ namespace MALClient.Android.Widgets
 
             protected override Void RunInBackground(params Void[] @params)
             {
+                Log.Debug("MalClient - Widget", "Starting update in background.");
                 RunUpdate().Wait();
                 return default(Void);
             }

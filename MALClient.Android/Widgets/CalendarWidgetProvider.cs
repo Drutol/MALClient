@@ -8,6 +8,7 @@ using Android.App.Job;
 using Android.Appwidget;
 using Android.Content;
 using Android.OS;
+using Android.Preferences;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
@@ -37,6 +38,18 @@ namespace MALClient.Android.Widgets
             scheduler.Schedule(new JobInfo.Builder(2, component).SetRequiredNetworkType(NetworkType.Any)
                 .SetExtras(bundle).Build());
         }
+
+        public override void OnDeleted(Context context, int[] appWidgetIds)
+        {
+            var preferences = PreferenceManager.GetDefaultSharedPreferences(context);
+            if (preferences.Contains("lastWidgetUpdate"))
+            {
+                var editor = preferences.Edit();
+                editor.Remove("lastWidgetUpdate");
+                editor.Commit();
+            }
+            base.OnDeleted(context, appWidgetIds);
+        }
     }
 
     [Preserve(AllMembers = true)]
@@ -60,6 +73,18 @@ namespace MALClient.Android.Widgets
             var scheduler = (JobScheduler) context.GetSystemService(Context.JobSchedulerService);
             scheduler.Schedule(new JobInfo.Builder(2, component).SetRequiredNetworkType(NetworkType.Any)
                 .SetExtras(bundle).Build());
+        }
+
+        public override void OnDeleted(Context context, int[] appWidgetIds)
+        {
+            var preferences = PreferenceManager.GetDefaultSharedPreferences(context);
+            if (preferences.Contains("lastWidgetUpdate"))
+            {
+                var editor = preferences.Edit();
+                editor.Remove("lastWidgetUpdate");
+                editor.Commit();
+            }
+            base.OnDeleted(context, appWidgetIds);
         }
     }
 }

@@ -14,7 +14,14 @@
     <UserControl.Resources>
         <xamlConverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
     </UserControl.Resources>
-    <ScrollViewer Padding="0" Background="{ThemeResource BrushDeepBackground}" VerticalScrollBarVisibility="Hidden">
+    <ScrollViewer Padding="0" VerticalScrollBarVisibility="Hidden">
+        <ScrollViewer.Background>
+            <AcrylicBrush 
+                BackgroundSource="HostBackdrop"
+                TintColor="{StaticResource BrushDeepBackgroundColor}"
+                TintOpacity="0.8"
+                FallbackColor="{StaticResource ColorDetailsBackground}"/>
+        </ScrollViewer.Background>
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
                 <VisualState x:Name="Wide">
@@ -174,13 +181,13 @@
             <Grid Grid.Row="3" Grid.ColumnSpan="3" Grid.Column="0">
                 <StackPanel>
                     <MenuFlyoutSeparator />
-                    <userControls:AlternatingListView x:Name="DetailsListView" ScrollViewer.VerticalScrollBarVisibility="Hidden"  ItemsSource="{Binding DetailItems}" SelectionMode="None"  ScrollViewer.VerticalScrollMode="Disabled">
+                    <ListView x:Name="DetailsListView" ScrollViewer.VerticalScrollBarVisibility="Hidden"  ItemsSource="{Binding DetailItems}" SelectionMode="None"  ScrollViewer.VerticalScrollMode="Disabled">
                         <ListView.ItemContainerStyle>
                             <Style TargetType="ListViewItem">
                                 <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                             </Style>
                         </ListView.ItemContainerStyle>
-                    </userControls:AlternatingListView>
+                    </ListView>
                 </StackPanel>
             </Grid>
             <!--Description-->

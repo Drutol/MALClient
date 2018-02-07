@@ -17,7 +17,14 @@
         <xamlConverters:BoolInverterConverter x:Key="BoolInverterConverter" />
     </Page.Resources>
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid>
+        <Grid.Background>
+            <AcrylicBrush 
+                BackgroundSource="HostBackdrop"
+                TintColor="{StaticResource BrushDeepBackgroundColor}"
+                TintOpacity="0.8"
+                FallbackColor="{StaticResource ColorDetailsBackground}"/>
+        </Grid.Background>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>

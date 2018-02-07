@@ -46,7 +46,14 @@
     </Page.Transitions>
 
 
-    <Grid Background="{ThemeResource BrushDeepBackground}">
+    <Grid>
+        <Grid.Background>
+            <AcrylicBrush 
+                BackgroundSource="HostBackdrop"
+                TintColor="{StaticResource BrushDeepBackgroundColor}"
+                TintOpacity="0.8"
+                FallbackColor="{StaticResource ColorDetailsBackground}"/>
+        </Grid.Background>
         <ScrollViewer>
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -63,8 +70,10 @@
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
-                <Grid Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                      Background="{ThemeResource BrushPivotInnerHeaderBarBackground}">
+                <Grid Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                    <Grid.Background>
+                        <SolidColorBrush Color="#2a2a2a" Opacity=".5"/>
+                    </Grid.Background>
                     <Button HorizontalAlignment="Center" VerticalAlignment="Top" Background="Transparent"
                             Margin="0,4,0,0" BorderThickness="1" Style="{StaticResource ButtonRevealStyle}">
                         <Button.Flyout>
@@ -82,22 +91,33 @@
                         <TextBlock Text="General" FontWeight="SemiLight" />
                     </StackPanel>
                 </Grid>
-                <Grid Grid.Column="0" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{ThemeResource BrushPivotInnerHeaderBarBackground}"/>
-                <Grid Grid.Column="0" Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{ThemeResource BrushPivotInnerHeaderBarBackground}" >
+                <Grid Grid.Column="0" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                    <Grid.Background>
+                        <SolidColorBrush Color="#2a2a2a" Opacity=".5"/>
+                    </Grid.Background>
+                </Grid>
+                <Grid Grid.Column="0" Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                    <Grid.Background>
+                        <SolidColorBrush Color="#2a2a2a" Opacity=".5"/>
+                    </Grid.Background>
                     <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding AboutMeWebViewVisibility,Converter={StaticResource BoolToVisibilityConverter}}">
                         <SymbolIcon Symbol="View"/>
                         <TextBlock Text="About" FontWeight="SemiLight"  />
                     </StackPanel>
                 </Grid>
-                <Grid Grid.Column="0" Grid.Row="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                      Background="{ThemeResource BrushPivotInnerHeaderBarBackground}">
+                <Grid Grid.Column="0" Grid.Row="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                    <Grid.Background>
+                        <SolidColorBrush Color="#2a2a2a" Opacity=".5"/>
+                    </Grid.Background>
                     <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,5" Visibility="{Binding AreFavsExpanded,Converter={StaticResource BoolToVisibilityConverter}}">
                         <SymbolIcon Symbol="Favorite" />
                         <TextBlock Text="Favs" FontWeight="SemiLight" />
                     </StackPanel>
                 </Grid>
-                <Grid Grid.Column="0"  Grid.Row="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                      Background="{ThemeResource BrushPivotInnerHeaderBarBackground}">
+                <Grid Grid.Column="0"  Grid.Row="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                    <Grid.Background>
+                        <SolidColorBrush Color="#2a2a2a" Opacity=".5"/>
+                    </Grid.Background>
                     <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                         <SymbolIcon Symbol="Clock" />
                         <TextBlock FontWeight="SemiLight" TextAlignment="Center">
@@ -107,21 +127,28 @@
                         </TextBlock>
                     </StackPanel>
                 </Grid>
-                <Grid Grid.Column="0" Grid.Row="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                      Background="{ThemeResource BrushPivotInnerHeaderBarBackground}">
+                <Grid Grid.Column="0" Grid.Row="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                    <Grid.Background>
+                        <SolidColorBrush Color="#2a2a2a" Opacity=".5"/>
+                    </Grid.Background>
                     <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                         <SymbolIcon Symbol="AllApps" />
                         <TextBlock FontWeight="SemiLight" TextAlignment="Center" Text="Stats" />
                     </StackPanel>
                 </Grid>
-                <Grid  Grid.Column="0" Grid.Row="6" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                      Background="{ThemeResource BrushPivotInnerHeaderBarBackground}">
+                <Grid  Grid.Column="0" Grid.Row="6" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                    <Grid.Background>
+                        <SolidColorBrush Color="#2a2a2a" Opacity=".5"/>
+                    </Grid.Background>
                     <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                         <SymbolIcon Symbol="Comment" />
                     </StackPanel>
                 </Grid>
                 <Grid Grid.Column="1" Grid.Row="0" HorizontalAlignment="Stretch">
-                    <Grid Padding="10" Background="{ThemeResource BrushAnimeItemInnerBackground}" Margin="10">
+                    <Grid Padding="20">
+                        <Grid.Background>
+                            <SolidColorBrush Color="Black" Opacity=".2"/>
+                        </Grid.Background>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="Auto" />
@@ -218,7 +245,10 @@
                         </Grid>
                     </Grid>
                 </Grid>
-                <Grid Grid.Column="1" Grid.Row="1" Background="{ThemeResource BrushPivotHeaderBackground}" HorizontalAlignment="Stretch" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" BorderThickness="2,0">
+                <Grid Grid.Column="1" Grid.Row="1"  HorizontalAlignment="Stretch" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" BorderThickness="2,0">
+                    <Grid.Background>
+                        <SolidColorBrush Color="Black" Opacity=".2"/>
+                    </Grid.Background>
                     <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
                         <ToggleButton Padding="10" Background="Transparent"  HorizontalAlignment="Center"  IsChecked="{Binding AreFavsExpanded,Mode=TwoWay}" BorderThickness="1" Style="{StaticResource ToggleButtonRevealStyle}">
                             <StackPanel>
@@ -249,14 +279,16 @@
                             </ItemsPanelTemplate>
                         </ItemsControl.ItemsPanel>
                         <Grid>
-                            <Grid Padding="10" Background="{ThemeResource BrushAnimeItemInnerBackground}"
-                                Margin="10" x:Name="FavAnime" HorizontalAlignment="Stretch"
+                            <Grid Padding="10" Margin="10" x:Name="FavAnime" HorizontalAlignment="Stretch"
                           Visibility="{Binding EmptyFavAnimeNoticeVisibility,Converter={StaticResource BoolToVisibilityInvertedConverter}}">
+                                <Grid.Background>
+                                    <SolidColorBrush Color="#2a2a2a" Opacity=".3"/>
+                                </Grid.Background>
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto" />
                                     <RowDefinition Height="*" />
                                 </Grid.RowDefinitions>
-                                <TextBlock Text="Anime" HorizontalAlignment="Center" FontWeight="SemiLight" FontSize="26"
+                                <TextBlock Text="Favourite Anime" HorizontalAlignment="Center" FontWeight="SemiLight" FontSize="26"
                                    Foreground="{StaticResource SystemControlBackgroundAccentBrush}" />
                                 <TextBlock Grid.Row="1"
                                    Visibility="Collapsed"
@@ -288,14 +320,17 @@
                             </Grid>
                         </Grid>
                         <Grid>
-                            <Grid Padding="10" Background="{ThemeResource BrushAnimeItemInnerBackground}"
+                            <Grid Padding="10" 
                           Margin="10" x:Name="FavManga" HorizontalAlignment="Stretch"
                           Visibility="{Binding EmptyFavMangaNoticeVisibility,Converter={StaticResource BoolToVisibilityInvertedConverter}}">
+                                <Grid.Background>
+                                    <SolidColorBrush Color="#2a2a2a" Opacity=".3"/>
+                                </Grid.Background>
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto" />
                                     <RowDefinition Height="*" />
                                 </Grid.RowDefinitions>
-                                <TextBlock Text="Manga" HorizontalAlignment="Center" FontWeight="SemiLight" FontSize="26"
+                                <TextBlock Text="Favourite Manga" HorizontalAlignment="Center" FontWeight="SemiLight" FontSize="26"
                                    Foreground="{StaticResource SystemControlBackgroundAccentBrush}" />
                                 <TextBlock Grid.Row="1" Visibility="Collapsed"
                                    Text="No favourite manga added yet..."
@@ -326,14 +361,17 @@
                             </Grid>
                         </Grid>
                         <Grid>
-                            <Grid Padding="10" Background="{ThemeResource BrushAnimeItemInnerBackground}" 
+                            <Grid Padding="10"
                           Margin="10" HorizontalAlignment="Stretch" RelativePanel.Below="FavAnime" 
                           Visibility="{Binding EmptyFavCharactersNoticeVisibility,Converter={StaticResource BoolToVisibilityInvertedConverter}}">
+                                <Grid.Background>
+                                    <SolidColorBrush Color="#2a2a2a" Opacity=".3"/>
+                                </Grid.Background>
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto" />
                                     <RowDefinition Height="*" />
                                 </Grid.RowDefinitions>
-                                <TextBlock Text="Characters" HorizontalAlignment="Center" FontWeight="SemiLight"
+                                <TextBlock Text="Favourite Characters" HorizontalAlignment="Center" FontWeight="SemiLight"
                                    FontSize="26"
                                    Foreground="{StaticResource SystemControlBackgroundAccentBrush}" />
                                 <TextBlock Grid.Row="1" Visibility="Collapsed"
@@ -359,14 +397,17 @@
                             </Grid>
                         </Grid>
                         <Grid>
-                            <Grid Padding="10" Background="{ThemeResource BrushAnimeItemInnerBackground}"
+                            <Grid Padding="10"
                           HorizontalAlignment="Stretch" Margin="10"
                           Visibility="{Binding EmptyFavPeopleNoticeVisibility,Converter={StaticResource BoolToVisibilityInvertedConverter}}">
+                                <Grid.Background>
+                                    <SolidColorBrush Color="#2a2a2a" Opacity=".3"/>
+                                </Grid.Background>
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto" />
                                     <RowDefinition Height="*" />
                                 </Grid.RowDefinitions>
-                                <TextBlock Text="People" HorizontalAlignment="Center" FontWeight="SemiLight" FontSize="26"
+                                <TextBlock Text="Favourite People" HorizontalAlignment="Center" FontWeight="SemiLight" FontSize="26"
                                    Foreground="{StaticResource SystemControlBackgroundAccentBrush}" />
                                 <TextBlock Grid.Row="1" Visibility="Collapsed"
                                    Text="No favourite people added yet..."
@@ -410,8 +451,11 @@
                             </Setter>
                         </Style>
                     </Grid.Resources>
-                    <Grid Padding="10" Background="{ThemeResource BrushAnimeItemInnerBackground}" 
+                    <Grid Padding="10" 
                           x:Name="RecentAnime" Margin="10" HorizontalAlignment="Stretch" VerticalAlignment="Top" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" BorderThickness="0,0,0,1">
+                        <Grid.Background>
+                            <SolidColorBrush Color="#2a2a2a" Opacity=".3"/>
+                        </Grid.Background>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="*" />
@@ -448,8 +492,10 @@
 
                     </Grid>
                     <Grid Grid.Column="1" Margin="10" Padding="10"
-                          Background="{ThemeResource BrushAnimeItemInnerBackground}"
                           x:Name="RecentManga" HorizontalAlignment="Stretch" VerticalAlignment="Top" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" BorderThickness="0,0,0,1">
+                        <Grid.Background>
+                            <SolidColorBrush Color="#2a2a2a" Opacity=".3"/>
+                        </Grid.Background>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="*" />
@@ -489,7 +535,10 @@
                         <ColumnDefinition Width=".5*" />
                         <ColumnDefinition Width=".5*" />
                     </Grid.ColumnDefinitions>
-                    <Grid Margin="10" Padding="10" Background="{ThemeResource BrushAnimeItemInnerBackground}" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" BorderThickness="0,0,0,1">
+                    <Grid Margin="10" Padding="10"  BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" BorderThickness="0,0,0,1">
+                        <Grid.Background>
+                            <SolidColorBrush Color="#2a2a2a" Opacity=".3"/>
+                        </Grid.Background>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="40" />
                             <RowDefinition Height="140" />
@@ -649,7 +698,10 @@
                         </Grid>
                     </Grid>
                     <Grid Grid.Column="1" Margin="10" Padding="10"
-                          Background="{ThemeResource BrushAnimeItemInnerBackground}" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" BorderThickness="0,0,0,1">
+                           BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" BorderThickness="0,0,0,1">
+                        <Grid.Background>
+                            <SolidColorBrush Color="#2a2a2a" Opacity=".3"/>
+                        </Grid.Background>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="40" />
                             <RowDefinition Height="140" />
@@ -827,8 +879,10 @@
                         </Grid>
                     </Grid>
                 </Grid>
-                <Grid Grid.Column="1" Grid.Row="6" Padding="10"
-                      Background="{ThemeResource BrushAnimeItemInnerBackground}"  Margin="10">
+                <Grid Grid.Column="1" Grid.Row="6" Padding="10"  Margin="10">
+                    <Grid.Background>
+                        <SolidColorBrush Color="#2a2a2a" Opacity=".7"/>
+                    </Grid.Background>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
@@ -861,7 +915,11 @@
                                 <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                                 <Setter Property="Margin" Value="0,5" />
                                 <Setter Property="Padding" Value="5" />
-                                <Setter Property="Background" Value="{ThemeResource BrushAnimeItemBackground}" />
+                                <Setter Property="Background">
+                                    <Setter.Value>
+                                        <SolidColorBrush Color="#5b5b5b" Opacity=".3"/>
+                                    </Setter.Value>
+                                </Setter>
                             </Style>
                         </ListView.ItemContainerStyle>
                         <ListView.ItemTemplate>

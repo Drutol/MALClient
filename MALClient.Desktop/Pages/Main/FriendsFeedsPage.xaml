@@ -43,15 +43,9 @@
                     <Grid VerticalAlignment="Stretch">
                         <Grid>
                             <Image extensions:ImageExtensions.FadeInOnLoaded="True"  attachedProperties:AnimeImageExtensions.GuessedImageSource="{Binding Id}" Stretch="UniformToFill" HorizontalAlignment="Center">
-                                <interactivity:Interaction.Behaviors>
-                                    <behaviors:Blur x:Name="BlurBehavior"
-                                                        Value="5"
-                                                        Duration="0"
-                                                        Delay="0"
-                                                        AutomaticallyStart="True"/>
-                                </interactivity:Interaction.Behaviors>
+                                
                             </Image>
-                            <Grid Background="Black" Opacity=".5"/>
+                            <Grid Background="Black" Opacity=".7"/>
                         </Grid>
                         <StackPanel VerticalAlignment="Top">
                             <Ellipse Width="70" Height="70" PointerEntered="UIElement_OnPointerEntered" PointerExited="UIElement_OnPointerExited" Tapped="UIElement_OnPointerPressed" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,10,0,5">

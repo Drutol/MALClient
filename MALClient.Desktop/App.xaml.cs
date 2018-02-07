@@ -233,7 +233,7 @@ namespace MALClient.UWP
         private void ProcessUpdate()
         {
             InitializationRoutines.InitPostUpdate();
-
+            var dispatcher = ResourceLocator.DispatcherAdapter;
             ApplicationData.Current.LocalSettings.Values["AppVersion"] = UWPUtilities.GetAppVersion();
         }
 

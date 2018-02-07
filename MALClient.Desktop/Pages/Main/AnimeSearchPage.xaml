@@ -8,6 +8,7 @@
     xmlns:xamlConverters="using:MALClient.UWP.Shared.XamlConverters"
     xmlns:userControls="using:MALClient.UWP.Shared.UserControls"
     xmlns:items="using:MALClient.UWP.Shared.Items"
+    xmlns:viewModels="using:MALClient.XShared.ViewModels"
     DataContext="{Binding Source={StaticResource Locator} , Path=SearchPage}"
     mc:Ignorable="d">
 
@@ -23,7 +24,14 @@
 
     </Page.Resources>
 
-    <Grid Background="{ThemeResource BrushDeepBackground}">
+    <Grid>
+        <Grid.Background>
+            <AcrylicBrush 
+                BackgroundSource="HostBackdrop"
+                TintColor="{StaticResource BrushDeepBackgroundColor}"
+                TintOpacity="0.80"
+                FallbackColor="{StaticResource ColorDetailsBackground}"/>
+        </Grid.Background>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
@@ -80,7 +88,7 @@
             </Button>
         </Grid>
         <Grid Grid.Row="2">
-            <userControls:AlternatingListView x:Name="Animes" ItemsSource="{Binding AnimeSearchItemViewModels}"
+            <ListView x:Name="Animes" ItemsSource="{Binding AnimeSearchItemViewModels}"
                       IsItemClickEnabled="True" ItemClick="Animes_OnItemClick"
                       Margin="0,0,0,0" SelectionMode="Single"
                       Padding="0">
@@ -103,7 +111,7 @@
                         <items:AnimeSearchItem DataContext="{Binding}"/>
                     </DataTemplate>
                 </ListView.ItemTemplate>
-            </userControls:AlternatingListView>
+            </ListView>
             <StackPanel Visibility="{Binding IsFirstVisitGridVisible,Converter={StaticResource BoolToVisibilityConverter}}" HorizontalAlignment="Center" VerticalAlignment="Center" Opacity=".5">
                 <SymbolIcon Symbol="BrowsePhotos" RenderTransformOrigin=".5,.5" Foreground="{ThemeResource BrushSettingsSubtitle}">
                     <SymbolIcon.RenderTransform>

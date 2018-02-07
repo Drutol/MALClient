@@ -11,7 +11,14 @@
     <Page.Resources>
         <xamlConverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
     </Page.Resources>
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid>
+        <Grid.Background>
+            <AcrylicBrush 
+                BackgroundSource="HostBackdrop"
+                TintColor="{StaticResource BrushDeepBackgroundColor}"
+                TintOpacity="0.8"
+                FallbackColor="{StaticResource ColorDetailsBackground}"/>
+        </Grid.Background>
         <ProgressRing IsActive="True" Width="75" Height="75" HorizontalAlignment="Center" VerticalAlignment="Center"
                       Visibility="{Binding LoadingVisibility,Converter={StaticResource BoolToVisibilityConverter}}" />
         <WebView x:Name="ArticleWebView" DOMContentLoaded="ArticleWebView_OnDOMContentLoaded"
@@ -26,7 +33,16 @@
                     <Setter Property="Margin" Value="5" />
                     <Setter Property="Padding" Value="2" />
                     <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                    <Setter Property="Background" Value="{ThemeResource BrushAnimeItemBackground}" />
+                    <Setter Property="Background">
+                        <Setter.Value>
+                            <AcrylicBrush 
+                                    BackgroundSource="Backdrop"
+                                    TintColor="{StaticResource BrushDeepBackgroundColor}"
+                                    TintOpacity="0.5"
+                                    FallbackColor="{StaticResource ColorDetailsBackground}"/>
+                        </Setter.Value>
+
+                    </Setter>
                 </Style>
             </GridView.ItemContainerStyle>
             <GridView.ItemsPanel>
@@ -45,6 +61,7 @@
             <GridView.ItemTemplate>
                 <DataTemplate>
                     <Grid MaxWidth="600" MaxHeight="270">
+
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" MaxWidth="150" />
                             <ColumnDefinition Width="*" />

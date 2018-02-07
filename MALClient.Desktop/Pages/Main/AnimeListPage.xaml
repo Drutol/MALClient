@@ -25,7 +25,14 @@
         <x:String x:Key="WorkModeAnyOther">AnyWorkMode</x:String>
     </Page.Resources>
 
-    <Grid Background="{ThemeResource BrushDeepBackground}">
+    <Grid>
+        <Grid.Background>
+            <AcrylicBrush 
+                BackgroundSource="HostBackdrop"
+                TintColor="{StaticResource BrushDeepBackgroundColor}"
+                TintOpacity="0.90"
+                FallbackColor="{StaticResource ColorDetailsBackground}"/>
+        </Grid.Background>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />

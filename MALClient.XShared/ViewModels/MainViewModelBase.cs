@@ -125,7 +125,7 @@ namespace MALClient.XShared.ViewModels
         }
 
         private bool _searchToggleStatus;
-
+        private bool _justDisabledToggleStatus;
         public bool SearchToggleStatus
         {
             get { return _searchToggleStatus; }
@@ -133,6 +133,8 @@ namespace MALClient.XShared.ViewModels
             {
                 if(_searchToggleStatus == value)
                     return;
+                if (!value)
+                    _justDisabledToggleStatus = true;
                 _searchToggleStatus = value;
                 RaisePropertyChanged(() => SearchToggleStatus);
                 ReverseSearchInput();
@@ -312,8 +314,15 @@ namespace MALClient.XShared.ViewModels
                        (_toggleSearchCommand = new RelayCommand(() =>
                        {
                            SetSearchHints();
-                           if (!string.IsNullOrWhiteSpace(CurrentSearchQuery))
+                           if (_justDisabledToggleStatus)
+                           {
+                               _justDisabledToggleStatus = false;
+                               OnSearchQuerySubmitted?.Invoke(CurrentSearchQuery);
+                           }
+                           else if (!string.IsNullOrWhiteSpace(CurrentSearchQuery))
+                           {
                                OnSearchInputSubmit();
+                           }
                        }));
             }
         }

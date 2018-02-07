@@ -74,10 +74,10 @@ namespace MALClient.XShared.Comm.Anime
                         var titleNode = tds[1].ChildNodes[3].Descendants("a").First();
                         current.Title = titleNode.Descendants("strong").First().InnerText.Trim();
                         var link = titleNode.Attributes["href"].Value.Split('/');
-                        current.Id = Convert.ToInt32(link[2]);
-                        current.Type = link[1] == "anime"
+                        current.Id = Convert.ToInt32(link[4]);
+                        current.Type = link[3] == "anime"
                             ? RelatedItemType.Anime
-                            : link[1] == "manga" ? RelatedItemType.Manga : RelatedItemType.Unknown;
+                            : link[3] == "manga" ? RelatedItemType.Manga : RelatedItemType.Unknown;
                         output.Add(current);
                     }
                     catch (Exception)

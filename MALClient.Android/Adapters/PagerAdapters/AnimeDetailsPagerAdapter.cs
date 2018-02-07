@@ -18,14 +18,19 @@ namespace MALClient.Android.PagerAdapters
     {
         private AnimeDetailsPageViewModel _viewModel;
 
-
-
         public AnimeDetailsPagerAdapter(FragmentManager fm) : base(fm)
         {
             _viewModel = ViewModelLocator.AnimeDetails;
         }
 
-        public override int Count => _viewModel.AnimeMode ? 7 : 5;
+        public override int Count
+        {
+            get
+            {
+                var newCount = _viewModel.AnimeMode ? 7 : 5;
+                return newCount;
+            }
+        }
 
         private AnimeDetailsPageGeneralTabFragment _generalFragment;
         private AnimeDetailsPageDetailsTabFragment _detailsFragment;

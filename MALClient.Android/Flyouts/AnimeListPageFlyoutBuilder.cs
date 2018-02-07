@@ -46,13 +46,10 @@ namespace MALClient.Android.Flyouts
             ParamTextView = new RelativeLayout.LayoutParams(-1,-2); //wrap content
             ParamTextView.AddRule(LayoutRules.AlignParentLeft);
             ParamTextView.AddRule(LayoutRules.CenterVertical);
-            var margin = DimensionsHelper.DpToPx(8);
-            ParamTextView.SetMargins(margin*2,margin,margin*2,margin);
         }
 
         public static void InjectAnimation(DroppyMenuPopup.Builder builder)
-        {
-            
+        {        
             builder.SetPopupAnimation(new DroppyFadeInAnimation());
             builder.TriggerOnAnchorClick(false);
             builder.SetXOffset(5);
@@ -84,8 +81,10 @@ namespace MALClient.Android.Flyouts
             background = background ?? ResourceExtension.BrushFlyoutBackground;
             foreground = foreground ?? ResourceExtension.BrushText;
 
-            if(ParamRelativeLayout == null)
-                ParamRelativeLayout = new ViewGroup.LayoutParams(DimensionsHelper.DpToPx(150), DimensionsHelper.DpToPx(46));
+            if (ParamRelativeLayout == null)
+                ParamRelativeLayout = new ViewGroup.LayoutParams(DimensionsHelper.DpToPx(150), -2);
+            else
+                ParamRelativeLayout.Height = -2;
 
             var top = new FrameLayout(context);
 
@@ -93,6 +92,8 @@ namespace MALClient.Android.Flyouts
             top.SetBackgroundColor(new Color(background.Value));
             var holder = new RelativeLayout(context) { LayoutParameters = wrapContentHeight ? new
                 ViewGroup.LayoutParams(DimensionsHelper.DpToPx(150),-2) : ParamRelativeLayout };
+            var margin = DimensionsHelper.DpToPx(8);
+            holder.SetPadding(margin, margin, margin, margin);
             holder.SetBackgroundResource(ResourceExtension.SelectableItemBackground);
             if (clickable)
             {
@@ -101,6 +102,8 @@ namespace MALClient.Android.Flyouts
             }
 
             var txt = new TextView(context) { LayoutParameters = ParamTextView };
+            txt.SetMaxLines(3);
+
             if (gravity != null)
             {
                 txt.Gravity = gravity.Value;

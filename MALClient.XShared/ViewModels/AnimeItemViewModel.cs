@@ -283,15 +283,27 @@ namespace MALClient.XShared.ViewModels
         }
 
         public string Type
-            =>
-            (!Settings.DisplaySeasonWithType || string.IsNullOrEmpty(ParentAbstraction.AirStartDate)
-                ? ""
-                : Utils.Utilities.SeasonToCapitalLetterWithYear(ParentAbstraction.AirStartDate) + " ")  + 
-            (ParentAbstraction.Type == 0
-                ? ""
-                : ParentAbstraction.RepresentsAnime
-                    ? ((AnimeType) ParentAbstraction.Type).ToString()
-                    : ((MangaType) ParentAbstraction.Type).ToString());
+        {
+            get
+            {
+                var airedEpisodes = "";
+                if (ParentAbstraction.RepresentsAnime &&
+                    ResourceLocator.AiringInfoProvider.TryGetCurrentEpisode(Id, out var eps, DateTime.Today))
+                {
+                    airedEpisodes = $" {eps}/{(AllEpisodes <= 0 ? "?" : AllEpisodes.ToString())}";
+                }
+
+
+                return (!Settings.DisplaySeasonWithType || string.IsNullOrEmpty(ParentAbstraction.AirStartDate)
+                           ? ""
+                           : Utils.Utilities.SeasonToCapitalLetterWithYear(ParentAbstraction.AirStartDate) + " ") +
+                       (ParentAbstraction.Type == 0
+                           ? ""
+                           : ParentAbstraction.RepresentsAnime
+                               ? ((AnimeType) ParentAbstraction.Type).ToString()
+                               : ((MangaType) ParentAbstraction.Type).ToString()) + airedEpisodes;
+            }
+        }
 
         public string PureType
             => ParentAbstraction.Type == 0

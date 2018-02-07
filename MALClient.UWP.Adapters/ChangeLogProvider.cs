@@ -20,7 +20,5 @@ namespace MALClient.UWP.Adapters
             "Fixed calendar & airing info.",
             "Added more elements of fluid design."
         };
-
-
     }
 }

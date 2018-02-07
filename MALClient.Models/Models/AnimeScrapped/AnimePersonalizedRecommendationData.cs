@@ -13,9 +13,9 @@ namespace MALClient.Models.Models.AnimeScrapped
         public int Id { get; set; }
         [JsonProperty("title")]
         public string Title { get; set; }
-        [JsonProperty("url")]
+        [JsonProperty("path")]
         public string Url { get; set; }
-        [JsonProperty("img_url")]
+        [JsonProperty("image")]
         public string ImgUrl { get; set; }
         [JsonProperty("bundle")]
         public string Bundle { get; set; }

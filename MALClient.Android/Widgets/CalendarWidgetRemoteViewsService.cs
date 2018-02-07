@@ -7,6 +7,7 @@ using Android.App;
 using Android.Content;
 using Android.OS;
 using Android.Runtime;
+using Android.Util;
 using Android.Views;
 using Android.Widget;
 using FFImageLoading;
@@ -16,10 +17,11 @@ using MALClient.XShared.ViewModels;
 
 namespace MALClient.Android.Widgets
 {
+    [global::Android.Runtime.Preserve(AllMembers = true)]
     [Service(Permission = "android.permission.BIND_REMOTEVIEWS")]
     public class CalendarWidgetRemoteViewsService : RemoteViewsService
     {
-        
+        [global::Android.Runtime.Preserve(AllMembers = true)]
         class CalendarViewFactory : Java.Lang.Object, IRemoteViewsFactory
         {
             private readonly Context _applicationContext;
@@ -74,9 +76,11 @@ namespace MALClient.Android.Widgets
                         .ThenByDescending(model => model.MyScore)
                         .Take(14)
                         .ToList();
+                    Log.Debug("MalClient - Widget", $"Todays airing items count {_items.Count}");
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
+                    Log.Debug("MalClient - Widget", e.ToString());
                     _items = new List<AnimeItemViewModel>();
                 }
             }

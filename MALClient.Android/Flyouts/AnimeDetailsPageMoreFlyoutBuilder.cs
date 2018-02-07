@@ -21,7 +21,7 @@ namespace MALClient.Android.Flyouts
     {
         public static DroppyMenuPopup BuildForAnimeDetailsPage(Context context,AnimeDetailsPageViewModel viewModel,View parent,Action<int> listener)
         {
-            AnimeListPageFlyoutBuilder.ParamRelativeLayout = new ViewGroup.LayoutParams(DimensionsHelper.DpToPx(150), DimensionsHelper.DpToPx(38));
+            AnimeListPageFlyoutBuilder.ParamRelativeLayout = new ViewGroup.LayoutParams(DimensionsHelper.DpToPx(150), -2);
 
             var droppyBuilder = new DroppyMenuPopup.Builder(context, parent);
             AnimeListPageFlyoutBuilder.InjectAnimation(droppyBuilder);
@@ -30,7 +30,7 @@ namespace MALClient.Android.Flyouts
 
             droppyBuilder.AddMenuItem(new DroppyMenuCustomItem(AnimeListPageFlyoutBuilder.BuildItem(context, "Forum board", listener, 0)));
             if(viewModel.AnimeMode)
-                droppyBuilder.AddMenuItem(new DroppyMenuCustomItem(AnimeListPageFlyoutBuilder.BuildItem(context, "Promotional videos", listener, 1)));
+                droppyBuilder.AddMenuItem(new DroppyMenuCustomItem(AnimeListPageFlyoutBuilder.BuildItem(context, "Promotional videos", listener, 1,null,null,true,null,true)));
             if(!viewModel.AddAnimeVisibility)
                 droppyBuilder.AddMenuItem(new DroppyMenuCustomItem(AnimeListPageFlyoutBuilder.BuildItem(context, "Tags", listener, 2)));
             if (viewModel.IsRewatchingButtonVisibility)
@@ -42,14 +42,14 @@ namespace MALClient.Android.Flyouts
             droppyBuilder.AddMenuItem(new DroppyMenuCustomItem(AnimeListPageFlyoutBuilder.BuildItem(context, "Open in browser", listener, 4)));
             if (!viewModel.AddAnimeVisibility)
                 droppyBuilder.AddMenuItem(new DroppyMenuCustomItem(AnimeListPageFlyoutBuilder.BuildItem(context, "Remove from my list", listener, 5)));
-            if (viewModel.AiringNotificationsButtonVisibility)
-                droppyBuilder.AddMenuItem(
-                    new DroppyMenuCustomItem(
-                        AnimeListPageFlyoutBuilder.BuildItem(context, "Air Notifications", listener, 8,
-                            viewModel.AreAirNotificationsEnabled ? (int?) ResourceExtension.AccentColour : null,
-                            viewModel.AreAirNotificationsEnabled
-                                ? (int?) ResourceExtension.White
-                                : null)));
+            //if (viewModel.AiringNotificationsButtonVisibility)
+            //    droppyBuilder.AddMenuItem(
+            //        new DroppyMenuCustomItem(
+            //            AnimeListPageFlyoutBuilder.BuildItem(context, "Air Notifications", listener, 8,
+            //                viewModel.AreAirNotificationsEnabled ? (int?) ResourceExtension.AccentColour : null,
+            //                viewModel.AreAirNotificationsEnabled
+            //                    ? (int?) ResourceExtension.White
+            //                    : null)));
 
             return droppyBuilder.Build();
         }

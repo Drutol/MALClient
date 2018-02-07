@@ -40,7 +40,7 @@ namespace MALClient.XShared.Comm.Search
                         var character = new AnimeCharacter();
                         var tds = row.Descendants("td").ToList();
                         var link = tds[1].Descendants("a").First();
-                        character.Id = link.Attributes["href"].Value.Split('/')[2];
+                        character.Id = link.Attributes["href"].Value.Split('/')[4];
                         character.Name = WebUtility.HtmlDecode(link.InnerText.Trim());
                         var smalls = tds[1].Descendants("small");
                         if (smalls.Any())

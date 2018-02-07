@@ -68,7 +68,14 @@
         <Binding Path="Main" Source="{StaticResource DesktopLocator}" />
     </Page.DataContext>
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" x:Name="Root">
+    <Grid x:Name="Root">
+        <Grid.Background>
+            <AcrylicBrush 
+                BackgroundSource="HostBackdrop"
+                TintColor="{StaticResource BrushDeepBackgroundColor}"
+                TintOpacity="0.6"
+                FallbackColor="{StaticResource ColorDetailsBackground}"/>
+        </Grid.Background>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="48"/>
@@ -102,7 +109,7 @@
 				<AcrylicBrush
                     BackgroundSource="HostBackdrop"
                     TintColor="{StaticResource BrushDeepBackgroundColor}"
-                    TintOpacity="0.5"
+                    TintOpacity="0.6"
                     FallbackColor="{StaticResource ColorHamburgerBackground}"/>
 			</Grid.Background>
 			<Grid.ColumnDefinitions>
@@ -130,7 +137,8 @@
 				<ColumnDefinition Width="Auto" />
 			</Grid.ColumnDefinitions>
 			<Grid x:Name="TopSplitter" Grid.Column="4" Background="{ThemeResource BrushSplitter}" HorizontalAlignment="Stretch" Width="16"
-                  Visibility="{Binding OffContentVisibility,Converter={StaticResource BoolToVisibilityConverter}}" />
+                  Visibility="Collapsed" />
+		    <!--Visibility="{Binding OffContentVisibility,Converter={StaticResource BoolToVisibilityConverter}}"-->
 			<Grid x:Name="OffContentTopGrid" Column="5"
                   Visibility="{Binding OffContentVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
                   Width="{Binding OffContentStatusBarWidth}">
@@ -138,7 +146,7 @@
 					<AcrylicBrush 
 					BackgroundSource="HostBackdrop"
 					TintColor="{StaticResource BrushDeepBackgroundColor}"
-					TintOpacity="0.75"
+					TintOpacity="0.6"
 					FallbackColor="{StaticResource ColorDetailsBackground}"/>
 				</Grid.Background>
 				<Grid.ColumnDefinitions>
@@ -314,7 +322,7 @@
 									VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="10,0,0,0" IsHitTestVisible="False"/>
 						</StackPanel>
 						<!-- Right -->
-						<StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+						<StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,0,0">
 							<StackPanel.Resources>
 								<Style TargetType="Button" BasedOn="{StaticResource ButtonRevealStyle}">
 									<Setter Property="BorderThickness" Value="1" />

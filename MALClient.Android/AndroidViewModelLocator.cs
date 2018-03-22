@@ -21,7 +21,7 @@ using MALClient.Android.Managers;
 using MALClient.Android.ViewModels;
 using MALClient.XShared.Interfaces;
 using MALClient.XShared.ViewModels;
-using Microsoft.Practices.ServiceLocation;
+using CommonServiceLocator;
 
 namespace MALClient.Android
 {

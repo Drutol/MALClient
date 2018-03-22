@@ -90,7 +90,7 @@
                                                                         CommandParameter="{Binding Board}" />
                                                     </MenuFlyout>
                                                 </FlyoutBase.AttachedFlyout>
-                                                <StackPanel Orientation="Horizontal">
+												<StackPanel x:Name="SourceStack"  Orientation="Horizontal">
                                                     <fa:FontAwesome Icon="{Binding Icon,Converter={StaticResource DummyFontAwesomeToRealFontAwesomeConverter}}" FontSize="21" Margin="10,0" />
                                                     <TextBlock Text="{Binding Entry.Name}" FontWeight="Medium"
                                                                FontSize="19" />

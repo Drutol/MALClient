@@ -29,7 +29,7 @@
             </GridView.ItemContainerStyle>
             <GridView.ItemsPanel>
                 <ItemsPanelTemplate>
-					<ItemsWrapGrid ItemWidth="200" ItemHeight="350" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,10,0" />
+					<ItemsWrapGrid ItemWidth="212" ItemHeight="360" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,10,0" />
                 </ItemsPanelTemplate>
             </GridView.ItemsPanel>
             <GridView.ItemContainerTransitions>

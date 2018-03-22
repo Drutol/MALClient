@@ -30,8 +30,8 @@
             <TextBlock Text="Live Tiles" FontWeight="Medium"
                            HorizontalAlignment="Center"
                            TextWrapping="WrapWholeWords" />
-            <Button Content="Pin articles live tile" Click="ButtonPinArticlesOnClick" HorizontalAlignment="Center" Margin="0,5" Width="300"/>
-            <Button Content="Pin news live tile" Click="ButtonPinNewsOnClick" HorizontalAlignment="Center" Margin="0,5" Width="300"/>
+			<Button Content="Pin articles live tile" Click="ButtonPinArticlesOnClick" HorizontalAlignment="Center" Margin="0,5" Width="300" Style="{StaticResource ButtonRevealStyle}" BorderThickness="1"/>
+			<Button Content="Pin news live tile" Click="ButtonPinNewsOnClick" HorizontalAlignment="Center" Margin="0,5" Width="300" Style="{StaticResource ButtonRevealStyle}" BorderThickness="1"/>
             <TextBlock
                     Text="Tiles are updated every 12 hours from background."
                     FontWeight="SemiLight" TextWrapping="WrapWholeWords" FontSize="15" TextAlignment="Center"

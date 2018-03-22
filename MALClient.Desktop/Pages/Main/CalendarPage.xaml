@@ -55,8 +55,7 @@
                                         <GridView.ItemsPanel>
                                             <ItemsPanelTemplate>
                                                 <ItemsWrapGrid Margin="0,0,16,0" Orientation="Horizontal"
-                                                               HorizontalAlignment="Stretch"
-                                                               ItemWidth="200" ItemHeight="350" />
+                                                               HorizontalAlignment="Stretch" />
                                             </ItemsPanelTemplate>
                                         </GridView.ItemsPanel>
                                     </GridView>
@@ -83,7 +82,7 @@
             <Pivot.Resources>
                 <Style TargetType="PivotHeaderItem" BasedOn="{StaticResource PivotHeaderOuterProfilePage}" />
                 <Style TargetType="GridView">
-                    <Setter Property="Margin" Value="1,1-5,0" />
+                    <Setter Property="Margin" Value="0" />
                     <Setter Property="MinWidth" Value="200" />
                     <Setter Property="IsItemClickEnabled" Value="True" />
                     <Setter Property="ShowsScrollingPlaceholders" Value="False" />

@@ -8,10 +8,11 @@
     xmlns:xamlConverters="using:MALClient.UWP.Shared.XamlConverters"
     xmlns:attachedProperties="using:MALClient.UWP.Shared.UserControls.AttachedProperties"
     mc:Ignorable="d"
-    d:DesignHeight="300"
-    d:DesignWidth="400"
+    d:DesignHeight="350"
+    d:DesignWidth="180"
     PointerReleased="AnimeGridItem_OnPointerReleased" ManipulationCompleted="AnimeGridItem_OnManipulationCompleted"
-    PointerMoved="AnimeGridItem_OnPointerMoved" ManipulationStarted="AnimeGridItem_OnManipulationStarted">
+    PointerMoved="AnimeGridItem_OnPointerMoved" ManipulationStarted="AnimeGridItem_OnManipulationStarted"
+	Width="200" Height="350">
 
     <UserControl.Resources>
         <ResourceDictionary>
@@ -72,8 +73,7 @@
                 <RowDefinition Height="50" />
             </Grid.RowDefinitions>
             <Image controlsExt:ImageExtensions.FadeInOnLoaded="True" Grid.ColumnSpan="2" Stretch="UniformToFill" ImageOpened="Image_OnImageOpened"
-				   HorizontalAlignment="Center"
-                   MaxWidth="{Binding MaxWidth}" attachedProperties:AnimeImageExtensions.MalBaseImageSource="{x:Bind ViewModel.ImgUrl}">
+				   HorizontalAlignment="Center" attachedProperties:AnimeImageExtensions.MalBaseImageSource="{x:Bind ViewModel.ImgUrl}">
                 <!--<Image.Source>
                     <BitmapImage UriSource="{x:Bind ViewModel.ImgUrl}" DecodePixelHeight="325"
                                  DecodePixelType="Logical" DecodePixelWidth="{Binding MaxWidth}" />
@@ -164,11 +164,8 @@
                                     Foreground="{StaticResource AnimeGridItemText}" />
                     </Button>
                 </Grid>
-                <Grid x:Name="TimeTillNextAirGrid" VerticalAlignment="Bottom" Visibility="Collapsed">
-                    <Grid.Background>
-                        <SolidColorBrush Color="Black" Opacity=".75" />
-                    </Grid.Background>
-                    <TextBlock x:Name="TimeTillNextAir" FontWeight="SemiLight" Margin="5,0" Foreground="{StaticResource AnimeGridItemText}"/>
+				<Grid x:Name="TimeTillNextAirGrid" VerticalAlignment="Bottom" Visibility="Collapsed" Background="{StaticResource AnimeGridItemGridBackground}">
+					<TextBlock x:Name="TimeTillNextAir" FontWeight="SemiLight" Margin="5,0" Foreground="{StaticResource AnimeGridItemText}"/>
                 </Grid>
             </StackPanel>
         </Grid>

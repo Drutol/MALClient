@@ -44,7 +44,7 @@
                 </StackPanel>
                 <Button Content="Rate now!" Command="{Binding ReviewCommand}"
                         HorizontalAlignment="Center"
-                        Margin="0,10,0,0" />
+                        Margin="0,10,0,0" Style="{StaticResource ButtonRevealStyle}" BorderThickness="1" />
                 <MenuFlyoutSeparator Margin="0,5" />
                 <Grid Margin="10" HorizontalAlignment="Center">
                     <StackPanel>

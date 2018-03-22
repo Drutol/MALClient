@@ -789,7 +789,7 @@
                                         Margin="5,10"
                                         BorderThickness="1"
                                         Style="{StaticResource ButtonRevealStyle}"/>
-                                <ProgressRing IsActive="True" Width="40" Height="40" Margin="0,5"
+                                <ProgressRing IsActive="True" Width="40" Height="40" Margin="0,15"
                                               Visibility="{Binding LoadingCharactersVisibility,Converter={StaticResource BoolToVisibilityConverter}}" />
                                 <Grid HorizontalAlignment="Center"
                                       Visibility="{Binding CharactersGridVisibility,Converter={StaticResource BoolToVisibilityConverter}}">
@@ -1591,7 +1591,7 @@
                                             <Setter Property="BorderBrush"
                                                     Value="{StaticResource SystemControlBackgroundAccentBrush}" />
                                             <Setter Property="BorderThickness" Value="5,0,0,0" />
-                                            <Setter Property="Margin" Value="5" />
+                                            <Setter Property="Margin" Value="0,0,0,10" />
                                             <Setter Property="Background"
                                                     Value="{ThemeResource BrushDetailsRelatedBackground}" />
                                             <Setter Property="Padding" Value="0" />

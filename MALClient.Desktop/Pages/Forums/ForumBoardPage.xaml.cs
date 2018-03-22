@@ -8,6 +8,7 @@ using MALClient.XShared.NavArgs;
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Forums;
 using MALClient.XShared.ViewModels.Forums.Items;
+using Windows.UI.Xaml.Media.Animation;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -37,7 +38,13 @@ namespace MALClient.UWP.Pages.Forums
         {
             _args = e.Parameter as ForumsBoardNavigationArgs;
             base.OnNavigatedTo(e);
-        }
+
+			ConnectedAnimation anim = ConnectedAnimationService.GetForCurrentView().GetAnimation("header");
+			if (anim != null)
+			{
+				anim.TryStart(DestStack);
+			}
+		}
 
         private void TopicOnClick(object sender, ItemClickEventArgs e)
         {

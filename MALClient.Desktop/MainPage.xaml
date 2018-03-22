@@ -118,7 +118,6 @@
 			<Grid>
 				<Button IsTabStop="False" HorizontalAlignment="Left"
                         BorderThickness="1"
-                       Visibility="Visible"
                         Width="48" Height="48" Background="Transparent" 
                         Command="{Binding ReversePaneCommand}" 
                         Style="{StaticResource ButtonRevealStyle}">
@@ -195,10 +194,10 @@
 			<Grid x:Name="MainTitleBar" Width="Auto" Height="Auto"  Background="Transparent">
 			</Grid>
 			<Button Grid.Column="0" IsTabStop="False" HorizontalAlignment="Left"
-				VerticalAlignment="Center" Width="48" Height="32"
+				VerticalAlignment="Stretch" Width="48" Height="Auto"
 				Command="{Binding NavigateMainBackCommand}"
 				Visibility="{Binding NavigateMainBackButtonVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
-				Background="Transparent" BorderThickness="0">
+				Style="{StaticResource NavigationBackButtonNormalStyle}">
 				<TextBlock x:Name="BackButtonText" FontFamily="Segoe MDL2 Assets" FontSize="12" Text="&#xE830;"/>
 			</Button>
 			<!-- Start Integrated Header -->
@@ -334,7 +333,7 @@
 									QuerySubmitted="SearchInput_OnQuerySubmitted"
 									Text="{Binding CurrentSearchQuery, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
 									Visibility="{Binding SearchInputVisibility, Converter={StaticResource BoolToVisibilityConverter}}"
-									PlaceholderText="Search..." Height="32" MinWidth="250" />
+									PlaceholderText="Search..." Height="32" MinWidth="250" Margin="0,0,5,0" />
 							<userControls:LockableToggleButton IsTabStop="False" LockToggle="{Binding SearchToggleLock}"
                                                IsThreeState="False"
                                                VerticalAlignment="Center" Width="48" Height="48"
@@ -403,8 +402,7 @@
                             <Grid Background="Transparent">
                                 <TextBlock Text="New update! What's new?" FontWeight="Bold" Foreground="White"
                                            HorizontalAlignment="Left" Margin="10,5" />
-                                <Button Style="{StaticResource TextBlockButtonStyle}" HorizontalAlignment="Right" Foreground="White"
-                                        Click="ButtonCloseChangelogOnClick">
+								<Button HorizontalAlignment="Right" Foreground="White" Background="Transparent" Click="ButtonCloseChangelogOnClick" BorderThickness="1">
                                     <SymbolIcon Symbol="Cancel"/>
                                 </Button>
                             </Grid>

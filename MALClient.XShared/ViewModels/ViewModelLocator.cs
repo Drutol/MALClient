@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using CommonServiceLocator;
 using GalaSoft.MvvmLight.Ioc;
 using MALClient.Models.Enums;
 using MALClient.XShared.Comm.Anime;
@@ -11,7 +12,6 @@ using MALClient.XShared.ViewModels.Clubs;
 using MALClient.XShared.ViewModels.Details;
 using MALClient.XShared.ViewModels.Forums;
 using MALClient.XShared.ViewModels.Main;
-using Microsoft.Practices.ServiceLocation;
 
 namespace MALClient.XShared.ViewModels
 {

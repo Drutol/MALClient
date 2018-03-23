@@ -40,17 +40,9 @@
         <xamlConverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
     </Page.Resources>
 
-    <Grid>
-        <Grid.Background>
-            <AcrylicBrush 
-                BackgroundSource="HostBackdrop"
-                TintColor="{StaticResource BrushDeepBackgroundColor}"
-                TintOpacity="0.8"
-                FallbackColor="{StaticResource ColorDetailsBackground}"/>
-        </Grid.Background>
-        <ScrollViewer>
-
-            <Grid>
+	<Grid Background="{StaticResource PageBackground}">
+		<ScrollViewer>
+			<Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />

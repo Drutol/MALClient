@@ -50,6 +50,7 @@
 			<SolidColorBrush x:Key="AnimeGridItemTextDays" Color="#383838"/>
 			<AcrylicBrush x:Key="AnimeGridItemGridBackground" BackgroundSource="Backdrop" TintColor="{StaticResource BrushDeepBackgroundColor}" TintOpacity="0.5" FallbackColor="{StaticResource BrushDeepBackgroundColor}"/>
 			<AcrylicBrush x:Key="PopUpBackground" BackgroundSource="Backdrop"  TintColor="{StaticResource BrushDeepBackgroundColor}" TintOpacity="0.7" FallbackColor="{StaticResource BrushDeepBackgroundColor}"/>
+			<AcrylicBrush x:Key="PageBackground" BackgroundSource="HostBackdrop" TintColor="{StaticResource BrushDeepBackgroundColor}" TintOpacity="0.8" FallbackColor="{StaticResource ColorDetailsBackground}"/>
 		</ResourceDictionary>
         <ResourceDictionary x:Key="Dark">
             <SolidColorBrush x:Key="BrushText" Color="White" />
@@ -97,6 +98,7 @@
 			<SolidColorBrush x:Key="AnimeGridItemTextDays" Color="LightGray"/>
 			<AcrylicBrush x:Key="AnimeGridItemGridBackground" BackgroundSource="Backdrop" TintColor="{StaticResource BrushDeepBackgroundColor}" TintOpacity="0.5" FallbackColor="{StaticResource BrushDeepBackgroundColor}"/>
 			<AcrylicBrush x:Key="PopUpBackground" BackgroundSource="Backdrop"  TintColor="{StaticResource BrushDeepBackgroundColor}" TintOpacity="0.7" FallbackColor="{StaticResource BrushDeepBackgroundColor}"/>
+			<AcrylicBrush x:Key="PageBackground" BackgroundSource="HostBackdrop" TintColor="{StaticResource BrushDeepBackgroundColor}" TintOpacity="0.8" FallbackColor="{StaticResource ColorDetailsBackground}"/>
 		</ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
 </ResourceDictionary>

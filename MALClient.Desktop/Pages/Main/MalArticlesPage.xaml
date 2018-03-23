@@ -11,15 +11,8 @@
     <Page.Resources>
         <xamlConverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
     </Page.Resources>
-    <Grid>
-        <Grid.Background>
-            <AcrylicBrush 
-                BackgroundSource="HostBackdrop"
-                TintColor="{StaticResource BrushDeepBackgroundColor}"
-                TintOpacity="0.8"
-                FallbackColor="{StaticResource ColorDetailsBackground}"/>
-        </Grid.Background>
-        <ProgressRing IsActive="True" Width="75" Height="75" HorizontalAlignment="Center" VerticalAlignment="Center"
+	<Grid Background="{StaticResource PageBackground}">
+		<ProgressRing IsActive="True" Width="75" Height="75" HorizontalAlignment="Center" VerticalAlignment="Center"
                       Visibility="{Binding LoadingVisibility,Converter={StaticResource BoolToVisibilityConverter}}" />
         <WebView x:Name="ArticleWebView" DOMContentLoaded="ArticleWebView_OnDOMContentLoaded"
                  NavigationStarting="ArticleWebView_OnNavigationStarting" RequestedTheme="Dark"

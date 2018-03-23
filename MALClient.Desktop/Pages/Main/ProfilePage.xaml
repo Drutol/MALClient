@@ -46,15 +46,8 @@
     </Page.Transitions>
 
 
-    <Grid>
-        <Grid.Background>
-            <AcrylicBrush 
-                BackgroundSource="HostBackdrop"
-                TintColor="{StaticResource BrushDeepBackgroundColor}"
-                TintOpacity="0.8"
-                FallbackColor="{StaticResource ColorDetailsBackground}"/>
-        </Grid.Background>
-        <ScrollViewer>
+	<Grid Background="{StaticResource PageBackground}">
+		<ScrollViewer>
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="58" />

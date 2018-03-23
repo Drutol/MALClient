@@ -287,7 +287,7 @@
                   Visibility="{Binding DisplayMode,Converter={StaticResource DisplayModeToPresenterControlVisibility},ConverterParameter={StaticResource IndefiniteGridString}}">
             <GridView.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <ItemsWrapGrid x:Name="GridViewWrapPanel" CacheLength="10" Orientation="Horizontal" HorizontalAlignment="Center" ItemHeight="345" ItemWidth="{Binding MaxWidth}"/>
+                    <ItemsWrapGrid x:Name="GridViewWrapPanel" CacheLength="10" Orientation="Horizontal" HorizontalAlignment="Center" ItemWidth="{Binding MaxWidth}"/>
                 </ItemsPanelTemplate>
             </GridView.ItemsPanel>
             <GridView.ItemTemplate>

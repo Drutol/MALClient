@@ -9,10 +9,10 @@
     xmlns:attachedProperties="using:MALClient.UWP.Shared.UserControls.AttachedProperties"
     mc:Ignorable="d"
     d:DesignHeight="350"
-    d:DesignWidth="180"
+    d:DesignWidth="200"
     PointerReleased="AnimeGridItem_OnPointerReleased" ManipulationCompleted="AnimeGridItem_OnManipulationCompleted"
     PointerMoved="AnimeGridItem_OnPointerMoved" ManipulationStarted="AnimeGridItem_OnManipulationStarted"
-	Width="200" Height="350">
+	MaxWidth="200" MaxHeight="350">
 
     <UserControl.Resources>
         <ResourceDictionary>

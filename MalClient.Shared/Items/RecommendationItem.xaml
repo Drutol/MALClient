@@ -14,15 +14,8 @@
     <UserControl.Resources>
         <xamlConverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
     </UserControl.Resources>
-    <ScrollViewer Padding="0" VerticalScrollBarVisibility="Hidden">
-        <ScrollViewer.Background>
-            <AcrylicBrush 
-                BackgroundSource="HostBackdrop"
-                TintColor="{StaticResource BrushDeepBackgroundColor}"
-                TintOpacity="0.8"
-                FallbackColor="{StaticResource ColorDetailsBackground}"/>
-        </ScrollViewer.Background>
-        <VisualStateManager.VisualStateGroups>
+	<ScrollViewer Padding="0" VerticalScrollBarVisibility="Hidden" Background="{StaticResource PageBackground}">
+		<VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
                 <VisualState x:Name="Wide">
                     <VisualState.Setters>

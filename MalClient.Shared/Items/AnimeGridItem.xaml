@@ -68,17 +68,17 @@
             <Grid.RenderTransform>
                 <TranslateTransform x:Name="TranslateTransformSwipe" Y="0" X="0" />
             </Grid.RenderTransform>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*" />
-                <RowDefinition Height="50" />
-            </Grid.RowDefinitions>
-            <Image controlsExt:ImageExtensions.FadeInOnLoaded="True" Grid.ColumnSpan="2" Stretch="UniformToFill" ImageOpened="Image_OnImageOpened"
-				   HorizontalAlignment="Center" attachedProperties:AnimeImageExtensions.MalBaseImageSource="{x:Bind ViewModel.ImgUrl}">
-                <!--<Image.Source>
+			<Grid.RowDefinitions>
+				<RowDefinition Height="*" />
+				<RowDefinition Height="50" />
+			</Grid.RowDefinitions>
+			<ProgressRing x:Name="ImageLoading" Grid.ColumnSpan="2" HorizontalAlignment="Center" IsActive="True" Width="50" Height="50"></ProgressRing>
+			<Image x:Name="Image" Grid.ColumnSpan="2" Stretch="UniformToFill" ImageOpened="Image_OnImageOpened"
+				   HorizontalAlignment="Center" controlsExt:ImageExtensions.FadeInOnLoaded="True" attachedProperties:AnimeImageExtensions.MalBaseImageSource="{x:Bind ViewModel.ImgUrl}" />
+			<!--<Image.Source>
                     <BitmapImage UriSource="{x:Bind ViewModel.ImgUrl}" DecodePixelHeight="325"
                                  DecodePixelType="Logical" DecodePixelWidth="{Binding MaxWidth}" />
                 </Image.Source>-->
-            </Image>
 			<Grid Grid.Row="0" MinWidth="37" Width="Auto" HorizontalAlignment="Right" VerticalAlignment="Top"
                   Visibility="{x:Bind ViewModel.UpdateButtonsVisibility,Mode=OneWay,Converter={StaticResource BoolToVisibilityConverter}}"
 				  Background="{StaticResource AnimeGridItemGridBackground}">

@@ -158,7 +158,7 @@
             </GridView.ItemContainerTransitions>
             <GridView.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <ItemsWrapGrid Orientation="Horizontal" HorizontalAlignment="Center" CacheLength="8.0" />
+                    <ItemsWrapGrid Orientation="Horizontal" HorizontalAlignment="Center" ItemWidth="200" ItemHeight="350" />
                 </ItemsPanelTemplate>
             </GridView.ItemsPanel>
             <GridView.ItemTemplate>

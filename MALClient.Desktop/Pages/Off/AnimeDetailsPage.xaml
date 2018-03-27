@@ -1051,16 +1051,8 @@
                     </PivotItem.Header>
                     <PivotItem.Content>
                         <ScrollViewer VerticalScrollBarVisibility="Hidden">
-                            <Grid VerticalAlignment="Stretch">
-                                <TextBlock
-                                    Visibility="{Binding DetailedDataVisibility,Converter={StaticResource BoolToVisibilityInvertedConverter}}"
-                                    Text="Data unavailable :("
-                                    VerticalAlignment="Center" HorizontalAlignment="Center"
-                                    FontSize="30" FontWeight="SemiLight"
-                                    Foreground="{StaticResource SystemControlBackgroundAccentBrush}" />
-
-
-                                <Grid
+							<Grid VerticalAlignment="Stretch">
+								<Grid
                                     Visibility="{Binding DetailedDataVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
                                     Margin="0,0,0,10">
                                     <Grid.Resources>

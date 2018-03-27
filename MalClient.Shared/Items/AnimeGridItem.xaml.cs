@@ -21,6 +21,7 @@ namespace MALClient.UWP.Shared.Items
         private bool _handlerAdded;
         private Point _initialPoint;
         private static readonly TimeZoneInfo _jstTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Tokyo Standard Time");
+		private int _oldID;
 
         public AnimeGridItem()
         {
@@ -66,8 +67,15 @@ namespace MALClient.UWP.Shared.Items
 
         private void OnDataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
         {
-            if(DataContext == null)
-                return;
+			if (DataContext == null)
+				return;
+			if(_oldID != ViewModel.Id)
+			{
+				ImageLoading.Visibility = Visibility.Visible;
+				Image.Source = null;
+				_oldID = ViewModel.Id;
+			}
+
             ViewModel.AnimeItemDisplayContext = DisplayContext;
             if (!_handlerAdded)
             {
@@ -205,6 +213,7 @@ namespace MALClient.UWP.Shared.Items
             {
                 img.Stretch = Stretch.Uniform;
             }
+			ImageLoading.Visibility = Visibility.Collapsed;
         }
     }
 }

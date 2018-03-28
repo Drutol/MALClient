@@ -158,8 +158,8 @@
             </GridView.ItemContainerTransitions>
             <GridView.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <ItemsWrapGrid Orientation="Horizontal" HorizontalAlignment="Center" />
-                </ItemsPanelTemplate>
+					<ItemsWrapGrid Orientation="Horizontal" HorizontalAlignment="Center" ItemWidth="212" />
+				</ItemsPanelTemplate>
             </GridView.ItemsPanel>
             <GridView.ItemTemplate>
                 <DataTemplate x:DataType="viewModels1:AnimeItemViewModel">

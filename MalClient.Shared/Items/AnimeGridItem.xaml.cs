@@ -207,6 +207,8 @@ namespace MALClient.UWP.Shared.Items
         {
             var img = sender as Image;
             var imgSource = img.Source as BitmapImage;
+			if (imgSource == null)
+				return;
             if(imgSource.PixelHeight == 0 || img.ActualHeight == 0)
                 return;
             if (Math.Abs(ActualHeight / ActualWidth - imgSource.PixelHeight / (double)imgSource.PixelWidth) > .65)

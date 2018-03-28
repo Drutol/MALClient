@@ -56,7 +56,7 @@
                                             <ItemsPanelTemplate>
                                                 <WrapGrid Orientation="Horizontal"
                                                                HorizontalAlignment="Stretch"
-                                                               ItemWidth="{Binding CalendarPage.ItemWidth,Source={StaticResource Locator}}" ItemHeight="325" />
+                                                               ItemWidth="{Binding CalendarPage.ItemWidth,Source={StaticResource Locator}}" ItemHeight="355" />
                                             </ItemsPanelTemplate>
                                         </GridView.ItemsPanel>
                                     </GridView>

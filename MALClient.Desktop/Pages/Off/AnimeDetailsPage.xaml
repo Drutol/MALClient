@@ -781,15 +781,15 @@
                                     TextWrapping="WrapWholeWords" TextAlignment="Center" HorizontalAlignment="Center"
                                     VerticalAlignment="Center" Foreground="#FFB9B9B9" />
                                 <MenuFlyoutSeparator />
-                                <TextBlock Text="Characters &amp; Staff" FontWeight="Bold" HorizontalAlignment="Center"
-                                           Visibility="{Binding LoadCharactersButtonVisibility,Converter={StaticResource BoolToVisibilityConverter}}" />
-                                <Button HorizontalAlignment="Center" Content="Load characters"
+								<TextBlock Text="Characters &amp; Voice actors" FontWeight="Bold"
+                                                   HorizontalAlignment="Center" Margin="0,3" />
+								<Button HorizontalAlignment="Center" Content="Load characters"
                                         Command="{Binding LoadCharactersCommand}"
                                         Visibility="{Binding LoadCharactersButtonVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
-                                        Margin="5,10"
+                                        Margin="5,10,5,20"
                                         BorderThickness="1"
                                         Style="{StaticResource ButtonRevealStyle}"/>
-                                <ProgressRing IsActive="True" Width="40" Height="40" Margin="0,5"
+								<ProgressRing IsActive="True" Width="40" Height="40" Margin="0,5,0,15"
                                               Visibility="{Binding LoadingCharactersVisibility,Converter={StaticResource BoolToVisibilityConverter}}" />
                                 <Grid HorizontalAlignment="Center"
                                       Visibility="{Binding CharactersGridVisibility,Converter={StaticResource BoolToVisibilityConverter}}">
@@ -799,10 +799,8 @@
                                             <Setter Property="TextTrimming" Value="CharacterEllipsis" />
                                         </Style>
                                     </Grid.Resources>
-                                    <StackPanel>
-                                        <TextBlock Text="Characters &amp; Voice actors" FontWeight="Bold"
-                                                   HorizontalAlignment="Center" Margin="0,3" />
-                                        <ItemsControl ItemsSource="{Binding AnimeStaffData.AnimeCharacterPairs}">
+									<StackPanel>
+										<ItemsControl ItemsSource="{Binding AnimeStaffData.AnimeCharacterPairs}">
                                             <ItemsControl.ItemsPanel>
                                                 <ItemsPanelTemplate>
                                                     <WrapGrid ItemHeight="300" ItemWidth="266"
@@ -1053,16 +1051,8 @@
                     </PivotItem.Header>
                     <PivotItem.Content>
                         <ScrollViewer VerticalScrollBarVisibility="Hidden">
-                            <Grid VerticalAlignment="Stretch">
-                                <TextBlock
-                                    Visibility="{Binding DetailedDataVisibility,Converter={StaticResource BoolToVisibilityInvertedConverter}}"
-                                    Text="Data unavailable :("
-                                    VerticalAlignment="Center" HorizontalAlignment="Center"
-                                    FontSize="30" FontWeight="SemiLight"
-                                    Foreground="{StaticResource SystemControlBackgroundAccentBrush}" />
-
-
-                                <Grid
+							<Grid VerticalAlignment="Stretch">
+								<Grid
                                     Visibility="{Binding DetailedDataVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
                                     Margin="0,0,0,10">
                                     <Grid.Resources>
@@ -1591,7 +1581,7 @@
                                             <Setter Property="BorderBrush"
                                                     Value="{StaticResource SystemControlBackgroundAccentBrush}" />
                                             <Setter Property="BorderThickness" Value="5,0,0,0" />
-                                            <Setter Property="Margin" Value="5" />
+                                            <Setter Property="Margin" Value="0,0,0,10" />
                                             <Setter Property="Background"
                                                     Value="{ThemeResource BrushDetailsRelatedBackground}" />
                                             <Setter Property="Padding" Value="0" />

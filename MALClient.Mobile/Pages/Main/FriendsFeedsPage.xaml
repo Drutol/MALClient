@@ -18,7 +18,7 @@
         <GridView ItemsSource="{Binding Feeds}" HorizontalAlignment="Stretch" SelectionMode="Single" IsItemClickEnabled="True" ItemClick="OnItemClick">
             <GridView.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <ItemsWrapGrid Margin="0,0,16,0" Orientation="Horizontal" HorizontalAlignment="Center"
+                    <ItemsWrapGrid Margin="0" Orientation="Horizontal" HorizontalAlignment="Center"
                                    ItemWidth="{Binding ItemWidth}" ItemHeight="325" />
                 </ItemsPanelTemplate>
             </GridView.ItemsPanel>

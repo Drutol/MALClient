@@ -91,7 +91,7 @@
                     TintOpacity="0.7"
                     FallbackColor="{StaticResource ColorPivotInnerHeaderBarBackground}"/>
             </Grid.Background>
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+			<StackPanel x:Name="DestStack" Orientation="Horizontal" HorizontalAlignment="Center">
                 <uwp:FontAwesome Icon="{Binding Icon,Converter={StaticResource DummyFontAwesomeToRealFontAwesomeConverter}}" FontSize="28" Margin="10,0" VerticalAlignment="Center"/>
                 <TextBlock Text="{Binding Title}" HorizontalAlignment="Center" FontSize="28" FontWeight="Medium" VerticalAlignment="Center" Margin="0,5"/>
             </StackPanel>

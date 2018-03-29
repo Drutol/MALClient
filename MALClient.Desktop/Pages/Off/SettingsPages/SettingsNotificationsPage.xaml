@@ -90,8 +90,8 @@
             </Grid>
             
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10">
-                <Button Content="Get notifications now!" Margin="5,0"  IsEnabled="{Binding IsCallNotificationsButtonEnabled}" Command="{Binding CallBackgroundTaskCommand}"/>
-                <Button Content="Clear seen notifications" Margin="5,0" Command="{Binding ResetSeenNotificationsCommand}"/>
+				<Button Content="Get notifications now!" Margin="5,0"  IsEnabled="{Binding IsCallNotificationsButtonEnabled}" Command="{Binding CallBackgroundTaskCommand}" Style="{StaticResource ButtonRevealStyle}" BorderThickness="1"/>
+				<Button Content="Clear seen notifications" Margin="5,0" Command="{Binding ResetSeenNotificationsCommand}" Style="{StaticResource ButtonRevealStyle}" BorderThickness="1"/>
             </StackPanel>
           
             <TextBlock

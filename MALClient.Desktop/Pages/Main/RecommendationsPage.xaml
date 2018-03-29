@@ -26,15 +26,8 @@
     </Page.Resources>
 
 
-    <Grid>
-        <Grid.Background>
-            <AcrylicBrush 
-                BackgroundSource="HostBackdrop"
-                TintColor="{StaticResource BrushDeepBackgroundColor}"
-                TintOpacity="0.8"
-                FallbackColor="{StaticResource ColorDetailsBackground}"/>
-        </Grid.Background>
-        <VisualStateManager.VisualStateGroups>
+	<Grid Background="{StaticResource PageBackground}">
+		<VisualStateManager.VisualStateGroups>
             <VisualStateGroup x:Name="VisualStateGroup">
                 <VisualState x:Name="Narrow">
                     <VisualState.StateTriggers>

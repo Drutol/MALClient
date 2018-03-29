@@ -50,6 +50,7 @@
 			<SolidColorBrush x:Key="AnimeGridItemTextDays" Color="#383838"/>
 			<SolidColorBrush x:Key="AnimeGridItemGridBackground" Color="{StaticResource BrushDeepBackgroundColor}" Opacity="0.75"/>
 			<SolidColorBrush x:Key="PopUpBackground" Color="{StaticResource BrushDeepBackgroundColor}"/>
+			<SolidColorBrush x:Key="PageBackground" Color="{StaticResource BrushDeepBackgroundColor}"/>
 		</ResourceDictionary>
 		<ResourceDictionary x:Key="Dark">
 			<SolidColorBrush x:Key="BrushText" Color="White" />
@@ -97,6 +98,7 @@
 			<SolidColorBrush x:Key="AnimeGridItemTextDays" Color="LightGray"/>
 			<SolidColorBrush x:Key="AnimeGridItemGridBackground" Color="{StaticResource BrushDeepBackgroundColor}" Opacity="0.75"/>
 			<SolidColorBrush x:Key="PopUpBackground" Color="{StaticResource BrushDeepBackgroundColor}"/>
+			<SolidColorBrush x:Key="PageBackground" Color="{StaticResource BrushDeepBackgroundColor}"/>
 		</ResourceDictionary>
 	</ResourceDictionary.ThemeDictionaries>
 </ResourceDictionary>

@@ -296,7 +296,7 @@
                                 </GridView.ItemContainerStyle>
                                 <GridView.ItemsPanel>
                                     <ItemsPanelTemplate>
-                                        <ItemsWrapGrid Orientation="Horizontal" ItemHeight="320" ItemWidth="{Binding MaxWidth}"/>
+                                        <ItemsWrapGrid Orientation="Horizontal" ItemHeight="355" ItemWidth="{Binding MaxWidth}"/>
                                     </ItemsPanelTemplate>
                                 </GridView.ItemsPanel>
                                 <GridView.ItemTemplate>
@@ -330,7 +330,7 @@
                                 </GridView.ItemContainerStyle>
                                 <GridView.ItemsPanel>
                                     <ItemsPanelTemplate>
-                                        <ItemsWrapGrid Orientation="Horizontal" ItemHeight="320" ItemWidth="{Binding MaxWidth}"/>
+                                        <ItemsWrapGrid Orientation="Horizontal" ItemHeight="355" ItemWidth="{Binding MaxWidth}"/>
                                     </ItemsPanelTemplate>
                                 </GridView.ItemsPanel>
                                 <GridView.ItemTemplate>

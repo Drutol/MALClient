@@ -41,25 +41,33 @@
                                     <Style TargetType="GridViewItem">
                                         <Setter Property="Margin" Value="5"/>
                                         <Setter Property="Padding" Value="0"/>
-                                        <Setter Property="Height" Value="340"/>
+                                        <Setter Property="Height" Value="350"/>
                                         <Setter Property="Background" Value="{ThemeResource BrushAnimeItemInnerBackground}"/>
                                         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
                                         <Setter Property="VerticalContentAlignment" Value="Stretch"/>
                                     </Style>
                                 </GridView.ItemContainerStyle>
-                                <GridView.ItemTemplate>
+								<GridView.ItemContainerTransitions>
+									<TransitionCollection>
+										<PopupThemeTransition FromVerticalOffset="100" />
+										<AddDeleteThemeTransition />
+										<ReorderThemeTransition />
+										<RepositionThemeTransition />
+									</TransitionCollection>
+								</GridView.ItemContainerTransitions>
+								<GridView.ItemTemplate>
                                     <DataTemplate>
                                         <Grid Background="{ThemeResource BrushHamburgerInnerBackground}" BorderThickness="3,0,0,0" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" >
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="200"/>
                                                 <ColumnDefinition Width="*"/>
                                             </Grid.ColumnDefinitions>
-                                            <items:AnimeGridItem IsRightTapEnabled="True" RightTapped="AnimeItemOnRightClick" Width="188" Height="340" HorizontalAlignment="Left" DataContext="{Binding Item1}"/>
+                                            <items:AnimeGridItem IsRightTapEnabled="True" RightTapped="AnimeItemOnRightClick" HorizontalAlignment="Left" DataContext="{Binding Item1}"/>
                                             <ScrollViewer Grid.Column="1" VerticalScrollBarVisibility="Auto" PointerPressed="HistoryScrollViewerOnPointerPressed" HorizontalAlignment="Stretch">
                                                 <ItemsControl ItemsSource="{Binding Item2}">
                                                     <ItemsControl.ItemsPanel>
                                                         <ItemsPanelTemplate>
-                                                            <ItemsStackPanel Margin="0,0,16,0" GroupPadding="0,0,5,0"/>
+                                                            <ItemsStackPanel Margin="8,0,16,0" GroupPadding="0,0,0,0"/>
                                                         </ItemsPanelTemplate>
                                                     </ItemsControl.ItemsPanel>
                                                     <ItemsControl.ItemContainerStyle>

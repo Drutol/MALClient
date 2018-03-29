@@ -25,15 +25,8 @@
         <x:String x:Key="WorkModeAnyOther">AnyWorkMode</x:String>
     </Page.Resources>
 
-    <Grid>
-        <Grid.Background>
-            <AcrylicBrush 
-                BackgroundSource="HostBackdrop"
-                TintColor="{StaticResource BrushDeepBackgroundColor}"
-                TintOpacity="0.90"
-                FallbackColor="{StaticResource ColorDetailsBackground}"/>
-        </Grid.Background>
-        <Grid.RowDefinitions>
+	<Grid Background="{StaticResource PageBackground}">
+		<Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
@@ -165,9 +158,8 @@
             </GridView.ItemContainerTransitions>
             <GridView.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <ItemsWrapGrid Margin="0,0,0,0" Orientation="Horizontal" HorizontalAlignment="Center"
-                                   ItemWidth="200" ItemHeight="350" />
-                </ItemsPanelTemplate>
+					<ItemsWrapGrid Orientation="Horizontal" HorizontalAlignment="Center" ItemWidth="212" />
+				</ItemsPanelTemplate>
             </GridView.ItemsPanel>
             <GridView.ItemTemplate>
                 <DataTemplate x:DataType="viewModels1:AnimeItemViewModel">

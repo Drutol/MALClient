@@ -9,6 +9,7 @@ using MALClient.XShared.NavArgs;
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Forums;
 using MALClient.XShared.ViewModels.Forums.Items;
+using Windows.UI.Xaml.Media.Animation;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -34,7 +35,8 @@ namespace MALClient.UWP.Pages.Forums
 
         private void BoardGridOnItemClick(object sender, ItemClickEventArgs e)
         {
-            ViewModel.NavigateBoardCommand.Execute((e.ClickedItem as ForumBoardEntryViewModel).Board);
+			(sender as GridView).PrepareConnectedAnimation("header", e.ClickedItem, "SourceStack");
+			ViewModel.NavigateBoardCommand.Execute((e.ClickedItem as ForumBoardEntryViewModel).Board);
         }
 
         private void BoardGridOnRightClick(object sender, RightTappedRoutedEventArgs e)

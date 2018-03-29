@@ -46,15 +46,8 @@
     </Page.Transitions>
 
 
-    <Grid>
-        <Grid.Background>
-            <AcrylicBrush 
-                BackgroundSource="HostBackdrop"
-                TintColor="{StaticResource BrushDeepBackgroundColor}"
-                TintOpacity="0.8"
-                FallbackColor="{StaticResource ColorDetailsBackground}"/>
-        </Grid.Background>
-        <ScrollViewer>
+	<Grid Background="{StaticResource PageBackground}">
+		<ScrollViewer>
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="58" />
@@ -308,7 +301,7 @@
 									</GridView.ItemContainerStyle>
 									<GridView.ItemsPanel>
 										<ItemsPanelTemplate>
-											<ItemsWrapGrid Orientation="Horizontal" ItemWidth="200" ItemHeight="350" />
+											<ItemsWrapGrid Orientation="Horizontal"/>
 										</ItemsPanelTemplate>
 									</GridView.ItemsPanel>
 									<GridView.ItemTemplate>
@@ -479,7 +472,7 @@
 								</GridView.ItemContainerStyle>
 								<GridView.ItemsPanel>
 									<ItemsPanelTemplate>
-										<ItemsWrapGrid Orientation="Horizontal" ItemWidth="200" ItemHeight="350" />
+										<ItemsWrapGrid Orientation="Horizontal"/>
 									</ItemsPanelTemplate>
 								</GridView.ItemsPanel>
 								<GridView.ItemTemplate>
@@ -519,7 +512,7 @@
 							</GridView.ItemContainerStyle>
 							<GridView.ItemsPanel>
 								<ItemsPanelTemplate>
-									<ItemsWrapGrid Orientation="Horizontal" ItemWidth="200" ItemHeight="350" />
+									<ItemsWrapGrid Orientation="Horizontal" />
 								</ItemsPanelTemplate>
 							</GridView.ItemsPanel>
 							<GridView.ItemTemplate>

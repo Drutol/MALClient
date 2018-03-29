@@ -279,7 +279,7 @@
                                             <Style TargetType="GridViewItem"
                                                    BasedOn="{StaticResource GridViewItemCustomStyle}">
                                                 <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                                                <Setter Property="Width" Value="122" />
+                                                <Setter Property="Width" Value="125" />
                                                 <Setter Property="Margin" Value="0" />
                                             </Style>
                                         </GridView.ItemContainerStyle>

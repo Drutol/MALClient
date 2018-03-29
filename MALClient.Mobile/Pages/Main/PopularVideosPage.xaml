@@ -15,7 +15,7 @@
         <GridView ItemsSource="{Binding Videos}" ItemClick="ListViewBase_OnItemClick" HorizontalAlignment="Stretch" IsItemClickEnabled="True" Background="Transparent">
             <GridView.ItemContainerStyle>
                 <Style TargetType="GridViewItem">
-                    <Setter Property="Margin" Value="2,4" />
+                    <Setter Property="Margin" Value="2,2" />
                     <Setter Property="Padding" Value="2" />
                     <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                     <Setter Property="Background" Value="{ThemeResource BrushAnimeItemBackground}" />
@@ -23,7 +23,7 @@
             </GridView.ItemContainerStyle>
             <GridView.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <ItemsWrapGrid ItemWidth="{Binding ItemWidth}" ItemHeight="340" Orientation="Horizontal" Margin="0,0,10,0" HorizontalAlignment="Center" />
+                    <ItemsWrapGrid ItemWidth="{Binding ItemWidth}" ItemHeight="350" Orientation="Horizontal" HorizontalAlignment="Center" />
                 </ItemsPanelTemplate>
             </GridView.ItemsPanel>
             <GridView.ItemContainerTransitions>
@@ -41,7 +41,7 @@
                             <RowDefinition Height="280"/>
                             <RowDefinition Height="60"/>
                         </Grid.RowDefinitions>
-                        <Image ext:ImageExtensions.FadeInOnLoaded="True" Source="{Binding Thumb}" Stretch="UniformToFill"/>
+                        <Image ext:ImageExtensions.FadeInOnLoaded="True" HorizontalAlignment="Center" Source="{Binding Thumb}" Stretch="UniformToFill"/>
                         <Grid Padding="3" Grid.Row="1" BorderThickness="0,1,0,0" Background="{ThemeResource BrushAnimeItemInnerBackground}" BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}">
                             <Button Style="{StaticResource TextBlockButtonStyle}" Padding="0" VerticalAlignment="Top" Click="BtnNavDetails" Foreground="{ThemeResource BrushText}">
                                 <TextBlock TextWrapping="WrapWholeWords" TextTrimming="CharacterEllipsis" MaxLines="2">

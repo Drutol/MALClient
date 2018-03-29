@@ -40,17 +40,9 @@
         <xamlConverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
     </Page.Resources>
 
-    <Grid>
-        <Grid.Background>
-            <AcrylicBrush 
-                BackgroundSource="HostBackdrop"
-                TintColor="{StaticResource BrushDeepBackgroundColor}"
-                TintOpacity="0.8"
-                FallbackColor="{StaticResource ColorDetailsBackground}"/>
-        </Grid.Background>
-        <ScrollViewer>
-
-            <Grid>
+	<Grid Background="{StaticResource PageBackground}">
+		<ScrollViewer>
+			<Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
@@ -90,7 +82,7 @@
                                                                         CommandParameter="{Binding Board}" />
                                                     </MenuFlyout>
                                                 </FlyoutBase.AttachedFlyout>
-                                                <StackPanel Orientation="Horizontal">
+												<StackPanel x:Name="SourceStack"  Orientation="Horizontal">
                                                     <fa:FontAwesome Icon="{Binding Icon,Converter={StaticResource DummyFontAwesomeToRealFontAwesomeConverter}}" FontSize="21" Margin="10,0" />
                                                     <TextBlock Text="{Binding Entry.Name}" FontWeight="Medium"
                                                                FontSize="19" />

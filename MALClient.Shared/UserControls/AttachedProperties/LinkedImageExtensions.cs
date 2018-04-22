@@ -15,11 +15,11 @@ namespace MALClient.UWP.Shared.UserControls.AttachedProperties
 
         public static Visibility GetTargetVisibility(DependencyObject element)
         {
-            return (Visibility) element.GetValue(TargetVisibilityProperty);
+            return (Visibility)element.GetValue(TargetVisibilityProperty);
         }
 
         public static readonly DependencyProperty TargetProperty = DependencyProperty.RegisterAttached(
-            "Target", typeof(FrameworkElement), typeof(LinkedImageExtensions), new PropertyMetadata(default(FrameworkElement),TargetPropertyChangedCallback));
+            "Target", typeof(FrameworkElement), typeof(LinkedImageExtensions), new PropertyMetadata(default(FrameworkElement), TargetPropertyChangedCallback));
 
         private static void TargetPropertyChangedCallback(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
         {
@@ -41,7 +41,7 @@ namespace MALClient.UWP.Shared.UserControls.AttachedProperties
 
         public static FrameworkElement GetTarget(DependencyObject element)
         {
-            return (FrameworkElement) element.GetValue(TargetProperty);
+            return (FrameworkElement)element.GetValue(TargetProperty);
         }
     }
 }

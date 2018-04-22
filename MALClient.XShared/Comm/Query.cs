@@ -23,7 +23,7 @@ namespace MALClient.XShared.Comm
         private bool _retry = true;
         public static ApiType CurrentApiType { get; set; } = Settings.SelectedApiType;
 
-#if ANDROID
+#if true
         protected static HttpClient _client;
 
         static Query()
@@ -46,7 +46,7 @@ namespace MALClient.XShared.Comm
             var responseString = "";
             try
             {
-#if ANDROID
+#if true
                 var res = await _client.GetAsync(Request.RequestUri);
                 if (res.StatusCode == HttpStatusCode.Forbidden)
                 {

@@ -33,7 +33,7 @@ namespace MALClient.UWP.Shared.UserControls
         }
 
         public static readonly DependencyProperty TextProperty = DependencyProperty.Register(
-            "Text", typeof(string), typeof(BBCodeTextBox), new PropertyMetadata(default(string),TextPropertyChangedCallback));
+            "Text", typeof(string), typeof(BBCodeTextBox), new PropertyMetadata(default(string), TextPropertyChangedCallback));
 
         private static void TextPropertyChangedCallback(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
         {
@@ -45,19 +45,19 @@ namespace MALClient.UWP.Shared.UserControls
 
         public string Text
         {
-            get { return (string) GetValue(TextProperty); }
+            get { return (string)GetValue(TextProperty); }
             set { SetValue(TextProperty, value); }
         }
 
         public static readonly DependencyProperty PreviewVisibilityProperty = DependencyProperty.Register(
-            "PreviewVisibility", typeof(Visibility), typeof(BBCodeTextBox), new PropertyMetadata(default(Visibility),PropertyChangedCallback));
+            "PreviewVisibility", typeof(Visibility), typeof(BBCodeTextBox), new PropertyMetadata(default(Visibility), PropertyChangedCallback));
 
         private static void PropertyChangedCallback(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
         {
             var control = dependencyObject as BBCodeTextBox;
-            if ((Visibility) dependencyPropertyChangedEventArgs.NewValue == Visibility.Visible)
+            if ((Visibility)dependencyPropertyChangedEventArgs.NewValue == Visibility.Visible)
             {
-                control.EditorPanel.Margin = new Thickness(0,0,40,0);
+                control.EditorPanel.Margin = new Thickness(0, 0, 40, 0);
                 control.PreviewButton.Visibility = Visibility.Visible;
             }
             else
@@ -69,7 +69,7 @@ namespace MALClient.UWP.Shared.UserControls
 
         public Visibility PreviewVisibility
         {
-            get { return (Visibility) GetValue(PreviewVisibilityProperty); }
+            get { return (Visibility)GetValue(PreviewVisibilityProperty); }
             set { SetValue(PreviewVisibilityProperty, value); }
         }
 
@@ -107,7 +107,7 @@ namespace MALClient.UWP.Shared.UserControls
                     InsertBasicTags("yt");
                     break;
                 case BBCodeMarkers.Spoiler:
-                    InsertBasicTags("spoiler",true);
+                    InsertBasicTags("spoiler", true);
                     break;
                 case BBCodeMarkers.Image:
                     InsertBasicTags("img");
@@ -121,7 +121,7 @@ namespace MALClient.UWP.Shared.UserControls
         }
 
 
-        private void InsertBasicTags(string tag,bool parametric = false)
+        private void InsertBasicTags(string tag, bool parametric = false)
         {
             var text = ContentBox.Text;
             if (ContentBox.SelectionLength > 0)
@@ -129,7 +129,7 @@ namespace MALClient.UWP.Shared.UserControls
                 var length = ContentBox.SelectionLength;
                 text = text.Remove(ContentBox.SelectionStart, length);
                 var openTag = $"[{tag}{(parametric ? "=" : "")}]";
-                text = text.Insert(ContentBox.SelectionStart,ContentBox.SelectedText.Wrap(openTag, $"[/{tag}]"));
+                text = text.Insert(ContentBox.SelectionStart, ContentBox.SelectedText.Wrap(openTag, $"[/{tag}]"));
                 var selStart = ContentBox.SelectionStart + openTag.Length;
                 Text = text;
                 ContentBox.Select(selStart, length);
@@ -163,7 +163,7 @@ namespace MALClient.UWP.Shared.UserControls
             }
             catch (Exception)
             {
-               //bbcode parsing
+                //bbcode parsing
             }
 
         }

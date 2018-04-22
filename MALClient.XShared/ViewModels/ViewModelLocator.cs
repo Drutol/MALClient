@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using CommonServiceLocator;
 using GalaSoft.MvvmLight.Ioc;
 using MALClient.Models.Enums;
 using MALClient.XShared.Comm.Anime;
@@ -22,7 +21,6 @@ namespace MALClient.XShared.ViewModels
         /// </summary>
         public static void RegisterBase()
         {
-            ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);
             
             SimpleIoc.Default.Register<RecommendationsViewModel>();
             SimpleIoc.Default.Register<SearchPageViewModel>();
@@ -59,99 +57,99 @@ namespace MALClient.XShared.ViewModels
 
         public static bool Mobile { get; set; }
 
-        public static MainViewModelBase GeneralMain => ServiceLocator.Current.GetInstance<MainViewModelBase>();
+        public static MainViewModelBase GeneralMain => SimpleIoc.Default.GetInstance<MainViewModelBase>();
 
-        public static IHamburgerViewModel GeneralHamburger => ServiceLocator.Current.GetInstance<IHamburgerViewModel>();
+        public static IHamburgerViewModel GeneralHamburger => SimpleIoc.Default.GetInstance<IHamburgerViewModel>();
 
-        public static INavMgr NavMgr => ServiceLocator.Current.GetInstance<INavMgr>();
+        public static INavMgr NavMgr => SimpleIoc.Default.GetInstance<INavMgr>();
 
-        public static AnimeDetailsPageViewModel AnimeDetails => ServiceLocator.Current.GetInstance<AnimeDetailsPageViewModel>();
+        public static AnimeDetailsPageViewModel AnimeDetails => SimpleIoc.Default.GetInstance<AnimeDetailsPageViewModel>();
 
-        public static AnimeListViewModel AnimeList => ServiceLocator.Current.GetInstance<AnimeListViewModel>();
+        public static AnimeListViewModel AnimeList => SimpleIoc.Default.GetInstance<AnimeListViewModel>();
 
-        public static ProfilePageViewModel ProfilePage => ServiceLocator.Current.GetInstance<ProfilePageViewModel>();
+        public static ProfilePageViewModel ProfilePage => SimpleIoc.Default.GetInstance<ProfilePageViewModel>();
 
         public static RecommendationsViewModel Recommendations
-            => ServiceLocator.Current.GetInstance<RecommendationsViewModel>();
+            => SimpleIoc.Default.GetInstance<RecommendationsViewModel>();
 
-        public static SearchPageViewModel SearchPage => ServiceLocator.Current.GetInstance<SearchPageViewModel>();      
+        public static SearchPageViewModel SearchPage => SimpleIoc.Default.GetInstance<SearchPageViewModel>();      
 
         public static HummingbirdProfilePageViewModel HumProfilePage
-            => ServiceLocator.Current.GetInstance<HummingbirdProfilePageViewModel>();
+            => SimpleIoc.Default.GetInstance<HummingbirdProfilePageViewModel>();
 
         public static CalendarPageViewModel CalendarPage
-            => ServiceLocator.Current.GetInstance<CalendarPageViewModel>();
+            => SimpleIoc.Default.GetInstance<CalendarPageViewModel>();
 
         public static MalArticlesViewModel MalArticles
-            => ServiceLocator.Current.GetInstance<MalArticlesViewModel>();
+            => SimpleIoc.Default.GetInstance<MalArticlesViewModel>();
 
         public static MalMessagingViewModel MalMessaging
-            => ServiceLocator.Current.GetInstance<MalMessagingViewModel>();
+            => SimpleIoc.Default.GetInstance<MalMessagingViewModel>();
 
         public static MalMessageDetailsViewModel MalMessageDetails
-            => ServiceLocator.Current.GetInstance<MalMessageDetailsViewModel>();
+            => SimpleIoc.Default.GetInstance<MalMessageDetailsViewModel>();
 
         public static HistoryViewModel History
-            => ServiceLocator.Current.GetInstance<HistoryViewModel>();
+            => SimpleIoc.Default.GetInstance<HistoryViewModel>();
 
         public static CharacterDetailsViewModel CharacterDetails
-            => ServiceLocator.Current.GetInstance<CharacterDetailsViewModel>();
+            => SimpleIoc.Default.GetInstance<CharacterDetailsViewModel>();
 
         public static StaffDetailsViewModel StaffDetails
-            => ServiceLocator.Current.GetInstance<StaffDetailsViewModel>();
+            => SimpleIoc.Default.GetInstance<StaffDetailsViewModel>();
 
         public static CharacterSearchViewModel CharacterSearch
-            => ServiceLocator.Current.GetInstance<CharacterSearchViewModel>();
+            => SimpleIoc.Default.GetInstance<CharacterSearchViewModel>();
 
         public static LogInViewModel LogIn
-            => ServiceLocator.Current.GetInstance<LogInViewModel>();
+            => SimpleIoc.Default.GetInstance<LogInViewModel>();
 
         public static SettingsViewModelBase Settings
-            => ServiceLocator.Current.GetInstance<SettingsViewModelBase>();
+            => SimpleIoc.Default.GetInstance<SettingsViewModelBase>();
 
         public static WallpapersViewModel Wallpapers
-            => ServiceLocator.Current.GetInstance<WallpapersViewModel>();
+            => SimpleIoc.Default.GetInstance<WallpapersViewModel>();
 
         public static PopularVideosViewModel PopularVideos
-            => ServiceLocator.Current.GetInstance<PopularVideosViewModel>();
+            => SimpleIoc.Default.GetInstance<PopularVideosViewModel>();
 
         public static FriendsFeedsViewModel FriendsFeeds
-            => ServiceLocator.Current.GetInstance<FriendsFeedsViewModel>();
+            => SimpleIoc.Default.GetInstance<FriendsFeedsViewModel>();
 
         public static NotificationsHubViewModel NotificationsHub
-            => ServiceLocator.Current.GetInstance<NotificationsHubViewModel>();
+            => SimpleIoc.Default.GetInstance<NotificationsHubViewModel>();
 
         public static ListComparisonViewModel Comparison
-            => ServiceLocator.Current.GetInstance<ListComparisonViewModel>();
+            => SimpleIoc.Default.GetInstance<ListComparisonViewModel>();
 
         public static FriendsPageViewModel Friends
-            => ServiceLocator.Current.GetInstance<FriendsPageViewModel>();
+            => SimpleIoc.Default.GetInstance<FriendsPageViewModel>();
 
         public static ClubIndexViewModel ClubIndex
-            => ServiceLocator.Current.GetInstance<ClubIndexViewModel>();
+            => SimpleIoc.Default.GetInstance<ClubIndexViewModel>();
 
         public static ClubDetailsViewModel ClubDetails
-            => ServiceLocator.Current.GetInstance<ClubDetailsViewModel>();
+            => SimpleIoc.Default.GetInstance<ClubDetailsViewModel>();
 
 
         //Forums
 
         public static ForumsMainViewModel ForumsMain
-            => ServiceLocator.Current.GetInstance<ForumsMainViewModel>();
+            => SimpleIoc.Default.GetInstance<ForumsMainViewModel>();
 
         public static ForumIndexViewModel ForumsIndex
-            => ServiceLocator.Current.GetInstance<ForumIndexViewModel>();
+            => SimpleIoc.Default.GetInstance<ForumIndexViewModel>();
 
         public static ForumBoardViewModel ForumsBoard 
-            => ServiceLocator.Current.GetInstance<ForumBoardViewModel>();
+            => SimpleIoc.Default.GetInstance<ForumBoardViewModel>();
 
         public static ForumTopicViewModel ForumsTopic
-            => ServiceLocator.Current.GetInstance<ForumTopicViewModel>();
+            => SimpleIoc.Default.GetInstance<ForumTopicViewModel>();
 
         public static ForumNewTopicViewModel ForumsNewTopic
-            => ServiceLocator.Current.GetInstance<ForumNewTopicViewModel>();
+            => SimpleIoc.Default.GetInstance<ForumNewTopicViewModel>();
 
         public static ForumsStarredMessagesViewModel StarredMessages
-            => ServiceLocator.Current.GetInstance<ForumsStarredMessagesViewModel>();
+            => SimpleIoc.Default.GetInstance<ForumsStarredMessagesViewModel>();
     }
 }

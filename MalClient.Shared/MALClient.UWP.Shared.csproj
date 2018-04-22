@@ -12,7 +12,7 @@
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <TargetPlatformVersion>10.0.16299.0</TargetPlatformVersion>
-    <TargetPlatformMinVersion>10.0.10586.0</TargetPlatformMinVersion>
+    <TargetPlatformMinVersion>10.0.16299.0</TargetPlatformMinVersion>
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -207,7 +207,6 @@
     <Compile Include="XamlConverters\CollectionEmptyToVisibilityConverter.cs" />
     <Compile Include="XamlConverters\ComparisonResultToColorConverter.cs" />
     <Compile Include="XamlConverters\DateToDiffStringConverter.cs" />
-    <Compile Include="XamlConverters\DateToStringConverter.cs" />
     <Compile Include="XamlConverters\DisplayModeToPresenterControlVisibility.cs" />
     <Compile Include="XamlConverters\DivideValueConverter.cs" />
     <Compile Include="XamlConverters\DummyFontAwesomeToRealFontAwesomeConverter.cs" />
@@ -222,7 +221,6 @@
     <Compile Include="XamlConverters\MinutesToFormattedTimeLostConverter.cs" />
     <Compile Include="XamlConverters\MyStatusSelectionToBrushConverter.cs" />
     <Compile Include="XamlConverters\NotificationTypeToIconConverter.cs" />
-    <Compile Include="XamlConverters\NullableToVisibilityConverter.cs" />
     <Compile Include="XamlConverters\PinUnpinSymbolIconConverter.cs" />
     <Compile Include="XamlConverters\RelatedAnimeTypeToBoolConverter.cs" />
     <Compile Include="XamlConverters\SearchFilterStatusToBrushConverter.cs" />
@@ -353,7 +351,7 @@
       <Version>4.1.6</Version>
     </PackageReference>
     <PackageReference Include="HtmlAgilityPack">
-      <Version>1.7.2</Version>
+      <Version>1.8.1</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.0.8</Version>
@@ -364,7 +362,7 @@
     <PackageReference Include="Microsoft.Toolkit.Uwp.UI.Controls">
       <Version>2.1.1</Version>
     </PackageReference>
-    <PackageReference Include="MvvmLightLibs">
+    <PackageReference Include="MvvmLightLibsStd10">
       <Version>5.4.1</Version>
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json">

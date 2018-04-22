@@ -13,10 +13,10 @@ namespace MALClient.UWP.Shared.XamlConverters
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            var val = (int) value;
+            var val = (int)value;
             if (val < 0)
                 return new SolidColorBrush(Colors.Crimson);
-            else if(val > 0)
+            else if (val > 0)
                 return new SolidColorBrush(Color.FromArgb(0xff, 0x98, 0xc9, 0x26));
             return new SolidColorBrush(Colors.White);
         }

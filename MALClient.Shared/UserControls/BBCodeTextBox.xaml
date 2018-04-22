@@ -35,7 +35,8 @@
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.Resources>
-                    <Style TargetType="Button" > <!--BasedOn="{StaticResource ButtonRevealStyle}"-->
+                    <Style TargetType="Button" >
+                        <!--BasedOn="{StaticResource ButtonRevealStyle}"-->
                         <Setter Property="BorderThickness" Value="1" />
                     </Style>
                 </ItemsControl.Resources>
@@ -111,7 +112,8 @@
                 </Button>
             </ItemsControl>
             <Button x:Name="PreviewButton" Background="Transparent" Width="40" Height="40" HorizontalAlignment="Right" VerticalAlignment="Top" 
-                    Click="PreviewButtonOnClick" BorderThickness="1"> <!--Style="{StaticResource ButtonRevealStyle}"-->
+                    Click="PreviewButtonOnClick" BorderThickness="1">
+                <!--Style="{StaticResource ButtonRevealStyle}"-->
                 <ToolTipService.ToolTip>
                     <ToolTip Content="Preview" />
                 </ToolTipService.ToolTip>
@@ -127,6 +129,7 @@
         </Grid>
         <TextBox Grid.Row="1" x:Name="ContentBox" AcceptsReturn="True" TextWrapping="Wrap"
                  TextChanged="ContentBox_OnTextChanged"  HorizontalAlignment="Stretch" IsSpellCheckEnabled="True"
-                 VerticalAlignment="Stretch" /> <!--BorderBrush="{StaticResource SystemControlTransparentRevealBorderBrush}"-->
+                 VerticalAlignment="Stretch" />
+        <!--BorderBrush="{StaticResource SystemControlTransparentRevealBorderBrush}"-->
     </Grid>
 </UserControl>

@@ -13,29 +13,29 @@ namespace MALClient.UWP.Shared.XamlConverters
                 case MalNotificationsTypes.Generic:
                     return FontAwesomeIcon.None;
                 case MalNotificationsTypes.FriendRequest:
-                     return FontAwesomeIcon.User;
+                    return FontAwesomeIcon.User;
                 case MalNotificationsTypes.FriendRequestAcceptDeny:
-                     return FontAwesomeIcon.User;
+                    return FontAwesomeIcon.User;
                 case MalNotificationsTypes.ProfileComment:
-                     return FontAwesomeIcon.Comment;
+                    return FontAwesomeIcon.Comment;
                 case MalNotificationsTypes.BlogComment:
-                     return FontAwesomeIcon.None;
+                    return FontAwesomeIcon.None;
                 case MalNotificationsTypes.ForumQuoute:
-                     return FontAwesomeIcon.CommentsOutline;
+                    return FontAwesomeIcon.CommentsOutline;
                 case MalNotificationsTypes.UserMentions:
-                     return FontAwesomeIcon.At;
+                    return FontAwesomeIcon.At;
                 case MalNotificationsTypes.WatchedTopics:
-                     return FontAwesomeIcon.Binoculars;
+                    return FontAwesomeIcon.Binoculars;
                 case MalNotificationsTypes.ClubMessages:
-                     return FontAwesomeIcon.Group;
+                    return FontAwesomeIcon.Group;
                 case MalNotificationsTypes.NewRelatedAnime:
-                     return FontAwesomeIcon.Clone;
+                    return FontAwesomeIcon.Clone;
                 case MalNotificationsTypes.NowAiring:
-                     return FontAwesomeIcon.Camera;
+                    return FontAwesomeIcon.Camera;
                 case MalNotificationsTypes.Payment:
-                     return FontAwesomeIcon.Money;
+                    return FontAwesomeIcon.Money;
                 case MalNotificationsTypes.Messages:
-                     return FontAwesomeIcon.EnvelopeOutline;
+                    return FontAwesomeIcon.EnvelopeOutline;
                 case MalNotificationsTypes.WatchedTopic:
                     return FontAwesomeIcon.Eye;
                 default:

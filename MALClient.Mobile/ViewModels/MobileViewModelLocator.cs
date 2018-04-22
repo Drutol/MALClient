@@ -47,13 +47,13 @@ namespace MALClient.UWP.ViewModels
             ViewModelLocator.Mobile = true;
         }
 
-        public static MainViewModel Main => ServiceLocator.Current.GetInstance<MainViewModel>();
+        public static MainViewModel Main => SimpleIoc.Default.GetInstance<MainViewModel>();
 
         public static HamburgerControlViewModel Hamburger
-            => ServiceLocator.Current.GetInstance<HamburgerControlViewModel>();
+            => SimpleIoc.Default.GetInstance<HamburgerControlViewModel>();
 
-        public static AnimeListViewModel AnimeList => ServiceLocator.Current.GetInstance<AnimeListViewModel>();
+        public static AnimeListViewModel AnimeList => SimpleIoc.Default.GetInstance<AnimeListViewModel>();
 
-        public static ProfilePageViewModel ProfilePage => ServiceLocator.Current.GetInstance<ProfilePageViewModel>();
+        public static ProfilePageViewModel ProfilePage => SimpleIoc.Default.GetInstance<ProfilePageViewModel>();
     }
 }

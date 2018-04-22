@@ -19,11 +19,11 @@ namespace MALClient.UWP.Shared.UserControls.AttachedProperties
 
         public static bool GetStyleImages(DependencyObject element)
         {
-            return (bool) element.GetValue(StyleImagesProperty);
+            return (bool)element.GetValue(StyleImagesProperty);
         }
 
         public static readonly DependencyProperty ContentProperty = DependencyProperty.RegisterAttached(
-            "Content", typeof(string), typeof(WebViewExtensions), new PropertyMetadata(default(string),PropertyChangedCallback));
+            "Content", typeof(string), typeof(WebViewExtensions), new PropertyMetadata(default(string), PropertyChangedCallback));
 
         private static void PropertyChangedCallback(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
         {
@@ -36,21 +36,21 @@ namespace MALClient.UWP.Shared.UserControls.AttachedProperties
                     view.Tag = true;
                 }
             }
-            SetComputedHeight(view,0);
+            SetComputedHeight(view, 0);
             var minWidth = GetMinimumWidth(dependencyObject);
-            view.NavigateToString(ResourceLocator.CssManager.WrapWithCss(dependencyPropertyChangedEventArgs.NewValue as string,GetStyleImages(dependencyObject),minWidth > 0 ? (int?)minWidth : null));
+            view.NavigateToString(ResourceLocator.CssManager.WrapWithCss(dependencyPropertyChangedEventArgs.NewValue as string, GetStyleImages(dependencyObject), minWidth > 0 ? (int?)minWidth : null));
         }
 
         private static async void ViewOnScriptNotify(object sender, NotifyEventArgs e)
         {
             var view = sender as WebView;
             double val;
-            if(!double.TryParse(e.Value,out val))
+            if (!double.TryParse(e.Value, out val))
                 return;
 
-           // val = val / 72 * _displayInformation.LogicalDpi;
+            // val = val / 72 * _displayInformation.LogicalDpi;
             val *= 1.1;
-           // val *= _scaleCoefficient;
+            // val *= _scaleCoefficient;
             if (view.ActualHeight == 0) // let's recheck
             {
                 await Task.Delay(1000);
@@ -86,7 +86,7 @@ namespace MALClient.UWP.Shared.UserControls.AttachedProperties
 
         public static string GetContent(DependencyObject element)
         {
-            return (string) element.GetValue(ContentProperty);
+            return (string)element.GetValue(ContentProperty);
         }
 
         public static readonly DependencyProperty MinimumWidthProperty = DependencyProperty.RegisterAttached(
@@ -99,7 +99,7 @@ namespace MALClient.UWP.Shared.UserControls.AttachedProperties
 
         public static int GetMinimumWidth(DependencyObject element)
         {
-            return (int) element.GetValue(MinimumWidthProperty);
+            return (int)element.GetValue(MinimumWidthProperty);
         }
 
         public static readonly DependencyProperty ResizeToFitProperty = DependencyProperty.RegisterAttached(
@@ -112,7 +112,7 @@ namespace MALClient.UWP.Shared.UserControls.AttachedProperties
 
         public static bool GetResizeToFit(DependencyObject element)
         {
-            return (bool) element.GetValue(ResizeToFitProperty);
+            return (bool)element.GetValue(ResizeToFitProperty);
         }
 
         public static readonly DependencyProperty ComputedHeightProperty = DependencyProperty.RegisterAttached(
@@ -126,7 +126,7 @@ namespace MALClient.UWP.Shared.UserControls.AttachedProperties
 
         public static double GetComputedHeight(DependencyObject element)
         {
-            return (double) element.GetValue(ComputedHeightProperty);
+            return (double)element.GetValue(ComputedHeightProperty);
         }
     }
 }

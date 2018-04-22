@@ -578,7 +578,7 @@
       <Version>4.1.6</Version>
     </PackageReference>
     <PackageReference Include="HtmlAgilityPack">
-      <Version>1.7.2</Version>
+      <Version>1.8.1</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Advertising.XAML">
       <Version>10.1705.16001</Version>
@@ -600,9 +600,6 @@
     </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Uwp.UI.Controls">
       <Version>2.1.1</Version>
-    </PackageReference>
-    <PackageReference Include="MvvmLightLibs">
-      <Version>5.4.1</Version>
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json">
       <Version>11.0.2</Version>

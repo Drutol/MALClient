@@ -22,11 +22,11 @@ namespace MALClient.UWP.Shared.Managers
         Compositor _compositor;
         SpriteVisual _hostSprite;
 
-        public BlurHelper(FrameworkElement element,bool hostBackdrop)
+        public BlurHelper(FrameworkElement element, bool hostBackdrop)
         {
             _element = element;
             _hostBackdrop = hostBackdrop;
-            if(hostBackdrop)
+            if (hostBackdrop)
                 BlurifyWithHostBackdrop();
             else
                 BlurifyWithBackdrop();
@@ -55,7 +55,7 @@ namespace MALClient.UWP.Shared.Managers
                 _hostSprite.Size = new Vector2((float)_element.ActualWidth, (float)_element.ActualHeight);
 
                 ElementCompositionPreview.SetElementChildVisual(_element, _hostSprite);
-                if(_hostBackdrop)
+                if (_hostBackdrop)
                     _hostSprite.Brush = _compositor.CreateHostBackdropBrush();
                 else
                     _hostSprite.Brush = _compositor.CreateBackdropBrush();
@@ -95,10 +95,10 @@ namespace MALClient.UWP.Shared.Managers
 
                 _element.SizeChanged += (sender, args) =>
                 {
-                    _hostSprite.Size = new Vector2((float) _element.ActualWidth, (float) _element.ActualHeight);
+                    _hostSprite.Size = new Vector2((float)_element.ActualWidth, (float)_element.ActualHeight);
                 };
 
-                ElementCompositionPreview.SetElementChildVisual(_element,_hostSprite);
+                ElementCompositionPreview.SetElementChildVisual(_element, _hostSprite);
             }
             catch (Exception)
             {

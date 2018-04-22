@@ -11,7 +11,7 @@ namespace MALClient.UWP.Shared.XamlConverters
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            if ((float) value == 0)
+            if ((float)value == 0)
                 return "?";
             return value.ToString();
         }

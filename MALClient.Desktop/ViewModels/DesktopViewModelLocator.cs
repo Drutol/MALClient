@@ -45,17 +45,17 @@ namespace MALClient.UWP.ViewModels
             SimpleIoc.Default.Register<IAiringNotificationsAdapter, AiringNotificationsAdapter>();
         }
 
-        public static MainViewModel Main => ServiceLocator.Current.GetInstance<MainViewModel>();
+        public static MainViewModel Main => SimpleIoc.Default.GetInstance<MainViewModel>();
 
         public static HamburgerControlViewModel Hamburger
-            => ServiceLocator.Current.GetInstance<HamburgerControlViewModel>();
+            => SimpleIoc.Default.GetInstance<HamburgerControlViewModel>();
 
-        //public static AnimeListViewModel AnimeList => ServiceLocator.Current.GetInstance<AnimeListViewModel>();
+        //public static AnimeListViewModel AnimeList => SimpleIoc.Default.GetInstance<AnimeListViewModel>();
 
         public static SettingsViewModelBase Settings
-            => ServiceLocator.Current.GetInstance<SettingsViewModelBase>();
+            => SimpleIoc.Default.GetInstance<SettingsViewModelBase>();
 
         public static ProfilePageViewModel ProfilePage
-            => ServiceLocator.Current.GetInstance<ProfilePageViewModel>();
+            => SimpleIoc.Default.GetInstance<ProfilePageViewModel>();
     }
 }

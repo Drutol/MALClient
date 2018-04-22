@@ -7,7 +7,7 @@ namespace MALClient.UWP.Shared.XamlConverters
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            var date = (DateTime) value;
+            var date = (DateTime)value;
             var diff = DateTime.Now.Subtract(date);
             if (diff.TotalDays > 10)
                 return date.ToString("g");

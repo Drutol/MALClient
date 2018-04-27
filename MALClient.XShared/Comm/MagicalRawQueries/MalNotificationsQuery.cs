@@ -39,17 +39,19 @@ namespace MALClient.XShared.Comm.MagicalRawQueries
                         return output;
                     var scriptBegin = doc.Substring(scriptBeginPos);
                     var startPos = scriptBegin.IndexOf('=');
-                    var endPos = scriptBegin.IndexOf(';');
-                    var json = scriptBegin.Substring(startPos+1, endPos-startPos-1);
+                    var endPos = scriptBegin.IndexOf("};");
+                    var json = scriptBegin.Substring(startPos+1, endPos-startPos);
                     var notifications =
                         JsonConvert.DeserializeObject<MalScrappedRootNotification>(json);
 
                     foreach (var notification in notifications.items)
                     {
+                        if(notification.typeIdentifier == "on_air" && (notification.animes == null || !notification.animes.Any()))
+                            continue;
                         output.Add(new MalNotification(notification));
                     }
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
                     //hatml
                 }

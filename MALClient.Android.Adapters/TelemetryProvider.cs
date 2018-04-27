@@ -10,13 +10,14 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
-using HockeyApp.Android;
-using HockeyApp.Android.Metrics;
 using MALClient.Adapters;
 using MALClient.Models.Enums;
 using MALClient.XShared;
 using MALClient.XShared.Utils;
 using MALClient.XShared.ViewModels;
+using Microsoft.AppCenter;
+using Microsoft.AppCenter.Analytics;
+using Microsoft.AppCenter.Crashes;
 
 namespace MALClient.Android.Adapters
 {
@@ -34,31 +35,28 @@ namespace MALClient.Android.Adapters
         public void Init()
         {
 #if !DEBUG
-            CrashManager.Register(_context, Secrets.AndroidHockeyId, new HockeyListener());
-            MetricsManager.Register(_app, Secrets.AndroidHockeyId);
-            MetricsManager.EnableUserMetrics();
-            FeedbackManager.Register(_app,Secrets.AndroidHockeyId);
+            AppCenter.Start(Secrets.AndroidAppCenterKey,typeof(Crashes),typeof(Analytics));
 #endif
         }
 
         public void TelemetryTrackEvent(TelemetryTrackedEvents @event)
         {
 #if !DEBUG
-            MetricsManager.TrackEvent(@event.ToString());
+            Analytics.TrackEvent(@event.ToString());
 #endif
         }
 
         public void TelemetryTrackEvent(TelemetryTrackedEvents @event, string arg)
         {
 #if !DEBUG
-            MetricsManager.TrackEvent($"{@event} {arg}");
+            Analytics.TrackEvent($"{@event} {arg}");
 #endif
         }
 
         public void LogEvent(string @event)
         {
 #if !DEBUG
-            MetricsManager.TrackEvent(@event);
+            Analytics.TrackEvent(@event);
 #endif
         }
 
@@ -79,18 +77,6 @@ namespace MALClient.Android.Adapters
 #if !DEBUG
             //MetricsManager.TrackEvent($"Navigation: {page}");
 #endif
-        }
-
-        class HockeyListener : CrashManagerListener
-        {
-            public override string Description => $"MainPage: {ViewModelLocator.GeneralMain.CurrentMainPage} Culture: {CultureInfo.CurrentCulture.Name}";
-
-            public override bool ShouldAutoUploadCrashes()
-            {
-                if (Settings.AskBeforeSendingCrashReports)
-                    return false;
-                return true;
-            }
         }
     }
 }

@@ -85,6 +85,14 @@
     <TextView android:lineSpacingExtra="2dp"
         android:layout_width="wrap_content" android:text="There are probably other things that I didn't think about, let me know about your &quot;why in the hell did he put it here!?&quot; moments ^^." android:layout_marginTop="30dp"
         android:layout_height="wrap_content" android:fontFamily="@string/font_family_light" android:textColor="?BrushText"/>
+    
+    <FFImageLoading.Views.ImageViewAsync android:elevation="4dp"
+        android:layout_width="wrap_content" android:maxHeight="200dp" android:layout_gravity="center_horizontal" android:layout_marginTop="20dp"
+        android:layout_height="wrap_content" android:adjustViewBounds="true" android:src="@drawable/annak" />
+
+    <TextView android:lineSpacingExtra="2dp"
+        android:layout_width="wrap_content" android:text="Also... did you hear about AoKana? The girl above is chibi Asuka, isn't she cute? The Visual Novel is the best thing around, highly recommended :D (AoKana Zwei when...)" android:layout_marginTop="30dp"
+        android:layout_height="wrap_content" android:fontFamily="@string/font_family_light" android:textColor="?BrushText"/>
 
 
   </LinearLayout>

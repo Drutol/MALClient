@@ -48,10 +48,12 @@ namespace MALClient.XShared.Comm
             {
 #if true
                 var res = await _client.GetAsync(Request.RequestUri);
-                if (res.StatusCode == HttpStatusCode.Forbidden)
+                if (res.StatusCode == HttpStatusCode.Forbidden && !Request.RequestUri.ToString()
+                        .Contains("https://myanimelist.net/rss.php?type=rw&u=")) //workaround because I don't want to disturb the spaghetti gods sleeping around
                 {
                     HandleMalBuggines();
                 }
+
                 var content = await res.Content.ReadAsStringAsync();
                 return content;
 

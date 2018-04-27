@@ -22,7 +22,6 @@ using FFImageLoading.Transformations;
 using FFImageLoading.Views;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Helpers;
-using HockeyApp.Android;
 using MALClient.Android.Dialogs;
 using MALClient.Android.Flyouts;
 using MALClient.Android.Listeners;
@@ -533,7 +532,7 @@ namespace MALClient.Android.Activities
                     break;
                 case Resource.Id.HamburgerProfileItemSupport:
                     _supportMenu = FlyoutMenuBuilder.BuildGenericFlyout(this, view,
-                        new List<string> {"GitHub Feedback","Review","Donate Google","Donate PayPal","Turn on ads","Watch VideoAd","Feedback (Chat)"}, OnSupportMenuSelection);
+                        new List<string> {"GitHub Feedback","Review","Donate Google","Donate PayPal","Turn on ads","Watch VideoAd"}, OnSupportMenuSelection);
                     _supportMenu.Show();
                     _supportMenu.OnHiddenWithoutSelection += (sender, args) =>
                     {
@@ -572,9 +571,9 @@ namespace MALClient.Android.Activities
                     DisplayVideoAd();
                     _drawer.CloseDrawer();
                     break;
-                case 6:
-                    FeedbackManager.ShowFeedbackActivity(ApplicationContext);
-                    break;
+                //case 6:
+                //    FeedbackManager.ShowFeedbackActivity(ApplicationContext);
+                //    break;
             }
             _supportMenu.Dismiss(true);
         }

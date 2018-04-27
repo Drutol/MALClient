@@ -21,7 +21,6 @@ using MALClient.Android.Managers;
 using MALClient.Android.ViewModels;
 using MALClient.XShared.Interfaces;
 using MALClient.XShared.ViewModels;
-using CommonServiceLocator;
 
 namespace MALClient.Android
 {
@@ -70,6 +69,6 @@ namespace MALClient.Android
 
         }
 
-        public static SettingsViewModel Settings => ServiceLocator.Current.GetInstance<SettingsViewModel>();
+        public static SettingsViewModel Settings => SimpleIoc.Default.GetInstance<SettingsViewModel>();
     }
 }

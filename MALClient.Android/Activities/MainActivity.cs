@@ -19,8 +19,6 @@ using Com.Orhanobut.Dialogplus;
 using Com.Shehabic.Droppy;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Ioc;
-using HockeyApp.Android;
-using HockeyApp.Android.Metrics;
 using MALClient.Adapters;
 using MALClient.Android.DIalogs;
 using MALClient.Android.Fragments;
@@ -173,7 +171,7 @@ namespace MALClient.Android.Activities
         {
             if(requestCode == 12)
                 if (grantResults.Any(permission => permission == Permission.Denied))
-                    ResourceLocator.MessageDialogProvider.ShowMessageDialog("Hey hey, You've just declined some permissions... App won't work well without them and you have been warned!","Umm...");
+                    ResourceLocator.MessageDialogProvider.ShowMessageDialog("Hey hey, You've just declined some permissions... You won't be able to save images!","Umm...");
 
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
@@ -316,7 +314,7 @@ namespace MALClient.Android.Activities
 
         protected override void OnDestroy()
         {
-            _videoAd.Destroy(this);
+            _videoAd?.Destroy(this);
             ViewModel.MediaElementCollapsed -= ViewModelOnMediaElementCollapsed;
             ViewModel.MainNavigationRequested -= ViewModelOnMainNavigationRequested;
             base.OnDestroy();
@@ -330,7 +328,7 @@ namespace MALClient.Android.Activities
 
         protected override void OnPause()
         {
-            _videoAd.Pause(this);
+            _videoAd?.Pause(this);
             MemoryWatcher.Watcher.Pause();
 #pragma warning disable 4014
             if (Settings.IsCachingEnabled)

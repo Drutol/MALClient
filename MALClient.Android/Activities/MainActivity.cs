@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -8,10 +7,8 @@ using Android;
 using Android.App;
 using Android.Content;
 using Android.Content.PM;
-using Android.Content.Res;
-using Android.Gms.Ads;
 using Android.OS;
-using Android.Support.V13.App;
+using Android.Support.V4.App;
 using Android.Support.V4.Content;
 using Android.Support.V7.App;
 using Android.Views;
@@ -19,10 +16,8 @@ using Com.Orhanobut.Dialogplus;
 using Com.Shehabic.Droppy;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Ioc;
-using MALClient.Adapters;
 using MALClient.Android.DIalogs;
 using MALClient.Android.Fragments;
-using MALClient.Android.Managers;
 using MALClient.Android.Resources;
 using MALClient.Android.ViewModels;
 using MALClient.Models.Enums;
@@ -36,35 +31,42 @@ using MALClient.XShared.Utils;
 using MALClient.XShared.Utils.Managers;
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Interfaces;
-using ActivityCompat = Android.Support.V4.App.ActivityCompat;
-using Debug = System.Diagnostics.Debug;
+using Fragment = Android.App.Fragment;
 
 namespace MALClient.Android.Activities
 {
     [Activity(Label = "MALClient", ScreenOrientation = ScreenOrientation.Portrait, ResizeableActivity = true,
-        Icon = "@drawable/icon",WindowSoftInputMode = SoftInput.AdjustUnspecified,MainLauncher = true,LaunchMode = LaunchMode.SingleInstance,
-        Theme = "@style/Theme.Splash",ConfigurationChanges = ConfigChanges.Orientation|ConfigChanges.ScreenSize)]
-    public partial class MainActivity : AppCompatActivity , IDimensionsProvider
+        Icon = "@mipmap/ic_launcher", RoundIcon = "@mipmap/ic_launcher_round",
+        WindowSoftInputMode = SoftInput.AdjustUnspecified, MainLauncher = true, LaunchMode = LaunchMode.SingleInstance,
+        Theme = "@style/Theme.Splash", ConfigurationChanges = ConfigChanges.Orientation | ConfigChanges.ScreenSize)]
+    public partial class MainActivity : AppCompatActivity, IDimensionsProvider
     {
-        public static MainActivity CurrentContext { get; private set; }
-        public static bool IsAmoledApplied { get; private set; }
-        public static int CurrentTheme { get; private set; }
-        public static AndroidColorThemes CurrentAccent { get; set; }
-
-        public DialogPlus DialogToCollapseOnBack { get; set; }
-
-        private bool _addedNavHandlers;
         private static bool _staticInitPerformed;
         private static bool _firstCreation = true;
 
+
+        private static Fragment _lastFragment;
+
+        private bool _addedNavHandlers;
+
         private MainViewModel _viewModel;
-        private MainViewModel ViewModel => _viewModel ?? (_viewModel = SimpleIoc.Default.GetInstance<MainViewModel>());
 
         public MainActivity()
         {
             CurrentContext = this;
             RegisterIoC();
         }
+
+        public static MainActivity CurrentContext { get; private set; }
+        public static bool IsAmoledApplied { get; private set; }
+        public static int CurrentTheme { get; private set; }
+        public static AndroidColorThemes CurrentAccent { get; set; }
+
+        public DialogPlus DialogToCollapseOnBack { get; set; }
+        private MainViewModel ViewModel => _viewModel ?? (_viewModel = SimpleIoc.Default.GetInstance<MainViewModel>());
+
+        public double ActualWidth => -1;
+        public double ActualHeight => -1;
 
         private void RegisterIoC()
         {
@@ -74,7 +76,7 @@ namespace MALClient.Android.Activities
         }
 
         protected override async void OnCreate(Bundle bundle)
-        {           
+        {
             RequestWindowFeature(WindowFeatures.NoTitle);
             CurrentTheme = Settings.SelectedTheme;
             CurrentAccent = AndroidColourThemeHelper.CurrentTheme;
@@ -88,7 +90,7 @@ namespace MALClient.Android.Activities
             if (!_addedNavHandlers)
             {
                 RegisterIoC();
-                SetContentView(Resource.Layout.MainPage);         
+                SetContentView(Resource.Layout.MainPage);
                 InitAdContainer();
                 InitBindings();
                 ViewModel.MainNavigationRequested += ViewModelOnMainNavigationRequested;
@@ -123,32 +125,28 @@ namespace MALClient.Android.Activities
                         Manifest.Permission.ReadExternalStorage)
                     != Permission.Granted)
                     requiredPermission.Add(Manifest.Permission.ReadExternalStorage);
-                
-                if (ContextCompat.CheckSelfPermission(this, 
+
+                if (ContextCompat.CheckSelfPermission(this,
                         Manifest.Permission.WriteExternalStorage)
                     != Permission.Granted)
                     requiredPermission.Add(Manifest.Permission.WriteExternalStorage);
 
                 if (requiredPermission.Any())
-                {
                     ActivityCompat.RequestPermissions(this,
-                        requiredPermission.ToArray(),12);
-                }
+                        requiredPermission.ToArray(), 12);
                 _addedNavHandlers = true;
             }
 
             if (!_staticInitPerformed)
             {
-                StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().PermitAll().Build();
+                var policy = new StrictMode.ThreadPolicy.Builder().PermitAll().Build();
                 StrictMode.SetThreadPolicy(policy);
 
                 InitializationRoutines.InitPostUpdate();
 
                 await Task.Delay(1000);
                 if (ResourceLocator.ChangelogProvider.NewChangelog)
-                {
                     ChangelogDialog.BuildChangelogDialog(ResourceLocator.ChangelogProvider);
-                }
 
                 RateReminderPopUp.ProcessRatePopUp();
 
@@ -159,19 +157,19 @@ namespace MALClient.Android.Activities
             }
 
             //basically splitscreen
-            if (_lastFragment != null && !_firstCreation)
-            {
-                ViewModelOnMainNavigationRequested(_lastFragment);
-            }
+            if (_lastFragment != null && !_firstCreation) ViewModelOnMainNavigationRequested(_lastFragment);
 
             _firstCreation = false;
         }
 
-        public override void OnRequestPermissionsResult(int requestCode, string[] permissions, Permission[] grantResults)
+        public override void OnRequestPermissionsResult(int requestCode, string[] permissions,
+            Permission[] grantResults)
         {
-            if(requestCode == 12)
+            if (requestCode == 12)
                 if (grantResults.Any(permission => permission == Permission.Denied))
-                    ResourceLocator.MessageDialogProvider.ShowMessageDialog("Hey hey, You've just declined some permissions... You won't be able to save images!","Umm...");
+                    ResourceLocator.MessageDialogProvider.ShowMessageDialog(
+                        "Hey hey, You've just declined some permissions... You won't be able to save images!",
+                        "Umm...");
 
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
@@ -181,7 +179,7 @@ namespace MALClient.Android.Activities
             ViewModel.MainNavigationRequested -= ViewModelOnMainNavigationRequestedFirst;
 
             await Task.Delay(1000);
-            if(ViewModel.CurrentMainPage != PageIndex.PageLogIn)
+            if (ViewModel.CurrentMainPage != PageIndex.PageLogIn)
                 RequestedOrientation = ScreenOrientation.Unspecified;
         }
 
@@ -201,10 +199,10 @@ namespace MALClient.Android.Activities
                 return;
             }
 
-            if(!ViewModel.SearchToggleLock)
+            if (!ViewModel.SearchToggleLock)
                 if (ViewModel.SearchToggleStatus)
                 {
-                    MainPageSearchView.SetQuery("",false);
+                    MainPageSearchView.SetQuery("", false);
                     MainPageSearchView.FindViewById(Resource.Id.search_close_btn).PerformClick();
                     return;
                 }
@@ -220,11 +218,8 @@ namespace MALClient.Android.Activities
                 var args = intent.Extras?.GetString("launchArgs") ?? intent.Data?.ToString();
                 ProcessLaunchArgs(args, false);
             });
-
         }
 
-
-        private static Fragment _lastFragment;
         private void ViewModelOnMainNavigationRequested(Fragment fragment)
         {
             try
@@ -240,14 +235,11 @@ namespace MALClient.Android.Activities
             }
             catch (Exception)
             {
-
             }
-
         }
 
-        private void ProcessLaunchArgs(string args,bool startup)
+        private void ProcessLaunchArgs(string args, bool startup)
         {
-
             if (!string.IsNullOrWhiteSpace(args))
             {
                 Tuple<int, string> navArgs = null;
@@ -285,6 +277,7 @@ namespace MALClient.Android.Activities
                 {
                     fullNavArgs = MalLinkParser.GetNavigationParametersForUrl(args);
                 }
+
                 if (startup)
                 {
                     MainViewModelBase.InitDetailsFull = fullNavArgs;
@@ -293,16 +286,12 @@ namespace MALClient.Android.Activities
                 else
                 {
                     if (navArgs != null)
-                    {
                         ViewModelLocator.GeneralMain.Navigate(PageIndex.PageAnimeDetails,
                             new AnimeDetailsPageNavigationArgs(navArgs.Item1, navArgs.Item2, null, null));
-                    }
                     if (fullNavArgs != null)
-                    {
                         ViewModelLocator.GeneralMain.Navigate(fullNavArgs.Item1, fullNavArgs.Item2);
-                    }
                 }
-            }          
+            }
         }
 
         protected override void OnResume()
@@ -336,18 +325,20 @@ namespace MALClient.Android.Activities
                 if (AnimeUpdateQuery.UpdatedSomething)
                 {
                     DataCache.SaveDataForUser(Credentials.UserName,
-                            ResourceLocator.AnimeLibraryDataStorage.AllLoadedAnimeItemAbstractions.Select(
-                                abstraction => abstraction.EntryData), AnimeListWorkModes.Anime);
+                        ResourceLocator.AnimeLibraryDataStorage.AllLoadedAnimeItemAbstractions.Select(
+                            abstraction => abstraction.EntryData), AnimeListWorkModes.Anime);
                     AnimeUpdateQuery.UpdatedSomething = false;
                 }
+
                 if (MangaUpdateQuery.UpdatedSomething)
                 {
                     DataCache.SaveDataForUser(Credentials.UserName,
-                            ResourceLocator.AnimeLibraryDataStorage.AllLoadedMangaItemAbstractions.Select(
-                                abstraction => abstraction.EntryData), AnimeListWorkModes.Manga);
+                        ResourceLocator.AnimeLibraryDataStorage.AllLoadedMangaItemAbstractions.Select(
+                            abstraction => abstraction.EntryData), AnimeListWorkModes.Manga);
                     MangaUpdateQuery.UpdatedSomething = false;
                 }
             }
+
             DataCache.SaveVolatileData();
             DataCache.SaveHumMalIdDictionary();
             ViewModelLocator.ForumsMain.SavePinnedTopics();
@@ -357,11 +348,5 @@ namespace MALClient.Android.Activities
 #pragma warning restore 4014
             base.OnPause();
         }
-
-        public double ActualWidth => -1;
-        public double ActualHeight => -1;
     }
 }
-
-
-

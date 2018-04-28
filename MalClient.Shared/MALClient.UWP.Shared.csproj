@@ -207,6 +207,7 @@
     <Compile Include="XamlConverters\CollectionEmptyToVisibilityConverter.cs" />
     <Compile Include="XamlConverters\ComparisonResultToColorConverter.cs" />
     <Compile Include="XamlConverters\DateToDiffStringConverter.cs" />
+    <Compile Include="XamlConverters\DateToStringConverter.cs" />
     <Compile Include="XamlConverters\DisplayModeToPresenterControlVisibility.cs" />
     <Compile Include="XamlConverters\DivideValueConverter.cs" />
     <Compile Include="XamlConverters\DummyFontAwesomeToRealFontAwesomeConverter.cs" />

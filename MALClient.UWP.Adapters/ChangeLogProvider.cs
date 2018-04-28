@@ -18,8 +18,7 @@ namespace MALClient.UWP.Adapters
         public List<string> Changelog => new List<string>
         {
             "It's been a while... Yeah...",
-            "Whole tones of acrylics, reveals and other good stuff from fluent design. Say thanks to @Guerra24 from github for adding major part of it :)",
-            "Fixed things that broke over the time, like recommendations and characters queries etc.",
+            "Mainteance update. :)"
         };
     }
 }

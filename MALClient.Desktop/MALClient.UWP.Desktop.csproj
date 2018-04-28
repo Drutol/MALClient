@@ -289,6 +289,7 @@
     <Content Include="Assets\Wide310x150Logo.scale-400.png" />
     <None Include="MALClient.UWP.Desktop_StoreKey.pfx" />
     <None Include="Package.StoreAssociation.xml" />
+    <None Include="Package.xml" />
     <Content Include="Properties\Default.rd.xml">
       <SubType>Designer</SubType>
     </Content>

@@ -31,15 +31,12 @@ namespace MALClient.Android.Adapters
 
         public bool NewChangelog { get; set; }
 
-        public string DateWithVersion => $"{_currentVersion} - 05.02.2018";
+        public string DateWithVersion => $"{_currentVersion} - 28.04.2018";
 
         public List<string> Changelog => new List<string>
         {
-            "Fixed character searches.",
-            "Fixed some crashes on manga details pages.",
-            "App should work properly in splitscreen now.",
-            "Calendar widget should now work on Android 8.0 devices.",
-            "Minor adjustments here and there."
+            "Maintenance update.",
+            "Refreshed icons a bit."
         };
 
     }

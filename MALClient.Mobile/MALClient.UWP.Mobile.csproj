@@ -16,13 +16,13 @@
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <PackageCertificateKeyFile>MALClient.Mobile_StoreKey.pfx</PackageCertificateKeyFile>
+    <PackageCertificateKeyFile>MALClient.UWP.Mobile_StoreKey.pfx</PackageCertificateKeyFile>
     <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
     <AppxSymbolPackageEnabled>True</AppxSymbolPackageEnabled>
     <AppxBundle>Always</AppxBundle>
     <AppxBundlePlatforms>arm</AppxBundlePlatforms>
     <AppxPackageDir>C:\Users\dogie\Documents\VsBuilds\</AppxPackageDir>
-    <PackageCertificateThumbprint>AD5778F7B956D67FCD8A45D45DBA0A4B5C5A3174</PackageCertificateThumbprint>
+    <PackageCertificateThumbprint>736B804DFE85A151F80A56110786426252CD739A</PackageCertificateThumbprint>
     <HockeyAppResourceId>b79e78858bdf44c4bfc3a1f37c8fd90c</HockeyAppResourceId>
     <RuntimeIdentifiers>win10-arm;win10-arm-aot;win10-x86;win10-x86-aot;win10-x64;win10-x64-aot</RuntimeIdentifiers>
   </PropertyGroup>
@@ -262,7 +262,9 @@
     <Content Include="Assets\StoreLogo.scale-400.png" />
     <Content Include="Assets\Wide310x150Logo.scale-100.png" />
     <Content Include="Assets\Wide310x150Logo.scale-400.png" />
+    <None Include="MALClient.UWP.Mobile_StoreKey.pfx" />
     <None Include="Package.StoreAssociation.xml" />
+    <None Include="Package.xml" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />

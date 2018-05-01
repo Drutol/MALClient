@@ -50,11 +50,14 @@ namespace MALClient.XShared.Comm.Anime
 
                 try
                 {
-                    var tds = relationsNode.Descendants("tr").First().Descendants("td").ToList();
-                    for(int i = 0; i < tds.Count; i+=2)
+                    var trs = relationsNode.Descendants("tr").ToList();
+
+
+                    foreach (var t in trs)
                     {
-                        var relation = WebUtility.HtmlDecode(tds[i].InnerText.Trim());
-                        foreach (var linkNode in tds[i+1].Descendants("a"))
+                        var tds = t.Descendants("td").ToList(); 
+                        var relation = WebUtility.HtmlDecode(tds[0].InnerText.Trim());
+                        foreach (var linkNode in tds[1].Descendants("a"))
                         {
                             var current = new RelatedAnimeData();
                             current.WholeRelation = relation;
@@ -67,8 +70,6 @@ namespace MALClient.XShared.Comm.Anime
                             output.Add(current);
                         }
                     }
-                       
-
                 }
                 catch (Exception)
                 {

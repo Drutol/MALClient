@@ -59,7 +59,12 @@ namespace MALClient.XShared.ViewModels.Main
         [Preserve]
         public string UserNameInput { get; set; }
         [Preserve]
-        public string PasswordInput { get; set; }
+        public string PasswordInput {
+            get;
+            set;
+
+        }
+
 
 
         public bool Authenticating

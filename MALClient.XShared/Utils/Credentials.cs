@@ -60,6 +60,8 @@ namespace MALClient.XShared.Utils
             UserName = name;
             Password = passwd;
 
+            Query.RefreshClientAuthHeader();
+
             if (!string.IsNullOrWhiteSpace(name) && !string.IsNullOrWhiteSpace(passwd))
                 PasswordVault.Add(new VaultCredential((type == ApiType.Mal ? "MALClient" : "MALClientHum"), UserName, Password));
         }

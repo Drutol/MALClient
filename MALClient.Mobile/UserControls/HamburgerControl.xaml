@@ -541,10 +541,7 @@
                                     BorderThickness="0" Visibility="Visible">
                                 <Button.Flyout>
                                     <MenuFlyout>
-                                        <MenuFlyoutItem Text="Donate $0.99" Tag="Donate1" Click="Donate"/>
-                                        <MenuFlyoutItem Text="Donate $1.99" Tag="Donate2" Click="Donate"/>
-                                        <MenuFlyoutItem Text="Donate $2.99" Tag="Donate3" Click="Donate"/>
-                                        <MenuFlyoutItem Text="Donate $3.99" Tag="Donate4" Click="Donate"/>
+                                        <MenuFlyoutItem Text="Donate via PayPal" Tag="Donate1" Click="Donate"/>
                                     </MenuFlyout>
                                 </Button.Flyout>
                                 <Grid Width="270" Height="42">

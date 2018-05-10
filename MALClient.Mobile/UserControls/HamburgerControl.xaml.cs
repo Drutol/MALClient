@@ -42,18 +42,19 @@ namespace MALClient.UWP.UserControls
             //    : new BitmapImage(new Uri("ms-appx:///Assets/GitHub-Mark-120px-plus.png"));
         }
     
-        private async void Donate(object sender, RoutedEventArgs e)
+        private void Donate(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                var btn = sender as MenuFlyoutItem;
-                await CurrentApp.RequestProductPurchaseAsync(btn.Tag as string);
-                Settings.Donated = true;
-            }
-            catch (Exception)
-            {
-                // no donation
-            }
+            ResourceLocator.SystemControlsLauncherService.LaunchUri(new Uri("https://www.paypal.me/drutol"));
+            //try
+            //{
+            //    var btn = sender as MenuFlyoutItem;
+            //    await CurrentApp.RequestProductPurchaseAsync(btn.Tag as string);
+            //    Settings.Donated = true;
+            //}
+            //catch (Exception)
+            //{
+            //    // no donation
+            //}
         }
 
         private async void OpenRepo(object sender, RoutedEventArgs e)

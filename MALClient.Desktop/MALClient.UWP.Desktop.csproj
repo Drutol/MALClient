@@ -26,6 +26,9 @@
     <PackageCertificateThumbprint>5A42F2D8D8A9ED8DE6290192961E1AA82606F344</PackageCertificateThumbprint>
     <PackageCertificateKeyFile>MALClient.UWP.Desktop_StoreKey.pfx</PackageCertificateKeyFile>
     <RunCodeAnalysis>false</RunCodeAnalysis>
+    <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
+    <AppInstallerUpdateFrequency>1</AppInstallerUpdateFrequency>
+    <AppInstallerCheckForUpdateFrequency>OnApplicationRun</AppInstallerCheckForUpdateFrequency>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>

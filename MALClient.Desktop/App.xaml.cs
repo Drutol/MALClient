@@ -128,8 +128,6 @@ namespace MALClient.UWP
                 }
             }
 
-
-
             // Do not repeat app initialization when the Window already has content,
             // just ensure that the window is active
             if (rootFrame == null)
@@ -143,9 +141,6 @@ namespace MALClient.UWP
                 {
                     //nothing
                 }
-
-
-
                 // Place the frame in the current Window
                 Window.Current.Content = rootFrame;
             }
@@ -212,9 +207,7 @@ namespace MALClient.UWP
                 tb.ButtonPressedForegroundColor = Colors.Black;
             }
             ProcessUpdate();
-            StoreLogoWorkaroundHacker.Hack();
             _initialized = true;
-
         }
 
         private void NotificationTaskManagerOnOnNotificationTaskRequested(BgTasks task)

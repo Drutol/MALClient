@@ -24,40 +24,35 @@
 
     <Grid>
         <Grid.Background>
-            <ImageBrush ImageSource="/Assets/LogInBG.PNG" Stretch="UniformToFill"></ImageBrush>
+            <ImageBrush ImageSource="/Assets/LogInBG.PNG" Opacity=".7" Stretch="UniformToFill"></ImageBrush>
         </Grid.Background>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width=".5*" />
             <ColumnDefinition Width=".5*" />
         </Grid.ColumnDefinitions>
-        <!--<userControls:LockableToggleButton HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                                       x:Name="MalLoginButton"  Command="{Binding FocusMalCommand}" Checked="MalLoginButton_OnChecked">
-            <Image Source="/Assets/mallonglogo300x150.png" VerticalAlignment="Center" HorizontalAlignment="Stretch" MaxWidth="200" />
-        </userControls:LockableToggleButton>
-        <userControls:LockableToggleButton Grid.Column="1" Grid.Row="0" HorizontalAlignment="Stretch" Checked="HumLoginButton_OnChecked"
-                                        x:Name="HumLoginButton" Command="{Binding FocusHumCommand}">
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <Image Source="/Assets/hummingbird150x150.scale-200.png" />
-                <TextBlock Text="Hummingbird" VerticalAlignment="Center" FontWeight="Medium" FontSize="19" />
-            </StackPanel>
-        </userControls:LockableToggleButton>-->
         <Grid Grid.ColumnSpan="2" Grid.Column="0" Padding="0,10,0,10">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-            <StackPanel Grid.Row="0" Padding="10" HorizontalAlignment="Center" BorderThickness="1"
+            <StackPanel Margin="0,40,0,0" Grid.Row="0" Padding="10" HorizontalAlignment="Center" BorderThickness="1"
                               BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}">
                 <StackPanel.Background>
                     <AcrylicBrush 
                         BackgroundSource="Backdrop"
                         TintColor="{StaticResource BrushDeepBackgroundColor}"
-                        TintOpacity="0.6"
+                        TintOpacity="0.1"
                         FallbackColor="{StaticResource BrushDeepBackgroundColor}"/>
                 </StackPanel.Background>
-                <Image Source="/Assets/Wide310x150Logo.png"  Width="310" Height="150"
+                <Image Source="/Assets/Wide310x150Logo.png" Width="310" Height="150"
                    VerticalAlignment="Center" />
-                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Top" MaxWidth="300" Width="Auto"
+                
+                <TextBlock TextAlignment="Center" FontWeight="Medium">
+                    Sign in with your
+                    MAL credentials.
+                </TextBlock>
+
+                <StackPanel Margin="0,20,0,0" HorizontalAlignment="Center" VerticalAlignment="Top" MaxWidth="300" Width="Auto"
                         MinWidth="200">
                     <TextBlock Text="Username:" HorizontalAlignment="Center" Margin="0,2" FontWeight="SemiBold" />
 					<TextBox KeyDown="UserName_OnKeyDown" Text="{Binding UserNameInput,Mode=TwoWay}" BorderBrush="{StaticResource SystemControlTransparentRevealBorderBrush}" />

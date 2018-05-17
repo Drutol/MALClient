@@ -11,6 +11,7 @@ using Windows.UI.Xaml.Media.Imaging;
 using MALClient.Models.Enums;
 using MALClient.UWP.Shared.Managers;
 using MALClient.XShared.ViewModels;
+using System.Diagnostics;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -136,8 +137,7 @@ namespace MALClient.UWP.Shared.Items
 			if (_manip == this) {
 				ViewModel.AllowDetailsNavigation = false;
 
-				TranslateTransformSwipe.X += e.Delta.Translation.X;
-				TranslateTransformSwipe.X = Math.Clamp(TranslateTransformSwipe.X, -100, 100);
+				TranslateTransformSwipe.X = Math.Clamp(e.Cumulative.Translation.X, -100, 100);
 
 				var delta = TranslateTransformSwipe.X;
 				var absDelta = Math.Abs(delta);

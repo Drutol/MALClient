@@ -128,7 +128,8 @@ namespace MALClient.UWP.Shared.Items
                 return;
             _initialPoint = e.Position;
             _manip = this;
-            DecrementField.Visibility = IncrementField.Visibility = Visibility.Visible;
+			ViewModel.AllowDetailsNavigation = false;
+			DecrementField.Visibility = IncrementField.Visibility = Visibility.Visible;
         }
 
 		private bool? _incDecState = null;

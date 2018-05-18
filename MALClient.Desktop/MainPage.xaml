@@ -17,30 +17,27 @@
         <xamlConverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
         <xamlConverters:SearchFilterStatusToBrushConverter x:Key="SearchFilterStatusToBrushConverter" />
         <Storyboard x:Name="FadeInPinDialogStoryboard">
-            <DoubleAnimation Storyboard.TargetName="PinDialog" Storyboard.TargetProperty="Opacity" SpeedRatio="3"
-                             EnableDependentAnimation="True" From="0" To="1" />
+            <DoubleAnimation Storyboard.TargetName="PinDialog" Storyboard.TargetProperty="Opacity" SpeedRatio="3" From="0" To="1" />
             <PopInThemeAnimation Storyboard.TargetName="PinDialogInner" FromVerticalOffset="-20"
                                  FromHorizontalOffset="0" />
         </Storyboard>
         <Storyboard x:Name="FadeOutPinDialogStoryboard">
-            <DoubleAnimation Storyboard.TargetName="PinDialog" Storyboard.TargetProperty="Opacity" SpeedRatio="3"
-                             EnableDependentAnimation="True" From="1" To="0" />
+            <DoubleAnimation Storyboard.TargetName="PinDialog" Storyboard.TargetProperty="Opacity" SpeedRatio="3" From="1" To="0" />
             <PopOutThemeAnimation Storyboard.TargetName="PinDialogInner" />
         </Storyboard>
         <Storyboard x:Name="FadeInCurrentStatus">
-            <DoubleAnimation Storyboard.TargetName="CurrentStatus" Storyboard.TargetProperty="Opacity" SpeedRatio="3"
-                             EnableDependentAnimation="True" From="0" To="1" />
+            <DoubleAnimation Storyboard.TargetName="CurrentStatus" Storyboard.TargetProperty="Opacity" SpeedRatio="3" From="0" To="1" />
             <PopInThemeAnimation Storyboard.TargetName="CurrentStatus" FromVerticalOffset="20" FromHorizontalOffset="0" />
         </Storyboard>
         <Storyboard x:Name="FadeInCurrentOffStatus">
             <DoubleAnimation Storyboard.TargetName="CurrentOffStatus" Storyboard.TargetProperty="Opacity"
-                             SpeedRatio="3" EnableDependentAnimation="True" From="0" To="1" />
+                             SpeedRatio="3" From="0" To="1" />
             <PopInThemeAnimation Storyboard.TargetName="CurrentOffStatus" FromVerticalOffset="20"
                                  FromHorizontalOffset="0" />
         </Storyboard>
         <Storyboard x:Name="FadeInCurrentSubStatus">
             <DoubleAnimation Storyboard.TargetName="CurrentStatusSub" Storyboard.TargetProperty="Opacity"
-                             SpeedRatio="3" EnableDependentAnimation="True" From="0" To="1" />
+                             SpeedRatio="3" From="0" To="1" />
             <PopInThemeAnimation Storyboard.TargetName="CurrentStatusSub" FromVerticalOffset="20"
                                  FromHorizontalOffset="0" />
         </Storyboard>
@@ -219,21 +216,13 @@
                     <ColumnDefinition x:Name="OffContentColumn" Width="Auto" MaxWidth="600" />
                 </Grid.ColumnDefinitions>
                 <Grid Grid.Column="0" Margin="0,-44,0,0" Grid.ColumnSpan="{Binding MainContentColumnSpan}">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="44" />
+					<Grid.RowDefinitions>
+						<RowDefinition Height="44" />
+						<RowDefinition Height="Auto" />
 						<RowDefinition Height="*" />
-                    </Grid.RowDefinitions>
-                    <Grid Background="{ThemeResource BrushDeepBackground}"
-                          Visibility="{Binding AdsContainerVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
-                          Height="90" Width="728"
-                          Margin="{Binding Source={StaticResource DesktopLocator},Path=Hamburger.BottomStackPanelMargin}">
-                        <!--<ui:AdControl AdUnitId="315597" ApplicationId="0b4d3120-9383-4469-9e80-812a15f124e3"/>-->
-                        <ui:AdControl x:Name="AdControl" AdUnitId="315597" Height="90" Width="728"
-                                      ApplicationId="0b4d3120-9383-4469-9e80-812a15f124e3" IsAutoRefreshEnabled="True" />
-                    </Grid>
+					</Grid.RowDefinitions>
 					<!-- Start Classic Header -->
-					<Grid Grid.Row="1">
+					<Grid Grid.Row="0">
 						<!-- Left -->
 						<StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
 							<TextBlock x:Name="CurrentStatus" FontWeight="Bold" Text="{Binding CurrentStatus}"
@@ -299,7 +288,21 @@
 						</StackPanel>
 					</Grid>
 					<!-- End Classic Header -->
-                    <Grid Grid.Row="2">
+					<!-- Ads grid -->
+					<Grid Visibility="{Binding AdsContainerVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
+                          Height="90" Margin="{Binding Source={StaticResource DesktopLocator},Path=Hamburger.BottomStackPanelMargin}" Grid.Row="1">
+						<Grid.Background>
+							<AcrylicBrush
+								BackgroundSource="HostBackdrop"
+								TintColor="{StaticResource BrushDeepBackgroundColor}"
+								TintOpacity="0.6"
+								FallbackColor="{StaticResource ColorDetailsBackground}"/>
+						</Grid.Background>
+						<!--<ui:AdControl AdUnitId="315597" ApplicationId="0b4d3120-9383-4469-9e80-812a15f124e3"/>-->
+						<ui:AdControl x:Name="AdControl" AdUnitId="315597" Height="90" Width="728"
+                                      ApplicationId="0b4d3120-9383-4469-9e80-812a15f124e3" IsAutoRefreshEnabled="True" />
+					</Grid>
+					<Grid Grid.Row="2">
                         <!--Changelog-->
                         <Frame
                             x:Name="MainContent" PointerPressed="MainContent_OnPointerPressed"
@@ -399,7 +402,7 @@
                 </Grid>
             </Grid>
         </Grid>
-        <Grid x:Name="PinDialog"
+        <Grid x:Name="PinDialog" x:Load="False"
               DataContext="{Binding Source={StaticResource UwpLocator},Path=PinTileDialog}"
               Visibility="{Binding GeneralVisibility}"
               VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="1"

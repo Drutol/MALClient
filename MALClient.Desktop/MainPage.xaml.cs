@@ -144,7 +144,8 @@ namespace MALClient.UWP
         {
             (sender as Storyboard).Completed -= SbOnCompleted;
             UWPViewModelLocator.PinTileDialog.RaisePropertyChanged("GeneralVisibility");
-        }
+			UnloadObject(PinDialog);
+		}
 
         private void VmOnPropertyChanged(object sender, PropertyChangedEventArgs args)
         {

@@ -1262,7 +1262,8 @@ namespace MALClient.UWP.Shared.UserControls
 
             // Move and size image
             SetCanvasXYWithOffset(_image, 0, 0);
-            SetWidthHeight(_image, desiredWidth, desiredHeight);
+			if (desiredWidth > 0 && desiredHeight > 0)
+				SetWidthHeight(_image, desiredWidth, desiredHeight);
 
             // Set initial crop amounts
             SetCropForDesiredAspectRatio();

@@ -1,12 +1,12 @@
 <h1 align="center">MALClient</h1>
 
 <p align="center">
-  <img src="MALClient.Android/Resources/drawable/Icon.png" width="150px">
+  <img src="images/app-logo.png" width="150px">
   <br><br>
   It's rather robust MyAnimeList client application interfacing with both "official" api and the website api with wild endpoints with cookies and such. Right now it's available on Windows 10 devices and Android.
 </p>
 
-<table >
+<table>
   <tbody>
     <tr>
       <td>
@@ -81,8 +81,10 @@
 
 ### Compilation
 You should be able to compile this thing out of the box, you may have to generate certificate for UWP though.
+There's also "Secrets.cs" file with some configs... you will have to make it yourself.
 ### Code
-Well... there's a metric ton of legacy thingies especially in navigation and first pages like anime list or anime details. I'm not proud of these but I'm not planning to rewrite them. Stuff that has been added later on is nicer and somewhat decently organised. I started this app when I knew nothing so yeah, works but code is smelly.
+Spaghetti landfill.
+Well... there's a metric ton of legacy thingies especially in navigation and pages that were made in the beggining like anime list or anime details. I'm not proud of these but I'm not planning to rewrite them. Stuff that has been added later on is nicer and somewhat decently organised. I started this app when I knew nothing so yeah, works but code is smelly.
 ### "Protocol"
 
 If you'd like for some reason to launch my app externally you can do so by using this protocol:

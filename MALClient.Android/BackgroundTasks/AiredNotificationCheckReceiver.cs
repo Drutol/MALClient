@@ -59,7 +59,7 @@ namespace MALClient.Android.BackgroundTasks
                 var pendingIntent =
                     PendingIntent.GetActivity(context, 0, notificationIntent, PendingIntentFlags.OneShot);
                 var notificationBuilder = new NotificationCompat.Builder(context)
-                    .SetSmallIcon(Resource.Drawable.badge_icon)
+                    .SetSmallIcon(Resource.Drawable.ic_stat_name)
                     .SetContentTitle("New anime episode is on air!")
                     .SetContentText($"Episode {notificationToTrigger} of {entry.Title} has just aired!")
                     .SetAutoCancel(true)

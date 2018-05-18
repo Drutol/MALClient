@@ -188,13 +188,13 @@ namespace MALClient.Android.BackgroundTasks
                                  : "") + notification.LaunchArgs);
             var pendingIntent = PendingIntent.GetActivity(context, 0, intent, PendingIntentFlags.OneShot);
             var notificationBuilder = new NotificationCompat.Builder(context)
-                .SetSmallIcon(Resource.Drawable.badge_icon)
+                .SetSmallIcon(Resource.Drawable.ic_stat_name)
                 .SetStyle(new NotificationCompat.BigTextStyle().BigText(notification.Content))
                 .SetContentTitle(notification.Header)
                 .SetContentText(notification.Content)
                 .SetContentInfo(notification.Content)
                 .SetAutoCancel(true)
-                //.SetGroup(notification.Type.GetDescription())
+                .SetGroup(notification.Type.GetDescription())
                 .SetContentIntent(pendingIntent)
                 .SetSound(RingtoneManager.GetDefaultUri(RingtoneType.Notification));
 

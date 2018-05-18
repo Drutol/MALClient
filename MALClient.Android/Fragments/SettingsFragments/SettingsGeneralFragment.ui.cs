@@ -28,6 +28,9 @@ namespace MALClient.Android.Fragments.SettingsFragments
         private ImageButton _settingsPageGeneralColorBlue;
         private ImageButton _settingsPageGeneralColorLime;
         private ImageButton _settingsPageGeneralColorPink;
+        private ImageButton _settingsPageGeneralColorCyan;
+        private ImageButton _settingsPageGeneralColorSkyBlue;
+        private ImageButton _settingsPageGeneralColorRed;
         private Switch _settingsPageGeneralAmoledSwitch;
         private Button _settingsPageGeneralThemeChangeApply;
         private Switch _settingsPageGeneralEnableSwipeSwitch;
@@ -94,6 +97,12 @@ namespace MALClient.Android.Fragments.SettingsFragments
         public ImageButton SettingsPageGeneralColorLime => _settingsPageGeneralColorLime ?? (_settingsPageGeneralColorLime = FindViewById<ImageButton>(Resource.Id.SettingsPageGeneralColorLime));
 
         public ImageButton SettingsPageGeneralColorPink => _settingsPageGeneralColorPink ?? (_settingsPageGeneralColorPink = FindViewById<ImageButton>(Resource.Id.SettingsPageGeneralColorPink));
+
+        public ImageButton SettingsPageGeneralColorCyan => _settingsPageGeneralColorCyan ?? (_settingsPageGeneralColorCyan = FindViewById<ImageButton>(Resource.Id.SettingsPageGeneralColorCyan));
+
+        public ImageButton SettingsPageGeneralColorSkyBlue => _settingsPageGeneralColorSkyBlue ?? (_settingsPageGeneralColorSkyBlue = FindViewById<ImageButton>(Resource.Id.SettingsPageGeneralColorSkyBlue));
+
+        public ImageButton SettingsPageGeneralColorRed => _settingsPageGeneralColorRed ?? (_settingsPageGeneralColorRed = FindViewById<ImageButton>(Resource.Id.SettingsPageGeneralColorRed));
 
         public Switch SettingsPageGeneralAmoledSwitch => _settingsPageGeneralAmoledSwitch ?? (_settingsPageGeneralAmoledSwitch = FindViewById<Switch>(Resource.Id.SettingsPageGeneralAmoledSwitch));
 

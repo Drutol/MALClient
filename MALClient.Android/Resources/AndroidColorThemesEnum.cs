@@ -19,7 +19,10 @@ namespace MALClient.Android.Resources
         Purple,
         Blue,
         Lime,
-        Pink
+        Pink,
+        Cyan,
+        SkyBlue,
+        Red
     }
 
     public static class AndroidColourThemeHelper

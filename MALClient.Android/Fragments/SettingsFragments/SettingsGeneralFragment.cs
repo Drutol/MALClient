@@ -233,6 +233,9 @@ namespace MALClient.Android.Fragments.SettingsFragments
             SettingsPageGeneralColorBlue.Tag = (int)AndroidColorThemes.Blue;
             SettingsPageGeneralColorLime.Tag = (int)AndroidColorThemes.Lime;
             SettingsPageGeneralColorPink.Tag = (int)AndroidColorThemes.Pink;
+            SettingsPageGeneralColorCyan.Tag = (int)AndroidColorThemes.Cyan;
+            SettingsPageGeneralColorSkyBlue.Tag = (int)AndroidColorThemes.SkyBlue;
+            SettingsPageGeneralColorRed.Tag = (int)AndroidColorThemes.Red;
 
             var colorListener = new OnClickListener(view =>
             {
@@ -245,6 +248,9 @@ namespace MALClient.Android.Fragments.SettingsFragments
             SettingsPageGeneralColorBlue.SetOnClickListener(colorListener);
             SettingsPageGeneralColorLime.SetOnClickListener(colorListener);
             SettingsPageGeneralColorPink.SetOnClickListener(colorListener);
+            SettingsPageGeneralColorCyan.SetOnClickListener(colorListener);
+            SettingsPageGeneralColorSkyBlue.SetOnClickListener(colorListener);
+            SettingsPageGeneralColorRed.SetOnClickListener(colorListener);
 
         }
 
@@ -262,6 +268,9 @@ namespace MALClient.Android.Fragments.SettingsFragments
                     SettingsPageGeneralColorBlue,
                     SettingsPageGeneralColorLime,
                     SettingsPageGeneralColorPink,
+                    SettingsPageGeneralColorCyan,
+                    SettingsPageGeneralColorSkyBlue,
+                    SettingsPageGeneralColorRed,
                 };
             }
             foreach (var accentButton in _accentButtons)
@@ -284,6 +293,15 @@ namespace MALClient.Android.Fragments.SettingsFragments
                     break;
                 case AndroidColorThemes.Pink:
                     SettingsPageGeneralColorPink.SetImageResource(Resource.Drawable.icon_ok);
+                    break;
+                case AndroidColorThemes.Cyan:
+                    SettingsPageGeneralColorCyan.SetImageResource(Resource.Drawable.icon_ok);
+                    break;
+                case AndroidColorThemes.SkyBlue:
+                    SettingsPageGeneralColorSkyBlue.SetImageResource(Resource.Drawable.icon_ok);
+                    break;
+                case AndroidColorThemes.Red:
+                    SettingsPageGeneralColorRed.SetImageResource(Resource.Drawable.icon_ok);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();

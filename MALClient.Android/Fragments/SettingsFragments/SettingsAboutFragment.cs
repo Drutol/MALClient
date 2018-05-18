@@ -16,6 +16,7 @@ using MALClient.Android.DIalogs;
 using MALClient.Android.Listeners;
 using MALClient.Android.ViewModels;
 using MALClient.XShared.ViewModels;
+using Org.Json;
 using Exception = System.Exception;
 
 namespace MALClient.Android.Fragments.SettingsFragments
@@ -64,10 +65,25 @@ namespace MALClient.Android.Fragments.SettingsFragments
                 connection.Connect();
                 if (await sem.WaitAsync(TimeSpan.FromSeconds(5)))
                 {
+                    //first try to redeem all existing ones
+                    var ownedItems = connection.Service.GetPurchases(3, Context.PackageName, "inapp", null);
+                    if (ownedItems.GetInt("RESPONSE_CODE") != 0)
+                        throw new Exception();
+
+                    // Get the list of purchased items
+                    foreach (var purchaseData in ownedItems.GetStringArrayList("INAPP_PURCHASE_DATA_LIST"))
+                    {
+                        var o = new JSONObject(purchaseData);
+                        var purchaseToken = o.OptString("token", o.OptString("purchaseToken"));
+                        // Consume purchaseToken, handling any errors
+                        connection.Service.ConsumePurchase(3, Context.PackageName, purchaseToken);
+                    }
+
                     var buyIntentBundle = connection.Service.GetBuyIntent(3, Context.PackageName,
                         GetProductSku(), "inapp", "");
                     var pendingIntent = buyIntentBundle.GetParcelable("BUY_INTENT") as PendingIntent;
-                    MainActivity.CurrentContext.StartIntentSenderForResult(pendingIntent.IntentSender, 1001, new Intent(), 0, 0, 0, Bundle.Empty);
+                    MainActivity.CurrentContext.StartIntentSenderForResult(pendingIntent.IntentSender, 1001,
+                        new Intent(), 0, 0, 0, Bundle.Empty);
                 }
                 else
                 {
@@ -76,11 +92,12 @@ namespace MALClient.Android.Fragments.SettingsFragments
             }
             catch (Exception e)
             {
-                ResourceLocator.MessageDialogProvider.ShowMessageDialog("Something went wrong, you can always try later ^^", "Something went wrong™");
+                ResourceLocator.MessageDialogProvider.ShowMessageDialog(
+                    "Something went wrong, you can always try later ^^", "Something went wrong™");
             }
             finally
             {
-                connection.Disconnected();
+                connection?.Disconnected();
             }
 
             string GetProductSku()

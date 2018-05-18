@@ -407,6 +407,15 @@ namespace MALClient.Android.Activities
                     case AndroidColorThemes.Pink:
                         SetTheme(Resource.Style.Theme_MALClient_Dark_Pink);
                         break;
+                    case AndroidColorThemes.Cyan:
+                        SetTheme(Resource.Style.Theme_MALClient_Dark_Cyan);
+                        break;
+                    case AndroidColorThemes.SkyBlue:
+                        SetTheme(Resource.Style.Theme_MALClient_Dark_SkyBlue);
+                        break;
+                    case AndroidColorThemes.Red:
+                        SetTheme(Resource.Style.Theme_MALClient_Dark_Red);
+                        break;
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
@@ -418,8 +427,7 @@ namespace MALClient.Android.Activities
                 else
                 {
                     IsAmoledApplied = false;
-                }
-                
+                }          
             }
             else
             {
@@ -439,6 +447,15 @@ namespace MALClient.Android.Activities
                         break;
                     case AndroidColorThemes.Pink:
                         SetTheme(Resource.Style.Theme_MALClient_Light_Pink);
+                        break;
+                    case AndroidColorThemes.Cyan:
+                        SetTheme(Resource.Style.Theme_MALClient_Light_Cyan);
+                        break;
+                    case AndroidColorThemes.SkyBlue:
+                        SetTheme(Resource.Style.Theme_MALClient_Light_SkyBlue);
+                        break;
+                    case AndroidColorThemes.Red:
+                        SetTheme(Resource.Style.Theme_MALClient_Light_Red);
                         break;
                     default:
                         throw new ArgumentOutOfRangeException();

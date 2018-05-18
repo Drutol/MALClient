@@ -100,8 +100,8 @@
   <color name="BlueAccentColourDark">#0c4674</color>
   <color name="BlueAccentColourLight">#1474c0</color>
   <color name="BlueOpaqueAccentColour">#7f0063b1</color>
-  <color name="BlueAccentColourContrast">#fbb000</color>  
-  
+  <color name="BlueAccentColourContrast">#fbb000</color>
+
   <!-- Lime accent -->
   <color name="LimeDarkBrushMessageBubbleMine">#5f7c1a</color>
   <color name="LimeDarkBrushMessageBubbleOther">#516918</color>
@@ -127,6 +127,42 @@
   <color name="PinkAccentColourLight">#FF97C9</color>
   <color name="PinkOpaqueAccentColour">#7ff754a2</color>
 
+  <!-- Cyan accent -->
+  <color name="CyanDarkBrushMessageBubbleMine">#08a4a7</color>
+  <color name="CyanDarkBrushMessageBubbleOther">#07888b</color>
+
+  <color name="CyanLightBrushMessageBubbleMine">#86ffe0</color>
+  <color name="CyanLightBrushMessageBubbleOther">#67ffd8</color>
+
+  <color name="CyanAccentColour">#2dc6c6</color>
+  <color name="CyanAccentColourDark">#00a1a4</color>
+  <color name="CyanAccentColourLight">#1ccfa2</color>
+  <color name="CyanOpaqueAccentColour">#7f2dc6c6</color>
+
+  <!-- Red accent -->
+  <color name="RedDarkBrushMessageBubbleMine">#b60000</color>
+  <color name="RedDarkBrushMessageBubbleOther">#940000</color>
+
+  <color name="RedLightBrushMessageBubbleMine">#ff745b</color>
+  <color name="RedLightBrushMessageBubbleOther">#ff5132</color>
+
+  <color name="RedAccentColour">#de2909</color>
+  <color name="RedAccentColourDark">#970000</color>
+  <color name="RedAccentColourLight">#e85050</color>
+  <color name="RedOpaqueAccentColour">#7fde2909</color>
+
+  <!-- Sky-blue accent -->
+  <color name="SkyBlueDarkBrushMessageBubbleMine">#006ecc</color>
+  <color name="SkyBlueDarkBrushMessageBubbleOther">#004e8f</color>
+
+  <color name="SkyBlueLightBrushMessageBubbleMine">#6cd2ff</color>
+  <color name="SkyBlueLightBrushMessageBubbleOther">#28bdff</color>
+
+  <color name="SkyBlueAccentColour">#00a1e9</color>
+  <color name="SkyBlueAccentColourDark">#0076ab</color>
+  <color name="SkyBlueAccentColourLight">#35c1ff</color>
+  <color name="SkyBlueOpaqueAccentColour">#7f00a1e9</color>
+
 
 
   <color name="WatchingColour">#228b22</color>
@@ -134,8 +170,6 @@
   <color name="OnHoldColour">#ffd700</color>
   <color name="DroppedColour">#dc143c</color>
   <color name="PlannedColour">#808080</color>
-
-
 
   <color name="DarkBrushButtonPressed">#50e0e0e0</color>
   <color name="DarkBrushFlyoutBackground">#2b2b2b</color>

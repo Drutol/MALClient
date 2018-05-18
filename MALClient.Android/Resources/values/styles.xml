@@ -137,6 +137,66 @@
     <item name="colorControlActivated">@color/PinkAccentColourDark</item>
   </style>
 
+  <style name="Theme.MALClient.Dark.Cyan" parent="@style/Theme.MALClient.Dark">
+    <item name="AccentColour">@color/CyanAccentColour</item>
+    <item name="AccentColourDark">@color/CyanAccentColourDark</item>
+    <item name="AccentColourLight">@color/CyanAccentColourLight</item>
+    <item name="OpaqueAccentColour">@color/CyanOpaqueAccentColour</item>
+    <item name="AccentColourContrast">@color/CyanAccentColour</item>
+    <item name="BrushMessageBubbleMine">@color/CyanDarkBrushMessageBubbleMine</item>
+    <item name="BrushMessageBubbleOther">@color/CyanDarkBrushMessageBubbleOther</item>
+
+    <item name="android:colorPrimary">@color/CyanAccentColour</item>
+    <item name="android:colorPrimaryDark">@color/Transparent</item>
+    <item name="android:colorAccent">@color/CyanAccentColourLight</item>
+    <item name="android:colorControlActivated">@color/CyanAccentColourDark</item>
+
+    <item name="colorPrimary">@color/CyanAccentColour</item>
+    <item name="colorPrimaryDark">@color/Transparent</item>
+    <item name="colorAccent">@color/CyanAccentColourLight</item>
+    <item name="colorControlActivated">@color/CyanAccentColourDark</item>
+  </style>
+
+  <style name="Theme.MALClient.Dark.SkyBlue" parent="@style/Theme.MALClient.Dark">
+    <item name="AccentColour">@color/SkyBlueAccentColour</item>
+    <item name="AccentColourDark">@color/SkyBlueAccentColourDark</item>
+    <item name="AccentColourLight">@color/SkyBlueAccentColourLight</item>
+    <item name="OpaqueAccentColour">@color/SkyBlueOpaqueAccentColour</item>
+    <item name="AccentColourContrast">@color/SkyBlueAccentColour</item>
+    <item name="BrushMessageBubbleMine">@color/SkyBlueDarkBrushMessageBubbleMine</item>
+    <item name="BrushMessageBubbleOther">@color/SkyBlueDarkBrushMessageBubbleOther</item>
+
+    <item name="android:colorPrimary">@color/SkyBlueAccentColour</item>
+    <item name="android:colorPrimaryDark">@color/Transparent</item>
+    <item name="android:colorAccent">@color/SkyBlueAccentColourLight</item>
+    <item name="android:colorControlActivated">@color/SkyBlueAccentColourDark</item>
+
+    <item name="colorPrimary">@color/SkyBlueAccentColour</item>
+    <item name="colorPrimaryDark">@color/Transparent</item>
+    <item name="colorAccent">@color/SkyBlueAccentColourLight</item>
+    <item name="colorControlActivated">@color/SkyBlueAccentColourDark</item>
+  </style>
+
+  <style name="Theme.MALClient.Dark.Red" parent="@style/Theme.MALClient.Dark">
+    <item name="AccentColour">@color/RedAccentColour</item>
+    <item name="AccentColourDark">@color/RedAccentColourDark</item>
+    <item name="AccentColourLight">@color/RedAccentColourLight</item>
+    <item name="OpaqueAccentColour">@color/RedOpaqueAccentColour</item>
+    <item name="AccentColourContrast">@color/RedAccentColour</item>
+    <item name="BrushMessageBubbleMine">@color/RedDarkBrushMessageBubbleMine</item>
+    <item name="BrushMessageBubbleOther">@color/RedDarkBrushMessageBubbleOther</item>
+
+    <item name="android:colorPrimary">@color/RedAccentColour</item>
+    <item name="android:colorPrimaryDark">@color/Transparent</item>
+    <item name="android:colorAccent">@color/RedAccentColourLight</item>
+    <item name="android:colorControlActivated">@color/RedAccentColourDark</item>
+
+    <item name="colorPrimary">@color/RedAccentColour</item>
+    <item name="colorPrimaryDark">@color/Transparent</item>
+    <item name="colorAccent">@color/RedAccentColourLight</item>
+    <item name="colorControlActivated">@color/RedAccentColourDark</item>
+  </style>
+
   <style name="Theme.MALClient.Light.Orange" parent="Theme.MALClient.Light">
     <item name="AccentColour">@color/OrangeAccentColour</item>
     <item name="AccentColourDark">@color/OrangeAccentColourDark</item>
@@ -247,6 +307,73 @@
     <item name="colorControlActivated">@color/PinkAccentColourDark</item>
   </style>
 
+  <style name="Theme.MALClient.Light.Cyan" parent="@style/Theme.MALClient.Light">
+    <item name="AccentColour">@color/CyanAccentColour</item>
+    <item name="AccentColourDark">@color/CyanAccentColourDark</item>
+    <item name="AccentColourLight">@color/CyanAccentColourLight</item>
+    <item name="OpaqueAccentColour">@color/CyanOpaqueAccentColour</item>
+    <item name="AccentColourContrast">@color/CyanAccentColour</item>
+    <item name="BrushMessageBubbleMine">@color/CyanLightBrushMessageBubbleMine</item>
+    <item name="BrushMessageBubbleOther">@color/CyanLightBrushMessageBubbleOther</item>
+
+    <item name="BrushAppBarUpper">@color/CyanAccentColour</item>
+
+    <item name="android:colorPrimary">@color/CyanAccentColour</item>
+    <item name="android:colorPrimaryDark">@color/CyanAccentColourDark</item>
+    <item name="android:colorAccent">@color/CyanAccentColourLight</item>
+    <item name="android:colorControlActivated">@color/CyanAccentColourDark</item>
+
+    <item name="colorPrimary">@color/CyanAccentColour</item>
+    <item name="colorPrimaryDark">@color/CyanAccentColourDark</item>
+    <item name="colorAccent">@color/CyanAccentColourLight</item>
+    <item name="colorControlActivated">@color/CyanAccentColourDark</item>
+  </style>
+
+  <style name="Theme.MALClient.Light.SkyBlue" parent="@style/Theme.MALClient.Light">
+    <item name="AccentColour">@color/SkyBlueAccentColour</item>
+    <item name="AccentColourDark">@color/SkyBlueAccentColourDark</item>
+    <item name="AccentColourLight">@color/SkyBlueAccentColourLight</item>
+    <item name="OpaqueAccentColour">@color/SkyBlueOpaqueAccentColour</item>
+    <item name="AccentColourContrast">@color/SkyBlueAccentColour</item>
+    <item name="BrushMessageBubbleMine">@color/SkyBlueLightBrushMessageBubbleMine</item>
+    <item name="BrushMessageBubbleOther">@color/SkyBlueLightBrushMessageBubbleOther</item>
+
+    <item name="BrushAppBarUpper">@color/SkyBlueAccentColour</item>
+
+    <item name="android:colorPrimary">@color/SkyBlueAccentColour</item>
+    <item name="android:colorPrimaryDark">@color/SkyBlueAccentColourDark</item>
+    <item name="android:colorAccent">@color/SkyBlueAccentColourLight</item>
+    <item name="android:colorControlActivated">@color/SkyBlueAccentColourDark</item>
+
+    <item name="colorPrimary">@color/SkyBlueAccentColour</item>
+    <item name="colorPrimaryDark">@color/SkyBlueAccentColourDark</item>
+    <item name="colorAccent">@color/SkyBlueAccentColourLight</item>
+    <item name="colorControlActivated">@color/SkyBlueAccentColourDark</item>
+  </style>
+
+  <style name="Theme.MALClient.Light.Red" parent="@style/Theme.MALClient.Light">
+    <item name="AccentColour">@color/RedAccentColour</item>
+    <item name="AccentColourDark">@color/RedAccentColourDark</item>
+    <item name="AccentColourLight">@color/RedAccentColourLight</item>
+    <item name="OpaqueAccentColour">@color/RedOpaqueAccentColour</item>
+    <item name="AccentColourContrast">@color/RedAccentColour</item>
+    <item name="BrushMessageBubbleMine">@color/RedLightBrushMessageBubbleMine</item>
+    <item name="BrushMessageBubbleOther">@color/RedLightBrushMessageBubbleOther</item>
+
+    <item name="BrushAppBarUpper">@color/RedAccentColour</item>
+
+    <item name="android:colorPrimary">@color/RedAccentColour</item>
+    <item name="android:colorPrimaryDark">@color/RedAccentColourDark</item>
+    <item name="android:colorAccent">@color/RedAccentColourLight</item>
+    <item name="android:colorControlActivated">@color/RedAccentColourDark</item>
+
+    <item name="colorPrimary">@color/RedAccentColour</item>
+    <item name="colorPrimaryDark">@color/RedAccentColourDark</item>
+    <item name="colorAccent">@color/RedAccentColourLight</item>
+    <item name="colorControlActivated">@color/RedAccentColourDark</item>
+  </style>
+
+
 
   <style name="Theme.MALClient.Dark" parent="Theme.AppCompat.NoActionBar">
 
@@ -351,7 +478,7 @@
   </style>
 
   <style name="Theme.Splash"
-         parent="android:Theme">
+      parent="android:Theme">
     <item name="android:windowBackground">
       @drawable/splash
     </item>

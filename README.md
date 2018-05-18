@@ -23,6 +23,8 @@
   </tbody>
 </table>
 
+[![Discord](https://img.shields.io/badge/discord-Join%20us%20on%20Discord!-7289da.svg?longCache=true&style=for-the-badge&logo=discord)](https://discord.gg/5yETtFT)
+
 ### Screenshots
 #### UWP
 <p align="center">
@@ -92,6 +94,10 @@ If you'd like for some reason to launch my app externally you can do so by using
 malclient://<your everyday MAL link>
 ```
 List of all accepted urls can be found [here](https://github.com/Drutol/MALClient/blob/714a73a3f4389a3212843fda243c1034c7347144/MALClient.XShared/Utils/MalLinkParser.cs)
+
+### Icon
+
+Icon was donated by @richardbmx! Great thanks!
 
 ### Donations
 

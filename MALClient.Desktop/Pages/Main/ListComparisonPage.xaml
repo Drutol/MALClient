@@ -110,7 +110,7 @@
                             </Grid.RowDefinitions>
                             <Grid x:Name="GridItemContainer" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2"
                                   Visibility="{Binding IsOnMyList}">
-                                <items:AnimeGridItem DataContext="{Binding MyEntry}" />
+                                <items:AnimeGridItem DataContext="{Binding MyEntry}" Height="270" />
                             </Grid>
                             <TextBlock Text="{Binding Title}" FontSize="20" HorizontalAlignment="Center"
                                        MaxLines="2" TextWrapping="WrapWholeWords" TextAlignment="Center" Margin="10"

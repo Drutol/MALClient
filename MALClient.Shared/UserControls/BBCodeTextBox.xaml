@@ -35,9 +35,8 @@
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.Resources>
-                    <Style TargetType="Button" >
-                        <!--BasedOn="{StaticResource ButtonRevealStyle}"-->
-                        <Setter Property="BorderThickness" Value="1" />
+					<Style TargetType="Button" BasedOn="{StaticResource ButtonRevealStyle}" >
+						<Setter Property="BorderThickness" Value="1" />
                     </Style>
                 </ItemsControl.Resources>
                 <Button Background="Transparent" Width="40" Height="40" Tag="{StaticResource B}" Loaded="ButtonOnLoaded"
@@ -129,7 +128,7 @@
         </Grid>
         <TextBox Grid.Row="1" x:Name="ContentBox" AcceptsReturn="True" TextWrapping="Wrap"
                  TextChanged="ContentBox_OnTextChanged"  HorizontalAlignment="Stretch" IsSpellCheckEnabled="True"
-                 VerticalAlignment="Stretch" />
+                 VerticalAlignment="Stretch" BorderBrush="{StaticResource SystemControlBackgroundListLowRevealBorderBrush}" />
         <!--BorderBrush="{StaticResource SystemControlTransparentRevealBorderBrush}"-->
     </Grid>
 </UserControl>

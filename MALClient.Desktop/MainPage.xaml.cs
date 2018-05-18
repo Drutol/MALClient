@@ -39,15 +39,11 @@ namespace MALClient.UWP
         public MainPage()
         {
             InitializeComponent();
-            CoreApplicationViewTitleBar coreTitleBar = CoreApplication.GetCurrentView().TitleBar;
-            coreTitleBar.ExtendViewIntoTitleBar = true; 
-            TitleBar.Height = coreTitleBar.Height;
-            Window.Current.SetTitleBar(MainTitleBar);
-            coreTitleBar.LayoutMetricsChanged += TitleBar_LayoutMetricsChanged;
-            coreTitleBar.IsVisibleChanged += TitleBar_IsVisibleChanged;
-            Window.Current.Activated += TitleBar_Activated;
 
-            Loaded += (sender, args) =>
+			CoreApplicationViewTitleBar coreTitleBar = CoreApplication.GetCurrentView().TitleBar;
+			coreTitleBar.ExtendViewIntoTitleBar = false;
+
+			Loaded += (sender, args) =>
             {
                 var vm = DesktopViewModelLocator.Main;
                 vm.MainNavigationRequested += Navigate;
@@ -158,14 +154,10 @@ namespace MALClient.UWP
 				_paneState = paneState;
 				HamburgerControl.Width = paneState ? 250 : 48;
 				HamburgerTopGrid.Width = paneState ? 250 : 48;
-				TitleBarLeft.Margin = new Thickness(Math.Max(_paneState ? 250 : 48, CoreApplication.GetCurrentView().TitleBar.SystemOverlayLeftInset), 0, 0, 0);
 			}
             else if (args.PropertyName == "OffContentVisibility")
             {
 				SplitterColumn.Width = new GridLength(ViewModelLocator.GeneralMain.OffContentVisibility ? 16 : 0);
-
-				var width = ViewModelLocator.GeneralMain.OffContentVisibility ? (DataContext as MainViewModel).OffContentStatusBarWidth + 16 : 0;
-				TitleBarRight.Margin = new Thickness(0, 0, Math.Max(width, CoreApplication.GetCurrentView().TitleBar.SystemOverlayRightInset), 0);
 			}
             else if (args.PropertyName == nameof(ViewModelLocator.GeneralMain.AdsContainerVisibility))
             {
@@ -261,7 +253,6 @@ namespace MALClient.UWP
         private void OffContent_OnSizeChanged(object sender, SizeChangedEventArgs e)
         {
             (DataContext as MainViewModel).OffContentStatusBarWidth = e.NewSize.Width;
-			TitleBarRight.Margin = new Thickness(0, 0, Math.Max(e.NewSize.Width + 16, CoreApplication.GetCurrentView().TitleBar.SystemOverlayRightInset), 0);
 		}
 
         private void OffContent_OnPointerPressed(object sender, PointerRoutedEventArgs e)
@@ -301,62 +292,17 @@ namespace MALClient.UWP
                 UWPViewModelLocator.PinTileDialog.CloseDialogCommand.Execute(null);
         }
 
-        private async void ToggleButton_OnClick(object sender, RoutedEventArgs e)
+        private void ToggleButton_OnClick(object sender, RoutedEventArgs e)
         {
-            await Task.Delay(10); // wait for it to appear.. nana, this is completly vaild approach... nananaa
             var btn = sender as LockableToggleButton;
             if (btn.IsChecked.GetValueOrDefault(false))
                 SearchInput.Focus(FocusState.Keyboard);
         }
 
-
         private void ButtonCloseChangelogOnClick(object sender, RoutedEventArgs e)
         {
             ViewModelLocator.GeneralMain.ChangelogVisibility = false;
         }
-        // Titlebar stuff
-        private void TitleBar_LayoutMetricsChanged(CoreApplicationViewTitleBar coreTitleBar, object args)
-        {
-            TitleBar.Height = coreTitleBar.Height;
-			HamburgerTopGrid.Margin = new Thickness(0, -coreTitleBar.Height, 0, 0);
-			HamburgerTopGrid.Padding = new Thickness(0, coreTitleBar.Height, 0, 0);
-			OffContentTopGrid.Margin = new Thickness(0, -coreTitleBar.Height, 0, 0);
-			OffContentTopGrid.Padding = new Thickness(0, coreTitleBar.Height, 0, 0);
-			TopSplitter.Margin = new Thickness(0, -coreTitleBar.Height, 0, 0);
-			TitleBarLeft.Margin = new Thickness(Math.Max(_paneState ? 250 : 48, coreTitleBar.SystemOverlayLeftInset), 0, 0, 0);
-			var width = ViewModelLocator.GeneralMain.OffContentVisibility ? (DataContext as MainViewModel).OffContentStatusBarWidth + 16 : 0;
-			TitleBarRight.Margin = new Thickness(0, 0, Math.Max(width, coreTitleBar.SystemOverlayRightInset), 0);
-		}
 
-        private void TitleBar_IsVisibleChanged(CoreApplicationViewTitleBar sender, object args)
-        {
-            if (sender.IsVisible)
-            {
-                TitleBar.Visibility = Visibility.Visible;
-            }
-            else
-            {
-                TitleBar.Visibility = Visibility.Collapsed;
-            }
-        }
-        private void TitleBar_Activated(object sender, WindowActivatedEventArgs e)
-        {
-            SolidColorBrush foreground = null;
-            bool dark = Settings.SelectedTheme == (int)ApplicationTheme.Dark;
-            if (e.WindowActivationState != CoreWindowActivationState.Deactivated)
-                if (dark)
-                    foreground = new SolidColorBrush(Colors.White);
-                else
-                    foreground = new SolidColorBrush(Colors.Black);
-            else
-                foreground = new SolidColorBrush(Colors.Gray);
-            BackButtonText.Foreground = foreground;
-			// if (integrated) {
-			// ReloadButtonText.Foreground = foreground;
-			// UpButtonText.Foreground = foreground;
-			// SearchButtonText.Foreground = foreground;
-			// CurrentStatus.Foreground = foreground;
-			// }
-		}
 	}
 }

@@ -30,5 +30,5 @@ Example:
 
 <!-- 
     and then describe the issue with as much detail as possible and clear steps
-    to reproduce. Write it below the -->
--->
+    to reproduce. Write it below this line. -->
+	

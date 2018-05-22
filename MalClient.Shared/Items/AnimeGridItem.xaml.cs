@@ -11,7 +11,6 @@ using Windows.UI.Xaml.Media.Imaging;
 using MALClient.Models.Enums;
 using MALClient.UWP.Shared.Managers;
 using MALClient.XShared.ViewModels;
-using System.Diagnostics;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 

@@ -10,7 +10,7 @@
     xmlns:attachedProperties="using:MALClient.UWP.Shared.UserControls.AttachedProperties"
     xmlns:ui="using:Microsoft.Advertising.WinRT.UI"
     x:Class="MALClient.UWP.MainPage"
-    mc:Ignorable="d">
+    mc:Ignorable="d" SizeChanged="Page_SizeChanged">
 
     <Page.Resources>
         <xamlConverters:VisiblityInverterConverter x:Key="VisiblityInverterConverter" />
@@ -69,29 +69,7 @@
 		<Grid.RowDefinitions>
 			<RowDefinition Height="44"/>
 			<RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-        <VisualStateManager.VisualStateGroups>
-            <VisualStateGroup>
-                <VisualState>
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="720" />
-                    </VisualState.StateTriggers>
-					<VisualState.Setters>
-						<Setter Target="HamburgerControl.Width" Value="250" />
-						<Setter Target="HamburgerTopGrid.Width" Value="250" />
-                    </VisualState.Setters>
-                </VisualState>
-                <VisualState>
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="500" />
-                    </VisualState.StateTriggers>
-					<VisualState.Setters>
-						<Setter Target="HamburgerControl.Width" Value="48" />
-						<Setter Target="HamburgerTopGrid.Width" Value="48" />
-                    </VisualState.Setters>
-                </VisualState>
-            </VisualStateGroup>
-        </VisualStateManager.VisualStateGroups>
+		</Grid.RowDefinitions>
 
 		<Grid Grid.Row="0">
 			<Grid.Background>

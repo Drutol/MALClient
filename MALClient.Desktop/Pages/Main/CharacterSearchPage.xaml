@@ -17,7 +17,7 @@
         </ResourceDictionary>
     </Page.Resources>
 
-    <Grid Background="{ThemeResource BrushDeepBackground}">
+	<Grid Background="{StaticResource PageBackground}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>

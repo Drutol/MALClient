@@ -62,20 +62,10 @@ namespace MALClient.UWP.Pages.Off
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            base.OnNavigatedTo(e);
             var param = e.Parameter as AnimeDetailsPageNavigationArgs;
             if (param == null)
                 throw new Exception("No paramaters for this page");
             ViewModel.Init(param);
-        }
-
-
-
-
-        protected override void OnNavigatedFrom(NavigationEventArgs e)
-        {
-            DataContext = null;
-            base.OnNavigatedFrom(e);
         }
 
         private void SubmitWatchedEps(object sender, KeyRoutedEventArgs e)

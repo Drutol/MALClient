@@ -86,7 +86,7 @@
 						VerticalAlignment="Stretch" Width="48"
 						Command="{Binding NavigateMainBackCommand}" Visibility="{Binding NavigateMainBackButtonVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
 						Style="{StaticResource NavigationBackButtonNormalStyle}">
-				<TextBlock x:Name="BackButtonText" FontFamily="Segoe MDL2 Assets" FontSize="12" Text="&#xE830;"/>
+				<TextBlock x:Name="BackButtonText" FontFamily="Segoe MDL2 Assets" Text="&#xE830;"/>
 			</Button>
 		</Grid>
 

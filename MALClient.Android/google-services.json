@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "1025496690920",
+    "firebase_url": "https://api-8190028778515554724-84979.firebaseio.com",
+    "project_id": "api-8190028778515554724-84979",
+    "storage_bucket": "api-8190028778515554724-84979.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1025496690920:android:dcc62e5f1c651ae0",
+        "android_client_info": {
+          "package_name": "com.drutol.malclient"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1025496690920-atcn34b9qrhbk93mdtsc1gokmbe16h63.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "1025496690920-atcn34b9qrhbk93mdtsc1gokmbe16h63.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCWcNz4cKV78SMCiXggKy4AYdVfw0pAidA"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

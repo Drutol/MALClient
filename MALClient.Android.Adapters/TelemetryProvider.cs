@@ -18,6 +18,7 @@ using MALClient.XShared.ViewModels;
 using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
+using Microsoft.AppCenter.Push;
 
 namespace MALClient.Android.Adapters
 {
@@ -34,8 +35,8 @@ namespace MALClient.Android.Adapters
 
         public void Init()
         {
-#if !DEBUG
-            AppCenter.Start(Secrets.AndroidAppCenterKey,typeof(Crashes),typeof(Analytics));
+#if DEBUG
+            AppCenter.Start(Secrets.AndroidAppCenterKey,typeof(Crashes),typeof(Analytics), typeof(Push));
 #endif
         }
 

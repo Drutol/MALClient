@@ -22,6 +22,8 @@ using MALClient.XShared.BL;
 using MALClient.XShared.Utils;
 using MALClient.XShared.Utils.Managers;
 using MALClient.XShared.ViewModels;
+using Microsoft.AppCenter;
+using Microsoft.AppCenter.Push;
 using ModernHttpClient;
 
 namespace MALClient.Android
@@ -45,32 +47,23 @@ namespace MALClient.Android
             //    VerbosePerformanceLogging = true,
             //    Logger = new MiniLogger()
             //});
-            //var sp = new Stopwatch();
-            //sp.Start();
             ImageService.Instance.Initialize(new Configuration
             {
                 HttpClient = new HttpClient(new NativeMessageHandler { AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate}),
                 ExecuteCallbacksOnUIThread = true,
                 //AnimateGifs = false,
             });
-            //System.Diagnostics.Debug.WriteLine($"ImgSer init {sp.ElapsedMilliseconds}");
-            //sp.Restart();
             ViewModelLocator.RegisterBase();
-            //System.Diagnostics.Debug.WriteLine($"RegBase {sp.ElapsedMilliseconds}");
-            //sp.Restart();
             AndroidViewModelLocator.RegisterDependencies();
-            //System.Diagnostics.Debug.WriteLine($"RegDep {sp.ElapsedMilliseconds}");
-            //sp.Restart();
             InitializationRoutines.InitApp();
-            //System.Diagnostics.Debug.WriteLine($"App init {sp.ElapsedMilliseconds}");
-            //sp.Restart();
-            ServicePointManager.ServerCertificateValidationCallback += (o, certificate, chain, errors) =>
-            {
-                if(certificate.Subject == "CN=*.myanimelist.net" || certificate.Subject == "CN=*.google.com, O=Google Inc, L=Mountain View, S=California, C=US")
-                    return true;
-                return false;
-            };
-            
+            Push.SetSenderId(Secrets.PushSenderId);
+            //ServicePointManager.ServerCertificateValidationCallback += (o, certificate, chain, errors) =>
+            //{
+            //    if(certificate.Subject == "CN=*.myanimelist.net" || certificate.Subject == "CN=*.google.com, O=Google Inc, L=Mountain View, S=California, C=US")
+            //        return true;
+            //    return false;
+            //};
+
             base.OnCreate();
         }
 

@@ -31,6 +31,7 @@ using MALClient.XShared.Utils;
 using MALClient.XShared.Utils.Managers;
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Interfaces;
+using Microsoft.AppCenter.Push;
 using Fragment = Android.App.Fragment;
 
 namespace MALClient.Android.Activities
@@ -174,6 +175,8 @@ namespace MALClient.Android.Activities
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
 
+
+
         private async void ViewModelOnMainNavigationRequestedFirst(Fragment fragment)
         {
             ViewModel.MainNavigationRequested -= ViewModelOnMainNavigationRequestedFirst;
@@ -213,6 +216,7 @@ namespace MALClient.Android.Activities
         protected override void OnNewIntent(Intent intent)
         {
             base.OnNewIntent(intent);
+            Push.CheckLaunchedFromNotification(this, intent);
             RunOnUiThread(() =>
             {
                 var args = intent.Extras?.GetString("launchArgs") ?? intent.Data?.ToString();

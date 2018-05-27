@@ -145,9 +145,8 @@ namespace MALClient.XShared.ViewModels.Main
                     var response = await new AuthQuery(ApiType.Mal).GetRequestResponse();
                     if (string.IsNullOrEmpty(response))
                         throw new Exception();
-                    var doc = XDocument.Parse(response);
                     Settings.SelectedApiType = ApiType.Mal;
-                    Credentials.SetId(int.Parse(doc.Element("user").Element("id").Value));
+                    Credentials.SetId(123456);
                     Credentials.SetAuthStatus(true);
                     ResourceLocator.TelemetryProvider.TelemetryTrackEvent(TelemetryTrackedEvents.LoggedInMyAnimeList);
                 }

@@ -26,7 +26,7 @@ namespace MALClient.Android.Adapters
             {
                 CookieContainer = new CookieContainer(),
                 UseCookies = true,
-                AllowAutoRedirect = false,
+                AllowAutoRedirect = true,
             };
             _httpClient = new CsrfHttpClient(httpHandler) { BaseAddress = new Uri(MalBaseUrl) };
             await _httpClient.GetToken();

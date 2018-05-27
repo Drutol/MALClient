@@ -79,11 +79,9 @@ namespace MALClient.XShared.Comm.MagicalRawQueries
 
         public async Task GetToken()
         {
-#if ANDROID
+
             var raw = await GetAsync("/login.php");
-#else
-            var raw = await GetAsync("/pressroom"); //because it's lightweight and does not redirect
-#endif
+
             ParseTokenFromHtml(await raw.Content.ReadAsStringAsync());
 
         }

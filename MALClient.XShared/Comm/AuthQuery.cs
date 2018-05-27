@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Net;
+using System.Threading.Tasks;
 using MALClient.Models.Enums;
+using MALClient.XShared.Comm.MagicalRawQueries;
 using MALClient.XShared.Utils;
+using MALClient.XShared.ViewModels;
 
 namespace MALClient.XShared.Comm
 {
@@ -29,6 +32,22 @@ namespace MALClient.XShared.Comm
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+        }
+
+        public override async Task<string> GetRequestResponse()
+        {
+            try
+            {
+                ResourceLocator.MalHttpContextProvider.Invalidate();
+                var client = await ResourceLocator.MalHttpContextProvider.GetHttpContextAsync();
+                if (client.Disabled)
+                    return null;
+                return "dad";
+            }
+            catch (Exception e)
+            {
+                return null;
+            }         
         }
     }
 }

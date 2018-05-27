@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Net;
+using System.Net.Http;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -10,11 +11,14 @@ using MALClient.Models.Models.Library;
 using MALClient.XShared.Utils;
 using MALClient.XShared.Utils.Managers;
 using MALClient.XShared.ViewModels;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace MALClient.XShared.Comm.Anime
 {
     public class AnimeUpdateQuery : Query
     {
+        private readonly IAnimeData _item;
         public static bool SuppressOfflineSync { get; set; }
         public static bool UpdatedSomething { get; set; } //used for data saving on suspending in app.xaml.cs
         private static SemaphoreSlim _updateSemaphore = new SemaphoreSlim(1);
@@ -40,9 +44,12 @@ namespace MALClient.XShared.Comm.Anime
             Request.Method = "GET";
         }
 
+
+
         public AnimeUpdateQuery(IAnimeData item)
             : this(item.Id, item.MyEpisodes, (int)item.MyStatus, item.MyScore, item.StartDate, item.EndDate, item.Notes,item.IsRewatching)
         {
+            _item = item;
             try
             {
                 ResourceLocator.LiveTilesManager.UpdateTile(item);
@@ -51,7 +58,6 @@ namespace MALClient.XShared.Comm.Anime
             {
                 //not windows
             }
-            
         }
 
 
@@ -77,7 +83,32 @@ namespace MALClient.XShared.Comm.Anime
             try
             {
                 await _updateSemaphore.WaitAsync();
-                var result = await base.GetRequestResponse();
+                var result = "";
+                try
+                {
+                    var client = await ResourceLocator.MalHttpContextProvider.GetHttpContextAsync();
+                    var html = await client.GetStringAsync($"https://myanimelist.net/anime/{_item.Id}");      
+                    client.DefaultRequestHeaders.Add("X-Requested-With",new []{ "XMLHttpRequest" });
+                    
+                    var response = await client.PostAsync("https://myanimelist.net/ownlist/anime/edit.json",
+                        new StringContent(new JObject
+                        {
+                            ["anime_id"] = _item.Id,
+                            ["status"] = (int) _item.MyStatus,
+                            ["score"] = _item.MyScore,
+                            ["num_watched_episodes"] = _item.MyEpisodes,
+                            ["csrf_token"] = client.Token,
+                        }.ToString(Formatting.None)));
+                    var content = await response.Content.ReadAsStringAsync();
+                    if (response.IsSuccessStatusCode)
+                        result = "Updated";
+                }
+                catch (Exception e)
+                {
+                    
+                }
+                
+                //var result = await base.GetRequestResponse();
 
                 if (string.IsNullOrEmpty(result) && !SuppressOfflineSync && Settings.EnableOfflineSync)
                 {
@@ -120,14 +151,14 @@ namespace MALClient.XShared.Comm.Anime
             //xml.AppendLine("<storage_value></storage_value>");
             //xml.AppendLine("<times_rewatched></times_rewatched>");
             //xml.AppendLine("<rewatch_value></rewatch_value>");
-            if (startDate != null) xml.AppendLine($"<date_start>{startDate}</date_start>");
-            if (endDate != null) xml.AppendLine($"<date_finish>{endDate}</date_finish>");
+            //if (startDate != null) xml.AppendLine($"<date_start>{startDate}</date_start>");
+            //if (endDate != null) xml.AppendLine($"<date_finish>{endDate}</date_finish>");
             //xml.AppendLine("<priority></priority>");
             //xml.AppendLine("<enable_discussion></enable_discussion>");
-            xml.AppendLine($"<enable_rewatching>{(rewatching ? "1" : "0")}</enable_rewatching>");
+            //xml.AppendLine($"<enable_rewatching>{(rewatching ? "1" : "0")}</enable_rewatching>");
             //xml.AppendLine("<comments></comments>");
             //xml.AppendLine("<fansub_group></fansub_group>");
-            xml.AppendLine($"<tags>{notes}</tags>");
+            //xml.AppendLine($"<tags>{notes}</tags>");
             xml.AppendLine("</entry>");
 
 

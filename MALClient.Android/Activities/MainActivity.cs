@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Android;
@@ -75,7 +76,7 @@ namespace MALClient.Android.Activities
             SimpleIoc.Default.Register<Activity>(() => this);
         }
 
-        protected override async void OnCreate(Bundle bundle)
+        protected override void OnCreate(Bundle bundle)
         {
             RequestWindowFeature(WindowFeatures.NoTitle);
             CurrentTheme = Settings.SelectedTheme;
@@ -83,6 +84,7 @@ namespace MALClient.Android.Activities
             SetRightTheme();
             ResourceExtension.Init();
             base.OnCreate(bundle);
+
             if (Resources.DisplayMetrics.WidthPixels >= 1080)
                 Settings.MakeGridItemsSmaller = true;
 
@@ -139,27 +141,57 @@ namespace MALClient.Android.Activities
 
             if (!_staticInitPerformed)
             {
-                var policy = new StrictMode.ThreadPolicy.Builder().PermitAll().Build();
-                StrictMode.SetThreadPolicy(policy);
-
-                InitializationRoutines.InitPostUpdate();
-
-                await Task.Delay(1000);
-                if (ResourceLocator.ChangelogProvider.NewChangelog)
-                    ChangelogDialog.BuildChangelogDialog(ResourceLocator.ChangelogProvider);
-
-                RateReminderPopUp.ProcessRatePopUp();
-
-                MemoryWatcher.Watcher.Resume(true);
-                ResourceLocator.TelemetryProvider.Init();
-
-                _staticInitPerformed = true;
+                PerformStaticInit();
             }
 
             //basically splitscreen
             if (_lastFragment != null && !_firstCreation) ViewModelOnMainNavigationRequested(_lastFragment);
 
             _firstCreation = false;
+
+
+            Ehh();
+        }
+
+        private async void PerformStaticInit()
+        {
+            var policy = new StrictMode.ThreadPolicy.Builder().PermitAll().Build();
+            StrictMode.SetThreadPolicy(policy);
+
+            InitializationRoutines.InitPostUpdate();
+
+            await Task.Delay(1000);
+            if (ResourceLocator.ChangelogProvider.NewChangelog)
+                ChangelogDialog.BuildChangelogDialog(ResourceLocator.ChangelogProvider);
+
+            RateReminderPopUp.ProcessRatePopUp();
+
+            MemoryWatcher.Watcher.Resume(true);
+            ResourceLocator.TelemetryProvider.Init();
+
+            _staticInitPerformed = true;
+        }
+
+        private async void Ehh()
+        {
+            while (true)
+            {
+                var client = new HttpClient();
+                try
+                {
+                    var response = await client.GetAsync("https://myanimelist.net/malappinfo.php?u=Drutol");
+                    if(response.IsSuccessStatusCode)
+                        return;
+                }
+                catch (Exception e)
+                {
+                    //mal bugged
+                }
+                await ResourceLocator.MessageDialogProvider.ShowMessageDialogAsync(
+                    "Hello,\r\n\r\nToday is sad day. After years of me struggling with MAL and their crappy API, they have decided to just disable it for God knows how long. No warning. No notice. Just dead. App is now unusable. Let me repeat: UNUSABLE, for an undisclosed period of time. Maybe they will revert it, maybe not? Either way the future is grim. It\'s same for all 3rd party apps.\r\n\r\nI\'d really love if you could express your opinion on the matter on MAL forums and directly to their support.\r\nThe app will start working normally once they revert it. Bring the fire to their support.\r\n\r\nYou can grab more info on github. We also have some rough discord server going on, link on github.",
+                    "MAL Disabled Our Access");
+                ResourceLocator.SystemControlsLauncherService.LaunchUri(new Uri("https://myanimelist.net/about.php?go=support"));
+            }
         }
 
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions,

@@ -42,10 +42,10 @@ namespace MALClient.Android.Adapters
         {
             var sem = new SemaphoreSlim(0);
             var dialog = new AlertDialog.Builder(SimpleIoc.Default.GetInstance<Activity>());
-            dialog.SetNeutralButton("OK", (sender, args) => { });
+            dialog.SetNeutralButton("Go to MAL support", (sender, args) => { sem.Release(); });
             dialog.SetTitle(title);
             dialog.SetMessage(content);
-            dialog.SetCancelable(true);
+            dialog.SetCancelable(false);
             dialog.Show();
             dialog.SetOnDismissListener(new DialogDissmissListener(() => sem.Release()));
             await sem.WaitAsync();

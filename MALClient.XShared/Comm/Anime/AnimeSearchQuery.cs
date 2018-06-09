@@ -4,6 +4,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using Android.Runtime;
 using MALClient.Models.Enums;
 using MALClient.Models.Models.Anime;
 using MALClient.XShared.Utils;
@@ -41,14 +42,14 @@ namespace MALClient.XShared.Comm.Anime
             }
         }
 
-        public async Task<List<AnimeGeneralDetailsData>> GetSearchResults()
+        public async Task<List<AnimeGeneralDetailsData>> GetSearchResults(bool tryAiring = false)
         {
             var output = new List<AnimeGeneralDetailsData>();
 
             try
             {
                 var client = new HttpClient(new NativeMessageHandler());
-                var response = await client.GetAsync("https://api.jikan.moe/search/anime/{_query}/1");
+                var response = await client.GetAsync($"https://api.jikan.moe/search/anime/{_query}/1{(tryAiring ? "?status=airing" : "")}");
 
                 if (!response.IsSuccessStatusCode)
                     return output;
@@ -66,7 +67,8 @@ namespace MALClient.XShared.Comm.Anime
                         Type = result.type,
                         Synopsis = result.description,
                         MalId = result.mal_id,
-                        GlobalScore = (float)result.score,                                           
+                        GlobalScore = (float)result.score,      
+                        Status = tryAiring ? "Currently Airing" : "Unknown"
                     });
                 }
 
@@ -134,6 +136,7 @@ namespace MALClient.XShared.Comm.Anime
             //return output;
         }
 
+        [Preserve(AllMembers = true)]
         public class Result
         {
             public int mal_id { get; set; }
@@ -147,6 +150,7 @@ namespace MALClient.XShared.Comm.Anime
             public int members { get; set; }
         }
 
+        [Preserve(AllMembers = true)]
         public class RootObject
         {
             public string request_hash { get; set; }

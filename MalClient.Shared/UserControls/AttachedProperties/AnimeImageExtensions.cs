@@ -41,6 +41,7 @@ namespace MALClient.UWP.Shared.UserControls.AttachedProperties
             
             if (Settings.PullHigherQualityImages && Settings.SelectedApiType != ApiType.Hummingbird && !GetForceStandardImage(d))
             {
+                source = source.Replace(".webp", ".jpg");
                 var pos = source?.IndexOf(".jpg") ?? -1;
                 if (pos == -1)
                     pos = source?.IndexOf(".webp") ?? -1;

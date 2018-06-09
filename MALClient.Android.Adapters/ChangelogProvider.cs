@@ -31,12 +31,13 @@ namespace MALClient.Android.Adapters
 
         public bool NewChangelog { get; set; }
 
-        public string DateWithVersion => $"{_currentVersion} - 05.05.2018";
+        public string DateWithVersion => $"{_currentVersion} - 09.06.2018";
 
         public List<string> Changelog => new List<string>
         {
-            "Fixed related anime list.",
-            "Fixed some sign-in issues."
+            "-- WARNING --",
+            "As you probably are aware that MAL is going through difficult period, portions of website are down and there's no API whatsoever. I've managed to create some workarounds to restore basic functionality. What works:",
+            "Search, Fetching your own AnimeList, Updating Status/Watched Episodes/Score, Anime Details, Airing anime calculations",
         };
 
     }

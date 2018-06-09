@@ -29,35 +29,43 @@ namespace MALClient.XShared.Comm.Anime
                 switch (requestedApiType)
                 {
                     case ApiType.Mal:
-                        string data = null;
-                        if (!string.IsNullOrEmpty(title))
+                        var data = await new AnimeSearchQuery(Utilities.CleanAnimeTitle(title), requestedApiType)
+                            .GetSearchResults(true);
+                        output = data.FirstOrDefault(detailsData => detailsData.Id.ToString() == id);
+                        if (output == null)
                         {
-                            data = animeMode
-                            ? await new AnimeSearchQuery(Utils.Utilities.CleanAnimeTitle(title), requestedApiType)
-                                .GetRequestResponse()
-                            : await new MangaSearchQuery(Utils.Utilities.CleanAnimeTitle(title)).GetRequestResponse();
+                            data = await new AnimeSearchQuery(Utilities.CleanAnimeTitle(title), requestedApiType)
+                                .GetSearchResults();
+                            output = data.FirstOrDefault(detailsData => detailsData.Id.ToString() == id);
                         }
+                        //if (!string.IsNullOrEmpty(title))
+                        //{
+                        //    data = animeMode
+                        //    ? await new AnimeSearchQuery(Utils.Utilities.CleanAnimeTitle(title), requestedApiType)
+                        //        .GetRequestResponse()
+                        //    : await new MangaSearchQuery(Utils.Utilities.CleanAnimeTitle(title)).GetRequestResponse();
+                        //}
                   
-                        if (string.IsNullOrEmpty(data) || !data.Contains(id))
-                        {
-                            //we are loading title from website because request came from mal url
-                            var correctTitle = await AnimeTitleQuery.GetTitle(int.Parse(id), animeMode);
-                            data = animeMode
-                            ? await new AnimeSearchQuery(Utils.Utilities.CleanAnimeTitle(correctTitle), requestedApiType)
-                                .GetRequestResponse()
-                            : await new MangaSearchQuery(Utils.Utilities.CleanAnimeTitle(correctTitle)).GetRequestResponse();
-                        }
+                        //if (string.IsNullOrEmpty(data) || !data.Contains(id))
+                        //{
+                        //    //we are loading title from website because request came from mal url
+                        //    var correctTitle = await AnimeTitleQuery.GetTitle(int.Parse(id), animeMode);
+                        //    data = animeMode
+                        //    ? await new AnimeSearchQuery(Utils.Utilities.CleanAnimeTitle(correctTitle), requestedApiType)
+                        //        .GetRequestResponse()
+                        //    : await new MangaSearchQuery(Utils.Utilities.CleanAnimeTitle(correctTitle)).GetRequestResponse();
+                        //}
 
-                        data = WebUtility.HtmlDecode(data);
+                        //data = WebUtility.HtmlDecode(data);
 
-                        data = data.Replace("&", ""); //unparsable stuff ahaead :(
-                        var parsedData = XDocument.Parse(data);
+                        //data = data.Replace("&", ""); //unparsable stuff ahaead :(
+                        //var parsedData = XDocument.Parse(data);
 
-                        var elements = parsedData.Element(animeMode ? "anime" : "manga").Elements("entry");
-                        var xmlObj = elements.First(element => element.Element("id").Value == id);
+                        //var elements = parsedData.Element(animeMode ? "anime" : "manga").Elements("entry");
+                        //var xmlObj = elements.First(element => element.Element("id").Value == id);
 
-                        output = new AnimeGeneralDetailsData();
-                        output.ParseXElement(xmlObj, animeMode, Settings.PreferEnglishTitles);
+                        //output = new AnimeGeneralDetailsData();
+                        //output.ParseXElement(xmlObj, animeMode, Settings.PreferEnglishTitles);
 
                         DataCache.SaveAnimeSearchResultsData(id, output, animeMode);
                         break;

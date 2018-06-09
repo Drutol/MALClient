@@ -95,7 +95,7 @@ namespace MALClient.XShared.Comm.Anime
                         {
                             ["anime_id"] = _item.Id,
                             ["status"] = (int) _item.MyStatus,
-                            ["score"] = _item.MyScore,
+                            ["score"] = (int)_item.MyScore,
                             ["num_watched_episodes"] = _item.MyEpisodes,
                             ["csrf_token"] = client.Token,
                         }.ToString(Formatting.None)));

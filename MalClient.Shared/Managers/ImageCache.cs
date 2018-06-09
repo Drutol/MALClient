@@ -150,7 +150,7 @@ namespace MALClient.UWP.Shared.Managers
         {
             ulong uriHash = CreateHash64(uri);
 
-            return $"{uriHash}.jpg";
+            return $"{uriHash}.webp";
         }
 
         private static Uri CreateBitmapImage(string fileName)

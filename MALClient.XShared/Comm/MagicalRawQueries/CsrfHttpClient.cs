@@ -80,7 +80,7 @@ namespace MALClient.XShared.Comm.MagicalRawQueries
         public async Task GetToken()
         {
 
-            var raw = await GetAsync("/login.php");
+            var raw = await GetAsync("https://myanimelist.net/");
 
             ParseTokenFromHtml(await raw.Content.ReadAsStringAsync());
 

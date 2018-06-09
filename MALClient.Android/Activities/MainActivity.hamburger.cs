@@ -242,9 +242,7 @@ namespace MALClient.Android.Activities
 
             _drawer = builder.Build();
             UpdateLogInLabel();
-            _drawer.StickyFooter.SetBackgroundColor(new Color(Settings.SelectedTheme == 1
-                ? ResourceExtension.BrushAnimeItemInnerBackground
-                : ResourceExtension.BrushAnimeItemBackground));
+            _drawer.StickyFooter.SetBackgroundColor(Color.ParseColor("#660000"));
 
             _drawer.DrawerLayout.AddDrawerListener(new DrawerListener(OnClose, OnOpen));
         }
@@ -499,11 +497,15 @@ namespace MALClient.Android.Activities
                 settingsButton.WithIdentifier((int)PageIndex.PageSettings);
                 settingsButton.WithIcon(Resource.Drawable.icon_settings);
 
+                
+
                 _drawer.RemoveAllStickyFooterItems();
                 _drawer.AddStickyFooterItem(accountButton);
                 _drawer.AddStickyFooterItem(settingsButton);
             }
 
+
+            _drawer.AddStickyFooterItem(new SectionDrawerItem().WithName("-- Workaround Version --"));
             //var settingsButton = new ContainerDrawerItem();
             //settingsButton.WithSelectable(false);
             //settingsButton.WithDivider(false);

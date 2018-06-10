@@ -52,11 +52,9 @@ namespace MALClient.XShared.BL
                     ResourceLocator.MessageDialogProvider.ShowMessageDialog(
                         "Unable to connect to MyAnimeList, they have either changed something in html or your connection is down.",
                         "Something went wrong™");
-                Credentials.Reset();
-                _skippedFirstError = false;
-                return new CsrfHttpClient(new HttpClientHandler()) {Disabled = true};
-                
 
+                _skippedFirstError = false;
+                return new CsrfHttpClient(new HttpClientHandler()) {Disabled = true};               
             }
             finally
             {

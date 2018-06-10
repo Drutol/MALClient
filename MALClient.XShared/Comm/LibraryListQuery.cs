@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -77,8 +78,9 @@ namespace MALClient.XShared.Comm
             bool loop = true; //loop_noop
             while (loop)
             {
+                Debug.WriteLine($"Loading with offset {offset}");
                 var raw = await client.GetStringAsync(
-                   $"https://myanimelist.net/animelist/{_source}/load.json?offset={offset}&status=7&order=5");
+                   $"https://myanimelist.net/animelist/{_source}/load.json?offset={offset}&status=7");
 
                 if (string.IsNullOrEmpty(raw))
                     return await DataCache.RetrieveDataForUser(_source, _mode) ?? output;
@@ -93,7 +95,8 @@ namespace MALClient.XShared.Comm
                             case AnimeListWorkModes.Anime:
                                 var anime = JsonConvert.DeserializeObject<List<RootObject>>(raw);
                                 offset += anime.Count;
-                                if (anime.Count == 0)
+
+                                if (anime.Count < 300)
                                     loop = false;
 
                                 foreach (var item in anime)

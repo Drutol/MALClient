@@ -24,7 +24,7 @@ namespace MALClient.XShared.Interfaces
         /// <returns>
         ///     Returns valid http client which can interact with website API.
         /// </returns>
-        Task<CsrfHttpClient> GetHttpContextAsync();
+        Task<CsrfHttpClient> GetHttpContextAsync(bool skipAuthCheck = false);
 
         void Invalidate();
     }

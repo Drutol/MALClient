@@ -39,10 +39,10 @@ namespace MALClient.XShared.Comm
             try
             {
                 ResourceLocator.MalHttpContextProvider.Invalidate();
-                var client = await ResourceLocator.MalHttpContextProvider.GetHttpContextAsync();
+                var client = await ResourceLocator.MalHttpContextProvider.GetHttpContextAsync(true);
                 if (client.Disabled)
                     return null;
-                return "dad";
+                return "ok";
             }
             catch (Exception e)
             {

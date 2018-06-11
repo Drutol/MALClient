@@ -2,6 +2,12 @@
     <PropertyGroup>
         <TargetFramework>netstandard2.0</TargetFramework>
         <PackageTargetFallback>$(PackageTargetFallback);portable-win+net45+wp8+win81+wpa8</PackageTargetFallback>
+    </PropertyGroup> 
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='AndroidRelease|AnyCPU'">
+      <DefineConstants>TRACE;RELEASE;NETSTANDARD2_0;ANDROID</DefineConstants>
+    </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='AndroidDebug|AnyCPU'">
+      <DefineConstants>TRACE;RELEASE;NETSTANDARD2_0;ANDROID;DEBUG</DefineConstants>
     </PropertyGroup>
     <ItemGroup>
       <PackageReference Include="HtmlAgilityPack" Version="1.8.1" />

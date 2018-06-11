@@ -500,7 +500,6 @@ namespace MALClient.Android.Activities
                 settingsButton.WithIcon(Resource.Drawable.icon_settings);
 
                 
-
                 _drawer.RemoveAllStickyFooterItems();
                 _drawer.AddStickyFooterItem(accountButton);
                 _drawer.AddStickyFooterItem(settingsButton);
@@ -509,6 +508,8 @@ namespace MALClient.Android.Activities
 
             _drawer.AddStickyFooterItem(new SectionDrawerItem().WithName("---   --     Workaround Version     --   ---")
                 .WithTextColor(Color.ParseColor("#ff0000")).WithTypeface(Typeface.DefaultBold).WithDivider(true));
+            _drawer.AddStickyFooterItem(new SectionDrawerItem().WithName("Catch me on discord! Link on github!")
+                .WithTextColor(Color.ParseColor("#aa0000")).WithTypeface(Typeface.Default).WithDivider(false));
             //var settingsButton = new ContainerDrawerItem();
             //settingsButton.WithSelectable(false);
             //settingsButton.WithDivider(false);

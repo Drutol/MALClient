@@ -19,6 +19,7 @@ namespace MALClient.XShared.BL
         private bool _skippedFirstError;
         protected DateTime? _contextExpirationTime;
         private SemaphoreSlim _semaphoreSlim = new SemaphoreSlim(1);
+        private Exception _exc;
 
         protected abstract Task<CsrfHttpClient> ObtainContext();
 
@@ -27,8 +28,10 @@ namespace MALClient.XShared.BL
             ResourceLocator.MessageDialogProvider.ShowMessageDialog($"Something went wrong... {what} implementation is pretty hacky so this stuff can happen from time to time, try again later or wait for next update. Sorry!", "Error");
         }
 
-        public virtual async Task<CsrfHttpClient> GetHttpContextAsync()
+        public virtual async Task<CsrfHttpClient> GetHttpContextAsync(bool skipAtuhCheck = false)
         {
+            if(!Credentials.Authenticated && !skipAtuhCheck)
+                return new CsrfHttpClient(new HttpClientHandler()) { Disabled = true };
             await _semaphoreSlim.WaitAsync();
             try
             {
@@ -42,16 +45,25 @@ namespace MALClient.XShared.BL
             }
             catch (Exception e)
             {
-                if (!_skippedFirstError || e is ObjectDisposedException)
+                _exc = e;
+                if ((!_skippedFirstError || e is ObjectDisposedException) && e.Message != "Unable to authorize")
                 {
+                    
                     _skippedFirstError = true;
                     await Task.Delay(250);
                     return await GetHttpContextAsync(); //bug in android http client
                 }
-                if (!(e is TaskCanceledException) && !(e.InnerException is InvalidOperationException))
-                    ResourceLocator.MessageDialogProvider.ShowMessageDialog(
-                        "Unable to connect to MyAnimeList, they have either changed something in html or your connection is down.",
-                        "Something went wrong™");
+
+                if (e.Message == "Unable to authorize")
+                {
+                    ResourceLocator.DispatcherAdapter.Run(async () =>
+                    {
+                        Credentials.Reset();
+                        ResourceLocator.AnimeLibraryDataStorage.Reset();
+                        ResourceLocator.MalHttpContextProvider.Invalidate();
+                        await ResourceLocator.DataCacheService.ClearAnimeListData();
+                    });
+                }
 
                 _skippedFirstError = false;
                 return new CsrfHttpClient(new HttpClientHandler()) {Disabled = true};               

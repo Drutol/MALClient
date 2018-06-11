@@ -64,12 +64,12 @@ namespace MALClient.Android
             InitializationRoutines.InitApp();
             //System.Diagnostics.Debug.WriteLine($"App init {sp.ElapsedMilliseconds}");
             //sp.Restart();
-            ServicePointManager.ServerCertificateValidationCallback += (o, certificate, chain, errors) =>
-            {
-                if(certificate.Subject == "CN=*.myanimelist.net" || certificate.Subject == "CN=*.google.com, O=Google Inc, L=Mountain View, S=California, C=US")
-                    return true;
-                return false;
-            };
+            //ServicePointManager.ServerCertificateValidationCallback += (o, certificate, chain, errors) =>
+            //{
+            //    if(certificate.Subject == "CN=*.myanimelist.net" || certificate.Subject == "CN=*.google.com, O=Google Inc, L=Mountain View, S=California, C=US")
+            //        return true;
+            //    return false;
+            //};
             
             base.OnCreate();
         }

@@ -29,13 +29,13 @@ namespace MALClient.XShared.Comm.Anime
                 switch (requestedApiType)
                 {
                     case ApiType.Mal:
-                        var data = await new AnimeSearchQuery(Utilities.CleanAnimeTitle(title), requestedApiType)
-                            .GetSearchResults(true);
+                        var data = animeMode ? await new AnimeSearchQuery(Utilities.CleanAnimeTitle(title), requestedApiType)
+                            .GetSearchResults(true) : await new MangaSearchQuery(Utilities.CleanAnimeTitle(title)).GetSearchResults();
                         output = data.FirstOrDefault(detailsData => detailsData.Id.ToString() == id);
-                        if (output == null)
+                        if (output == null && animeMode)
                         {
                             data = await new AnimeSearchQuery(Utilities.CleanAnimeTitle(title), requestedApiType)
-                                .GetSearchResults();
+                                    .GetSearchResults();
                             output = data.FirstOrDefault(detailsData => detailsData.Id.ToString() == id);
                         }
                         //if (!string.IsNullOrEmpty(title))

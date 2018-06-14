@@ -1,16 +1,20 @@
 ﻿using System;
 using System.Net;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using MALClient.Adapters;
 using MALClient.Models.Models.Library;
 using MALClient.XShared.Utils;
 using MALClient.XShared.ViewModels;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace MALClient.XShared.Comm.Manga
 {
     public class MangaUpdateQuery : Query
     {
+        private readonly IAnimeData _item;
         public static bool SuppressOfflineSync { get; set; }
         public static bool UpdatedSomething { get; set; } //used for data saving on suspending in app.xaml.cs
 
@@ -21,6 +25,7 @@ namespace MALClient.XShared.Comm.Manga
         /// <param name="rewatched"></param>
         public MangaUpdateQuery(IAnimeData item, int rewatched)
         {
+            _item = item;
             var xml = new StringBuilder();
             xml.AppendLine("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
             xml.AppendLine("<entry>");
@@ -43,15 +48,48 @@ namespace MALClient.XShared.Comm.Manga
 
         public override async Task<string> GetRequestResponse()
         {
-            var result = await base.GetRequestResponse();
-            if (string.IsNullOrEmpty(result) && !SuppressOfflineSync && Settings.EnableOfflineSync)
+            try
             {
-                result = "Updated";
-                Settings.MangaSyncRequired = true;
-            }
+                var result = "";
+                try
+                {
+                    var client = await ResourceLocator.MalHttpContextProvider.GetHttpContextAsync();
+                    client.DefaultRequestHeaders.Add("X-Requested-With", new[] {"XMLHttpRequest"});
 
-            ResourceLocator.ApplicationDataService[RoamingDataTypes.LastLibraryUpdate] = DateTime.Now.ToBinary();
-            return result;
+                    var response = await client.PostAsync("https://myanimelist.net/ownlist/manga/edit.json",
+                        new StringContent(new JObject
+                        {
+                            ["manga_id"] = _item.Id,
+                            ["status"] = (int) _item.MyStatus,
+                            ["score"] = (int) _item.MyScore,
+                            ["num_read_volumes"] = _item.MyVolumes,
+                            ["num_read_chapters"] = _item.MyEpisodes,
+                            ["csrf_token"] = client.Token,
+                        }.ToString(Formatting.None)));
+                    var content = await response.Content.ReadAsStringAsync();
+                    if (response.IsSuccessStatusCode)
+                        result = "Updated";
+                }
+                catch (Exception e)
+                {
+
+                }
+
+                //var result = await base.GetRequestResponse();
+
+                if (string.IsNullOrEmpty(result) && !SuppressOfflineSync && Settings.EnableOfflineSync)
+                {
+                    result = "Updated";
+                    Settings.MangaSyncRequired = true;
+                }
+
+                ResourceLocator.ApplicationDataService[RoamingDataTypes.LastLibraryUpdate] = DateTime.Now.ToBinary();
+                return result;
+            }
+            catch (Exception)
+            {
+                return string.Empty;
+            }
         }
 
 

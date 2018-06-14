@@ -145,23 +145,15 @@ namespace MALClient.XShared.ViewModels.Main
             }
             else // manga search
             {
-                var response = "";
-                await
-                    Task.Run(
-                        async () =>
-                            response = await new MangaSearchQuery(Utils.Utilities.CleanAnimeTitle(query)).GetRequestResponse());
                 try
                 {
-                    response = WebUtility.HtmlDecode(response);
-                    var parsedData = XDocument.Parse(response.Replace("&", "")); //due to unparasable stuff returned by mal);
-                    foreach (var item in parsedData.Element("manga").Elements("entry"))
+
+                    foreach (var item in await new MangaSearchQuery(Utilities.CleanAnimeTitle(query))
+                        .GetSearchResults())
                     {
-                        var type = item.Element("type").Value;
-                        var mangaData = new AnimeGeneralDetailsData();
-                        mangaData.ParseXElement(item, false, Settings.PreferEnglishTitles);
-                        _allAnimeSearchItemViewModels.Add(new AnimeSearchItemViewModel(mangaData, false));
-                        if (!_filters.Contains(type))
-                            _filters.Add(type);
+                        _allAnimeSearchItemViewModels.Add(new AnimeSearchItemViewModel(item, false));
+                        if (!_filters.Contains(item.Type))
+                            _filters.Add(item.Type);
                     }
                 }
                 catch (Exception) //if MAL returns nothing it returns unparsable xml ... 

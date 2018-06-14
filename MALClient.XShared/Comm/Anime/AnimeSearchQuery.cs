@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using Android.Runtime;
@@ -58,6 +59,11 @@ namespace MALClient.XShared.Comm.Anime
 
                 foreach (var result in results.result)
                 {
+                    result.image_url =
+                        Regex.Replace(result.image_url, @"\/r\/\d+x\d+", "");
+                    result.image_url =
+                        result.image_url.Substring(0, result.image_url.IndexOf('?'));
+
                     output.Add(new AnimeGeneralDetailsData
                     {
                         Id = result.mal_id,

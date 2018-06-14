@@ -60,7 +60,7 @@ namespace MALClient.XShared.Utils
                     (int)(ApplicationDataService["SelectedTheme"] ?? 0);
 #else
                 return
-                    (int) (ApplicationDataService["SelectedTheme"] ?? 0);
+                    (int) (ApplicationDataService["SelectedTheme"] ?? 1);
 #endif
 
             }

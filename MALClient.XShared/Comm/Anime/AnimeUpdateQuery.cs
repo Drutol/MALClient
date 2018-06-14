@@ -86,8 +86,7 @@ namespace MALClient.XShared.Comm.Anime
                 var result = "";
                 try
                 {
-                    var client = await ResourceLocator.MalHttpContextProvider.GetHttpContextAsync();
-                    var html = await client.GetStringAsync($"https://myanimelist.net/anime/{_item.Id}");      
+                    var client = await ResourceLocator.MalHttpContextProvider.GetHttpContextAsync(); 
                     client.DefaultRequestHeaders.Add("X-Requested-With",new []{ "XMLHttpRequest" });
                     
                     var response = await client.PostAsync("https://myanimelist.net/ownlist/anime/edit.json",

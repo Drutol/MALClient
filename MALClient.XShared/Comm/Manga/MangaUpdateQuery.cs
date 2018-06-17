@@ -66,7 +66,6 @@ namespace MALClient.XShared.Comm.Manga
                             ["num_read_chapters"] = _item.MyEpisodes,
                             ["csrf_token"] = client.Token,
                         }.ToString(Formatting.None)));
-                    var content = await response.Content.ReadAsStringAsync();
                     if (response.IsSuccessStatusCode)
                         result = "Updated";
                 }

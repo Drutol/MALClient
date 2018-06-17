@@ -70,10 +70,10 @@ namespace MALClient.XShared.Comm.Anime
             try
             {
                 var client = await ResourceLocator.MalHttpContextProvider.GetHttpContextAsync();
-                var response = await client.PostAsync("https://myanimelist.net/ownlist/anime/edit.json",
+                var response = await client.PostAsync("https://myanimelist.net/ownlist/anime/add.json",
                     new StringContent(new JObject
                     {
-                        ["anime_id"] = _id,
+                        ["anime_id"] = int.Parse(_id),
                         ["status"] = (int)AnimeStatus.PlanToWatch,
                         ["score"] = 0,
                         ["num_watched_episodes"] = 0,

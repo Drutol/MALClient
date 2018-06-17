@@ -34,7 +34,7 @@ namespace MALClient.XShared.Comm.Manga
                 var client = new HttpClient(new NativeMessageHandler());
                 var response =
                     await client.GetAsync(
-                        $"https://api.jikan.moe/search/anime/{_query}/1");
+                        $"https://api.jikan.moe/search/manga/{_query}/1");
 
                 if (!response.IsSuccessStatusCode)
                     return output;

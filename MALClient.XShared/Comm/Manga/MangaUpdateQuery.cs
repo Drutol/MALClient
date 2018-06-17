@@ -44,6 +44,7 @@ namespace MALClient.XShared.Comm.Manga
                 item.Id, item.MyEpisodes, (int)item.MyStatus, (int) item.MyScore, item.MyVolumes, item.StartDate,
                 item.EndDate,item.Notes,item.IsRewatching)
         {
+            _item = item;
         }
 
         public override async Task<string> GetRequestResponse()

@@ -50,7 +50,7 @@ namespace MALClient.XShared.Comm.Anime
             try
             {
                 var client = new HttpClient(new NativeMessageHandler());
-                var response = await client.GetAsync($"https://api.jikan.moe/search/anime/{_query}/1{(tryAiring ? "?status=airing" : "")}");
+                var response = await client.GetAsync($"https://api.jikan.moe/search/anime?q={_query}&page=1{(tryAiring ? "&status=airing" : "")}");
 
                 if (!response.IsSuccessStatusCode)
                     return output;

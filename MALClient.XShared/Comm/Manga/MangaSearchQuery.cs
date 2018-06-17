@@ -4,6 +4,7 @@ using System.Net;
 using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Android.Runtime;
 using MALClient.Models.Models.Anime;
 using MALClient.XShared.Comm.Anime;
 using MALClient.XShared.Utils;
@@ -34,7 +35,7 @@ namespace MALClient.XShared.Comm.Manga
                 var client = new HttpClient(new NativeMessageHandler());
                 var response =
                     await client.GetAsync(
-                        $"https://api.jikan.moe/search/manga/{_query}/1");
+                        $"https://api.jikan.moe/search/manga?q={_query}&page=1");
 
                 if (!response.IsSuccessStatusCode)
                     return output;
@@ -73,6 +74,7 @@ namespace MALClient.XShared.Comm.Manga
             return output;
         }
 
+        [Preserve(AllMembers = true)]
         class Result
         {
             public int mal_id { get; set; }
@@ -86,6 +88,7 @@ namespace MALClient.XShared.Comm.Manga
             public int members { get; set; }
         }
 
+        [Preserve(AllMembers = true)]
         class RootObject
         {
             public string request_hash { get; set; }

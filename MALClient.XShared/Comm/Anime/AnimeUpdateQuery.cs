@@ -98,7 +98,6 @@ namespace MALClient.XShared.Comm.Anime
                             ["num_watched_episodes"] = _item.MyEpisodes,
                             ["csrf_token"] = client.Token,
                         }.ToString(Formatting.None)));
-                    var content = await response.Content.ReadAsStringAsync();
                     if (response.IsSuccessStatusCode)
                         result = "Updated";
                 }

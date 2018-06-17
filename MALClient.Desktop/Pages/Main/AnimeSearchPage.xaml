@@ -80,7 +80,7 @@
                                 Foreground="{Binding IsSearchFilterActive,Converter={StaticResource SearchFilterStatusToBrushConverter}}" />
             </Button>
         </Grid>
-        <Grid Grid.Row="2">
+        <Grid Grid.Row="2" Background="Transparent">
             <ListView x:Name="Animes" ItemsSource="{Binding AnimeSearchItemViewModels}"
                       IsItemClickEnabled="True" ItemClick="Animes_OnItemClick"
                       Margin="0,0,0,0" SelectionMode="Single"
@@ -105,13 +105,10 @@
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-            <StackPanel Visibility="{Binding IsFirstVisitGridVisible,Converter={StaticResource BoolToVisibilityConverter}}" HorizontalAlignment="Center" VerticalAlignment="Center" Opacity=".5">
-                <SymbolIcon Symbol="BrowsePhotos" RenderTransformOrigin=".5,.5" Foreground="{ThemeResource BrushSettingsSubtitle}">
-                    <SymbolIcon.RenderTransform>
-                        <ScaleTransform ScaleX="4" ScaleY="4"/>
-                    </SymbolIcon.RenderTransform>
-                </SymbolIcon>
-                <TextBlock Text="Search away!" Foreground="{ThemeResource BrushSettingsSubtitle}" Margin="0,40,0,0"/>
+			<StackPanel Visibility="{Binding IsFirstVisitGridVisible,Converter={StaticResource BoolToVisibilityConverter}}" HorizontalAlignment="Center" VerticalAlignment="Center"
+						Opacity=".5" Orientation="Vertical">
+				<TextBlock Foreground="{ThemeResource BrushSettingsSubtitle}" FontFamily="Segoe MDL2 Assets" FontSize="80" Text="&#xE7C5;" HorizontalAlignment="Center"/>
+                <TextBlock Text="Search away!" Foreground="{ThemeResource BrushSettingsSubtitle}" Margin="0,10"/>
             </StackPanel>
             <TextBlock Margin="{Binding ElementName=Animes, Path=Margin}" Visibility="{Binding EmptyNoticeVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
                        Text="No data received from MAL, try searching for something more specific. :("
@@ -122,7 +119,7 @@
                           IsActive="True" Visibility="{Binding Loading,Converter={StaticResource BoolToVisibilityConverter}}" />
         </Grid>
 
-        <Grid Grid.Row="1" Grid.RowSpan="2" Background="{ThemeResource BrushLoadingNonOpaque}" HorizontalAlignment="Stretch" Visibility="{Binding GenreSelectionGridVisibility,Converter={StaticResource BoolToVisibilityConverter}}">
+        <Grid Grid.Row="1" Grid.RowSpan="2" Background="Transparent" HorizontalAlignment="Stretch" Visibility="{Binding GenreSelectionGridVisibility,Converter={StaticResource BoolToVisibilityConverter}}">
             <GridView ScrollViewer.VerticalScrollBarVisibility="Hidden"  Margin="20" ItemsSource="{Binding AvailableSelectionChoices}" HorizontalAlignment="Center" IsItemClickEnabled="True" ItemClick="SelectionGridViewOnClick">
                 <GridView.ItemContainerTransitions>
                     <TransitionCollection>

@@ -27,336 +27,303 @@ using Windows.UI.Xaml.Media;
 
 namespace MALClient.UWP
 {
-    /// <summary>
-    ///     An empty page that can be used on its own or navigated to within a Frame.
-    /// </summary>
-    public sealed partial class MainPage : Page, IMainViewInteractions
-    {
-        private double _prevOffContntWidth;
-        private Timer _timer;
-		private bool _paneState;
+	/// <summary>
+	///     An empty page that can be used on its own or navigated to within a Frame.
+	/// </summary>
+	public sealed partial class MainPage : Page, IMainViewInteractions
+	{
+		private double _prevOffContntWidth;
+		private Timer _timer;
+		private bool _paneState;// _currentPaneState;
 
-        public MainPage()
-        {
-            InitializeComponent();
-            CoreApplicationViewTitleBar coreTitleBar = CoreApplication.GetCurrentView().TitleBar;
-            coreTitleBar.ExtendViewIntoTitleBar = true; 
-            TitleBar.Height = coreTitleBar.Height;
-            Window.Current.SetTitleBar(MainTitleBar);
-            coreTitleBar.LayoutMetricsChanged += TitleBar_LayoutMetricsChanged;
-            coreTitleBar.IsVisibleChanged += TitleBar_IsVisibleChanged;
-            Window.Current.Activated += TitleBar_Activated;
+		public MainPage()
+		{
+			InitializeComponent();
 
-            Loaded += (sender, args) =>
-            {
-                var vm = DesktopViewModelLocator.Main;
-                vm.MainNavigationRequested += Navigate;
-                vm.OffNavigationRequested += NavigateOff;
-                vm.PropertyChanged += VmOnPropertyChanged;
-                UWPViewModelLocator.PinTileDialog.ShowPinDialog += () =>
-                {
-                    PinDialogStoryboard.Begin();
-                };
-                vm.MediaElementCollapsed += VmOnMediaElementCollapsed;
-                UWPViewModelLocator.PinTileDialog.HidePinDialog += HidePinDialog;
-                DesktopViewModelLocator.Main.View = this;
-                StartAdsTimeMeasurements();
-                ViewModelLocator.Settings.OnAdsMinutesPerDayChanged += SettingsOnOnAdsMinutesPerDayChanged;
-                ViewModelLocator.GeneralMain.ChangelogVisibility = ResourceLocator.ChangelogProvider.NewChangelog;
-            };
-        }
+			CoreApplicationViewTitleBar coreTitleBar = CoreApplication.GetCurrentView().TitleBar;
+			coreTitleBar.ExtendViewIntoTitleBar = false;
 
-        private void VmOnMediaElementCollapsed()
-        {
-            MediaElement.Stop();
-        }
+			Loaded += (sender, args) =>
+			{
+				var vm = DesktopViewModelLocator.Main;
+				vm.MainNavigationRequested += Navigate;
+				vm.OffNavigationRequested += NavigateOff;
+				vm.PropertyChanged += VmOnPropertyChanged;
+				UWPViewModelLocator.PinTileDialog.ShowPinDialog += () =>
+				{
+					PinDialogStoryboard.Begin();
+				};
+				vm.MediaElementCollapsed += VmOnMediaElementCollapsed;
+				UWPViewModelLocator.PinTileDialog.HidePinDialog += HidePinDialog;
+				DesktopViewModelLocator.Main.View = this;
+				StartAdsTimeMeasurements();
+				ViewModelLocator.Settings.OnAdsMinutesPerDayChanged += SettingsOnOnAdsMinutesPerDayChanged;
+				ViewModelLocator.GeneralMain.ChangelogVisibility = ResourceLocator.ChangelogProvider.NewChangelog;
+			};
+		}
 
-        #region AdsTimer
-        private void SettingsOnOnAdsMinutesPerDayChanged()
-        {
-            if (Settings.AdsEnable)
-            {
-                var passed = (int)(ResourceLocator.ApplicationDataService["AdsTimeToday"] ?? 0);
-                _timer?.Dispose();
-                if (passed < Settings.AdsSecondsPerDay || Settings.AdsSecondsPerDay == 0)
-                {
-                    ViewModelLocator.GeneralMain.AdsContainerVisibility = true;              
-                    _timer = new Timer(AdTimerCallback, null, 0, 10000);
-                }
-                else
-                {
-                    ViewModelLocator.GeneralMain.AdsContainerVisibility = false;
-                }
-            }
-            else if (_timer != null && !Settings.AdsEnable)
-            {
-                ViewModelLocator.GeneralMain.AdsContainerVisibility = false;
-                _timer?.Dispose();
-                _timer = null;
-            }
-            else if (!Settings.AdsEnable)
-                ViewModelLocator.GeneralMain.AdsContainerVisibility = false;
-        }
+		private void VmOnMediaElementCollapsed()
+		{
+			MediaElement.Stop();
+		}
 
-        private void StartAdsTimeMeasurements()
-        {
-            var day = ResourceLocator.ApplicationDataService["AdsCurrentDay"];
-            if (day != null)
-            {
-                if ((int)day != DateTime.Today.DayOfYear)
-                    ResourceLocator.ApplicationDataService["AdsTimeToday"] = 0;
-            }
-            ResourceLocator.ApplicationDataService["AdsCurrentDay"] = DateTime.Today.DayOfYear;
-            if (Settings.AdsEnable)
-            {
-                _timer = new Timer(AdTimerCallback, null, 0, 10000);
-                ViewModelLocator.GeneralMain.AdsContainerVisibility = true;
-            }
-            else
-            {
-                AdControl.Suspend();
-            }
-        }
+		#region AdsTimer
+		private void SettingsOnOnAdsMinutesPerDayChanged()
+		{
+			if (Settings.AdsEnable)
+			{
+				var passed = (int)(ResourceLocator.ApplicationDataService["AdsTimeToday"] ?? 0);
+				_timer?.Dispose();
+				if (passed < Settings.AdsSecondsPerDay || Settings.AdsSecondsPerDay == 0)
+				{
+					ViewModelLocator.GeneralMain.AdsContainerVisibility = true;
+					_timer = new Timer(AdTimerCallback, null, 0, 10000);
+				}
+				else
+				{
+					ViewModelLocator.GeneralMain.AdsContainerVisibility = false;
+				}
+			}
+			else if (_timer != null && !Settings.AdsEnable)
+			{
+				ViewModelLocator.GeneralMain.AdsContainerVisibility = false;
+				_timer?.Dispose();
+				_timer = null;
+			}
+			else if (!Settings.AdsEnable)
+				ViewModelLocator.GeneralMain.AdsContainerVisibility = false;
+		}
 
-        private async void AdTimerCallback(object state)
-        {
-            var passed = (int)(ResourceLocator.ApplicationDataService["AdsTimeToday"] ?? 0);
-            passed += 10;
-            ResourceLocator.ApplicationDataService["AdsTimeToday"] = passed;
-            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
-                () => AdControl.Resume());
-            if (!Settings.AdsEnable || (Settings.AdsSecondsPerDay != 0 && passed > Settings.AdsSecondsPerDay))
-            {
-                await Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
-                    () => ViewModelLocator.GeneralMain.AdsContainerVisibility = false);
-                _timer?.Dispose();
-                _timer = null;
-            }
-        }
+		private void StartAdsTimeMeasurements()
+		{
+			var day = ResourceLocator.ApplicationDataService["AdsCurrentDay"];
+			if (day != null)
+			{
+				if ((int)day != DateTime.Today.DayOfYear)
+					ResourceLocator.ApplicationDataService["AdsTimeToday"] = 0;
+			}
+			ResourceLocator.ApplicationDataService["AdsCurrentDay"] = DateTime.Today.DayOfYear;
+			if (Settings.AdsEnable)
+			{
+				_timer = new Timer(AdTimerCallback, null, 0, 10000);
+				ViewModelLocator.GeneralMain.AdsContainerVisibility = true;
+			}
+			else
+			{
+				AdControl.Suspend();
+			}
+		}
+
+		private async void AdTimerCallback(object state)
+		{
+			var passed = (int)(ResourceLocator.ApplicationDataService["AdsTimeToday"] ?? 0);
+			passed += 10;
+			ResourceLocator.ApplicationDataService["AdsTimeToday"] = passed;
+			await Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+				() => AdControl.Resume());
+			if (!Settings.AdsEnable || (Settings.AdsSecondsPerDay != 0 && passed > Settings.AdsSecondsPerDay))
+			{
+				await Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+					() => ViewModelLocator.GeneralMain.AdsContainerVisibility = false);
+				_timer?.Dispose();
+				_timer = null;
+			}
+		}
 
 
 
-        #endregion
+		#endregion
 
-        private void HidePinDialog()
-        {
-            HidePinDialogStoryboard.Completed += SbOnCompleted;
-            HidePinDialogStoryboard.Begin();
-        }
+		private void HidePinDialog()
+		{
+			HidePinDialogStoryboard.Completed += SbOnCompleted;
+			HidePinDialogStoryboard.Begin();
+		}
 
-        private void SbOnCompleted(object sender, object o)
-        {
-            (sender as Storyboard).Completed -= SbOnCompleted;
-            UWPViewModelLocator.PinTileDialog.RaisePropertyChanged("GeneralVisibility");
-        }
+		private void SbOnCompleted(object sender, object o)
+		{
+			(sender as Storyboard).Completed -= SbOnCompleted;
+			UWPViewModelLocator.PinTileDialog.RaisePropertyChanged("GeneralVisibility");
+			UnloadObject(PinDialog);
+		}
 
-        private void VmOnPropertyChanged(object sender, PropertyChangedEventArgs args)
-        {
-            if(args.PropertyName == "MenuPaneState")
-            {
-                var paneState = (sender as MainViewModel).MenuPaneState;
+		private void VmOnPropertyChanged(object sender, PropertyChangedEventArgs args)
+		{
+			if (args.PropertyName == "MenuPaneState")
+			{
+				var paneState = (sender as MainViewModel).MenuPaneState;
 				_paneState = paneState;
-				HamburgerControl.Width = paneState ? 250 : 48;
-				HamburgerTopGrid.Width = paneState ? 250 : 48;
-				TitleBarLeft.Margin = new Thickness(Math.Max(_paneState ? 250 : 48, CoreApplication.GetCurrentView().TitleBar.SystemOverlayLeftInset), 0, 0, 0);
+
+				HamburgerControl.Width = _paneState ? 250 : 48;
+				HamburgerTopGrid.Width = _paneState ? 250 : 48;
 			}
-            else if (args.PropertyName == "OffContentVisibility")
-            {
+			else if (args.PropertyName == "OffContentVisibility")
+			{
 				SplitterColumn.Width = new GridLength(ViewModelLocator.GeneralMain.OffContentVisibility ? 16 : 0);
-
-				var width = ViewModelLocator.GeneralMain.OffContentVisibility ? (DataContext as MainViewModel).OffContentStatusBarWidth + 16 : 0;
-				TitleBarRight.Margin = new Thickness(0, 0, Math.Max(width, CoreApplication.GetCurrentView().TitleBar.SystemOverlayRightInset), 0);
 			}
-            else if (args.PropertyName == nameof(ViewModelLocator.GeneralMain.AdsContainerVisibility))
-            {
-                if(ViewModelLocator.GeneralMain.AdsContainerVisibility)
-                    AdControl.Resume();
-                else
-                    AdControl.Suspend();
-            }
+			else if (args.PropertyName == nameof(ViewModelLocator.GeneralMain.AdsContainerVisibility))
+			{
+				if (ViewModelLocator.GeneralMain.AdsContainerVisibility)
+					AdControl.Resume();
+				else
+					AdControl.Suspend();
+			}
 
-        }
-
-        public Tuple<int, string> InitDetails { get; private set; }
-
-        private void Navigate(Type page, object args = null)
-        {
-            MainContent.Navigate(page, args);
-        }
-
-        private void NavigateOff(Type page, object args = null)
-        {
-            OffContent.Navigate(page, args);
-        }
-
-        public SplitViewDisplayMode CurrentDisplayMode { get; }
-
-        public void SearchInputFocus(FocusState state)
-        {
-            SearchInput.Focus(state);
-        }
-
-        public void InitSplitter()
-        {
-            try
-            {
-                RootContentGrid.ColumnDefinitions[2].Width =
-                    new GridLength(_prevOffContntWidth == 0
-                        ? (_prevOffContntWidth = GetStartingSplitterWidth())
-                        : _prevOffContntWidth);
-                OffContent.UpdateLayout();
-            }
-            catch (Exception)
-            {
-                //magic
-            }
-
-        }
-
-        public Storyboard PinDialogStoryboard => FadeInPinDialogStoryboard;
-        public Storyboard CurrentStatusStoryboard => FadeInCurrentStatus;
-        public Storyboard CurrentOffStatusStoryboard => FadeInCurrentOffStatus;
-        public Storyboard CurrentOffSubStatusStoryboard => FadeInCurrentSubStatus;
-        public Storyboard HidePinDialogStoryboard => FadeOutPinDialogStoryboard;
-
-        protected override void OnNavigatedTo(NavigationEventArgs e)
-        {
-            InitDetails = e.Parameter as Tuple<int, string>;
-        }
-
-        private double GetStartingSplitterWidth()
-        {
-            return ApplicationView.GetForCurrentView().VisibleBounds.Width > 1400.0 ? 535 : 465;
-        }
-
-        #region Search
-
-        private void SearchInput_OnQuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
-        {
-            if (SearchInput.Text.Length >= 2)
-            {
-                SearchInput.IsEnabled = false; //reset input
-                SearchInput.IsEnabled = true;
-                ViewModelLocator.GeneralMain.OnSearchInputSubmit();
-            }
-        }
-
-        #endregion
-
-        private void CustomGridSplitter_OnDraggingCompleted(object sender, EventArgs e)
-        {
-            if (DesktopViewModelLocator.Main.CurrentMainPageKind == PageIndex.PageAnimeList && RootContentGrid.ColumnDefinitions[2].ActualWidth < _prevOffContntWidth &&
-                RootContentGrid.ColumnDefinitions[2].ActualWidth - _prevOffContntWidth < -50)
-            {
-                var vm = ViewModelLocator.AnimeList;
-                if (vm.AreThereItemsWaitingForLoad)
-                    vm.RefreshList();
-            }
-            if(RootContentGrid.ColumnDefinitions[2].ActualWidth == 0) 
-                DesktopViewModelLocator.Main.HideOffContentCommand.Execute(null);
-            
-            _prevOffContntWidth = RootContentGrid.ColumnDefinitions[2].ActualWidth;
-        }
-
-        private void OffContent_OnSizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            (DataContext as MainViewModel).OffContentStatusBarWidth = e.NewSize.Width;
-			TitleBarRight.Margin = new Thickness(0, 0, Math.Max(e.NewSize.Width + 16, CoreApplication.GetCurrentView().TitleBar.SystemOverlayRightInset), 0);
 		}
 
-        private void OffContent_OnPointerPressed(object sender, PointerRoutedEventArgs e)
-        {
-            if (e.Pointer.PointerDeviceType == PointerDeviceType.Mouse)
-            {
-                var properties = e.GetCurrentPoint(this).Properties;
-                if (properties.IsXButton1Pressed)
-                    ViewModelLocator.NavMgr.CurrentOffViewOnBackRequested();
-            }
-        }
+		private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
+		{
+			if (!_paneState)
+				return;
 
-        private void MainContent_OnPointerPressed(object sender, PointerRoutedEventArgs e)
-        {
-            if (e.Pointer.PointerDeviceType == PointerDeviceType.Mouse)
-            {
-                var properties = e.GetCurrentPoint(this).Properties;
-                if (properties.IsXButton1Pressed)
-                    ViewModelLocator.NavMgr.CurrentMainViewOnBackRequested();
-            }
-        }
-
-        /// <summary>
-        ///     Hack for pivot not to consume mouse wheel.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void PinPivotItem_OnPointerWheelChanged(object sender, PointerRoutedEventArgs e)
-        {
-            ScrollView.ChangeView(null, ScrollView.VerticalOffset -
-                                        e.GetCurrentPoint(ScrollView).Properties.MouseWheelDelta, null);
-        }
-
-        private void PinDialog_OnTapped(object sender, TappedRoutedEventArgs e)
-        {
-            if ((e.OriginalSource as FrameworkElement).Name == "PinDialog")
-                UWPViewModelLocator.PinTileDialog.CloseDialogCommand.Execute(null);
-        }
-
-        private async void ToggleButton_OnClick(object sender, RoutedEventArgs e)
-        {
-            await Task.Delay(10); // wait for it to appear.. nana, this is completly vaild approach... nananaa
-            var btn = sender as LockableToggleButton;
-            if (btn.IsChecked.GetValueOrDefault(false))
-                SearchInput.Focus(FocusState.Keyboard);
-        }
-
-
-        private void ButtonCloseChangelogOnClick(object sender, RoutedEventArgs e)
-        {
-            ViewModelLocator.GeneralMain.ChangelogVisibility = false;
-        }
-        // Titlebar stuff
-        private void TitleBar_LayoutMetricsChanged(CoreApplicationViewTitleBar coreTitleBar, object args)
-        {
-            TitleBar.Height = coreTitleBar.Height;
-			HamburgerTopGrid.Margin = new Thickness(0, -coreTitleBar.Height, 0, 0);
-			HamburgerTopGrid.Padding = new Thickness(0, coreTitleBar.Height, 0, 0);
-			OffContentTopGrid.Margin = new Thickness(0, -coreTitleBar.Height, 0, 0);
-			OffContentTopGrid.Padding = new Thickness(0, coreTitleBar.Height, 0, 0);
-			TopSplitter.Margin = new Thickness(0, -coreTitleBar.Height, 0, 0);
-			TitleBarLeft.Margin = new Thickness(Math.Max(_paneState ? 250 : 48, coreTitleBar.SystemOverlayLeftInset), 0, 0, 0);
-			var width = ViewModelLocator.GeneralMain.OffContentVisibility ? (DataContext as MainViewModel).OffContentStatusBarWidth + 16 : 0;
-			TitleBarRight.Margin = new Thickness(0, 0, Math.Max(width, coreTitleBar.SystemOverlayRightInset), 0);
+			if (e.NewSize.Width > 720)
+			{
+				HamburgerControl.Width = 250;
+				HamburgerTopGrid.Width = 250;
+				//_currentPaneState = true;
+			}
+			else
+			{
+				HamburgerControl.Width = 48;
+				HamburgerTopGrid.Width = 48;
+				//_currentPaneState = false;
+			}
 		}
 
-        private void TitleBar_IsVisibleChanged(CoreApplicationViewTitleBar sender, object args)
-        {
-            if (sender.IsVisible)
-            {
-                TitleBar.Visibility = Visibility.Visible;
-            }
-            else
-            {
-                TitleBar.Visibility = Visibility.Collapsed;
-            }
-        }
-        private void TitleBar_Activated(object sender, WindowActivatedEventArgs e)
-        {
-            SolidColorBrush foreground = null;
-            bool dark = Settings.SelectedTheme == (int)ApplicationTheme.Dark;
-            if (e.WindowActivationState != CoreWindowActivationState.Deactivated)
-                if (dark)
-                    foreground = new SolidColorBrush(Colors.White);
-                else
-                    foreground = new SolidColorBrush(Colors.Black);
-            else
-                foreground = new SolidColorBrush(Colors.Gray);
-            BackButtonText.Foreground = foreground;
-			// if (integrated) {
-			// ReloadButtonText.Foreground = foreground;
-			// UpButtonText.Foreground = foreground;
-			// SearchButtonText.Foreground = foreground;
-			// CurrentStatus.Foreground = foreground;
-			// }
+		public Tuple<int, string> InitDetails { get; private set; }
+
+		private void Navigate(Type page, object args = null)
+		{
+			MainContent.Navigate(page, args);
 		}
+
+		private void NavigateOff(Type page, object args = null)
+		{
+			OffContent.Navigate(page, args);
+		}
+
+		public SplitViewDisplayMode CurrentDisplayMode { get; }
+
+		public void SearchInputFocus(FocusState state)
+		{
+			SearchInput.Focus(state);
+		}
+
+		public void InitSplitter()
+		{
+			try
+			{
+				RootContentGrid.ColumnDefinitions[2].Width =
+					new GridLength(_prevOffContntWidth == 0
+						? (_prevOffContntWidth = GetStartingSplitterWidth())
+						: _prevOffContntWidth);
+				OffContent.UpdateLayout();
+			}
+			catch (Exception)
+			{
+				//magic
+			}
+
+		}
+
+		public Storyboard PinDialogStoryboard => FadeInPinDialogStoryboard;
+		public Storyboard CurrentStatusStoryboard => FadeInCurrentStatus;
+		public Storyboard CurrentOffStatusStoryboard => FadeInCurrentOffStatus;
+		public Storyboard CurrentOffSubStatusStoryboard => FadeInCurrentSubStatus;
+		public Storyboard HidePinDialogStoryboard => FadeOutPinDialogStoryboard;
+
+		protected override void OnNavigatedTo(NavigationEventArgs e)
+		{
+			InitDetails = e.Parameter as Tuple<int, string>;
+		}
+
+		private double GetStartingSplitterWidth()
+		{
+			return ApplicationView.GetForCurrentView().VisibleBounds.Width > 1400.0 ? 535 : 465;
+		}
+
+		#region Search
+
+		private void SearchInput_OnQuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+		{
+			if (SearchInput.Text.Length >= 2)
+			{
+				SearchInput.IsEnabled = false; //reset input
+				SearchInput.IsEnabled = true;
+				ViewModelLocator.GeneralMain.OnSearchInputSubmit();
+			}
+		}
+
+		#endregion
+
+		private void CustomGridSplitter_OnDraggingCompleted(object sender, EventArgs e)
+		{
+			if (DesktopViewModelLocator.Main.CurrentMainPageKind == PageIndex.PageAnimeList && RootContentGrid.ColumnDefinitions[2].ActualWidth < _prevOffContntWidth &&
+				RootContentGrid.ColumnDefinitions[2].ActualWidth - _prevOffContntWidth < -50)
+			{
+				var vm = ViewModelLocator.AnimeList;
+				if (vm.AreThereItemsWaitingForLoad)
+					vm.RefreshList();
+			}
+			if (RootContentGrid.ColumnDefinitions[2].ActualWidth == 0)
+				DesktopViewModelLocator.Main.HideOffContentCommand.Execute(null);
+
+			_prevOffContntWidth = RootContentGrid.ColumnDefinitions[2].ActualWidth;
+		}
+
+		private void OffContent_OnSizeChanged(object sender, SizeChangedEventArgs e)
+		{
+			(DataContext as MainViewModel).OffContentStatusBarWidth = e.NewSize.Width;
+		}
+
+		private void OffContent_OnPointerPressed(object sender, PointerRoutedEventArgs e)
+		{
+			if (e.Pointer.PointerDeviceType == PointerDeviceType.Mouse)
+			{
+				var properties = e.GetCurrentPoint(this).Properties;
+				if (properties.IsXButton1Pressed)
+					ViewModelLocator.NavMgr.CurrentOffViewOnBackRequested();
+			}
+		}
+
+		private void MainContent_OnPointerPressed(object sender, PointerRoutedEventArgs e)
+		{
+			if (e.Pointer.PointerDeviceType == PointerDeviceType.Mouse)
+			{
+				var properties = e.GetCurrentPoint(this).Properties;
+				if (properties.IsXButton1Pressed)
+					ViewModelLocator.NavMgr.CurrentMainViewOnBackRequested();
+			}
+		}
+
+		/// <summary>
+		///     Hack for pivot not to consume mouse wheel.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void PinPivotItem_OnPointerWheelChanged(object sender, PointerRoutedEventArgs e)
+		{
+			ScrollView.ChangeView(null, ScrollView.VerticalOffset -
+										e.GetCurrentPoint(ScrollView).Properties.MouseWheelDelta, null);
+		}
+
+		private void PinDialog_OnTapped(object sender, TappedRoutedEventArgs e)
+		{
+			if ((e.OriginalSource as FrameworkElement).Name == "PinDialog")
+				UWPViewModelLocator.PinTileDialog.CloseDialogCommand.Execute(null);
+		}
+
+		private void ToggleButton_OnClick(object sender, RoutedEventArgs e)
+		{
+			var btn = sender as LockableToggleButton;
+			if (btn.IsChecked.GetValueOrDefault(false))
+				SearchInput.Focus(FocusState.Keyboard);
+		}
+
+		private void ButtonCloseChangelogOnClick(object sender, RoutedEventArgs e)
+		{
+			ViewModelLocator.GeneralMain.ChangelogVisibility = false;
+		}
+
 	}
 }

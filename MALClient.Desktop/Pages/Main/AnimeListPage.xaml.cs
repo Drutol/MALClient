@@ -79,7 +79,7 @@ namespace MALClient.UWP.Pages.Main
         public AnimeListPage()
         {
             InitializeComponent();
-            Loaded += (sender, args) =>
+            Loaded += async (sender, args) =>
             {
                 ViewModel.DimensionsProvider = this;
                 _loaded = true;
@@ -96,7 +96,7 @@ namespace MALClient.UWP.Pages.Main
                 ViewModel.RemoveScrollingConatinerReferenceRequest +=
                     ViewModelOnRemoveScrollingConatinerReferenceRequest;
                 ViewModel.HideSeasonSelectionFlyout += ViewModelOnHideSeasonSelectionFlyout;
-                ViewModel.Init(_navArgs);
+                await ViewModel.Init(_navArgs);
                 SizeChanged += (s, a) =>
                 {
                     ViewModel.UpdateGridItemWidth(
@@ -335,30 +335,26 @@ namespace MALClient.UWP.Pages.Main
             ViewModel.TemporarilySelectedAnimeItem = e.ClickedItem as AnimeItemViewModel;
         }
 
-        private async void AnimesItemsIndefinite_OnItemClick(object sender, ItemClickEventArgs e)
+        private void AnimesItemsIndefinite_OnItemClick(object sender, ItemClickEventArgs e)
         {
             ViewModel.TemporarilySelectedAnimeItem = e.ClickedItem as AnimeItemViewModel;
-            await Task.Delay(50);
             AnimesItemsIndefinite.ScrollIntoView(e.ClickedItem);
         }
 
-        private async void AnimesGridIndefinite_OnItemClick(object sender, ItemClickEventArgs e)
+        private void AnimesGridIndefinite_OnItemClick(object sender, ItemClickEventArgs e)
         {
             ViewModel.TemporarilySelectedAnimeItem = e.ClickedItem as AnimeItemViewModel;
-            await Task.Delay(50);
             AnimesGridIndefinite.ScrollIntoView(e.ClickedItem);
         }
 
-        private async void AnimeGridItemOnTap(object sender, TappedRoutedEventArgs e)
+        private void AnimeGridItemOnTap(object sender, TappedRoutedEventArgs e)
         {
             var item = (sender as FrameworkElement).DataContext as AnimeItemViewModel;
             if (item == null)
                 return;
             ViewModel.TemporarilySelectedAnimeItem = item;
-            await Task.Delay(50);
             AnimesGridIndefinite.ScrollIntoView(item);
         }
-
 
         private void ChangeSortOrder(object sender, RoutedEventArgs e)
         {

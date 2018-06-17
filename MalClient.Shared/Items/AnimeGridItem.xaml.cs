@@ -127,46 +127,46 @@ namespace MALClient.UWP.Shared.Items
                 return;
             _initialPoint = e.Position;
             _manip = this;
-            DecrementField.Visibility = IncrementField.Visibility = Visibility.Visible;
+			ViewModel.AllowDetailsNavigation = false;
+			DecrementField.Visibility = IncrementField.Visibility = Visibility.Visible;
         }
 
-        private bool? _incDecState = null;
-        private void AnimeGridItem_OnPointerMoved(object sender, PointerRoutedEventArgs e)
-        {
-            if (_manip == this)
-            {
-                var point = e.GetCurrentPoint(this).Position.X;
-                var freeDelta = point - _initialPoint.X;
-                var delta = Math.Abs(freeDelta);                                   
-                if (delta > 35)
-                {
-                    ViewModel.AllowDetailsNavigation = false;
-                    if (freeDelta < 0)
-                    {
-                        IncrementField.Background = Application.Current.Resources["SystemControlBackgroundAccentBrush"] as Brush;
-                        DecrementField.Background = new SolidColorBrush(Colors.Black);
-                        _incDecState = true; //inc
+		private bool? _incDecState = null;
+		private void AnimeGridItem_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
+		{
+			if (_manip == this) {
+				ViewModel.AllowDetailsNavigation = false;
 
-                    }
-                    else if (freeDelta > 0)
-                    {
-                        IncrementField.Background = new SolidColorBrush(Colors.Black);
-                        DecrementField.Background = Application.Current.Resources["SystemControlBackgroundAccentBrush"] as Brush;
-                        _incDecState = false; //dec
-                    }
-                }
-                else
-                {
-                    IncrementField.Background = new SolidColorBrush(Colors.Black);
-                    DecrementField.Background = new SolidColorBrush(Colors.Black);
-                    _incDecState = null; //do nothing
-                }
-                if(delta < 95)
-                    TranslateTransformSwipe.X = point - _initialPoint.X;
-            }
-        }
+				TranslateTransformSwipe.X = Math.Clamp(e.Cumulative.Translation.X, -100, 100);
 
-        private async void AnimeGridItem_OnManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
+				var delta = TranslateTransformSwipe.X;
+				var absDelta = Math.Abs(delta);
+				if(absDelta > 35)
+				{
+					if (delta < 0)
+					{
+						IncrementField.Background = Application.Current.Resources["SystemControlBackgroundAccentBrush"] as Brush;
+						DecrementField.Background = new SolidColorBrush(Colors.Black);
+						_incDecState = true; //inc
+
+					}
+					else if (delta > 0)
+					{
+						IncrementField.Background = new SolidColorBrush(Colors.Black);
+						DecrementField.Background = Application.Current.Resources["SystemControlBackgroundAccentBrush"] as Brush;
+						_incDecState = false; //dec
+					}
+				}
+				else
+				{
+					IncrementField.Background = new SolidColorBrush(Colors.Black);
+					DecrementField.Background = new SolidColorBrush(Colors.Black);
+					_incDecState = null; //do nothing
+				}
+			}
+		}
+
+        private void AnimeGridItem_OnManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
         {
             GoBackStoryboard.Begin();
             if (_incDecState != null)
@@ -178,24 +178,7 @@ namespace MALClient.UWP.Shared.Items
             
             _incDecState = null;
             _manip = null;
-            await Task.Delay(50);
             ViewModel.AllowDetailsNavigation = true;
-        }
-
-        private void AnimeGridItem_OnPointerReleased(object sender, PointerRoutedEventArgs e)
-        {
-            if (_manip != null)
-                if (_incDecState != null)
-                {
-                    if (_incDecState.Value)
-                        ViewModel.IncrementWatchedCommand.Execute(null);
-                    else
-                        ViewModel.DecrementWatchedCommand.Execute(null);
-                    _incDecState = null;
-                }
-
-            //ViewModel.AllowDetailsNavigation = true;
-            GoBackStoryboard.Begin();
         }
 
         private void Timeline_OnCompleted(object sender, object e)
@@ -217,5 +200,6 @@ namespace MALClient.UWP.Shared.Items
             }
 			ImageLoading.Visibility = Visibility.Collapsed;
         }
-    }
+
+	}
 }

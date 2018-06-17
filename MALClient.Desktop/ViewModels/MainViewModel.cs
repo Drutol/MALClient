@@ -62,7 +62,6 @@ namespace MALClient.UWP.ViewModels
 
             if (index == PageIndex.PageAbout ||
                 index == PageIndex.PageSettings ||
-                index == PageIndex.PageAbout ||
                 index == PageIndex.PageAnimeDetails ||
                 index == PageIndex.PageMessageDetails ||
                 index == PageIndex.PageCharacterDetails ||

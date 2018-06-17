@@ -16,14 +16,13 @@ namespace MALClient.UWP.Shared.Items
             InitializeComponent();
         }
 
-        private async void CopyLinkToClipboardCommand(object sender, RoutedEventArgs e)
+        private void CopyLinkToClipboardCommand(object sender, RoutedEventArgs e)
         {
             FlyoutMore.Hide();
-            var dp = new DataPackage();
-            dp.SetText($"http://www.myanimelist.net/{(ViewModel.AnimeMode ? "anime" : "manga")}/{ViewModel.Id}");
-            Clipboard.SetContent(dp);
-            FlyoutMore.Hide();
-            UWPUtilities.GiveStatusBarFeedback("Copied to clipboard...");
+			var dp = new DataPackage();
+			dp.SetText($"http://www.myanimelist.net/{(ViewModel.AnimeMode ? "anime" : "manga")}/{ViewModel.Id}");
+			Clipboard.SetContent(dp);
+			UWPUtilities.GiveStatusBarFeedback("Copied to clipboard...");
         }
 
         private async void OpenInMALCommand(object sender, RoutedEventArgs e)

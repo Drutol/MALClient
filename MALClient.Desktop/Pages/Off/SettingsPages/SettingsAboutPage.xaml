@@ -96,7 +96,9 @@
                         <TextBlock Text="Changelog" FontWeight="Bold" FontSize="19"
                                    HorizontalAlignment="Center"
                                    Foreground="{StaticResource SystemControlBackgroundAccentBrush}" />
-                        <Button HorizontalAlignment="Center" FontSize="20" Style="{StaticResource TextBlockButtonStyle}" Content="See what's new!" Click="ShowChangelogButtonOnClick"></Button>
+                        <Button HorizontalAlignment="Center" FontSize="20"
+                                Style="{StaticResource TextBlockButtonStyle}" Content="See what's new!"
+                                Click="ShowChangelogButtonOnClick" />
                     </StackPanel>
                 </Grid>
                 <MenuFlyoutSeparator Margin="0,5" />
@@ -128,8 +130,13 @@
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
-
                 </Grid>
+
+                <Image Source="/Assets/annak.png" HorizontalAlignment="Center" MaxWidth="250">
+                    <ToolTipService.ToolTip>
+                        <TextBlock Text="Any AoKana fans out there? :D" />
+                    </ToolTipService.ToolTip>
+                </Image>
             </StackPanel>
         </Grid>
     </ScrollViewer>

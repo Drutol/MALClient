@@ -227,11 +227,13 @@
                                       ItemsSource="{Binding CurrentData.Friends}">
                                 <GridView.ItemTemplate>
                                     <DataTemplate>
-                                        <Image Width="65" Height="65" Source="{Binding ImgUrl}" Stretch="UniformToFill">
-                                            <ToolTipService.ToolTip>
-                                                <ToolTip Content="{Binding Name}"/>
-                                            </ToolTipService.ToolTip>
-                                        </Image>
+										<Grid>
+											<Image Width="64" Source="{Binding ImgUrl}" VerticalAlignment="Center" Stretch="UniformToFill">
+												<ToolTipService.ToolTip>
+													<ToolTip Content="{Binding Name}"/>
+												</ToolTipService.ToolTip>
+											</Image>
+										</Grid>
                                     </DataTemplate>
                                 </GridView.ItemTemplate>
                             </GridView>

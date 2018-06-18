@@ -544,8 +544,7 @@
                                     </Button>
                                     <Grid x:Name="MangaFiltersList" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1"
                                       Height="0" Margin="-1,0" Background="{ThemeResource BrushHamburgerInnerBackground}">
-                                        <GridView
-                                        ItemsSource="{Binding MangaListFilters}"
+                                        <GridView ItemsSource="{Binding MangaListFilters}"
                                         SelectedIndex="{Binding CurrentMangaFiltersSelectedIndex,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
                                             <GridView.ItemTemplate>
                                                 <DataTemplate>
@@ -868,22 +867,19 @@
 				</Button.Flyout>
 				<Grid Height="37">
 					<Grid.ColumnDefinitions>
-						<ColumnDefinition Width="48" />
+						<ColumnDefinition Width="45" />
 						<ColumnDefinition Width="*" />
 					</Grid.ColumnDefinitions>
 					<TextBlock Text="&#xE006;" FontFamily="Segoe MDL2 Assets"
                                            HorizontalAlignment="Center" Grid.Column="0"
-                                           VerticalAlignment="Center" RenderTransformOrigin="0.7,0.5"
+                                           VerticalAlignment="Center" FontSize="24"
                                            Visibility="{Binding AdLoadingSpinnerVisibility,Converter={StaticResource VisiblityInverterConverter}}">
-						<TextBlock.RenderTransform>
-							<ScaleTransform ScaleX="1.5" ScaleY="1.5" />
-						</TextBlock.RenderTransform>
 						<TextBlock.Foreground>
 							<SolidColorBrush x:Name="HearthSupport"
                                                          Color="{StaticResource SystemAccentColor}" />
 						</TextBlock.Foreground>
 					</TextBlock>
-					<TextBlock Text="Support me!" FontSize="15" FontWeight="SemiLight"
+					<TextBlock Text="Support me!" FontSize="15" FontWeight="SemiLight" Margin="3,0"
                                            HorizontalAlignment="Left"
                                            TextWrapping="WrapWholeWords"
                                            Grid.Column="1" VerticalAlignment="Center" TextAlignment="Center" />
@@ -948,7 +944,7 @@
                                 Visibility="{Binding ProfileButtonVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
                                 Command="{Binding ButtonNavigationCommand}"
                                 CommandParameter="5">
-				<Grid Height="40">
+				<Grid Height="37">
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition Width="48" />
 						<ColumnDefinition Width="*" />

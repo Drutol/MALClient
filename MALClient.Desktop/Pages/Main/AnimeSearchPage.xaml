@@ -108,7 +108,7 @@
 			<StackPanel Visibility="{Binding IsFirstVisitGridVisible,Converter={StaticResource BoolToVisibilityConverter}}" HorizontalAlignment="Center" VerticalAlignment="Center"
 						Opacity=".5" Orientation="Vertical">
 				<TextBlock Foreground="{ThemeResource BrushSettingsSubtitle}" FontFamily="Segoe MDL2 Assets" FontSize="80" Text="&#xE7C5;" HorizontalAlignment="Center"/>
-                <TextBlock Text="Search away!" Foreground="{ThemeResource BrushSettingsSubtitle}" Margin="0,10"/>
+				<TextBlock Text="Search away!" Foreground="{ThemeResource BrushSettingsSubtitle}" Margin="0,10"/>
             </StackPanel>
             <TextBlock Margin="{Binding ElementName=Animes, Path=Margin}" Visibility="{Binding EmptyNoticeVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
                        Text="No data received from MAL, try searching for something more specific. :("

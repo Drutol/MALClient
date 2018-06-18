@@ -1235,12 +1235,13 @@
                                     <ProgressRing HorizontalAlignment="Stretch" Width="75" Height="75"
                                                   Margin="0,50,0,0" VerticalAlignment="Top" IsActive="True" />
                                 </Grid>
-                                <ListView ItemsSource="{Binding Reviews}" SelectionMode="None">
-                                    <ListView.ItemContainerStyle>
+								<ListView ItemsSource="{Binding Reviews}" SelectionMode="None" IsItemClickEnabled="True" ItemClick="ReviewItemOnItemClick">
+									<ListView.ItemContainerStyle>
                                         <Style TargetType="ListViewItem">
                                             <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                                             <Setter Property="Margin" Value="0,0,0,10 " />
-                                        </Style>
+											<Setter Property="Padding" Value="0" />
+										</Style>
                                     </ListView.ItemContainerStyle>
                                     <ListView.ItemTemplate>
                                         <DataTemplate>
@@ -1293,17 +1294,17 @@
                                                     </StackPanel>
 
                                                 </Grid>
-                                                <Grid Grid.Row="1"
-                                                      Visibility="{Binding ElementName=ExpandReviewButton,Path=IsChecked,Converter={StaticResource BoolToVisibilityConverter}}">
-                                                    <TextBlock Text="{Binding Review}"
+												<Grid Grid.Row="1"
+													Visibility="{Binding ElementName=ExpandReviewButton,Path=IsChecked,Converter={StaticResource BoolToVisibilityConverter}}">
+													<TextBlock x:Name="ReviewText" Text="{Binding Review}"
                                                                TextWrapping="WrapWholeWords"
                                                                Margin="0,5" Padding="5,5,5,0" />
-                                                </Grid>
-                                                <ToggleButton Grid.Row="0" Grid.RowSpan="2" Background="Transparent"
+												</Grid>
+												<ToggleButton Grid.Row="0" Grid.RowSpan="2" Background="Transparent"
                                                               x:Name="ExpandReviewButton"
                                                               Style="{StaticResource TextBlockButtonStyle}"
                                                               HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
-                                            </Grid>
+											</Grid>
                                         </DataTemplate>
                                     </ListView.ItemTemplate>
                                 </ListView>
@@ -1616,7 +1617,8 @@
 
 		<Grid Grid.Row="0" Grid.RowSpan="2" Visibility="{Binding LoadingGlobal}" attachedProperties:AnimatedVisibilityExtension.AnimatedVisiblity="{Binding LoadingGlobal}"
              attachedProperties:AnimatedVisibilityExtension.AnimatedVisibleStoryboard="{StaticResource OverlayFadeInStoryboard}"
-             attachedProperties:AnimatedVisibilityExtension.AnimatedCollapsedStoryboard="{StaticResource OverlayFadeOutStoryboard}">
+             attachedProperties:AnimatedVisibilityExtension.AnimatedCollapsedStoryboard="{StaticResource OverlayFadeOutStoryboard}"
+			  Background="Transparent">
 			<ProgressRing HorizontalAlignment="Stretch" Width="75" Height="75" VerticalAlignment="Stretch"
                           IsActive="True" />
         </Grid>

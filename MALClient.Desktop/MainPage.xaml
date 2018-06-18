@@ -67,7 +67,7 @@
 
 	<Grid x:Name="Root">
 		<Grid.RowDefinitions>
-			<RowDefinition Height="44"/>
+			<RowDefinition Height="48"/>
 			<RowDefinition Height="*"/>
 		</Grid.RowDefinitions>
 
@@ -164,7 +164,7 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 			<Grid.RowDefinitions>
-				<RowDefinition Height="44"/>
+				<RowDefinition Height="48"/>
 				<RowDefinition Height="*"/>
 			</Grid.RowDefinitions>
 			<Grid x:Name="HamburgerTopGrid" Width="Auto" Grid.Column="0">
@@ -193,9 +193,9 @@
                     <ColumnDefinition x:Name="SplitterColumn" MaxWidth="16" Width="0" />
                     <ColumnDefinition x:Name="OffContentColumn" Width="Auto" MaxWidth="600" />
                 </Grid.ColumnDefinitions>
-                <Grid Grid.Column="0" Margin="0,-44,0,0" Grid.ColumnSpan="{Binding MainContentColumnSpan}">
+                <Grid Grid.Column="0" Margin="0,-48,0,0" Grid.ColumnSpan="{Binding MainContentColumnSpan}">
 					<Grid.RowDefinitions>
-						<RowDefinition Height="44" />
+						<RowDefinition Height="48" />
 						<RowDefinition Height="Auto" />
 						<RowDefinition Height="*" />
 					</Grid.RowDefinitions>

@@ -222,5 +222,31 @@ namespace MALClient.UWP.Pages.Off
         {
             (sender as Grid).Background = new SolidColorBrush(Colors.Transparent);
         }
-    }
+
+		private void ReviewItemOnItemClick(object sender, ItemClickEventArgs e)
+		{
+			/*ListView list = (sender as ListView);
+			var container = list.ContainerFromItem(e.ClickedItem);
+			var children = AllChildren(container);
+			var control = (TextBlock) children.First(c => c.Name == "ReviewText");
+			if (control.Visibility == Visibility.Visible)
+				control.Visibility = Visibility.Collapsed;
+			else
+				control.Visibility = Visibility.Visible;
+			list.ScrollIntoView(e.ClickedItem);*/
+		}
+
+		private List<FrameworkElement> AllChildren(DependencyObject parent)
+		{
+			var list = new List<FrameworkElement>();
+			for (int i = 0; i < VisualTreeHelper.GetChildrenCount(parent); i++)
+			{
+				var child = VisualTreeHelper.GetChild(parent, i);
+				if (child is FrameworkElement)
+					list.Add(child as FrameworkElement);
+				list.AddRange(AllChildren(child));
+			}
+			return list;
+		}
+	}
 }

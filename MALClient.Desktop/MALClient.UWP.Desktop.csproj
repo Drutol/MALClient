@@ -320,7 +320,6 @@
     <Content Include="Properties\Default.rd.xml">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />
     <Content Include="Assets\Square150x150Logo.scale-200.png" />
     <Content Include="Assets\Square44x44Logo.scale-200.png" />

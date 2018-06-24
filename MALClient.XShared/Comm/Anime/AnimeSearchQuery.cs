@@ -74,7 +74,7 @@ namespace MALClient.XShared.Comm.Anime
                         Synopsis = result.description,
                         MalId = result.mal_id,
                         GlobalScore = (float)result.score,      
-                        Status = tryAiring ? "Currently Airing" : "Unknown"
+                        Status = tryAiring ? "Currently Airing" : "Unknown"                       
                     });
                 }
 

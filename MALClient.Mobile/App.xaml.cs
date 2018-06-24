@@ -190,7 +190,6 @@ namespace MALClient.UWP
             RateReminderPopUp.ProcessRatePopUp();
             ProcessStatusBar();
             ProcessUpdate();
-            StoreLogoWorkaroundHacker.Hack();
             _initialized = true;
         }
 

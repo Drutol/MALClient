@@ -150,8 +150,26 @@
 				</Button>
 			</Grid>
 		</Grid>
-
-		<Grid VerticalAlignment="Stretch" Grid.Row="1">
+	    <Grid x:Name="HamburgerTopGrid" Width="Auto" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left">
+	        <Grid.Background>
+	            <AcrylicBrush
+	                BackgroundSource="HostBackdrop"
+	                TintColor="{StaticResource BrushDeepBackgroundColor}"
+	                TintOpacity="0.5"
+	                FallbackColor="{StaticResource ColorHamburgerBackground}"/>
+	        </Grid.Background>
+	        <Grid.ColumnDefinitions>
+	            <ColumnDefinition Width="Auto" />
+	        </Grid.ColumnDefinitions>
+	        <Button IsTabStop="False" HorizontalAlignment="Left"
+	                BorderThickness="1"
+	                Width="48" VerticalAlignment="Stretch" Background="Transparent" 
+	                Command="{Binding ReversePaneCommand}" 
+	                Style="{StaticResource ButtonRevealStyle}">
+	            <TextBlock FontFamily="Segoe MDL2 Assets" FontSize="16" Text="&#xE700;"/>
+	        </Button>
+	    </Grid>
+        <Grid VerticalAlignment="Stretch" Grid.Row="1">
             <Grid.Resources>
                 <ResourceDictionary>
                     <ResourceDictionary.MergedDictionaries>
@@ -163,30 +181,7 @@
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-			<Grid.RowDefinitions>
-				<RowDefinition Height="48"/>
-				<RowDefinition Height="*"/>
-			</Grid.RowDefinitions>
-			<Grid x:Name="HamburgerTopGrid" Width="Auto" Grid.Column="0">
-				<Grid.Background>
-					<AcrylicBrush
-                    BackgroundSource="HostBackdrop"
-                    TintColor="{StaticResource BrushDeepBackgroundColor}"
-                    TintOpacity="0.5"
-                    FallbackColor="{StaticResource ColorHamburgerBackground}"/>
-				</Grid.Background>
-				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="Auto" />
-				</Grid.ColumnDefinitions>
-				<Button IsTabStop="False" HorizontalAlignment="Left"
-                        BorderThickness="1"
-                        Width="48" VerticalAlignment="Stretch" Background="Transparent" 
-                        Command="{Binding ReversePaneCommand}" 
-                        Style="{StaticResource ButtonRevealStyle}">
-					<TextBlock FontFamily="Segoe MDL2 Assets" FontSize="16" Text="&#xE700;"/>
-				</Button>
-			</Grid>
-			<new:HamburgerControl x:Name="HamburgerControl" Grid.Column="0" Grid.Row="1" />
+            <new:HamburgerControl x:Name="HamburgerControl" Grid.Column="0" Grid.Row="1" />
 			<Grid x:Name="RootContentGrid" Grid.Column="1" Background="{ThemeResource BrushDeepBackground}" Grid.Row="0" Grid.RowSpan="2">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />

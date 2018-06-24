@@ -76,6 +76,7 @@ namespace MALClient.XShared.Comm
                 return output;
             var client = await ResourceLocator.MalHttpContextProvider.GetHttpContextAsync();
             int offset = 0;
+            int i = 0;
             bool loop = true; //loop_noop
             while (loop)
             {
@@ -84,17 +85,14 @@ namespace MALClient.XShared.Comm
                 {
                     var cts = new CancellationTokenSource(TimeSpan.FromSeconds(10));
 
-
                     switch (CurrentApiType)
                     {
                         case ApiType.Mal:
-                            //var parsedData = XDocument.Parse(raw);
-
                             switch (_mode)
                             {
                                 case AnimeListWorkModes.Anime:
                                     var animeReponse = await client.GetAsync(
-                                        $"https://myanimelist.net/animelist/{_source}/load.json?offset={offset}&status=7", cts.Token);
+                                        $"https://myanimelist.net/animelist/{_source}/load.json?offset={offset}&status=7&order=5", cts.Token);
 
                                     var rawAnime = await animeReponse.Content.ReadAsStringAsync();
 
@@ -132,10 +130,10 @@ namespace MALClient.XShared.Comm
                                             MyScore = item.score,
                                             Notes = item.tags,
                                             IsRewatching = item.is_rewatching > 0,
-                                            LastWatched = DateTime.Now,
+                                            LastWatched = DateTime.Today.Subtract(TimeSpan.FromMinutes(i)),
                                             AlternateTitle = alternateTitle,
                                         });
-
+                                        i++;
                                         AnimeType GetMediaType()
                                         {
                                             switch (item.anime_media_type_string)
@@ -161,7 +159,7 @@ namespace MALClient.XShared.Comm
                                     break;
                                 case AnimeListWorkModes.Manga:
                                     var reponseManga = await client.GetAsync(
-                                        $"https://myanimelist.net/mangalist/{_source}/load.json?offset={offset}&status=7", cts.Token);
+                                        $"https://myanimelist.net/mangalist/{_source}/load.json?offset={offset}&status=7&order=5", cts.Token);
 
                                     var rawManga = await reponseManga.Content.ReadAsStringAsync();
 
@@ -199,9 +197,10 @@ namespace MALClient.XShared.Comm
                                             MyStatus = (AnimeStatus)item.status,
                                             MyStartDate = item.start_date_string,
                                             MyEndDate = item.finish_date_string,
-                                            AlternateTitle = item.manga_title
+                                            AlternateTitle = item.manga_title,
+                                            LastWatched = DateTime.Today.Subtract(TimeSpan.FromMinutes(i)),
                                         });
-
+                                        i++;
                                         MangaType GetMangaMediaType()
                                         {
                                             switch (item.manga_media_type_string)
@@ -223,55 +222,6 @@ namespace MALClient.XShared.Comm
                                             }
                                         }
                                     }
-
-
-                                    //var manga = parsedData.Root.Elements("manga").ToList();
-                                    //foreach (var item in manga)
-                                    //{
-                                    //    string title = "";
-                                    //    string alternateTitle = null;
-                                    //    if (Settings.PreferEnglishTitles)
-                                    //    {
-                                    //        var elem = item.Element("series_synonyms");
-                                    //        if (!string.IsNullOrWhiteSpace(elem?.Value))
-                                    //        {
-                                    //            title = elem.Value.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries).LastOrDefault().Trim();
-                                    //            alternateTitle = item.Element("series_title").Value;
-                                    //        }
-
-                                    //        if (string.IsNullOrEmpty(title))
-                                    //            title = item.Element("series_title").Value;
-                                    //    }
-                                    //    else
-                                    //    {
-                                    //        title = item.Element("series_title").Value;
-                                    //        var elem = item.Element("series_synonyms");
-                                    //        if (!string.IsNullOrWhiteSpace(elem?.Value))
-                                    //        {
-                                    //            alternateTitle = elem.Value.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries).LastOrDefault().Trim();
-                                    //        }
-                                    //    }
-                                    //    output.Add(new MangaLibraryItemData
-                                    //    {
-                                    //        Title = title,
-                                    //        ImgUrl = item.Element("series_image").Value,
-                                    //        Type = Convert.ToInt32(item.Element("series_type").Value),
-                                    //        MalId = Convert.ToInt32(item.Element("series_mangadb_id").Value),
-                                    //        MyStatus = (AnimeStatus) Convert.ToInt32(item.Element("my_status").Value),
-                                    //        MyEpisodes = Convert.ToInt32(item.Element("my_read_chapters").Value),
-                                    //        AllEpisodes = Convert.ToInt32(item.Element("series_chapters").Value),
-                                    //        MyStartDate = item.Element("my_start_date").Value,
-                                    //        MyEndDate = item.Element("my_finish_date").Value,
-                                    //        MyScore = Convert.ToInt32(item.Element("my_score").Value),
-                                    //        MyVolumes = Convert.ToInt32(item.Element("my_read_volumes").Value),
-                                    //        AllVolumes = Convert.ToInt32(item.Element("series_volumes").Value),
-                                    //        IsRewatching = item.Element("my_rereadingg").Value == "1",
-                                    //        Notes = item.Element("my_tags").Value,
-                                    //        AlternateTitle = alternateTitle,
-                                    //        LastWatched = Utils.Utilities.ConvertFromUnixTimestamp(int.Parse(item.Element("my_last_updated").Value))
-
-                                    //    });
-                                    //}
                                     break;
                                 default:
                                     throw new ArgumentOutOfRangeException(nameof(_mode),
@@ -286,7 +236,7 @@ namespace MALClient.XShared.Comm
                 catch (Exception e)
                 {
 #if ANDROID
-                    ResourceLocator.SnackbarProvider.ShowText("MAL refused access to animelist for some reason... I'm still trying to figure this one.");
+                    ResourceLocator.SnackbarProvider.ShowText($"MAL refused access to animelist for some reason... I'm still trying to figure this one. {e?.GetType().Name}");
 #endif
                     loop = false;
                 }
@@ -307,56 +257,29 @@ namespace MALClient.XShared.Comm
             public int num_watched_episodes { get; set; }
             public string anime_title { get; set; }
             public int anime_num_episodes { get; set; }
-            public int anime_airing_status { get; set; }
             public int anime_id { get; set; }
-            public object anime_studios { get; set; }
-            public object anime_licensors { get; set; }
-            public object anime_season { get; set; }
-            public bool has_episode_video { get; set; }
-            public bool has_promotion_video { get; set; }
-            public bool has_video { get; set; }
-            public string video_url { get; set; }
-            public string anime_url { get; set; }
             public string anime_image_path { get; set; }
-            public bool is_added_to_list { get; set; }
             public string anime_media_type_string { get; set; }
-            public string anime_mpaa_rating_string { get; set; }
             public string start_date_string { get; set; }
             public string finish_date_string { get; set; }
-            public string anime_start_date_string { get; set; }
-            public string anime_end_date_string { get; set; }
-            public int? days_string { get; set; }
-            public string storage_string { get; set; }
-            public string priority_string { get; set; }
         }
 
         [Preserve(AllMembers = true)]
         public class MangaRootObject
         {
-            public int id { get; set; }
             public int status { get; set; }
             public int score { get; set; }
             public string tags { get; set; }
-            public int is_rereading { get; set; }
             public int num_read_chapters { get; set; }
             public int num_read_volumes { get; set; }
             public string manga_title { get; set; }
             public int manga_num_chapters { get; set; }
             public int manga_num_volumes { get; set; }
-            public int manga_publishing_status { get; set; }
             public int manga_id { get; set; }
-            public object manga_magazines { get; set; }
-            public string manga_url { get; set; }
             public string manga_image_path { get; set; }
-            public bool is_added_to_list { get; set; }
             public string manga_media_type_string { get; set; }
             public string start_date_string { get; set; }
             public string finish_date_string { get; set; }
-            public string manga_start_date_string { get; set; }
-            public string manga_end_date_string { get; set; }
-            public int? days_string { get; set; }
-            public object retail_string { get; set; }
-            public string priority_string { get; set; }
         }
 
         public static AnimeStatus HummingbirdStatusToMal(string humStatus)

@@ -31,16 +31,13 @@ namespace MALClient.Android.Adapters
 
         public bool NewChangelog { get; set; }
 
-        public string DateWithVersion => $"{_currentVersion} - 16.06.2018";
+        public string DateWithVersion => $"{_currentVersion} - 25.06.2018";
 
         public List<string> Changelog => new List<string>
         {
-            "Okay, so I have merged stuff that I had prepared for next update from before MAL going down.",
-            "Added 3 new colour themes as requested on GitHub.",
-            "Fixed being unable to donate twice (hopefully), thanks for GitHub report!",
-            "We have brand new icon! Big thanks to @richardbmx!",
-            "Fixed adding anime with new workaround.",
-            "Manga should work again.",
+            "Anime and manga details are back to their more detailed state. (Dates, Synopsis)",
+            "Possible fixes for missing Anime/Manga lists",
+            "Restored sorting by last updated.",
             "",
             "PLEASE NOTE that it's still one big pile of workarounds because MAL is still missing APIs. I'm doing my best to make it work but it's hard when the website itself is unstable sometimes.",
             "Start and End dates are something I'd like to do next but from early research it's going to be a wild ride...",

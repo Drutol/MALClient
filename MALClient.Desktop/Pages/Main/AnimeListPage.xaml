@@ -273,7 +273,7 @@
                 </Pivot.ItemTemplate>
             </Pivot>
         </Grid>
-        <StackPanel Margin="{Binding ElementName=AnimesPivot, Path=Margin}" Grid.Row="1" HorizontalAlignment="Center"
+        <StackPanel Margin="{Binding ElementName=AnimesPivot, Path=Margin}" Grid.Row="0" HorizontalAlignment="Center"
                     VerticalAlignment="Center">
             <TextBlock
                 Visibility="{Binding EmptyNoticeVisibility,Converter={StaticResource BoolToVisibilityConverter}}"

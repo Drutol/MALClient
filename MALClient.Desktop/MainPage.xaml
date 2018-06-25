@@ -81,15 +81,6 @@
 			</Grid.Background>
 		</Grid>
 
-		<Grid Grid.Row="0" HorizontalAlignment="Left">
-			<Button Grid.Column="0" IsTabStop="False" HorizontalAlignment="Left"
-						VerticalAlignment="Stretch" Width="48"
-						Command="{Binding NavigateMainBackCommand}" Visibility="{Binding NavigateMainBackButtonVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
-						Style="{StaticResource NavigationBackButtonNormalStyle}">
-				<TextBlock x:Name="BackButtonText" FontFamily="Segoe MDL2 Assets" Text="&#xE830;"/>
-			</Button>
-		</Grid>
-
 		<Grid Width="Auto" HorizontalAlignment="Right" VerticalAlignment="Stretch" Grid.Row="0">
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="Auto" />
@@ -122,7 +113,7 @@
                         VerticalAlignment="Stretch" Width="48" Grid.Column="0"
                         Command="{Binding NavigateBackCommand}"
                         Visibility="{Binding NavigateOffBackButtonVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
-                        BorderThickness="1"
+                        BorderThickness="1" Background="Transparent"
                         Style="{StaticResource ButtonRevealStyle}">
 					<SymbolIcon Symbol="Back" Foreground="White" />
 				</Button>
@@ -150,7 +141,7 @@
 				</Button>
 			</Grid>
 		</Grid>
-	    <Grid x:Name="HamburgerTopGrid" Width="Auto" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left">
+	    <Grid x:Name="HamburgerTopGrid" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left">
 	        <Grid.Background>
 	            <AcrylicBrush
 	                BackgroundSource="HostBackdrop"
@@ -198,6 +189,12 @@
 					<Grid Grid.Row="0">
 						<!-- Left -->
 						<StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+							<Button Grid.Column="0" IsTabStop="False" HorizontalAlignment="Left"
+									VerticalAlignment="Stretch" Width="48" BorderThickness="1" Background="Transparent"
+									Command="{Binding NavigateMainBackCommand}" Visibility="{Binding NavigateMainBackButtonVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
+									Style="{StaticResource ButtonRevealStyle}">
+								<TextBlock x:Name="BackButtonText" FontFamily="Segoe MDL2 Assets" Text="&#xE830;"/>
+							</Button>
 							<TextBlock x:Name="CurrentStatus" FontWeight="Bold" Text="{Binding CurrentStatus}"
 									TextTrimming="CharacterEllipsis"
 									VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="10,-3,0,0" IsHitTestVisible="False"/>

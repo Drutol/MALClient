@@ -1,0 +1,237 @@
+﻿<Page x:Class="MALClient.UWP.MainPageV2" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	  xmlns:Windows10version1803="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 6)"
+	  xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:local="using:MALClient.UWP"
+	  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	  xmlns:userControls="using:MALClient.UWP.Shared.UserControls"
+	  xmlns:xamlConverters="using:MALClient.UWP.Shared.XamlConverters"
+	  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+	  DataContext="{Binding Main, Source={StaticResource DesktopLocator}}"
+	  SizeChanged="Page_SizeChanged" mc:Ignorable="d">
+	<Page.Resources>
+		<xamlConverters:VisiblityInverterConverter x:Key="VisiblityInverterConverter" />
+		<xamlConverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+		<xamlConverters:SearchFilterStatusToBrushConverter x:Key="SearchFilterStatusToBrushConverter" />
+		<Storyboard x:Name="FadeInPinDialogStoryboard">
+			<DoubleAnimation SpeedRatio="3" Storyboard.TargetName="PinDialog" Storyboard.TargetProperty="Opacity" From="0" To="1" />
+			<PopInThemeAnimation FromHorizontalOffset="0" FromVerticalOffset="-20" Storyboard.TargetName="PinDialogInner" />
+		</Storyboard>
+		<Storyboard x:Name="FadeOutPinDialogStoryboard">
+			<DoubleAnimation SpeedRatio="3" Storyboard.TargetName="PinDialog" Storyboard.TargetProperty="Opacity" From="1" To="0" />
+			<PopOutThemeAnimation Storyboard.TargetName="PinDialogInner" />
+		</Storyboard>
+		<Storyboard x:Name="FadeInCurrentStatus">
+			<DoubleAnimation SpeedRatio="3" Storyboard.TargetName="CurrentStatus" Storyboard.TargetProperty="Opacity" From="0"
+							 To="1" />
+			<PopInThemeAnimation FromHorizontalOffset="0" FromVerticalOffset="20" Storyboard.TargetName="CurrentStatus" />
+		</Storyboard>
+		<Storyboard x:Name="FadeInCurrentOffStatus">
+			<DoubleAnimation SpeedRatio="3" Storyboard.TargetName="CurrentOffStatus" Storyboard.TargetProperty="Opacity" From="0"
+							 To="1" />
+			<PopInThemeAnimation FromHorizontalOffset="0" FromVerticalOffset="20" Storyboard.TargetName="CurrentOffStatus" />
+		</Storyboard>
+		<Storyboard x:Name="FadeInCurrentSubStatus">
+			<DoubleAnimation SpeedRatio="3" Storyboard.TargetName="CurrentStatusSub" Storyboard.TargetProperty="Opacity" From="0"
+							 To="1" />
+			<PopInThemeAnimation FromHorizontalOffset="0" FromVerticalOffset="20" Storyboard.TargetName="CurrentStatusSub" />
+		</Storyboard>
+
+		<Storyboard x:Key="MediaElementFadeInStoryboard">
+			<FadeInThemeAnimation TargetName="MediaElementGrid" />
+		</Storyboard>
+
+		<Storyboard x:Key="MediaElementFadeOutStoryboard">
+			<FadeOutThemeAnimation TargetName="MediaElementGrid" />
+		</Storyboard>
+
+		<Storyboard x:Key="ChangelogFadeInStoryboard">
+			<FadeInThemeAnimation TargetName="ChangelogGrid" />
+		</Storyboard>
+
+		<Storyboard x:Key="ChangelogFadeOutStoryboard">
+			<FadeOutThemeAnimation TargetName="ChangelogGrid" />
+		</Storyboard>
+	</Page.Resources>
+
+	<!--  Split view the nav view and sidebar  -->
+	<SplitView x:Name="MainSplitView" DisplayMode="Overlay"
+			   IsPaneOpen="{Binding OffContentVisibility}"
+			   OpenPaneLength="500" PaneBackground="Black" PanePlacement="Right">
+		<SplitView.Pane>
+			<Grid>
+				<Grid.RowDefinitions>
+					<RowDefinition Height="48" />
+					<RowDefinition Height="*" />
+				</Grid.RowDefinitions>
+				<!--  Header  -->
+				<Grid>
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="Auto" />
+						<ColumnDefinition Width="*" />
+						<ColumnDefinition Width="Auto" />
+						<ColumnDefinition Width="Auto" />
+					</Grid.ColumnDefinitions>
+					<Grid.Resources>
+						<Style BasedOn="{StaticResource ButtonRevealStyle}" TargetType="Button">
+							<Setter Property="BorderThickness" Value="1" />
+							<Setter Property="Background" Value="Transparent" />
+						</Style>
+					</Grid.Resources>
+					<Button Grid.Column="0" Width="48" HorizontalAlignment="Right" VerticalAlignment="Stretch"
+							Command="{Binding NavigateBackCommand}"
+							Visibility="{Binding NavigateOffBackButtonVisibility, Converter={StaticResource BoolToVisibilityConverter}}">
+						<SymbolIcon Foreground="White" Symbol="Back" />
+					</Button>
+					<TextBlock x:Name="CurrentOffStatus" Grid.Column="1" Margin="10,0,0,0" HorizontalAlignment="Stretch"
+							   VerticalAlignment="Center" FontWeight="Bold"
+							   IsTextSelectionEnabled="{Binding IsCurrentStatusSelectable}"
+							   MaxLines="2"
+							   Text="{Binding CurrentOffStatus}"
+							   TextTrimming="CharacterEllipsis" TextWrapping="WrapWholeWords" />
+					<Button Grid.Column="2" Width="48" HorizontalAlignment="Right" VerticalAlignment="Stretch"
+							Command="{Binding RefreshOffDataCommand}"
+							Visibility="{Binding OffRefreshButtonVisibility, Converter={StaticResource BoolToVisibilityConverter}}">
+						<SymbolIcon Symbol="Refresh" />
+					</Button>
+					<Button Grid.Column="3" Width="48" HorizontalAlignment="Right" VerticalAlignment="Stretch"
+							Command="{Binding HideOffContentCommand}">
+						<SymbolIcon Symbol="Clear" />
+					</Button>
+				</Grid>
+				<!--  Content  -->
+				<Frame x:Name="OffContent" Grid.Row="1" />
+			</Grid>
+		</SplitView.Pane>
+		<NavigationView Windows10version1803:IsBackButtonVisible="Collapsed" OpenPaneLength="250">
+			<NavigationView.MenuItems>
+				<NavigationViewItem Content="Anime List" Icon="List" />
+				<NavigationViewItem Content="Search" Icon="Find" />
+				<NavigationViewItem Content="Seasonal Anime" Icon="SlideShow" />
+				<NavigationViewItem Content="Recommendations" Icon="VideoChat" />
+				<NavigationViewItem Content="Top Anime" Icon="OutlineStar" />
+				<NavigationViewItem Content="Calendar" Icon="CalendarWeek" />
+				<NavigationViewItemSeparator />
+				<NavigationViewItem Content="Manga List" Icon="Library" />
+				<NavigationViewItem Content="Top Manga" Icon="OutlineStar" />
+				<NavigationViewItemSeparator />
+				<NavigationViewItem Content="Articles" Icon="PreviewLink" />
+				<NavigationViewItem Content="News" Icon="PostUpdate" />
+				<NavigationViewItem Content="Forums" Icon="Comment" />
+				<NavigationViewItem Content="Images" Icon="Pictures" />
+				<NavigationViewItem Content="Promotional Videos" Icon="Video" />
+				<!--  TODO: Add here the other items  -->
+			</NavigationView.MenuItems>
+
+			<NavigationView.Header>
+				<Grid>
+					<StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+						<Button Width="48" HorizontalAlignment="Left" VerticalAlignment="Stretch" Background="Transparent"
+								BorderThickness="1"
+								Command="{Binding NavigateMainBackCommand}"
+								Style="{StaticResource ButtonRevealStyle}"
+								Visibility="{Binding NavigateMainBackButtonVisibility, Converter={StaticResource BoolToVisibilityConverter}}">
+							<TextBlock x:Name="BackButtonText" FontFamily="Segoe MDL2 Assets" Text="&#xE830;" />
+						</Button>
+						<TextBlock x:Name="CurrentStatus" Margin="10,-3,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Center"
+								   FontSize="16" FontWeight="Bold"
+								   Text="{Binding CurrentStatus}"
+								   TextTrimming="CharacterEllipsis" />
+						<TextBlock x:Name="CurrentStatusSub" Margin="10,0,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Center"
+								   FontSize="14"
+								   Foreground="{ThemeResource BrushSettingsSubtitle}"
+								   Text="{Binding CurrentStatusSub}"
+								   TextTrimming="CharacterEllipsis" />
+					</StackPanel>
+					<StackPanel Margin="0,0,0,0" HorizontalAlignment="Right" Orientation="Horizontal">
+						<StackPanel.Resources>
+							<Style BasedOn="{StaticResource ButtonRevealStyle}" TargetType="Button">
+								<Setter Property="BorderThickness" Value="1" />
+								<Setter Property="Background" Value="Transparent" />
+							</Style>
+						</StackPanel.Resources>
+						<AutoSuggestBox x:Name="SearchInput" Height="32" MinWidth="250" Margin="0,0,5,0" HorizontalAlignment="Stretch"
+										VerticalAlignment="Center"
+										ItemsSource="{Binding CurrentHintSet}"
+										PlaceholderText="Search..." QuerySubmitted="SearchInput_OnQuerySubmitted"
+										Text="{Binding CurrentSearchQuery, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+										Visibility="{Binding SearchInputVisibility, Converter={StaticResource BoolToVisibilityConverter}}" />
+						<userControls:LockableToggleButton Width="48" VerticalAlignment="Stretch" Background="Transparent" BorderThickness="1"
+														   Click="ToggleButton_OnClick"
+														   Command="{Binding ToggleSearchCommand}"
+														   IsChecked="{Binding SearchToggleStatus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+														   IsThreeState="False"
+														   LockToggle="{Binding SearchToggleLock}"
+														   Style="{StaticResource ToggleButtonRevealStyle}"
+														   Visibility="{Binding SearchToggleVisibility, Converter={StaticResource BoolToVisibilityConverter}}">
+							<SymbolIcon Symbol="Find" />
+						</userControls:LockableToggleButton>
+						<Button Width="48" VerticalAlignment="Stretch"
+								Visibility="{Binding SearchFilterButtonVisibility, Converter={StaticResource BoolToVisibilityConverter}}">
+							<Button.Flyout>
+								<Flyout>
+									<ListView ItemsSource="{Binding SearchFilterOptions}" SelectedIndex="{Binding SearchFilterSelectedIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+										<ListView.ItemTemplate>
+											<DataTemplate>
+												<TextBlock Text="{Binding}" />
+											</DataTemplate>
+										</ListView.ItemTemplate>
+									</ListView>
+								</Flyout>
+							</Button.Flyout>
+							<SymbolIcon Foreground="{Binding IsSearchFilterActive, Converter={StaticResource SearchFilterStatusToBrushConverter}}" Symbol="Filter" />
+						</Button>
+						<Button Width="48" VerticalAlignment="Stretch"
+								Command="{Binding RefreshDataCommand}"
+								Visibility="{Binding RefreshButtonVisibility, Converter={StaticResource BoolToVisibilityConverter}}">
+							<SymbolIcon Symbol="Refresh" />
+						</Button>
+						<Button Width="48" VerticalAlignment="Stretch"
+								Command="{Binding GoTopCommand}"
+								Visibility="{Binding ScrollToTopButtonVisibility, Converter={StaticResource BoolToVisibilityConverter}}">
+							<SymbolIcon Symbol="Up" />
+						</Button>
+					</StackPanel>
+				</Grid>
+			</NavigationView.Header>
+
+			<NavigationView.PaneFooter>
+				<!--  Placeholder Icons  -->
+				<StackPanel>
+					<NavigationViewItem Content="Support Me!">
+						<NavigationViewItem.Icon>
+							<FontIcon Glyph="&#xE006;" />
+						</NavigationViewItem.Icon>
+					</NavigationViewItem>
+					<!--  This should be hidden  -->
+					<NavigationViewItem Content="Sign In" Icon="Contact" />
+					<NavigationViewItem Content="Profile" Icon="Contact" />
+				</StackPanel>
+			</NavigationView.PaneFooter>
+
+			<!--  Content  -->
+			<Frame x:Name="MainContent" />
+		</NavigationView>
+		<!--  Split View pane size triggers  -->
+		<VisualStateManager.VisualStateGroups>
+			<VisualStateGroup>
+				<VisualState>
+					<VisualState.StateTriggers>
+						<AdaptiveTrigger MinWindowWidth="641" />
+					</VisualState.StateTriggers>
+					<VisualState.Setters>
+						<Setter Target="MainSplitView.DisplayMode" Value="Inline" />
+					</VisualState.Setters>
+				</VisualState>
+				<VisualState>
+					<VisualState.StateTriggers>
+						<AdaptiveTrigger MinWindowWidth="0" />
+					</VisualState.StateTriggers>
+					<VisualState.Setters>
+						<Setter Target="MainSplitView.DisplayMode" Value="Overlay" />
+					</VisualState.Setters>
+				</VisualState>
+			</VisualStateGroup>
+		</VisualStateManager.VisualStateGroups>
+	</SplitView>
+
+</Page>

@@ -1,20 +1,17 @@
-﻿<Application
-    x:Class="MALClient.UWP.App"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:MALClient"
-    xmlns:viewModels1="using:MALClient.XShared.ViewModels"
-    xmlns:viewModels="using:MALClient.UWP.ViewModels"
-    xmlns:viewModels2="using:MALClient.UWP.Shared.ViewModels">
+﻿<Application x:Class="MALClient.UWP.App" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:local="using:MALClient"
+			 xmlns:viewModels="using:MALClient.UWP.ViewModels"
+			 xmlns:viewModels1="using:MALClient.XShared.ViewModels"
+			 xmlns:viewModels2="using:MALClient.UWP.Shared.ViewModels">
 
-    <Application.Resources>
-        <ResourceDictionary>
-            <viewModels2:UWPViewModelLocator x:Key="UwpLocator"/>
-            <viewModels:DesktopViewModelLocator x:Key="DesktopLocator"/>
-            <viewModels1:ViewModelLocator x:Key="Locator" />
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/XamlResources/ThemeDictionary.xaml" />
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
-    </Application.Resources>
+	<Application.Resources>
+		<ResourceDictionary>
+			<viewModels2:UWPViewModelLocator x:Key="UwpLocator" />
+			<viewModels:DesktopViewModelLocator x:Key="DesktopLocator" />
+			<viewModels1:ViewModelLocator x:Key="Locator" />
+			<ResourceDictionary.MergedDictionaries>
+				<ResourceDictionary Source="/XamlResources/ThemeDictionary.xaml" />
+			</ResourceDictionary.MergedDictionaries>
+		</ResourceDictionary>
+	</Application.Resources>
 </Application>

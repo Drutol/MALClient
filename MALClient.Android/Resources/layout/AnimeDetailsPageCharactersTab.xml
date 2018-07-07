@@ -9,7 +9,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center_horizontal|top"
-    android:numColumns="auto_fit"
+    android:numColumns="auto_fit" android:nestedScrollingEnabled="true"
     android:gravity="center"
     android:choiceMode="singleChoice"/>
   <TextView android:gravity="center" android:visibility="gone"

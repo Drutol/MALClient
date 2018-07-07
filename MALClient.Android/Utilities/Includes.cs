@@ -1,6 +1,7 @@
 using System.Collections.Specialized;
 using System.Security.Cryptography;
 using System.Windows.Input;
+using Android.Support.Design.Widget;
 using Android.Views;
 using Android.Widget;
 using MALClient.Android.Adapters;
@@ -63,6 +64,13 @@ namespace MALClient.Android
             {
 
             };
+        }
+
+        public void Include(CollapsingToolbarLayout sw)
+        {
+            sw = new CollapsingToolbarLayout(null);
+            sw = new CollapsingToolbarLayout(null,null);
+            sw = new CollapsingToolbarLayout(null,null,0);
         }
 
         public void Include(EditText et)

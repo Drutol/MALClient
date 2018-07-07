@@ -1,51 +1,125 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-                android:layout_height="match_parent" android:background="?BrushDeepBackground">
-  <LinearLayout
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-    <LinearLayout
-      android:layout_width="match_parent" android:background="?BrushDetailsUpperBackground"
-      android:layout_height="175dp" android:orientation="horizontal">
-      <RelativeLayout android:layout_width="135dp" android:layout_height="wrap_content" android:background="?BrushAnimeItemInnerBackground" android:elevation="5dp">
-        <ImageView
-          android:layout_width="wrap_content" android:id="@+id/PersonDetailsPageNoImgNotice"
-          android:layout_height="wrap_content" android:src="@drawable/icon_help" android:layout_centerInParent="true"/>
-        <FFImageLoading.Views.ImageViewAsync android:id="@+id/PersonDetailsPageImage"
-                                             android:layout_width="match_parent" android:scaleType="fitEnd"
-                                             android:layout_height="match_parent" />
-        <MALClient.Android.UserControls.FavouriteButton  android:layout_height="35dp" android:layout_alignParentBottom="true" android:layout_alignParentEnd="true" android:layout_width="35dp" android:id="@+id/PersonDetailsPageFavButton"/>
-        <ImageButton android:id="@+id/PersonDetailsPageLinkButton"
-                     android:layout_width="35dp" android:layout_alignParentBottom="true" android:tint="#fff"
-                     android:layout_height="35dp" android:background="@color/BrushOpaqueTextView" android:src="@drawable/icon_globe"/>
-      </RelativeLayout>
-      <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" android:padding="5dp">
-        <TextView android:id="@+id/PersonDetailsPageDescription"
-                  android:layout_width="match_parent" android:text="Member favourites: -1"
-                  android:layout_height="wrap_content" android:textColor="?BrushText"/>
-      </ScrollView>
-    </LinearLayout>
-    <com.astuetz.PagerSlidingTabStrip
-      android:id="@+id/PersonDetailsPageTabStrip"
-      android:layout_width="match_parent"
-      android:layout_height="25dp"
-      android:textColorPrimary="?AccentColour"
-      android:background="?BrushPivotHeaderBackground" />
-    <android.support.v4.view.ViewPager
-      android:id="@+id/PersonDetailsPagePivot"
-      android:layout_width="match_parent"
-      android:layout_height="match_parent"
-      android:background="?BrushDetailsBackground" />
-  </LinearLayout>
+﻿<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/SwipeToRefreshLayout"
+    android:layout_height="match_parent" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <android.support.design.widget.CoordinatorLayout
+        android:layout_width="match_parent" android:id="@+id/CoordinatorLayout"
+        android:layout_height="match_parent"
+        android:background="@android:color/background_light">
 
-  <RelativeLayout android:visibility="gone" android:id="@+id/PersonDetailsPageLoadingSpinner"
-                  android:layout_width="match_parent" android:layout_height="match_parent"
-                  android:background="?BrushLoading">
-    <ProgressBar android:layout_width="wrap_content" android:indeterminateTint="?AccentColour"
-                 android:indeterminateTintMode="src_in" android:layout_height="wrap_content"
-                 android:indeterminate="true" android:layout_centerInParent="true" />
-  </RelativeLayout>
-</RelativeLayout>
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/AppBar"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            android:background="#fff">
+
+            <android.support.design.widget.CollapsingToolbarLayout
+                android:id="@+id/CollapsingToolbar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed"
+                android:fitsSystemWindows="true"
+                app:contentScrim="#fff"
+                app:expandedTitleMarginStart="48dp"
+                app:expandedTitleMarginEnd="64dp">
+
+                <FrameLayout
+                    android:id="@+id/Backdrop"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    app:layout_collapseMode="pin">
+
+                    <LinearLayout android:layout_width="match_parent" android:orientation="vertical"
+                    android:layout_height="200dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent" android:background="?BrushDetailsUpperBackground"
+                            android:layout_height="175dp" android:orientation="horizontal">
+                            <RelativeLayout android:layout_width="135dp" android:layout_height="wrap_content"
+                                android:background="?BrushAnimeItemInnerBackground" android:elevation="5dp">
+                                <ImageView
+                                    android:layout_width="wrap_content" android:id="@+id/PersonDetailsPageNoImgNotice"
+                                    android:layout_height="wrap_content" android:src="@drawable/icon_help"
+                                    android:layout_centerInParent="true" />
+                                <FFImageLoading.Views.ImageViewAsync android:id="@+id/PersonDetailsPageImage"
+                                    android:layout_width="match_parent" android:scaleType="fitEnd"
+                                    android:layout_height="match_parent" />
+                                <MALClient.Android.UserControls.FavouriteButton android:layout_height="35dp"
+                                    android:layout_alignParentBottom="true"
+                                    android:layout_alignParentEnd="true"
+                                    android:layout_width="35dp"
+                                    android:id="@+id/PersonDetailsPageFavButton" />
+                                <ImageButton android:id="@+id/PersonDetailsPageLinkButton"
+                                    android:layout_width="35dp" android:layout_alignParentBottom="true" android:tint="#fff"
+                                    android:layout_height="35dp" android:background="@color/BrushOpaqueTextView"
+                                    android:src="@drawable/icon_globe" />
+                            </RelativeLayout>
+                            <ScrollView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent" android:padding="5dp">
+                                <TextView android:id="@+id/PersonDetailsPageDescription"
+                                    android:layout_width="match_parent" android:text="Member favourites: -1"
+                                    android:layout_height="wrap_content" android:textColor="?BrushText" />
+                            </ScrollView>
+
+
+                        </LinearLayout>
+
+                        <com.astuetz.PagerSlidingTabStrip
+                            android:id="@+id/PersonDetailsPageTabStrip"
+                            android:layout_width="match_parent"
+                            android:layout_height="25dp"
+                            android:textColorPrimary="?AccentColour"
+                            android:background="?BrushPivotHeaderBackground" />
+
+                    </LinearLayout>
+
+
+                </FrameLayout>
+
+                <!--Upper toolbar-->
+                <!--<android.support.v7.widget.Toolbar-->
+                    <!--android:id="@+id/Toolbar"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="46dp"-->
+                    <!--android:background="@android:color/transparent"-->
+                    <!--android:paddingEnd="16dp"-->
+                    <!--app:layout_collapseMode="pin">-->
+                    <!--<FrameLayout-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="match_parent">-->
+
+                        <!--<TextView android:text="Staff details"-->
+                            <!--android:layout_width="wrap_content" android:textColor="?BrushText"-->
+                            <!--android:textSize="@dimen/FontSizeBig" android:id="@+id/HeaderTextView"-->
+                            <!--android:layout_height="wrap_content" android:fontFamily="@string/font_family_light"-->
+                            <!--android:layout_gravity="center_vertical" />-->
+
+                    <!--</FrameLayout>-->
+                <!--</android.support.v7.widget.Toolbar>-->
+            </android.support.design.widget.CollapsingToolbarLayout>
+        </android.support.design.widget.AppBarLayout>
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/PersonDetailsPagePivot"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="?BrushDetailsBackground"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+
+    </android.support.design.widget.CoordinatorLayout>
+
+    <RelativeLayout android:visibility="gone" android:id="@+id/PersonDetailsPageLoadingSpinner"
+        android:layout_width="match_parent" android:layout_height="match_parent"
+        android:background="?BrushLoading">
+        <ProgressBar android:layout_width="wrap_content" android:indeterminateTint="?AccentColour"
+            android:indeterminateTintMode="src_in" android:layout_height="wrap_content"
+            android:indeterminate="true" android:layout_centerInParent="true" />
+    </RelativeLayout>
+
+</FrameLayout>

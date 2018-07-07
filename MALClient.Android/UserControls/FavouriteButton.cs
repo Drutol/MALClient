@@ -57,7 +57,7 @@ namespace MALClient.Android.UserControls
 
         private void Init()
         {
-            _favButton = (Context as Activity).LayoutInflater.Inflate(Resource.Layout.FavButton, null) as FrameLayout;
+            _favButton = LayoutInflater.FromContext(Context).Inflate(Resource.Layout.FavButton, null) as FrameLayout;
             _favButtonIcon = _favButton.FindViewById<ImageView>(Resource.Id.FavButtonIcon);
             _favButton.Click += FavButtonOnClick;
             AddView(_favButton);

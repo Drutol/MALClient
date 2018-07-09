@@ -56,7 +56,7 @@
 	<!--  Split view the nav view and sidebar  -->
 	<SplitView x:Name="MainSplitView" DisplayMode="Overlay"
 			   IsPaneOpen="{Binding OffContentVisibility}"
-			   OpenPaneLength="500" PaneBackground="Black" PanePlacement="Right">
+			   OpenPaneLength="535" PaneBackground="Black" PanePlacement="Right">
 		<SplitView.Pane>
 			<Grid>
 				<Grid.RowDefinitions>
@@ -102,28 +102,29 @@
 				<Frame x:Name="OffContent" Grid.Row="1" />
 			</Grid>
 		</SplitView.Pane>
-		<NavigationView Windows10version1803:IsBackButtonVisible="Collapsed" OpenPaneLength="250">
+		<NavigationView x:Name="NavView" Windows10version1803:IsBackButtonVisible="Collapsed"
+						CompactModeThresholdWidth="690" ItemInvoked="NavView_ItemInvoked" OpenPaneLength="250">
 			<NavigationView.MenuItems>
-				<NavigationViewItem Content="Anime List" Icon="List" />
-				<NavigationViewItem Content="Search" Icon="Find" />
-				<NavigationViewItem Content="Seasonal Anime" Icon="SlideShow" />
-				<NavigationViewItem Content="Recommendations" Icon="VideoChat" />
-				<NavigationViewItem Content="Top Anime" Icon="OutlineStar" />
-				<NavigationViewItem Content="Calendar" Icon="CalendarWeek" />
+				<NavigationViewItem Content="Anime List" Icon="List" Tag="0" />
+				<NavigationViewItem Content="Search" Icon="Find" Tag="3" />
+				<NavigationViewItem Content="Seasonal Anime" Icon="SlideShow" Tag="8" />
+				<NavigationViewItem Content="Recommendations" Icon="VideoChat" Tag="7" />
+				<NavigationViewItem Content="Top Anime" Icon="OutlineStar" Tag="11" />
+				<NavigationViewItem Content="Calendar" Icon="CalendarWeek" Tag="13" />
 				<NavigationViewItemSeparator />
-				<NavigationViewItem Content="Manga List" Icon="Library" />
-				<NavigationViewItem Content="Top Manga" Icon="OutlineStar" />
+				<NavigationViewItem Content="Manga List" Icon="Library" Tag="9" />
+				<NavigationViewItem Content="Top Manga" Icon="OutlineStar" Tag="12" />
 				<NavigationViewItemSeparator />
-				<NavigationViewItem Content="Articles" Icon="PreviewLink" />
-				<NavigationViewItem Content="News" Icon="PostUpdate" />
-				<NavigationViewItem Content="Forums" Icon="Comment" />
-				<NavigationViewItem Content="Images" Icon="Pictures" />
-				<NavigationViewItem Content="Promotional Videos" Icon="Video" />
+				<NavigationViewItem Content="Articles" Icon="PreviewLink" Tag="14" />
+				<NavigationViewItem Content="News" Icon="PostUpdate" Tag="15" />
+				<NavigationViewItem Content="Forums" Icon="Comment" Tag="18" />
+				<NavigationViewItem Content="Images" Icon="Pictures" Tag="23" />
+				<NavigationViewItem Content="Promotional Videos" Icon="Video" Tag="24" />
 				<!--  TODO: Add here the other items  -->
 			</NavigationView.MenuItems>
 
 			<NavigationView.Header>
-				<Grid>
+				<Grid Height="48">
 					<StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
 						<Button Width="48" HorizontalAlignment="Left" VerticalAlignment="Stretch" Background="Transparent"
 								BorderThickness="1"
@@ -203,7 +204,8 @@
 						</NavigationViewItem.Icon>
 					</NavigationViewItem>
 					<!--  This should be hidden  -->
-					<NavigationViewItem Content="Sign In" Icon="Contact" />
+					<NavigationViewItem Content="Sign In" Icon="Contact"
+										Visibility="{x:Bind LogInButtonVisibility, Mode=OneWay}" />
 					<NavigationViewItem Content="Profile" Icon="Contact" />
 				</StackPanel>
 			</NavigationView.PaneFooter>
@@ -216,7 +218,7 @@
 			<VisualStateGroup>
 				<VisualState>
 					<VisualState.StateTriggers>
-						<AdaptiveTrigger MinWindowWidth="641" />
+						<AdaptiveTrigger MinWindowWidth="951" />
 					</VisualState.StateTriggers>
 					<VisualState.Setters>
 						<Setter Target="MainSplitView.DisplayMode" Value="Inline" />

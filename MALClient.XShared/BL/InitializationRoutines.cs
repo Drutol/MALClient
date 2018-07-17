@@ -48,14 +48,6 @@ namespace MALClient.XShared.BL
                     isNewVersion = true;
             }
 
-            if (isNewVersion)
-            {
-                Credentials.Reset();
-                ResourceLocator.AnimeLibraryDataStorage.Reset();
-                ResourceLocator.MalHttpContextProvider.Invalidate();
-                ResourceLocator.DataCacheService.ClearAnimeListData();
-            }
-
             ResourceLocator.ChangelogProvider.NewChangelog = isNewVersion;
             Settings.AppVersion = ResourceLocator.ChangelogProvider.CurrentVersion;
         }

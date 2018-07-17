@@ -1,10 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using HtmlAgilityPack;
 using MALClient.Adapters;
 using MALClient.Models.Enums;
 using MALClient.Models.Models.Library;
@@ -79,33 +82,108 @@ namespace MALClient.XShared.Comm.Anime
 
         public override async Task<string> GetRequestResponse()
         {
-            //make sure that only one update is executing in order to avoid some synchonization issues
+
             try
             {
                 await _updateSemaphore.WaitAsync();
                 var result = "";
                 try
                 {
-                    var client = await ResourceLocator.MalHttpContextProvider.GetHttpContextAsync(); 
-                    client.DefaultRequestHeaders.Add("X-Requested-With",new []{ "XMLHttpRequest" });
-                    
-                    var response = await client.PostAsync("https://myanimelist.net/ownlist/anime/edit.json",
-                        new StringContent(new JObject
-                        {
-                            ["anime_id"] = _item.Id,
-                            ["status"] = (int) _item.MyStatus,
-                            ["score"] = (int)_item.MyScore,
-                            ["num_watched_episodes"] = _item.MyEpisodes,
-                            ["csrf_token"] = client.Token,
-                        }.ToString(Formatting.None)));
-                    if (response.IsSuccessStatusCode)
+                    var client = await ResourceLocator.MalHttpContextProvider.GetHttpContextAsync();
+
+                    var updateHtml = await
+                        client.GetStreamAsync($"https://myanimelist.net/ownlist/anime/{_item.Id}/edit?hideLayout=");
+                    var doc = new HtmlDocument();
+                    doc.Load(updateHtml);
+
+                    var priority = doc.DocumentNode
+                                       .FirstOfDescendantsWithId("select", "add_anime_priority")
+                                       .Descendants("option")
+                                       .First(node => node.Attributes.Contains("selected"))?
+                                       .Attributes["value"].Value ?? "0";
+
+                    var storage = doc.DocumentNode
+                        .FirstOfDescendantsWithId("select", "add_anime_storage_type")
+                        .Descendants("option")
+                        .FirstOrDefault(node => node.Attributes.Contains("selected"))?
+                        .Attributes["value"].Value;
+
+                    var storageValue = doc.DocumentNode
+                        .FirstOfDescendantsWithId("input", "add_anime_storage_value")
+                        .Attributes["value"].Value;
+
+                    var rewatches = doc.DocumentNode
+                        .FirstOfDescendantsWithId("input", "add_anime_num_watched_times")
+                        .Attributes["value"].Value;
+
+                    var rewatchValue = doc.DocumentNode
+                        .FirstOfDescendantsWithId("select", "add_anime_rewatch_value")
+                        .Descendants("option")
+                        .FirstOrDefault(node => node.Attributes.Contains("selected"))?
+                        .Attributes["value"].Value;
+
+                    var comments = doc.DocumentNode
+                        .FirstOfDescendantsWithId("textarea", "add_anime_comments").InnerText;
+
+                    var askDiscuss = doc.DocumentNode
+                                         .FirstOfDescendantsWithId("select", "add_anime_is_asked_to_discuss")
+                                         .Descendants("option")
+                                         .FirstOrDefault(node => node.Attributes.Contains("selected"))?
+                                         .Attributes["value"].Value ?? "0";
+
+                    var postSns = doc.DocumentNode
+                                      .FirstOfDescendantsWithId("select", "add_anime_sns_post_type")
+                                      .Descendants("option")
+                                      .FirstOrDefault(node => node.Attributes.Contains("selected"))?
+                                      .Attributes["value"].Value ?? "0";
+
+
+                    var content = new Dictionary<string, string>
+                    {
+                        ["anime_id"] = _item.Id.ToString(),
+                        ["add_anime[status]"] = ((int) _item.MyStatus).ToString(),
+                        ["add_anime[score]"] = _item.MyScore == 0 ? null : _item.MyScore.ToString(),
+                        ["add_anime[num_watched_episodes]"] = _item.MyEpisodes.ToString(),
+                        ["add_anime[tags]"] = string.IsNullOrEmpty(_item.Notes) ? "" : _item.Notes,
+
+                        ["csrf_token"] = client.Token,
+
+                        ["add_anime[priority]"] = priority,
+                        ["add_anime[storage_type]"] = storage,
+                        ["add_anime[storage_value]"] = storageValue,
+                        ["add_anime[num_watched_times]"] = rewatches,
+                        ["add_anime[rewatch_value]"] = rewatchValue,
+                        ["add_anime[comments]"] = comments,
+                        ["add_anime[is_asked_to_discuss]"] = askDiscuss,
+                        ["add_anime[sns_post_type]"] = postSns,
+
+                    };
+
+                    if (_item.StartDate != null)
+                    {
+                        content["add_anime[start_date][month]"] = _item.StartDate.Substring(5, 2).Trim('0');
+                        content["add_anime[start_date][day]"] = _item.StartDate.Substring(8, 2).Trim('0');
+                        content["add_anime[start_date][year]"] = _item.StartDate.Substring(0, 4).Replace("0000","");
+                    }
+
+                    if (_item.EndDate != null)
+                    {
+                        content["add_anime[finish_date][month]"] = _item.EndDate.Substring(5, 2).Trim('0');
+                        content["add_anime[finish_date][day]"] = _item.EndDate.Substring(8, 2).Trim('0');
+                        content["add_anime[finish_date][year]"] = _item.EndDate.Substring(0, 4).Replace("0000","");
+                    }
+
+                    var response = await client.PostAsync(
+                        $"https://myanimelist.net/ownlist/anime/{_item.Id}/edit?hideLayout",
+                        new FormUrlEncodedContent(content));
+                    if (!(await response.Content.ReadAsStringAsync()).Contains("badresult"))
                         result = "Updated";
                 }
                 catch (Exception e)
                 {
-                    
+
                 }
-                
+
                 //var result = await base.GetRequestResponse();
 
                 if (string.IsNullOrEmpty(result) && !SuppressOfflineSync && Settings.EnableOfflineSync)
@@ -121,7 +199,6 @@ namespace MALClient.XShared.Comm.Anime
             {
                 _updateSemaphore.Release();
             }
-
         }
 
         public override string SnackbarMessageOnFail => "Your changes will be synced with MAL on next app launch when online.";

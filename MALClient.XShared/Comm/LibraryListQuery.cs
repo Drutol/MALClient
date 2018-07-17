@@ -116,6 +116,23 @@ namespace MALClient.XShared.Comm
                                         item.anime_image_path =
                                             item.anime_image_path.Substring(0, item.anime_image_path.IndexOf('?'));
 
+                                        if (!string.IsNullOrEmpty(item.start_date_string))
+                                        {
+                                            var startDateTokens = item.start_date_string.Split('-');
+                                            var yearToken = int.Parse(startDateTokens[2]);
+                                            item.start_date_string =
+                                                $"{(yearToken < 50 ? $"20{yearToken}" : $"19{yearToken}")}-{startDateTokens[0]}-{startDateTokens[1]}";
+                                        }
+
+                                        if (!string.IsNullOrEmpty(item.finish_date_string))
+                                        {
+                                            var endDateTokens = item.finish_date_string.Split('-');
+                                            var yearToken = int.Parse(endDateTokens[2]);
+                                            item.finish_date_string =
+                                                $"{(yearToken < 50 ? $"20{yearToken}" : $"19{yearToken}")}-{endDateTokens[0]}-{endDateTokens[1]}";
+                                        }
+      
+
                                         output.Add(new AnimeLibraryItemData
                                         {
                                             Title = title,

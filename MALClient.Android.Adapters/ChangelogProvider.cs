@@ -31,16 +31,16 @@ namespace MALClient.Android.Adapters
 
         public bool NewChangelog { get; set; }
 
-        public string DateWithVersion => $"{_currentVersion} - 07.07.2018";
+        public string DateWithVersion => $"{_currentVersion} - 17.07.2018";
 
         public List<string> Changelog => new List<string>
         {
-            "Staff details page now works better in landscape mode.",
+            "Start and finish dates are working properly again.",
+            "Tags will be now applied correctly.",
+            "Fixed decoding html encoded elements in anime details.",
             "",
             "PLEASE NOTE that it's still one big pile of workarounds because MAL is still missing APIs. I'm doing my best to make it work but it's hard when the website itself is unstable sometimes.",
-            "Right now only status, score and watched episodes can be updated. That's because of lacking API.",
             "If something explodes come join us on Discord, link can be found on GitHub",
-            "Great thanks to developers of jikan.moe for providing altenative 3rd party search API!"
         };
 
     }

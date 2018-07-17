@@ -882,6 +882,8 @@ namespace MALClient.XShared.ViewModels.Details
             RaisePropertyChanged(() => IsIncrementButtonEnabled);
             RaisePropertyChanged(() => IncrementEpsCommand);
             RaisePropertyChanged(() => DecrementEpsCommand);
+
+            await new AnimeUpdateQuery(_animeItemReference).GetRequestResponse();
         }
 
         public void CurrentAnimeHasBeenAddedToList(IAnimeData reference)

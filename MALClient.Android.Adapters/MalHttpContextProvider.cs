@@ -32,6 +32,11 @@ namespace MALClient.Android.Adapters
                 AllowAutoRedirect = true,
             };
             _httpClient = new CsrfHttpClient(httpHandler) { BaseAddress = new Uri(MalBaseUrl) };
+            _httpClient.DefaultRequestHeaders.TryAddWithoutValidation("authority", "myanimelist.net");
+            _httpClient.DefaultRequestHeaders.TryAddWithoutValidation("Host", "myanimelist.net");
+            _httpClient.DefaultRequestHeaders.Add("X-Requested-With", new[] { "XMLHttpRequest" });
+            _httpClient.Handler.CookieContainer.Add(new Cookie("anime_update_advanced", "0", "/", "myanimelist.net"));
+
             await _httpClient.GetToken();
 
             var response = await _httpClient.PostAsync("/login.php", LoginPostBody);

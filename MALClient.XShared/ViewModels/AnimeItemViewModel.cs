@@ -1138,6 +1138,8 @@ namespace MALClient.XShared.ViewModels
             SetAuthStatus(true);
             if (ViewModelLocator.AnimeDetails.Id == Id)
                 ViewModelLocator.AnimeDetails.CurrentAnimeHasBeenAddedToList(this);
+
+            await new AnimeUpdateQuery(this).GetRequestResponse();
         }
 
         public void UpdateWithSeasonData(SeasonalAnimeData data, bool updateScore)

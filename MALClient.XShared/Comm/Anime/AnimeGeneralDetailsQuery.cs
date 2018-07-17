@@ -52,8 +52,8 @@ namespace MALClient.XShared.Comm.Anime
                                     GlobalScore = (float) parsed.score,
                                     Id = parsed.mal_id,
                                     MalId = parsed.mal_id,
-                                    Synopsis = parsed.synopsis,
-                                    Title = parsed.title,
+                                    Synopsis = WebUtility.HtmlDecode(parsed.synopsis),
+                                    Title = WebUtility.HtmlDecode(parsed.title),
                                     Synonyms = parsed.title_synonyms?.Split(',').ToList() ?? new List<string>(),
                                 };
                             }
@@ -77,8 +77,8 @@ namespace MALClient.XShared.Comm.Anime
                                     GlobalScore = (float)parsed.score,
                                     Id = parsed.mal_id,
                                     MalId = parsed.mal_id,
-                                    Synopsis = parsed.synopsis,
-                                    Title = parsed.title,
+                                    Synopsis = WebUtility.HtmlDecode(parsed.synopsis),
+                                    Title = WebUtility.HtmlDecode(parsed.title),
                                     Synonyms = parsed.title_synonyms?.Split(',').ToList() ?? new List<string>(),
                                 };
                             }

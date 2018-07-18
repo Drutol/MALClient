@@ -3,12 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Android;
 using Android.App;
 using Android.Content;
+using Android.Content.PM;
 using Android.Graphics;
 using Android.OS;
 using Android.Runtime;
 using Android.Support.Design.Widget;
+using Android.Support.V4.App;
+using Android.Support.V4.Content;
 using Android.Support.V4.Widget;
 using Android.Views;
 using Android.Widget;
@@ -96,6 +100,22 @@ namespace MALClient.Android.Fragments
                 if (!ViewModel.LoadingWallpapersVisibility)
                     ViewModel.GoForwardCommand.Execute(null);
             };
+
+            //Check permissions
+            var requiredPermission = new List<string>();
+            if (ContextCompat.CheckSelfPermission(Activity,
+                    Manifest.Permission.ReadExternalStorage)
+                != Permission.Granted)
+                requiredPermission.Add(Manifest.Permission.ReadExternalStorage);
+
+            if (ContextCompat.CheckSelfPermission(Activity,
+                    Manifest.Permission.WriteExternalStorage)
+                != Permission.Granted)
+                requiredPermission.Add(Manifest.Permission.WriteExternalStorage);
+
+            if (requiredPermission.Any())
+                ActivityCompat.RequestPermissions(Activity,
+                    requiredPermission.ToArray(), 12);
         }
 
         private void OnRefresh(object o, EventArgs eventArgs)

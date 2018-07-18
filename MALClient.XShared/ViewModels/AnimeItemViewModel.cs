@@ -1139,7 +1139,8 @@ namespace MALClient.XShared.ViewModels
             if (ViewModelLocator.AnimeDetails.Id == Id)
                 ViewModelLocator.AnimeDetails.CurrentAnimeHasBeenAddedToList(this);
 
-            await new AnimeUpdateQuery(this).GetRequestResponse();
+            if(ParentAbstraction.RepresentsAnime)
+                await new AnimeUpdateQuery(this).GetRequestResponse();
         }
 
         public void UpdateWithSeasonData(SeasonalAnimeData data, bool updateScore)

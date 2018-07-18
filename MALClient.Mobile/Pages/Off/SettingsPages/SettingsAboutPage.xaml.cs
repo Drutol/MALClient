@@ -27,16 +27,17 @@ namespace MALClient.UWP.Pages.Off.SettingsPages
 
         private async void Donate(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                var btn = sender as MenuFlyoutItem;
-                await CurrentApp.RequestProductPurchaseAsync(btn.Name);
-                Settings.Donated = true;
-            }
-            catch (Exception)
-            {
-                // no donation
-            }
+            ResourceLocator.SystemControlsLauncherService.LaunchUri(new Uri("https://www.paypal.me/drutol"));
+            //try
+            //{
+            //    var btn = sender as MenuFlyoutItem;
+            //    await CurrentApp.RequestProductPurchaseAsync(btn.Name);
+            //    Settings.Donated = true;
+            //}
+            //catch (Exception)
+            //{
+            //    // no donation
+            //}
         }
 
         private async void LaunchIssues(object sender, RoutedEventArgs e)

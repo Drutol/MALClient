@@ -21,16 +21,19 @@ using Xamarin.Android.Net;
 
 namespace MALClient.Android.Adapters
 {
+    [Preserve(AllMembers = true)]
     public class MalHttpContextProvider : MalHttpContextProviderBase
     {
         protected override async Task<CsrfHttpClient> ObtainContext()
         {
-            var httpHandler = new HttpClientHandler()
+            var httpHandler = new NativeMessageHandler(false,false,new NativeCookieHandler())
             {
-                CookieContainer = new CookieContainer(),
+                AllowAutoRedirect = false,
                 UseCookies = true,
-                AllowAutoRedirect = true,
+                AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate,
+                CookieContainer = new CookieContainer(),
             };
+
             _httpClient = new CsrfHttpClient(httpHandler) { BaseAddress = new Uri(MalBaseUrl) };
             _httpClient.DefaultRequestHeaders.TryAddWithoutValidation("authority", "myanimelist.net");
             _httpClient.DefaultRequestHeaders.TryAddWithoutValidation("Host", "myanimelist.net");

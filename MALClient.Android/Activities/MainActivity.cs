@@ -119,21 +119,6 @@ namespace MALClient.Android.Activities
                 DroppyMenuPopup.ResetOverrideRequested +=
                     (sender, eventArgs) => ViewModelLocator.NavMgr.ResetOneTimeOverride();
 
-                //Check permissions
-                var requiredPermission = new List<string>();
-                if (ContextCompat.CheckSelfPermission(this,
-                        Manifest.Permission.ReadExternalStorage)
-                    != Permission.Granted)
-                    requiredPermission.Add(Manifest.Permission.ReadExternalStorage);
-
-                if (ContextCompat.CheckSelfPermission(this,
-                        Manifest.Permission.WriteExternalStorage)
-                    != Permission.Granted)
-                    requiredPermission.Add(Manifest.Permission.WriteExternalStorage);
-
-                if (requiredPermission.Any())
-                    ActivityCompat.RequestPermissions(this,
-                        requiredPermission.ToArray(), 12);
                 _addedNavHandlers = true;
             }
 

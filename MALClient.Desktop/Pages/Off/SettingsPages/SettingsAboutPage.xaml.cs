@@ -28,16 +28,16 @@ namespace MALClient.UWP.Pages.Off.SettingsPages
 
         private async void Donate(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                var btn = sender as MenuFlyoutItem;
-                await CurrentApp.RequestProductPurchaseAsync(btn.Name);
-                Settings.Donated = true;
-            }
-            catch (Exception)
-            {
-                // no donation
-            }
+            //try
+            //{
+            //    var btn = sender as MenuFlyoutItem;
+            //    await CurrentApp.RequestProductPurchaseAsync(btn.Name);
+            //    Settings.Donated = true;
+            //}
+            //catch (Exception)
+            //{
+            //    // no donation
+            //}
         }
 
         private void LaunchIssues(object sender, RoutedEventArgs e)

@@ -46,13 +46,6 @@ namespace MALClient.XShared.BL
             catch (Exception e)
             {
                 _exc = e;
-                if ((!_skippedFirstError || e is ObjectDisposedException) && e.Message != "Unable to authorize")
-                {
-                    
-                    _skippedFirstError = true;
-                    await Task.Delay(250);
-                    return await GetHttpContextAsync(); //bug in android http client
-                }
 
                 if (e.Message == "Unable to authorize")
                 {

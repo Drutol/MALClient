@@ -128,6 +128,7 @@
       android:id="@+id/LoginPageRegisterButton"
       android:layout_width="wrap_content"
       android:layout_height="30dp"
+      android:visibility="gone"
       android:background="@color/Transparent"
       android:foreground="?android:selectableItemBackground"
       android:text="Register!"

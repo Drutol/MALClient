@@ -22,7 +22,7 @@ using MALClient.Models.Enums;
 using MALClient.XShared.Utils;
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Main;
-
+ 
 namespace MALClient.Android.Fragments
 {
     public partial class LogInPageFragment

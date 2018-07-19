@@ -54,11 +54,11 @@ namespace MALClient.XShared.Comm.Manga
                     output.Add(new AnimeGeneralDetailsData
                     {
                         Id = result.mal_id,
-                        AllEpisodes = result.volumes,
-                        Title = result.title,
+                        AllVolumes = result.volumes,
+                        Title = WebUtility.HtmlDecode(result.title),
                         ImgUrl = result.image_url,
                         Type = result.type,
-                        Synopsis = result.description,
+                        Synopsis = WebUtility.HtmlDecode(result.description),
                         MalId = result.mal_id,
                         GlobalScore = (float) result.score,
                         Status = "Unknown"

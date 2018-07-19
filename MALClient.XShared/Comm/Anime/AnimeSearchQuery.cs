@@ -68,10 +68,10 @@ namespace MALClient.XShared.Comm.Anime
                     {
                         Id = result.mal_id,
                         AllEpisodes = result.episodes,
-                        Title = result.title,
+                        Title = WebUtility.HtmlDecode(result.title),
                         ImgUrl = result.image_url,
                         Type = result.type,
-                        Synopsis = result.description,
+                        Synopsis = WebUtility.HtmlDecode(result.description),
                         MalId = result.mal_id,
                         GlobalScore = (float)result.score,      
                         Status = tryAiring ? "Currently Airing" : "Unknown"                       

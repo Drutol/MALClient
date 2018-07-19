@@ -110,12 +110,15 @@ namespace MALClient.XShared.ViewModels.Main
 
 
         public ICommand NavigateRegister => _navigateRegister ?? (_navigateRegister = new RelayCommand(() =>
-                                            {
-                                                ResourceLocator.SystemControlsLauncherService.LaunchUri(
-                                                    CurrentApiType == ApiType.Hummingbird
-                                                        ? new Uri("https://hummingbird.me/sign-up")
-                                                        : new Uri("https://myanimelist.net/register.php"));
-                                            }));
+        {
+            ResourceLocator.MessageDialogProvider.ShowMessageDialog(
+                "Sorry, MyAnimeList.net has disabled registration for the time being. It's not something I can change, please go complain to MAL directly via support ticket.",
+                "Registration disabled");
+            //ResourceLocator.SystemControlsLauncherService.LaunchUri(
+            //    CurrentApiType == ApiType.Hummingbird
+            //        ? new Uri("https://hummingbird.me/sign-up")
+            //        : new Uri("https://myanimelist.net/register.php"));
+        }));
 
 
         public void Init()

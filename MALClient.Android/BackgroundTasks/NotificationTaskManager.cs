@@ -4,16 +4,21 @@ using System.Linq;
 using System.Text;
 
 using Android.App;
+using Android.App.Job;
+using Android.Appwidget;
 using Android.Content;
 using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using Java.Lang;
 using MALClient.Adapters;
 using MALClient.Android.Activities;
+using MALClient.Android.Widgets;
 using MALClient.Models.Enums;
 using MALClient.XShared.Utils;
 using Debug = System.Diagnostics.Debug;
+using Exception = System.Exception;
 
 namespace MALClient.Android.BackgroundTasks
 {
@@ -23,6 +28,7 @@ namespace MALClient.Android.BackgroundTasks
         {
             Type listenerType;
             TimeSpan refreshTime;
+            var id = 0;
             switch (task)
             {
                 case BgTasks.Notifications:
@@ -31,6 +37,7 @@ namespace MALClient.Android.BackgroundTasks
                         return;
                     refreshTime = TimeSpan.FromMinutes(Settings.NotificationsRefreshTime);
                     listenerType = typeof(NotificationCheckBroadcastReceiver);
+                    id = 3;
                     break;
                 case BgTasks.Tiles:
                     return;
@@ -39,15 +46,18 @@ namespace MALClient.Android.BackgroundTasks
                 case BgTasks.AiredNotification:
                     listenerType = typeof(AiredNotificationCheckReceiver);
                     refreshTime = TimeSpan.FromHours(1);
+                    id = 4;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(task), task, null);
             }
-            long now = SystemClock.CurrentThreadTimeMillis();
-            var am = (AlarmManager)context.GetSystemService(Context.AlarmService);
-            var intent = new Intent(context, listenerType);
-            var pi = PendingIntent.GetBroadcast(context, 0, intent, PendingIntentFlags.CancelCurrent);
-            am.SetRepeating(AlarmType.RtcWakeup, now, (long)refreshTime.TotalMilliseconds, pi);
+
+            var component = new ComponentName(context, Class.FromType(listenerType));
+            var scheduler = (JobScheduler)context.GetSystemService(Context.JobSchedulerService);
+            var res = scheduler.Schedule(new JobInfo.Builder(id, component)
+                .SetRequiredNetworkType(NetworkType.Any)
+                .SetPeriodic((long) refreshTime.TotalMilliseconds)
+                .Build());
         }
 
         public void StartTask(BgTasks task)
@@ -57,31 +67,29 @@ namespace MALClient.Android.BackgroundTasks
 
         public void StopTask(BgTasks task)
         {
-            Type listenerType;
+            var scheduler = (JobScheduler)MainActivity.CurrentContext.GetSystemService(Context.JobSchedulerService);
             switch (task)
             {
                 case BgTasks.Notifications:
-                    listenerType = typeof(NotificationCheckBroadcastReceiver);
+                    scheduler.Cancel(3);
                     break;
                 case BgTasks.Tiles:
                     return;
                 case BgTasks.ToastActivation:
                     return;
+                case BgTasks.AiredNotification:
+                    scheduler.Cancel(4);
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(task), task, null);
-            }
-            var am = (AlarmManager)MainActivity.CurrentContext.GetSystemService(Context.AlarmService);
-            var intent = new Intent(MainActivity.CurrentContext, listenerType);
-            var broadcast = PendingIntent.GetBroadcast(MainActivity.CurrentContext, 0, intent, PendingIntentFlags.CancelCurrent);
-            if (broadcast != null)
-                am.Cancel(broadcast);
+            }               
         }
 
-        public void CallTask(BgTasks task)
+        public async void CallTask(BgTasks task)
         {
             try
             {
-                new NotificationCheckBroadcastReceiver().OnReceive(MainActivity.CurrentContext,null);
+                await new NotificationCheckBroadcastReceiver.CalendarTask(MainActivity.CurrentContext).RunUpdate();
             }
             catch (Exception)
             {

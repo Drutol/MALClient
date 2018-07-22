@@ -7,5 +7,5 @@
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 	<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 	<uses-sdk android:minSdkVersion="22" android:targetSdkVersion="27" />
-	<application android:networkSecurityConfig="@xml/debug_ca" />"
+	<application android:networkSecurityConfig="@xml/debug_ca" android:label="MALClient" />"
 </manifest>

@@ -166,5 +166,9 @@ namespace MALClient.UWP
 			SearchInput.Focus(state);
 		}
 
+		private void ButtonCloseChangelogOnClick(object sender, RoutedEventArgs e)
+		{
+			ViewModelLocator.GeneralMain.ChangelogVisibility = false;
+		}
 	}
 }

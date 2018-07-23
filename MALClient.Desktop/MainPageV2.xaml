@@ -1,6 +1,7 @@
 ﻿<Page x:Class="MALClient.UWP.MainPageV2" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	  xmlns:Windows10version1803="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 6)"
+	  xmlns:attachedProperties="using:MALClient.UWP.Shared.UserControls.AttachedProperties"
 	  xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:local="using:MALClient.UWP"
 	  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	  xmlns:userControls="using:MALClient.UWP.Shared.UserControls"
@@ -105,21 +106,21 @@
 		<NavigationView x:Name="NavView" Windows10version1803:IsBackButtonVisible="Collapsed"
 						CompactModeThresholdWidth="690" ItemInvoked="NavView_ItemInvoked" OpenPaneLength="250">
 			<NavigationView.MenuItems>
-				<NavigationViewItem Content="Anime List" Icon="List" Tag="0" />
-				<NavigationViewItem Content="Search" Icon="Find" Tag="3" />
-				<NavigationViewItem Content="Seasonal Anime" Icon="SlideShow" Tag="8" />
-				<NavigationViewItem Content="Recommendations" Icon="VideoChat" Tag="7" />
-				<NavigationViewItem Content="Top Anime" Icon="OutlineStar" Tag="11" />
-				<NavigationViewItem Content="Calendar" Icon="CalendarWeek" Tag="13" />
+				<NavigationViewItem Content="Anime List" Icon="List" Tag="0" ToolTipService.ToolTip="Anime List" />
+				<NavigationViewItem Content="Search" Icon="Find" Tag="3" ToolTipService.ToolTip="Search" />
+				<NavigationViewItem Content="Seasonal Anime" Icon="SlideShow" Tag="8" ToolTipService.ToolTip="Seasonal Anime" />
+				<NavigationViewItem Content="Recommendations" Icon="VideoChat" Tag="7" ToolTipService.ToolTip="Recommendations" />
+				<NavigationViewItem Content="Top Anime" Icon="OutlineStar" Tag="11" ToolTipService.ToolTip="Top Anime" />
+				<NavigationViewItem Content="Calendar" Icon="CalendarWeek" Tag="13" ToolTipService.ToolTip="Calendar" />
 				<NavigationViewItemSeparator />
-				<NavigationViewItem Content="Manga List" Icon="Library" Tag="9" />
-				<NavigationViewItem Content="Top Manga" Icon="OutlineStar" Tag="12" />
+				<NavigationViewItem Content="Manga List" Icon="Library" Tag="9" ToolTipService.ToolTip="Manga List" />
+				<NavigationViewItem Content="Top Manga" Icon="OutlineStar" Tag="12" ToolTipService.ToolTip="Top Manga" />
 				<NavigationViewItemSeparator />
-				<NavigationViewItem Content="Articles" Icon="PreviewLink" Tag="14" />
-				<NavigationViewItem Content="News" Icon="PostUpdate" Tag="15" />
-				<NavigationViewItem Content="Forums" Icon="Comment" Tag="18" />
-				<NavigationViewItem Content="Images" Icon="Pictures" Tag="23" />
-				<NavigationViewItem Content="Promotional Videos" Icon="Video" Tag="24" />
+				<NavigationViewItem Content="Articles" Icon="PreviewLink" Tag="14" ToolTipService.ToolTip="Articles" />
+				<NavigationViewItem Content="News" Icon="PostUpdate" Tag="15" ToolTipService.ToolTip="News" />
+				<NavigationViewItem Content="Forums" Icon="Comment" Tag="18" ToolTipService.ToolTip="Forums" />
+				<NavigationViewItem Content="Images" Icon="Pictures" Tag="23" ToolTipService.ToolTip="Images" />
+				<NavigationViewItem Content="Promotional Videos" Icon="Video" Tag="24" ToolTipService.ToolTip="Promotional Videos" />
 				<!--  TODO: Add here the other items  -->
 			</NavigationView.MenuItems>
 
@@ -211,7 +212,60 @@
 			</NavigationView.PaneFooter>
 
 			<!--  Content  -->
-			<Frame x:Name="MainContent" />
+			<Grid>
+				<Frame x:Name="MainContent" />
+				<Grid x:Name="ChangelogGrid" MinWidth="300" MaxWidth="600" MaxHeight="600" Margin="0,50,40,0"
+					  HorizontalAlignment="Right" VerticalAlignment="Top"
+					  attachedProperties:AnimatedVisibilityExtension.AnimatedCollapsedStoryboard="{StaticResource ChangelogFadeOutStoryboard}"
+					  attachedProperties:AnimatedVisibilityExtension.AnimatedVisibleStoryboard="{StaticResource ChangelogFadeInStoryboard}"
+					  attachedProperties:AnimatedVisibilityExtension.AnimatedVisiblity="{Binding ChangelogVisibility}"
+					  BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}"
+					  BorderThickness="1" Visibility="Collapsed">
+					<Grid.RowDefinitions>
+						<RowDefinition Height="Auto" />
+						<RowDefinition Height="*" />
+					</Grid.RowDefinitions>
+					<Grid.Background>
+						<AcrylicBrush BackgroundSource="Backdrop"
+									  FallbackColor="{StaticResource BrushDeepBackgroundColor}"
+									  TintColor="{StaticResource BrushDeepBackgroundColor}"
+									  TintOpacity="0.6" />
+					</Grid.Background>
+					<Grid Background="Transparent">
+						<TextBlock Margin="10,5" HorizontalAlignment="Left" FontWeight="Bold"
+								   Text="New update! What's new?" />
+						<Button HorizontalAlignment="Right" Background="Transparent" BorderThickness="1"
+								Click="ButtonCloseChangelogOnClick">
+							<SymbolIcon Symbol="Cancel" />
+						</Button>
+					</Grid>
+					<Grid Grid.Row="1" Padding="20,10,20,15">
+						<StackPanel>
+							<TextBlock Margin="0,0,0,5" FontWeight="SemiBold"
+									   Text="{Binding ChangelogHeader}"
+									   TextWrapping="WrapWholeWords" />
+							<MenuFlyoutSeparator Margin="-20,0,-20,5" Background="{ThemeResource BrushText}" />
+							<ItemsControl ItemsSource="{Binding ChangelogContent}">
+								<ItemsControl.ItemTemplate>
+									<DataTemplate>
+										<Grid Margin="0,3">
+											<Grid.ColumnDefinitions>
+												<ColumnDefinition Width="10" />
+												<ColumnDefinition Width="*" />
+											</Grid.ColumnDefinitions>
+											<Ellipse Width="3" Height="3" Margin="0,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"
+													 Fill="{ThemeResource BrushText}" />
+											<TextBlock Grid.Column="1"
+													   Text="{Binding}"
+													   TextWrapping="WrapWholeWords" />
+										</Grid>
+									</DataTemplate>
+								</ItemsControl.ItemTemplate>
+							</ItemsControl>
+						</StackPanel>
+					</Grid>
+				</Grid>
+			</Grid>
 		</NavigationView>
 		<!--  Split View pane size triggers  -->
 		<VisualStateManager.VisualStateGroups>

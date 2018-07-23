@@ -188,6 +188,11 @@ namespace MALClient.XShared.BL
             return true;
         }
 
+        public bool HasAiringEntry(int id)
+        {
+            return _lookupDictionary.ContainsKey(id);
+        }
+
         public bool InitializationSuccess { get; set; }
 
         [Preserve(AllMembers = true)]

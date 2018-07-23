@@ -77,12 +77,20 @@ namespace MALClient.Android.Fragments.HistoryFragments
 
         private void DataTemplateFull(View view, int i, Tuple<AnimeItemViewModel, List<MalProfileHistoryEntry>> tuple)
         {
-            view.FindViewById(Resource.Id.AnimeLightItemImgPlaceholder).Visibility = ViewStates.Gone;
-            var image = view.FindViewById<ImageViewAsync>(Resource.Id.AnimeLightItemImage);
-            if(!string.IsNullOrEmpty(tuple.Item1.ImgUrl))
-                image.AnimeInto(tuple.Item1.ImgUrl);
+            try
+            {
+                view.FindViewById(Resource.Id.AnimeLightItemImgPlaceholder).Visibility = ViewStates.Gone;
+                var image = view.FindViewById<ImageViewAsync>(Resource.Id.AnimeLightItemImage);
+                if (!string.IsNullOrEmpty(tuple.Item1.ImgUrl))
+                    image.AnimeInto(tuple.Item1.ImgUrl);
 
-            view.FindViewById(Resource.Id.HistoryPageTabItemAnimeLightItem).Tag = tuple.Item1.Wrap();
+                view.FindViewById(Resource.Id.HistoryPageTabItemAnimeLightItem).Tag = tuple.Item1.Wrap();
+            }
+            catch (Exception e)
+            {
+                //TODO
+            }
+
         }
 
         private View GetTemplateDelegate(int i, MalProfileHistoryEntry malProfileHistoryEntry, View arg3)

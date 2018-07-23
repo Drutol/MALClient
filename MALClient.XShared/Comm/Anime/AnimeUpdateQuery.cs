@@ -181,10 +181,10 @@ namespace MALClient.XShared.Comm.Anime
                 }
                 catch (Exception e)
                 {
-
+#if ANDROID
+                ResourceLocator.SnackbarProvider.ShowText("Failed to send update to MAL.");
+#endif
                 }
-
-                //var result = await base.GetRequestResponse();
 
                 if (string.IsNullOrEmpty(result) && !SuppressOfflineSync && Settings.EnableOfflineSync)
                 {

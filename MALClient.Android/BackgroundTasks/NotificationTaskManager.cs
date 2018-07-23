@@ -56,7 +56,8 @@ namespace MALClient.Android.BackgroundTasks
             var scheduler = (JobScheduler)context.GetSystemService(Context.JobSchedulerService);
             var res = scheduler.Schedule(new JobInfo.Builder(id, component)
                 .SetRequiredNetworkType(NetworkType.Any)
-                .SetPeriodic((long) refreshTime.TotalMilliseconds)
+                .SetPersisted(true)
+                .SetPeriodic((long) refreshTime.TotalMilliseconds + 1)
                 .Build());
         }
 

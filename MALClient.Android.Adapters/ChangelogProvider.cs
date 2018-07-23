@@ -35,11 +35,10 @@ namespace MALClient.Android.Adapters
 
         public List<string> Changelog => new List<string>
         {
-            "I hope to have stabilised http connections with MAL.",
-            "Fixed html decoding on search page.",
-            "Moved permissions check for saving images to happen on navigation to wallpapers page.",
-            "Fixed mismatched chapters&volumes when searching for manga.",
-            "Register button will now display a message that registration is disabled by MAL... I've received tons of 1 star reviews stating that registration doesn't work while it's not my responsibility at all. I hope that it will help ¯\\_(ツ)_/¯",
+            "Notifications are now partially working, I will be tweaking them in future updates.",
+            "Fixed calendar not displaying PTW shows when there was a lot of them.",
+            "Anime episodes update dialog will now show more episodes when the number of all is unknown.",
+            "",
             "",
             "PLEASE NOTE that it's still one big pile of workarounds because MAL is still missing APIs. I'm doing my best to make it work but it's hard when the website itself is unstable sometimes.",
             "If something explodes come join us on Discord, link can be found on GitHub",

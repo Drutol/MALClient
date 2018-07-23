@@ -77,7 +77,7 @@ namespace MALClient.Android.BackgroundTasks
                     //no image
                 }
 
-
+                
                 entry.TriggeredNotifications = notificationToTrigger;
                 if (entry.EpisodeCount == entry.TriggeredNotifications)
                     expiredItems.Add(entry);

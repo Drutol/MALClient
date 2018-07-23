@@ -35,6 +35,7 @@ namespace MALClient.Android.BackgroundTasks
     {
         public override bool OnStartJob(JobParameters @params)
         {
+            Log.Debug("MALClient-Notifications", "Starting job");
             var updater = new CalendarTask(ApplicationContext);
             updater.Execute();
             return true;
@@ -42,6 +43,7 @@ namespace MALClient.Android.BackgroundTasks
 
         public override bool OnStopJob(JobParameters @params)
         {
+            Log.Debug("MALClient-Notifications", "Job stopped");
             return true;
         }
 
@@ -179,7 +181,7 @@ namespace MALClient.Android.BackgroundTasks
                 dataService.OverridePreferenceManager(_context);
 
                 var allTriggeredNotifications = (ResourceLocator.ApplicationDataService[nameof(RoamingDataTypes.ReadNotifications)] ?? string.Empty) as string;
-                var triggeredNotifications =/* allTriggeredNotifications?.Split(';').ToList() ??*/ new List<string>();
+                var triggeredNotifications = allTriggeredNotifications?.Split(';').ToList() ?? new List<string>();
                 Log.Debug("MALClient",
                     $"Checking notifications: trig: {triggeredNotifications.Count} fetched: {notifications.Count}");
                 //trigger new notifications

@@ -57,10 +57,10 @@ namespace MALClient.XShared.Utils
             {
 #if ANDROID
                 return
-                    (int)(ApplicationDataService["SelectedTheme"] ?? 0);
+                    (int) (ApplicationDataService["SelectedTheme"] ?? 0);
 #else
                 return
-                    (int) (ApplicationDataService["SelectedTheme"] ?? 1);
+                    (int) (ApplicationDataService["SelectedTheme"] ?? 0);
 #endif
 
             }

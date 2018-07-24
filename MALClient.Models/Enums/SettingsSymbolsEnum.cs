@@ -13,6 +13,7 @@
         Important,
         SwitchApps,
         ContactInfo,
-        Lightbulb
+        Lightbulb,
+        Discord
     }
 }

@@ -55,13 +55,10 @@ namespace MALClient.XShared.Utils
         {
             get
             {
-#if ANDROID
-                return
-                    (int) (ApplicationDataService["SelectedTheme"] ?? 0);
-#else
-                return
-                    (int) (ApplicationDataService["SelectedTheme"] ?? 0);
-#endif
+                if(ViewModelLocator.Mobile)
+                    return (int) (ApplicationDataService["SelectedTheme"] ?? 0);
+
+                return (int) (ApplicationDataService["SelectedTheme"] ?? 1);
 
             }
             set { ApplicationDataService["SelectedTheme"] = value; }
@@ -663,7 +660,7 @@ namespace MALClient.XShared.Utils
 
         public static int NotificationsRefreshTime
         {
-            get { return (int)(ApplicationDataService[nameof(NotificationsRefreshTime)] ?? 15); }
+            get { return (int)(ApplicationDataService[nameof(NotificationsRefreshTime)] ?? 60); }
             set { ApplicationDataService[nameof(NotificationsRefreshTime)] = value; }
         }
 

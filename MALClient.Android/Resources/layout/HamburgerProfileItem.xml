@@ -2,7 +2,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
              xmlns:app="http://schemas.android.com/apk/res-auto"
              android:layout_width="match_parent"
-             android:layout_height="130dp">
+             android:layout_height="150dp">
 
   <LinearLayout android:orientation="vertical" android:layout_width="match_parent" android:layout_height="wrap_content">
     <FrameLayout android:layout_width="match_parent" android:id="@+id/HamburgerBottomViewProfileItem"
@@ -64,20 +64,25 @@
       </LinearLayout>
     </FrameLayout>
     <FrameLayout android:layout_width="match_parent" android:id="@+id/HamburgerBottomViewSettingsItem"
-                 android:layout_height="wrap_content" android:clipChildren="false" android:paddingTop="4dp" android:paddingBottom="4dp"
+                 android:layout_height="wrap_content" android:clipChildren="false" android:paddingTop="4dp" android:paddingBottom="14dp"
                  android:clickable="true" android:focusable="true" android:foreground="?selectableItemBackground" android:clipToPadding="false">
-      <LinearLayout android:padding="8dp"
+      <LinearLayout android:paddingStart="8dp" android:paddingTop="8dp" android:clipToPadding="false"
                     android:layout_width="match_parent" android:orientation="horizontal"
                     android:layout_height="wrap_content" android:gravity="center_vertical">
         <ImageView
           android:layout_width="24dp" android:scaleType="centerInside" android:id="@+id/HamburgerSettingsItemIcon"
-          android:layout_height="24dp" android:src="@drawable/icon_settings" />
+          android:layout_height="24dp" android:src="@drawable/icon_settings" android:layout_marginStart="13dp" />
         <TextView android:id="@+id/HamburgerSettingsItemLabel"
-                  android:layout_width="wrap_content" android:textColor="?BrushText" android:layout_marginStart="41dp"
+                  android:layout_width="wrap_content" android:textColor="?BrushText" android:layout_marginStart="28dp"
                   android:layout_height="wrap_content" android:text="Settings &amp; more" android:fontFamily="@string/font_family_medium" />
       </LinearLayout>
 
-      <android.support.design.widget.FloatingActionButton  android:id="@+id/HamburgerProfileItemSupport" android:layout_marginEnd="16dp"
+      <android.support.design.widget.FloatingActionButton  android:id="@+id/VideoAdButton" android:layout_marginEnd="74dp"
+                                                           android:layout_width="wrap_content" app:backgroundTint="#ff4400" android:layout_gravity="end|center_vertical"
+                                                           android:layout_height="wrap_content" android:tint="#fff" android:src="@drawable/icon_video_ad" android:clickable="true" android:focusable="true"
+                                                           xmlns:app="http://schemas.android.com/apk/res-auto" app:fabSize="mini" android:layout_marginBottom="0dp" />
+
+      <android.support.design.widget.FloatingActionButton  android:id="@+id/HamburgerProfileItemSupport" android:layout_marginEnd="18dp"
                                                            android:layout_width="wrap_content" app:backgroundTint="#ff4400" android:layout_gravity="end|center_vertical"
                                                            android:layout_height="wrap_content" android:tint="#fff" android:src="@drawable/icon_heart" android:clickable="true" android:focusable="true"
                                                            xmlns:app="http://schemas.android.com/apk/res-auto" app:fabSize="mini" android:layout_marginBottom="0dp" />

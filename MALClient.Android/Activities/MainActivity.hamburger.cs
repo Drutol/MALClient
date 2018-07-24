@@ -467,6 +467,8 @@ namespace MALClient.Android.Activities
                     support.SetOnClickListener(listener);
                     support.StartAnimation(AnimationUtils.LoadAnimation(this,Resource.Animator.animation_pulse));
 
+                    _settingsHamburgerView.FindViewById(Resource.Id.VideoAdButton).SetOnClickListener(listener);
+
 
                     //
                     _settingsHamburgerView.SetOnClickListener(new OnClickListener(view =>
@@ -508,8 +510,6 @@ namespace MALClient.Android.Activities
 
             _drawer.AddStickyFooterItem(new SectionDrawerItem().WithName("---   --     Workaround Version     --   ---")
                 .WithTextColor(Color.ParseColor("#ff0000")).WithTypeface(Typeface.DefaultBold).WithDivider(true));
-            _drawer.AddStickyFooterItem(new SectionDrawerItem().WithName("Catch me on discord! Link on github!")
-                .WithTextColor(Color.ParseColor("#aa0000")).WithTypeface(Typeface.Default).WithDivider(false));
             //var settingsButton = new ContainerDrawerItem();
             //settingsButton.WithSelectable(false);
             //settingsButton.WithDivider(false);
@@ -544,6 +544,10 @@ namespace MALClient.Android.Activities
                     {
                         ViewModelLocator.NavMgr.RegisterOneTimeOverride(new RelayCommand(() => _drawer.CloseDrawer()));
                     };
+                    break;
+                case Resource.Id.VideoAdButton:
+                    DisplayVideoAd();
+                    _drawer.CloseDrawer();
                     break;
             }
         }

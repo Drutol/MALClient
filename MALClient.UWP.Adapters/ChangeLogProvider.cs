@@ -13,12 +13,12 @@ namespace MALClient.UWP.Adapters
         public bool NewChangelog { get; set; }
         public string CurrentVersion => UWPUtilities.GetAppVersion();
 
-        public string DateWithVersion =>  $"v{UWPUtilities.GetAppVersion()} - 25.06.2018";
+        public string DateWithVersion =>  $"v{UWPUtilities.GetAppVersion()} - 25.07.2018";
 
         public List<string> Changelog => new List<string>
         {
-            "Restoring fuctionality after MAL's shananigans. Not everything works yet.",
-            "In the meantime we got new icon!"
+            "Fixed hamburger pane not entering expanded state while the pane itself was expanded.",
+            "Fixed calendar not displaying PTW shows when there was a lot of them."
         };
     }
 }

@@ -14,6 +14,7 @@
         Notifications,
         Ads,
         Feeds,
-        Info
+        Info,
+        Discord,
     }
 }

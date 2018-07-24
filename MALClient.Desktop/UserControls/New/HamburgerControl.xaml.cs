@@ -144,7 +144,7 @@ namespace MALClient.UWP.UserControls.New
 
         private void HamburgerControl_OnSizeChanged(object sender, SizeChangedEventArgs e)
         {
-            if (e.NewSize.Width == 250.0) //opened
+            if (Math.Abs(e.NewSize.Width - 250.0) < 1) //opened
             {
                 ViewModel.HamburgerWidthChanged(true);
                 MidSeparator.Width = BottomSeparator.Width = 250;

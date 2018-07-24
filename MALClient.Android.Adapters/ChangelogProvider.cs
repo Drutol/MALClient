@@ -39,7 +39,6 @@ namespace MALClient.Android.Adapters
             "Fixed calendar not displaying PTW shows when there was a lot of them.",
             "Anime episodes update dialog will now show more episodes when the number of all is unknown.",
             "",
-            "",
             "PLEASE NOTE that it's still one big pile of workarounds because MAL is still missing APIs. I'm doing my best to make it work but it's hard when the website itself is unstable sometimes.",
             "If something explodes come join us on Discord, link can be found on GitHub",
         };

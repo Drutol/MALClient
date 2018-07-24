@@ -42,6 +42,13 @@ namespace MALClient.Android.Fragments.SettingsFragments
                 Symbol = SettingsSymbolsEnum.Lightbulb,
 
             });
+            pages.Add(new SettingsPageEntry
+            {
+                Header = "Discord",
+                PageType = SettingsPageIndex.Discord,
+                Subtitle = "Join MALClient discord server!",
+                Symbol = SettingsSymbolsEnum.Discord
+            });
             SettingsPageHomepageList.SetAdapter(pages.GetAdapter(GetTemplateDelegate));
         }
 
@@ -97,7 +104,8 @@ namespace MALClient.Android.Fragments.SettingsFragments
                     return Resource.Drawable.icon_feeds;
                 case SettingsSymbolsEnum.Lightbulb:
                     return Resource.Drawable.icon_bulb;
-                    break;
+                case SettingsSymbolsEnum.Discord:
+                    return Resource.Drawable.icon_discord;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(symbol), symbol, null);
             }

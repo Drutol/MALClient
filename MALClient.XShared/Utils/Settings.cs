@@ -314,7 +314,7 @@ namespace MALClient.XShared.Utils
 
         public static bool EnableOfflineSync
         {
-            get { return (bool) (ApplicationDataService[nameof(EnableOfflineSync)] ?? true); }
+            get { return false; /*(bool) (ApplicationDataService[nameof(EnableOfflineSync)] ?? true); */}
             set { ApplicationDataService[nameof(EnableOfflineSync)] = value; }
         }
 

@@ -22,7 +22,7 @@ namespace MALClient.Android.UserControls.AnimeItems
     public class AnimeListItem : UserControlBase<AnimeItemViewModel,FrameLayout>
     {
         private readonly Action<AnimeItemViewModel> _onItemClickAction;
-        private DroppyMenuPopup _menu;
+        private PopupMenu _menu;
         private DroppyMenuPopup _tagsMenu;
 
         #region Constructors
@@ -260,7 +260,7 @@ namespace MALClient.Android.UserControls.AnimeItems
                     ViewModel.CopyTitleToClipboardCommand.Execute(null);
                     break;
             }
-            _menu.Dismiss(true);
+            _menu.Dismiss();
         }
 
 

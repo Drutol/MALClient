@@ -204,8 +204,6 @@ namespace MALClient.Android.UserControls
                 }
             }
 
-
-
             if (_displayTimeTillAir)
             {
                 if(string.IsNullOrEmpty(ViewModel.TimeTillNextAirCache))
@@ -217,7 +215,6 @@ namespace MALClient.Android.UserControls
                 }
 
             }
-
 
             if (string.IsNullOrEmpty(ViewModel.Type))
             {
@@ -250,6 +247,7 @@ namespace MALClient.Android.UserControls
         {
             RootContainer.SetOnClickListener(new OnClickListener(view => ContainerOnClick()));
             AnimeGridItemMoreButton.SetOnClickListener(new OnClickListener(view => MoreButtonOnClick()));
+            RootContainer.SetOnLongClickListener(new OnLongClickListener(view => MoreButtonOnClick()));
 
             AnimeGridItemTagsButton.SetOnClickListener(new OnClickListener(OnTagsButtonClick));
 
@@ -333,7 +331,7 @@ namespace MALClient.Android.UserControls
         #region Flyouts
 
         private DroppyMenuPopup _tagsMenu;
-        private DroppyMenuPopup _menu;
+        private PopupMenu _menu;
 
         private void OnTagsButtonClick(View view)
         {
@@ -375,7 +373,7 @@ namespace MALClient.Android.UserControls
                 default:
                     throw new ArgumentOutOfRangeException(nameof(btn), btn, null);
             }
-            _menu.Dismiss(true);
+            _menu.Dismiss();
         }
         #endregion
 

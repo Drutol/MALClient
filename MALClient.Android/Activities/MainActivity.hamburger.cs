@@ -43,7 +43,7 @@ namespace MALClient.Android.Activities
         private View _accountHamburgerView;
         private bool _selectedProfileItem;
         private bool _selectedSettingsItem;
-        private DroppyMenuPopup _supportMenu;
+        private PopupMenu _supportMenu;
         private View _settingsHamburgerView;
         private View _footerView;
         private bool _mangaSectionVisbility;
@@ -537,13 +537,28 @@ namespace MALClient.Android.Activities
                     OnHamburgerItemClick(PageIndex.PageMessanging);
                     break;
                 case Resource.Id.HamburgerProfileItemSupport:
-                    _supportMenu = FlyoutMenuBuilder.BuildGenericFlyout(this, view,
-                        new List<string> {"GitHub Feedback","Review","Donate Google","Donate PayPal","Turn on ads","Watch VideoAd"}, OnSupportMenuSelection);
+                    _supportMenu = new PopupMenu(this, view);
+
+                    _supportMenu.Menu.Add(0,0,0,"GitHub Feedback");
+                    _supportMenu.Menu.Add(0,1,0,"Review");
+                    _supportMenu.Menu.Add(0,2,0,"Donate Google");
+                    _supportMenu.Menu.Add(0,3,0,"Donate PayPal");
+                    _supportMenu.Menu.Add(0,4,0,"Turn on ads");
+                    _supportMenu.Menu.Add(0,5,0,"Watch VideoAd");
+
                     _supportMenu.Show();
-                    _supportMenu.OnHiddenWithoutSelection += (sender, args) =>
+
+                    _supportMenu.DismissEvent += (sender, args) =>
                     {
-                        ViewModelLocator.NavMgr.RegisterOneTimeOverride(new RelayCommand(() => _drawer.CloseDrawer()));
+                        ViewModelLocator.NavMgr.RegisterOneTimeOverride(
+                            new RelayCommand(() => _drawer.CloseDrawer()));
                     };
+
+                    _supportMenu.SetOnMenuItemClickListener(new AnimeItemFlyoutBuilder.MenuListener(item =>
+                    {
+                        OnSupportMenuSelection(item.ItemId);
+                    }));
+
                     break;
                 case Resource.Id.VideoAdButton:
                     DisplayVideoAd();
@@ -585,7 +600,7 @@ namespace MALClient.Android.Activities
                 //    FeedbackManager.ShowFeedbackActivity(ApplicationContext);
                 //    break;
             }
-            _supportMenu.Dismiss(true);
+            _supportMenu.Dismiss();
         }
 
         public bool MangaSectionVisbility

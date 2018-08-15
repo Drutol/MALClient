@@ -10,9 +10,18 @@ namespace MALClient.UWP.Shared.ViewModels
         {
             SimpleIoc.Default.Register<PinTileDialogViewModel>();
             SimpleIoc.Default.Register<SettingsViewModelBase,SettingsViewModel>();
+            SimpleIoc.Default.Register<ISnackbarProvider, SnackbarProvider>();
             SimpleIoc.Default.Register<IPinTileService>(() => PinTileDialog);
         }
 
         public static PinTileDialogViewModel PinTileDialog => SimpleIoc.Default.GetInstance<PinTileDialogViewModel>();
+
+        class SnackbarProvider : ISnackbarProvider
+        {
+            public void ShowText(string text)
+            {
+                
+            }
+        }
     }
 }

@@ -158,28 +158,28 @@ namespace MALClient.XShared.Comm.Anime
                             node.Attributes["class"].Value ==
                             "score")
                     .InnerText;
-            var infoNode =
-                htmlNode.Descendants("div")
-                    .First(
-                        node =>
-                            node.Attributes.Contains("class") &&
-                            node.Attributes["class"].Value ==
-                            "info");
-            int day = -1;
-            string airStartDate = null;
-            if(parseDate)
-                try
-                {
-                    var date = infoNode.ChildNodes[1].InnerText.Trim().Substring(0, 13).Replace(",", "");
-                    var dateObj = DateTime.Parse(date);
-                    day = (int)dateObj.DayOfWeek;
-                    airStartDate = dateObj.ToString("yyyy-MM-dd");
-                    day++;
-                }
-                catch (Exception)
-                {
-                    day = -1;
-                }
+            //var infoNode =
+            //    htmlNode.Descendants("div")
+            //        .First(
+            //            node =>
+            //                node.Attributes.Contains("class") &&
+            //                node.Attributes["class"].Value ==
+            //                "info");
+            //int day = -1;
+            //string airStartDate = null;
+            //if(parseDate)
+            //    try
+            //    {
+            //        var date = infoNode.ChildNodes[1].InnerText.Trim().Substring(0, 13).Replace(",", "");
+            //        var dateObj = DateTime.Parse(date);
+            //        day = (int)dateObj.DayOfWeek;
+            //        airStartDate = dateObj.ToString("yyyy-MM-dd");
+            //        day++;
+            //    }
+            //    catch (Exception)
+            //    {
+            //        day = -1;
+            //    }
 
             float score;
             if (!float.TryParse(scoreTxt, out score))
@@ -211,8 +211,8 @@ namespace MALClient.XShared.Comm.Anime
                     .Split(new[] {';'}, StringSplitOptions.RemoveEmptyEntries)
                     .Where(s => !string.IsNullOrWhiteSpace(s)).Select(s => s.Trim())
                     .ToList(),
-                AirDay = day,
-                AirStartDate = airStartDate
+                //AirDay = day,
+                //AirStartDate = airStartDate
             };
         }
     }

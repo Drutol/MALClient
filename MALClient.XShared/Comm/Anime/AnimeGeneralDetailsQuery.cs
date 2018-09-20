@@ -42,14 +42,14 @@ namespace MALClient.XShared.Comm.Anime
 
                                 output = new AnimeGeneralDetailsData
                                 {
-                                    AllEpisodes = parsed.episodes,
+                                    AllEpisodes = parsed.episodes ?? 0,
                                     Status = parsed.status,
                                     Type = parsed.type,
                                     AlternateTitle = parsed.title_japanese,
-                                    StartDate = parsed.aired.from,
-                                    EndDate = parsed.aired.to,
+                                    StartDate = parsed.aired.from?.ToString("MM/dd/yyyy") ?? "N/A",
+                                    EndDate = parsed.aired.to?.ToString("MM/dd/yyyy") ?? "N/A",
                                     ImgUrl = parsed.image_url,
-                                    GlobalScore = (float) parsed.score,
+                                    GlobalScore = (float)(parsed.score ?? 0),
                                     Id = parsed.mal_id,
                                     MalId = parsed.mal_id,
                                     Synopsis = WebUtility.HtmlDecode(parsed.synopsis),
@@ -71,10 +71,10 @@ namespace MALClient.XShared.Comm.Anime
                                     Status = parsed.status,
                                     Type = parsed.type,
                                     AlternateTitle = parsed.title_japanese,
-                                    StartDate = parsed.published.from,
-                                    EndDate = parsed.published.to,
+                                    StartDate = parsed.published.from?.ToString("MM/dd/yyyy") ?? "N/A",
+                                    EndDate = parsed.published.to?.ToString("MM/dd/yyyy") ?? "N/A",
                                     ImgUrl = parsed.image_url,
-                                    GlobalScore = (float)parsed.score,
+                                    GlobalScore = (float)(parsed.score ?? 0),
                                     Id = parsed.mal_id,
                                     MalId = parsed.mal_id,
                                     Synopsis = WebUtility.HtmlDecode(parsed.synopsis),
@@ -104,8 +104,8 @@ namespace MALClient.XShared.Comm.Anime
         [Preserve(AllMembers = true)]
         class Aired
         {
-            public string from { get; set; }
-            public string to { get; set; }
+            public DateTime? from { get; set; }
+            public DateTime? to { get; set; }
         }
         [Preserve(AllMembers = true)]
         class Adaptation
@@ -171,10 +171,10 @@ namespace MALClient.XShared.Comm.Anime
             public string title_synonyms { get; set; }
             public string image_url { get; set; }
             public string type { get; set; }
-            public int episodes { get; set; }
+            public int? episodes { get; set; }
             public string status { get; set; }
             public Aired aired { get; set; }
-            public double score { get; set; }
+            public double? score { get; set; }
             public string synopsis { get; set; }
         }
         [Preserve(AllMembers = true)]
@@ -190,7 +190,7 @@ namespace MALClient.XShared.Comm.Anime
             public string volumes { get; set; }
             public string chapters { get; set; }
             public Aired published { get; set; }
-            public double score { get; set; }
+            public double? score { get; set; }
             public string synopsis { get; set; }
         }
     }

@@ -35,8 +35,7 @@ namespace MALClient.Android.Adapters
 
         public List<string> Changelog => new List<string>
         {
-            "Fixed issues with dates... it turned out that data differes as per your setting for European/American date format.",
-            "Tweaked some popup menus and added long click to grid items.",
+            "Fixed dates and some issues with new seasonal anime, sorry that it took that long but I just came back from my Japan holidays ^^. I simply couldn't have done anything about it... Sorry!",
             "",
             "PLEASE NOTE that it's still one big pile of workarounds because MAL is still missing APIs. I'm doing my best to make it work but it's hard when the website itself is unstable sometimes.",
             "If something explodes come join us on Discord, link can be found on GitHub",

@@ -161,15 +161,15 @@ namespace MALClient.XShared.Comm.Anime
 
                     if (_item.StartDate != null)
                     {
-                        content["add_anime[start_date][month]"] = _item.StartDate.Substring(5, 2).Trim('0');
-                        content["add_anime[start_date][day]"] = _item.StartDate.Substring(8, 2).Trim('0');
+                        content["add_anime[start_date][month]"] = _item.StartDate.Substring(5, 2).TrimStart('0');
+                        content["add_anime[start_date][day]"] = _item.StartDate.Substring(8, 2).TrimStart('0');
                         content["add_anime[start_date][year]"] = _item.StartDate.Substring(0, 4).Replace("0000","");
                     }
 
                     if (_item.EndDate != null)
                     {
-                        content["add_anime[finish_date][month]"] = _item.EndDate.Substring(5, 2).Trim('0');
-                        content["add_anime[finish_date][day]"] = _item.EndDate.Substring(8, 2).Trim('0');
+                        content["add_anime[finish_date][month]"] = _item.EndDate.Substring(5, 2).TrimStart('0');
+                        content["add_anime[finish_date][day]"] = _item.EndDate.Substring(8, 2).TrimStart('0');
                         content["add_anime[finish_date][year]"] = _item.EndDate.Substring(0, 4).Replace("0000","");
                     }
 

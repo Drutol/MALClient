@@ -209,6 +209,22 @@ namespace MALClient.XShared.Comm
                                             item.manga_image_path =
                                                 item.manga_image_path.Substring(0, item.manga_image_path.IndexOf('?'));
 
+                                            if (!string.IsNullOrEmpty(item.start_date_string))
+                                            {
+                                                var startDateTokens = item.start_date_string.Split('-');
+                                                var yearToken = int.Parse(startDateTokens[2]);
+                                                item.start_date_string =
+                                                    $"{(yearToken < 50 ? $"20{yearToken}" : $"19{yearToken}")}-{startDateTokens[isAmericanDateFormat ? 0 : 1]}-{startDateTokens[isAmericanDateFormat ? 1 : 0]}";
+                                            }
+
+                                            if (!string.IsNullOrEmpty(item.finish_date_string))
+                                            {
+                                                var endDateTokens = item.finish_date_string.Split('-');
+                                                var yearToken = int.Parse(endDateTokens[2]);
+                                                item.finish_date_string =
+                                                    $"{(yearToken < 50 ? $"20{yearToken}" : $"19{yearToken}")}-{endDateTokens[isAmericanDateFormat ? 0 : 1]}-{endDateTokens[isAmericanDateFormat ? 1 : 0]}";
+                                            }
+
                                             output.Add(new MangaLibraryItemData
                                             {
                                                 Title = item.manga_title,

@@ -31,11 +31,12 @@ namespace MALClient.Android.Adapters
 
         public bool NewChangelog { get; set; }
 
-        public string DateWithVersion => $"{_currentVersion} - 26.07.2018";
+        public string DateWithVersion => $"{_currentVersion} - 07.10.2018";
 
         public List<string> Changelog => new List<string>
         {
-            "Fixed dates and some issues with new seasonal anime, sorry that it took that long but I just came back from my Japan holidays ^^. I simply couldn't have done anything about it... Sorry!",
+            "Fixed setting dates.",
+            "Now you can also edit dates for manga.",
             "",
             "PLEASE NOTE that it's still one big pile of workarounds because MAL is still missing APIs. I'm doing my best to make it work but it's hard when the website itself is unstable sometimes.",
             "If something explodes come join us on Discord, link can be found on GitHub",

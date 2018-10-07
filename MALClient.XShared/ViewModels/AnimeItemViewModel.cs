@@ -1046,7 +1046,7 @@ namespace MALClient.XShared.ViewModels
             if (MyStatus == AnimeStatus.Completed && _allEpisodes != 0)
                  PromptForWatchedEpsChange(_allEpisodes);
 
-            if (Settings.DisplayScoreDialogAfterCompletion && MyStatus == AnimeStatus.Completed && MyScore == 0)
+            if (Settings.DisplayScoreDialogAfterCompletion && MyStatus == AnimeStatus.Completed && Math.Abs(MyScore) < .001)
                 PromptForScoreChange();
 
             LoadingUpdate = false;
@@ -1141,6 +1141,8 @@ namespace MALClient.XShared.ViewModels
 
             if(ParentAbstraction.RepresentsAnime)
                 await new AnimeUpdateQuery(this).GetRequestResponse();
+            else
+                await new MangaUpdateQuery(this).GetRequestResponse();
         }
 
         public void UpdateWithSeasonData(SeasonalAnimeData data, bool updateScore)

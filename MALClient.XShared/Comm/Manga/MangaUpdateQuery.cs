@@ -1,8 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using HtmlAgilityPack;
 using MALClient.Adapters;
 using MALClient.Models.Models.Library;
 using MALClient.XShared.Utils;
@@ -15,6 +19,7 @@ namespace MALClient.XShared.Comm.Manga
     public class MangaUpdateQuery : Query
     {
         private readonly IAnimeData _item;
+        private SemaphoreSlim _updateSemaphore = new SemaphoreSlim(1);
         public static bool SuppressOfflineSync { get; set; }
         public static bool UpdatedSomething { get; set; } //used for data saving on suspending in app.xaml.cs
 
@@ -51,45 +56,169 @@ namespace MALClient.XShared.Comm.Manga
         {
             try
             {
+                await _updateSemaphore.WaitAsync();
                 var result = "";
                 try
                 {
                     var client = await ResourceLocator.MalHttpContextProvider.GetHttpContextAsync();
-                    client.DefaultRequestHeaders.Add("X-Requested-With", new[] {"XMLHttpRequest"});
 
-                    var response = await client.PostAsync("https://myanimelist.net/ownlist/manga/edit.json",
-                        new StringContent(new JObject
-                        {
-                            ["manga_id"] = _item.Id,
-                            ["status"] = (int) _item.MyStatus,
-                            ["score"] = (int) _item.MyScore,
-                            ["num_read_volumes"] = _item.MyVolumes,
-                            ["num_read_chapters"] = _item.MyEpisodes,
-                            ["csrf_token"] = client.Token,
-                        }.ToString(Formatting.None)));
-                    if (response.IsSuccessStatusCode)
+                    var updateHtml = await
+                        client.GetStreamAsync($"https://myanimelist.net/ownlist/manga/{_item.Id}/edit?hideLayout=");
+                    var doc = new HtmlDocument();
+                    doc.Load(updateHtml);
+
+                    var priority = doc.DocumentNode
+                                       .FirstOfDescendantsWithId("select", "add_manga_priority")
+                                       .Descendants("option")
+                                       .First(node => node.Attributes.Contains("selected"))?
+                                       .Attributes["value"].Value ?? "0";
+
+                    var storage = doc.DocumentNode
+                        .FirstOfDescendantsWithId("select", "add_manga_storage_type")
+                        .Descendants("option")
+                        .FirstOrDefault(node => node.Attributes.Contains("selected"))?
+                        .Attributes["value"].Value;
+
+                    var storageValue = doc.DocumentNode
+                        .FirstOfDescendantsWithId("input", "add_manga_num_retail_volumes")
+                        .Attributes["value"].Value;
+
+                    var rewatches = doc.DocumentNode
+                        .FirstOfDescendantsWithId("input", "add_manga_num_read_times")
+                        .Attributes["value"].Value;
+
+                    var rewatchValue = doc.DocumentNode
+                        .FirstOfDescendantsWithId("select", "add_manga_reread_value")
+                        .Descendants("option")
+                        .FirstOrDefault(node => node.Attributes.Contains("selected"))?
+                        .Attributes["value"].Value;
+
+                    var comments = doc.DocumentNode
+                        .FirstOfDescendantsWithId("textarea", "add_manga_comments").InnerText;
+
+                    var askDiscuss = doc.DocumentNode
+                                         .FirstOfDescendantsWithId("select", "add_manga_is_asked_to_discuss")
+                                         .Descendants("option")
+                                         .FirstOrDefault(node => node.Attributes.Contains("selected"))?
+                                         .Attributes["value"].Value ?? "0";
+
+                    var postSns = doc.DocumentNode
+                                      .FirstOfDescendantsWithId("select", "add_manga_sns_post_type")
+                                      .Descendants("option")
+                                      .FirstOrDefault(node => node.Attributes.Contains("selected"))?
+                                      .Attributes["value"].Value ?? "0";
+
+
+                    var content = new Dictionary<string, string>
+                    {
+                        ["entry_id"] = "0",
+                        ["manga_id"] = _item.Id.ToString(),
+                        ["add_manga[status]"] = ((int)_item.MyStatus).ToString(),
+                        ["add_manga[score]"] = _item.MyScore == 0 ? null : _item.MyScore.ToString(),
+                        ["add_manga[num_read_chapters]"] = _item.MyEpisodes.ToString(),
+                        ["add_manga[num_read_volumes]"] = _item.MyVolumes.ToString(),
+                        ["add_manga[tags]"] = string.IsNullOrEmpty(_item.Notes) ? "" : _item.Notes,
+
+                        ["csrf_token"] = client.Token,
+
+                        ["add_manga[priority]"] = priority,
+                        ["add_manga[storage_type]"] = storage,
+                        ["add_manga[num_retail_volumes]"] = storageValue,
+                        ["add_manga[num_read_times]"] = rewatches,
+                        ["add_manga[reread_value]"] = rewatchValue,
+                        ["add_manga[comments]"] = comments,
+                        ["add_manga[is_asked_to_discuss]"] = askDiscuss,
+                        ["add_manga[sns_post_type]"] = postSns,
+
+                        ["submitIt"] = "0",
+                        ["last_completed_vol"] = "",
+
+                    };
+
+                    if (_item.StartDate != null)
+                    {
+                        content["add_manga[start_date][month]"] = _item.StartDate.Substring(5, 2).TrimStart('0');
+                        content["add_manga[start_date][day]"] = _item.StartDate.Substring(8, 2).TrimStart('0');
+                        content["add_manga[start_date][year]"] = _item.StartDate.Substring(0, 4).Replace("0000", "");
+                    }
+
+                    if (_item.EndDate != null)
+                    {
+                        content["add_manga[finish_date][month]"] = _item.EndDate.Substring(5, 2).TrimStart('0');
+                        content["add_manga[finish_date][day]"] = _item.EndDate.Substring(8, 2).TrimStart('0');
+                        content["add_manga[finish_date][year]"] = _item.EndDate.Substring(0, 4).Replace("0000", "");
+                    }
+
+                    var response = await client.PostAsync(
+                        $"https://myanimelist.net/ownlist/manga/{_item.Id}/edit?hideLayout",
+                        new FormUrlEncodedContent(content));
+                    if (!(await response.Content.ReadAsStringAsync()).Contains("badresult"))
                         result = "Updated";
                 }
                 catch (Exception e)
                 {
-
+#if ANDROID
+                ResourceLocator.SnackbarProvider.ShowText("Failed to send update to MAL.");
+#endif
                 }
-
-                //var result = await base.GetRequestResponse();
 
                 if (string.IsNullOrEmpty(result) && !SuppressOfflineSync && Settings.EnableOfflineSync)
                 {
                     result = "Updated";
-                    Settings.MangaSyncRequired = true;
+                    Settings.AnimeSyncRequired = true;
                 }
 
                 ResourceLocator.ApplicationDataService[RoamingDataTypes.LastLibraryUpdate] = DateTime.Now.ToBinary();
                 return result;
             }
-            catch (Exception)
+            finally
             {
-                return string.Empty;
+                _updateSemaphore.Release();
             }
+
+
+
+            //try
+            //{
+            //    var result = "";
+            //    try
+            //    {
+            //        var client = await ResourceLocator.MalHttpContextProvider.GetHttpContextAsync();
+            //        client.DefaultRequestHeaders.Add("X-Requested-With", new[] {"XMLHttpRequest"});
+
+            //        var response = await client.PostAsync("https://myanimelist.net/ownlist/manga/edit.json",
+            //            new StringContent(new JObject
+            //            {
+            //                ["manga_id"] = _item.Id,
+            //                ["status"] = (int) _item.MyStatus,
+            //                ["score"] = (int) _item.MyScore,
+            //                ["num_read_volumes"] = _item.MyVolumes,
+            //                ["num_read_chapters"] = _item.MyEpisodes,
+            //                ["csrf_token"] = client.Token,
+            //            }.ToString(Formatting.None)));
+            //        if (response.IsSuccessStatusCode)
+            //            result = "Updated";
+            //    }
+            //    catch (Exception e)
+            //    {
+
+            //    }
+
+            //    //var result = await base.GetRequestResponse();
+
+            //    if (string.IsNullOrEmpty(result) && !SuppressOfflineSync && Settings.EnableOfflineSync)
+            //    {
+            //        result = "Updated";
+            //        Settings.MangaSyncRequired = true;
+            //    }
+
+            //    ResourceLocator.ApplicationDataService[RoamingDataTypes.LastLibraryUpdate] = DateTime.Now.ToBinary();
+            //    return result;
+            //}
+            //catch (Exception)
+            //{
+            //    return string.Empty;
+            //}
         }
 
 

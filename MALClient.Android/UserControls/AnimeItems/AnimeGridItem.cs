@@ -247,7 +247,7 @@ namespace MALClient.Android.UserControls
         {
             RootContainer.SetOnClickListener(new OnClickListener(view => ContainerOnClick()));
             AnimeGridItemMoreButton.SetOnClickListener(new OnClickListener(view => MoreButtonOnClick()));
-            RootContainer.SetOnLongClickListener(new OnLongClickListener(view => MoreButtonOnClick()));
+            //RootContainer.SetOnLongClickListener(new OnLongClickListener(view => MoreButtonOnClick()));
 
             AnimeGridItemTagsButton.SetOnClickListener(new OnClickListener(OnTagsButtonClick));
 

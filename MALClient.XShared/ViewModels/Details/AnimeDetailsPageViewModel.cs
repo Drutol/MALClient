@@ -646,7 +646,7 @@ namespace MALClient.XShared.ViewModels.Details
                     RaisePropertyChanged(() => MyEpisodesBind);
                 }
 
-                if (MyStatus == AnimeStatus.Completed && MyScore == 0 && Settings.DisplayScoreDialogAfterCompletion)
+                if (MyStatus == AnimeStatus.Completed && Math.Abs(MyScore) < .0001 && Settings.DisplayScoreDialogAfterCompletion)
                 {
                     vm.PromptForScoreChange();
                 }
@@ -885,6 +885,8 @@ namespace MALClient.XShared.ViewModels.Details
 
             if(AnimeMode)
                 await new AnimeUpdateQuery(_animeItemReference).GetRequestResponse();
+            else
+                await new MangaUpdateQuery(_animeItemReference).GetRequestResponse();
         }
 
         public void CurrentAnimeHasBeenAddedToList(IAnimeData reference)

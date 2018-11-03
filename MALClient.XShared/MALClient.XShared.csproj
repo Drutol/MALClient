@@ -2,6 +2,7 @@
     <PropertyGroup>
         <TargetFramework>netstandard2.0</TargetFramework>
         <PackageTargetFallback>$(PackageTargetFallback);portable-win+net45+wp8+win81+wpa8</PackageTargetFallback>
+        <LangVersion>latest</LangVersion>
     </PropertyGroup> 
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='AndroidRelease|AnyCPU'">
       <DefineConstants>TRACE;RELEASE;NETSTANDARD2_0;ANDROID</DefineConstants>

@@ -56,6 +56,8 @@ namespace MALClient.XShared.ViewModels
 
         public static IDialogsProvider DialogsProvider => SimpleIoc.Default.GetInstance<IDialogsProvider>();
 
+        public static IShareManager ShareManager => SimpleIoc.Default.GetInstance<IShareManager>();
+
 
         // Purely shared interfaces
 
@@ -66,6 +68,7 @@ namespace MALClient.XShared.ViewModels
             SimpleIoc.Default.Register<IAnimeLibraryDataStorage,AnimeLibraryDataStorage>();
             SimpleIoc.Default.Register<IHandyDataStorage,HandyDataStorage>();
             SimpleIoc.Default.Register<IAiringInfoProvider,AiringInfoProvider>();
+            SimpleIoc.Default.Register<IShareManager,ShareManager>();
         }
 
         #region UsedByBackgroundTask

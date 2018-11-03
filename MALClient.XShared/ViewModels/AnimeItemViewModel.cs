@@ -8,6 +8,7 @@ using GalaSoft.MvvmLight.Ioc;
 using MALClient.Adapters;
 using MALClient.Models.Enums;
 using MALClient.Models.Interfaces;
+using MALClient.Models.Models.Anime;
 using MALClient.Models.Models.AnimeScrapped;
 using MALClient.Models.Models.Library;
 using MALClient.XShared.Comm;
@@ -928,6 +929,17 @@ namespace MALClient.XShared.ViewModels
                 MyEpisodes--; // Shouldn't occur really , but hey shouldn't and MAL api goes along very well.
                 AdjustIncrementButtonsVisibility();
             }
+            else
+            {
+                ResourceLocator.ShareManager.EnqueueEvent(ShareEvent.AnimeEpisodesChanged, new AnimeShareDiff
+                {
+                    Title = Title,
+                    NewEpisodes = MyEpisodes,
+                    TotalEpisodes = AllEpisodes,
+                    Id = Id,
+                    IsAnime = ParentAbstraction.RepresentsAnime
+                });
+            }
 
             ParentAbstraction.LastWatched = DateTime.Now;
 
@@ -951,6 +963,17 @@ namespace MALClient.XShared.ViewModels
             {
                 MyEpisodesFocused++;
                 AdjustIncrementButtonsVisibility();
+            }
+            else
+            {
+                ResourceLocator.ShareManager.EnqueueEvent(ShareEvent.AnimeEpisodesChanged, new AnimeShareDiff
+                {
+                    Title = Title,
+                    NewEpisodes = MyEpisodes,
+                    TotalEpisodes = AllEpisodes,
+                    Id = Id,
+                    IsAnime = ParentAbstraction.RepresentsAnime
+                });
             }
 
             _decrementing = false;
@@ -986,7 +1009,17 @@ namespace MALClient.XShared.ViewModels
                 var response = await GetAppropriateUpdateQuery().GetRequestResponse();
                 if (response != "Updated" && Settings.SelectedApiType == ApiType.Mal)
                     MyEpisodesFocused = prevWatched;
-
+                else
+                {
+                    ResourceLocator.ShareManager.EnqueueEvent(ShareEvent.AnimeEpisodesChanged, new AnimeShareDiff
+                    {
+                        Title = Title,
+                        NewEpisodes = MyEpisodes,
+                        TotalEpisodes = AllEpisodes,                  
+                        Id = Id,
+                        IsAnime = ParentAbstraction.RepresentsAnime
+                    });
+                }
                 AdjustIncrementButtonsVisibility();
                 ParentAbstraction.LastWatched = DateTime.Now;
 
@@ -1042,7 +1075,16 @@ namespace MALClient.XShared.ViewModels
             var response = await GetAppropriateUpdateQuery().GetRequestResponse();
             if (response != "Updated" && Settings.SelectedApiType == ApiType.Mal)
                 MyStatus = myPrevStatus;
-
+            else
+            {
+                ResourceLocator.ShareManager.EnqueueEvent(ShareEvent.AnimeStatusChanged, new AnimeShareDiff
+                {
+                    Title = Title,
+                    NewStatus = MyStatus,
+                    Id = Id,
+                    IsAnime = ParentAbstraction.RepresentsAnime
+                });
+            }
             if (MyStatus == AnimeStatus.Completed && _allEpisodes != 0)
                  PromptForWatchedEpsChange(_allEpisodes);
 
@@ -1069,7 +1111,16 @@ namespace MALClient.XShared.ViewModels
             var response = await GetAppropriateUpdateQuery().GetRequestResponse();
             if (response != "Updated" && Settings.SelectedApiType == ApiType.Mal)
                 MyScore = myPrevScore;
-
+            else
+            {
+                ResourceLocator.ShareManager.EnqueueEvent(ShareEvent.AnimeScoreChanged, new AnimeShareDiff
+                {
+                    Title = Title,
+                    NewScore = (int)MyScore,
+                    Id = Id,
+                    IsAnime = ParentAbstraction.RepresentsAnime
+                });
+            }
             LoadingUpdate = false;
         }
 
@@ -1188,6 +1239,16 @@ namespace MALClient.XShared.ViewModels
                                     MyEpisodes = AllEpisodes;
                                 }
                                 await GetAppropriateUpdateQuery().GetRequestResponse();
+
+                                ResourceLocator.ShareManager.EnqueueEvent(ShareEvent.AnimeEpisodesChanged, new AnimeShareDiff
+                                {
+                                    Title = Title,
+                                    NewEpisodes = MyEpisodes,
+                                    TotalEpisodes = AllEpisodes,
+                                    Id = Id,
+                                    IsAnime = ParentAbstraction.RepresentsAnime
+                                });
+
                                 AdjustIncrementButtonsVisibility();
                                 ViewModelLocator.AnimeDetails.UpdateAnimeReferenceUiBindings(Id);
                             }

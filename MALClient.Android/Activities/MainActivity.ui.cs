@@ -29,7 +29,9 @@ using Com.Shehabic.Droppy;
 using FFImageLoading;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Helpers;
+using GalaSoft.MvvmLight.Ioc;
 using Java.Lang;
+using MALClient.Adapters;
 using MALClient.Android.BindingConverters;
 using MALClient.Android.Flyouts;
 using MALClient.Android.Listeners;
@@ -85,7 +87,6 @@ namespace MALClient.Android.Activities
                 this.SetBinding(() => ViewModel.CurrentStatus,
                     () => MainPageCurrentStatus.Text));
 
-
             Bindings.Add(
                 this.SetBinding(() => ViewModel.RefreshButtonVisibility,
                     () => MainPageRefreshButton.Visibility).ConvertSourceToTarget(Converters.BoolToVisibility));
@@ -102,7 +103,6 @@ namespace MALClient.Android.Activities
                         MainPageSearchView.SetQuery(ViewModel.CurrentSearchQuery,false);
                     MainPageSearchView.ClearFocus();
                 }));
-
 
             Bindings.Add(this.SetBinding(() => ViewModel.CurrentStatusSub).WhenSourceChanges(() =>
             {
@@ -265,13 +265,31 @@ namespace MALClient.Android.Activities
             ((EditText)MainPageSearchView.FindViewById(Resource.Id.search_src_text)).SetTextColor(Color.White);
 
 
-            MainPageHamburgerButton.Click +=  MainPageHamburgerButtonOnClick;      
+            MainPageHamburgerButton.Click +=  MainPageHamburgerButtonOnClick;
+            ShareFloatingActionButton.SetOnClickListener(new OnClickListener(view =>
+            {
+                SimpleIoc.Default.GetInstance<IShareProvider>()
+                    .Share(ResourceLocator.ShareManager.GenerateMessage());
+            }));
             ViewModel.PropertyChanged += ViewModelOnPropertyChanged;
             BuildDrawer();     
             _drawer.OnDrawerItemClickListener = new HamburgerItemClickListener(OnHamburgerItemClick);
 
             MainPageCloseVideoButton.SetZ(0);
             MainPageCopyVideoLinkButton.SetZ(0);
+            ShareFloatingActionButton.Hide();
+        }
+
+        private void ShareManagerOnTimerStateChanged(object sender, bool e)
+        {
+            if (e)
+            {
+                ShareFloatingActionButton.Show();
+            }
+            else
+            {
+                ShareFloatingActionButton.Hide();
+            }
         }
 
         private void MainPageCopyVideoLinkButtonOnClick(object o, EventArgs eventArgs)
@@ -498,6 +516,8 @@ namespace MALClient.Android.Activities
             base.OnConfigurationChanged(newConfig);
         }
 
+        #region Views
+
         private ImageButton _mainPageHamburgerButton;
         private TextView _mainPageCurrentStatus;
         private TextView _mainPageCurrentSatusSubtitle;
@@ -507,6 +527,7 @@ namespace MALClient.Android.Activities
         private LinearLayout _mainUpperNavBar;
         private FrameLayout _mainContentFrame;
         private AdView _mainPageAdView;
+        private FloatingActionButton _shareFloatingActionButton;
         private VideoView _mainPageVideoView;
         private ImageButton _mainPageCopyVideoLinkButton;
         private ImageButton _mainPageCloseVideoButton;
@@ -514,33 +535,22 @@ namespace MALClient.Android.Activities
         private LinearLayout _mainPageRoot;
 
         public ImageButton MainPageHamburgerButton => _mainPageHamburgerButton ?? (_mainPageHamburgerButton = FindViewById<ImageButton>(Resource.Id.MainPageHamburgerButton));
-
         public TextView MainPageCurrentStatus => _mainPageCurrentStatus ?? (_mainPageCurrentStatus = FindViewById<TextView>(Resource.Id.MainPageCurrentStatus));
-
         public TextView MainPageCurrentSatusSubtitle => _mainPageCurrentSatusSubtitle ?? (_mainPageCurrentSatusSubtitle = FindViewById<TextView>(Resource.Id.MainPageCurrentSatusSubtitle));
-
         public LinearLayout MainPageStatusContainer => _mainPageStatusContainer ?? (_mainPageStatusContainer = FindViewById<LinearLayout>(Resource.Id.MainPageStatusContainer));
-
         public SearchView MainPageSearchView => _mainPageSearchView ?? (_mainPageSearchView = FindViewById<SearchView>(Resource.Id.MainPageSearchView));
-
         public ImageButton MainPageRefreshButton => _mainPageRefreshButton ?? (_mainPageRefreshButton = FindViewById<ImageButton>(Resource.Id.MainPageRefreshButton));
-
         public LinearLayout MainUpperNavBar => _mainUpperNavBar ?? (_mainUpperNavBar = FindViewById<LinearLayout>(Resource.Id.MainUpperNavBar));
-
         public FrameLayout MainContentFrame => _mainContentFrame ?? (_mainContentFrame = FindViewById<FrameLayout>(Resource.Id.MainContentFrame));
-
         public AdView MainPageAdView => _mainPageAdView ?? (_mainPageAdView = FindViewById<AdView>(Resource.Id.MainPageAdView));
-
+        public FloatingActionButton ShareFloatingActionButton => _shareFloatingActionButton ?? (_shareFloatingActionButton = FindViewById<FloatingActionButton>(Resource.Id.ShareFloatingActionButton));
         public VideoView MainPageVideoView => _mainPageVideoView ?? (_mainPageVideoView = FindViewById<VideoView>(Resource.Id.MainPageVideoView));
-
         public ImageButton MainPageCopyVideoLinkButton => _mainPageCopyVideoLinkButton ?? (_mainPageCopyVideoLinkButton = FindViewById<ImageButton>(Resource.Id.MainPageCopyVideoLinkButton));
-
         public ImageButton MainPageCloseVideoButton => _mainPageCloseVideoButton ?? (_mainPageCloseVideoButton = FindViewById<ImageButton>(Resource.Id.MainPageCloseVideoButton));
-
         public RelativeLayout MainPageVideoViewContainer => _mainPageVideoViewContainer ?? (_mainPageVideoViewContainer = FindViewById<RelativeLayout>(Resource.Id.MainPageVideoViewContainer));
-
         public LinearLayout MainPageRoot => _mainPageRoot ?? (_mainPageRoot = FindViewById<LinearLayout>(Resource.Id.MainPageRoot));
 
+        #endregion
 
     }
 }

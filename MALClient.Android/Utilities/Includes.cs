@@ -155,6 +155,7 @@ namespace MALClient.Android
         public void Include(DispatcherAdapter vm) { var vm1 = new DispatcherAdapter(); }
         public void Include(AiringNotificationsAdapter vm) { var vm1 = new AiringNotificationsAdapter(); }
         public void Include(AiringInfoProvider vm) { var vm1 = new AiringInfoProvider(null,null); }
+        public void Include(ShareManager vm) { var vm1 = new ShareManager(); }
 
         public void Include(SettingsPageFragment vm) { var vm1 = new SettingsPageFragment(); }
 

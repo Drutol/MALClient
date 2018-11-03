@@ -147,49 +147,49 @@ namespace MALClient.XShared.ViewModels
 
         public Tuple<AnimeListDisplayModes, string> SelectedDefaultViewForWatching
         {
-            get { return DisplayModes[(int) Settings.WatchingDisplayMode]; }
-            set { Settings.WatchingDisplayMode = value.Item1; }
+            get => DisplayModes[(int) Settings.WatchingDisplayMode];
+            set => Settings.WatchingDisplayMode = value.Item1;
         }
 
         public Tuple<AnimeListDisplayModes, string> SelectedDefaultViewForCompleted
         {
-            get { return DisplayModes[(int) Settings.CompletedDisplayMode]; }
-            set { Settings.CompletedDisplayMode = value.Item1; }
+            get => DisplayModes[(int) Settings.CompletedDisplayMode];
+            set => Settings.CompletedDisplayMode = value.Item1;
         }
 
         public Tuple<AnimeListDisplayModes, string> SelectedDefaultViewForOnHold
         {
-            get { return DisplayModes[(int) Settings.OnHoldDisplayMode]; }
-            set { Settings.OnHoldDisplayMode = value.Item1; }
+            get => DisplayModes[(int) Settings.OnHoldDisplayMode];
+            set => Settings.OnHoldDisplayMode = value.Item1;
         }
 
         public Tuple<AnimeListDisplayModes, string> SelectedDefaultViewForDropped
         {
-            get { return DisplayModes[(int) Settings.DroppedDisplayMode]; }
-            set { Settings.DroppedDisplayMode = value.Item1; }
+            get => DisplayModes[(int) Settings.DroppedDisplayMode];
+            set => Settings.DroppedDisplayMode = value.Item1;
         }
 
         public Tuple<AnimeListDisplayModes, string> SelectedDefaultViewForPlanned
         {
-            get { return DisplayModes[(int) Settings.PlannedDisplayMode]; }
-            set { Settings.PlannedDisplayMode = value.Item1; }
+            get => DisplayModes[(int) Settings.PlannedDisplayMode];
+            set => Settings.PlannedDisplayMode = value.Item1;
         }
 
         public Tuple<AnimeListDisplayModes, string> SelectedDefaultViewForAll
         {
-            get { return DisplayModes[(int) Settings.AllDisplayMode]; }
-            set { Settings.AllDisplayMode = value.Item1; }
+            get => DisplayModes[(int) Settings.AllDisplayMode];
+            set => Settings.AllDisplayMode = value.Item1;
         }
 
         public bool LockDisplayMode
         {
-            get { return Settings.LockDisplayMode; }
-            set { Settings.LockDisplayMode = value; }
+            get => Settings.LockDisplayMode;
+            set => Settings.LockDisplayMode = value;
         }
 
         public bool DisplaySeasonWithType
         {
-            get { return Settings.DisplaySeasonWithType; }
+            get => Settings.DisplaySeasonWithType;
             set
             {
                 Settings.DisplaySeasonWithType = value;
@@ -202,61 +202,61 @@ namespace MALClient.XShared.ViewModels
 
         public bool AutoDescendingSorting
         {
-            get { return Settings.AutoDescendingSorting; }
-            set { Settings.AutoDescendingSorting = value; }
+            get => Settings.AutoDescendingSorting;
+            set => Settings.AutoDescendingSorting = value;
         }
 
         public bool PullHigherQualityImages
         {
-            get { return Settings.PullHigherQualityImages; }
-            set { Settings.PullHigherQualityImages = value; }
+            get => Settings.PullHigherQualityImages;
+            set => Settings.PullHigherQualityImages = value;
         }
 
         public bool HideFilterSelectionFlyout
         {
-            get { return Settings.HideFilterSelectionFlyout; }
-            set { Settings.HideFilterSelectionFlyout = value; }
+            get => Settings.HideFilterSelectionFlyout;
+            set => Settings.HideFilterSelectionFlyout = value;
         }
 
         public bool HideViewSelectionFlyout
         {
-            get { return Settings.HideViewSelectionFlyout; }
-            set { Settings.HideViewSelectionFlyout = value; }
+            get => Settings.HideViewSelectionFlyout;
+            set => Settings.HideViewSelectionFlyout = value;
         }
 
         public bool HideSortingSelectionFlyout
         {
-            get { return Settings.HideSortingSelectionFlyout; }
-            set { Settings.HideSortingSelectionFlyout = value; }
+            get => Settings.HideSortingSelectionFlyout;
+            set => Settings.HideSortingSelectionFlyout = value;
         }
 
         public bool HamburgerAnimeFiltersExpanded
         {
-            get { return Settings.HamburgerAnimeFiltersExpanded; }
-            set { Settings.HamburgerAnimeFiltersExpanded = value; }
+            get => Settings.HamburgerAnimeFiltersExpanded;
+            set => Settings.HamburgerAnimeFiltersExpanded = value;
         }
 
         public bool HamburgerMangaFiltersExpanded
         {
-            get { return Settings.HamburgerMangaFiltersExpanded; }
-            set { Settings.HamburgerMangaFiltersExpanded = value; }
+            get => Settings.HamburgerMangaFiltersExpanded;
+            set => Settings.HamburgerMangaFiltersExpanded = value;
         }
 
         public bool HamburgerTopCategoriesExpanded
         {
-            get { return Settings.HamburgerTopCategoriesExpanded; }
-            set { Settings.HamburgerTopCategoriesExpanded = value; }
+            get => Settings.HamburgerTopCategoriesExpanded;
+            set => Settings.HamburgerTopCategoriesExpanded = value;
         }
 
         public bool AnimeListEnsureSelectedItemVisibleAfterOffContentCollapse
         {
-            get { return Settings.AnimeListEnsureSelectedItemVisibleAfterOffContentCollapse; }
-            set { Settings.AnimeListEnsureSelectedItemVisibleAfterOffContentCollapse = value; }
+            get => Settings.AnimeListEnsureSelectedItemVisibleAfterOffContentCollapse;
+            set => Settings.AnimeListEnsureSelectedItemVisibleAfterOffContentCollapse = value;
         }
 
         public bool RatePopUpEnable
         {
-            get { return Settings.RatePopUpEnable; }
+            get => Settings.RatePopUpEnable;
             set
             {
                 Settings.RatePopUpEnable = value;
@@ -266,27 +266,27 @@ namespace MALClient.XShared.ViewModels
 
         public bool EnableHearthAnimation
         {
-            get { return Settings.EnableHearthAnimation; }
-            set { Settings.EnableHearthAnimation = value; }
+            get => Settings.EnableHearthAnimation;
+            set => Settings.EnableHearthAnimation = value;
         }
 
         public int RatePopUpStartupCounter => 7 - Settings.RatePopUpStartupCounter; //TODO Move this constant upper in dependency hierarchy
 
         public int AirDayOffset
         {
-            get { return Settings.AirDayOffset; }
-            set { Settings.AirDayOffset = value; }
+            get => Settings.AirDayOffset;
+            set => Settings.AirDayOffset = value;
         }
 
         public int AiringNotificationOffset
         {
-            get { return Settings.AiringNotificationOffset; }
-            set { Settings.AiringNotificationOffset = value; }
+            get => Settings.AiringNotificationOffset;
+            set => Settings.AiringNotificationOffset = value;
         }
 
         public bool DataSourceAnn
         {
-            get { return Settings.PrefferedDataSource == DataSource.Ann; }
+            get => Settings.PrefferedDataSource == DataSource.Ann;
             set
             {
                 if (value) Settings.PrefferedDataSource = DataSource.Ann;
@@ -295,7 +295,7 @@ namespace MALClient.XShared.ViewModels
 
         public bool DataSourceHum
         {
-            get { return Settings.PrefferedDataSource == DataSource.Hummingbird; }
+            get => Settings.PrefferedDataSource == DataSource.Hummingbird;
             set
             {
                 if (value) Settings.PrefferedDataSource = DataSource.Hummingbird;
@@ -304,7 +304,7 @@ namespace MALClient.XShared.ViewModels
 
         public bool DataSourceAnnHum
         {
-            get { return Settings.PrefferedDataSource == DataSource.AnnHum; }
+            get => Settings.PrefferedDataSource == DataSource.AnnHum;
             set
             {
                 if (value) Settings.PrefferedDataSource = DataSource.AnnHum;
@@ -313,43 +313,43 @@ namespace MALClient.XShared.ViewModels
 
         public  bool SetStartDateOnWatching
         {
-            get { return Settings.SetStartDateOnWatching; }
-            set { Settings.SetStartDateOnWatching = value; }
+            get => Settings.SetStartDateOnWatching;
+            set => Settings.SetStartDateOnWatching = value;
         }
 
         public  bool SetStartDateOnListAdd
         {
-            get { return Settings.SetStartDateOnListAdd; }
-            set { Settings.SetStartDateOnListAdd = value; }
+            get => Settings.SetStartDateOnListAdd;
+            set => Settings.SetStartDateOnListAdd = value;
         }
 
         public  bool SetEndDateOnDropped
         {
-            get { return Settings.SetEndDateOnDropped; }
-            set { Settings.SetEndDateOnDropped = value; }
+            get => Settings.SetEndDateOnDropped;
+            set => Settings.SetEndDateOnDropped = value;
         }
 
         public  bool SetEndDateOnCompleted
         {
-            get { return Settings.SetEndDateOnCompleted; }
-            set { Settings.SetEndDateOnCompleted = value; }
+            get => Settings.SetEndDateOnCompleted;
+            set => Settings.SetEndDateOnCompleted = value;
         }
 
         public  bool OverrideValidStartEndDate
         {
-            get { return Settings.OverrideValidStartEndDate; }
-            set { Settings.OverrideValidStartEndDate = value; }
+            get => Settings.OverrideValidStartEndDate;
+            set => Settings.OverrideValidStartEndDate = value;
         }
 
         public  bool HamburgerMenuDefaultPaneState
         {
-            get { return Settings.HamburgerMenuDefaultPaneState; }
-            set { Settings.HamburgerMenuDefaultPaneState = value; }
+            get => Settings.HamburgerMenuDefaultPaneState;
+            set => Settings.HamburgerMenuDefaultPaneState = value;
         }
 
         public  bool HamburgerHideMangaSection
         {
-            get { return Settings.HamburgerHideMangaSection; }
+            get => Settings.HamburgerHideMangaSection;
             set
             {
                 ViewModelLocator.GeneralHamburger.MangaSectionVisbility = !value;
@@ -359,171 +359,177 @@ namespace MALClient.XShared.ViewModels
 
         public bool DisplayScoreDialogAfterCompletion
         {
-            get { return Settings.DisplayScoreDialogAfterCompletion; }
-            set { Settings.DisplayScoreDialogAfterCompletion = value; }
+            get => Settings.DisplayScoreDialogAfterCompletion;
+            set => Settings.DisplayScoreDialogAfterCompletion = value;
         }
 
         public  bool CalendarIncludeWatching
         {
-            get { return Settings.CalendarIncludeWatching; }
-            set { Settings.CalendarIncludeWatching = value; }
+            get => Settings.CalendarIncludeWatching;
+            set => Settings.CalendarIncludeWatching = value;
         }
 
         public  bool CalendarIncludePlanned
         {
-            get { return Settings.CalendarIncludePlanned; }
-            set { Settings.CalendarIncludePlanned = value; }
+            get => Settings.CalendarIncludePlanned;
+            set => Settings.CalendarIncludePlanned = value;
         }
 
         public  bool IsCachingEnabled
         {
-            get { return Settings.IsCachingEnabled; }
-            set { Settings.IsCachingEnabled = value; }
+            get => Settings.IsCachingEnabled;
+            set => Settings.IsCachingEnabled = value;
         }
 
         public  bool CalendarStartOnToday
         {
-            get { return Settings.CalendarStartOnToday; }
-            set { Settings.CalendarStartOnToday = value; }
+            get => Settings.CalendarStartOnToday;
+            set => Settings.CalendarStartOnToday = value;
         }
 
         public  bool CalendarRemoveEmptyDays
         {
-            get { return Settings.CalendarRemoveEmptyDays; }
-            set { Settings.CalendarRemoveEmptyDays = value; }
+            get => Settings.CalendarRemoveEmptyDays;
+            set => Settings.CalendarRemoveEmptyDays = value;
         }
 
         public  bool CalendarStartOnSummary => !Settings.CalendarStartOnToday;
 
         public  bool CalendarSwitchMonSun
         {
-            get { return !Settings.CalendarSwitchMonSun; }
-            set { Settings.CalendarSwitchMonSun = !value; }
+            get => !Settings.CalendarSwitchMonSun;
+            set => Settings.CalendarSwitchMonSun = !value;
         }
 
         public  bool CalendarPullExactAiringTime
         {
-            get { return Settings.CalendarPullExactAiringTime; }
-            set { Settings.CalendarPullExactAiringTime = value; }
+            get => Settings.CalendarPullExactAiringTime;
+            set => Settings.CalendarPullExactAiringTime = value;
         }
 
         public  bool EnableSwipeToIncDec
         {
-            get { return Settings.EnableSwipeToIncDec; }
-            set { Settings.EnableSwipeToIncDec = value; }
+            get => Settings.EnableSwipeToIncDec;
+            set => Settings.EnableSwipeToIncDec = value;
         }
 
         public  bool ReverseSwipingDirection
         {
-            get { return Settings.ReverseSwipingDirection; }
-            set { Settings.ReverseSwipingDirection = value; }
+            get => Settings.ReverseSwipingDirection;
+            set => Settings.ReverseSwipingDirection = value;
         }
 
         public  bool DetailsListReviewsView
         {
-            get { return Settings.DetailsListReviewsView; }
-            set { Settings.DetailsListReviewsView = value; }
+            get => Settings.DetailsListReviewsView;
+            set => Settings.DetailsListReviewsView = value;
         }
 
         public  bool DetailsListRecomsView
         {
-            get { return Settings.DetailsListRecomsView; }
-            set { Settings.DetailsListRecomsView = value; }
+            get => Settings.DetailsListRecomsView;
+            set => Settings.DetailsListRecomsView = value;
         }
 
         public  bool ArticlesLaunchExternalLinks
         {
-            get { return Settings.ArticlesLaunchExternalLinks; }
-            set { Settings.ArticlesLaunchExternalLinks = value; }
+            get => Settings.ArticlesLaunchExternalLinks;
+            set => Settings.ArticlesLaunchExternalLinks = value;
         }
 
         public  bool ArticlesDisplayScrollBar
         {
-            get { return Settings.ArticlesDisplayScrollBar; }
-            set { Settings.ArticlesDisplayScrollBar = value; }
+            get => Settings.ArticlesDisplayScrollBar;
+            set => Settings.ArticlesDisplayScrollBar = value;
         }
 
         public  bool PreferEnglishTitles
         {
-            get { return Settings.PreferEnglishTitles; }
-            set { Settings.PreferEnglishTitles = value; }
+            get => Settings.PreferEnglishTitles;
+            set => Settings.PreferEnglishTitles = value;
         }
 
         public  bool MakeGridItemsSmaller
         {
-            get { return Settings.MakeGridItemsSmaller; }
-            set { Settings.MakeGridItemsSmaller = value; }
+            get => Settings.MakeGridItemsSmaller;
+            set => Settings.MakeGridItemsSmaller = value;
         }
 
         public  bool SyncFavsFromTimeToTime
         {
-            get { return Settings.SyncFavsFromTimeToTime; }
-            set { Settings.SyncFavsFromTimeToTime = value; }
+            get => Settings.SyncFavsFromTimeToTime;
+            set => Settings.SyncFavsFromTimeToTime = value;
         }
 
         public  bool EnsureRandomizerAlwaysSelectsWinner
         {
-            get { return Settings.EnsureRandomizerAlwaysSelectsWinner; }
-            set { Settings.EnsureRandomizerAlwaysSelectsWinner = value; }
+            get => Settings.EnsureRandomizerAlwaysSelectsWinner;
+            set => Settings.EnsureRandomizerAlwaysSelectsWinner = value;
         }
 
         public  bool EnableImageCache
         {
-            get { return Settings.EnableImageCache; }
-            set { Settings.EnableImageCache = value; }
+            get => Settings.EnableImageCache;
+            set => Settings.EnableImageCache = value;
         }
 
         public  bool PullPeekPostsOnStartup
         {
-            get { return Settings.PullPeekPostsOnStartup; }
-            set { Settings.PullPeekPostsOnStartup = value; }
+            get => Settings.PullPeekPostsOnStartup;
+            set => Settings.PullPeekPostsOnStartup = value;
         }
 
         public  bool ForumsSearchOnCopy
         {
-            get { return Settings.ForumsSearchOnCopy; }
-            set { Settings.ForumsSearchOnCopy = value; }
+            get => Settings.ForumsSearchOnCopy;
+            set => Settings.ForumsSearchOnCopy = value;
         }
 
         public  AnimeStatus DefaultStatusAfterAdding
         {
-            get { return Settings.DefaultStatusAfterAdding; }
-            set { Settings.DefaultStatusAfterAdding = value; }
+            get => Settings.DefaultStatusAfterAdding;
+            set => Settings.DefaultStatusAfterAdding = value;
         }
 
         public  bool ForceSearchIntoOffPage
         {
-            get { return Settings.ForceSearchIntoOffPage; }
-            set { Settings.ForceSearchIntoOffPage = value; }
+            get => Settings.ForceSearchIntoOffPage;
+            set => Settings.ForceSearchIntoOffPage = value;
         }
 
         public  bool WatchedEpsPromptEnable
         {
-            get { return Settings.WatchedEpsPromptEnable; }
-            set { Settings.WatchedEpsPromptEnable = value; }
+            get => Settings.WatchedEpsPromptEnable;
+            set => Settings.WatchedEpsPromptEnable = value;
         }
 
         public  bool WatchedEpsPromptProceedOnDisabled
         {
-            get { return Settings.WatchedEpsPromptProceedOnDisabled; }
-            set { Settings.WatchedEpsPromptProceedOnDisabled = value; }
+            get => Settings.WatchedEpsPromptProceedOnDisabled;
+            set => Settings.WatchedEpsPromptProceedOnDisabled = value;
         }
 
         public  bool StatusPromptEnable
         {
-            get { return Settings.StatusPromptEnable; }
-            set { Settings.StatusPromptEnable = value; }
+            get => Settings.StatusPromptEnable;
+            set => Settings.StatusPromptEnable = value;
         }
 
         public  bool StatusPromptProceedOnDisabled
         {
-            get { return Settings.StatusPromptProceedOnDisabled; }
-            set { Settings.StatusPromptProceedOnDisabled = value; }
+            get => Settings.StatusPromptProceedOnDisabled;
+            set => Settings.StatusPromptProceedOnDisabled = value;
+        }
+
+        public  bool EnableShareButton
+        {
+            get => Settings.EnableShareButton;
+            set => Settings.EnableShareButton = value;
         }
 
         public  bool MangaFocusVolumes
         {
-            get { return Settings.MangaFocusVolumes; }
+            get => Settings.MangaFocusVolumes;
             set
             {
                 Settings.MangaFocusVolumes = value;
@@ -628,7 +634,7 @@ namespace MALClient.XShared.ViewModels
 
         public bool IsCallNotificationsButtonEnabled
         {
-            get { return _isCallNotificationsButtonEnabled; }
+            get => _isCallNotificationsButtonEnabled;
             set
             {
                 _isCallNotificationsButtonEnabled = value;
@@ -638,7 +644,7 @@ namespace MALClient.XShared.ViewModels
 
         public bool EnableNotifications
         {
-            get { return Settings.EnableNotifications; }
+            get => Settings.EnableNotifications;
             set
             {
                 Settings.EnableNotifications = value;
@@ -651,7 +657,7 @@ namespace MALClient.XShared.ViewModels
 
         public bool NotificationCheckInRuntime
         {
-            get { return Settings.NotificationCheckInRuntime; }
+            get => Settings.NotificationCheckInRuntime;
             set
             {
                 Settings.NotificationCheckInRuntime = value;
@@ -665,14 +671,14 @@ namespace MALClient.XShared.ViewModels
 
         public int NotificationsRefreshTime
         {
-            get { return Settings.NotificationsRefreshTime; }
-            set { Settings.NotificationsRefreshTime = value; }
+            get => Settings.NotificationsRefreshTime;
+            set => Settings.NotificationsRefreshTime = value;
         }
 
 
         public MalNotificationsTypes EnabledNotificationTypes
         {
-            get { return Settings.EnabledNotificationTypes; }
+            get => Settings.EnabledNotificationTypes;
             set
             {
                 Settings.EnabledNotificationTypes = value;
@@ -701,7 +707,7 @@ namespace MALClient.XShared.ViewModels
 
         public bool EmptyCachedListVisiblity
         {
-            get { return _emptyCachedListVisiblity; }
+            get => _emptyCachedListVisiblity;
             set
             {
                 _emptyCachedListVisiblity = value;
@@ -713,7 +719,7 @@ namespace MALClient.XShared.ViewModels
 
         public bool RemoveAllCachedDataButtonVisibility
         {
-            get { return _removeAllCachedDataButtonVisibility; }
+            get => _removeAllCachedDataButtonVisibility;
             set
             {
                 _removeAllCachedDataButtonVisibility = value;
@@ -725,7 +731,7 @@ namespace MALClient.XShared.ViewModels
 
         public string TotalFilesCached
         {
-            get { return _totalFilesCached; }
+            get => _totalFilesCached;
             set
             {
                 _totalFilesCached = value;
@@ -737,7 +743,7 @@ namespace MALClient.XShared.ViewModels
 
         public bool IsSyncFavsButtonEnabled
         {
-            get { return _isSyncFavsButtonEnabled; }
+            get => _isSyncFavsButtonEnabled;
             set
             {
                 _isSyncFavsButtonEnabled = value;
@@ -753,7 +759,7 @@ namespace MALClient.XShared.ViewModels
 
         public bool AdsEnable
         {
-            get { return Settings.AdsEnable; }
+            get => Settings.AdsEnable;
             set
             {
                 Settings.AdsEnable = value;
@@ -764,7 +770,7 @@ namespace MALClient.XShared.ViewModels
 
         public int AdsSecondsPerDay
         {
-            get { return Settings.AdsSecondsPerDay; }
+            get => Settings.AdsSecondsPerDay;
             set
             {
                 Settings.AdsSecondsPerDay = value;
@@ -778,20 +784,20 @@ namespace MALClient.XShared.ViewModels
 
         public bool FeedsIncludePinnedProfiles
         {
-            get { return Settings.FeedsIncludePinnedProfiles; }
-            set { Settings.FeedsIncludePinnedProfiles = value; }
+            get => Settings.FeedsIncludePinnedProfiles;
+            set => Settings.FeedsIncludePinnedProfiles = value;
         }
 
         public int FeedsMaxEntries
         {
-            get { return Settings.FeedsMaxEntries; }
-            set { Settings.FeedsMaxEntries = value; }
+            get => Settings.FeedsMaxEntries;
+            set => Settings.FeedsMaxEntries = value;
         }
 
         public int FeedsMaxEntryAge
         {
-            get { return Settings.FeedsMaxEntryAge; }
-            set { Settings.FeedsMaxEntryAge = value; }
+            get => Settings.FeedsMaxEntryAge;
+            set => Settings.FeedsMaxEntryAge = value;
         }
 
         #endregion

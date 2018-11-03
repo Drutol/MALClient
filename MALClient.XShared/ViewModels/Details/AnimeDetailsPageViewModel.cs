@@ -636,7 +636,16 @@ namespace MALClient.XShared.ViewModels.Details
             var response = await GetAppropriateUpdateQuery().GetRequestResponse();
             if (response != "Updated" && Settings.SelectedApiType == ApiType.Mal)
                 MyStatus = prevStatus;
-                
+            else
+            {
+                ResourceLocator.ShareManager.EnqueueEvent(ShareEvent.AnimeStatusChanged, new AnimeShareDiff
+                {
+                    Title = Title,
+                    NewStatus = MyStatus,
+                    Id = Id,
+                    IsAnime = AnimeMode
+                });
+            }
             
             if (_animeItemReference is AnimeItemViewModel vm)
             {
@@ -672,6 +681,16 @@ namespace MALClient.XShared.ViewModels.Details
             var response = await GetAppropriateUpdateQuery().GetRequestResponse();
             if (response != "Updated" && Settings.SelectedApiType == ApiType.Mal)
                 MyScore = prevScore;
+            else
+            {
+                ResourceLocator.ShareManager.EnqueueEvent(ShareEvent.AnimeScoreChanged, new AnimeShareDiff
+                {
+                    Title = Title,
+                    NewScore = (int) MyScore,
+                    Id = Id,
+                    IsAnime = AnimeMode
+                });
+            }
             LoadingUpdate = false;
         }
 
@@ -729,6 +748,17 @@ namespace MALClient.XShared.ViewModels.Details
                 var response = await GetAppropriateUpdateQuery().GetRequestResponse();
                 if (response != "Updated" && Settings.SelectedApiType == ApiType.Mal)
                     MyEpisodes = prevEps;
+                else
+                {
+                    ResourceLocator.ShareManager.EnqueueEvent(ShareEvent.AnimeEpisodesChanged, new AnimeShareDiff
+                    {
+                        Title = Title,
+                        NewEpisodes = MyEpisodes,
+                        TotalEpisodes = AllEpisodes,
+                        Id = Id,
+                        IsAnime = AnimeMode
+                    });
+                }
 
                 var reference = _animeItemReference as AnimeItemViewModel; //avoid multiple casts
                 if (reference != null)

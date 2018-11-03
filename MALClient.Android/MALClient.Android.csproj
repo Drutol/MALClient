@@ -490,6 +490,7 @@
     </AndroidResource>
   </ItemGroup>
   <ItemGroup>
+    <AndroidResource Include="Resources\drawable\icon_share.xml" />
     <AndroidResource Include="Resources\layout\MainPage.xml">
       <SubType>Designer</SubType>
     </AndroidResource>

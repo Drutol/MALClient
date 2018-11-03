@@ -55,6 +55,7 @@ namespace MALClient.Android.Activities
         {
             CurrentContext = this;
             RegisterIoC();
+            ResourceLocator.ShareManager.TimerStateChanged += ShareManagerOnTimerStateChanged;
         }
 
         public static MainActivity CurrentContext { get; private set; }

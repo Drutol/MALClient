@@ -66,6 +66,7 @@ namespace MALClient.Android
             SimpleIoc.Default.Register<IDispatcherAdapter, DispatcherAdapter>();
             SimpleIoc.Default.Register<IAiringNotificationsAdapter, AiringNotificationsAdapter>();
             SimpleIoc.Default.Register<IDialogsProvider, DialogProvider>();
+            SimpleIoc.Default.Register<IShareProvider, ShareProvider>();
 
         }
 

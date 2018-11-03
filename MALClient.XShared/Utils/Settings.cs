@@ -47,8 +47,8 @@ namespace MALClient.XShared.Utils
 
         public static int CachePersitence
         {
-            get { return (int) (ApplicationDataService["CachePersistency"] ?? 7200); }
-            set { ApplicationDataService["CachePersistency"] = value; }
+            get => (int) (ApplicationDataService["CachePersistency"] ?? 7200);
+            set => ApplicationDataService["CachePersistency"] = value;
         }
 
         public static int SelectedTheme
@@ -61,414 +61,352 @@ namespace MALClient.XShared.Utils
                 return (int) (ApplicationDataService["SelectedTheme"] ?? 1);
 
             }
-            set { ApplicationDataService["SelectedTheme"] = value; }
+            set => ApplicationDataService["SelectedTheme"] = value;
         }
 
 
         public static bool DarkThemeAmoled
         {
-            get { return (bool)(ApplicationDataService[nameof(DarkThemeAmoled)] ?? false); }
-            set { ApplicationDataService[nameof(DarkThemeAmoled)] = value; }
+            get => (bool)(ApplicationDataService[nameof(DarkThemeAmoled)] ?? false);
+            set => ApplicationDataService[nameof(DarkThemeAmoled)] = value;
         }
 
         public static bool IsCachingEnabled
         {
-            get
-            {
-                return (bool) (ApplicationDataService["EnableCache"] ?? true);
-                ;
-            }
-            set { ApplicationDataService["EnableCache"] = value; }
+            get => (bool) (ApplicationDataService["EnableCache"] ?? true);
+            set => ApplicationDataService["EnableCache"] = value;
         }
 
         public static SortOptions AnimeSortOrder
         {
-            get { return (SortOptions) (int) (ApplicationDataService["SortOrder"] ?? 0); }
-            set { ApplicationDataService["SortOrder"] = (int) value; }
+            get => (SortOptions) (int) (ApplicationDataService["SortOrder"] ?? 0);
+            set => ApplicationDataService["SortOrder"] = (int) value;
         }
 
         public static SortOptions MangaSortOrder
         {
-            get { return (SortOptions) (int) (ApplicationDataService["SortOrderM"] ?? 0); }
-            set { ApplicationDataService["SortOrderM"] = (int) value; }
+            get => (SortOptions) (int) (ApplicationDataService["SortOrderM"] ?? 0);
+            set => ApplicationDataService["SortOrderM"] = (int) value;
         }
 
         public static bool PreferEnglishTitles
         {
-            get { return (bool) (ApplicationDataService[nameof(PreferEnglishTitles)] ?? false); }
-            set { ApplicationDataService[nameof(PreferEnglishTitles)] = value; }
+            get => (bool) (ApplicationDataService[nameof(PreferEnglishTitles)] ?? false);
+            set => ApplicationDataService[nameof(PreferEnglishTitles)] = value;
         }
 
         public static bool IsSortDescending
         {
-            get { return (bool) (ApplicationDataService["SortDescending"] ?? false); }
-            set { ApplicationDataService["SortDescending"] = value; }
+            get => (bool) (ApplicationDataService["SortDescending"] ?? false);
+            set => ApplicationDataService["SortDescending"] = value;
         }
 
         public static bool IsMangaSortDescending
         {
-            get { return (bool) (ApplicationDataService["SortDescendingM"] ?? false); }
-            set { ApplicationDataService["SortDescendingM"] = value; }
+            get => (bool) (ApplicationDataService["SortDescendingM"] ?? false);
+            set => ApplicationDataService["SortDescendingM"] = value;
         }
 
         public static bool MangaFocusVolumes
         {
-            get { return (bool) (ApplicationDataService["MangaFocusVolumes"] ?? false); }
-            set { ApplicationDataService["MangaFocusVolumes"] = value; }
+            get => (bool) (ApplicationDataService["MangaFocusVolumes"] ?? false);
+            set => ApplicationDataService["MangaFocusVolumes"] = value;
         }
 
         public static int DefaultAnimeFilter
         {
-            get
-            {
-                return
-                    (int) (ApplicationDataService["DefaultFilter"] ?? (int) AnimeStatus.Watching);
-            }
-            set { ApplicationDataService["DefaultFilter"] = value; }
+            get => (int) (ApplicationDataService["DefaultFilter"] ?? (int) AnimeStatus.Watching);
+            set => ApplicationDataService["DefaultFilter"] = value;
         }
 
         public static int DefaultMangaFilter
         {
-            get
-            {
-                return
-                    (int) (ApplicationDataService["DefaultFilterM"] ?? (int) AnimeStatus.Watching);
-            }
-            set { ApplicationDataService["DefaultFilterM"] = value; }
+            get => (int) (ApplicationDataService["DefaultFilterM"] ?? (int) AnimeStatus.Watching);
+            set => ApplicationDataService["DefaultFilterM"] = value;
         }
 
         public static int ReviewsToPull
         {
-            get { return (int) (ApplicationDataService["ReviewsToPull"] ?? 20); }
-            set { ApplicationDataService["ReviewsToPull"] = value; }
+            get => (int) (ApplicationDataService["ReviewsToPull"] ?? 20);
+            set => ApplicationDataService["ReviewsToPull"] = value;
         }
 
         public static int RecommsToPull
         {
-            get { return (int) (ApplicationDataService["RecommsToPull"] ?? 10); }
-            set { ApplicationDataService["RecommsToPull"] = value; }
+            get => (int) (ApplicationDataService["RecommsToPull"] ?? 10);
+            set => ApplicationDataService["RecommsToPull"] = value;
         }
 
         public static int SeasonalToPull
         {
-            get { return (int) (ApplicationDataService["SeasonalToPull"] ?? 45); }
-            set { ApplicationDataService["SeasonalToPull"] = value; }
+            get => (int) (ApplicationDataService["SeasonalToPull"] ?? 45);
+            set => ApplicationDataService["SeasonalToPull"] = value;
         }
 
         public static int AirDayOffset
         {
-            get { return (int) (ApplicationDataService["AirDayOffset"] ?? 0); }
-            set { ApplicationDataService["AirDayOffset"] = value; }
+            get => (int) (ApplicationDataService["AirDayOffset"] ?? 0);
+            set => ApplicationDataService["AirDayOffset"] = value;
         }
 
         public static int AiringNotificationOffset
         {
-            get { return (int) (ApplicationDataService[nameof(AiringNotificationOffset)] ?? 0); }
-            set { ApplicationDataService[nameof(AiringNotificationOffset)] = value; }
+            get => (int) (ApplicationDataService[nameof(AiringNotificationOffset)] ?? 0);
+            set => ApplicationDataService[nameof(AiringNotificationOffset)] = value;
         }
 
         public static string DefaultMenuTab
         {
-            get { return (string) (ApplicationDataService["DefaultMenuTab"] ?? "anime"); }
-            set { ApplicationDataService["DefaultMenuTab"] = value; }
+            get => (string) (ApplicationDataService["DefaultMenuTab"] ?? "anime");
+            set => ApplicationDataService["DefaultMenuTab"] = value;
         }
 
         public static bool DetailsAutoLoadDetails // hehe
         {
-            get { return (bool) (ApplicationDataService["DetailsAutoLoadDetails"] ?? false); }
-            set { ApplicationDataService["DetailsAutoLoadDetails"] = value; }
+            get => (bool) (ApplicationDataService["DetailsAutoLoadDetails"] ?? false);
+            set => ApplicationDataService["DetailsAutoLoadDetails"] = value;
         }
 
         public static bool DetailsAutoLoadReviews
         {
-            get { return (bool) (ApplicationDataService["DetailsAutoLoadReviews"] ?? false); }
-            set { ApplicationDataService["DetailsAutoLoadReviews"] = value; }
+            get => (bool) (ApplicationDataService["DetailsAutoLoadReviews"] ?? false);
+            set => ApplicationDataService["DetailsAutoLoadReviews"] = value;
         }
 
         public static bool DetailsAutoLoadRelated
         {
-            get { return (bool) (ApplicationDataService["DetailsAutoLoadRelated"] ?? false); }
-            set { ApplicationDataService["DetailsAutoLoadRelated"] = value; }
+            get => (bool) (ApplicationDataService["DetailsAutoLoadRelated"] ?? false);
+            set => ApplicationDataService["DetailsAutoLoadRelated"] = value;
         }
 
         public static bool DetailsAutoLoadRecomms
         {
-            get { return (bool) (ApplicationDataService["DetailsAutoLoadRecomms"] ?? false); }
-            set { ApplicationDataService["DetailsAutoLoadRecomms"] = value; }
+            get => (bool) (ApplicationDataService["DetailsAutoLoadRecomms"] ?? false);
+            set => ApplicationDataService["DetailsAutoLoadRecomms"] = value;
         }
 
 
         public static bool HideFilterSelectionFlyout
         {
-            get { return (bool) (ApplicationDataService["HideFilterSelectionFlyout"] ?? false); }
-            set { ApplicationDataService["HideFilterSelectionFlyout"] = value; }
+            get => (bool) (ApplicationDataService["HideFilterSelectionFlyout"] ?? false);
+            set => ApplicationDataService["HideFilterSelectionFlyout"] = value;
         }
 
         public static bool HideViewSelectionFlyout
         {
-            get { return (bool) (ApplicationDataService["HideViewSelectionFlyout"] ?? true); }
-            set { ApplicationDataService["HideViewSelectionFlyout"] = value; }
+            get => (bool) (ApplicationDataService["HideViewSelectionFlyout"] ?? true);
+            set => ApplicationDataService["HideViewSelectionFlyout"] = value;
         }
 
         public static bool HideSortingSelectionFlyout
         {
-            get { return (bool) (ApplicationDataService["HideSortingSelectionFlyout"] ?? false); }
-            set { ApplicationDataService["HideSortingSelectionFlyout"] = value; }
+            get => (bool) (ApplicationDataService["HideSortingSelectionFlyout"] ?? false);
+            set => ApplicationDataService["HideSortingSelectionFlyout"] = value;
         }
 
         public static bool HamburgerAnimeFiltersExpanded
         {
-            get
-            {
-                return (bool) (ApplicationDataService["HamburgerAnimeFiltersExpanded"] ?? false);
-            }
-            set { ApplicationDataService["HamburgerAnimeFiltersExpanded"] = value; }
+            get => (bool) (ApplicationDataService["HamburgerAnimeFiltersExpanded"] ?? false);
+            set => ApplicationDataService["HamburgerAnimeFiltersExpanded"] = value;
         }
 
         public static bool HamburgerTopCategoriesExpanded
         {
-            get
-            {
-                return (bool) (ApplicationDataService["HamburgerTopCategoriesExpanded"] ?? true);
-            }
-            set { ApplicationDataService["HamburgerTopCategoriesExpanded"] = value; }
+            get => (bool) (ApplicationDataService["HamburgerTopCategoriesExpanded"] ?? true);
+            set => ApplicationDataService["HamburgerTopCategoriesExpanded"] = value;
         }
 
         public static bool AnimeListEnsureSelectedItemVisibleAfterOffContentCollapse
         {
-            get
-            {
-                return
-                    (bool)
-                        (ApplicationDataService[
-                            "AnimeListEnsureSelectedItemVisibleAfterOffContentCollapse"] ?? false);
-            }
-            set
-            {
-                ApplicationDataService["AnimeListEnsureSelectedItemVisibleAfterOffContentCollapse"
-                    ] = value;
-            }
+            get => (bool)
+                (ApplicationDataService[
+                     "AnimeListEnsureSelectedItemVisibleAfterOffContentCollapse"] ?? false);
+            set => 
+                ApplicationDataService["AnimeListEnsureSelectedItemVisibleAfterOffContentCollapse"] = value;
         }
 
         public static bool HamburgerMangaFiltersExpanded
         {
-            get
-            {
-                return (bool) (ApplicationDataService["HamburgerMangaFiltersExpanded"] ?? false);
-            }
-            set { ApplicationDataService["HamburgerMangaFiltersExpanded"] = value; }
+            get => (bool) (ApplicationDataService["HamburgerMangaFiltersExpanded"] ?? false);
+            set => ApplicationDataService["HamburgerMangaFiltersExpanded"] = value;
         }
 
         public static bool HamburgerHideMangaSection
         {
-            get
-            {
-                return (bool) (ApplicationDataService["HamburgerHideMangaSection"] ?? false);
-            }
-            set { ApplicationDataService["HamburgerHideMangaSection"] = value; }
+            get => (bool) (ApplicationDataService["HamburgerHideMangaSection"] ?? false);
+            set => ApplicationDataService["HamburgerHideMangaSection"] = value;
         }
 
         public static bool HamburgerMenuDefaultPaneState
         {
-            get
-            {
-                return (bool) (ApplicationDataService["HamburgerMenuDefaultPaneState"] ?? true);
-            }
-            set { ApplicationDataService["HamburgerMenuDefaultPaneState"] = value; }
+            get => (bool) (ApplicationDataService["HamburgerMenuDefaultPaneState"] ?? true);
+            set => ApplicationDataService["HamburgerMenuDefaultPaneState"] = value;
         }
 
         public static DataSource PrefferedDataSource
         {
-            get
-            {
-                return
-                    (DataSource)
-                        (ApplicationDataService["PrefferedDataSource"] ?? DataSource.AnnHum);
-            }
-            set { ApplicationDataService["PrefferedDataSource"] = (int) value; }
+            get => (DataSource)
+                (ApplicationDataService["PrefferedDataSource"] ?? DataSource.AnnHum);
+            set => ApplicationDataService["PrefferedDataSource"] = (int) value;
         }
 
         public static bool EnableHearthAnimation
         {
-            get { return (bool) (ApplicationDataService["EnableHearthAnimation"] ?? true); }
-            set { ApplicationDataService["EnableHearthAnimation"] = value; }
+            get => (bool) (ApplicationDataService["EnableHearthAnimation"] ?? true);
+            set => ApplicationDataService["EnableHearthAnimation"] = value;
         }
 
         public static bool EnableSwipeToIncDec
         {
-            get { return (bool) (ApplicationDataService["EnableSwipeToIncDec"] ?? true); }
-            set { ApplicationDataService["EnableSwipeToIncDec"] = value; }
+            get => (bool) (ApplicationDataService["EnableSwipeToIncDec"] ?? true);
+            set => ApplicationDataService["EnableSwipeToIncDec"] = value;
         }
 
         public static bool ReverseSwipingDirection
         {
-            get { return (bool) (ApplicationDataService[nameof(ReverseSwipingDirection)] ?? false); }
-            set { ApplicationDataService[nameof(ReverseSwipingDirection)] = value; }
+            get => (bool) (ApplicationDataService[nameof(ReverseSwipingDirection)] ?? false);
+            set => ApplicationDataService[nameof(ReverseSwipingDirection)] = value;
         }
 
         public static bool DisplayScoreDialogAfterCompletion
         {
-            get { return (bool) (ApplicationDataService[nameof(DisplayScoreDialogAfterCompletion)] ?? false); }
-            set { ApplicationDataService[nameof(DisplayScoreDialogAfterCompletion)] = value; }
+            get => (bool) (ApplicationDataService[nameof(DisplayScoreDialogAfterCompletion)] ?? false);
+            set => ApplicationDataService[nameof(DisplayScoreDialogAfterCompletion)] = value;
         }
 
         public static bool EnableOfflineSync
         {
-            get { return false; /*(bool) (ApplicationDataService[nameof(EnableOfflineSync)] ?? true); */}
-            set { ApplicationDataService[nameof(EnableOfflineSync)] = value; }
+            get => false;
+            set => ApplicationDataService[nameof(EnableOfflineSync)] = value;
         }
 
         public static bool AnimeSyncRequired
         {
-            get { return (bool) (ApplicationDataService[nameof(AnimeSyncRequired)] ?? false); }
-            set { ApplicationDataService[nameof(AnimeSyncRequired)] = value; }
+            get => (bool) (ApplicationDataService[nameof(AnimeSyncRequired)] ?? false);
+            set => ApplicationDataService[nameof(AnimeSyncRequired)] = value;
         }
 
         public static bool MangaSyncRequired
         {
-            get { return (bool) (ApplicationDataService[nameof(MangaSyncRequired)] ?? false); }
-            set { ApplicationDataService[nameof(MangaSyncRequired)] = value; }
+            get => (bool) (ApplicationDataService[nameof(MangaSyncRequired)] ?? false);
+            set => ApplicationDataService[nameof(MangaSyncRequired)] = value;
         }
 
         public static bool DetailsListRecomsView
         {
-            get { return (bool) (ApplicationDataService["DetailsListRecomsView"] ?? true); }
-            set { ApplicationDataService["DetailsListRecomsView"] = value; }
+            get => (bool) (ApplicationDataService["DetailsListRecomsView"] ?? true);
+            set => ApplicationDataService["DetailsListRecomsView"] = value;
         }
 
         public static bool DetailsListReviewsView
         {
-            get { return (bool) (ApplicationDataService["DetailsListReviewsView"] ?? true); }
-            set { ApplicationDataService["DetailsListReviewsView"] = value; }
+            get => (bool) (ApplicationDataService["DetailsListReviewsView"] ?? true);
+            set => ApplicationDataService["DetailsListReviewsView"] = value;
         }
 
         public static bool EnsureRandomizerAlwaysSelectsWinner
         {
-            get { return (bool) (ApplicationDataService["EnsureRandomizerAlwaysSelectsWinner"] ?? false); }
-            set { ApplicationDataService["EnsureRandomizerAlwaysSelectsWinner"] = value; }
+            get => (bool) (ApplicationDataService["EnsureRandomizerAlwaysSelectsWinner"] ?? false);
+            set => ApplicationDataService["EnsureRandomizerAlwaysSelectsWinner"] = value;
         }
 
         public static bool PullHigherQualityImagesDefault = true;
         public static bool PullHigherQualityImages
         {
-            get { return (bool) (ApplicationDataService["PullHigherQualityImages"] ?? PullHigherQualityImagesDefault); }
-            set { ApplicationDataService["PullHigherQualityImages"] = value; }
+            get => (bool) (ApplicationDataService["PullHigherQualityImages"] ?? PullHigherQualityImagesDefault);
+            set => ApplicationDataService["PullHigherQualityImages"] = value;
         }
 
         public static bool ForceSearchIntoOffPage
         {
-            get { return (bool) (ApplicationDataService[nameof(ForceSearchIntoOffPage)] ?? false); }
-            set { ApplicationDataService[nameof(ForceSearchIntoOffPage)] = value; }
+            get => (bool) (ApplicationDataService[nameof(ForceSearchIntoOffPage)] ?? false);
+            set => ApplicationDataService[nameof(ForceSearchIntoOffPage)] = value;
         }
 
         public static string AppVersion
         {
-            get { return ApplicationDataService["AppVersion"] as string; }
-            set { ApplicationDataService["AppVersion"] = value; }
+            get => ApplicationDataService["AppVersion"] as string;
+            set => ApplicationDataService["AppVersion"] = value;
         }
 
         public static AnimeStatus DefaultStatusAfterAdding
         {
-            get { return (AnimeStatus)((int?)ApplicationDataService[nameof(DefaultStatusAfterAdding)] ?? 6); }
-            set { ApplicationDataService[nameof(DefaultStatusAfterAdding)] = (int)value; }
+            get => (AnimeStatus)((int?)ApplicationDataService[nameof(DefaultStatusAfterAdding)] ?? 6);
+            set => ApplicationDataService[nameof(DefaultStatusAfterAdding)] = (int)value;
         }
 
         #region Views
 
         public static AnimeListDisplayModes WatchingDisplayMode
         {
-            get
-            {
-                return
-                    (AnimeListDisplayModes)
-                        (ApplicationDataService["WatchingDisplayMode"] ??
-                         AnimeListDisplayModes.IndefiniteGrid);
-            }
-            set { ApplicationDataService["WatchingDisplayMode"] = (int) value; }
+            get => (AnimeListDisplayModes)
+                (ApplicationDataService["WatchingDisplayMode"] ??
+                 AnimeListDisplayModes.IndefiniteGrid);
+            set => ApplicationDataService["WatchingDisplayMode"] = (int) value;
         }
 
         public static AnimeListDisplayModes CompletedDisplayMode
         {
-            get
-            {
-                return
-                    (AnimeListDisplayModes)
-                        (ApplicationDataService["CompletedDisplayMode"] ??
-                         AnimeListDisplayModes.IndefiniteGrid);
-            }
-            set { ApplicationDataService["CompletedDisplayMode"] = (int) value; }
+            get => (AnimeListDisplayModes)
+                (ApplicationDataService["CompletedDisplayMode"] ??
+                 AnimeListDisplayModes.IndefiniteGrid);
+            set => ApplicationDataService["CompletedDisplayMode"] = (int) value;
         }
 
         public static AnimeListDisplayModes OnHoldDisplayMode
         {
-            get
-            {
-                return
-                    (AnimeListDisplayModes)
-                        (ApplicationDataService["OnHoldDisplayMode"] ??
-                         AnimeListDisplayModes.IndefiniteGrid);
-            }
-            set { ApplicationDataService["OnHoldDisplayMode"] = (int) value; }
+            get => (AnimeListDisplayModes)
+                (ApplicationDataService["OnHoldDisplayMode"] ??
+                 AnimeListDisplayModes.IndefiniteGrid);
+            set => ApplicationDataService["OnHoldDisplayMode"] = (int) value;
         }
 
         public static AnimeListDisplayModes DroppedDisplayMode
         {
-            get
-            {
-                return
-                    (AnimeListDisplayModes)
-                        (ApplicationDataService["DroppedDisplayMode"] ??
-                         AnimeListDisplayModes.IndefiniteGrid);
-            }
-            set { ApplicationDataService["DroppedDisplayMode"] = (int) value; }
+            get => (AnimeListDisplayModes)
+                (ApplicationDataService["DroppedDisplayMode"] ??
+                 AnimeListDisplayModes.IndefiniteGrid);
+            set => ApplicationDataService["DroppedDisplayMode"] = (int) value;
         }
 
         public static AnimeListDisplayModes PlannedDisplayMode
         {
-            get
-            {
-                return
-                    (AnimeListDisplayModes)
-                        (ApplicationDataService["PlannedDisplayMode"] ??
-                         AnimeListDisplayModes.IndefiniteGrid);
-            }
-            set { ApplicationDataService["PlannedDisplayMode"] = (int) value; }
+            get => (AnimeListDisplayModes)
+                (ApplicationDataService["PlannedDisplayMode"] ??
+                 AnimeListDisplayModes.IndefiniteGrid);
+            set => ApplicationDataService["PlannedDisplayMode"] = (int) value;
         }
 
         public static AnimeListDisplayModes AllDisplayMode
         {
-            get
-            {
-                return
-                    (AnimeListDisplayModes)
-                        (ApplicationDataService["AllDisplayMode"] ??
-                         AnimeListDisplayModes.IndefiniteGrid);
-            }
-            set { ApplicationDataService["AllDisplayMode"] = (int) value; }
+            get => (AnimeListDisplayModes)
+                (ApplicationDataService["AllDisplayMode"] ??
+                 AnimeListDisplayModes.IndefiniteGrid);
+            set => ApplicationDataService["AllDisplayMode"] = (int) value;
         }
 
         public static bool LockDisplayMode
         {
-            get { return (bool) (ApplicationDataService["LockDisplayMode"] ?? false); }
-            set { ApplicationDataService["LockDisplayMode"] = value; }
+            get => (bool) (ApplicationDataService["LockDisplayMode"] ?? false);
+            set => ApplicationDataService["LockDisplayMode"] = value;
         }
 
         public static bool AutoDescendingSorting
         {
-            get { return (bool) (ApplicationDataService["AutoDescendingSorting"] ?? true); }
-            set { ApplicationDataService["AutoDescendingSorting"] = value; }
+            get => (bool) (ApplicationDataService["AutoDescendingSorting"] ?? true);
+            set => ApplicationDataService["AutoDescendingSorting"] = value;
         }
 
         public static bool DisplaySeasonWithType
         {
-            get { return (bool) (ApplicationDataService["DisplaySeasonWithType"] ?? false); }
-            set { ApplicationDataService["DisplaySeasonWithType"] = value; }
+            get => (bool) (ApplicationDataService["DisplaySeasonWithType"] ?? false);
+            set => ApplicationDataService["DisplaySeasonWithType"] = value;
         }
 
         public static bool EnableImageCache
         {
-            get { return (bool) (ApplicationDataService["EnableImageCache"] ?? true); }
-            set { ApplicationDataService["EnableImageCache"] = value; }
+            get => (bool) (ApplicationDataService["EnableImageCache"] ?? true);
+            set => ApplicationDataService["EnableImageCache"] = value;
         }
 
         #endregion
@@ -477,26 +415,26 @@ namespace MALClient.XShared.Utils
 
         public static bool RatePopUpEnable
         {
-            get { return (bool) (ApplicationDataService["RatePopUpEnable"] ?? true); }
-            set { ApplicationDataService["RatePopUpEnable"] = value; }
+            get => (bool) (ApplicationDataService["RatePopUpEnable"] ?? true);
+            set => ApplicationDataService["RatePopUpEnable"] = value;
         }
 
         public static int RatePopUpStartupCounter
         {
-            get { return (int) (ApplicationDataService["RatePopUpStartupCounter"] ?? 0); }
-            set { ApplicationDataService["RatePopUpStartupCounter"] = value; }
+            get => (int) (ApplicationDataService["RatePopUpStartupCounter"] ?? 0);
+            set => ApplicationDataService["RatePopUpStartupCounter"] = value;
         }
 
         public static int DonatePopUpStartupCounter
         {
-            get { return (int) (ApplicationDataService["DonatePopUpStartupCounter"] ?? 0); }
-            set { ApplicationDataService["DonatePopUpStartupCounter"] = value; }
+            get => (int) (ApplicationDataService["DonatePopUpStartupCounter"] ?? 0);
+            set => ApplicationDataService["DonatePopUpStartupCounter"] = value;
         }
 
         public static bool Donated
         {
-            get { return (bool) (ApplicationDataService["Donated"] ?? false); }
-            set { ApplicationDataService["Donated"] = value; }
+            get => (bool) (ApplicationDataService["Donated"] ?? false);
+            set => ApplicationDataService["Donated"] = value;
         }
 
         #endregion
@@ -505,32 +443,32 @@ namespace MALClient.XShared.Utils
 
         public static bool SetStartDateOnWatching
         {
-            get { return (bool) (ApplicationDataService["SetStartDateOnWatching"] ?? true); }
-            set { ApplicationDataService["SetStartDateOnWatching"] = value; }
+            get => (bool) (ApplicationDataService["SetStartDateOnWatching"] ?? true);
+            set => ApplicationDataService["SetStartDateOnWatching"] = value;
         }
 
         public static bool SetStartDateOnListAdd
         {
-            get { return (bool) (ApplicationDataService["SetStartDateOnListAdd"] ?? false); }
-            set { ApplicationDataService["SetStartDateOnListAdd"] = value; }
+            get => (bool) (ApplicationDataService["SetStartDateOnListAdd"] ?? false);
+            set => ApplicationDataService["SetStartDateOnListAdd"] = value;
         }
 
         public static bool SetEndDateOnDropped
         {
-            get { return (bool) (ApplicationDataService["SetEndDateOnDropped"] ?? false); }
-            set { ApplicationDataService["SetEndDateOnDropped"] = value; }
+            get => (bool) (ApplicationDataService["SetEndDateOnDropped"] ?? false);
+            set => ApplicationDataService["SetEndDateOnDropped"] = value;
         }
 
         public static bool SetEndDateOnCompleted
         {
-            get { return (bool) (ApplicationDataService["SetEndDateOnCompleted"] ?? true); }
-            set { ApplicationDataService["SetEndDateOnCompleted"] = value; }
+            get => (bool) (ApplicationDataService["SetEndDateOnCompleted"] ?? true);
+            set => ApplicationDataService["SetEndDateOnCompleted"] = value;
         }
 
         public static bool OverrideValidStartEndDate
         {
-            get { return (bool) (ApplicationDataService["OverrideValidStartEndDate"] ?? false); }
-            set { ApplicationDataService["OverrideValidStartEndDate"] = value; }
+            get => (bool) (ApplicationDataService["OverrideValidStartEndDate"] ?? false);
+            set => ApplicationDataService["OverrideValidStartEndDate"] = value;
         }
 
         #endregion
@@ -539,38 +477,38 @@ namespace MALClient.XShared.Utils
 
         public static bool CalendarIncludeWatching
         {
-            get { return (bool) (ApplicationDataService["CalendarIncludeWatching"] ?? true); }
-            set { ApplicationDataService["CalendarIncludeWatching"] = value; }
+            get => (bool) (ApplicationDataService["CalendarIncludeWatching"] ?? true);
+            set => ApplicationDataService["CalendarIncludeWatching"] = value;
         }
 
         public static bool CalendarIncludePlanned
         {
-            get { return (bool) (ApplicationDataService["CalendarIncludePlanned"] ?? false); }
-            set { ApplicationDataService["CalendarIncludePlanned"] = value; }
+            get => (bool) (ApplicationDataService["CalendarIncludePlanned"] ?? false);
+            set => ApplicationDataService["CalendarIncludePlanned"] = value;
         }
 
         public static bool CalendarSwitchMonSun
         {
-            get { return (bool) (ApplicationDataService["CalendarSwitchMonSun"] ?? false); }
-            set { ApplicationDataService["CalendarSwitchMonSun"] = value; }
+            get => (bool) (ApplicationDataService["CalendarSwitchMonSun"] ?? false);
+            set => ApplicationDataService["CalendarSwitchMonSun"] = value;
         }
 
         public static bool CalendarStartOnToday
         {
-            get { return (bool) (ApplicationDataService["CalendarStartOnToday"] ?? false); }
-            set { ApplicationDataService["CalendarStartOnToday"] = value; }
+            get => (bool) (ApplicationDataService["CalendarStartOnToday"] ?? false);
+            set => ApplicationDataService["CalendarStartOnToday"] = value;
         }
 
         public static bool CalendarRemoveEmptyDays
         {
-            get { return (bool) (ApplicationDataService["CalendarRemoveEmptyDays"] ?? true); }
-            set { ApplicationDataService["CalendarRemoveEmptyDays"] = value; }
+            get => (bool) (ApplicationDataService["CalendarRemoveEmptyDays"] ?? true);
+            set => ApplicationDataService["CalendarRemoveEmptyDays"] = value;
         }
 
         public static bool CalendarPullExactAiringTime
         {
-            get { return (bool) (ApplicationDataService[nameof(CalendarPullExactAiringTime)] ?? true); }
-            set { ApplicationDataService[nameof(CalendarPullExactAiringTime)] = value; }
+            get => (bool) (ApplicationDataService[nameof(CalendarPullExactAiringTime)] ?? true);
+            set => ApplicationDataService[nameof(CalendarPullExactAiringTime)] = value;
         }
 
         #endregion
@@ -579,14 +517,14 @@ namespace MALClient.XShared.Utils
 
         public static bool ArticlesLaunchExternalLinks
         {
-            get { return (bool) (ApplicationDataService["ArticlesLaunchExternalLinks"] ?? true); }
-            set { ApplicationDataService["ArticlesLaunchExternalLinks"] = value; }
+            get => (bool) (ApplicationDataService["ArticlesLaunchExternalLinks"] ?? true);
+            set => ApplicationDataService["ArticlesLaunchExternalLinks"] = value;
         }
 
         public static bool ArticlesDisplayScrollBar
         {
-            get { return (bool) (ApplicationDataService["ArticlesDisplayScrollBar"] ?? false); }
-            set { ApplicationDataService["ArticlesDisplayScrollBar"] = value; }
+            get => (bool) (ApplicationDataService["ArticlesDisplayScrollBar"] ?? false);
+            set => ApplicationDataService["ArticlesDisplayScrollBar"] = value;
         }
 
         #endregion
@@ -595,14 +533,14 @@ namespace MALClient.XShared.Utils
 
         public static bool SyncFavsFromTimeToTime
         {
-            get { return (bool)(ApplicationDataService["SyncFavsFromTimeToTime"] ?? true); }
-            set { ApplicationDataService["SyncFavsFromTimeToTime"] = value; }
+            get => (bool)(ApplicationDataService["SyncFavsFromTimeToTime"] ?? true);
+            set => ApplicationDataService["SyncFavsFromTimeToTime"] = value;
         }
 
         public static int LastFavTimeSync //ticks
         {
-            get { return (int)(ApplicationDataService["LastFavTimeSync"] ?? 0); }
-            set { ApplicationDataService["LastFavTimeSync"] = value; }
+            get => (int)(ApplicationDataService["LastFavTimeSync"] ?? 0);
+            set => ApplicationDataService["LastFavTimeSync"] = value;
         }
 
         #endregion
@@ -610,26 +548,26 @@ namespace MALClient.XShared.Utils
         #region Forums
         public static string ForumsPinnedBoards
         {
-            get { return (string) (ApplicationDataService["ForumsPinnedBoards"] ?? ""); }
-            set { ApplicationDataService["ForumsPinnedBoards"] = value; }
+            get => (string) (ApplicationDataService["ForumsPinnedBoards"] ?? "");
+            set => ApplicationDataService["ForumsPinnedBoards"] = value;
         }
 
         public static bool PullPeekPostsOnStartup
         {
-            get { return (bool) (ApplicationDataService[nameof(PullPeekPostsOnStartup)] ?? true); }
-            set { ApplicationDataService[nameof(PullPeekPostsOnStartup)] = value; }
+            get => (bool) (ApplicationDataService[nameof(PullPeekPostsOnStartup)] ?? true);
+            set => ApplicationDataService[nameof(PullPeekPostsOnStartup)] = value;
         }
 
         public static bool ForumsSearchOnCopy
         {
-            get { return (bool) (ApplicationDataService[nameof(ForumsSearchOnCopy)] ?? true); }
-            set { ApplicationDataService[nameof(ForumsSearchOnCopy)] = value; }
+            get => (bool) (ApplicationDataService[nameof(ForumsSearchOnCopy)] ?? true);
+            set => ApplicationDataService[nameof(ForumsSearchOnCopy)] = value;
         }
 
         public static bool ForumsAllowSignatures
         {
-            get { return (bool) (ApplicationDataService[nameof(ForumsAllowSignatures)] ?? true); }
-            set { ApplicationDataService[nameof(ForumsAllowSignatures)] = value; }
+            get => (bool) (ApplicationDataService[nameof(ForumsAllowSignatures)] ?? true);
+            set => ApplicationDataService[nameof(ForumsAllowSignatures)] = value;
         }
 
         #endregion
@@ -638,36 +576,32 @@ namespace MALClient.XShared.Utils
 
         public static bool EnableNotifications
         {
-            get { return (bool)(ApplicationDataService[nameof(EnableNotifications)] ?? true); }
-            set { ApplicationDataService[nameof(EnableNotifications)] = value; }
+            get => (bool)(ApplicationDataService[nameof(EnableNotifications)] ?? true);
+            set => ApplicationDataService[nameof(EnableNotifications)] = value;
         }
 
         public static MalNotificationsTypes EnabledNotificationTypes
         {
-            get
-            {
-                return
-                    (MalNotificationsTypes)
-                    (ApplicationDataService[nameof(EnabledNotificationTypes)] ??
-                     MalNotificationsTypes.ClubMessages | MalNotificationsTypes.ForumQuoute |
-                     MalNotificationsTypes.FriendRequest | MalNotificationsTypes.Messages |
-                     MalNotificationsTypes.FriendRequestAcceptDeny | MalNotificationsTypes.NewRelatedAnime |
-                     MalNotificationsTypes.ProfileComment | MalNotificationsTypes.UserMentions |
-                     MalNotificationsTypes.WatchedTopics | MalNotificationsTypes.NowAiring);
-            } 
-            set { ApplicationDataService[nameof(EnabledNotificationTypes)] = (int)value; }
+            get => (MalNotificationsTypes)
+                (ApplicationDataService[nameof(EnabledNotificationTypes)] ??
+                 MalNotificationsTypes.ClubMessages | MalNotificationsTypes.ForumQuoute |
+                 MalNotificationsTypes.FriendRequest | MalNotificationsTypes.Messages |
+                 MalNotificationsTypes.FriendRequestAcceptDeny | MalNotificationsTypes.NewRelatedAnime |
+                 MalNotificationsTypes.ProfileComment | MalNotificationsTypes.UserMentions |
+                 MalNotificationsTypes.WatchedTopics | MalNotificationsTypes.NowAiring);
+            set => ApplicationDataService[nameof(EnabledNotificationTypes)] = (int)value;
         }
 
         public static int NotificationsRefreshTime
         {
-            get { return (int)(ApplicationDataService[nameof(NotificationsRefreshTime)] ?? 60); }
-            set { ApplicationDataService[nameof(NotificationsRefreshTime)] = value; }
+            get => (int)(ApplicationDataService[nameof(NotificationsRefreshTime)] ?? 60);
+            set => ApplicationDataService[nameof(NotificationsRefreshTime)] = value;
         }
 
         public static bool NotificationCheckInRuntime
         {
-            get { return (bool)(ApplicationDataService[nameof(NotificationCheckInRuntime)] ?? true); }
-            set { ApplicationDataService[nameof(NotificationCheckInRuntime)] = value; }
+            get => (bool)(ApplicationDataService[nameof(NotificationCheckInRuntime)] ?? true);
+            set => ApplicationDataService[nameof(NotificationCheckInRuntime)] = value;
         }
         #endregion
 
@@ -675,14 +609,14 @@ namespace MALClient.XShared.Utils
 
         public static bool AdsEnable
         {
-            get { return (bool)(ApplicationDataService[nameof(AdsEnable)] ?? false); }
-            set { ApplicationDataService[nameof(AdsEnable)] = value; }
+            get => (bool)(ApplicationDataService[nameof(AdsEnable)] ?? false);
+            set => ApplicationDataService[nameof(AdsEnable)] = value;
         }
 
         public static int AdsSecondsPerDay
         {
-            get { return (int)(ApplicationDataService[nameof(AdsSecondsPerDay)] ?? 600); }
-            set { ApplicationDataService[nameof(AdsSecondsPerDay)] = value; }
+            get => (int)(ApplicationDataService[nameof(AdsSecondsPerDay)] ?? 600);
+            set => ApplicationDataService[nameof(AdsSecondsPerDay)] = value;
         }
 
 
@@ -709,8 +643,8 @@ namespace MALClient.XShared.Utils
 
         public static int WallpapersBaseAmount
         {
-            get { return (int)(ApplicationDataService[nameof(WallpapersBaseAmount)] ?? (ViewModelLocator.Mobile ? 2 : 4)); }
-            set { ApplicationDataService[nameof(WallpapersBaseAmount)] = value; }
+            get => (int)(ApplicationDataService[nameof(WallpapersBaseAmount)] ?? (ViewModelLocator.Mobile ? 2 : 4));
+            set => ApplicationDataService[nameof(WallpapersBaseAmount)] = value;
         }
         #endregion
 
@@ -718,26 +652,32 @@ namespace MALClient.XShared.Utils
 
         public static bool WatchedEpsPromptEnable
         {
-            get { return (bool)(ApplicationDataService[nameof(WatchedEpsPromptEnable)] ?? true); }
-            set { ApplicationDataService[nameof(WatchedEpsPromptEnable)] = value; }
+            get => (bool)(ApplicationDataService[nameof(WatchedEpsPromptEnable)] ?? true);
+            set => ApplicationDataService[nameof(WatchedEpsPromptEnable)] = value;
         }
 
         public static bool WatchedEpsPromptProceedOnDisabled
         {
-            get { return (bool)(ApplicationDataService[nameof(WatchedEpsPromptProceedOnDisabled)] ?? false); }
-            set { ApplicationDataService[nameof(WatchedEpsPromptProceedOnDisabled)] = value; }
+            get => (bool)(ApplicationDataService[nameof(WatchedEpsPromptProceedOnDisabled)] ?? false);
+            set => ApplicationDataService[nameof(WatchedEpsPromptProceedOnDisabled)] = value;
         }
 
         public static bool StatusPromptEnable
         {
-            get { return (bool)(ApplicationDataService[nameof(StatusPromptEnable)] ?? true); }
-            set { ApplicationDataService[nameof(StatusPromptEnable)] = value; }
+            get => (bool)(ApplicationDataService[nameof(StatusPromptEnable)] ?? true);
+            set => ApplicationDataService[nameof(StatusPromptEnable)] = value;
         }
 
         public static bool StatusPromptProceedOnDisabled
         {
-            get { return (bool)(ApplicationDataService[nameof(StatusPromptProceedOnDisabled)] ?? false); }
-            set { ApplicationDataService[nameof(StatusPromptProceedOnDisabled)] = value; }
+            get => (bool)(ApplicationDataService[nameof(StatusPromptProceedOnDisabled)] ?? false);
+            set => ApplicationDataService[nameof(StatusPromptProceedOnDisabled)] = value;
+        }
+
+        public static bool EnableShareButton
+        {
+            get => (bool)(ApplicationDataService[nameof(StatusPromptProceedOnDisabled)] ?? false);
+            set => ApplicationDataService[nameof(StatusPromptProceedOnDisabled)] = value;
         }
 
         #endregion
@@ -746,20 +686,20 @@ namespace MALClient.XShared.Utils
 
         public static bool FeedsIncludePinnedProfiles
         {
-            get { return (bool)(ApplicationDataService[nameof(FeedsIncludePinnedProfiles)] ?? false); }
-            set { ApplicationDataService[nameof(FeedsIncludePinnedProfiles)] = value; }
+            get => (bool)(ApplicationDataService[nameof(FeedsIncludePinnedProfiles)] ?? false);
+            set => ApplicationDataService[nameof(FeedsIncludePinnedProfiles)] = value;
         }
 
         public static int FeedsMaxEntries
         {
-            get { return (int)(ApplicationDataService[nameof(FeedsMaxEntries)] ?? 5); }
-            set { ApplicationDataService[nameof(FeedsMaxEntries)] = value; }
+            get => (int)(ApplicationDataService[nameof(FeedsMaxEntries)] ?? 5);
+            set => ApplicationDataService[nameof(FeedsMaxEntries)] = value;
         }
 
         public static int FeedsMaxEntryAge
         {
-            get { return (int)(ApplicationDataService[nameof(FeedsMaxEntryAge)] ?? 7); }
-            set { ApplicationDataService[nameof(FeedsMaxEntryAge)] = value; }
+            get => (int)(ApplicationDataService[nameof(FeedsMaxEntryAge)] ?? 7);
+            set => ApplicationDataService[nameof(FeedsMaxEntryAge)] = value;
         }
 
         #endregion
@@ -768,15 +708,15 @@ namespace MALClient.XShared.Utils
 
         public static bool MakeGridItemsSmaller
         {
-            get { return (bool)(ApplicationDataService[nameof(MakeGridItemsSmaller)] ?? false); }
-            set { ApplicationDataService[nameof(MakeGridItemsSmaller)] = value; }
+            get => (bool)(ApplicationDataService[nameof(MakeGridItemsSmaller)] ?? false);
+            set => ApplicationDataService[nameof(MakeGridItemsSmaller)] = value;
         }
 
 
         public static bool AskBeforeSendingCrashReports
         {
-            get { return (bool)(ApplicationDataService[nameof(AskBeforeSendingCrashReports)] ?? true); }
-            set { ApplicationDataService[nameof(AskBeforeSendingCrashReports)] = value; }
+            get => (bool)(ApplicationDataService[nameof(AskBeforeSendingCrashReports)] ?? true);
+            set => ApplicationDataService[nameof(AskBeforeSendingCrashReports)] = value;
         }
 
         #endregion

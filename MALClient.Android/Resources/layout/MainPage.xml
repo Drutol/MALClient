@@ -21,7 +21,8 @@
     <LinearLayout android:layout_width="0dp" android:id="@+id/MainPageStatusContainer"
                   android:layout_height="match_parent" android:paddingStart="5dp"
                   android:layout_weight="1" android:layout_gravity="center_vertical"
-                  android:orientation="vertical" android:gravity="center_vertical" android:clickable="true" android:focusable="true">
+                  android:orientation="vertical" android:gravity="center_vertical" android:clickable="true"
+                  android:focusable="true">
 
       <TextView
         android:id="@+id/MainPageCurrentStatus"
@@ -69,12 +70,35 @@
   <RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <LinearLayout android:layout_width="match_parent" android:orientation="vertical"
+
+    <LinearLayout android:layout_width="match_parent" 
+                  android:orientation="vertical"
                   android:layout_height="match_parent">
+
       <FrameLayout
-        android:id="@+id/MainContentFrame"
         android:layout_width="match_parent"
-        android:layout_height="0dp" android:layout_weight="1" />
+        android:layout_height="0dp" android:layout_weight="1">
+
+        <FrameLayout
+          android:id="@+id/MainContentFrame"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent" />
+
+        <android.support.design.widget.FloatingActionButton
+          android:id="@+id/ShareFloatingActionButton"
+          android:layout_width="wrap_content"
+          app:backgroundTint="?AccentColourContrast"
+          android:layout_gravity="bottom|start"
+          android:layout_margin="16dp"
+          android:layout_height="wrap_content"
+          android:src="@drawable/icon_share"
+          android:clickable="true"
+          android:focusable="true"
+          xmlns:app="http://schemas.android.com/apk/res-auto"
+          app:fabSize="normal" />
+
+      </FrameLayout>
+
       <com.google.android.gms.ads.AdView
         android:id="@+id/MainPageAdView"
         xmlns:ads="http://schemas.android.com/apk/res-auto"
@@ -83,7 +107,9 @@
         ads:adSize="SMART_BANNER"
         ads:adUnitId="@string/banner_ad_unit_id">
       </com.google.android.gms.ads.AdView>
+
     </LinearLayout>
+
 
     <RelativeLayout
       android:id="@+id/MainPageVideoViewContainer" android:clickable="true" android:focusable="true"

@@ -97,6 +97,10 @@ namespace MALClient.Android.Fragments.SettingsFragments
             Bindings.Add(
                 this.SetBinding(() => ViewModel.DisplayScoreDialogAfterCompletion,
                     () => SettingsPageGeneralDisplayScoreDialog.Checked, BindingMode.TwoWay));
+
+            Bindings.Add(
+                this.SetBinding(() => ViewModel.EnableShareButton,
+                    () => SettingsPageGeneralEnableShareButton.Checked, BindingMode.TwoWay));
             //
 
             SettingsPageGeneralAnimeSortRadioGroup.Check(GetViewIdForAnimeSortOption(Settings.AnimeSortOrder));

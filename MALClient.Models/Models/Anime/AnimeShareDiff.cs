@@ -7,7 +7,14 @@ namespace MALClient.Models.Models.Anime
 {
     public class AnimeShareDiff
     {
-        public string Title { get; set; }
+        private string _title;
+
+        public string Title
+        {
+            get => _title;
+            set => _title = value.Trim().Trim('.');
+        }
+
         public string Url => $"https://myanimelist.net/{(IsAnime ? "anime" : "manga")}/{Id}";
         public AnimeStatus NewStatus { get; set; }
         public bool IsAnime { get; set; }

@@ -31,15 +31,13 @@ namespace MALClient.Android.Adapters
 
         public bool NewChangelog { get; set; }
 
-        public string DateWithVersion => $"{_currentVersion} - 07.10.2018";
+        public string DateWithVersion => $"{_currentVersion} - 03.11.2018";
 
         public List<string> Changelog => new List<string>
         {
-            "Fixed setting dates.",
-            "Now you can also edit dates for manga.",
-            "",
-            "PLEASE NOTE that it's still one big pile of workarounds because MAL is still missing APIs. I'm doing my best to make it work but it's hard when the website itself is unstable sometimes.",
-            "If something explodes come join us on Discord, link can be found on GitHub",
+            "Added new option to share your anime/manga list changes! Whenever you change status/score/episodes of an anime or manga share button will appear for 10 seconds in bottom left corner.",
+            "I've decided to switch the ads from opt-in to opt-out, this change will only affect people who never ever enabled ads. " +
+            "I'm doing this partly due to curiosity, partly to raise awareness as some people didn't even know it's possible while wanting to support the app. You can disable them in settings as always."           
         };
 
     }

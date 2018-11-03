@@ -31,7 +31,7 @@ namespace MALClient.Android.Activities
             Bindings.Add(this.SetBinding(() => ViewModel.AdsContainerVisibility)
                 .WhenSourceChanges(() =>
                 {
-                    if (ViewModel.AdsContainerVisibility)
+                    if (ViewModel.AdsContainerVisibility && Credentials.Authenticated)
                     {
                         if (!_initializedAds)
                         {

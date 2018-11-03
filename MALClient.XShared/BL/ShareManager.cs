@@ -36,8 +36,6 @@ namespace MALClient.XShared.BL
             if(!Settings.EnableShareButton)
                 return;
 
-            RestartTimer();
-
             if (_lastEvents.Any(tuple => tuple.diff.Id != diff.Id))
                 _lastEvents.Clear();
 
@@ -53,13 +51,26 @@ namespace MALClient.XShared.BL
                     return;
             }
 
+            RestartTimer();
+
             _lastEvents.Add((action, diff));
         }
 
         string IShareManager.GenerateMessage()
         {
-            return $"{GenerateMessage()}\n" +
-                   $"#MALClient";
+            try
+            {
+                var msg = GenerateMessage();
+                if (string.IsNullOrEmpty(msg))
+                    return null;
+
+                return $"{msg}\n" +
+                       "#MALClient";
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
         private string GenerateMessage()
@@ -77,8 +88,8 @@ namespace MALClient.XShared.BL
                 events.HasFlag(ShareEvent.AnimeStatusChanged))
             {
                 return
-                    $"I've {FormatStatus(statusDiff.diff.NewStatus, statusDiff.diff.IsAnime)} {epDiff.diff.Title} with score of {scoreDiff.diff.NewScore}/10.\n" +
-                    $"{epDiff.diff.Url}";
+                    $"I've {FormatStatus(statusDiff.diff.NewStatus, statusDiff.diff.IsAnime)} {statusDiff.diff.Title} with score of {scoreDiff.diff.NewScore}/10.\n" +
+                    $"{statusDiff.diff.Url}";
             }
 
             if (events.HasFlag(ShareEvent.AnimeScoreChanged) &&
@@ -86,7 +97,7 @@ namespace MALClient.XShared.BL
 
             {
                 return
-                    $"I've {WatchedOrRead()} {epDiff.diff.NewEpisodes}/{FormatAllEpisodes(epDiff.diff.TotalEpisodes)} {EpisodesOrChapters()} of {epDiff.diff.Title} with score of {scoreDiff.diff.NewScore}/10.\n" +
+                    $"I've {WatchedOrRead()} {epDiff.diff.NewEpisodes}{FormatAllEpisodes(epDiff.diff.TotalEpisodes)} {EpisodesOrChapters()} of {epDiff.diff.Title} and scored it {scoreDiff.diff.NewScore}/10.\n" +
                     $"{epDiff.diff.Url}";
             }
 
@@ -95,7 +106,7 @@ namespace MALClient.XShared.BL
 
             {
                 return
-                    $"I've {FormatStatus(statusDiff.diff.NewStatus, statusDiff.diff.IsAnime)} {epDiff.diff.Title} with {epDiff.diff.NewEpisodes}/{epDiff.diff.TotalEpisodes} {EpisodesOrChapters()} {WatchedOrRead()}.\n" +
+                    $"I've {FormatStatus(statusDiff.diff.NewStatus, statusDiff.diff.IsAnime)} {epDiff.diff.Title} with {epDiff.diff.NewEpisodes}{FormatAllEpisodes(epDiff.diff.TotalEpisodes)} {EpisodesOrChapters()} {WatchedOrRead()}.\n" +
                     $"{epDiff.diff.Url}";
             }
 
@@ -111,8 +122,8 @@ namespace MALClient.XShared.BL
             if (events.HasFlag(ShareEvent.AnimeStatusChanged))
             {
                 return
-                    $"I've {FormatStatus(statusDiff.diff.NewStatus, statusDiff.diff.IsAnime)} {epDiff.diff.Title}\n" +
-                    $"{epDiff.diff.Url}";
+                    $"I've {FormatStatus(statusDiff.diff.NewStatus, statusDiff.diff.IsAnime)} {statusDiff.diff.Title}\n" +
+                    $"{statusDiff.diff.Url}";
             }
 
             if (events.HasFlag(ShareEvent.AnimeScoreChanged))
@@ -135,7 +146,7 @@ namespace MALClient.XShared.BL
             StopTimer();
         }
 
-        private string FormatAllEpisodes(int eps) => eps <= 0 ? "?" : eps.ToString();
+        private string FormatAllEpisodes(int eps) => eps <= 0 ? "" : $"/{eps.ToString()}";
 
         private string FormatEpisode(int ep)
         {

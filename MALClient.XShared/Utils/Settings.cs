@@ -609,7 +609,7 @@ namespace MALClient.XShared.Utils
 
         public static bool AdsEnable
         {
-            get => (bool)(ApplicationDataService[nameof(AdsEnable)] ?? false);
+            get => (bool)(ApplicationDataService[nameof(AdsEnable)] ?? true);
             set => ApplicationDataService[nameof(AdsEnable)] = value;
         }
 
@@ -676,7 +676,7 @@ namespace MALClient.XShared.Utils
 
         public static bool EnableShareButton
         {
-            get => (bool)(ApplicationDataService[nameof(StatusPromptProceedOnDisabled)] ?? false);
+            get => (bool)(ApplicationDataService[nameof(StatusPromptProceedOnDisabled)] ?? true);
             set => ApplicationDataService[nameof(StatusPromptProceedOnDisabled)] = value;
         }
 

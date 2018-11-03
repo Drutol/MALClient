@@ -19,6 +19,9 @@ namespace MALClient.Android.Adapters
     {
         public void Share(string message)
         {
+            if(string.IsNullOrEmpty(message))
+                return;
+
             var activity = SimpleIoc.Default.GetInstance<Activity>();
             var share = new Intent(Intent.ActionSend);
             share.SetType("text/plain");

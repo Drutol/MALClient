@@ -64,7 +64,7 @@ namespace MALClient.XShared.BL
                 if (string.IsNullOrEmpty(msg))
                     return null;
 
-                return $"{msg}\n" +
+                return $"{msg}\n\n" +
                        "#MALClient";
             }
             catch (Exception)
@@ -122,7 +122,7 @@ namespace MALClient.XShared.BL
             if (events.HasFlag(ShareEvent.AnimeStatusChanged))
             {
                 return
-                    $"I've {FormatStatus(statusDiff.diff.NewStatus, statusDiff.diff.IsAnime)} {statusDiff.diff.Title}\n" +
+                    $"I've {FormatStatus(statusDiff.diff.NewStatus, statusDiff.diff.IsAnime)} {statusDiff.diff.Title}.\n" +
                     $"{statusDiff.diff.Url}";
             }
 

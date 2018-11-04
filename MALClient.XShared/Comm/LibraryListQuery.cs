@@ -130,7 +130,7 @@ namespace MALClient.XShared.Comm
                                                 var startDateTokens = item.start_date_string.Split('-');
                                                 var yearToken = int.Parse(startDateTokens[2]);
                                                 item.start_date_string =
-                                                    $"{(yearToken < 50 ? $"20{yearToken}" : $"19{yearToken}")}-{startDateTokens[isAmericanDateFormat ? 0 : 1]}-{startDateTokens[isAmericanDateFormat ? 1 : 0]}";
+                                                    $"{(yearToken < 50 ? $"20{yearToken.ToString().PadLeft(2,'0')}" : $"19{yearToken.ToString().PadLeft(2, '0')}")}-{startDateTokens[isAmericanDateFormat ? 0 : 1]}-{startDateTokens[isAmericanDateFormat ? 1 : 0]}";
                                             }
 
                                             if (!string.IsNullOrEmpty(item.finish_date_string))
@@ -138,7 +138,7 @@ namespace MALClient.XShared.Comm
                                                 var endDateTokens = item.finish_date_string.Split('-');
                                                 var yearToken = int.Parse(endDateTokens[2]);
                                                 item.finish_date_string =
-                                                    $"{(yearToken < 50 ? $"20{yearToken}" : $"19{yearToken}")}-{endDateTokens[isAmericanDateFormat ? 0 : 1]}-{endDateTokens[isAmericanDateFormat ? 1 : 0]}";
+                                                    $"{(yearToken < 50 ? $"20{yearToken.ToString().PadLeft(2, '0')}" : $"19{yearToken.ToString().PadLeft(2, '0')}")}-{endDateTokens[isAmericanDateFormat ? 0 : 1]}-{endDateTokens[isAmericanDateFormat ? 1 : 0]}";
                                             }
 
 
@@ -214,7 +214,7 @@ namespace MALClient.XShared.Comm
                                                 var startDateTokens = item.start_date_string.Split('-');
                                                 var yearToken = int.Parse(startDateTokens[2]);
                                                 item.start_date_string =
-                                                    $"{(yearToken < 50 ? $"20{yearToken}" : $"19{yearToken}")}-{startDateTokens[isAmericanDateFormat ? 0 : 1]}-{startDateTokens[isAmericanDateFormat ? 1 : 0]}";
+                                                    $"{(yearToken < 50 ? $"20{yearToken.ToString().PadLeft(2, '0')}" : $"19{yearToken.ToString().PadLeft(2, '0')}")}-{startDateTokens[isAmericanDateFormat ? 0 : 1]}-{startDateTokens[isAmericanDateFormat ? 1 : 0]}";
                                             }
 
                                             if (!string.IsNullOrEmpty(item.finish_date_string))
@@ -222,7 +222,7 @@ namespace MALClient.XShared.Comm
                                                 var endDateTokens = item.finish_date_string.Split('-');
                                                 var yearToken = int.Parse(endDateTokens[2]);
                                                 item.finish_date_string =
-                                                    $"{(yearToken < 50 ? $"20{yearToken}" : $"19{yearToken}")}-{endDateTokens[isAmericanDateFormat ? 0 : 1]}-{endDateTokens[isAmericanDateFormat ? 1 : 0]}";
+                                                    $"{(yearToken < 50 ? $"20{yearToken.ToString().PadLeft(2, '0')}" : $"19{yearToken.ToString().PadLeft(2, '0')}")}-{endDateTokens[isAmericanDateFormat ? 0 : 1]}-{endDateTokens[isAmericanDateFormat ? 1 : 0]}";
                                             }
 
                                             output.Add(new MangaLibraryItemData

@@ -36,7 +36,15 @@ namespace MALClient.Android.Activities
                         if (!_initializedAds)
                         {
                             MobileAds.Initialize(ApplicationContext, "ca-app-pub-8220174765620095~3319675764");
-                            var adRequest = new AdRequest.Builder().Build();
+                            var adRequest = new AdRequest.Builder()
+                                .AddKeyword("anime")
+                                .AddKeyword("watch")
+                                .AddKeyword("manga")
+                                .AddKeyword("hobby")
+                                .AddKeyword("show")
+                                .AddKeyword("comic")
+                                .AddKeyword("book")
+                                .AddKeyword("tv").Build();
                             MainPageAdView.LoadAd(adRequest);
                             _initializedAds = true;
                         }
@@ -116,9 +124,16 @@ namespace MALClient.Android.Activities
         }
 
 
+        class AdsListener : AdListener
+        {
+            public override void OnAdFailedToLoad(int errorCode)
+            {
+                base.OnAdFailedToLoad(errorCode);
+            }
+        }
+
+
         ////Video Ad
-
-
 
         private void DisplayVideoAd()
         {

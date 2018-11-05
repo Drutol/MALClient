@@ -584,23 +584,38 @@ namespace MALClient.XShared.ViewModels.Main
                         }
                         if (SortDescending)
                         {
-                            itemsWithStartDate =
-                                itemsWithStartDate.OrderByDescending(
-                                        item => int.Parse(item.AirStartDate.Substring(0, 4)))
-                                    .ThenByDescending(item => Utils.Utilities.DateToSeason(item.AirStartDate))
-                                    .ThenBy(item => item.Title)
-                                    .ToList();
-                            items = itemsWithStartDate.Concat(itemsWithoutStartDate.OrderBy(item => item.Title));
+                            try
+                            {
+                                itemsWithStartDate =
+                                    itemsWithStartDate.OrderByDescending(
+                                            item => int.Parse(item.AirStartDate.Substring(0, 4)))
+                                        .ThenByDescending(item => Utils.Utilities.DateToSeason(item.AirStartDate))
+                                        .ThenBy(item => item.Title)
+                                        .ToList();
+                                items = itemsWithStartDate.Concat(itemsWithoutStartDate.OrderBy(item => item.Title));
+                            }
+                            catch
+                            {
+                                items = itemsWithStartDate.Concat(itemsWithoutStartDate.OrderBy(item => item.Title));
+                            }
                         }
                         else
                         {
-                            itemsWithStartDate =
-                                itemsWithStartDate.OrderBy(
-                                        item => int.Parse(item.AirStartDate.Substring(0, 4)))
-                                    .ThenBy(item => Utils.Utilities.DateToSeason(item.AirStartDate))
-                                    .ThenBy(item => item.Title)
-                                    .ToList();
-                            items = itemsWithStartDate.Concat(itemsWithoutStartDate.OrderBy(item => item.Title));
+                            try
+                            {
+                                itemsWithStartDate =
+                                    itemsWithStartDate.OrderBy(
+                                            item => int.Parse(item.AirStartDate.Substring(0, 4)))
+                                        .ThenBy(item => Utils.Utilities.DateToSeason(item.AirStartDate))
+                                        .ThenBy(item => item.Title)
+                                        .ToList();
+                                items = itemsWithStartDate.Concat(itemsWithoutStartDate.OrderBy(item => item.Title));
+                            }
+                            catch
+                            {
+                                items = itemsWithStartDate.Concat(itemsWithoutStartDate.OrderBy(item => item.Title));
+                            }
+
                         }
                         break;
                     default:

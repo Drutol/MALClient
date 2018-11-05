@@ -615,7 +615,7 @@
       <Version>1.8.5</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Advertising.XAML">
-      <Version>10.1705.16001</Version>
+      <Version>10.1805.7001</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Net.Http">
       <Version>2.2.29</Version>

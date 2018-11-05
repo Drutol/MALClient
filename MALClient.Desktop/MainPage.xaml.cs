@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Windows.Devices.Input;
 using Windows.ApplicationModel.Core;
+using Windows.ApplicationModel.DataTransfer;
 using Windows.UI.Core;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
@@ -22,6 +23,8 @@ using MALClient.XShared.Utils;
 using MALClient.XShared.ViewModels;
 using Windows.UI;
 using Windows.UI.Xaml.Media;
+using GalaSoft.MvvmLight.Ioc;
+using MALClient.Adapters;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -40,7 +43,8 @@ namespace MALClient.UWP
 		{
 			InitializeComponent();
 
-			CoreApplicationViewTitleBar coreTitleBar = CoreApplication.GetCurrentView().TitleBar;
+		    DataTransferManager.GetForCurrentView().DataRequested += ShareDataRequested;
+            CoreApplicationViewTitleBar coreTitleBar = CoreApplication.GetCurrentView().TitleBar;
 			coreTitleBar.ExtendViewIntoTitleBar = false;
 
 			Loaded += (sender, args) =>
@@ -59,10 +63,26 @@ namespace MALClient.UWP
 				StartAdsTimeMeasurements();
 				ViewModelLocator.Settings.OnAdsMinutesPerDayChanged += SettingsOnOnAdsMinutesPerDayChanged;
 				ViewModelLocator.GeneralMain.ChangelogVisibility = ResourceLocator.ChangelogProvider.NewChangelog;
-			};
+			    ResourceLocator.ShareManager.TimerStateChanged += ShareManagerOnTimerStateChanged;
+            };
 		}
 
-		private void VmOnMediaElementCollapsed()
+	    private async void ShareManagerOnTimerStateChanged(object sender, bool e)
+	    {
+	        await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+	        {
+	            if (e)
+	            {
+	                ExampleVSCodeInAppNotification.Show();
+	            }
+	            else
+	            {
+	                ExampleVSCodeInAppNotification.Dismiss();
+	            }
+	        });
+	    }
+
+	    private void VmOnMediaElementCollapsed()
 		{
 			MediaElement.Stop();
 		}
@@ -325,5 +345,22 @@ namespace MALClient.UWP
 			ViewModelLocator.GeneralMain.ChangelogVisibility = false;
 		}
 
+	    private void ShareButtonOnClick(object sender, RoutedEventArgs e)
+	    {
+	        DataTransferManager.ShowShareUI();
+            ExampleVSCodeInAppNotification.Dismiss();
+        }
+
+	    private void ShareDataRequested(DataTransferManager sender, DataRequestedEventArgs args)
+	    {
+	        args.Request.Data.Properties.Title = "MyAnimeList update";
+	        args.Request.Data.Properties.Description = "Share your anime endeavours!";
+            args.Request.Data.SetText(ResourceLocator.ShareManager.GenerateMessage());
+        }
+
+	    private void DismissButtonOnClick(object sender, RoutedEventArgs e)
+	    {
+	        ExampleVSCodeInAppNotification.Dismiss();
+        }
 	}
 }

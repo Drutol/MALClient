@@ -135,6 +135,9 @@ namespace MALClient.XShared.Comm.Manga
 
                     };
 
+                    if (_item.IsRewatching)
+                        content["add_manga[is_rereading]"] = "1";
+
                     if (_item.StartDate != null)
                     {
                         content["add_manga[start_date][month]"] = _item.StartDate.Substring(5, 2).TrimStart('0');

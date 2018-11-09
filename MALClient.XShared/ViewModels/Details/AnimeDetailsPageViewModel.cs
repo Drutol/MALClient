@@ -718,7 +718,17 @@ namespace MALClient.XShared.ViewModels.Details
             (_animeItemReference as AnimeItemViewModel)?.AdjustIncrementButtonsVisibility();
             RaisePropertyChanged(() => IsIncrementButtonEnabled);
             RaisePropertyChanged(() => IsDecrementButtonEnabled);
-            
+
+            if (IsRewatching)
+            {
+                ResourceLocator.ShareManager.EnqueueEvent(ShareEvent.StartedRewatching, new AnimeShareDiff
+                {
+                    Id = Id,
+                    IsAnime = AnimeMode,
+                    Title = Title
+                });
+            }
+
             IsRewatchingButtonEnabled = true;
             LoadingUpdate = false;
         }

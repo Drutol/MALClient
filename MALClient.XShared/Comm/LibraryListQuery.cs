@@ -238,6 +238,7 @@ namespace MALClient.XShared.Comm
                                                 Type = (int) GetMangaMediaType(),
                                                 MyScore = item.score,
                                                 Notes = item.tags,
+                                                IsRewatching = item.is_rereading > 0,
                                                 MyStatus = (AnimeStatus) item.status,
                                                 MyStartDate = item.start_date_string,
                                                 MyEndDate = item.finish_date_string,
@@ -319,6 +320,7 @@ namespace MALClient.XShared.Comm
             public int status { get; set; }
             public int score { get; set; }
             public string tags { get; set; }
+            public int? is_rereading { get; set; }
             public int num_read_chapters { get; set; }
             public int num_read_volumes { get; set; }
             public string manga_title { get; set; }

@@ -80,6 +80,7 @@ namespace MALClient.XShared.BL
             var epDiff = _lastEvents.FirstOrDefault(tuple => tuple.e == ShareEvent.AnimeEpisodesChanged);
             var scoreDiff = _lastEvents.FirstOrDefault(tuple => tuple.e == ShareEvent.AnimeScoreChanged);
             var statusDiff = _lastEvents.FirstOrDefault(tuple => tuple.e == ShareEvent.AnimeStatusChanged);
+            var rewatchDiff = _lastEvents.FirstOrDefault(tuple => tuple.e == ShareEvent.StartedRewatching);
 
             _lastEvents.Clear();
             StopTimer();
@@ -133,9 +134,17 @@ namespace MALClient.XShared.BL
                     $"{scoreDiff.diff.Url}";
             }
 
+            if (events.HasFlag(ShareEvent.StartedRewatching))
+            {
+                return
+                    $"I've started {ReWatchingOrRereading()} {rewatchDiff.diff.Title} \n" +
+                    $"{rewatchDiff.diff.Url}";
+            }
+
             return null;
 
             string WatchedOrRead() => epDiff.diff.IsAnime ? "watched" : "read";
+            string ReWatchingOrRereading() => rewatchDiff.diff.IsAnime ? "re-watching" : "re-reading";
             string EpisodesOrChapters() => epDiff.diff.IsAnime ? "episodes" : "chapters";
             string EpisodeOrChapter() => epDiff.diff.IsAnime ? "episode" : "chapter";
         }

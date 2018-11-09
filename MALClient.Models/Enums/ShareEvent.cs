@@ -11,5 +11,6 @@ namespace MALClient.Models.Enums
         AnimeStatusChanged = 1,
         AnimeScoreChanged = 2,
         AnimeEpisodesChanged = 4,
+        StartedRewatching = 8
     }
 }

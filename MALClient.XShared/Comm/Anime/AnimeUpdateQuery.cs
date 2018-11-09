@@ -144,7 +144,7 @@ namespace MALClient.XShared.Comm.Anime
                         ["add_anime[status]"] = ((int) _item.MyStatus).ToString(),
                         ["add_anime[score]"] = _item.MyScore == 0 ? null : _item.MyScore.ToString(),
                         ["add_anime[num_watched_episodes]"] = _item.MyEpisodes.ToString(),
-                        ["add_anime[tags]"] = string.IsNullOrEmpty(_item.Notes) ? "" : _item.Notes,
+                        ["add_anime[tags]"] = string.IsNullOrEmpty(_item.Notes) ? "" : _item.Notes,                    
 
                         ["csrf_token"] = client.Token,
 
@@ -158,6 +158,9 @@ namespace MALClient.XShared.Comm.Anime
                         ["add_anime[sns_post_type]"] = postSns,
 
                     };
+
+                    if (_item.IsRewatching)
+                        content["add_anime[is_rewatching]"] = "1";
 
                     if (_item.StartDate != null)
                     {

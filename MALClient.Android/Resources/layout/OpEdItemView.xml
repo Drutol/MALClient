@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:paddingTop="2dp"
+             android:paddingEnd="2dp">
+
+  <LinearLayout
+    android:id="@+id/GenreItemRootContainer"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/border_accent_rightleft"
+    android:orientation="horizontal"
+    android:paddingStart="5dp"
+    android:paddingEnd="5dp">
+
+    <TextView
+      android:id="@+id/GenreItemTextView"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_gravity="center"
+      android:layout_weight="1"
+      android:fontFamily="@string/font_family_light"
+      android:gravity="center"
+      android:minHeight="40dp"
+      android:paddingStart="4dp"
+      android:paddingEnd="4dp"
+      android:textAlignment="center"
+      android:textColor="?BrushText"
+      android:textSize="@dimen/FontSizeNormal"
+      tools:text="Adventure veeery long at that so long that gets wrappeedddddddddddddddddddddddddddddddddddddddddddddd " />
+
+
+    <ImageButton
+      android:id="@+id/MoreButton"
+      android:layout_width="40dp"
+      android:layout_height="40dp"
+      android:layout_gravity="end|center_vertical"
+      android:background="@color/Transparent"
+      android:foreground="?selectableItemBackgroundBorderless"
+      android:src="@drawable/icon_more_vertical" />
+
+  </LinearLayout>
+</FrameLayout>

@@ -23,6 +23,18 @@ namespace MALClient.Android.Activities
         private IRewardedVideoAd _videoAd;
         private Timer _timer;
         private bool _initializedAds;
+        private bool _adLoaded;
+
+        public bool AdLoaded
+        {
+            get => _adLoaded;
+            set
+            {
+                _adLoaded = value;
+                MainPageAdView.Visibility = value ? ViewStates.Visible : ViewStates.Gone;
+            }
+        }
+
         private void InitAdContainer()
         {
             ViewModelLocator.Settings.OnAdsMinutesPerDayChanged += SettingsOnOnAdsMinutesPerDayChanged;
@@ -46,6 +58,7 @@ namespace MALClient.Android.Activities
                                 .AddKeyword("book")
                                 .AddKeyword("tv").Build();
                             MainPageAdView.LoadAd(adRequest);
+                            MainPageAdView.AdListener = new AdsListener(this);
                             _initializedAds = true;
                         }
                         MainPageAdView.Visibility = ViewStates.Visible;
@@ -111,6 +124,9 @@ namespace MALClient.Android.Activities
 
         private void AdTimerCallback(object state)
         {
+            if(!AdLoaded)
+                return;
+
             var passed = (int)(ResourceLocator.ApplicationDataService["AdsTimeToday"] ?? 0);
             passed += 10;
             RunOnUiThread(() => MainPageAdView.Resume());
@@ -123,15 +139,27 @@ namespace MALClient.Android.Activities
             }
         }
 
-
         class AdsListener : AdListener
         {
+            private MainActivity _parent;
+
+            public AdsListener(MainActivity parent)
+            {
+                _parent = parent;
+            }
+
+            public override void OnAdLoaded()
+            {
+                _parent.AdLoaded = true;
+                base.OnAdLoaded();
+            }
+
             public override void OnAdFailedToLoad(int errorCode)
             {
+                _parent.AdLoaded = false;
                 base.OnAdFailedToLoad(errorCode);
             }
         }
-
 
         ////Video Ad
 

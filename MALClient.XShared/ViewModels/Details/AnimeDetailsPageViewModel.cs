@@ -191,14 +191,11 @@ namespace MALClient.XShared.ViewModels.Details
 
         public ObservableCollection<string> OPs { get; } = new ObservableCollection<string>();
         public ObservableCollection<string> EDs { get; } = new ObservableCollection<string>();
+        public SmartObservableCollection<AnimeEpisode> Episodes { get; } = new SmartObservableCollection<AnimeEpisode>();
 
         public ObservableCollection<AnimeVideoData> AvailableVideos { get;  } = new ObservableCollection<AnimeVideoData>();
 
-
         public static List<string> ScoreFlyoutChoices { get; set; }
-
-
-        private string SourceLink { get; set; }
 
         public int Id
         {
@@ -1177,6 +1174,7 @@ namespace MALClient.XShared.ViewModels.Details
             Stats.Clear();
             OPs.Clear();
             EDs.Clear();
+            Episodes.Clear();
             var data = await new AnimeDetailsMalQuery(MalId, AnimeMode).GetDetails(force);
             if (data == null)
             {
@@ -1273,6 +1271,15 @@ namespace MALClient.XShared.ViewModels.Details
                 OPs.Add(op);
             foreach (var ed in data.Endings)
                 EDs.Add(ed);
+
+            if (AnimeMode)
+            {
+                var episodes = await new AnimeEpisodesQuery().GetEpisodes(MalId, force);
+
+                if (episodes?.Any() ?? false)
+                    Episodes.AddRange(episodes);
+            }
+
             RaisePropertyChanged(() => AnimeMode);
             LoadingDetails = false;
             OnDetailsLoaded?.Invoke();

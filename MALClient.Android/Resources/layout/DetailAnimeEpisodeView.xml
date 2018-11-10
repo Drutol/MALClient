@@ -1,0 +1,97 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="2dp"
+    android:paddingBottom="2dp"
+    tools:background="?BrushDeepBackground">
+
+  <ImageView
+      android:id="@+id/TickIcon"
+      android:layout_width="90dp"
+      android:layout_height="match_parent"
+      android:layout_marginStart="-5dp"
+      android:alpha=".10"
+      android:scaleType="centerCrop"
+      android:scaleX="1.2"
+      android:scaleY="1.2"
+      android:src="@drawable/icon_ok"
+      android:tint="?AccentColourLight" />
+
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:background="@drawable/border_accent_rightleft"
+      android:minHeight="50dp"
+      android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:minHeight="50dp"
+        android:orientation="horizontal"
+        android:weightSum="20">
+
+      <TextView
+          android:id="@+id/EpisodeCount"
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_gravity="center"
+          android:layout_margin="5dp"
+          android:layout_weight="4"
+          android:gravity="center"
+          android:textAlignment="center"
+          android:textColor="?BrushText"
+          android:textSize="@dimen/FontSizeNormal"
+          tools:text="Ep. 111" />
+
+      <TextView
+          android:id="@+id/EpisodeName"
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_gravity="center_vertical"
+          android:layout_marginStart="5dp"
+          android:layout_marginTop="5dp"
+          android:layout_marginEnd="10dp"
+          android:layout_marginBottom="5dp"
+          android:layout_weight="16"
+          android:ellipsize="end"
+          android:fontFamily="@string/font_family_light"
+          android:gravity="center"
+          android:maxLines="2"
+          android:textAlignment="center"
+          android:textColor="?BrushText"
+          android:textSize="@dimen/FontSizeNormal"
+          tools:text="Some very long episode as the Japanese like to name their light novels I guess." />
+
+
+      <ImageButton
+          android:id="@+id/MoreButton"
+          android:layout_width="30dp"
+          android:layout_height="30dp"
+          android:layout_gravity="center"
+          android:layout_marginEnd="10dp"
+          android:background="@color/Transparent"
+          android:foreground="?selectableItemBackgroundBorderless"
+          android:src="@drawable/icon_more_vertical" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/EpisodeNote"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minWidth="60dp"
+        android:layout_marginTop="-5dp"
+        android:layout_gravity="start"
+        android:layout_marginStart="5dp"
+        android:fontFamily="@string/font_family_light"
+        android:gravity="center"
+        android:textColor="?AccentColourDark"
+        android:textStyle="italic"
+        android:visibility="visible"
+        tools:text="Filler, Recap" />
+  </LinearLayout>
+</FrameLayout>

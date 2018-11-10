@@ -9,6 +9,7 @@ using System.Windows.Input;
 using GalaSoft.MvvmLight.Command;
 using MALClient.Models.Enums;
 using MALClient.Models.Interfaces;
+using MALClient.Models.Models.Anime;
 using MALClient.Models.Models.AnimeScrapped;
 using MALClient.Models.Models.Favourites;
 using MALClient.Models.Models.Notifications;
@@ -513,6 +514,34 @@ namespace MALClient.XShared.ViewModels.Details
                                                      
                             ViewModelLocator.GeneralMain.Navigate(PageIndex.PageForumIndex,
                                 new ForumsBoardNavigationArgs(Id, Title, AnimeMode));
+                            if (!ViewModelLocator.Mobile)
+                            {
+                                //Register back nav to whetever place we are currently in
+                                ViewModelLocator.NavMgr.RegisterUnmonitoredMainBackNav(backNavArgs.Item1, backNavArgs.Item2);
+                            }
+                        }));
+
+        private RelayCommand<AnimeEpisode> _navigateEpDiscussionCommand;
+
+        public RelayCommand<AnimeEpisode> NavigateEpDiscussionCommand
+            =>
+                _navigateEpDiscussionCommand ??
+                (_navigateEpDiscussionCommand =
+                    new RelayCommand<AnimeEpisode>(ep =>
+                        {
+                            //Hooray c# 7!
+                            (PageIndex index, object arg) backNavArgs = default((PageIndex index, object arg));                            if (ViewModelLocator.Mobile)
+                                ViewModelLocator.NavMgr.RegisterBackNav(PrevArgs);
+                            else
+                                backNavArgs = 
+                                (index: ViewModelLocator.GeneralMain.CurrentMainPageKind.Value,
+                                 arg: ViewModelLocator.GeneralMain.CurrentMainPageKind.Value == PageIndex.PageAnimeList
+                                    ? ViewModelLocator.GeneralMain.GetCurrentListOrderParams()
+                                    : ViewModelLocator.GeneralMain.LastNavArgs);
+
+                            ViewModelLocator.GeneralMain.Navigate(PageIndex.PageForumIndex,
+                                new ForumsTopicNavigationArgs(AnimeMode ? TopicType.Anime : TopicType.Manga,
+                                    ep.ForumUrl.Split('=').Last(), null, 1));
                             if (!ViewModelLocator.Mobile)
                             {
                                 //Register back nav to whetever place we are currently in

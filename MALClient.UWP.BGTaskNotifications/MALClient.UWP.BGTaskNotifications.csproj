@@ -134,7 +134,7 @@
       <Version>2.1.1</Version>
     </PackageReference>
     <PackageReference Include="MvvmLightLibsStd10">
-      <Version>5.4.1</Version>
+      <Version>5.4.1.1</Version>
     </PackageReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">

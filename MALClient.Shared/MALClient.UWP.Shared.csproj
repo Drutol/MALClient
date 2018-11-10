@@ -352,7 +352,7 @@
       <Version>4.1.6</Version>
     </PackageReference>
     <PackageReference Include="HtmlAgilityPack">
-      <Version>1.8.5</Version>
+      <Version>1.8.10</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.0.8</Version>
@@ -364,7 +364,7 @@
       <Version>2.1.1</Version>
     </PackageReference>
     <PackageReference Include="MvvmLightLibsStd10">
-      <Version>5.4.1</Version>
+      <Version>5.4.1.1</Version>
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json">
       <Version>11.0.2</Version>

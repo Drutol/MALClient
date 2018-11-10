@@ -30,7 +30,6 @@ namespace MALClient.Android.Adapters
             {
                 //saaa...
             }
-
         }
     }
 }

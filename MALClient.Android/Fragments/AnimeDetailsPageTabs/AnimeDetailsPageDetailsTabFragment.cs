@@ -78,7 +78,7 @@ namespace MALClient.Android.Fragments.AnimeDetailsPageTabs
 
                         EpisodesList.Adapter = ViewModel.Episodes.GetAdapter(EpisodeItemTemplate);
                         EpisodesList.LayoutParameters.Height =
-                            (Math.Max(5, ViewModel.Episodes.Count) * DimensionsHelper.DpToPx(54));
+                            (Math.Min(5, ViewModel.Episodes.Count) * DimensionsHelper.DpToPx(54));
                     }
                     else
                     {
@@ -123,7 +123,7 @@ namespace MALClient.Android.Fragments.AnimeDetailsPageTabs
 
                 _epPopupMenu.Menu.Add(0, 1, 0, "Forum discussion");
                 if (!string.IsNullOrEmpty(ep.TitleJapanese) || !string.IsNullOrEmpty(ep.TitleRomanji))
-                    _epPopupMenu.Menu.Add(0, 2, 0, "Other titles");
+                    _epPopupMenu.Menu.Add(0, 2, 0, "Alternate titles");
                 _epPopupMenu.SetOnMenuItemClickListener(new AnimeItemFlyoutBuilder.MenuListener(item =>
                 {
                     if (item.ItemId == 0)

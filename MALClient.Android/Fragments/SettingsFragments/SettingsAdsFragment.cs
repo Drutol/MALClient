@@ -25,6 +25,13 @@ namespace MALClient.Android.Fragments.SettingsFragments
     public class SettingsAdsFragment : MalFragmentBase
     {          
         private SettingsViewModel ViewModel;
+        private bool _settingAds;
+        private bool _initialized;
+
+        public SettingsAdsFragment()
+        {
+
+        }
 
         protected override void Init(Bundle savedInstanceState)
         {
@@ -33,10 +40,39 @@ namespace MALClient.Android.Fragments.SettingsFragments
 
         protected override void InitBindings()
         {
+            if(_initialized)
+                return;
+
+            _initialized = true;
+
             SettingsPageAdsEnableAdsSwitch.Checked = ViewModel.AdsEnable;
-            SettingsPageAdsEnableAdsSwitch.Click += (sender, args) =>
+            SettingsPageAdsEnableAdsSwitch.CheckedChange += (sender, args) =>
             {
-                ViewModel.AdsEnable = (sender as CheckBox).Checked;
+                if(_settingAds)
+                    return;
+                
+                if (ViewModel.AdsEnable)
+                {
+                    _settingAds = true;
+                    ResourceLocator.MessageDialogProvider.ShowMessageDialogWithInput("Well, pity to see you go :(",
+                        "Are you sure?", "Yup", "Nope", () =>
+                        {
+                            ViewModel.AdsEnable = false;
+                            _settingAds = false;
+                        },
+                        () =>
+                        {
+                            SettingsPageAdsEnableAdsSwitch.Checked = true;
+                            _settingAds = false;
+                        });
+                }
+                else
+                {
+                    _settingAds = true;
+                    ViewModel.AdsEnable = true;
+                    _settingAds = false;
+                }
+
             };
 
             //

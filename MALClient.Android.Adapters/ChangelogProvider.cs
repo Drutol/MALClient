@@ -31,13 +31,14 @@ namespace MALClient.Android.Adapters
 
         public bool NewChangelog { get; set; }
 
-        public string DateWithVersion => $"{_currentVersion} - 03.11.2018";
+        public string DateWithVersion => $"{_currentVersion} - 11.11.2018";
 
         public List<string> Changelog => new List<string>
         {
-            "Adjustments to share sentences generator.",
-            "Fixed dates from 2000-2009 not displaying correctly.",
-            "Ads container is now a bit more nicely styled.",
+            "Rewatching/Rereading will now work properly.",
+            "Added list of anime episodes in anime details.",
+            "Shortcut to searching OP/ED on youtube.",
+            "Ads container will now be hidden if there's no ad to show at the time.",
         };
 
     }

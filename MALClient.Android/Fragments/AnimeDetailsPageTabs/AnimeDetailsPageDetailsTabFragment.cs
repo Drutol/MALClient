@@ -99,7 +99,7 @@ namespace MALClient.Android.Fragments.AnimeDetailsPageTabs
 
         private View EpisodeItemTemplate(int i, AnimeEpisode ep, View arg3)
         {
-            var view = arg3 ?? LayoutInflater.Inflate(Resource.Layout.DetailAnimeEpisodeView, null);
+            var view = arg3 ?? Activity.LayoutInflater.Inflate(Resource.Layout.DetailAnimeEpisodeView, null);
 
             view.SetBackgroundColor(
                 new Color(i % 2 == 0

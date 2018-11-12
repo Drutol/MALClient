@@ -18,7 +18,6 @@ using MALClient.Android.Activities;
 using MALClient.Android.Listeners;
 using MALClient.Android.Resources;
 using MALClient.Models.Enums;
-using MALClient.Models.Enums;
 using MALClient.XShared.Utils;
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Main;

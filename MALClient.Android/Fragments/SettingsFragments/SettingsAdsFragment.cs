@@ -22,11 +22,12 @@ using MALClient.XShared.ViewModels;
 
 namespace MALClient.Android.Fragments.SettingsFragments
 {
-    public class SettingsAdsFragment : MalFragmentBase
+    public class SettingsAdsFragment : MalFragmentBase, AdapterView.IOnItemSelectedListener
     {          
         private SettingsViewModel ViewModel;
         private bool _settingAds;
         private bool _initialized;
+        private bool _skipFirstEvent = true;
 
         public SettingsAdsFragment()
         {
@@ -94,10 +95,7 @@ namespace MALClient.Android.Fragments.SettingsFragments
                 return view;
             });
             SettingsPageAdsMinutesDailySpinner.SetSelection(availableTimes.IndexOf(ViewModel.AdsSecondsPerDay/60));
-            SettingsPageAdsMinutesDailySpinner.ItemSelected += (sender, args) =>
-            {
-                ViewModel.AdsSecondsPerDay = (int)SettingsPageAdsMinutesDailySpinner.SelectedView.Tag*60;
-            };
+            SettingsPageAdsMinutesDailySpinner.OnItemSelectedListener = this;
         }
 
         public override int LayoutResourceId => Resource.Layout.SettingsPageAds;
@@ -114,5 +112,23 @@ namespace MALClient.Android.Fragments.SettingsFragments
 
 
         #endregion
+
+        public void OnItemSelected(AdapterView parent, View view, int position, long id)
+        {
+            if (_skipFirstEvent)
+            {
+                _skipFirstEvent = false;
+                return;
+            }
+
+            
+
+            ViewModel.AdsSecondsPerDay = (int)SettingsPageAdsMinutesDailySpinner.SelectedView.Tag * 60;
+        }
+
+        public void OnNothingSelected(AdapterView parent)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

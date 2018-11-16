@@ -13,7 +13,7 @@
     <RootNamespace>Binding_Dialogplus</RootNamespace>
     <AssemblyName>Binding_Dialogplus</AssemblyName>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkVersion>v8.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v9.0</TargetFrameworkVersion>
     <AndroidClassParser>jar2xml</AndroidClassParser>
     <AndroidCodegenTarget>XamarinAndroid</AndroidCodegenTarget>
     <NuGetPackageImportStamp>

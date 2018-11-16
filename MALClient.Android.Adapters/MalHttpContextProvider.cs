@@ -61,6 +61,32 @@ namespace MALClient.Android.Adapters
  
                     throw new WebException("Unable to authorize");
                 }
+                if(content.Contains("This account has not yet authorized their e-mail."))
+                {
+                    ResourceLocator.DispatcherAdapter.Run(async () =>
+                    {
+                        await ResourceLocator.MessageDialogProvider.ShowMessageDialogAsync(
+                            "You didn't confirm your email address. Please confirm it before signing in.",
+                            "Confirm your email.");
+                        if (ViewModelLocator.GeneralMain.CurrentMainPage != PageIndex.PageLogIn)
+                            ViewModelLocator.GeneralMain.Navigate(PageIndex.PageLogIn);
+                    });
+
+                    throw new WebException("Unable to authorize");
+                }
+                if (content.Contains("It has been a while since your last login, for security reasons we require you to also provide a captcha code."))
+                {
+                    ResourceLocator.DispatcherAdapter.Run(async () =>
+                    {
+                        await ResourceLocator.MessageDialogProvider.ShowMessageDialogAsync(
+                            "It looks like a captcha is waiting for you. Please sign in on website before using this app.",
+                            "Website sign in required");
+                        if (ViewModelLocator.GeneralMain.CurrentMainPage != PageIndex.PageLogIn)
+                            ViewModelLocator.GeneralMain.Navigate(PageIndex.PageLogIn);
+                    });
+
+                    throw new WebException("Unable to authorize");
+                }
 
                 if (content.Contains("Your username or password is incorrect.") ||
                     content.Contains("badresult badresult--is-reset-password"))

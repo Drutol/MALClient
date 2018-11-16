@@ -13,7 +13,7 @@
     <RootNamespace>Binding_Droppy</RootNamespace>
     <AssemblyName>Binding_Droppy</AssemblyName>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkVersion>v8.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v9.0</TargetFrameworkVersion>
     <AndroidClassParser>jar2xml</AndroidClassParser>
     <AndroidCodegenTarget>XamarinAndroid</AndroidCodegenTarget>
     <NoWarn>CS0109</NoWarn>

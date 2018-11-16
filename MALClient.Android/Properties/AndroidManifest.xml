@@ -6,6 +6,6 @@
 	<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 	<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-	<uses-sdk android:minSdkVersion="22" android:targetSdkVersion="27" />
+	<uses-sdk android:minSdkVersion="22" android:targetSdkVersion="28" />
 	<application android:networkSecurityConfig="@xml/debug_ca" android:label="MALClient" />"
 </manifest>

@@ -424,17 +424,26 @@ namespace MALClient.XShared.Utils
 
         public static string SeasonToCapitalLetterWithYear(string date)
         {
-            var season = DateToSeason(date);
-            var year = date.Substring(2, 2);
-            if (season == 1)
-                return "Winter " + year;
-            if (season == 2)
-                return "Spring " + year;
-            if (season == 3)
-                return "Summer " + year;
-            if (season == 4)
-                return "Fall " + year;
-            return "";
+            try
+            {
+                var season = DateToSeason(date);
+                var year = date.Substring(2, 2);
+                if (season == 1)
+                    return "Winter " + year;
+                if (season == 2)
+                    return "Spring " + year;
+                if (season == 3)
+                    return "Summer " + year;
+                if (season == 4)
+                    return "Fall " + year;
+                return "";
+            }
+            catch
+            {
+                return "N/A";
+
+            }
+
         }
 
         public static HtmlNode FirstWithClass(this IEnumerable<HtmlNode> doc, string targettedClass)

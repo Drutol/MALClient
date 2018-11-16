@@ -13,7 +13,7 @@
     <RootNamespace>Binding_CircularFloatingActionMenu</RootNamespace>
     <AssemblyName>Binding_CircularFloatingActionMenu</AssemblyName>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkVersion>v8.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v9.0</TargetFrameworkVersion>
     <AndroidClassParser>jar2xml</AndroidClassParser>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>

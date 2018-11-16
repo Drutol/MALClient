@@ -48,11 +48,11 @@ namespace MALClient.Android.Fragments
         {
             Bindings.Add(this.SetBinding(() => ViewModel.MyData).WhenSourceChanges(() =>
             {
-                if(ViewModel.MyData == null)
+                if (ViewModel.MyData == null)
                     return;
 
                 MyName.Text = ViewModel.MyData.User.Name;
-                MyImage.Into(ViewModel.MyData.User.ImgUrl,new CircleTransformation());
+                MyImage.Into(ViewModel.MyData.User.ImgUrl, new CircleTransformation());
                 MyMean.Text = ViewModel.MyData.AnimeMean.ToString("N2");
             }));
 
@@ -62,7 +62,7 @@ namespace MALClient.Android.Fragments
                     return;
 
                 OtherName.Text = ViewModel.OtherData.User.Name;
-                OtherImage.Into(ViewModel.OtherData.User.ImgUrl,new CircleTransformation());
+                OtherImage.Into(ViewModel.OtherData.User.ImgUrl, new CircleTransformation());
                 OtherMean.Text = ViewModel.OtherData.AnimeMean.ToString("N2");
             }));
 

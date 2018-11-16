@@ -160,182 +160,197 @@ namespace MALClient.XShared.ViewModels.Main
 
         public async Task Init(AnimeListPageNavigationArgs args)
         {
-            await InitializationRoutines.AwaitableCompletion.Task; //wait for all necessary modelus to complete loading
-            //base
-            _scrollHandlerAdded = false;
-            Initializing = true;
-            _manuallySelectedViewMode = null;
-            //take out trash
-            _animeItemsSet = new List<AnimeItemAbstraction>();
-            AnimeItems = new SmartObservableCollection<AnimeItemViewModel>();
-            RaisePropertyChanged(() => AnimeItems);
-            _randomedIds = new List<int>();
-            _fetching = _fetchingSeasonal = false;
-
-            if (args == null || args.ResetBackNav)
-                ViewModelLocator.NavMgr.ResetMainBackNav();
-
-            if (!_queryHandler)
+            try
             {
-                ViewModelLocator.GeneralMain.OnSearchDelayedQuerySubmitted += OnOnSearchDelayedQuerySubmitted;
-                ViewModelLocator.GeneralMain.OnSearchQuerySubmitted += OnOnSearchDelayedQuerySubmitted;
-            }
-            _queryHandler = true;
 
-            //give visual feedback
-            Loading = true;
-            CanLoadMore = false;
-            await Task.Delay(10);
 
-            //depending on args
-            var gotArgs = false;
-            if (args != null) //Save current mode
-            {
-                ResetedNavBack = args.ResetBackNav;
-                WorkMode = args.WorkMode;
-                if (WorkMode == AnimeListWorkModes.TopAnime)
+                await InitializationRoutines.AwaitableCompletion
+                    .Task; //wait for all necessary modelus to complete loading
+                //base
+                _scrollHandlerAdded = false;
+                Initializing = true;
+                _manuallySelectedViewMode = null;
+                //take out trash
+                _animeItemsSet = new List<AnimeItemAbstraction>();
+                AnimeItems = new SmartObservableCollection<AnimeItemViewModel>();
+                RaisePropertyChanged(() => AnimeItems);
+                _randomedIds = new List<int>();
+                _fetching = _fetchingSeasonal = false;
+
+                if (args == null || args.ResetBackNav)
+                    ViewModelLocator.NavMgr.ResetMainBackNav();
+
+                if (!_queryHandler)
                 {
-                    TopAnimeWorkMode = args.TopWorkMode;
-                    ViewModelLocator.GeneralHamburger.SetActiveButton(args.TopWorkMode);//we have to have it
-                }
-                else if (WorkMode == AnimeListWorkModes.AnimeByGenre)
-                {
-                    Genre = args.Genre;
-                }
-                else if(WorkMode == AnimeListWorkModes.AnimeByStudio)
-                {
-                    Studio = args.Studio;
+                    ViewModelLocator.GeneralMain.OnSearchDelayedQuerySubmitted += OnOnSearchDelayedQuerySubmitted;
+                    ViewModelLocator.GeneralMain.OnSearchQuerySubmitted += OnOnSearchDelayedQuerySubmitted;
                 }
 
-                if (!string.IsNullOrEmpty(args.ListSource))
-                    ListSource = args.ListSource;
-                else
+                _queryHandler = true;
+
+                //give visual feedback
+                Loading = true;
+                CanLoadMore = false;
+                await Task.Delay(10);
+
+                //depending on args
+                var gotArgs = false;
+                if (args != null) //Save current mode
+                {
+                    ResetedNavBack = args.ResetBackNav;
+                    WorkMode = args.WorkMode;
+                    if (WorkMode == AnimeListWorkModes.TopAnime)
+                    {
+                        TopAnimeWorkMode = args.TopWorkMode;
+                        ViewModelLocator.GeneralHamburger.SetActiveButton(args.TopWorkMode); //we have to have it
+                    }
+                    else if (WorkMode == AnimeListWorkModes.AnimeByGenre)
+                    {
+                        Genre = args.Genre;
+                    }
+                    else if (WorkMode == AnimeListWorkModes.AnimeByStudio)
+                    {
+                        Studio = args.Studio;
+                    }
+
+                    if (!string.IsNullOrEmpty(args.ListSource))
+                        ListSource = args.ListSource;
+                    else
+                        ListSource = Credentials.UserName;
+
+
+                    if (args.NavArgs) // Use args if we have any
+                    {
+                        SortDescending = SortDescending = args.Descending;
+                        SetSortOrder(args.SortOption); //index
+                        SetDesiredStatus(args.Status);
+                        CurrentIndexPosition = args.SelectedItemIndex;
+                        CurrentSeason = args.CurrSeason;
+                        DisplayMode = args.DisplayMode;
+                        gotArgs = true;
+                    }
+                }
+                else //assume default AnimeList
+                {
+                    WorkMode = AnimeListWorkModes.Anime;
                     ListSource = Credentials.UserName;
-
-
-                if (args.NavArgs) // Use args if we have any
-                {
-                    SortDescending = SortDescending = args.Descending;
-                    SetSortOrder(args.SortOption); //index
-                    SetDesiredStatus(args.Status);
-                    CurrentIndexPosition = args.SelectedItemIndex;
-                    CurrentSeason = args.CurrSeason;
-                    DisplayMode = args.DisplayMode;
-                    gotArgs = true;
                 }
-            }
-            else //assume default AnimeList
-            {
-                WorkMode = AnimeListWorkModes.Anime;
-                ListSource = Credentials.UserName;
-            }
-            ViewModelLocator.GeneralHamburger.UpdateAnimeFiltersSelectedIndex();
-            RaisePropertyChanged(() => CurrentlySelectedDisplayMode);
-            switch (WorkMode)
-            {
-                case AnimeListWorkModes.Manga:
-                case AnimeListWorkModes.Anime:
-                    if (!gotArgs)
-                        SetDefaults(args?.StatusIndex);
 
-                    AppBtnListSourceVisibility = true;
-                    AppbarBtnPinTileVisibility = false;
-                    AppBtnSortingVisibility = true;
-                    AnimeItemsDisplayContext = AnimeItemDisplayContext.AirDay;
-                    if (WorkMode == AnimeListWorkModes.Anime)
-                    {
-                        SortAirDayVisibility = true;
-                        Sort3Label = "Watched";
-                        StatusAllLabel = "All";
-                        Filter1Label = "Watching";
-                        Filter5Label = "Plan to watch";
-                    }
-                    else // manga
-                    {
-                        SortAirDayVisibility = false;
-                        Sort3Label = "Read";
-                        StatusAllLabel = "All";
-                        Filter1Label = "Reading";
-                        Filter5Label = "Plan to read";
-                    }
+                ViewModelLocator.GeneralHamburger.UpdateAnimeFiltersSelectedIndex();
+                RaisePropertyChanged(() => CurrentlySelectedDisplayMode);
+                switch (WorkMode)
+                {
+                    case AnimeListWorkModes.Manga:
+                    case AnimeListWorkModes.Anime:
+                        if (!gotArgs)
+                            SetDefaults(args?.StatusIndex);
 
-                    //try to set list source - display notice on fail
-                    if (string.IsNullOrWhiteSpace(ListSource))
-                    {
-                        if (!string.IsNullOrWhiteSpace(Credentials.UserName))
-                            ListSource = Credentials.UserName;
-                    }
-                    if (string.IsNullOrWhiteSpace(ListSource))
-                    {
-                        EmptyNoticeVisibility = true;
-                        EmptyNoticeContent =
-                            "We have come up empty...\nList source is not set.\nLog in or set it manually.";
-                        BtnSetSourceVisibility = true;
-                        Loading = false;
-                    }
-                    else
-                        await FetchData(); //we have source we can fetch
-
-                    break;
-                case AnimeListWorkModes.SeasonalAnime:
-                case AnimeListWorkModes.TopAnime:
-                case AnimeListWorkModes.TopManga:
-                case AnimeListWorkModes.AnimeByGenre:
-                case AnimeListWorkModes.AnimeByStudio:
-                    Loading = true;
-                    EmptyNoticeVisibility = false;
-
-                    AppBtnListSourceVisibility = false;
-                    AppBtnGoBackToMyListVisibility = false;
-                    BtnSetSourceVisibility = false;
-
-                    ViewModelLocator.NavMgr.DeregisterBackNav();
-                    ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageAnimeList, null);
-
-
-                    if (!gotArgs)
-                    {
-                        SortDescending = false;
-                        SetSortOrder(SortOptions.SortWatched); //index
-                        SetDesiredStatus(null);
-                        CurrentSeason = null;
-                        SeasonSelection.Clear();
-                    }
-                    
-                    //StatusAllLabel = WorkMode == AnimeListWorkModes.SeasonalAnime ? "Airing" : "All";
-
-                    Sort3Label = "Index";
-                    await FetchSeasonalData();
-                    if (WorkMode == AnimeListWorkModes.TopAnime || WorkMode == AnimeListWorkModes.TopManga)
-                    {
-                        AppbarBtnPinTileVisibility = AppBtnSortingVisibility = false;
-                        AnimeItemsDisplayContext = AnimeItemDisplayContext.Index;
-                    }
-                    else
-                    {
-                        if (WorkMode == AnimeListWorkModes.AnimeByGenre || WorkMode == AnimeListWorkModes.AnimeByStudio)
+                        AppBtnListSourceVisibility = true;
+                        AppbarBtnPinTileVisibility = false;
+                        AppBtnSortingVisibility = true;
+                        AnimeItemsDisplayContext = AnimeItemDisplayContext.AirDay;
+                        if (WorkMode == AnimeListWorkModes.Anime)
                         {
-                            AppbarBtnPinTileVisibility = false;
-                            AppBtnSortingVisibility = true;
+                            SortAirDayVisibility = true;
+                            Sort3Label = "Watched";
+                            StatusAllLabel = "All";
+                            Filter1Label = "Watching";
+                            Filter5Label = "Plan to watch";
+                        }
+                        else // manga
+                        {
+                            SortAirDayVisibility = false;
+                            Sort3Label = "Read";
+                            StatusAllLabel = "All";
+                            Filter1Label = "Reading";
+                            Filter5Label = "Plan to read";
+                        }
+
+                        //try to set list source - display notice on fail
+                        if (string.IsNullOrWhiteSpace(ListSource))
+                        {
+                            if (!string.IsNullOrWhiteSpace(Credentials.UserName))
+                                ListSource = Credentials.UserName;
+                        }
+
+                        if (string.IsNullOrWhiteSpace(ListSource))
+                        {
+                            EmptyNoticeVisibility = true;
+                            EmptyNoticeContent =
+                                "We have come up empty...\nList source is not set.\nLog in or set it manually.";
+                            BtnSetSourceVisibility = true;
+                            Loading = false;
+                        }
+                        else
+                            await FetchData(); //we have source we can fetch
+
+                        break;
+                    case AnimeListWorkModes.SeasonalAnime:
+                    case AnimeListWorkModes.TopAnime:
+                    case AnimeListWorkModes.TopManga:
+                    case AnimeListWorkModes.AnimeByGenre:
+                    case AnimeListWorkModes.AnimeByStudio:
+                        Loading = true;
+                        EmptyNoticeVisibility = false;
+
+                        AppBtnListSourceVisibility = false;
+                        AppBtnGoBackToMyListVisibility = false;
+                        BtnSetSourceVisibility = false;
+
+                        ViewModelLocator.NavMgr.DeregisterBackNav();
+                        ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageAnimeList, null);
+
+
+                        if (!gotArgs)
+                        {
+                            SortDescending = false;
+                            SetSortOrder(SortOptions.SortWatched); //index
+                            SetDesiredStatus(null);
+                            CurrentSeason = null;
+                            SeasonSelection.Clear();
+                        }
+
+                        //StatusAllLabel = WorkMode == AnimeListWorkModes.SeasonalAnime ? "Airing" : "All";
+
+                        Sort3Label = "Index";
+                        await FetchSeasonalData();
+                        if (WorkMode == AnimeListWorkModes.TopAnime || WorkMode == AnimeListWorkModes.TopManga)
+                        {
+                            AppbarBtnPinTileVisibility = AppBtnSortingVisibility = false;
                             AnimeItemsDisplayContext = AnimeItemDisplayContext.Index;
                         }
                         else
                         {
-                            AppbarBtnPinTileVisibility = AppBtnSortingVisibility = true;
-                            AnimeItemsDisplayContext = AnimeItemDisplayContext.AirDay;
+                            if (WorkMode == AnimeListWorkModes.AnimeByGenre ||
+                                WorkMode == AnimeListWorkModes.AnimeByStudio)
+                            {
+                                AppbarBtnPinTileVisibility = false;
+                                AppBtnSortingVisibility = true;
+                                AnimeItemsDisplayContext = AnimeItemDisplayContext.Index;
+                            }
+                            else
+                            {
+                                AppbarBtnPinTileVisibility = AppBtnSortingVisibility = true;
+                                AnimeItemsDisplayContext = AnimeItemDisplayContext.AirDay;
+                            }
+
+
                         }
 
-                        
-                    }
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
 
-            RaisePropertyChanged(() => LoadAllDetailsButtonVisiblity);
-            SortingSettingChanged?.Invoke(SortOption, SortDescending);
-            Initializing = false;
-            UpdateUpperStatus();
+                RaisePropertyChanged(() => LoadAllDetailsButtonVisiblity);
+                SortingSettingChanged?.Invoke(SortOption, SortDescending);
+
+                UpdateUpperStatus();
+            }
+            finally
+            {
+                Initializing = false;
+            }
         }
 
         public void OnNavigatedFrom()

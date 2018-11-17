@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Reflection;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
@@ -15,6 +16,7 @@ using Android.Widget;
 using MALClient.Models.Enums;
 using MALClient.XShared.BL;
 using MALClient.XShared.Comm.MagicalRawQueries;
+using MALClient.XShared.Utils;
 using MALClient.XShared.ViewModels;
 using ModernHttpClient;
 using Xamarin.Android.Net;
@@ -91,6 +93,12 @@ namespace MALClient.Android.Adapters
                 if (content.Contains("Your username or password is incorrect.") ||
                     content.Contains("badresult badresult--is-reset-password"))
                     throw new WebException("Unable to authorize");
+
+                var matches = Regex.Match(content, "\\/images\\/userimages\\/(\\d+)\\..*");
+                if (matches.Success)
+                {
+                    Credentials.SetId(int.Parse(matches.Groups[1].Captures[0].Value));
+                }
 
                 _contextExpirationTime = DateTime.Now.Add(TimeSpan.FromHours(.5));
                 return _httpClient; //else we are returning client that can be used for next queries

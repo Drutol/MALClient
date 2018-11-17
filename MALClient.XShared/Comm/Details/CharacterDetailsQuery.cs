@@ -125,7 +125,12 @@ namespace MALClient.XShared.Comm.Details
             {
                 //html
             }
-            
+
+            output.Content =
+                output.Content.Replace(
+                    "No voice actors have been added to this character. Help improve our database by searching for a voice actor, and adding this character to their roles.",
+                    "");
+
             DataCache.SaveData(output, _id.ToString(), "character_details");
 
             return output;

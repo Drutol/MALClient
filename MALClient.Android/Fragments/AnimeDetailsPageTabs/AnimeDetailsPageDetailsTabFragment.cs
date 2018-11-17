@@ -109,45 +109,55 @@ namespace MALClient.Android.Fragments.AnimeDetailsPageTabs
             view.FindViewById<TextView>(Resource.Id.EpisodeCount).Text = $"Ep. {ep.EpisodeId}";
             view.FindViewById<TextView>(Resource.Id.EpisodeName).Text = ep.Title;
 
-            if (i <= ViewModel.MyEpisodes)
+            if (ep.EpisodeId <= ViewModel.MyEpisodes)
                 view.FindViewById(Resource.Id.TickIcon).Visibility = ViewStates.Visible;
             else
                 view.FindViewById(Resource.Id.TickIcon).Visibility = ViewStates.Gone;
 
-            view.FindViewById(Resource.Id.MoreButton).SetOnClickListener(new OnClickListener(v =>
+            if (string.IsNullOrEmpty(ep.TitleJapanese) && string.IsNullOrEmpty(ep.TitleRomanji) &&
+                string.IsNullOrEmpty(ep.ForumUrl) && string.IsNullOrEmpty(ep.VideoUrl))
             {
-                _epPopupMenu = new PopupMenu(Activity, view.FindViewById(Resource.Id.MoreButton));
-
-                if (!string.IsNullOrEmpty(ep.VideoUrl))
-                    _epPopupMenu.Menu.Add(0, 0, 0, "Open website");
-
-                _epPopupMenu.Menu.Add(0, 1, 0, "Forum discussion");
-                if (!string.IsNullOrEmpty(ep.TitleJapanese) || !string.IsNullOrEmpty(ep.TitleRomanji))
-                    _epPopupMenu.Menu.Add(0, 2, 0, "Alternate titles");
-                _epPopupMenu.SetOnMenuItemClickListener(new AnimeItemFlyoutBuilder.MenuListener(item =>
+                view.FindViewById(Resource.Id.MoreButton).Visibility = ViewStates.Gone;
+            }
+            else
+            {
+                var moreBtn = view.FindViewById(Resource.Id.MoreButton);
+                moreBtn.Visibility = ViewStates.Visible;
+                moreBtn.SetOnClickListener(new OnClickListener(v =>
                 {
-                    if (item.ItemId == 0)
+                    _epPopupMenu = new PopupMenu(Activity, view.FindViewById(Resource.Id.MoreButton));
+
+                    if (!string.IsNullOrEmpty(ep.VideoUrl))
+                        _epPopupMenu.Menu.Add(0, 0, 0, "Open website");
+                    if (!string.IsNullOrEmpty(ep.ForumUrl))
+                        _epPopupMenu.Menu.Add(0, 1, 0, "Forum discussion");
+                    if (!string.IsNullOrEmpty(ep.TitleJapanese) || !string.IsNullOrEmpty(ep.TitleRomanji))
+                        _epPopupMenu.Menu.Add(0, 2, 0, "Alternate titles");
+                    _epPopupMenu.SetOnMenuItemClickListener(new AnimeItemFlyoutBuilder.MenuListener(item =>
                     {
-                        ResourceLocator.SystemControlsLauncherService.LaunchUri(new Uri(ep.VideoUrl));
-                    }
-                    else if (item.ItemId == 1)
-                    {
-                        ViewModel.NavigateEpDiscussionCommand.Execute(ep);
-                    }
-                    else if (item.ItemId == 2)
-                    {
-                        var content = "";
-                        if (!string.IsNullOrEmpty(ep.TitleJapanese))
-                            content += $"Japanese: {ep.TitleJapanese}\n\n";
-                        if (!string.IsNullOrEmpty(ep.TitleRomanji))
-                            content += $"Romaji: {ep.TitleRomanji}";
+                        if (item.ItemId == 0)
+                        {
+                            ResourceLocator.SystemControlsLauncherService.LaunchUri(new Uri(ep.VideoUrl));
+                        }
+                        else if (item.ItemId == 1)
+                        {
+                            ViewModel.NavigateEpDiscussionCommand.Execute(ep);
+                        }
+                        else if (item.ItemId == 2)
+                        {
+                            var content = "";
+                            if (!string.IsNullOrEmpty(ep.TitleJapanese))
+                                content += $"Japanese: {ep.TitleJapanese}\n\n";
+                            if (!string.IsNullOrEmpty(ep.TitleRomanji))
+                                content += $"Romaji: {ep.TitleRomanji}";
 
 
-                        ResourceLocator.MessageDialogProvider.ShowMessageDialog(content, "Alternate titles");
-                    }
+                            ResourceLocator.MessageDialogProvider.ShowMessageDialog(content, "Alternate titles");
+                        }
+                    }));
+                    _epPopupMenu.Show();
                 }));
-                _epPopupMenu.Show();
-            }));
+            }
 
             if (ep.Filler || ep.Recap)
             {

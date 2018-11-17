@@ -51,7 +51,15 @@ namespace MALClient.Android.Fragments.HistoryFragments
 
         private void HistoryEntryCoverOnClick(object sender, EventArgs eventArgs)
         {
-            (sender as View).Tag.Unwrap<AnimeItemViewModel>().NavigateDetails(PageIndex.PageHistory,HistoryPageFragment.LastArgs);
+            try
+            {
+                (sender as View).Tag.Unwrap<AnimeItemViewModel>()
+                    .NavigateDetails(PageIndex.PageHistory, HistoryPageFragment.LastArgs);
+            }
+            catch
+            {
+
+            }
         }
 
         private void DataTemplateFling(View view, int i, Tuple<AnimeItemViewModel, List<MalProfileHistoryEntry>> tuple)

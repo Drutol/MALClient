@@ -50,7 +50,7 @@ namespace MALClient.XShared.Comm.Profile
                             current.Id = int.Parse(link.Attributes["href"].Value.Split('=').Last());
                             current.IsAnime = link.Attributes["href"].Value.Contains("/anime");
                             current.WatchedEpisode = int.Parse(historyRow.Descendants("strong").First().InnerText);
-                            current.Date = historyRow.Descendants("td").Last().InnerText; //skip "Edit" button
+                            current.Date = historyRow.Descendants("td").Last().InnerText.Replace("Edit","").Trim(); //skip "Edit" button
                             output.Last().Value.Add(current);
                         }
                     }

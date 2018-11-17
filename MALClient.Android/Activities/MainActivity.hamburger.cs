@@ -455,17 +455,19 @@ namespace MALClient.Android.Activities
                         OnHamburgerItemClick(PageIndex.PageProfile);
                     }));
                     var listener = new OnClickListener(OnProfileSubItemCLick);
-                    _accountHamburgerView.FindViewById(Resource.Id.HamburgerProfileItemNotifications).SetOnClickListener(listener);                  
-                    _accountHamburgerView.FindViewById(Resource.Id.HamburgerProfileItemMessages).SetOnClickListener(listener);
+                    _accountHamburgerView.FindViewById(Resource.Id.HamburgerProfileItemNotifications)
+                        .SetOnClickListener(listener);
+                    _accountHamburgerView.FindViewById(Resource.Id.HamburgerProfileItemMessages)
+                        .SetOnClickListener(listener);
                     _accountHamburgerView.SetOnLongClickListener(new OnLongClickListener(view =>
                     {
-                       var d =  new PinnedUsersDialog(ResourceLocator.HandyDataStorage.PinnedUsers);
-                       _drawer.CloseDrawer();
+                        var d = new PinnedUsersDialog(ResourceLocator.HandyDataStorage.PinnedUsers);
+                        _drawer.CloseDrawer();
                     }));
 
                     var support = _settingsHamburgerView.FindViewById(Resource.Id.HamburgerProfileItemSupport);
                     support.SetOnClickListener(listener);
-                    support.StartAnimation(AnimationUtils.LoadAnimation(this,Resource.Animator.animation_pulse));
+                    support.StartAnimation(AnimationUtils.LoadAnimation(this, Resource.Animator.animation_pulse));
 
                     _settingsHamburgerView.FindViewById(Resource.Id.VideoAdButton).SetOnClickListener(listener);
 
@@ -478,9 +480,20 @@ namespace MALClient.Android.Activities
                     }));
 
                 }
+
                 ImageService.Instance
-                    .LoadUrl($"https://myanimelist.cdn-dena.com/images/userimages/{Credentials.Id}.jpg",TimeSpan.FromDays(1))
+                    .LoadUrl($"https://myanimelist.cdn-dena.com/images/userimages/{Credentials.Id}.webp",
+                        TimeSpan.FromDays(1))
                     .FadeAnimation(false).Transform(new CircleTransformation())
+                    .Error(e =>
+                    {
+                        ImageService.Instance
+                            .LoadUrl($"https://myanimelist.cdn-dena.com/images/userimages/{Credentials.Id}.jpg",
+                                TimeSpan.FromDays(1))
+                            .FadeAnimation(false).Transform(new CircleTransformation())
+                            .Into(_accountHamburgerView.FindViewById<ImageViewAsync>(Resource.Id
+                                .HamburgerProfileItemImage));
+                    })
                     .Into(_accountHamburgerView.FindViewById<ImageViewAsync>(Resource.Id.HamburgerProfileItemImage));
                 btn.WithView(_footerView);
                 btn.WithSelectable(false);

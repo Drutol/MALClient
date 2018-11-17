@@ -316,6 +316,7 @@ namespace MALClient.XShared.ViewModels.Details
                 if (possibleRef == null) // else we don't have this item
                 {
                     //we may only prepare for its creation
+                    RefreshData();
                     AddAnimeVisibility = true;
                     MyDetailsVisibility = false;
                 }
@@ -355,7 +356,7 @@ namespace MALClient.XShared.ViewModels.Details
             {
                 case PageIndex.PageSearch:
                 case PageIndex.PageMangaSearch:
-                    ExtractData(param.AnimeElement);
+                    await FetchData(false, param.Source);
                     if (PrevArgs != null)
                         ViewModelLocator.NavMgr.RegisterBackNav(PrevArgs);
                     ViewModelLocator.NavMgr.RegisterBackNav(param.Source, param.PrevPageSetup);

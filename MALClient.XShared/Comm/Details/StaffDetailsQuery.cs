@@ -89,6 +89,13 @@ namespace MALClient.XShared.Comm.Details
                         break;
                 }
 
+                var more = doc.FirstOrDefaultOfDescendantsWithClass("div",
+                    "people-informantion-more js-people-informantion-more");
+                if (more != null)
+                {
+                    output.Details.Add(WebUtility.HtmlEncode(more.InnerText.Trim()));
+                }
+
                 foreach (var table in columns[1].Descendants("table").Take(2))
                     try
                     {

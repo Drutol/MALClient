@@ -42,11 +42,11 @@ namespace MALClient.Android.BindingConverters
             if (diff.TotalDays > 10)
                 return dateTime.ToString("g");
             return
-                $@"{(diff.Days > 0 ? $"{diff.Days} {(diff.Days == 1 ? "day" : "days")}" : "")} {(diff.Hours > 0
-                    ? $"{diff.Hours} {(diff.Hours == 1 ? "hour" : "hours")}"
-                    : "")} {(diff.TotalDays < 1 && diff.Minutes > 0
-                    ? $"{diff.Minutes} {(diff.Hours == 1 ? "minute " : "minutes ")}"
-                    : "")}ago";
+                $@"{(diff.Days > 0 ? $"{diff.Days} {(diff.Days == 1 ? "day" : "days")}" : "")}{(diff.Hours > 0
+                    ? $" {diff.Hours} {(diff.Hours == 1 ? "hour" : "hours")}"
+                    : "")}{(diff.TotalDays < 1 && diff.Minutes > 0
+                    ? $" {diff.Minutes} {(diff.Minutes == 1 ? "minute" : "minutes")}"
+                    : "")} ago";
         }
 
         public static int MalNotificationTypeToIconConverter(MalNotificationsTypes type)

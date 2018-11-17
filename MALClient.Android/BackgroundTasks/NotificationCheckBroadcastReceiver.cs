@@ -245,7 +245,6 @@ namespace MALClient.Android.BackgroundTasks
                     .SetStyle(new NotificationCompat.BigTextStyle().BigText(notification.Content))
                     .SetContentTitle(notification.Header)
                     .SetContentText(notification.Content)
-                    .SetContentInfo(notification.Content)
                     .SetAutoCancel(true)
                     .SetGroup(notification.Type.GetDescription())
                     .SetContentIntent(pendingIntent);

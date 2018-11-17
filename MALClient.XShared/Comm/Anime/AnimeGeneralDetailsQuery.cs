@@ -56,6 +56,11 @@ namespace MALClient.XShared.Comm.Anime
                                     Title = WebUtility.HtmlDecode(parsed.title),
                                     Synonyms = parsed.title_synonyms?.Split(',').ToList() ?? new List<string>(),
                                 };
+
+                                if ((output.Type == "Movie" || output.AllEpisodes == 1) && string.IsNullOrEmpty(output.EndDate) && output.Status == "Finished Airing")
+                                {
+                                    output.EndDate = output.StartDate;
+                                }
                             }
                             else
                             {

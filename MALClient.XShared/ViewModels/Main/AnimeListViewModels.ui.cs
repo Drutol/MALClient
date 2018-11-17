@@ -229,14 +229,15 @@ namespace MALClient.XShared.ViewModels.Main
                 ViewModelLocator.GeneralHamburger.UpdateAnimeFiltersSelectedIndex();
                 _canLoadMoreFilterLock = GetDesiredStatus() != AnimeStatus.AllOrAiring;//we cannot laod more when filters are active
                 RaisePropertyChanged(() => CanLoadMore);
+                SetDisplayMode((AnimeStatus)GetDesiredStatus());
                 if (!Initializing)
                 {
                     if (Settings.HideFilterSelectionFlyout)
                         HideFiltersFlyout?.Invoke();
-
-                    SetDisplayMode((AnimeStatus)GetDesiredStatus());
+                  
                     RefreshList(false, true);
                 }
+                
             }
         }
 

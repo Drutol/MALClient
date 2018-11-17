@@ -19,15 +19,29 @@ namespace MALClient.XShared.Comm.Anime
 
             try
             {
-                var json = await _client.GetStringAsync($"https://api.jikan.moe/v3/anime/{animeId}/episodes/1");
+                var result = new List<AnimeEpisode>();
+                int page = 1;
+                while (true)
+                {
+                    var json = await _client.GetStringAsync($"https://api.jikan.moe/v3/anime/{animeId}/episodes/{page}");
+                    var eps = JsonConvert.DeserializeObject<RootObject>(json);
 
-                var eps = JsonConvert.DeserializeObject<RootObject>(json);
+                    result.AddRange(eps.Episodes);
 
-                _cache[animeId] = eps.Episodes;
+                    if (eps.Episodes.Count < 100)
+                        break;
 
-                return eps.Episodes;
+                    page++;
+
+                    if(page > 10)
+                        break;
+                }
+      
+                _cache[animeId] = result;
+
+                return result;
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return null;
             }

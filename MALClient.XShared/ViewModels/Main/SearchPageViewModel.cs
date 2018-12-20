@@ -2,14 +2,13 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Net;
 using System.Threading.Tasks;
-using System.Xml.Linq;
 using GalaSoft.MvvmLight;
 using MALClient.Models.Enums;
 using MALClient.Models.Models.Anime;
 using MALClient.XShared.Comm.Anime;
 using MALClient.XShared.Comm.Manga;
+using MALClient.XShared.Interfaces;
 using MALClient.XShared.NavArgs;
 using MALClient.XShared.Utils;
 
@@ -19,12 +18,13 @@ namespace MALClient.XShared.ViewModels.Main
 
     public class SearchPageViewModel : ViewModelBase
     {
-        private bool _animeSearch; // default to anime
-        private bool _queryHandler;
+        private readonly IAnimeLibraryDataStorage _animeLibraryDataStorage;
         private readonly HashSet<string> _filters = new HashSet<string>();
+        private bool _animeSearch; // default to anime
         private string _currrentFilter;
-        private bool _isFirstVisitGridVisible = true;
         private bool _directQueryInputVisibility;
+        private bool _isFirstVisitGridVisible = true;
+        private bool _queryHandler;
         public SearchPageNavigationArgs PrevArgs;
         public string PrevQuery;
 
@@ -41,24 +41,20 @@ namespace MALClient.XShared.ViewModels.Main
 
 
                 if (args.ByGenre)
-                {
-                    AvailableSelectionChoices = Enum.GetValues(typeof(AnimeGenres)).Cast<Enum>().OrderBy(val => val.ToString()).ToList();
-                }
+                    AvailableSelectionChoices = Enum.GetValues(typeof(AnimeGenres)).Cast<Enum>()
+                        .OrderBy(val => val.ToString()).ToList();
                 else
-                {
-                    AvailableSelectionChoices = Enum.GetValues(typeof(AnimeStudios)).Cast<Enum>().OrderBy(val => val.ToString()).ToList();
-                }
+                    AvailableSelectionChoices = Enum.GetValues(typeof(AnimeStudios)).Cast<Enum>()
+                        .OrderBy(val => val.ToString()).ToList();
 
                 return;
             }
-            else
-            {
-                GenreSelectionGridVisibility = false;
-            }
+
+            GenreSelectionGridVisibility = false;
 
             if (_animeSearch != args.Anime)
                 PrevQuery = null;
-            if(!_queryHandler)
+            if (!_queryHandler)
                 ViewModelLocator.GeneralMain.OnSearchQuerySubmitted += SubmitQuery;
             _queryHandler = true;
             _currrentFilter = null;
@@ -80,7 +76,8 @@ namespace MALClient.XShared.ViewModels.Main
                 DirectQueryInputVisibility = false;
             }
 
-            if (!string.IsNullOrWhiteSpace(args.Query) && (args.DisplayMode == SearchPageDisplayModes.Main || args.ForceQuery))
+            if (!string.IsNullOrWhiteSpace(args.Query) &&
+                (args.DisplayMode == SearchPageDisplayModes.Main || args.ForceQuery))
             {
                 ViewModelLocator.GeneralMain.PopulateSearchFilters(_filters);
                 SubmitQuery(args.Query);
@@ -107,13 +104,15 @@ namespace MALClient.XShared.ViewModels.Main
 
         public async void SubmitQuery(string query)
         {
+            query = query.PadRight(3, ' ');
+
             if (string.IsNullOrEmpty(query) || query == PrevQuery || query.Length < 2)
             {
                 IsFirstVisitGridVisible = false;
                 EmptyNoticeVisibility = false;
                 return;
             }
-            
+
             IsFirstVisitGridVisible = false;
             PrevQuery = query;
             Loading = true;
@@ -127,13 +126,13 @@ namespace MALClient.XShared.ViewModels.Main
                 await
                     Task.Run(
                         async () =>
-                            data = await new AnimeSearchQuery(Utils.Utilities.CleanAnimeTitle(query)).GetSearchResults());
+                            data = await new AnimeSearchQuery(Utilities.CleanAnimeTitle(query)).GetSearchResults());
                 try
                 {
                     foreach (var item in data)
                     {
                         var type = item.Type;
-                        _allAnimeSearchItemViewModels.Add(new AnimeSearchItemViewModel(item));
+                        _allAnimeSearchItemViewModels.Add(new AnimeSearchItemViewModel(item, ViewModelLocator.AnimeList));
                         if (!_filters.Contains(type))
                             _filters.Add(type);
                     }
@@ -147,11 +146,10 @@ namespace MALClient.XShared.ViewModels.Main
             {
                 try
                 {
-
                     foreach (var item in await new MangaSearchQuery(Utilities.CleanAnimeTitle(query))
                         .GetSearchResults())
                     {
-                        _allAnimeSearchItemViewModels.Add(new AnimeSearchItemViewModel(item, false));
+                        _allAnimeSearchItemViewModels.Add(new AnimeSearchItemViewModel(item, ViewModelLocator.AnimeList, false));
                         if (!_filters.Contains(item.Type))
                             _filters.Add(item.Type);
                     }
@@ -161,6 +159,7 @@ namespace MALClient.XShared.ViewModels.Main
                     //will display empty notice
                 }
             }
+
             ViewModelLocator.GeneralMain.PopulateSearchFilters(_filters);
             PopulateItems();
             Loading = false;
@@ -171,10 +170,10 @@ namespace MALClient.XShared.ViewModels.Main
             AnimeSearchItemViewModels.Clear();
             foreach (
                 var item in
-                    _allAnimeSearchItemViewModels.Where(
-                        item =>
-                            string.IsNullOrWhiteSpace(_currrentFilter) ||
-                            string.Equals(_currrentFilter, item.Type, StringComparison.CurrentCultureIgnoreCase)))
+                _allAnimeSearchItemViewModels.Where(
+                    item =>
+                        string.IsNullOrWhiteSpace(_currrentFilter) ||
+                        string.Equals(_currrentFilter, item.Type, StringComparison.CurrentCultureIgnoreCase)))
                 AnimeSearchItemViewModels.Add(item);
             EmptyNoticeVisibility = AnimeSearchItemViewModels.Count == 0;
         }
@@ -199,18 +198,16 @@ namespace MALClient.XShared.ViewModels.Main
 
         public AnimeSearchItemViewModel CurrentlySelectedItem
         {
-            get { return null; } //One way to VM
-            set
-            {
-                value?.NavigateDetails();
-            }
+            get => null;
+//One way to VM
+            set => value?.NavigateDetails();
         }
 
-        private bool _loading = false;
+        private bool _loading;
 
         public bool Loading
         {
-            get { return _loading; }
+            get => _loading;
             set
             {
                 _loading = value;
@@ -218,14 +215,14 @@ namespace MALClient.XShared.ViewModels.Main
             }
         }
 
-        private bool _emptyNoticeVisibility = false;
+        private bool _emptyNoticeVisibility;
         private bool _genreSelectionGridVisibility;
         private List<Enum> _availableSelectionChoices;
         private string _internalQuery;
 
         public bool EmptyNoticeVisibility
         {
-            get { return _emptyNoticeVisibility; }
+            get => _emptyNoticeVisibility;
             set
             {
                 _emptyNoticeVisibility = value;
@@ -235,7 +232,7 @@ namespace MALClient.XShared.ViewModels.Main
 
         public bool IsFirstVisitGridVisible
         {
-            get { return _isFirstVisitGridVisible; }
+            get => _isFirstVisitGridVisible;
             private set
             {
                 _isFirstVisitGridVisible = value;
@@ -245,17 +242,17 @@ namespace MALClient.XShared.ViewModels.Main
 
         public bool DirectQueryInputVisibility
         {
-            get { return _directQueryInputVisibility; }
+            get => _directQueryInputVisibility;
             set
             {
-                _directQueryInputVisibility = value; 
+                _directQueryInputVisibility = value;
                 RaisePropertyChanged(() => DirectQueryInputVisibility);
             }
         }
 
         public bool GenreSelectionGridVisibility
         {
-            get { return _genreSelectionGridVisibility; }
+            get => _genreSelectionGridVisibility;
             set
             {
                 _genreSelectionGridVisibility = value;
@@ -265,7 +262,7 @@ namespace MALClient.XShared.ViewModels.Main
 
         public List<Enum> AvailableSelectionChoices
         {
-            get { return _availableSelectionChoices; }
+            get => _availableSelectionChoices;
             set
             {
                 _availableSelectionChoices = value;
@@ -276,7 +273,7 @@ namespace MALClient.XShared.ViewModels.Main
         //used to update searchbox in desktop earch page in off pane --- one way
         public string InternalQuery
         {
-            get { return _internalQuery; }
+            get => _internalQuery;
             set
             {
                 _internalQuery = value;

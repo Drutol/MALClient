@@ -71,7 +71,7 @@ namespace MALClient.Android.Widgets
                 try
                 {
                     _items = ViewModelLocator.CalendarPage.CalendarData.First(
-                            page => page.DayOfWeek == DateTime.Now.DayOfWeek).Items
+                            page => page.DayOfWeek == DateTime.UtcNow.DayOfWeek).Items
                         .OrderByDescending(model => model.MyEpisodes)
                         .ThenByDescending(model => model.MyScore)
                         .Take(14)

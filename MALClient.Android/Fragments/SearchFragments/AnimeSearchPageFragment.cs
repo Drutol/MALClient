@@ -77,6 +77,17 @@ namespace MALClient.Android.Fragments.SearchFragments
             view.FindViewById<TextView>(Resource.Id.AnimeSearchItemDescription).Text = animeSearchItemViewModel.Synopsis;
             view.FindViewById<TextView>(Resource.Id.AnimeSearchItemEpisodes).Text = animeSearchItemViewModel.WatchedEps;
             view.FindViewById<TextView>(Resource.Id.AnimeSearchItemGlobalScore).Text = animeSearchItemViewModel.GlobalScoreBind;
+
+            if (animeSearchItemViewModel.IsAuth)
+            {
+                view.FindViewById(Resource.Id.TopRightInfo).Visibility = ViewStates.Visible;
+                view.FindViewById<TextView>(Resource.Id.WatchingStatus).Text = animeSearchItemViewModel.MyStatusBindShort;
+                view.FindViewById<TextView>(Resource.Id.WatchedEpisodes).Text = animeSearchItemViewModel.MyEpisodesBindShort;
+            }
+            else
+            {
+                view.FindViewById(Resource.Id.TopRightInfo).Visibility = ViewStates.Gone;
+            }
         }
 
         private View ContainerTemplate(int i)

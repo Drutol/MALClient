@@ -1311,7 +1311,8 @@ namespace MALClient.XShared.ViewModels.Main
         /// <param name="id"></param>
         /// <param name="anime"></param>
         /// <returns></returns>
-        public async Task<IAnimeData> TryRetrieveAuthenticatedAnimeItem(int id, bool anime = true, bool forceMal = false)
+        public async Task<IAnimeData> TryRetrieveAuthenticatedAnimeItem(int id, bool anime = true,
+            bool forceMal = false)
         {
             if (!Credentials.Authenticated)
                 return null;
@@ -1325,7 +1326,29 @@ namespace MALClient.XShared.ViewModels.Main
                 else if (_animeLibraryDataStorage.AllLoadedMangaItemAbstractions.Count == 0 && !_attemptedMangaFetch)
                     await FetchData(false, AnimeListWorkModes.Manga);
 
-                return anime ? _animeLibraryDataStorage.AllLoadedAuthAnimeItems.First(abstraction => forceMal ? abstraction.MalId == id : abstraction.Id == id).ViewModel : _animeLibraryDataStorage.AllLoadedAuthMangaItems.First(abstraction => forceMal ? abstraction.MalId == id : abstraction.Id == id).ViewModel;
+                return anime
+                    ? _animeLibraryDataStorage.AllLoadedAuthAnimeItems.First(abstraction =>
+                        forceMal ? abstraction.MalId == id : abstraction.Id == id).ViewModel
+                    : _animeLibraryDataStorage.AllLoadedAuthMangaItems.First(abstraction =>
+                        forceMal ? abstraction.MalId == id : abstraction.Id == id).ViewModel;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
+        public IAnimeData TryRetrieveAuthenticatedAnimeItemSync(int id, bool anime = true, bool forceMal = false)
+        {
+            if (!Credentials.Authenticated)
+                return null;
+            try
+            {
+                return anime
+                    ? _animeLibraryDataStorage.AllLoadedAuthAnimeItems.First(abstraction =>
+                        forceMal ? abstraction.MalId == id : abstraction.Id == id).ViewModel
+                    : _animeLibraryDataStorage.AllLoadedAuthMangaItems.First(abstraction =>
+                        forceMal ? abstraction.MalId == id : abstraction.Id == id).ViewModel;
             }
             catch (Exception)
             {

@@ -46,8 +46,8 @@ namespace MALClient.XShared.Comm.Anime
                                     Status = parsed.status,
                                     Type = parsed.type,
                                     AlternateTitle = parsed.title_japanese,
-                                    StartDate = parsed.aired.from?.ToString("MM/dd/yyyy") ?? "N/A",
-                                    EndDate = parsed.aired.to?.ToString("MM/dd/yyyy") ?? "N/A",
+                                    StartDate = parsed.aired.from?.ToString("yyyy-MM-dd") ?? "N/A",
+                                    EndDate = parsed.aired.to?.ToString("yyyy-MM-dd") ?? "N/A",
                                     ImgUrl = parsed.image_url,
                                     GlobalScore = (float)(parsed.score ?? 0),
                                     Id = parsed.mal_id,
@@ -57,7 +57,8 @@ namespace MALClient.XShared.Comm.Anime
                                     Synonyms = parsed.title_synonyms?.Split(',').ToList() ?? new List<string>(),
                                 };
 
-                                if ((output.Type == "Movie" || output.AllEpisodes == 1) && string.IsNullOrEmpty(output.EndDate) && output.Status == "Finished Airing")
+                                if ((output.Type == "Movie" || output.AllEpisodes == 1) && output.EndDate == "N/A" &&
+                                    output.Status == "Finished Airing")
                                 {
                                     output.EndDate = output.StartDate;
                                 }
@@ -76,8 +77,8 @@ namespace MALClient.XShared.Comm.Anime
                                     Status = parsed.status,
                                     Type = parsed.type,
                                     AlternateTitle = parsed.title_japanese,
-                                    StartDate = parsed.published.from?.ToString("MM/dd/yyyy") ?? "N/A",
-                                    EndDate = parsed.published.to?.ToString("MM/dd/yyyy") ?? "N/A",
+                                    StartDate = parsed.published.from?.ToString("yyyy-MM-dd") ?? "N/A",
+                                    EndDate = parsed.published.to?.ToString("yyyy-MM-dd") ?? "N/A",
                                     ImgUrl = parsed.image_url,
                                     GlobalScore = (float)(parsed.score ?? 0),
                                     Id = parsed.mal_id,

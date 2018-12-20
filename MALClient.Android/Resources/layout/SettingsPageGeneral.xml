@@ -2,453 +2,1112 @@
 
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="match_parent">
+
   <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
+      android:background="?BrushDeepBackground"
       android:orientation="vertical"
-      android:background="?BrushDeepBackground" android:padding="10dp">
-    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+      android:padding="10dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
-      <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Start page"
-          android:textColor="?BrushText" android:textSize="@dimen/FontSizeMedium"
-          android:layout_gravity="center_horizontal" />
-      <RadioGroup android:id="@+id/SettingsPageGeneralStartPageRadioGroup" android:layout_width="match_parent"
-          android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginTop="5dp">
-        <RadioButton android:id="@+id/SettingsPageGeneralRadioAnimeList" android:layout_width="0dp"
-            android:layout_weight="1.00" android:text="Anime list" android:layout_height="wrap_content"
-            android:gravity="center" />
-        <RadioButton android:id="@+id/SettingsPageGeneralRadioMangaList" android:layout_width="0dp"
-            android:layout_weight="1" android:text="Manga list" android:layout_height="wrap_content"
-            android:gravity="center" />
+
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_gravity="center_horizontal"
+          android:text="Start page"
+          android:textColor="?BrushText"
+          android:textSize="@dimen/FontSizeMedium" />
+
+      <RadioGroup
+          android:id="@+id/SettingsPageGeneralStartPageRadioGroup"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="5dp"
+          android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/SettingsPageGeneralRadioAnimeList"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.00"
+            android:gravity="center"
+            android:text="Anime list" />
+
+        <RadioButton
+            android:id="@+id/SettingsPageGeneralRadioMangaList"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Manga list" />
       </RadioGroup>
     </LinearLayout>
 
-    <View style="@style/Divider" android:layout_marginTop="10dp" />
+    <View
+        style="@style/Divider"
+        android:layout_marginTop="10dp" />
 
-    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-        android:orientation="vertical" android:layout_marginTop="10dp">
-      <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Colour theme"
-          android:textColor="?BrushText" android:textSize="@dimen/FontSizeMedium"
-          android:layout_gravity="center_horizontal" />
-      <RadioGroup android:id="@+id/SettingsPageGeneralThemeRadioGroup" android:layout_width="match_parent"
-          android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginTop="5dp">
-        <RadioButton android:id="@+id/SettingsPageGeneralRadioDarkTheme" android:layout_width="0dp"
-            android:layout_weight="1" android:text="Dark theme" android:layout_height="wrap_content"
-            android:gravity="center" />
-        <RadioButton android:id="@+id/SettingsPageGeneralRadioLightTheme" android:layout_width="0dp"
-            android:layout_weight="1" android:text="Light theme" android:layout_height="wrap_content"
-            android:gravity="center" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical">
+
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_gravity="center_horizontal"
+          android:text="Colour theme"
+          android:textColor="?BrushText"
+          android:textSize="@dimen/FontSizeMedium" />
+
+      <RadioGroup
+          android:id="@+id/SettingsPageGeneralThemeRadioGroup"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="5dp"
+          android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/SettingsPageGeneralRadioDarkTheme"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Dark theme" />
+
+        <RadioButton
+            android:id="@+id/SettingsPageGeneralRadioLightTheme"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Light theme" />
       </RadioGroup>
+
       <LinearLayout
-          android:layout_width="wrap_content" android:layout_marginTop="10dp" android:layout_gravity="center_horizontal"
-          android:layout_height="wrap_content" android:orientation="vertical" android:gravity="center_horizontal">
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_gravity="center_horizontal"
+          android:layout_marginTop="10dp"
+          android:gravity="center_horizontal"
+          android:orientation="vertical">
+
         <LinearLayout
-            android:layout_width="wrap_content" android:orientation="horizontal"
-            android:layout_height="wrap_content">
-          <ImageButton android:id="@+id/SettingsPageGeneralColorOrange" android:src="@drawable/icon_ok"
-              android:layout_width="40dp" android:layout_height="40dp" android:background="@color/OrangeAccentColour"/>
-          <ImageButton android:id="@+id/SettingsPageGeneralColorPurple"
-              android:src="@drawable/icon_ok" android:layout_width="40dp" android:layout_height="40dp"
-              android:background="@color/PurpleAccentColour" android:tint="#fff" android:layout_marginStart="10dp"/>
-          <ImageButton android:id="@+id/SettingsPageGeneralColorBlue" android:layout_marginStart="10dp"
-              android:src="@drawable/icon_ok" android:layout_width="40dp" android:layout_height="40dp"
-              android:background="@color/BlueAccentColour" android:tint="#fff"/>
-          <ImageButton android:id="@+id/SettingsPageGeneralColorLime" android:layout_marginStart="10dp"
-              android:src="@drawable/icon_ok" android:layout_width="40dp" android:layout_height="40dp"
-              android:background="@color/LimeAccentColour" android:tint="#fff"/>
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+          <ImageButton
+              android:id="@+id/SettingsPageGeneralColorOrange"
+              android:layout_width="40dp"
+              android:layout_height="40dp"
+              android:background="@color/OrangeAccentColour"
+              android:src="@drawable/icon_ok" />
+
+          <ImageButton
+              android:id="@+id/SettingsPageGeneralColorPurple"
+              android:layout_width="40dp"
+              android:layout_height="40dp"
+              android:layout_marginStart="10dp"
+              android:background="@color/PurpleAccentColour"
+              android:src="@drawable/icon_ok"
+              android:tint="#fff" />
+
+          <ImageButton
+              android:id="@+id/SettingsPageGeneralColorBlue"
+              android:layout_width="40dp"
+              android:layout_height="40dp"
+              android:layout_marginStart="10dp"
+              android:background="@color/BlueAccentColour"
+              android:src="@drawable/icon_ok"
+              android:tint="#fff" />
+
+          <ImageButton
+              android:id="@+id/SettingsPageGeneralColorLime"
+              android:layout_width="40dp"
+              android:layout_height="40dp"
+              android:layout_marginStart="10dp"
+              android:background="@color/LimeAccentColour"
+              android:src="@drawable/icon_ok"
+              android:tint="#fff" />
         </LinearLayout>
 
-        <LinearLayout android:layout_marginTop="10dp"
-            android:layout_width="wrap_content" android:orientation="horizontal"
-            android:layout_height="wrap_content">
-          <ImageButton android:id="@+id/SettingsPageGeneralColorPink"
-              android:src="@drawable/icon_ok" android:layout_width="40dp" android:layout_height="40dp"
-              android:background="@color/PinkAccentColour" android:tint="#fff"/>
-          <ImageButton android:id="@+id/SettingsPageGeneralColorCyan" android:layout_marginStart="10dp"
-              android:src="@drawable/icon_ok" android:layout_width="40dp" android:layout_height="40dp"
-              android:background="@color/CyanAccentColour" android:tint="#fff"/>
-          <ImageButton android:id="@+id/SettingsPageGeneralColorSkyBlue" android:layout_marginStart="10dp"
-              android:src="@drawable/icon_ok" android:layout_width="40dp" android:layout_height="40dp"
-              android:background="@color/SkyBlueAccentColour" android:tint="#fff"/>
-          <ImageButton android:id="@+id/SettingsPageGeneralColorRed" android:layout_marginStart="10dp"
-              android:src="@drawable/icon_ok" android:layout_width="40dp" android:layout_height="40dp"
-              android:background="@color/RedAccentColour" android:tint="#fff"/>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+          <ImageButton
+              android:id="@+id/SettingsPageGeneralColorPink"
+              android:layout_width="40dp"
+              android:layout_height="40dp"
+              android:background="@color/PinkAccentColour"
+              android:src="@drawable/icon_ok"
+              android:tint="#fff" />
+
+          <ImageButton
+              android:id="@+id/SettingsPageGeneralColorCyan"
+              android:layout_width="40dp"
+              android:layout_height="40dp"
+              android:layout_marginStart="10dp"
+              android:background="@color/CyanAccentColour"
+              android:src="@drawable/icon_ok"
+              android:tint="#fff" />
+
+          <ImageButton
+              android:id="@+id/SettingsPageGeneralColorSkyBlue"
+              android:layout_width="40dp"
+              android:layout_height="40dp"
+              android:layout_marginStart="10dp"
+              android:background="@color/SkyBlueAccentColour"
+              android:src="@drawable/icon_ok"
+              android:tint="#fff" />
+
+          <ImageButton
+              android:id="@+id/SettingsPageGeneralColorRed"
+              android:layout_width="40dp"
+              android:layout_height="40dp"
+              android:layout_marginStart="10dp"
+              android:background="@color/RedAccentColour"
+              android:src="@drawable/icon_ok"
+              android:tint="#fff" />
         </LinearLayout>
       </LinearLayout>
 
       <TextView
-          android:layout_width="match_parent" android:layout_marginTop="5dp"
-          android:layout_height="wrap_content" android:fontFamily="@string/font_family_light"
-          android:text="Want more accents? Leave me a message on github!" android:textColor="?BrushText"
-          android:gravity="center_horizontal" />
-      <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="5dp"
-          android:layout_marginTop="15dp">
-        <TextView android:text="Make things black in dark theme...\nFriendlier for AMOLED displays." android:layout_width="0dp"
-            android:layout_height="wrap_content" android:layout_gravity="center_vertical"
-            android:textSize="@dimen/FontSizeMedium" android:textColor="?BrushText" android:layout_weight="1" />
-        <Switch android:id="@+id/SettingsPageGeneralAmoledSwitch" android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:layout_gravity="center_vertical" />
-      </LinearLayout>
-      <Button android:id="@+id/SettingsPageGeneralThemeChangeApply"
-          android:layout_width="wrap_content" android:visibility="visible" android:layout_gravity="center_horizontal"
-          android:layout_height="wrap_content" android:backgroundTint="?AccentColour"
-          android:text="Apply!" android:textColor="#fff"/>
-    </LinearLayout>
-
-    <View style="@style/Divider" android:layout_marginTop="10dp" />
-
-    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="5dp"
-        android:layout_marginTop="15dp">
-      <TextView android:text="Enable swipe to increment/decrement." android:layout_width="0dp"
-          android:layout_height="wrap_content" android:layout_gravity="center_vertical"
-          android:textSize="@dimen/FontSizeMedium" android:textColor="?BrushText" android:layout_weight="1" />
-      <Switch android:id="@+id/SettingsPageGeneralEnableSwipeSwitch" android:layout_width="wrap_content"
-          android:layout_height="wrap_content" android:layout_gravity="center_vertical" />
-    </LinearLayout>
-
-    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="5dp"
-        android:layout_marginTop="15dp">
-      <TextView android:text="Try to display higher quality images in relevant places" android:layout_width="0dp"
-          android:layout_height="wrap_content" android:layout_gravity="center_vertical"
-          android:textSize="@dimen/FontSizeMedium" android:textColor="?BrushText" android:layout_weight="1" />
-      <Switch android:id="@+id/SettingsPageGeneralPullHigherSwitch" android:layout_width="wrap_content"
-          android:layout_height="wrap_content" android:layout_gravity="center_vertical" />
-    </LinearLayout>
-
-    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="5dp"
-        android:layout_marginTop="15dp">
-      <TextView android:text="Display show's season next to its type" android:layout_width="0dp"
-          android:layout_height="wrap_content" android:layout_gravity="center_vertical"
-          android:textSize="@dimen/FontSizeMedium" android:textColor="?BrushText" android:layout_weight="1" />
-      <Switch android:id="@+id/SettingsPageGeneralSeasonSwitch" android:layout_width="wrap_content"
-          android:layout_height="wrap_content" android:layout_gravity="center_vertical" />
-    </LinearLayout>
-
-    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="5dp"
-        android:layout_marginTop="15dp">
-      <TextView android:text="Switch sorting order automatically (ascending/descending)" android:layout_width="0dp"
-          android:layout_height="wrap_content" android:textSize="@dimen/FontSizeMedium"
-          android:layout_gravity="center_vertical" android:textColor="?BrushText" android:layout_weight="1" />
-      <Switch android:id="@+id/SettingsPageGeneralAutoSortSwitch" android:layout_width="wrap_content"
-          android:layout_height="wrap_content" android:layout_gravity="center_vertical" />
-    </LinearLayout>
-
-    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="5dp"
-        android:layout_marginTop="15dp">
-      <TextView android:text="Make manga volumes more important than chapters" android:layout_width="0dp"
-          android:layout_height="wrap_content" android:textSize="@dimen/FontSizeMedium"
-          android:layout_gravity="center_vertical" android:textColor="?BrushText" android:layout_weight="1" />
-      <Switch android:id="@+id/SettingsPageGeneralVolsImportantSwitch" android:layout_width="wrap_content"
-          android:layout_height="wrap_content" android:layout_gravity="center_vertical" />
-    </LinearLayout>
-
-    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="5dp"
-        android:layout_marginTop="15dp">
-      <TextView android:text="Hide manga section in hamburger menu." android:layout_width="0dp"
-          android:layout_height="wrap_content" android:textSize="@dimen/FontSizeMedium"
-          android:layout_gravity="center_vertical" android:textColor="?BrushText" android:layout_weight="1" />
-      <Switch android:id="@+id/SettingsPageGeneralHideHamburgerMangaSwitch" android:layout_width="wrap_content"
-          android:layout_height="wrap_content" android:layout_gravity="center_vertical" />
-    </LinearLayout>
-
-    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="5dp"
-        android:layout_marginTop="15dp">
-      <TextView android:text="Prefer english titles." android:layout_width="0dp"
-          android:layout_height="wrap_content" android:textSize="@dimen/FontSizeMedium"
-          android:layout_gravity="center_vertical" android:textColor="?BrushText" android:layout_weight="1" />
-      <Switch android:id="@+id/SettingsPageGeneralPreferEnglishTitleSwitch" android:layout_width="wrap_content"
-          android:layout_height="wrap_content" android:layout_gravity="center_vertical" />
-    </LinearLayout>
-
-    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="5dp"
-        android:layout_marginTop="15dp">
-      <TextView android:text="Make grid items smaller.\nRecommended for bigger displays." android:layout_width="0dp"
-          android:layout_height="wrap_content" android:textSize="@dimen/FontSizeMedium"
-          android:layout_gravity="center_vertical" android:textColor="?BrushText" android:layout_weight="1" />
-      <Switch android:id="@+id/SettingsPageGeneralSmallerGridItems" android:layout_width="wrap_content"
-          android:layout_height="wrap_content" android:layout_gravity="center_vertical" />
-    </LinearLayout>
-
-    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="5dp"
-        android:layout_marginTop="15dp">
-      <TextView android:text="Reverse swiping direction on grid items." android:layout_width="0dp"
-          android:layout_height="wrap_content" android:textSize="@dimen/FontSizeMedium"
-          android:layout_gravity="center_vertical" android:textColor="?BrushText" android:layout_weight="1" />
-      <Switch android:id="@+id/SettingsPageGeneralReverseSwipeOrder" android:layout_width="wrap_content"
-          android:layout_height="wrap_content" android:layout_gravity="center_vertical" />
-    </LinearLayout>
-
-    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="5dp"
-        android:layout_marginTop="15dp">
-      <TextView android:text="Display score dialog after setting status to completed." android:layout_width="0dp"
-          android:layout_height="wrap_content" android:textSize="@dimen/FontSizeMedium"
-          android:layout_gravity="center_vertical" android:textColor="?BrushText" android:layout_weight="1" />
-      <Switch android:id="@+id/SettingsPageGeneralDisplayScoreDialog" android:layout_width="wrap_content"
-          android:layout_height="wrap_content" android:layout_gravity="center_vertical" />
-    </LinearLayout>   
-    
-    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="5dp"
-        android:layout_marginTop="15dp">
-      <TextView android:text="Enable social share button." android:layout_width="0dp"
-          android:layout_height="wrap_content" android:textSize="@dimen/FontSizeMedium"
-          android:layout_gravity="center_vertical" android:textColor="?BrushText" android:layout_weight="1" />
-      <Switch android:id="@+id/SettingsPageGeneralEnableShareButton" android:layout_width="wrap_content"
-          android:layout_height="wrap_content" android:layout_gravity="center_vertical" />
-    </LinearLayout>
-
-    <View style="@style/Divider" android:layout_marginTop="10dp" />
-
-    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-        android:layout_marginTop="10dp">
-      <LinearLayout android:layout_width="0dp" android:orientation="vertical" android:layout_height="wrap_content"
-          android:layout_weight="1">
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal" android:text="Default anime sort\nvalues:"
-            android:textColor="?BrushText" android:textSize="@dimen/FontSizeMedium"
-            android:layout_marginTop="5dp" android:layout_marginBottom="5dp" android:gravity="center_horizontal" />
-        <RadioGroup android:id="@+id/SettingsPageGeneralAnimeSortRadioGroup" android:layout_width="match_parent"
-            android:layout_height="wrap_content" android:layout_marginTop="5dp">
-          <RadioButton android:id="@+id/SettingsPageGeneralAnimeSortTitleRadioBtn" android:layout_width="match_parent"
-              android:layout_height="wrap_content" android:text="Title" />
-          <RadioButton android:id="@+id/SettingsPageGeneralAnimeScoreTitleRadioBtn" android:layout_width="match_parent"
-              android:layout_height="wrap_content" android:text="Score" />
-          <RadioButton android:id="@+id/SettingsPageGeneralAnimeWatchedTitleRadioBtn"
-              android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Watched" />
-          <RadioButton android:id="@+id/SettingsPageGeneralAnimeSoonAiringTitleRadioBtn"
-              android:layout_width="match_parent" android:layout_height="wrap_content"
-              android:text="Soonest airing" />
-          <RadioButton android:id="@+id/SettingsPageGeneralAnimeLastWatchTitleRadioBtn"
-              android:layout_width="match_parent" android:layout_height="wrap_content"
-              android:text="Last watched" />
-          <RadioButton android:id="@+id/SettingsPageGeneralAnimeSortNoneRadioBtn" android:layout_width="match_parent"
-              android:layout_height="wrap_content" android:text="None" />
-        </RadioGroup>
-        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="5dp"
-            android:layout_marginTop="10dp">
-          <Switch android:id="@+id/SettingsPageGeneralAnimeSortDescendingSwitch" android:layout_width="wrap_content"
-              android:layout_height="wrap_content" android:layout_gravity="center_vertical" />
-          <TextView android:text="Descending" android:layout_width="0dp" android:layout_height="wrap_content"
-              android:textSize="@dimen/FontSizeMedium" android:layout_gravity="center_vertical"
-              android:textColor="?BrushText" android:layout_weight="1" />
-        </LinearLayout>
-      </LinearLayout>
-      <LinearLayout android:layout_width="0dp" android:orientation="vertical" android:layout_height="wrap_content"
-          android:layout_weight="1">
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal" android:text="Default manga sort values:"
-            android:textColor="?BrushText" android:textSize="@dimen/FontSizeMedium"
-            android:layout_marginTop="5dp" android:layout_marginBottom="5dp" android:gravity="center_horizontal" />
-        <RadioGroup android:id="@+id/SettingsPageGeneralMangaSortRadioGroup" android:layout_width="match_parent"
-            android:layout_height="wrap_content" android:layout_marginTop="5dp">
-          <RadioButton android:id="@+id/SettingsPageGeneralMangaSortTitleRadioBtn" android:layout_width="match_parent"
-              android:layout_height="wrap_content" android:text="Title" />
-          <RadioButton android:id="@+id/SettingsPageGeneralMangaSortScoreRadioBtn" android:layout_width="match_parent"
-              android:layout_height="wrap_content" android:text="Score" />
-          <RadioButton android:id="@+id/SettingsPageGeneralMangaSortReadRadioBtn" android:layout_width="match_parent"
-              android:layout_height="wrap_content" android:text="Read" />
-          <RadioButton android:id="@+id/SettingsPageGeneralMangaSortNoneRadioBtn" android:layout_width="match_parent"
-              android:layout_height="wrap_content" android:text="None" />
-        </RadioGroup>
-        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="5dp"
-            android:layout_marginTop="10dp">
-          <Switch android:id="@+id/SettingsPageGeneralMangaSortDescendingSwitch" android:layout_width="wrap_content"
-              android:layout_height="wrap_content" android:layout_gravity="center_vertical" />
-          <TextView android:text="Descending" android:layout_width="0dp" android:layout_height="wrap_content"
-              android:textSize="@dimen/FontSizeMedium" android:layout_gravity="center_vertical"
-              android:textColor="?BrushText" android:layout_weight="1" />
-        </LinearLayout>
-      </LinearLayout>
-    </LinearLayout>
-
-    <View style="@style/Divider" android:layout_marginTop="10dp" />
-
-    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-        android:layout_marginTop="10dp" android:orientation="vertical">
-      <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-          android:layout_gravity="center_horizontal" android:text="Default view modes for status"
-          android:textColor="?BrushText" android:textSize="@dimen/FontSizeMedium"
-          android:gravity="center_horizontal" />
-      <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-          android:background="?BrushRowAlternate1" android:layout_marginTop="10dp">
-        <LinearLayout android:layout_width="match_parent" android:layout_height="50dp"
-            android:background="@drawable/border_accent_left" android:gravity="center_vertical">
-          <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
-              android:textColor="?BrushText" android:textSize="@dimen/FontSizeMedium"
-              android:text="Watching/Reading" android:layout_marginStart="10dp" />
-          <Spinner android:id="@+id/SettingsPageGeneralWatchingViewModeSpinner" android:layout_width="wrap_content"
-              android:layout_height="wrap_content" android:elevation="5dp"/>
-        </LinearLayout>
-      </LinearLayout>
-      <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-          android:background="?BrushRowAlternate1" android:layout_marginTop="10dp">
-        <LinearLayout android:layout_width="match_parent" android:layout_height="50dp"
-            android:background="@drawable/border_accent_left" android:gravity="center_vertical">
-          <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
-              android:textColor="?BrushText" android:textSize="@dimen/FontSizeMedium" android:text="Completed"
-              android:layout_marginStart="10dp" />
-          <Spinner android:id="@+id/SettingsPageGeneralCompletedViewModeSpinner" android:layout_width="wrap_content"
-              android:layout_height="wrap_content" />
-        </LinearLayout>
-      </LinearLayout>
-      <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-          android:background="?BrushRowAlternate1" android:layout_marginTop="10dp">
-        <LinearLayout android:layout_width="match_parent" android:layout_height="50dp"
-            android:background="@drawable/border_accent_left" android:gravity="center_vertical">
-          <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
-              android:textColor="?BrushText" android:textSize="@dimen/FontSizeMedium" android:text="On hold"
-              android:layout_marginStart="10dp" />
-          <Spinner android:id="@+id/SettingsPageGeneralOnHoldViewModeSpinner" android:layout_width="wrap_content"
-              android:layout_height="wrap_content" />
-        </LinearLayout>
-      </LinearLayout>
-      <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-          android:background="?BrushRowAlternate1" android:layout_marginTop="10dp">
-        <LinearLayout android:layout_width="match_parent" android:layout_height="50dp"
-            android:background="@drawable/border_accent_left" android:gravity="center_vertical">
-          <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
-              android:textColor="?BrushText" android:textSize="@dimen/FontSizeMedium" android:text="Dropped"
-              android:layout_marginStart="10dp" />
-          <Spinner android:id="@+id/SettingsPageGeneralDroppedViewModeSpinner" android:layout_width="wrap_content"
-              android:layout_height="wrap_content" />
-        </LinearLayout>
-      </LinearLayout>
-      <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-          android:background="?BrushRowAlternate1" android:layout_marginTop="10dp">
-        <LinearLayout android:layout_width="match_parent" android:layout_height="50dp"
-            android:background="@drawable/border_accent_left" android:gravity="center_vertical">
-          <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
-              android:textColor="?BrushText" android:textSize="@dimen/FontSizeMedium"
-              android:text="Plan to watch/read" android:layout_marginStart="10dp" />
-          <Spinner android:id="@+id/SettingsPageGeneralPtwViewModeSpinner" android:layout_width="wrap_content"
-              android:layout_height="wrap_content" />
-        </LinearLayout>
-      </LinearLayout>
-      <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-          android:background="?BrushRowAlternate1" android:layout_marginTop="10dp">
-        <LinearLayout android:layout_width="match_parent" android:layout_height="50dp"
-            android:background="@drawable/border_accent_left" android:gravity="center_vertical">
-          <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
-              android:textColor="?BrushText" android:textSize="@dimen/FontSizeMedium" android:text="All"
-              android:layout_marginStart="10dp" />
-          <Spinner android:id="@+id/SettingsPageGeneralAllViewModeSpinner" android:layout_width="wrap_content"
-              android:layout_height="wrap_content" />
-        </LinearLayout>
-      </LinearLayout>
-
-    </LinearLayout>
-
-    <View style="@style/Divider" android:layout_marginTop="10dp" />
-    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-        android:orientation="vertical" android:layout_marginTop="10dp" android:gravity="center_horizontal">
-      <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-          android:orientation="vertical" android:layout_gravity="center_horizontal">
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal" android:text="Default anime filter value:"
-            android:textColor="?BrushText" android:textSize="15sp" android:gravity="center_horizontal" />
-        <Spinner android:id="@+id/SettingsPageGeneralAnimeFilterSpinner" android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:layout_marginTop="15dp" android:layout_gravity="center_horizontal"/>
-      </LinearLayout>
-      <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-          android:orientation="vertical" android:layout_marginTop="10dp" android:layout_gravity="center_horizontal">
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal" android:text="Default manga filter value:"
-            android:textColor="?BrushText" android:textSize="15sp" android:gravity="center_horizontal" />
-        <Spinner android:id="@+id/SettingsPageGeneralMangaFilerSpinner" android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:layout_marginTop="15dp" android:layout_gravity="center_horizontal" />
-      </LinearLayout>
-      <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-          android:orientation="vertical" android:layout_marginTop="10dp" android:layout_gravity="center_horizontal">
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal" android:text="Default anime/manga status after adding to list:"
-            android:textColor="?BrushText" android:textSize="15sp" android:gravity="center_horizontal" />
-        <Spinner android:id="@+id/SettingsPageGeneralDefaultAddedStatusSpinner" android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:layout_marginTop="15dp" android:layout_gravity="center_horizontal" />
-      </LinearLayout>
-    </LinearLayout>
-    <View style="@style/Divider" android:layout_marginTop="10dp" />
-
-    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-        android:orientation="vertical" android:layout_marginTop="10dp">
-      <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-          android:layout_gravity="center_horizontal" android:text="Start/End date auto setters:"
-          android:textColor="?BrushText" android:textSize="@dimen/FontSizeMedium"
-          android:gravity="center_horizontal" />
-      <LinearLayout android:layout_marginTop="10dp" android:layout_width="match_parent"
-          android:layout_height="match_parent" android:orientation="horizontal">
-        <TextView android:layout_width="wrap_content" android:gravity="center" android:layout_height="match_parent"
-            android:textColor="?BrushText" android:text="Start date:" android:layout_gravity="center" />
-        <LinearLayout android:layout_marginStart="5dp" android:layout_width="0dp" android:layout_height="wrap_content"
-            android:orientation="vertical" android:layout_weight="1">
-          <CheckBox android:id="@+id/SettingsPageGeneralStartDateWhenAddCheckBox" android:layout_width="wrap_content"
-              android:layout_height="wrap_content" android:text="Set to today when adding to list." />
-          <CheckBox android:id="@+id/SettingsPageGeneralStartDateWhenWatchCheckBox" android:layout_width="wrap_content"
-              android:layout_height="wrap_content" android:text="Set to today when setting watching status."
-              android:gravity="center" />
-        </LinearLayout>
-      </LinearLayout>
-
-      <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
-          android:orientation="horizontal" android:layout_marginTop="5dp">
-        <TextView android:layout_width="wrap_content" android:gravity="center" android:layout_height="match_parent"
-            android:textColor="?BrushText" android:text="End date:" android:layout_gravity="center" />
-        <LinearLayout android:layout_marginStart="11dp" android:layout_width="0dp" android:layout_height="wrap_content"
-            android:orientation="vertical" android:layout_weight="1">
-          <CheckBox android:id="@+id/SettingsPageGeneralEndDateWhenCompleted" android:layout_width="wrap_content"
-              android:layout_height="wrap_content" android:text="Set to today when setting completed status."
-              android:gravity="center" />
-          <CheckBox android:id="@+id/SettingsPageGeneralEndDateWhenDropCheckBox" android:layout_width="wrap_content"
-              android:layout_height="wrap_content" android:text="Set to today when setting dropped status."
-              android:gravity="center" />
-        </LinearLayout>
-      </LinearLayout>
-
-      <CheckBox android:id="@+id/SettingsPageGeneralAllowDateOverrideCheckBox" android:layout_width="wrap_content"
+          android:layout_width="match_parent"
           android:layout_height="wrap_content"
-          android:text="Allow for valid date override under selected circumstances."
-          android:layout_marginTop="5dp" android:gravity="center" />
-    </LinearLayout>
-    <View style="@style/Divider" android:layout_marginTop="10dp" />
-    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-        android:layout_marginTop="10dp" android:orientation="vertical">
-      <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
-          android:layout_gravity="center_horizontal">
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal" android:text="Air day offset:"
-            android:textColor="?BrushText" android:textSize="@dimen/FontSizeMedium"
-            android:gravity="center_horizontal" />
-        <TextView android:id="@+id/SettingsPageGeneralAirDayOffsetTextView" android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:layout_gravity="center_horizontal"
-            android:layout_marginStart="5dp" android:text="0" android:textColor="?AccentColour"
-            android:textSize="@dimen/FontSizeMedium" android:gravity="center_horizontal" />
+          android:layout_marginTop="5dp"
+          android:fontFamily="@string/font_family_light"
+          android:gravity="center_horizontal"
+          android:text="Want more accents? Leave me a message on github!"
+          android:textColor="?BrushText" />
+
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="15dp"
+          android:padding="5dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:text="Make things black in dark theme...\nFriendlier for AMOLED displays.\nOnly works with dark theme enabled."
+            android:textColor="?BrushText"
+            android:textSize="@dimen/FontSizeMedium" />
+
+        <Switch
+            android:id="@+id/SettingsPageGeneralAmoledSwitch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical" />
       </LinearLayout>
-      <SeekBar android:id="@+id/SettingsPageGeneralAirDayOffsetSlider" android:layout_width="match_parent"
-          android:max="6" android:layout_marginTop="5dp" android:layout_height="wrap_content" />
-      <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+
+      <Button
+          android:id="@+id/SettingsPageGeneralThemeChangeApply"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_gravity="center_horizontal"
+          android:backgroundTint="?AccentColour"
+          android:text="Apply!"
+          android:textColor="#fff"
+          android:visibility="visible" />
+    </LinearLayout>
+
+    <View
+        style="@style/Divider"
+        android:layout_marginTop="10dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:padding="5dp">
+
+      <TextView
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_gravity="center_vertical"
+          android:layout_weight="1"
+          android:text="Enable swipe to increment/decrement."
+          android:textColor="?BrushText"
+          android:textSize="@dimen/FontSizeMedium" />
+
+      <Switch
+          android:id="@+id/SettingsPageGeneralEnableSwipeSwitch"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_gravity="center_vertical" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:padding="5dp">
+
+      <TextView
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_gravity="center_vertical"
+          android:layout_weight="1"
+          android:text="Try to display higher quality images in relevant places"
+          android:textColor="?BrushText"
+          android:textSize="@dimen/FontSizeMedium" />
+
+      <Switch
+          android:id="@+id/SettingsPageGeneralPullHigherSwitch"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_gravity="center_vertical" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:padding="5dp">
+
+      <TextView
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_gravity="center_vertical"
+          android:layout_weight="1"
+          android:text="Display show's season next to its type"
+          android:textColor="?BrushText"
+          android:textSize="@dimen/FontSizeMedium" />
+
+      <Switch
+          android:id="@+id/SettingsPageGeneralSeasonSwitch"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_gravity="center_vertical" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:padding="5dp">
+
+      <TextView
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_gravity="center_vertical"
+          android:layout_weight="1"
+          android:text="Switch sorting order automatically (ascending/descending)"
+          android:textColor="?BrushText"
+          android:textSize="@dimen/FontSizeMedium" />
+
+      <Switch
+          android:id="@+id/SettingsPageGeneralAutoSortSwitch"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_gravity="center_vertical" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:padding="5dp">
+
+      <TextView
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_gravity="center_vertical"
+          android:layout_weight="1"
+          android:text="Make manga volumes more important than chapters"
+          android:textColor="?BrushText"
+          android:textSize="@dimen/FontSizeMedium" />
+
+      <Switch
+          android:id="@+id/SettingsPageGeneralVolsImportantSwitch"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_gravity="center_vertical" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:padding="5dp">
+
+      <TextView
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_gravity="center_vertical"
+          android:layout_weight="1"
+          android:text="Hide manga section in hamburger menu."
+          android:textColor="?BrushText"
+          android:textSize="@dimen/FontSizeMedium" />
+
+      <Switch
+          android:id="@+id/SettingsPageGeneralHideHamburgerMangaSwitch"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_gravity="center_vertical" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:padding="5dp">
+
+      <TextView
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_gravity="center_vertical"
+          android:layout_weight="1"
+          android:text="Prefer english titles."
+          android:textColor="?BrushText"
+          android:textSize="@dimen/FontSizeMedium" />
+
+      <Switch
+          android:id="@+id/SettingsPageGeneralPreferEnglishTitleSwitch"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_gravity="center_vertical" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:padding="5dp">
+
+      <TextView
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_gravity="center_vertical"
+          android:layout_weight="1"
+          android:text="Make grid items smaller.\nRecommended for bigger displays."
+          android:textColor="?BrushText"
+          android:textSize="@dimen/FontSizeMedium" />
+
+      <Switch
+          android:id="@+id/SettingsPageGeneralSmallerGridItems"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_gravity="center_vertical" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:padding="5dp">
+
+      <TextView
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_gravity="center_vertical"
+          android:layout_weight="1"
+          android:text="Reverse swiping direction on grid items."
+          android:textColor="?BrushText"
+          android:textSize="@dimen/FontSizeMedium" />
+
+      <Switch
+          android:id="@+id/SettingsPageGeneralReverseSwipeOrder"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_gravity="center_vertical" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:padding="5dp">
+
+      <TextView
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_gravity="center_vertical"
+          android:layout_weight="1"
+          android:text="Display score dialog after setting status to completed."
+          android:textColor="?BrushText"
+          android:textSize="@dimen/FontSizeMedium" />
+
+      <Switch
+          android:id="@+id/SettingsPageGeneralDisplayScoreDialog"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_gravity="center_vertical" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:padding="5dp">
+
+      <TextView
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_gravity="center_vertical"
+          android:layout_weight="1"
+          android:text="Enable social share button."
+          android:textColor="?BrushText"
+          android:textSize="@dimen/FontSizeMedium" />
+
+      <Switch
+          android:id="@+id/SettingsPageGeneralEnableShareButton"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_gravity="center_vertical" />
+    </LinearLayout>
+
+    <View
+        style="@style/Divider"
+        android:layout_marginTop="10dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp">
+
+      <LinearLayout
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_weight="1"
+          android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:gravity="center_horizontal"
+            android:text="Default anime sort\nvalues:"
+            android:textColor="?BrushText"
+            android:textSize="@dimen/FontSizeMedium" />
+
+        <RadioGroup
+            android:id="@+id/SettingsPageGeneralAnimeSortRadioGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp">
+
+          <RadioButton
+              android:id="@+id/SettingsPageGeneralAnimeSortTitleRadioBtn"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:text="Title" />
+
+          <RadioButton
+              android:id="@+id/SettingsPageGeneralAnimeScoreTitleRadioBtn"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:text="Score" />
+
+          <RadioButton
+              android:id="@+id/SettingsPageGeneralAnimeWatchedTitleRadioBtn"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:text="Watched" />
+
+          <RadioButton
+              android:id="@+id/SettingsPageGeneralAnimeSoonAiringTitleRadioBtn"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:text="Soonest airing" />
+
+          <RadioButton
+              android:id="@+id/SettingsPageGeneralAnimeLastWatchTitleRadioBtn"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:text="Last watched" />
+
+          <RadioButton
+              android:id="@+id/SettingsPageGeneralAnimeSortNoneRadioBtn"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:text="None" />
+        </RadioGroup>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:padding="5dp">
+
+          <Switch
+              android:id="@+id/SettingsPageGeneralAnimeSortDescendingSwitch"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_gravity="center_vertical" />
+
+          <TextView
+              android:layout_width="0dp"
+              android:layout_height="wrap_content"
+              android:layout_gravity="center_vertical"
+              android:layout_weight="1"
+              android:text="Descending"
+              android:textColor="?BrushText"
+              android:textSize="@dimen/FontSizeMedium" />
+        </LinearLayout>
+      </LinearLayout>
+
+      <LinearLayout
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_weight="1"
+          android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:gravity="center_horizontal"
+            android:text="Default manga sort values:"
+            android:textColor="?BrushText"
+            android:textSize="@dimen/FontSizeMedium" />
+
+        <RadioGroup
+            android:id="@+id/SettingsPageGeneralMangaSortRadioGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp">
+
+          <RadioButton
+              android:id="@+id/SettingsPageGeneralMangaSortTitleRadioBtn"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:text="Title" />
+
+          <RadioButton
+              android:id="@+id/SettingsPageGeneralMangaSortScoreRadioBtn"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:text="Score" />
+
+          <RadioButton
+              android:id="@+id/SettingsPageGeneralMangaSortReadRadioBtn"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:text="Read" />
+
+          <RadioButton
+              android:id="@+id/SettingsPageGeneralMangaSortNoneRadioBtn"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:text="None" />
+        </RadioGroup>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:padding="5dp">
+
+          <Switch
+              android:id="@+id/SettingsPageGeneralMangaSortDescendingSwitch"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_gravity="center_vertical" />
+
+          <TextView
+              android:layout_width="0dp"
+              android:layout_height="wrap_content"
+              android:layout_gravity="center_vertical"
+              android:layout_weight="1"
+              android:text="Descending"
+              android:textColor="?BrushText"
+              android:textSize="@dimen/FontSizeMedium" />
+        </LinearLayout>
+      </LinearLayout>
+    </LinearLayout>
+
+    <View
+        style="@style/Divider"
+        android:layout_marginTop="10dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical">
+
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_gravity="center_horizontal"
+          android:gravity="center_horizontal"
+          android:text="Default view modes for status"
+          android:textColor="?BrushText"
+          android:textSize="@dimen/FontSizeMedium" />
+
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="10dp"
+          android:background="?BrushRowAlternate1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/border_accent_left"
+            android:gravity="center_vertical">
+
+          <TextView
+              android:layout_width="0dp"
+              android:layout_height="wrap_content"
+              android:layout_marginStart="10dp"
+              android:layout_weight="1"
+              android:text="Watching/Reading"
+              android:textColor="?BrushText"
+              android:textSize="@dimen/FontSizeMedium" />
+
+          <Spinner
+              android:id="@+id/SettingsPageGeneralWatchingViewModeSpinner"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:elevation="5dp" />
+        </LinearLayout>
+      </LinearLayout>
+
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="10dp"
+          android:background="?BrushRowAlternate1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/border_accent_left"
+            android:gravity="center_vertical">
+
+          <TextView
+              android:layout_width="0dp"
+              android:layout_height="wrap_content"
+              android:layout_marginStart="10dp"
+              android:layout_weight="1"
+              android:text="Completed"
+              android:textColor="?BrushText"
+              android:textSize="@dimen/FontSizeMedium" />
+
+          <Spinner
+              android:id="@+id/SettingsPageGeneralCompletedViewModeSpinner"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content" />
+        </LinearLayout>
+      </LinearLayout>
+
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="10dp"
+          android:background="?BrushRowAlternate1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/border_accent_left"
+            android:gravity="center_vertical">
+
+          <TextView
+              android:layout_width="0dp"
+              android:layout_height="wrap_content"
+              android:layout_marginStart="10dp"
+              android:layout_weight="1"
+              android:text="On hold"
+              android:textColor="?BrushText"
+              android:textSize="@dimen/FontSizeMedium" />
+
+          <Spinner
+              android:id="@+id/SettingsPageGeneralOnHoldViewModeSpinner"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content" />
+        </LinearLayout>
+      </LinearLayout>
+
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="10dp"
+          android:background="?BrushRowAlternate1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/border_accent_left"
+            android:gravity="center_vertical">
+
+          <TextView
+              android:layout_width="0dp"
+              android:layout_height="wrap_content"
+              android:layout_marginStart="10dp"
+              android:layout_weight="1"
+              android:text="Dropped"
+              android:textColor="?BrushText"
+              android:textSize="@dimen/FontSizeMedium" />
+
+          <Spinner
+              android:id="@+id/SettingsPageGeneralDroppedViewModeSpinner"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content" />
+        </LinearLayout>
+      </LinearLayout>
+
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="10dp"
+          android:background="?BrushRowAlternate1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/border_accent_left"
+            android:gravity="center_vertical">
+
+          <TextView
+              android:layout_width="0dp"
+              android:layout_height="wrap_content"
+              android:layout_marginStart="10dp"
+              android:layout_weight="1"
+              android:text="Plan to watch/read"
+              android:textColor="?BrushText"
+              android:textSize="@dimen/FontSizeMedium" />
+
+          <Spinner
+              android:id="@+id/SettingsPageGeneralPtwViewModeSpinner"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content" />
+        </LinearLayout>
+      </LinearLayout>
+
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="10dp"
+          android:background="?BrushRowAlternate1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/border_accent_left"
+            android:gravity="center_vertical">
+
+          <TextView
+              android:layout_width="0dp"
+              android:layout_height="wrap_content"
+              android:layout_marginStart="10dp"
+              android:layout_weight="1"
+              android:text="All"
+              android:textColor="?BrushText"
+              android:textSize="@dimen/FontSizeMedium" />
+
+          <Spinner
+              android:id="@+id/SettingsPageGeneralAllViewModeSpinner"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content" />
+        </LinearLayout>
+      </LinearLayout>
+
+    </LinearLayout>
+
+    <View
+        style="@style/Divider"
+        android:layout_marginTop="10dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_gravity="center_horizontal"
+          android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal"
+            android:text="Default anime filter value:"
+            android:textColor="?BrushText"
+            android:textSize="15sp" />
+
+        <Spinner
+            android:id="@+id/SettingsPageGeneralAnimeFilterSpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="15dp" />
+      </LinearLayout>
+
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_gravity="center_horizontal"
+          android:layout_marginTop="10dp"
+          android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal"
+            android:text="Default manga filter value:"
+            android:textColor="?BrushText"
+            android:textSize="15sp" />
+
+        <Spinner
+            android:id="@+id/SettingsPageGeneralMangaFilerSpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="15dp" />
+      </LinearLayout>
+
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_gravity="center_horizontal"
+          android:layout_marginTop="10dp"
+          android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal"
+            android:text="Default anime/manga status after adding to list:"
+            android:textColor="?BrushText"
+            android:textSize="15sp" />
+
+        <Spinner
+            android:id="@+id/SettingsPageGeneralDefaultAddedStatusSpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="15dp" />
+      </LinearLayout>
+    </LinearLayout>
+
+    <View
+        style="@style/Divider"
+        android:layout_marginTop="10dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical">
+
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_gravity="center_horizontal"
+          android:gravity="center_horizontal"
+          android:text="Start/End date auto setters:"
+          android:textColor="?BrushText"
+          android:textSize="@dimen/FontSizeMedium" />
+
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:layout_marginTop="10dp"
+          android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="Start date:"
+            android:textColor="?BrushText" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+          <CheckBox
+              android:id="@+id/SettingsPageGeneralStartDateWhenAddCheckBox"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="Set to today when adding to list." />
+
+          <CheckBox
+              android:id="@+id/SettingsPageGeneralStartDateWhenWatchCheckBox"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:gravity="center"
+              android:text="Set to today when setting watching status." />
+        </LinearLayout>
+      </LinearLayout>
+
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:layout_marginTop="5dp"
+          android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="End date:"
+            android:textColor="?BrushText" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="11dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+          <CheckBox
+              android:id="@+id/SettingsPageGeneralEndDateWhenCompleted"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:gravity="center"
+              android:text="Set to today when setting completed status." />
+
+          <CheckBox
+              android:id="@+id/SettingsPageGeneralEndDateWhenDropCheckBox"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:gravity="center"
+              android:text="Set to today when setting dropped status." />
+        </LinearLayout>
+      </LinearLayout>
+
+      <CheckBox
+          android:id="@+id/SettingsPageGeneralAllowDateOverrideCheckBox"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="5dp"
+          android:gravity="center"
+          android:text="Allow for valid date override under selected circumstances." />
+    </LinearLayout>
+
+    <View
+        style="@style/Divider"
+        android:layout_marginTop="10dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical">
+
+      <LinearLayout
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_gravity="center_horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal"
+            android:text="Air day offset:"
+            android:textColor="?BrushText"
+            android:textSize="@dimen/FontSizeMedium" />
+
+        <TextView
+            android:id="@+id/SettingsPageGeneralAirDayOffsetTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginStart="5dp"
+            android:gravity="center_horizontal"
+            android:text="0"
+            android:textColor="?AccentColour"
+            android:textSize="@dimen/FontSizeMedium" />
+      </LinearLayout>
+
+      <SeekBar
+          android:id="@+id/SettingsPageGeneralAirDayOffsetSlider"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="5dp"
+          android:max="6" />
+
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="5dp"
+          android:fontFamily="@string/font_family_light"
+          android:gravity="center_horizontal"
           android:text="Depending on your timezone or level of pulled data's inaccuracy in general, you can adjust global offset for anime air days."
-          android:textColor="?BrushText" android:fontFamily="@string/font_family_light"
-          android:gravity="center_horizontal" android:layout_marginTop="5dp" />
+          android:textColor="?BrushText" />
     </LinearLayout>
-    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-        android:layout_marginTop="10dp" android:orientation="vertical">
-      <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical">
+
+      <LinearLayout
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
           android:layout_gravity="center_horizontal">
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal" android:text="Airing notification offset (h):"
-            android:textColor="?BrushText" android:textSize="@dimen/FontSizeMedium"
-            android:gravity="center_horizontal" />
-        <TextView android:id="@+id/SettingsPageGeneralAiringNotificationOffsetTextView" android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:layout_gravity="center_horizontal"
-            android:layout_marginStart="5dp" android:text="0" android:textColor="?AccentColour"
-            android:textSize="@dimen/FontSizeMedium" android:gravity="center_horizontal" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal"
+            android:text="Airing notification offset (h):"
+            android:textColor="?BrushText"
+            android:textSize="@dimen/FontSizeMedium" />
+
+        <TextView
+            android:id="@+id/SettingsPageGeneralAiringNotificationOffsetTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginStart="5dp"
+            android:gravity="center_horizontal"
+            android:text="0"
+            android:textColor="?AccentColour"
+            android:textSize="@dimen/FontSizeMedium" />
       </LinearLayout>
-      <SeekBar android:id="@+id/SettingsPageGeneralAiringNotificationOffsetSlider" android:layout_width="match_parent"
-          android:max="48" android:layout_marginTop="5dp" android:layout_height="wrap_content" />
-      <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+
+      <SeekBar
+          android:id="@+id/SettingsPageGeneralAiringNotificationOffsetSlider"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="5dp"
+          android:max="48" />
+
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="5dp"
+          android:fontFamily="@string/font_family_light"
+          android:gravity="center_horizontal"
           android:text="Adjust times of airing notifications relative to broadcast time provided by MAL. These notifications assume that show is airing on a weekly basis."
-          android:textColor="?BrushText" android:fontFamily="@string/font_family_light"
-          android:gravity="center_horizontal" android:layout_marginTop="5dp" />
+          android:textColor="?BrushText" />
     </LinearLayout>
   </LinearLayout>
 </ScrollView>

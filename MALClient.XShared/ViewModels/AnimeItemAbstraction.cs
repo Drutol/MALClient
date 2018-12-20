@@ -25,20 +25,6 @@ namespace MALClient.XShared.ViewModels
 
         private AnimeItemViewModel _viewModel;
 
-        //private int _airDay;
-        //public int AirDay
-        //{
-        //    get { return VolatileData.DayOfAiring; }
-        //    set
-        //    {
-        //        if(value <= 0)
-        //            return;
-        //        VolatileData.DayOfAiring = value;
-        //        DataCache.UpdateVolatileDataAirDay(Id,value);
-        //    }
-        //}
-
-
         public int AirDay { get; }
 
 

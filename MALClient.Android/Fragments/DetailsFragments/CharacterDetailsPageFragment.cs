@@ -128,11 +128,11 @@ namespace MALClient.Android.Fragments.DetailsFragments
 
             CharacterDetailsPageVoiceActorsGrid.EmptyView = CharacterDetailsPageVoiceActorsEmptyNotice;
 
-            CharacterDetailsPageSpoilerButton.Click += CharacterDetailsPageSpoilerButtonOnClick;
+            CharacterDetailsPageSpoilerButton.SetOnClickListener(new OnClickListener(view => CharacterDetailsPageSpoilerButtonOnClick()));
             CharacterDetailsPageLinkButton.SetOnClickListener(new OnClickListener(view => ViewModel.OpenInMalCommand.Execute(null)));
         }
 
-        private void CharacterDetailsPageSpoilerButtonOnClick(object sender, EventArgs eventArgs)
+        private void CharacterDetailsPageSpoilerButtonOnClick()
         {
             ResourceLocator.MessageDialogProvider.ShowMessageDialog(ViewModel.Data.SpoilerContent,"Spoiler"); 
         }

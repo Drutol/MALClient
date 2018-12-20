@@ -19,6 +19,7 @@ namespace MALClient.XShared.BL
 
         private readonly IDataCache _dataCache;
         private readonly IApplicationDataService _applicationDataService;
+        private readonly IMessageDialogProvider _dialogProvider;
 
         private List<AiringData> _airingData;
         private List<AiringData> AiringShows
@@ -35,7 +36,8 @@ namespace MALClient.XShared.BL
 
         private NullDictionary<int, AiringData> _lookupDictionary;
 
-        public AiringInfoProvider(IDataCache dataCache,IApplicationDataService applicationDataService)
+        public AiringInfoProvider(IDataCache dataCache,
+            IApplicationDataService applicationDataService )
         {
             _dataCache = dataCache;
             _applicationDataService = applicationDataService;
@@ -62,9 +64,9 @@ namespace MALClient.XShared.BL
                 {
                     var json = await new AnimeAiringDataQuery().GetRequestResponse();
                     if (!string.IsNullOrEmpty(json))
-                    {
-                        _applicationDataService[UpdateStorakeKey] = DateTime.Now.ToBinary();
+                    {          
                         data = JsonConvert.DeserializeObject<List<AiringData>>(json);
+                        _applicationDataService[UpdateStorakeKey] = DateTime.Now.ToBinary();
                         _dataCache.SaveData(data, CacheFileName, null);
                     }
                 }
@@ -107,13 +109,14 @@ namespace MALClient.XShared.BL
                 {
                     var todaysMatch =
                         data.Episodes.FirstOrDefault(ep => Utilities.ConvertFromUnixTimestamp(ep.Timestamp).DayOfYear ==
-                                                  forDay.Value.DayOfYear);
+                                                           forDay.Value.DayOfYear);
                     if (todaysMatch != null)
                         episode = todaysMatch.EpisodeNumber;
                     else
                         episode = GetCurrentEpisode(data, currentTimestamp);
 
                 }
+
                 if (episode <= 0)
                     return false;
             }

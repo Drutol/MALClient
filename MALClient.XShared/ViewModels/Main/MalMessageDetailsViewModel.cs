@@ -145,7 +145,8 @@ namespace MALClient.XShared.ViewModels.Main
 
         public void RefreshData()
         {
-            Init(_prevArgs,true);
+            if(!NewMessageFieldsVisibility)
+                Init(_prevArgs,true);
         }
 
         //private async void FetchHistory()

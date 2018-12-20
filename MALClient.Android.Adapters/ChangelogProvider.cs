@@ -31,19 +31,15 @@ namespace MALClient.Android.Adapters
 
         public bool NewChangelog { get; set; }
 
-        public string DateWithVersion => $"{_currentVersion} - 17.11.2018";
+        public string DateWithVersion => $"{_currentVersion} - 20.12.2018";
 
         public List<string> Changelog => new List<string>
         {
-            "Sign in will now handle more errors that MAL can throw.",
-            "Episodes are no longer limited to 100.",
-            "Fixed an issue with different display modes per filter setting.",
-            "SDK upgrade to Android 9.0",
-            "Various fixes around episodes.",
-            "Fixes to end dates in entries which were airing only one day (movies for example).",
-            "Fixed avatar in hamburger",
-            "After navigating anime from search it will automatically load more data.",
-            "Text adjustments here and there."
+            "Fixed fetching airing data on Android P devices.",
+            "Added watching status to search items.",
+            "Unified date in anime details page to YYYY-MM-DD",
+            "Search suggestions will now appear after 1 character has been typed.",
+            "Crashfix."
         };
 
     }

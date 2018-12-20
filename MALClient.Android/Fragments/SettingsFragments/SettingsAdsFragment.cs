@@ -55,7 +55,13 @@ namespace MALClient.Android.Fragments.SettingsFragments
                 if (ViewModel.AdsEnable)
                 {
                     _settingAds = true;
-                    ResourceLocator.MessageDialogProvider.ShowMessageDialogWithInput("Well, pity to see you go :(",
+                    ResourceLocator.MessageDialogProvider.ShowMessageDialogWithInput("Well, pity to see you go :(\n\n" +
+                                                                                     "I've been developing this app for over two years ad free " +
+                                                                                     "and only in November 2018 made the ads opt out. Right now this revenue " +
+                                                                                     "is the main driver of further development.\n\n" +
+                                                                                     "If you really dislike ads please consider donating, even $2 donation is " +
+                                                                                     "more than ads would make in a loooong time from a single user.\n\n" +
+                                                                                     "Cheerio!",
                         "Are you sure?", "Yup", "Nope", () =>
                         {
                             ViewModel.AdsEnable = false;

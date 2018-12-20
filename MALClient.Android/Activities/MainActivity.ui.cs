@@ -254,6 +254,9 @@ namespace MALClient.Android.Activities
                     MainPageVideoView.RequestFocus();
                 }));
 
+            AutoCompleteTextView searchAutoCompleteTextView = (AutoCompleteTextView)MainPageSearchView.FindViewById(Resource.Id.search_src_text);
+            searchAutoCompleteTextView.Threshold = 1;
+
             MainPageSearchView.SuggestionsAdapter = _searchSuggestionAdapter;
             MainPageSearchView.QueryTextChange += MainPageSearchViewOnQueryTextChange;
             MainPageSearchView.QueryTextSubmit += MainPageSearchViewOnQueryTextSubmit;

@@ -9,6 +9,7 @@ using GalaSoft.MvvmLight.Command;
 using MALClient.Models.Enums;
 using MALClient.Models.Models.Anime;
 using MALClient.Models.Models.Library;
+using MALClient.XShared.Interfaces;
 using MALClient.XShared.NavArgs;
 using MALClient.XShared.Utils;
 using MALClient.XShared.ViewModels.Main;
@@ -19,6 +20,7 @@ namespace MALClient.XShared.ViewModels
     {
         public readonly bool AnimeMode;
         private readonly AnimeGeneralDetailsData _item;
+        private bool _isAnime;
 
         public int Id { get; set; }
         public float GlobalScore { get; set; }
@@ -32,6 +34,8 @@ namespace MALClient.XShared.ViewModels
         public int AllVolumes { get; set; }
         public string Title { get; set; }
 
+        public bool IsAuth { get; set; }
+
         public string Type { get; set; }
         private string Status { get; }
         //They must be here because reasons (interface reasons)
@@ -39,14 +43,17 @@ namespace MALClient.XShared.ViewModels
         public float MyScore { get; set; }
         public AnimeStatus MyStatus { get; set; }
 
+        public string MyStatusBindShort => Utils.Utilities.StatusToShortString((int)MyStatus,!_isAnime, IsRewatching);
         public string GlobalScoreBind => GlobalScore == 0 ? "N/A" : GlobalScore.ToString("N2");
         public string Synopsis { get; set; }
         public string ImgUrl { get; set; }
-        public string WatchedEps => $"{(AnimeMode ? "Episodes" : "Chapters")}: {(AllEpisodes == 0 ? "?" : AllEpisodes.ToString())}";
 
+        public string WatchedEps => $"{(AnimeMode ? "Episodes" : "Chapters")}: {(AllEpisodes == 0 ? "?" : AllEpisodes.ToString())}";
+        public string MyEpisodesBindShort => $"{MyEpisodes}/{(AllEpisodes == 0 ? "?" : AllEpisodes.ToString())}";
         public ICommand NavigateDetailsCommand => new RelayCommand(NavigateDetails);
 
-        public AnimeSearchItemViewModel(AnimeGeneralDetailsData data, bool anime = true)
+        public AnimeSearchItemViewModel(AnimeGeneralDetailsData data, AnimeListViewModel animeListViewModel,
+            bool anime = true)
         {
             _item = data;
             Id = data.Id;
@@ -61,6 +68,17 @@ namespace MALClient.XShared.ViewModels
             ImgUrl = data.ImgUrl;
             AnimeMode = anime;
             AlaternateTitle = data.AlternateTitle;
+
+            _isAnime = anime;
+            var authAnime = animeListViewModel.TryRetrieveAuthenticatedAnimeItemSync(data.Id, anime);
+            if (authAnime != null)
+            {
+                IsAuth = true;
+                AllEpisodes = authAnime.AllEpisodes;
+                MyEpisodes = authAnime.MyEpisodes;
+                MyStatus = authAnime.MyStatus;
+                IsRewatching = authAnime.IsRewatching;
+            }
         }
 
         public void NavigateDetails()

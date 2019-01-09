@@ -2,136 +2,145 @@
 
 <!-- The main content view -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:orientation="vertical" android:id="@+id/MainPageRoot"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:id="@+id/MainPageRoot"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
   <LinearLayout android:id="@+id/MainUpperNavBar"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/AppBarHeight"
-                android:orientation="horizontal"
-                android:elevation="5dp"
-                android:background="?BrushAppBarUpper">
+      android:layout_width="match_parent"
+      android:layout_height="@dimen/AppBarHeight"
+      android:orientation="horizontal"
+      android:elevation="5dp"
+      android:background="?BrushAppBarUpper">
     <ImageButton
-      android:src="@drawable/icon_hamburger"
-      android:layout_width="50dp"
-      android:layout_height="50dp"
-      android:id="@+id/MainPageHamburgerButton"
-      android:background="?android:selectableItemBackground" />
+        android:src="@drawable/icon_hamburger"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:id="@+id/MainPageHamburgerButton"
+        android:background="?android:selectableItemBackground" />
     <LinearLayout android:layout_width="0dp" android:id="@+id/MainPageStatusContainer"
-                  android:layout_height="match_parent" android:paddingStart="5dp"
-                  android:layout_weight="1" android:layout_gravity="center_vertical"
-                  android:orientation="vertical" android:gravity="center_vertical" android:clickable="true"
-                  android:focusable="true">
+        android:layout_height="match_parent" android:paddingStart="5dp"
+        android:layout_weight="1" android:layout_gravity="center_vertical"
+        android:orientation="vertical" android:gravity="center_vertical" android:clickable="true"
+        android:focusable="true">
 
       <TextView
-        android:id="@+id/MainPageCurrentStatus"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:ellipsize="end"
-        android:maxLines="2"
-        android:text="MALClientTestAcc"
-        android:textColor="?BrushAppBarText"
-        android:textSize="15sp"
-        android:textStyle="normal" />
+          android:id="@+id/MainPageCurrentStatus"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_gravity="center_vertical"
+          android:ellipsize="end"
+          android:maxLines="2"
+          android:text="MALClientTestAcc"
+          android:textColor="?BrushAppBarText"
+          android:textSize="15sp"
+          android:textStyle="normal" />
 
       <TextView
-        android:id="@+id/MainPageCurrentSatusSubtitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textStyle="normal"
-        android:textSize="13sp"
-        android:text="Last updated"
-        android:textColor="?BrushTextAccentContrast"
-        android:layout_gravity="center_vertical" />
+          android:id="@+id/MainPageCurrentSatusSubtitle"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:textStyle="normal"
+          android:textSize="13sp"
+          android:text="Last updated"
+          android:textColor="?BrushTextAccentContrast"
+          android:layout_gravity="center_vertical" />
     </LinearLayout>
 
     <android.support.v7.widget.SearchView android:id="@+id/MainPageSearchView"
-                                          android:layout_width="50dp"
-                                          android:layout_height="wrap_content"
-                                          android:layout_weight="0"
-                                          android:layout_gravity="end"
-                                          xmlns:app="http://schemas.android.com/apk/res-auto"
-                                          app:showAsAction="collapseActionView|always"
-                                          android:minWidth="@dimen/AppBarBtnWidth"
-                                          android:iconifiedByDefault="false"
-                                          android:focusable="true"
-                                          android:searchIcon="@null" />
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="0"
+        android:layout_gravity="end"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        app:showAsAction="collapseActionView|always"
+        android:minWidth="@dimen/AppBarBtnWidth"
+        android:iconifiedByDefault="false"
+        android:focusable="true"
+        android:searchIcon="@null" />
 
     <ImageButton android:id="@+id/MainPageRefreshButton"
-                 android:layout_width="40dp"
-                 android:layout_height="40dp" android:layout_gravity="center_vertical"
-                 android:tint="#fff"
-                 android:background="?android:selectableItemBackgroundBorderless"
-                 android:src="@drawable/icon_reload" android:padding="10dp" />
+        android:layout_width="40dp"
+        android:layout_height="40dp" android:layout_gravity="center_vertical"
+        android:tint="#fff"
+        android:background="?android:selectableItemBackgroundBorderless"
+        android:src="@drawable/icon_reload" android:padding="10dp" />
   </LinearLayout>
 
   <RelativeLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+      android:layout_width="match_parent"
+      android:layout_height="match_parent">
 
-    <LinearLayout android:layout_width="match_parent" 
-                  android:orientation="vertical"
-                  android:layout_height="match_parent">
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/test_bg"
+        android:alpha=".5"
+        android:scaleType="centerCrop"/>
+
+    <LinearLayout android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="match_parent">
 
       <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp" android:layout_weight="1">
+          android:layout_width="match_parent"
+          android:layout_height="0dp" android:layout_weight="1">
 
         <FrameLayout
-          android:id="@+id/MainContentFrame"
-          android:layout_width="match_parent"
-          android:layout_height="match_parent" />
+            android:id="@+id/MainContentFrame"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
         <android.support.design.widget.FloatingActionButton
-          android:id="@+id/ShareFloatingActionButton"
-          android:layout_width="wrap_content"
-          app:backgroundTint="?AccentColourContrast"
-          android:layout_gravity="bottom|start"
-          android:layout_margin="16dp"
-          android:layout_height="wrap_content"
-          android:src="@drawable/icon_share"
-          android:clickable="true"
-          android:gravity="bottom"
-          android:focusable="true"
-          xmlns:app="http://schemas.android.com/apk/res-auto"
-          app:fabSize="normal" />
+            android:id="@+id/ShareFloatingActionButton"
+            android:layout_width="wrap_content"
+            app:backgroundTint="?AccentColourContrast"
+            android:layout_gravity="bottom|start"
+            android:layout_margin="16dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/icon_share"
+            android:clickable="true"
+            android:gravity="bottom"
+            android:focusable="true"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            app:fabSize="normal" />
 
       </FrameLayout>
 
       <com.google.android.gms.ads.AdView
-        android:id="@+id/MainPageAdView"
-        xmlns:ads="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?BrushDeepBackground"
-        ads:adSize="SMART_BANNER"
-        ads:adUnitId="@string/banner_ad_unit_id">
+          android:id="@+id/MainPageAdView"
+          xmlns:ads="http://schemas.android.com/apk/res-auto"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:background="?BrushDeepBackground"
+          ads:adSize="SMART_BANNER"
+          ads:adUnitId="@string/banner_ad_unit_id">
       </com.google.android.gms.ads.AdView>
 
     </LinearLayout>
 
 
-    <RelativeLayout
-      android:id="@+id/MainPageVideoViewContainer" android:clickable="true" android:focusable="true"
-      android:layout_width="match_parent" android:visibility="visible" android:background="?BrushMediaElementShadow"
-      android:orientation="vertical"
-      android:layout_height="match_parent">
+    <RelativeLayout tools:visibility="gone"
+        android:id="@+id/MainPageVideoViewContainer" android:clickable="true" android:focusable="true"
+        android:layout_width="match_parent" android:visibility="visible" android:background="?BrushMediaElementShadow"
+        android:orientation="vertical"
+        android:layout_height="match_parent">
       <VideoView
-        android:id="@+id/MainPageVideoView"
-        android:layout_width="match_parent"
-        android:layout_gravity="center"
-        android:layout_centerInParent="true"
-        android:layout_height="match_parent" />
+          android:id="@+id/MainPageVideoView"
+          android:layout_width="match_parent"
+          android:layout_gravity="center"
+          android:layout_centerInParent="true"
+          android:layout_height="match_parent" />
       <ImageButton
-        android:layout_width="45dp" android:src="@drawable/icon_link_chain"
-        android:id="@+id/MainPageCopyVideoLinkButton" android:alpha=".7"
-        android:layout_height="45dp" android:background="@drawable/inc_dec_btn_backgroud" />
+          android:layout_width="45dp" android:src="@drawable/icon_link_chain"
+          android:id="@+id/MainPageCopyVideoLinkButton" android:alpha=".7"
+          android:layout_height="45dp" android:background="@drawable/inc_dec_btn_backgroud" />
       <ImageButton android:layout_alignParentEnd="true"
-                   android:layout_width="45dp" android:src="@drawable/icon_close"
-                   android:id="@+id/MainPageCloseVideoButton" android:alpha=".7"
-                   android:layout_height="45dp" android:background="@drawable/inc_dec_btn_backgroud" />
+          android:layout_width="45dp" android:src="@drawable/icon_close"
+          android:id="@+id/MainPageCloseVideoButton" android:alpha=".7"
+          android:layout_height="45dp" android:background="@drawable/inc_dec_btn_backgroud" />
     </RelativeLayout>
   </RelativeLayout>
 </LinearLayout>

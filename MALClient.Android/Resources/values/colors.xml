@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <color name="ic_launcher_background">#ECECEB</color>
+  <color name="ic_launcher_background">@color/LimeAccentColour</color>
 
   <color name="LightBrushText">#000000</color>
   <color name="LightBrushTextInverted">#ffffff</color>
-  <color name="LightBrushDeepBackground">#E6E6E6</color>
+  <color name="LightBrushDeepBackground">#7fE6E6E6</color>
   <color name="LightBrushAppBars">#d3d3d3</color>
   <color name="LightBrushAppBarText">#ffffff</color>
 
@@ -20,9 +20,9 @@
   <color name="LightBrushRowAlternate2">#AAE6E6E6</color>
   <color name="LightBrushRowAlternate2Lighter">#f0f0f0</color>
   <color name="LightBrushDetailsGeneralBorder">#d3d3d3</color>
-  <color name="LightBrushDetailsRelatedBackground">#f5f5f5</color>
-  <color name="LightBrushDetailsBackground">#f0f0f0</color>
-  <color name="LightBrushDetailsUpperBackground">#e4e4e4</color>
+  <color name="LightBrushDetailsRelatedBackground">#7ff5f5f5</color>
+  <color name="LightBrushDetailsBackground">#7ff0f0f0</color>
+  <color name="LightBrushDetailsUpperBackground">#7fe4e4e4</color>
   <color name="LightBrushDetailsMoreButton">#E6E6E6</color>
   <color name="LightBrushPivotInnerHeaderBarBackground">#e6e6e6</color>
   <color name="LightBrushNewsBackground">#ffffff</color>

@@ -26,12 +26,13 @@ namespace MALClient.XShared.BL
             FavouritesManager.LoadData();
             AnimeImageQuery.Init();
             ViewModelLocator.ForumsMain.LoadPinnedTopics();
-            await ResourceLocator.AiringInfoProvider.Init(false);
+            await Task.WhenAll(
+                ResourceLocator.AiringInfoProvider.Init(false),
+                ResourceLocator.EnglishTitlesProvider.Init());
+
             if (Settings.NotificationCheckInRuntime && Credentials.Authenticated)
-                ResourceLocator.SchdeuledJobsManger.StartJob(ScheduledJob.FetchNotifications, 5, () =>
-                {
-                    ResourceLocator.NotificationsTaskManager.CallTask(BgTasks.Notifications);
-                });
+                ResourceLocator.SchdeuledJobsManger.StartJob(ScheduledJob.FetchNotifications, 5,
+                    () => { ResourceLocator.NotificationsTaskManager.CallTask(BgTasks.Notifications); });
             ResourceLocator.HandyDataStorage.Init();
             AwaitableCompletion.SetResult(true);
         }

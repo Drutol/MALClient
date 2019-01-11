@@ -108,13 +108,6 @@ namespace MALClient.Android.Activities
 
                 ResourceLocator.NotificationsTaskManager.StartTask(BgTasks.Notifications);
 
-
-                //if ((Resources.Configuration.ScreenLayout & ScreenLayout.SizeMask) == ScreenLayout.SizeSmall)
-                //{
-                //    Settings.PullHigherQualityImages = false;
-                //}
-
-
                 DroppyMenuPopup.OverrideRequested +=
                     (sender, action) => ViewModelLocator.NavMgr.RegisterOneTimeMainOverride(new RelayCommand(action));
                 DroppyMenuPopup.ResetOverrideRequested +=
@@ -325,6 +318,7 @@ namespace MALClient.Android.Activities
                 }
             }
 
+            ResourceLocator.EnglishTitlesProvider.SaveData();
             DataCache.SaveVolatileData();
             DataCache.SaveHumMalIdDictionary();
             ViewModelLocator.ForumsMain.SavePinnedTopics();

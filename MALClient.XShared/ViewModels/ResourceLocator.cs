@@ -58,6 +58,7 @@ namespace MALClient.XShared.ViewModels
 
         public static IShareManager ShareManager => SimpleIoc.Default.GetInstance<IShareManager>();
 
+        public static IEnglishTitlesProvider EnglishTitlesProvider => SimpleIoc.Default.GetInstance<IEnglishTitlesProvider>();
 
         // Purely shared interfaces
 
@@ -65,10 +66,11 @@ namespace MALClient.XShared.ViewModels
 
         public static void RegisterBase()
         {
-            SimpleIoc.Default.Register<IAnimeLibraryDataStorage,AnimeLibraryDataStorage>();
-            SimpleIoc.Default.Register<IHandyDataStorage,HandyDataStorage>();
-            SimpleIoc.Default.Register<IAiringInfoProvider,AiringInfoProvider>();
-            SimpleIoc.Default.Register<IShareManager,ShareManager>();
+            SimpleIoc.Default.Register<IAnimeLibraryDataStorage, AnimeLibraryDataStorage>();
+            SimpleIoc.Default.Register<IHandyDataStorage, HandyDataStorage>();
+            SimpleIoc.Default.Register<IAiringInfoProvider, AiringInfoProvider>();
+            SimpleIoc.Default.Register<IShareManager, ShareManager>();
+            SimpleIoc.Default.Register<IEnglishTitlesProvider, EnglishTitlesProvider>();
         }
 
         #region UsedByBackgroundTask

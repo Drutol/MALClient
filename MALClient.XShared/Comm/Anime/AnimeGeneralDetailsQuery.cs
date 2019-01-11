@@ -62,6 +62,8 @@ namespace MALClient.XShared.Comm.Anime
                                 {
                                     output.EndDate = output.StartDate;
                                 }
+
+                                ResourceLocator.EnglishTitlesProvider.AddOrUpdate(int.Parse(id),true, parsed.title_english);
                             }
                             else
                             {
@@ -87,10 +89,12 @@ namespace MALClient.XShared.Comm.Anime
                                     Title = WebUtility.HtmlDecode(parsed.title),
                                     Synonyms = parsed.title_synonyms?.Split(',').ToList() ?? new List<string>(),
                                 };
+
+                                ResourceLocator.EnglishTitlesProvider.AddOrUpdate(int.Parse(id), false, parsed.title_english);
                             }
                         }
 
-
+                        
                         DataCache.SaveAnimeSearchResultsData(id, output, animeMode);
                         break;
                     default:
@@ -175,6 +179,7 @@ namespace MALClient.XShared.Comm.Anime
             public string title { get; set; }
             public string title_japanese { get; set; }
             public string title_synonyms { get; set; }
+            public string title_english { get; set; }
             public string image_url { get; set; }
             public string type { get; set; }
             public int? episodes { get; set; }
@@ -190,6 +195,7 @@ namespace MALClient.XShared.Comm.Anime
             public string title { get; set; }
             public string title_synonyms { get; set; }
             public string title_japanese { get; set; }
+            public string title_english { get; set; }
             public string status { get; set; }
             public string image_url { get; set; }
             public string type { get; set; }

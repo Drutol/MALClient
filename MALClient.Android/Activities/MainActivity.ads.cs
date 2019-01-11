@@ -161,8 +161,7 @@ namespace MALClient.Android.Activities
             }
         }
 
-        ////Video Ad
-
+        #region VideoAd
         private void DisplayVideoAd()
         {
 #if DEBUG
@@ -207,5 +206,8 @@ namespace MALClient.Android.Activities
         {
 
         }
+        #endregion
+
+
     }
 }

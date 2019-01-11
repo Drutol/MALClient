@@ -120,6 +120,14 @@ namespace MALClient.XShared.Comm
                                             string alternateTitle = null;
                                             title = item.anime_title;
 
+                                            if (Settings.PreferEnglishTitles &&
+                                                ResourceLocator.EnglishTitlesProvider.TryGetEnglishTitleForSeries(
+                                                    item.anime_id, true, out string engTitle))
+                                            {
+                                                alternateTitle = title;
+                                                title = engTitle;
+                                            }
+
                                             item.anime_image_path =
                                                 Regex.Replace(item.anime_image_path, @"\/r\/\d+x\d+", "");
                                             item.anime_image_path =
@@ -204,6 +212,19 @@ namespace MALClient.XShared.Comm
 
                                         foreach (var item in manga)
                                         {
+                                            string title = "";
+                                            string alternateTitle = null;
+                                            title = item.manga_title;
+
+                                            if (Settings.PreferEnglishTitles &&
+                                                ResourceLocator.EnglishTitlesProvider.TryGetEnglishTitleForSeries(
+                                                    item.manga_id, false, out string engTitle))
+                                            {
+                                                alternateTitle = title;
+                                                title = engTitle;
+                                            }
+
+
                                             item.manga_image_path =
                                                 Regex.Replace(item.manga_image_path, @"\/r\/\d+x\d+", "");
                                             item.manga_image_path =
@@ -227,7 +248,7 @@ namespace MALClient.XShared.Comm
 
                                             output.Add(new MangaLibraryItemData
                                             {
-                                                Title = item.manga_title,
+                                                Title = title,
                                                 ImgUrl = item.manga_image_path,
                                                 Id = item.manga_id,
                                                 AllEpisodes = item.manga_num_chapters,
@@ -242,7 +263,7 @@ namespace MALClient.XShared.Comm
                                                 MyStatus = (AnimeStatus) item.status,
                                                 MyStartDate = item.start_date_string,
                                                 MyEndDate = item.finish_date_string,
-                                                AlternateTitle = item.manga_title,
+                                                AlternateTitle = alternateTitle,
                                                 LastWatched = DateTime.Today.Subtract(TimeSpan.FromMinutes(i)),
                                             });
                                             i++;

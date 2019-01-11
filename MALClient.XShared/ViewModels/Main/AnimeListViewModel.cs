@@ -1532,26 +1532,9 @@ namespace MALClient.XShared.ViewModels.Main
                             await
                                 new AnimeGeneralDetailsQuery().GetAnimeDetails(false, abstraction.Id.ToString(),
                                     abstraction.Title, true);
-                        int day;
-                        try
-                        {
-                            day = data.StartDate != AnimeItemViewModel.InvalidStartEndDate &&
-                                  (string.Equals(data.Status, "Currently Airing",
-                                      StringComparison.CurrentCultureIgnoreCase) ||
-                                   string.Equals(data.Status, "Not yet aired", StringComparison.CurrentCultureIgnoreCase))
-                                ? (int)DateTime.Parse(data.StartDate).DayOfWeek + 1
-                                : -1;
-                            //if (day == -1)
-                            //    abstraction.AirDay = -1;
-                        }
-                        catch (Exception)
-                        {
-                            day = -1;
-                        }
 
                         DataCache.RegisterVolatileData(abstraction.Id, new VolatileDataCache
                         {
-                            DayOfAiring = day,
                             GlobalScore = data.GlobalScore,
                             AirStartDate =
                                 data.StartDate == AnimeItemViewModel.InvalidStartEndDate ? null : data.StartDate

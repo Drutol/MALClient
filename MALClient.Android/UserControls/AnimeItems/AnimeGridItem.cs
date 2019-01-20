@@ -174,7 +174,23 @@ namespace MALClient.Android.UserControls
 
             AnimeGridItemCurrentWatchingStatus.Text = ViewModel.MyStatusBindShort;
             AnimeGridItemWatchedStatus.Text = ViewModel.MyEpisodesBindShort;
-            AnimeGridItemScore.Text = ViewModel.MyScoreBindShort;
+            if (Settings.DisplayUnsetScores)
+            {
+                AnimeGridItemScore.Text = ViewModel.MyScoreBindShort;
+            }
+            else
+            {
+                if (ViewModel.MyScore <= 0)
+                {
+                    AnimeGridItemScore.Visibility = ViewStates.Gone;
+                }
+                else
+                {
+                    AnimeGridItemScore.Visibility = ViewStates.Visible;
+                    AnimeGridItemScore.Text = ViewModel.MyScoreBindShort;
+                }
+            }
+
             AnimeGridItemAddToListButton.Visibility = ViewModel.AddToListVisibility ? ViewStates.Visible : ViewStates.Gone;
             if (string.IsNullOrEmpty(ViewModel.TopLeftInfoBind))
             {

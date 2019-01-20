@@ -101,8 +101,20 @@ namespace MALClient.Android.Activities
                     MainPageSearchView.Iconified = !ViewModel.SearchInputVisibility;
                     if(ViewModel.SearchInputVisibility)
                         MainPageSearchView.SetQuery(ViewModel.CurrentSearchQuery,false);
+                   
                     MainPageSearchView.ClearFocus();
                 }));
+
+            Bindings.Add(this.SetBinding(() => ViewModel.CurrentMainPage).WhenSourceChanges(() =>
+            {
+                if (ViewModel.CurrentMainPage == PageIndex.PageAnimeList ||
+                    ViewModel.CurrentMainPage == PageIndex.PageMangaList)
+                    MainPageSearchView.QueryHint = "Search in current list";
+                else if (ViewModel.CurrentMainPage == PageIndex.PageSearch)
+                    MainPageSearchView.QueryHint = "Search in whole database";
+                else
+                    MainPageSearchView.QueryHint = string.Empty;
+            }));
 
             Bindings.Add(this.SetBinding(() => ViewModel.CurrentStatusSub).WhenSourceChanges(() =>
             {

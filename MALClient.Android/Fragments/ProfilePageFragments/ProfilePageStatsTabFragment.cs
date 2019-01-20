@@ -169,7 +169,7 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
                     RewatchedAnimeCount.Text = ViewModel.CurrentData.AnimeRewatched.ToString();
                     EpisodesAnimeCount.Text = ViewModel.CurrentData.AnimeEpisodes.ToString();
 
-                    //AnimeDaysLabel.Text = $"Days: {ViewModel.CurrentData.AnimeDays:N1}";
+                    AnimeDaysLabel.Text = $"Days: {ViewModel.CurrentData.AnimeDays:N1}";
                     AnimeMeanLabel.Text = $"Mean: {ViewModel.CurrentData.AnimeMean:N2}";
 
                     ////MANGA BOTTOM
@@ -217,7 +217,7 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
         private TextView _totalAnimeCount;
         private TextView _rewatchedAnimeCount;
         private TextView _episodesAnimeCount;
-        //private TextView _animeDaysLabel;
+        private TextView _animeDaysLabel;
         private TextView _animeMeanLabel;
         private TextView _profilePageStatsFragmentWatchingMangaBarLabel;
         private FrameLayout _profilePageStatsFragmentWatchingMangaBar;
@@ -280,7 +280,7 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
 
         public TextView EpisodesAnimeCount => _episodesAnimeCount ?? (_episodesAnimeCount = FindViewById<TextView>(Resource.Id.EpisodesAnimeCount));
 
-        //public TextView AnimeDaysLabel => _animeDaysLabel ?? (_animeDaysLabel = FindViewById<TextView>(Resource.Id.AnimeDaysLabel));
+        public TextView AnimeDaysLabel => _animeDaysLabel ?? (_animeDaysLabel = FindViewById<TextView>(Resource.Id.AnimeDaysLabel));
 
         public TextView AnimeMeanLabel => _animeMeanLabel ?? (_animeMeanLabel = FindViewById<TextView>(Resource.Id.AnimeMeanLabel));
 

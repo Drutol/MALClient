@@ -527,6 +527,12 @@ namespace MALClient.XShared.ViewModels
             set => Settings.EnableShareButton = value;
         }
 
+        public  bool DisplayUnsetScores
+        {
+            get => Settings.DisplayUnsetScores;
+            set => Settings.DisplayUnsetScores = value;
+        }
+
         public  bool MangaFocusVolumes
         {
             get => Settings.MangaFocusVolumes;

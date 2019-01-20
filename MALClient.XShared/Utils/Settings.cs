@@ -292,6 +292,12 @@ namespace MALClient.XShared.Utils
             set => ApplicationDataService[nameof(MangaSyncRequired)] = value;
         }
 
+        public static bool DisplayUnsetScores
+        {
+            get => (bool) (ApplicationDataService[nameof(DisplayUnsetScores)] ?? true);
+            set => ApplicationDataService[nameof(DisplayUnsetScores)] = value;
+        }
+
         public static bool DetailsListRecomsView
         {
             get => (bool) (ApplicationDataService["DetailsListRecomsView"] ?? true);

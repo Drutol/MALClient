@@ -43,7 +43,16 @@ namespace MALClient.XShared.ViewModels
             
         }
 
-        public PageIndex? CurrentMainPage { get; set; }
+        public PageIndex? CurrentMainPage
+        {
+            get => _currentMainPage;
+            set
+            {
+                _currentMainPage = value;
+                RaisePropertyChanged();
+            }
+        }
+
         public PageIndex? CurrentMainPageKind { get; set; }
         public PageIndex? CurrentOffPage { get; set; }
 
@@ -571,6 +580,7 @@ namespace MALClient.XShared.ViewModels
 
         private int _mainContentColumnSpan = 1;
         private bool _changelogVisibility;
+        private PageIndex? _currentMainPage;
 
         public int MainContentColumnSpan
         {

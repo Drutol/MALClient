@@ -101,6 +101,10 @@ namespace MALClient.Android.Fragments.SettingsFragments
             Bindings.Add(
                 this.SetBinding(() => ViewModel.EnableShareButton,
                     () => SettingsPageGeneralEnableShareButton.Checked, BindingMode.TwoWay));
+
+            Bindings.Add(
+                this.SetBinding(() => ViewModel.DisplayUnsetScores,
+                    () => SettingsPageGeneralEnableDisplayUnsetScores.Checked, BindingMode.TwoWay));
             //
 
             SettingsPageGeneralAnimeSortRadioGroup.Check(GetViewIdForAnimeSortOption(Settings.AnimeSortOrder));
@@ -419,8 +423,8 @@ namespace MALClient.Android.Fragments.SettingsFragments
                     return SettingsPageGeneralMangaSortReadRadioBtn.Id;
                 case SortOptions.SortNothing:
                     return SettingsPageGeneralMangaSortNoneRadioBtn.Id;
-                case SortOptions.SortSeason:
-                    break;
+                case SortOptions.SortLastWatched:
+                    return SettingsPageGeneralMangaLastReadTitleRadioBtn.Id;
             }
             throw new ArgumentOutOfRangeException(nameof(option), option, "Emm... did I add stuff to default sortings?");
         }
@@ -435,7 +439,7 @@ namespace MALClient.Android.Fragments.SettingsFragments
                 return SortOptions.SortWatched;
             if (id == SettingsPageGeneralAnimeSoonAiringTitleRadioBtn.Id)
                 return SortOptions.SortAirDay;
-            if (id == SettingsPageGeneralAnimeLastWatchTitleRadioBtn.Id)
+            if (id == SettingsPageGeneralAnimeLastWatchTitleRadioBtn.Id || id == SettingsPageGeneralMangaLastReadTitleRadioBtn.Id)
                 return SortOptions.SortLastWatched;
             return SortOptions.SortNothing;
         }

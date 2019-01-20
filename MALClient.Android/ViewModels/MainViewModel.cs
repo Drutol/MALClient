@@ -373,6 +373,7 @@ namespace MALClient.Android.ViewModels
             CurrentMainPage = index;
             CurrentMainPageKind = index;
             RaisePropertyChanged(() => SearchToggleLock);
+
         }
 
         public override string CurrentOffStatus

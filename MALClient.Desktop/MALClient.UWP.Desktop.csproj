@@ -612,7 +612,7 @@
       <Version>4.1.6</Version>
     </PackageReference>
     <PackageReference Include="HtmlAgilityPack">
-      <Version>1.8.10</Version>
+      <Version>1.8.13</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Advertising.XAML">
       <Version>10.1805.7001</Version>
@@ -636,7 +636,7 @@
       <Version>2.1.1</Version>
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json">
-      <Version>11.0.2</Version>
+      <Version>12.0.1</Version>
     </PackageReference>
     <PackageReference Include="WinRTXamlToolkit">
       <Version>2.3.0</Version>

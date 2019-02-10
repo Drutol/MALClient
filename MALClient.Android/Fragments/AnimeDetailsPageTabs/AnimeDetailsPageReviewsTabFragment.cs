@@ -17,8 +17,10 @@ using FFImageLoading.Views;
 using GalaSoft.MvvmLight.Helpers;
 using MALClient.Android.Activities;
 using MALClient.Android.BindingConverters;
+using MALClient.Android.Listeners;
 using MALClient.Android.Resources;
 using MALClient.Models.Models.AnimeScrapped;
+using MALClient.XShared.Comm.MagicalRawQueries;
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Details;
 
@@ -82,8 +84,18 @@ namespace MALClient.Android.Fragments.AnimeDetailsPageTabs
             view.FindViewById<TextView>(Resource.Id.AnimeReviewItemLayoutOverallScore).Text = animeReviewData.OverallRating;
             view.FindViewById<TextView>(Resource.Id.AnimeReviewItemLayoutEpsSeen).Text = animeReviewData.EpisodesSeen;
             view.FindViewById<TextView>(Resource.Id.AnimeReviewItemLayoutHelpfulCount).Text = animeReviewData.HelpfulCount;
-
-
+            view.FindViewById<Button>(Resource.Id.MarkAsHelpfulButton).SetOnClickListener(new OnClickListener(async v =>
+            {
+                var result = await MalHelpfulReviewQuery.MarkReviewHelpful(animeReviewData.Id);
+                if (result)
+                {
+                    ResourceLocator.SnackbarProvider.ShowText("Marked review as helpful.");
+                }
+                else
+                {
+                    ResourceLocator.SnackbarProvider.ShowText("Failed to mark review as helpful.");
+                }
+            }));
         }
 
         private void DataTemplateFling(View view, int i, AnimeReviewData animeReviewData)

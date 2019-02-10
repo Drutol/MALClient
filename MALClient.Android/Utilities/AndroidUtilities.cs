@@ -89,8 +89,7 @@ namespace MALClient.Android
             }
             catch (Exception e)
             {
-                //TODO Grab from hockey
-                ResourceLocator.TelemetryProvider.LogEvent($"Crash - animating fade in - {e.Message}");
+                //ResourceLocator.TelemetryProvider.LogEvent($"Crash - animating fade in - {e.Message}");
             }
 
         }

@@ -43,7 +43,8 @@
 
       <TextView
           android:layout_width="wrap_content"
-          android:layout_height="wrap_content" android:gravity="center"
+          android:layout_height="wrap_content"
+          android:gravity="center"
           android:text="You can turn them off at any time. No biggie. There's also VideoAd option to watch on demand, you can launch it from heart button in hamburger. :)\n\nIf the ads won't load due to some sort of error or because google simply doesn't have any ads for you at the time the ad bar will be automaically hidden." />
     </LinearLayout>
 
@@ -74,6 +75,35 @@
           android:layout_margin="10dp" />
 
     </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:fontFamily="@string/font_family_light"
+        android:text="Partnered ads!"
+        android:textColor="?AccentColour"
+        android:textSize="@dimen/FontSizeHuge" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:gravity="center"
+        android:text="Custom ads that I'm displaying from 3rd parties that fit the theme of the app which is... anime&amp;manga. They provide quality products and I feel like they should be more well known ^^" />
+
+    <ImageView
+        android:id="@+id/CoAd"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="5dp"
+        android:adjustViewBounds="true"
+        android:clickable="true"
+        android:focusable="true"
+        android:scaleType="fitCenter"
+        android:src="@drawable/co_ad_banner" />
 
   </LinearLayout>
 

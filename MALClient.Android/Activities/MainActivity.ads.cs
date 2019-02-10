@@ -156,7 +156,8 @@ namespace MALClient.Android.Activities
 
             public override void OnAdFailedToLoad(int errorCode)
             {
-                _parent.AdLoaded = false;
+                if(errorCode != 657)
+                    _parent.AdLoaded = false;
                 base.OnAdFailedToLoad(errorCode);
             }
         }

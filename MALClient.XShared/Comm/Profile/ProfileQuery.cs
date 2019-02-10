@@ -559,10 +559,10 @@ namespace MALClient.XShared.Comm.Profile
             }
             catch (Exception e)
             {
-                ResourceLocator.TelemetryProvider.LogEvent($"Profile Query Crash: {_userName}, {e}");
-                ResourceLocator.MessageDialogProvider.ShowMessageDialog(
-                    "Hmm, you have encountered bug that'm hunting. I've just sent report to myself. If everything goes well it should be gone in next release :). Sorry for inconvenience!",
-                    "Ooopsies!");
+                //ResourceLocator.TelemetryProvider.LogEvent($"Profile Query Crash: {_userName}, {e}");
+                //ResourceLocator.MessageDialogProvider.ShowMessageDialog(
+                //    "Hmm, you have encountered bug that'm hunting. I've just sent report to myself. If everything goes well it should be gone in next release :). Sorry for inconvenience!",
+                //    "Ooopsies!");
             }
             return new ProfileData();
         }

@@ -1,67 +1,153 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:tools="http://schemas.android.com/tools"
-             android:layout_width="match_parent"
-             android:layout_height="wrap_content" android:background="?BrushAnimeItemBackground"
-             android:foreground="?android:selectableItemBackground" android:clickable="true" android:focusable="true">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?BrushAnimeItemBackground"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?android:selectableItemBackground">
+
   <LinearLayout
-    android:layout_width="match_parent" android:orientation="vertical"
-    android:background="@drawable/border_accent_left"
-    android:layout_height="wrap_content" >
-    <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:paddingTop="5dp"
-                    android:paddingBottom="5dp" android:paddingStart="10dp">
-      <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
-                    android:orientation="vertical">
-        <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
-                      android:orientation="horizontal" android:layout_marginBottom="5dp">
-          <FrameLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:background="@drawable/border_accent_left"
+      android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="10dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp">
+
+      <LinearLayout
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:orientation="vertical">
+
+        <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-            <ProgressBar android:scaleX=".5" android:scaleY=".5"
-                         android:layout_width="35dp" android:id="@+id/AnimeReviewItemImgPlaceholder"
-                         android:layout_height="35dp" android:indeterminateTint="?BrushAnimeItemInnerBackground"
-                         android:indeterminate="true" android:layout_gravity="center" android:indeterminateTintMode="src_in"/>
-            <FFImageLoading.Views.ImageViewAsync android:layout_width="35dp" android:layout_height="35dp"
-                                                 android:scaleType="fitXY"
-                                                 android:id="@+id/AnimeReviewItemLayoutAvatarImage" />
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:orientation="horizontal">
+
+          <FrameLayout
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content">
+
+            <ProgressBar
+                android:id="@+id/AnimeReviewItemImgPlaceholder"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_gravity="center"
+                android:indeterminate="true"
+                android:indeterminateTint="?BrushAnimeItemInnerBackground"
+                android:indeterminateTintMode="src_in"
+                android:scaleX=".5"
+                android:scaleY=".5" />
+
+            <FFImageLoading.Views.ImageViewAsync
+                android:id="@+id/AnimeReviewItemLayoutAvatarImage"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:scaleType="fitXY" />
           </FrameLayout>
 
-          <LinearLayout android:layout_width="wrap_content" android:layout_gravity="center"
-                        android:orientation="vertical" android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp">
-            <TextView android:layout_width="wrap_content" android:fontFamily="@string/font_family_medium"
-                      android:layout_height="wrap_content" android:text="Author" android:textColor="?BrushText"
-                      android:id="@+id/AnimeReviewItemLayoutAuthor" />
-            <TextView android:layout_width="wrap_content" android:fontFamily="@string/font_family_light"
-                      android:layout_height="wrap_content" android:text="Yesteday blaldfg" android:textColor="?BrushText"
-                      android:id="@+id/AnimeReviewItemLayoutDate" />
+          <LinearLayout
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_gravity="center"
+              android:layout_marginStart="10dp"
+              android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/AnimeReviewItemLayoutAuthor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@string/font_family_medium"
+                android:text="Author"
+                android:textColor="?BrushText" />
+
+            <TextView
+                android:id="@+id/AnimeReviewItemLayoutDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@string/font_family_light"
+                android:text="Yesteday blaldfg"
+                android:textColor="?BrushText" />
           </LinearLayout>
         </LinearLayout>
 
-        <TextView android:layout_width="wrap_content" android:fontFamily="@string/font_family_light"
-                  android:layout_height="wrap_content" android:textColor="?BrushText" android:text="9 of 20 eps seen"
-                  android:id="@+id/AnimeReviewItemLayoutEpsSeen" />
-        <TextView android:layout_width="wrap_content" android:fontFamily="@string/font_family_light"
-                  android:layout_height="wrap_content" android:textColor="?BrushText"
-                  tools:text="12 found this helpful" android:maxWidth="200dp"
-                  android:id="@+id/AnimeReviewItemLayoutHelpfulCount" />
+        <TextView
+            android:id="@+id/AnimeReviewItemLayoutEpsSeen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@string/font_family_light"
+            android:text="9 of 20 eps seen"
+            android:textColor="?BrushText" />
+
+
+        <TextView
+            android:id="@+id/AnimeReviewItemLayoutHelpfulCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@string/font_family_light"
+            android:maxWidth="200dp"
+            android:textColor="?BrushText"
+            tools:text="12 found this helpful" />
+
+        <Button
+            android:id="@+id/MarkAsHelpfulButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/border_accent_underline"
+            android:minWidth="0dp"
+            android:minHeight="0dp"
+            android:paddingStart="0dp"
+            android:paddingEnd="10dp"
+            android:paddingTop="5dp"
+            android:text="Mark as helpful"
+            android:textAllCaps="false" />
       </LinearLayout>
-      <LinearLayout android:layout_alignParentEnd="true" android:gravity="start"
-                    android:layout_width="wrap_content" android:orientation="vertical" android:paddingEnd="5dp"
-                    android:layout_height="wrap_content">
-        <TextView android:layout_width="wrap_content" android:fontFamily="@string/font_family_light" android:background="@drawable/border_accent_underline"
-                  android:layout_height="wrap_content" android:textColor="?BrushText" android:textStyle="bold" android:text="Overall: 9"
-                  android:id="@+id/AnimeReviewItemLayoutOverallScore" />
-        <LinearLayout android:id="@+id/AnimeReviewItemLayoutMarksList" android:layout_width="100dp"
-                      android:layout_marginTop="5dp" android:layout_height="wrap_content"
-                      android:layout_alignParentEnd="true" android:orientation="vertical" android:gravity="start" />
+
+      <LinearLayout
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_alignParentEnd="true"
+          android:gravity="start"
+          android:orientation="vertical"
+          android:paddingEnd="5dp">
+
+        <TextView
+            android:id="@+id/AnimeReviewItemLayoutOverallScore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/border_accent_underline"
+            android:fontFamily="@string/font_family_light"
+            android:text="Overall: 9"
+            android:textColor="?BrushText"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:id="@+id/AnimeReviewItemLayoutMarksList"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="5dp"
+            android:gravity="start"
+            android:orientation="vertical" />
       </LinearLayout>
 
     </RelativeLayout>
 
-    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="10dp"
-              tools:text="Lorem" android:textColor="?BrushText"
-              android:id="@+id/AnimeReviewItemLayoutReviewContent" />
+    <TextView
+        android:id="@+id/AnimeReviewItemLayoutReviewContent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:textColor="?BrushText"
+        tools:text="Lorem" />
   </LinearLayout>
 </FrameLayout>

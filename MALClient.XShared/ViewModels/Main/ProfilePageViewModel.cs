@@ -284,10 +284,10 @@ namespace MALClient.XShared.ViewModels.Main
             }
             catch (Exception e)
             {
-                ResourceLocator.TelemetryProvider.LogEvent($"Profile Crash: {args.TargetUser}, {e} , {e.StackTrace}");
-                ResourceLocator.MessageDialogProvider.ShowMessageDialog(
-                    "Hmm, you have encountered bug that'm hunting. I've just sent report to myself. If everything goes well it should be gone in next release :). Sorry for inconvenience!",
-                    "Ooopsies!");
+                //ResourceLocator.TelemetryProvider.LogEvent($"Profile Crash: {args.TargetUser}, {e} , {e.StackTrace}");
+                //ResourceLocator.MessageDialogProvider.ShowMessageDialog(
+                //    "Hmm, you have encountered bug that'm hunting. I've just sent report to myself. If everything goes well it should be gone in next release :). Sorry for inconvenience!",
+                //    "Ooopsies!");
             }
 
             void CountTime(List<AnimeItemAbstraction> source)

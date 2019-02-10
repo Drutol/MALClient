@@ -10,6 +10,7 @@ namespace MALClient.Models.Models.AnimeScrapped
 
     public class AnimeReviewData
     {
+        public string Id { get; set; }
         public string Review { get; set; }
         public string Author { get; set; }
         public string Date { get; set; }

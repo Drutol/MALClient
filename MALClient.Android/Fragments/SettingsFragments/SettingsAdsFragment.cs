@@ -102,6 +102,13 @@ namespace MALClient.Android.Fragments.SettingsFragments
             });
             SettingsPageAdsMinutesDailySpinner.SetSelection(availableTimes.IndexOf(ViewModel.AdsSecondsPerDay/60));
             SettingsPageAdsMinutesDailySpinner.OnItemSelectedListener = this;
+
+            FindViewById<View>(Resource.Id.CoAd).SetOnClickListener(new OnClickListener(view =>
+            {
+                ResourceLocator.TelemetryProvider.TelemetryTrackEvent(TelemetryTrackedEvents.ClickedCoAd);
+                ResourceLocator.SystemControlsLauncherService.LaunchUri(
+                    new Uri("https://cuddlyoctopus.com/malclient/?sfw=1"));
+            }));
         }
 
         public override int LayoutResourceId => Resource.Layout.SettingsPageAds;

@@ -48,6 +48,7 @@ namespace MALClient.XShared.Comm.Anime
                     try
                     {
                         var current = new AnimeReviewData();
+
                         //Details
                         var detailsNode = reviewNode.ChildNodes.First(node => node.Name == "div");
                         var pictureNode = detailsNode.WhereOfDescendantsWithClass("div", "picSurround")
@@ -92,6 +93,10 @@ namespace MALClient.XShared.Comm.Anime
                         current.Review =
                             WebUtility.HtmlDecode(rawReview.Replace("read more", "")
                                 .Replace("Helpful", "").Trim(' ', '\n', '\r'));
+
+                        var idNode = reviewNode.FirstOrDefaultOfDescendantsWithClass("a", "js-toggle-review-button");
+
+                        current.Id = idNode == null ? null : idNode.Attributes["data-id"].Value ?? null;
 
                         output.Add(current);
                     }

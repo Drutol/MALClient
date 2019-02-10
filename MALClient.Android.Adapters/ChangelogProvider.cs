@@ -35,11 +35,16 @@ namespace MALClient.Android.Adapters
 
         public List<string> Changelog => new List<string>
         {
-            "Fixed fetching airing data on Android P devices.",
-            "Added watching status to search items.",
-            "Unified date in anime details page to YYYY-MM-DD",
-            "Search suggestions will now appear after 1 character has been typed.",
-            "Crashfix."
+            "Added workaround for english titles. Read more in settings.",
+            "Added button to mark review as helpful.",
+            "Added placeholder texts for search input to make it less confusing.",
+            "You can now hide \"N/A\" labels on grid items.",
+            "Added \"Days\" label in profiles stats.",
+            "Added last read to default manga sorting options.",
+            "----",
+            "I've partnered up with Cuddly Octopus to display their ads when other are unavailable. " +
+            "They are making quality authentic dakis for reasonable prices, " +
+            "I've bought a few from them personally and can vouch for their products. Feel free to check them out! :)"
         };
 
     }

@@ -13,6 +13,8 @@
         CreatedTopic,
         CreatedReply,
         RatePopUpAppeared,
-        CreatedClubComment
+        CreatedClubComment,
+        ClickedCoAd,
+        LoadedCoAd
     }
 }

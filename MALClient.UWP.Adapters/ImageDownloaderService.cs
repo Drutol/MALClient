@@ -10,11 +10,22 @@ using Windows.Storage.Pickers;
 using Windows.Storage.Streams;
 using MALClient.Adapters;
 using MALClient.UWP.Shared;
+using ModernHttpClient;
+using MALClient.XShared.Utils;
 
 namespace MALClient.UWP.Adapters
 {
     public class ImageDownloaderService : IImageDownloaderService
     {
+        private readonly HttpClient _client;
+
+        public ImageDownloaderService()
+        {
+            _client = new HttpClient(new NativeMessageHandler())
+            _client.ConfigureToAcceptCompressedContent();
+        }
+
+
         public async void DownloadImage(string url, string suggestedFilename,bool animeCover)
         {
             if (url == null)
@@ -56,34 +67,60 @@ namespace MALClient.UWP.Adapters
 
         private async Task Download(string url,StorageFile file,bool cover)
         {
-            var http = new HttpClient();
-            byte[] response = { };
             string betterUrl = url;
-            if(cover)
+            Stream responseStream = null;
+
+            if (cover)
             {
                 var pos = betterUrl.IndexOf(".jpg");
                 if (pos != -1)
                     betterUrl = betterUrl.Insert(pos, "l");
             }
 
-            //get bytes
+            // Get image stream...
             try
             {
-                await Task.Run(async () => response = await http.GetByteArrayAsync(betterUrl));
+                using (var response = await _client.GetAsync(betterUrl)
+                                                   .ConfigureAwait(false))
+                {
+                    responseStream = await response.GetDecompressionStreamAsync()
+                                                   .ConfigureAwait(false);
+                }               
             }
-            catch (Exception)
+            catch(Exception)
             {
-                await Task.Run(async () => response = await http.GetByteArrayAsync(url));
+                using (var response = await _client.GetAsync(url)
+                                                   .ConfigureAwait(false))
+                {
+                    responseStream = await response.GetDecompressionStreamAsync()
+                                                   .ConfigureAwait(false);
+                }
             }
 
-            var fs = await file.OpenStreamForWriteAsync(); //get stream
-            var writer = new DataWriter(fs.AsOutputStream());
 
-            writer.WriteBytes(response); //write
-            await writer.StoreAsync();
-            await writer.FlushAsync();
+            if (responseStream == null)
+            {
+                throw new Exception($"Failed to download image for: ${url}");
+            }
 
-            writer.Dispose();
+            // Write stream to file...
+            using (responseStream)
+            {
+                using (var reader = new StreamReader(responseStream))
+                {
+                    var fs = await file.OpenStreamForWriteAsync();
+                    var writer = new DataWriter(fs.AsOutputStream());
+
+                    writer.WriteString(await reader.ReadToEndAsync()
+                                                   .ConfigureAwait(false));
+
+                    await writer.StoreAsync();
+                    await writer.FlushAsync();
+
+                    writer.Dispose();
+                    fs.Dispose();
+                }
+            }
         }
     }
 }

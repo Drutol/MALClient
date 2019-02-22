@@ -71,6 +71,10 @@ namespace MALClient.UWP.Adapters
                     throw new WebException("Unable to authorize");
 
                 _contextExpirationTime = DateTime.Now.Add(TimeSpan.FromHours(.5));
+
+                // Cleanup...
+                response.Dispose();
+
                 return _httpClient; //else we are returning client that can be used for next queries
             }
 

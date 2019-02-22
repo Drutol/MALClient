@@ -21,7 +21,7 @@ namespace MALClient.UWP.Adapters
 
         public ImageDownloaderService()
         {
-            _client = new HttpClient(new NativeMessageHandler())
+            _client = new HttpClient(new NativeMessageHandler());
             _client.ConfigureToAcceptCompressedContent();
         }
 

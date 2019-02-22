@@ -19,6 +19,7 @@ using System.Threading.Tasks;
 using Windows.Storage;
 using MALClient.XShared.Utils;
 using MALClient.XShared.ViewModels;
+using ModernHttpClient;
 
 namespace MALClient.UWP.Shared.Managers
 {
@@ -29,13 +30,18 @@ namespace MALClient.UWP.Shared.Managers
     {
         private const string CacheFolderName = "ImageCache";
 
+        private static readonly HttpClient _client;
         private static readonly SemaphoreSlim _cacheFolderSemaphore = new SemaphoreSlim(1);
         private static readonly Dictionary<string, Task> _concurrentTasks = new Dictionary<string, Task>();
+
         private static StorageFolder _cacheFolder;
 
         static ImageCache()
         {
             CacheDuration = TimeSpan.FromDays(3);
+
+            _client = new HttpClient(new NativeMessageHandler());
+            _client.ConfigureToAcceptCompressedContent();
         }
 
         /// <summary>
@@ -240,15 +246,25 @@ namespace MALClient.UWP.Shared.Managers
             this Uri uri,
             StorageFile targetFile)
         {
-            var content = await GetHttpContentAsync(uri);
-
-            using (content)
+            using (var content = await GetHttpContentAsync(uri)
+                                            .ConfigureAwait(false))
             {
                 using (var fileStream = await targetFile.OpenStreamForWriteAsync())
                 {
-                    var bytes = await content.Content.ReadAsByteArrayAsync();
-                    await fileStream.WriteAsync(bytes, 0, bytes.Length);
-                    await fileStream.FlushAsync();
+                    using (var responseSream = await content.GetDecompressionStreamAsync()
+                                                             .ConfigureAwait(false))
+                    {
+                        int bytesRead = 0;
+                        byte[] buffer = new byte[8192]; //8kb
+
+                        while ((bytesRead = responseSream.Read(buffer, 0, buffer.Length)) > 0)
+                        {
+                            fileStream.Write(buffer, 0, bytesRead);
+                        }
+
+                        await fileStream.FlushAsync()
+                                        .ConfigureAwait(false);
+                    }
                 }
             }
         }
@@ -260,14 +276,11 @@ namespace MALClient.UWP.Shared.Managers
                 throw new ArgumentNullException();
             }
 
-            using (var httpClient = new HttpClient())
-            {
-                httpClient.Timeout = TimeSpan.FromSeconds(15);
-                var response = await httpClient.GetAsync(uri, HttpCompletionOption.ResponseHeadersRead);               
-                response.EnsureSuccessStatusCode();
-                return response;
+            var response = await _client.GetAsync(uri, HttpCompletionOption.ResponseHeadersRead)
+                                        .ConfigureAwait(false);
 
-            }
+            response.EnsureSuccessStatusCode();
+            return response;
         }
     }
 }

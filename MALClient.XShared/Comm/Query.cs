@@ -29,6 +29,8 @@ namespace MALClient.XShared.Comm
         static Query()
         {
             _client = new HttpClient(new NativeMessageHandler());
+            _client.ConfigureToAcceptCompressedContent();
+
             RefreshClientAuthHeader();
         }
 
@@ -46,28 +48,26 @@ namespace MALClient.XShared.Comm
             var responseString = "";
             try
             {
-#if true
-                var res = await _client.GetAsync(Request.RequestUri);
-                if (res.StatusCode == HttpStatusCode.Forbidden && !Request.RequestUri.ToString()
-                        .Contains("https://myanimelist.net/rss.php?type=rw&u=")) //workaround because I don't want to disturb the spaghetti gods sleeping around
+                using (var res = await _client.GetAsync(Request.RequestUri)
+                                              .ConfigureAwait(false))
                 {
-                    HandleMalBuggines();
+                    if (res.StatusCode == HttpStatusCode.Forbidden && !Request.RequestUri.ToString()
+                            .Contains("https://myanimelist.net/rss.php?type=rw&u=")) //workaround because I don't want to disturb the spaghetti gods sleeping around
+                    {
+                        HandleMalBuggines();
+                    }
+
+                    using (var responseStream = await res.GetDecompressionStreamAsync()
+                                                         .ConfigureAwait(false))
+                    {
+                        using (var reader = new StreamReader(responseStream))
+                        {
+                            return await reader.ReadToEndAsync()
+                                               .ConfigureAwait(false);
+                        }
+                    
+                    }
                 }
-
-                var content = await res.Content.ReadAsStringAsync();
-                return content;
-
-#else
-                var response = await Request.GetResponseAsync();
-
-                using (var stream = response.GetResponseStream())
-                {
-                    var reader = new StreamReader(stream, Encoding.UTF8);
-                    responseString = reader.ReadToEnd();
-                    reader.Dispose();
-                }
-                return responseString;
-#endif
             }
             catch (Exception e)
             {
@@ -95,13 +95,18 @@ namespace MALClient.XShared.Comm
         public virtual string SnackbarMessageOnFail => "Operation failed, check your internet connection...";
 
         private static readonly SemaphoreSlim _buggedMalMessageSemaphore = new SemaphoreSlim(1);
-        private async void HandleMalBuggines()
+
+        private void HandleMalBuggines()
         {
             ResourceLocator.DispatcherAdapter.Run(async () =>
             {
                 if (_buggedMalMessageSemaphore.CurrentCount == 0)
+                {
                     return;
-                await _buggedMalMessageSemaphore.WaitAsync();
+                }
+
+                await _buggedMalMessageSemaphore.WaitAsync()
+                                                .ConfigureAwait(false);
 
                 await ResourceLocator.MessageDialogProvider.ShowMessageDialogAsync(
                     "Looks like MAL has banned your IP supposedly for 10 failed log-in attempts... Truth be told they have this system bugged as reported on forums and it triggers on false-positives from time to time.\n\nYou will now have to either obtain new IP or wait for 2 hours without making any requests to MAL via apps. Sorry for inconvenince but I cannot do much about it :(", "Whoops!");

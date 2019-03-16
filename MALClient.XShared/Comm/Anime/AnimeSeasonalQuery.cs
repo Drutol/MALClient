@@ -143,7 +143,7 @@ namespace MALClient.XShared.Comm.Anime
                 var pos = imgurl.IndexOf('?');
                 if (pos != -1)
                     imgurl = imgurl.Substring(0, pos);
-                img = "https://myanimelist.cdn-dena.com/images/" + (actualImageNode.Attributes[key].Value.Contains("/anime/") ? "anime/" : "manga/") + imgurl;
+                img = "https://cdn.myanimelist.net/images/" + (actualImageNode.Attributes[key].Value.Contains("/anime/") ? "anime/" : "manga/") + imgurl;
             }
             catch (Exception e)
             {

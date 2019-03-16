@@ -41,7 +41,7 @@ namespace MALClient.Android.Dialogs
         public void ShowDialog(Context context, string link)
         {
             var animeLink = AnimeImageExtensions.GetImgUrl(link);
-            if (animeLink == null || link == "https://myanimelist.cdn-dena.com/images/anime//0.jpg")
+            if (animeLink == null || link == "https://cdn.myanimelist.net/images/anime//0.jpg")
             {
                 ResourceLocator.SnackbarProvider.ShowText("Failed obatining image.");
                 return;

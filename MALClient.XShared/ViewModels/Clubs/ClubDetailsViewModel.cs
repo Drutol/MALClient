@@ -215,7 +215,7 @@ namespace MALClient.XShared.ViewModels.Clubs
                     Date = "Just Now",
                     User = new MalUser
                     {
-                        ImgUrl = $"https://myanimelist.cdn-dena.com/images/userimages/{Credentials.Id}.jpg",
+                        ImgUrl = $"https://cdn.myanimelist.net/images/userimages/{Credentials.Id}.jpg",
                         Name = Credentials.UserName
                     }
                 });

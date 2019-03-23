@@ -277,7 +277,7 @@
                     </Grid>
                     <!-- End Classic Header -->
                     <!-- Ads grid -->
-                    <Grid
+                    <!--<Grid
                         Visibility="{Binding AdsContainerVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
                         Height="90"
                         Margin="{Binding Source={StaticResource DesktopLocator},Path=Hamburger.BottomStackPanelMargin}"
@@ -289,10 +289,10 @@
                                 TintOpacity="0.6"
                                 FallbackColor="{StaticResource ColorDetailsBackground}" />
                         </Grid.Background>
-                        <!--<ui:AdControl AdUnitId="315597" ApplicationId="0b4d3120-9383-4469-9e80-812a15f124e3"/>-->
-                        <ui:AdControl x:Name="AdControl" AdUnitId="315597" Height="90" Width="728"
-                                      ApplicationId="0b4d3120-9383-4469-9e80-812a15f124e3" IsAutoRefreshEnabled="True" />
-                    </Grid>
+                        --><!--<ui:AdControl AdUnitId="315597" ApplicationId="0b4d3120-9383-4469-9e80-812a15f124e3"/>-->
+                        <!--<ui:AdControl x:Name="AdControl" AdUnitId="315597" Height="90" Width="728"
+                                      ApplicationId="0b4d3120-9383-4469-9e80-812a15f124e3" IsAutoRefreshEnabled="True" />--><!--
+                    </Grid>-->
                     <Grid Grid.Row="2">
                         <!--Changelog-->
                         <Frame

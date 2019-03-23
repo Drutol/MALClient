@@ -949,10 +949,10 @@
 						<ColumnDefinition Width="48" />
 						<ColumnDefinition Width="*" />
 					</Grid.ColumnDefinitions>
-					<Border Grid.Column="0"
+                    <Border Grid.Column="0"
                                         BorderThickness="{Binding TxtBorderBrushThicknesses[Profile]}"
                                         BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}" />
-					<Ellipse Grid.Column="0"
+                    <Ellipse Grid.Column="0"
                                        Width="32"
                                        Height="32" Margin="-2,0,0,0"
                                        Visibility="{Binding UsrImgPlaceholderVisibility,Converter={StaticResource VisiblityInverterConverter}}" >

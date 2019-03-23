@@ -60,8 +60,8 @@ namespace MALClient.UWP
 				vm.MediaElementCollapsed += VmOnMediaElementCollapsed;
 				UWPViewModelLocator.PinTileDialog.HidePinDialog += HidePinDialog;
 				DesktopViewModelLocator.Main.View = this;
-				StartAdsTimeMeasurements();
-				ViewModelLocator.Settings.OnAdsMinutesPerDayChanged += SettingsOnOnAdsMinutesPerDayChanged;
+				//StartAdsTimeMeasurements();
+				//ViewModelLocator.Settings.OnAdsMinutesPerDayChanged += SettingsOnOnAdsMinutesPerDayChanged;
 				ViewModelLocator.GeneralMain.ChangelogVisibility = ResourceLocator.ChangelogProvider.NewChangelog;
 			    ResourceLocator.ShareManager.TimerStateChanged += ShareManagerOnTimerStateChanged;
             };
@@ -87,72 +87,72 @@ namespace MALClient.UWP
 			MediaElement.Stop();
 		}
 
-		#region AdsTimer
-		private void SettingsOnOnAdsMinutesPerDayChanged()
-		{
-			if (Settings.AdsEnable)
-			{
-				var passed = (int)(ResourceLocator.ApplicationDataService["AdsTimeToday"] ?? 0);
-				_timer?.Dispose();
-				if (passed < Settings.AdsSecondsPerDay || Settings.AdsSecondsPerDay == 0)
-				{
-					ViewModelLocator.GeneralMain.AdsContainerVisibility = true;
-					_timer = new Timer(AdTimerCallback, null, 0, 10000);
-				}
-				else
-				{
-					ViewModelLocator.GeneralMain.AdsContainerVisibility = false;
-				}
-			}
-			else if (_timer != null && !Settings.AdsEnable)
-			{
-				ViewModelLocator.GeneralMain.AdsContainerVisibility = false;
-				_timer?.Dispose();
-				_timer = null;
-			}
-			else if (!Settings.AdsEnable)
-				ViewModelLocator.GeneralMain.AdsContainerVisibility = false;
-		}
+		//#region AdsTimer
+		//private void SettingsOnOnAdsMinutesPerDayChanged()
+		//{
+		//	if (Settings.AdsEnable)
+		//	{
+		//		var passed = (int)(ResourceLocator.ApplicationDataService["AdsTimeToday"] ?? 0);
+		//		_timer?.Dispose();
+		//		if (passed < Settings.AdsSecondsPerDay || Settings.AdsSecondsPerDay == 0)
+		//		{
+		//			ViewModelLocator.GeneralMain.AdsContainerVisibility = true;
+		//			_timer = new Timer(AdTimerCallback, null, 0, 10000);
+		//		}
+		//		else
+		//		{
+		//			ViewModelLocator.GeneralMain.AdsContainerVisibility = false;
+		//		}
+		//	}
+		//	else if (_timer != null && !Settings.AdsEnable)
+		//	{
+		//		ViewModelLocator.GeneralMain.AdsContainerVisibility = false;
+		//		_timer?.Dispose();
+		//		_timer = null;
+		//	}
+		//	else if (!Settings.AdsEnable)
+		//		ViewModelLocator.GeneralMain.AdsContainerVisibility = false;
+		//}
 
-		private void StartAdsTimeMeasurements()
-		{
-			var day = ResourceLocator.ApplicationDataService["AdsCurrentDay"];
-			if (day != null)
-			{
-				if ((int)day != DateTime.Today.DayOfYear)
-					ResourceLocator.ApplicationDataService["AdsTimeToday"] = 0;
-			}
-			ResourceLocator.ApplicationDataService["AdsCurrentDay"] = DateTime.Today.DayOfYear;
-			if (Settings.AdsEnable)
-			{
-				_timer = new Timer(AdTimerCallback, null, 0, 10000);
-				ViewModelLocator.GeneralMain.AdsContainerVisibility = true;
-			}
-			else
-			{
-				AdControl.Suspend();
-			}
-		}
+		//private void StartAdsTimeMeasurements()
+		//{
+		//	var day = ResourceLocator.ApplicationDataService["AdsCurrentDay"];
+		//	if (day != null)
+		//	{
+		//		if ((int)day != DateTime.Today.DayOfYear)
+		//			ResourceLocator.ApplicationDataService["AdsTimeToday"] = 0;
+		//	}
+		//	ResourceLocator.ApplicationDataService["AdsCurrentDay"] = DateTime.Today.DayOfYear;
+		//	if (Settings.AdsEnable)
+		//	{
+		//		_timer = new Timer(AdTimerCallback, null, 0, 10000);
+		//		ViewModelLocator.GeneralMain.AdsContainerVisibility = true;
+		//	}
+		//	else
+		//	{
+		//		AdControl.Suspend();
+		//	}
+		//}
 
-		private async void AdTimerCallback(object state)
-		{
-			var passed = (int)(ResourceLocator.ApplicationDataService["AdsTimeToday"] ?? 0);
-			passed += 10;
-			ResourceLocator.ApplicationDataService["AdsTimeToday"] = passed;
-			await Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
-				() => AdControl.Resume());
-			if (!Settings.AdsEnable || (Settings.AdsSecondsPerDay != 0 && passed > Settings.AdsSecondsPerDay))
-			{
-				await Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
-					() => ViewModelLocator.GeneralMain.AdsContainerVisibility = false);
-				_timer?.Dispose();
-				_timer = null;
-			}
-		}
+		//private async void AdTimerCallback(object state)
+		//{
+		//	var passed = (int)(ResourceLocator.ApplicationDataService["AdsTimeToday"] ?? 0);
+		//	passed += 10;
+		//	ResourceLocator.ApplicationDataService["AdsTimeToday"] = passed;
+		//	await Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+		//		() => AdControl.Resume());
+		//	if (!Settings.AdsEnable || (Settings.AdsSecondsPerDay != 0 && passed > Settings.AdsSecondsPerDay))
+		//	{
+		//		await Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+		//			() => ViewModelLocator.GeneralMain.AdsContainerVisibility = false);
+		//		_timer?.Dispose();
+		//		_timer = null;
+		//	}
+		//}
 
 
 
-		#endregion
+		//#endregion
 
 		private void HidePinDialog()
 		{
@@ -183,10 +183,10 @@ namespace MALClient.UWP
 			}
 			else if (args.PropertyName == nameof(ViewModelLocator.GeneralMain.AdsContainerVisibility))
 			{
-				if (ViewModelLocator.GeneralMain.AdsContainerVisibility)
-					AdControl.Resume();
-				else
-					AdControl.Suspend();
+				//if (ViewModelLocator.GeneralMain.AdsContainerVisibility)
+				//	AdControl.Resume();
+				//else
+				//	AdControl.Suspend();
 			}
 
 		}

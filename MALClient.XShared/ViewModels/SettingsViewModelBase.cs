@@ -71,7 +71,7 @@ namespace MALClient.XShared.ViewModels
             new Tuple<AnimeListDisplayModes, string>(AnimeListDisplayModes.IndefiniteCompactList, "Compact List")
         };
 
-        public List<SettingsPageEntry> SettingsPages { get; } = new List<SettingsPageEntry>
+        public virtual List<SettingsPageEntry> SettingsPages { get; } = new List<SettingsPageEntry>
         {
             new SettingsPageEntry
             {

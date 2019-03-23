@@ -28,7 +28,7 @@
 
     <ScrollViewer>
         <StackPanel>
-            <TextBlock Text="Enable ads"
+            <!--<TextBlock Text="Enable ads"
                        FontWeight="Medium"
                        HorizontalAlignment="Center" Margin="0,5"
                        TextWrapping="WrapWholeWords" TextAlignment="Center" />
@@ -55,7 +55,7 @@
                     <ComboBoxItem Content="20 minutes" Tag="{StaticResource Int20}"/>
                     <ComboBoxItem Content="30 minutes" Tag="{StaticResource Int30}"/>
                 </ComboBox.Items>
-            </ComboBox>
+            </ComboBox>-->
         </StackPanel>
     </ScrollViewer>
 </Page>

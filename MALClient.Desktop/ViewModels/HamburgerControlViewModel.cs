@@ -42,7 +42,7 @@ namespace MALClient.UWP.ViewModels
         private ICommand _topCategoriesFiltersFlyoutCommand;
         //base value , we are either on log in page or list page (app bar on/off)
 
-        private BitmapImage _userImage;
+        private ImageSource _userImage;
 
         private Visibility _usrImgPlaceholderVisibility = Visibility.Collapsed;
 
@@ -136,7 +136,7 @@ namespace MALClient.UWP.ViewModels
 
         public Visibility FeedbackHubButtonVisibility => StoreServicesFeedbackLauncher.IsSupported() ? Visibility.Visible : Visibility.Collapsed;
 
-        public BitmapImage UserImage
+        public ImageSource UserImage
         {
             get { return _userImage; }
             set
@@ -291,35 +291,38 @@ namespace MALClient.UWP.ViewModels
         {
             if (Credentials.Authenticated)
             {
-                try
-                {
-                    var file = await ApplicationData.Current.LocalFolder.GetFileAsync("UserImg.png");
-                    var props = await file.GetBasicPropertiesAsync();
-                    if (props.Size == 0)
-                        throw new FileNotFoundException();
-                    var bitmap = new BitmapImage();
-                    using (var fs = (await file.OpenStreamForReadAsync()).AsRandomAccessStream())
-                    {
-                        bitmap.SetSource(fs);
-                    }
-                    UserImage = bitmap;
-                    UsrImgPlaceholderVisibility = Visibility.Collapsed;
-                }
-                catch (FileNotFoundException)
-                {
-                    UserImage = new BitmapImage();
-                    if (dl)
-                        await UWPUtilities.DownloadProfileImg();
-                    else
-                        UsrImgPlaceholderVisibility = Visibility.Visible;
-                }
-                catch (Exception)
-                {
-                    UsrImgPlaceholderVisibility = Visibility.Visible;
-                    UserImage = new BitmapImage();
-                }
+                //try
+                //{
+                //    var file = await ApplicationData.Current.LocalFolder.GetFileAsync("UserImg.png");
+                //    var props = await file.GetBasicPropertiesAsync();
+                //    if (props.Size == 0)
+                //        throw new FileNotFoundException();
+                //    var bitmap = new BitmapImage();
+                //    using (var fs = (await file.OpenStreamForReadAsync()).AsRandomAccessStream())
+                //    {
+                //        bitmap.SetSource(fs);
+                //    }
+                //    UserImage = bitmap;
+                //    UsrImgPlaceholderVisibility = Visibility.Collapsed;
+                //}
+                //catch (FileNotFoundException)
+                //{
+                //    UserImage = new BitmapImage();
+                //    if (dl)
+                //        await UWPUtilities.DownloadProfileImg();
+                //    else
+                //        UsrImgPlaceholderVisibility = Visibility.Visible;
+                //}
+                //catch (Exception)
+                //{
+                //    UsrImgPlaceholderVisibility = Visibility.Visible;
+                //    UserImage = new BitmapImage();
+                //}
 
+
+                UserImage = new BitmapImage(new Uri($"https://cdn.myanimelist.net/images/userimages/{Credentials.Id}.jpg")); 
                 ProfileButtonVisibility = true;
+                UsrImgPlaceholderVisibility = Visibility.Collapsed;
             }
             else
             {

@@ -168,7 +168,7 @@ namespace MALClient.XShared.ViewModels.Main
             {
                 Credentials.SetAuthStatus(false);
                 Credentials.Update(string.Empty, string.Empty, ApiType.Mal);
-                ResourceLocator.MessageDialogProvider.ShowMessageDialog("Unable to authorize with provided credentials.","Authorization failed.");              
+                ResourceLocator.MessageDialogProvider.ShowMessageDialog("Unable to authorize with provided credentials. If problem persists please try to sign-in on website.","Authorization failed.");              
                 Authenticating = false;
                 return;
             }

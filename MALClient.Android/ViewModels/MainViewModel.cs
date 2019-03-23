@@ -241,6 +241,7 @@ namespace MALClient.Android.ViewModels
                 case PageIndex.PageArticles:
                 case PageIndex.PageNews:
                     HideSearchStuff();
+                    RefreshButtonVisibility = false;
                     MainNavigationRequested?.Invoke(new ArticlesPageFragment(args as MalArticlesPageNavigationArgs));
                     break;
                 case PageIndex.PageMessanging:

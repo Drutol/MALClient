@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" IgnorableNamespaces="uap mp">
-  <Identity Name="6252Drutol.MALClient" Publisher="CN=15F8BDF5-C01B-487E-8F46-C655AF2C3DD2" Version="5.5.5.0" />
+  <Identity Name="6252Drutol.MALClient" Publisher="CN=15F8BDF5-C01B-487E-8F46-C655AF2C3DD2" Version="5.5.6.0" />
   <mp:PhoneIdentity PhoneProductId="342214a1-b5e4-40ae-9721-b578557ea67b" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
     <DisplayName>MALClient</DisplayName>

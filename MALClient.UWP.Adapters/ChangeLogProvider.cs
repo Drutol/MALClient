@@ -13,12 +13,12 @@ namespace MALClient.UWP.Adapters
         public bool NewChangelog { get; set; }
         public string CurrentVersion => UWPUtilities.GetAppVersion();
 
-        public string DateWithVersion =>  $"v{UWPUtilities.GetAppVersion()} - 07.10.2018";
+        public string DateWithVersion =>  $"v{UWPUtilities.GetAppVersion()} - 24.03.2019";
 
         public List<string> Changelog => new List<string>
         {
-            "Fixed setting dates.",
-            "Now you can also edit dates for manga.",
+            "Overall update, now on par with Android version.",
+            "Removed ads."
         };
     }
 }

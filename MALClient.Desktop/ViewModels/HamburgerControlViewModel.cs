@@ -287,39 +287,10 @@ namespace MALClient.UWP.ViewModels
             RaisePropertyChanged(() => CurrentMangaFiltersSelectedIndex);
         }
 
-        public async Task UpdateProfileImg(bool dl = true)
+        public Task UpdateProfileImg(bool dl = true)
         {
             if (Credentials.Authenticated)
             {
-                //try
-                //{
-                //    var file = await ApplicationData.Current.LocalFolder.GetFileAsync("UserImg.png");
-                //    var props = await file.GetBasicPropertiesAsync();
-                //    if (props.Size == 0)
-                //        throw new FileNotFoundException();
-                //    var bitmap = new BitmapImage();
-                //    using (var fs = (await file.OpenStreamForReadAsync()).AsRandomAccessStream())
-                //    {
-                //        bitmap.SetSource(fs);
-                //    }
-                //    UserImage = bitmap;
-                //    UsrImgPlaceholderVisibility = Visibility.Collapsed;
-                //}
-                //catch (FileNotFoundException)
-                //{
-                //    UserImage = new BitmapImage();
-                //    if (dl)
-                //        await UWPUtilities.DownloadProfileImg();
-                //    else
-                //        UsrImgPlaceholderVisibility = Visibility.Visible;
-                //}
-                //catch (Exception)
-                //{
-                //    UsrImgPlaceholderVisibility = Visibility.Visible;
-                //    UserImage = new BitmapImage();
-                //}
-
-
                 UserImage = new BitmapImage(new Uri($"https://cdn.myanimelist.net/images/userimages/{Credentials.Id}.jpg")); 
                 ProfileButtonVisibility = true;
                 UsrImgPlaceholderVisibility = Visibility.Collapsed;
@@ -328,6 +299,8 @@ namespace MALClient.UWP.ViewModels
             {
                 UWPUtilities.RemoveProfileImg();
             }
+
+            return Task.CompletedTask;
         }
 
         private void ResetActiveButton()

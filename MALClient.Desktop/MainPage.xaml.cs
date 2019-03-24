@@ -69,17 +69,17 @@ namespace MALClient.UWP
 
 	    private async void ShareManagerOnTimerStateChanged(object sender, bool e)
 	    {
-	        await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-	        {
-	            if (e)
-	            {
-	                ExampleVSCodeInAppNotification.Show();
-	            }
-	            else
-	            {
-	                ExampleVSCodeInAppNotification.Dismiss();
-	            }
-	        });
+	        //await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+	        //{
+	        //    if (e)
+	        //    {
+	        //        ExampleVSCodeInAppNotification.Show();
+	        //    }
+	        //    else
+	        //    {
+	        //        ExampleVSCodeInAppNotification.Dismiss();
+	        //    }
+	        //});
 	    }
 
 	    private void VmOnMediaElementCollapsed()

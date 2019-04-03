@@ -65,8 +65,6 @@ namespace MALClient.XShared.ViewModels.Main
 
         }
 
-
-
         public bool Authenticating
         {
             get { return _authenticating; }
@@ -146,6 +144,7 @@ namespace MALClient.XShared.ViewModels.Main
                     if (string.IsNullOrEmpty(response))
                         throw new Exception();
                     Settings.SelectedApiType = ApiType.Mal;
+                    Credentials.SetId(123456);
                     Credentials.SetAuthStatus(true);
                     ResourceLocator.TelemetryProvider.TelemetryTrackEvent(TelemetryTrackedEvents.LoggedInMyAnimeList);
                 }

@@ -55,8 +55,8 @@ namespace MALClient.Android.Adapters
                     ResourceLocator.DispatcherAdapter.Run( async () =>
                     {
                         await ResourceLocator.MessageDialogProvider.ShowMessageDialogAsync(
-                            "Too many failed login attempts. Your account is locked according to MAL. You have to reset your password.",
-                            "Reset your password");
+                            "Too many failed login attempts. Your account is locked according to MAL. Please try signing in on website.",
+                            "Failed to authorize.");
                         if(ViewModelLocator.GeneralMain.CurrentMainPage != PageIndex.PageLogIn)
                             ViewModelLocator.GeneralMain.Navigate(PageIndex.PageLogIn);
                     });

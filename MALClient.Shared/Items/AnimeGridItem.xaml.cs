@@ -92,7 +92,7 @@ namespace MALClient.UWP.Shared.Items
                     TypeTextBlock.Text = ViewModel.PureType;
                 }
             }
-            Bindings.Update();
+            //Bindings.Update();
         }
 
         private void ViewModelOnPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)

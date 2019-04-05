@@ -117,14 +117,14 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Clubs
                                 output.AnimeRelations.Add(
                                     (WebUtility.HtmlDecode(link.InnerText.Trim()), link.Attributes["href"].Value
                                         .Split('=')
-                                        .Last()));
+                                        .Last().Split('/').Last()));
                                 break;
                             case 3:
                                 link = rightDiv.Descendants("a").First();
                                 output.MangaRelations.Add(
                                     (WebUtility.HtmlDecode(link.InnerText.Trim()), link.Attributes["href"].Value
                                         .Split('=')
-                                        .Last()));
+                                        .Last().Split('/').Last()));
                                 break;
                             case 4:
                                 link = rightDiv.Descendants("a").First();

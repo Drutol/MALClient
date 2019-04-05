@@ -90,7 +90,10 @@ namespace MALClient.Android.Activities
             Bindings.Add(
                 this.SetBinding(() => ViewModel.RefreshButtonVisibility,
                     () => MainPageRefreshButton.Visibility).ConvertSourceToTarget(Converters.BoolToVisibility));
-            MainPageRefreshButton.Click += (sender, args) => ViewModel.RefreshDataCommand.Execute(null);
+            MainPageRefreshButton.SetOnClickListener(new OnClickListener(view =>
+            {
+                ViewModel.RefreshDataCommand.Execute(null);
+            }));
 
             Bindings.Add(
                 this.SetBinding(() => ViewModel.SearchToggleVisibility,

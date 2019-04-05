@@ -482,13 +482,13 @@ namespace MALClient.Android.Activities
                 }
 
                 ImageService.Instance
-                    .LoadUrl($"https://myanimelist.cdn-dena.com/images/userimages/{Credentials.Id}.webp",
+                    .LoadUrl($"https://cdn.myanimelist.net/images/userimages/{Credentials.Id}.webp",
                         TimeSpan.FromDays(1))
                     .FadeAnimation(false).Transform(new CircleTransformation())
                     .Error(e =>
                     {
                         ImageService.Instance
-                            .LoadUrl($"https://myanimelist.cdn-dena.com/images/userimages/{Credentials.Id}.jpg",
+                            .LoadUrl($"https://cdn.myanimelist.net/images/userimages/{Credentials.Id}.jpg",
                                 TimeSpan.FromDays(1))
                             .FadeAnimation(false).Transform(new CircleTransformation())
                             .Into(_accountHamburgerView.FindViewById<ImageViewAsync>(Resource.Id

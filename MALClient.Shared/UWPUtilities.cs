@@ -79,7 +79,7 @@ namespace MALClient.UWP.Shared
                 switch (Settings.SelectedApiType)
                 {
                     case ApiType.Mal:
-                        await Task.Run(async () => response = await http.GetByteArrayAsync($"https://myanimelist.cdn-dena.com/images/userimages/{Credentials.Id}.jpg"));
+                        await Task.Run(async () => response = await http.GetByteArrayAsync($"https://cdn.myanimelist.net/images/userimages/{Credentials.Id}.jpg"));
                         break;
                     case ApiType.Hummingbird:
                         var avatarLink = await new ProfileQuery().GetHummingBirdAvatarUrl();

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Input;
 using Windows.ApplicationModel;
 using Windows.Storage;
@@ -23,6 +25,9 @@ namespace MALClient.UWP.Shared.ViewModels
                 Launcher.LaunchUriAsync(
                     new Uri($"ms-windows-store:REVIEW?PFN={Package.Current.Id.FamilyName}"));
         }));
+
+        public override List<SettingsPageEntry> SettingsPages =>
+            base.SettingsPages.Where(entry => entry.PageType != SettingsPageIndex.Ads).ToList();
 
         public override ICommand RequestNavigationCommand
             => _requestNavigationCommand ?? (_requestNavigationCommand = new RelayCommand<SettingsPageIndex>(page =>

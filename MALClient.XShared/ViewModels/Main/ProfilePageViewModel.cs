@@ -109,6 +109,14 @@ namespace MALClient.XShared.ViewModels.Main
                                     await new ProfileQuery(false, args?.TargetUser ?? "").GetProfileData(force));
                     _currUser = args.TargetUser ?? Credentials.UserName;
                 }
+
+                if (!CurrentData.Details?.Any() ?? true)
+                {
+                    ResourceLocator.MessageDialogProvider.ShowMessageDialog(
+                        "Failed to load profile, user might not exist or his profile is private.",
+                        "Error loading profile.");
+                }
+
                 FavAnime = new List<AnimeItemViewModel>();
                 FavManga = new List<AnimeItemViewModel>();
                 RecentManga = new List<AnimeItemViewModel>();

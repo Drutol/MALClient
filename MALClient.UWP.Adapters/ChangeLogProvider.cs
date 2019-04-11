@@ -17,8 +17,7 @@ namespace MALClient.UWP.Adapters
 
         public List<string> Changelog => new List<string>
         {
-            "Overall update, now on par with Android version.",
-            "Removed ads."
+            "Fixed sign out bug on app start.",
         };
     }
 }

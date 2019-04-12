@@ -72,7 +72,7 @@ namespace MALClient.Android.Fragments
                 {
                     if (ViewModel.LoadingWallpapersVisibility)
                         return;
-                    if (WallpapersPageList.Adapter.Count - WallpapersPageList.FirstVisiblePosition <= 2)
+                    if (WallpapersPageList.Adapter.Count - WallpapersPageList.FirstVisiblePosition <= 4)
                         ViewModel.GoForwardCommand.Execute(null);
                 }));
             }

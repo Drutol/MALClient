@@ -103,7 +103,7 @@ namespace MALClient.Android
             }
         }
 
-        public static void MakeFlingAware(this AbsListView list,Action<bool> action)
+        public static void MakeFlingAware(this AbsListView list, Action<bool> action)
         {
             list.SetOnScrollListener(new ScrollChangedListener((view, state) =>
             {

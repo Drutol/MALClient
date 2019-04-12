@@ -8,14 +8,18 @@ using Android.Content;
 using Android.OS;
 using Android.Renderscripts;
 using Android.Runtime;
+using Android.Support.Design.Widget;
 using Android.Support.V4.View;
 using Android.Views;
 using Android.Widget;
 using Com.Astuetz;
 using GalaSoft.MvvmLight.Helpers;
+using MALClient.Android.Adapters;
 using MALClient.Android.BindingConverters;
+using MALClient.Android.Listeners;
 using MALClient.Android.PagerAdapters;
 using MALClient.XShared.NavArgs;
+using MALClient.XShared.Utils;
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Main;
 
@@ -23,6 +27,8 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
 {
     public class ProfilePageStatsTabFragment : MalFragmentBase
     {
+        public override int LayoutResourceId => Resource.Layout.ProfilePageStatsTab;
+
         private ProfilePageViewModel ViewModel = ViewModelLocator.ProfilePage;
 
         protected override void Init(Bundle savedInstanceState)
@@ -193,9 +199,50 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
                     StatsApproxTimeSpentBoth.Text = ViewModel.ApproxTimeSpentOnAnimeAndMovies;
 
                 }));
+
+            ShareButton.SetOnClickListener(new OnClickListener(view => ShareStats()));
         }
 
-        public override int LayoutResourceId => Resource.Layout.ProfilePageStatsTab;
+        private void ShareStats()
+        {
+            try
+            {
+                var shareIntent = new Intent(Intent.ActionSend);
+                shareIntent.SetType("text/plain");
+                shareIntent.PutExtra(Intent.ExtraSubject, $"{ViewModel.CurrentData.User.Name}'s MAL stats");
+
+                var mgr = ResourceLocator.MessageDialogProvider as MessageDialogProvider;
+
+                mgr.ShowChooseDialog("Choose whether you want to share your Anime or Manga stats.", "Share options",
+                    "Cancel", "Anime", "Manga",
+                    () =>
+                    {
+                        shareIntent.PutExtra(Intent.ExtraText, $"• {ViewModel.CurrentData.User.Name}'s Anime Stats •\n" +
+                                                               $"Watching: {ViewModel.CurrentData.AnimeWatching} | Completed: {ViewModel.CurrentData.AnimeCompleted}\n" +
+                                                               $"On Hold: {ViewModel.CurrentData.AnimeOnHold} | Dropped: {ViewModel.CurrentData.AnimeDropped}\n" +
+                                                               $"Planned: {ViewModel.CurrentData.AnimePlanned}\n" +
+                                                               $"Total: {ViewModel.CurrentData.AnimeTotal} | Episodes: {ViewModel.CurrentData.AnimeEpisodes}\n" +
+                                                               $"Days: {ViewModel.CurrentData.AnimeDays:N2} | Mean score: {ViewModel.CurrentData.AnimeMean:N2}");
+
+                        Activity.StartActivity(Intent.CreateChooser(shareIntent, "How to share stats"));
+                    }, () =>
+                    {
+                        shareIntent.PutExtra(Intent.ExtraText, $"• {ViewModel.CurrentData.User.Name}'s Manga Stats •\n" +
+                                                               $"Watching: {ViewModel.CurrentData.MangaReading} | Completed: {ViewModel.CurrentData.MangaCompleted}\n" +
+                                                               $"On Hold: {ViewModel.CurrentData.MangaOnHold} | Dropped: {ViewModel.CurrentData.MangaDropped}\n" +
+                                                               $"Planned: {ViewModel.CurrentData.MangaPlanned}\n" +
+                                                               $"Total: {ViewModel.CurrentData.MangaTotal} | Episodes: {ViewModel.CurrentData.MangaChapters}\n" +
+                                                               $"Volumes: {ViewModel.CurrentData.MangaVolumes}\n" +
+                                                               $"Days: {ViewModel.CurrentData.MangaDays:N2} | Mean score: {ViewModel.CurrentData.MangaMean:N2}\n");
+                        Activity.StartActivity(Intent.CreateChooser(shareIntent, "How to share stats"));
+                    });
+
+            }
+            catch (Exception e)
+            {
+
+            }
+        }
 
         #region Views
 
@@ -243,94 +290,53 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
         private TextView _statsApproxTimeSpentAnime;
         private TextView _statsApproxTimeSpentMovies;
         private TextView _statsApproxTimeSpentBoth;
+        private FloatingActionButton _shareButton;
 
         public TextView ProfilePageStatsFragmentWatchingAnimeBarLabel => _profilePageStatsFragmentWatchingAnimeBarLabel ?? (_profilePageStatsFragmentWatchingAnimeBarLabel = FindViewById<TextView>(Resource.Id.ProfilePageStatsFragmentWatchingAnimeBarLabel));
-
         public FrameLayout ProfilePageStatsFragmentWatchingAnimeBar => _profilePageStatsFragmentWatchingAnimeBar ?? (_profilePageStatsFragmentWatchingAnimeBar = FindViewById<FrameLayout>(Resource.Id.ProfilePageStatsFragmentWatchingAnimeBar));
-
         public TextView ProfilePageStatsFragmentCompletedAnimeBarLabel => _profilePageStatsFragmentCompletedAnimeBarLabel ?? (_profilePageStatsFragmentCompletedAnimeBarLabel = FindViewById<TextView>(Resource.Id.ProfilePageStatsFragmentCompletedAnimeBarLabel));
-
         public FrameLayout ProfilePageStatsFragmentCompletedAnimeBar => _profilePageStatsFragmentCompletedAnimeBar ?? (_profilePageStatsFragmentCompletedAnimeBar = FindViewById<FrameLayout>(Resource.Id.ProfilePageStatsFragmentCompletedAnimeBar));
-
         public TextView ProfilePageStatsFragmentOnHoldAnimeBarLabel => _profilePageStatsFragmentOnHoldAnimeBarLabel ?? (_profilePageStatsFragmentOnHoldAnimeBarLabel = FindViewById<TextView>(Resource.Id.ProfilePageStatsFragmentOnHoldAnimeBarLabel));
-
         public FrameLayout ProfilePageStatsFragmentOnHoldAnimeBar => _profilePageStatsFragmentOnHoldAnimeBar ?? (_profilePageStatsFragmentOnHoldAnimeBar = FindViewById<FrameLayout>(Resource.Id.ProfilePageStatsFragmentOnHoldAnimeBar));
-
         public TextView ProfilePageStatsFragmentDroppedAnimeBarLabel => _profilePageStatsFragmentDroppedAnimeBarLabel ?? (_profilePageStatsFragmentDroppedAnimeBarLabel = FindViewById<TextView>(Resource.Id.ProfilePageStatsFragmentDroppedAnimeBarLabel));
-
         public FrameLayout ProfilePageStatsFragmentDroppedAnimeBar => _profilePageStatsFragmentDroppedAnimeBar ?? (_profilePageStatsFragmentDroppedAnimeBar = FindViewById<FrameLayout>(Resource.Id.ProfilePageStatsFragmentDroppedAnimeBar));
-
         public TextView ProfilePageStatsFragmentPlannedAnimeBarLabel => _profilePageStatsFragmentPlannedAnimeBarLabel ?? (_profilePageStatsFragmentPlannedAnimeBarLabel = FindViewById<TextView>(Resource.Id.ProfilePageStatsFragmentPlannedAnimeBarLabel));
-
         public FrameLayout ProfilePageStatsFragmentPlannedAnimeBar => _profilePageStatsFragmentPlannedAnimeBar ?? (_profilePageStatsFragmentPlannedAnimeBar = FindViewById<FrameLayout>(Resource.Id.ProfilePageStatsFragmentPlannedAnimeBar));
-
         public TextView WatchingAnimeCount => _watchingAnimeCount ?? (_watchingAnimeCount = FindViewById<TextView>(Resource.Id.WatchingAnimeCount));
-
         public TextView CompletedAnimeCount => _completedAnimeCount ?? (_completedAnimeCount = FindViewById<TextView>(Resource.Id.CompletedAnimeCount));
-
         public TextView OnHoldAnimeCount => _onHoldAnimeCount ?? (_onHoldAnimeCount = FindViewById<TextView>(Resource.Id.OnHoldAnimeCount));
-
         public TextView DroppedAnimeCount => _droppedAnimeCount ?? (_droppedAnimeCount = FindViewById<TextView>(Resource.Id.DroppedAnimeCount));
-
         public TextView PlannedAnimeCount => _plannedAnimeCount ?? (_plannedAnimeCount = FindViewById<TextView>(Resource.Id.PlannedAnimeCount));
-
         public TextView TotalAnimeCount => _totalAnimeCount ?? (_totalAnimeCount = FindViewById<TextView>(Resource.Id.TotalAnimeCount));
-
         public TextView RewatchedAnimeCount => _rewatchedAnimeCount ?? (_rewatchedAnimeCount = FindViewById<TextView>(Resource.Id.RewatchedAnimeCount));
-
         public TextView EpisodesAnimeCount => _episodesAnimeCount ?? (_episodesAnimeCount = FindViewById<TextView>(Resource.Id.EpisodesAnimeCount));
-
         public TextView AnimeDaysLabel => _animeDaysLabel ?? (_animeDaysLabel = FindViewById<TextView>(Resource.Id.AnimeDaysLabel));
-
         public TextView AnimeMeanLabel => _animeMeanLabel ?? (_animeMeanLabel = FindViewById<TextView>(Resource.Id.AnimeMeanLabel));
-
         public TextView ProfilePageStatsFragmentWatchingMangaBarLabel => _profilePageStatsFragmentWatchingMangaBarLabel ?? (_profilePageStatsFragmentWatchingMangaBarLabel = FindViewById<TextView>(Resource.Id.ProfilePageStatsFragmentWatchingMangaBarLabel));
-
         public FrameLayout ProfilePageStatsFragmentWatchingMangaBar => _profilePageStatsFragmentWatchingMangaBar ?? (_profilePageStatsFragmentWatchingMangaBar = FindViewById<FrameLayout>(Resource.Id.ProfilePageStatsFragmentWatchingMangaBar));
-
         public TextView ProfilePageStatsFragmentCompletedMangaBarLabel => _profilePageStatsFragmentCompletedMangaBarLabel ?? (_profilePageStatsFragmentCompletedMangaBarLabel = FindViewById<TextView>(Resource.Id.ProfilePageStatsFragmentCompletedMangaBarLabel));
-
         public FrameLayout ProfilePageStatsFragmentCompletedMangaBar => _profilePageStatsFragmentCompletedMangaBar ?? (_profilePageStatsFragmentCompletedMangaBar = FindViewById<FrameLayout>(Resource.Id.ProfilePageStatsFragmentCompletedMangaBar));
-
         public TextView ProfilePageStatsFragmentOnHoldMangaBarLabel => _profilePageStatsFragmentOnHoldMangaBarLabel ?? (_profilePageStatsFragmentOnHoldMangaBarLabel = FindViewById<TextView>(Resource.Id.ProfilePageStatsFragmentOnHoldMangaBarLabel));
-
         public FrameLayout ProfilePageStatsFragmentOnHoldMangaBar => _profilePageStatsFragmentOnHoldMangaBar ?? (_profilePageStatsFragmentOnHoldMangaBar = FindViewById<FrameLayout>(Resource.Id.ProfilePageStatsFragmentOnHoldMangaBar));
-
         public TextView ProfilePageStatsFragmentDroppedMangaBarLabel => _profilePageStatsFragmentDroppedMangaBarLabel ?? (_profilePageStatsFragmentDroppedMangaBarLabel = FindViewById<TextView>(Resource.Id.ProfilePageStatsFragmentDroppedMangaBarLabel));
-
         public FrameLayout ProfilePageStatsFragmentDroppedMangaBar => _profilePageStatsFragmentDroppedMangaBar ?? (_profilePageStatsFragmentDroppedMangaBar = FindViewById<FrameLayout>(Resource.Id.ProfilePageStatsFragmentDroppedMangaBar));
-
         public TextView ProfilePageStatsFragmentPlannedMangaBarLabel => _profilePageStatsFragmentPlannedMangaBarLabel ?? (_profilePageStatsFragmentPlannedMangaBarLabel = FindViewById<TextView>(Resource.Id.ProfilePageStatsFragmentPlannedMangaBarLabel));
-
         public FrameLayout ProfilePageStatsFragmentPlannedMangaBar => _profilePageStatsFragmentPlannedMangaBar ?? (_profilePageStatsFragmentPlannedMangaBar = FindViewById<FrameLayout>(Resource.Id.ProfilePageStatsFragmentPlannedMangaBar));
-
         public TextView WatchingMangaCount => _watchingMangaCount ?? (_watchingMangaCount = FindViewById<TextView>(Resource.Id.WatchingMangaCount));
-
         public TextView CompletedMangaCount => _completedMangaCount ?? (_completedMangaCount = FindViewById<TextView>(Resource.Id.CompletedMangaCount));
-
         public TextView OnHoldMangaCount => _onHoldMangaCount ?? (_onHoldMangaCount = FindViewById<TextView>(Resource.Id.OnHoldMangaCount));
-
         public TextView DroppedMangaCount => _droppedMangaCount ?? (_droppedMangaCount = FindViewById<TextView>(Resource.Id.DroppedMangaCount));
-
         public TextView PlannedMangaCount => _plannedMangaCount ?? (_plannedMangaCount = FindViewById<TextView>(Resource.Id.PlannedMangaCount));
-
         public TextView TotalMangaCount => _totalMangaCount ?? (_totalMangaCount = FindViewById<TextView>(Resource.Id.TotalMangaCount));
-
         public TextView RereadMangaCount => _rereadMangaCount ?? (_rereadMangaCount = FindViewById<TextView>(Resource.Id.RereadMangaCount));
-
         public TextView ChaptersMangaCount => _chaptersMangaCount ?? (_chaptersMangaCount = FindViewById<TextView>(Resource.Id.ChaptersMangaCount));
-
         public TextView VolumesMangaCount => _volumesMangaCount ?? (_volumesMangaCount = FindViewById<TextView>(Resource.Id.VolumesMangaCount));
-
         public TextView MangaDaysLabel => _mangaDaysLabel ?? (_mangaDaysLabel = FindViewById<TextView>(Resource.Id.MangaDaysLabel));
-
         public TextView MangaMeanLabel => _mangaMeanLabel ?? (_mangaMeanLabel = FindViewById<TextView>(Resource.Id.MangaMeanLabel));
-
         public TextView StatsApproxTimeSpentAnime => _statsApproxTimeSpentAnime ?? (_statsApproxTimeSpentAnime = FindViewById<TextView>(Resource.Id.StatsApproxTimeSpentAnime));
-
         public TextView StatsApproxTimeSpentMovies => _statsApproxTimeSpentMovies ?? (_statsApproxTimeSpentMovies = FindViewById<TextView>(Resource.Id.StatsApproxTimeSpentMovies));
-
         public TextView StatsApproxTimeSpentBoth => _statsApproxTimeSpentBoth ?? (_statsApproxTimeSpentBoth = FindViewById<TextView>(Resource.Id.StatsApproxTimeSpentBoth));
+        public FloatingActionButton ShareButton => _shareButton ?? (_shareButton = FindViewById<FloatingActionButton>(Resource.Id.ShareButton));
 
         #endregion
     }

@@ -121,6 +121,7 @@ namespace MALClient.Android.Widgets
 
                     try
                     {
+                        Log.Debug(Tag, "Registering dependencies.");
                         ResourceLocator.RegisterBase();
                         ResourceLocator.RegisterAppDataServiceAdapter(new ApplicationDataServiceService());
                         ResourceLocator.RegisterPasswordVaultAdapter(new PasswordVaultProvider());
@@ -131,12 +132,13 @@ namespace MALClient.Android.Widgets
                     }
                     catch (Exception e)
                     {
-
+                        Log.Debug(Tag, "Failed to register dependencies... already registered?");
                     }
 
                     bool running = ResourceLocator.AnimeLibraryDataStorage.AllLoadedAuthAnimeItems?.Any() ?? false;
                     foreach (var widgetId in allWidgetIds)
                     {
+                        Log.Debug(Tag, $"Resetting widget {widgetId}");
                         var view = new RemoteViews(_parent.PackageName, layoutId);
                         _views.Add(new Tuple<RemoteViews, int>(view, widgetId));
 
@@ -178,12 +180,12 @@ namespace MALClient.Android.Widgets
                     }
                     catch (Exception e)
                     {
-                        //we have failed very very badly
+                        Log.Error(Tag, e.ToString());
                     }
 
                     await Task.Delay(1000); // give visual feedback
 
-
+                    Log.Debug(Tag, $"Available shows: {(shows?.Items.Count.ToString() ?? "N/A")}");
                     if (shows != null && shows.Items.Any())
                     {
                         foreach (var view in _views)
@@ -246,7 +248,11 @@ namespace MALClient.Android.Widgets
                         }
                     }
 
-                    await Task.Delay(6000); //let the widget update in peace...
+                    await Task.Delay(1000); //let the widget update in peace...
+                }
+                catch (Exception e)
+                {
+                    Log.Error(Tag, e.ToString());
                 }
                 finally
                 {

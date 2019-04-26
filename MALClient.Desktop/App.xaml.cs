@@ -277,6 +277,7 @@ namespace MALClient.UWP
             await FavouritesManager.SaveData();
             await AnimeImageQuery.SaveData();
             await ResourceLocator.HandyDataStorage.SaveData();
+            await ResourceLocator.EnglishTitlesProvider.SaveData();
             deferral.Complete();
         }
     }

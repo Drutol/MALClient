@@ -45,18 +45,22 @@ namespace MALClient.Android.Fragments.SettingsFragments
         private Switch _settingsPageGeneralDisplayScoreDialog;
         private Switch _settingsPageGeneralEnableShareButton;
         private Switch _settingsPageGeneralEnableDisplayUnsetScores;
+        private Switch _settingsPageGeneralHideDecrementButtons;
+        private Switch _settingsPageGeneralHideGlobalScore;
+        private Switch _settingsPageGeneralSqueezeOneMoreItem;
+        private Switch _settingsPageGeneralDontAskMoveOnHold;
         private RadioButton _settingsPageGeneralAnimeSortTitleRadioBtn;
         private RadioButton _settingsPageGeneralAnimeScoreTitleRadioBtn;
         private RadioButton _settingsPageGeneralAnimeWatchedTitleRadioBtn;
         private RadioButton _settingsPageGeneralAnimeSoonAiringTitleRadioBtn;
         private RadioButton _settingsPageGeneralAnimeLastWatchTitleRadioBtn;
         private RadioButton _settingsPageGeneralAnimeSortNoneRadioBtn;
-        private RadioButton _settingsPageGeneralMangaLastReadTitleRadioBtn;
         private RadioGroup _settingsPageGeneralAnimeSortRadioGroup;
         private Switch _settingsPageGeneralAnimeSortDescendingSwitch;
         private RadioButton _settingsPageGeneralMangaSortTitleRadioBtn;
         private RadioButton _settingsPageGeneralMangaSortScoreRadioBtn;
         private RadioButton _settingsPageGeneralMangaSortReadRadioBtn;
+        private RadioButton _settingsPageGeneralMangaLastReadTitleRadioBtn;
         private RadioButton _settingsPageGeneralMangaSortNoneRadioBtn;
         private RadioGroup _settingsPageGeneralMangaSortRadioGroup;
         private Switch _settingsPageGeneralMangaSortDescendingSwitch;
@@ -107,18 +111,22 @@ namespace MALClient.Android.Fragments.SettingsFragments
         public Switch SettingsPageGeneralDisplayScoreDialog => _settingsPageGeneralDisplayScoreDialog ?? (_settingsPageGeneralDisplayScoreDialog = FindViewById<Switch>(Resource.Id.SettingsPageGeneralDisplayScoreDialog));
         public Switch SettingsPageGeneralEnableShareButton => _settingsPageGeneralEnableShareButton ?? (_settingsPageGeneralEnableShareButton = FindViewById<Switch>(Resource.Id.SettingsPageGeneralEnableShareButton));
         public Switch SettingsPageGeneralEnableDisplayUnsetScores => _settingsPageGeneralEnableDisplayUnsetScores ?? (_settingsPageGeneralEnableDisplayUnsetScores = FindViewById<Switch>(Resource.Id.SettingsPageGeneralEnableDisplayUnsetScores));
+        public Switch SettingsPageGeneralHideDecrementButtons => _settingsPageGeneralHideDecrementButtons ?? (_settingsPageGeneralHideDecrementButtons = FindViewById<Switch>(Resource.Id.SettingsPageGeneralHideDecrementButtons));
+        public Switch SettingsPageGeneralHideGlobalScore => _settingsPageGeneralHideGlobalScore ?? (_settingsPageGeneralHideGlobalScore = FindViewById<Switch>(Resource.Id.SettingsPageGeneralHideGlobalScore));
+        public Switch SettingsPageGeneralSqueezeOneMoreItem => _settingsPageGeneralSqueezeOneMoreItem ?? (_settingsPageGeneralSqueezeOneMoreItem = FindViewById<Switch>(Resource.Id.SettingsPageGeneralSqueezeOneMoreItem));
+        public Switch SettingsPageGeneralDontAskMoveOnHold => _settingsPageGeneralDontAskMoveOnHold ?? (_settingsPageGeneralDontAskMoveOnHold = FindViewById<Switch>(Resource.Id.SettingsPageGeneralDontAskMoveOnHold));
         public RadioButton SettingsPageGeneralAnimeSortTitleRadioBtn => _settingsPageGeneralAnimeSortTitleRadioBtn ?? (_settingsPageGeneralAnimeSortTitleRadioBtn = FindViewById<RadioButton>(Resource.Id.SettingsPageGeneralAnimeSortTitleRadioBtn));
         public RadioButton SettingsPageGeneralAnimeScoreTitleRadioBtn => _settingsPageGeneralAnimeScoreTitleRadioBtn ?? (_settingsPageGeneralAnimeScoreTitleRadioBtn = FindViewById<RadioButton>(Resource.Id.SettingsPageGeneralAnimeScoreTitleRadioBtn));
         public RadioButton SettingsPageGeneralAnimeWatchedTitleRadioBtn => _settingsPageGeneralAnimeWatchedTitleRadioBtn ?? (_settingsPageGeneralAnimeWatchedTitleRadioBtn = FindViewById<RadioButton>(Resource.Id.SettingsPageGeneralAnimeWatchedTitleRadioBtn));
         public RadioButton SettingsPageGeneralAnimeSoonAiringTitleRadioBtn => _settingsPageGeneralAnimeSoonAiringTitleRadioBtn ?? (_settingsPageGeneralAnimeSoonAiringTitleRadioBtn = FindViewById<RadioButton>(Resource.Id.SettingsPageGeneralAnimeSoonAiringTitleRadioBtn));
         public RadioButton SettingsPageGeneralAnimeLastWatchTitleRadioBtn => _settingsPageGeneralAnimeLastWatchTitleRadioBtn ?? (_settingsPageGeneralAnimeLastWatchTitleRadioBtn = FindViewById<RadioButton>(Resource.Id.SettingsPageGeneralAnimeLastWatchTitleRadioBtn));
         public RadioButton SettingsPageGeneralAnimeSortNoneRadioBtn => _settingsPageGeneralAnimeSortNoneRadioBtn ?? (_settingsPageGeneralAnimeSortNoneRadioBtn = FindViewById<RadioButton>(Resource.Id.SettingsPageGeneralAnimeSortNoneRadioBtn));
-        public RadioButton SettingsPageGeneralMangaLastReadTitleRadioBtn => _settingsPageGeneralMangaLastReadTitleRadioBtn ?? (_settingsPageGeneralMangaLastReadTitleRadioBtn = FindViewById<RadioButton>(Resource.Id.SettingsPageGeneralMangaLastReadTitleRadioBtn));
         public RadioGroup SettingsPageGeneralAnimeSortRadioGroup => _settingsPageGeneralAnimeSortRadioGroup ?? (_settingsPageGeneralAnimeSortRadioGroup = FindViewById<RadioGroup>(Resource.Id.SettingsPageGeneralAnimeSortRadioGroup));
         public Switch SettingsPageGeneralAnimeSortDescendingSwitch => _settingsPageGeneralAnimeSortDescendingSwitch ?? (_settingsPageGeneralAnimeSortDescendingSwitch = FindViewById<Switch>(Resource.Id.SettingsPageGeneralAnimeSortDescendingSwitch));
         public RadioButton SettingsPageGeneralMangaSortTitleRadioBtn => _settingsPageGeneralMangaSortTitleRadioBtn ?? (_settingsPageGeneralMangaSortTitleRadioBtn = FindViewById<RadioButton>(Resource.Id.SettingsPageGeneralMangaSortTitleRadioBtn));
         public RadioButton SettingsPageGeneralMangaSortScoreRadioBtn => _settingsPageGeneralMangaSortScoreRadioBtn ?? (_settingsPageGeneralMangaSortScoreRadioBtn = FindViewById<RadioButton>(Resource.Id.SettingsPageGeneralMangaSortScoreRadioBtn));
         public RadioButton SettingsPageGeneralMangaSortReadRadioBtn => _settingsPageGeneralMangaSortReadRadioBtn ?? (_settingsPageGeneralMangaSortReadRadioBtn = FindViewById<RadioButton>(Resource.Id.SettingsPageGeneralMangaSortReadRadioBtn));
+        public RadioButton SettingsPageGeneralMangaLastReadTitleRadioBtn => _settingsPageGeneralMangaLastReadTitleRadioBtn ?? (_settingsPageGeneralMangaLastReadTitleRadioBtn = FindViewById<RadioButton>(Resource.Id.SettingsPageGeneralMangaLastReadTitleRadioBtn));
         public RadioButton SettingsPageGeneralMangaSortNoneRadioBtn => _settingsPageGeneralMangaSortNoneRadioBtn ?? (_settingsPageGeneralMangaSortNoneRadioBtn = FindViewById<RadioButton>(Resource.Id.SettingsPageGeneralMangaSortNoneRadioBtn));
         public RadioGroup SettingsPageGeneralMangaSortRadioGroup => _settingsPageGeneralMangaSortRadioGroup ?? (_settingsPageGeneralMangaSortRadioGroup = FindViewById<RadioGroup>(Resource.Id.SettingsPageGeneralMangaSortRadioGroup));
         public Switch SettingsPageGeneralMangaSortDescendingSwitch => _settingsPageGeneralMangaSortDescendingSwitch ?? (_settingsPageGeneralMangaSortDescendingSwitch = FindViewById<Switch>(Resource.Id.SettingsPageGeneralMangaSortDescendingSwitch));
@@ -141,6 +149,6 @@ namespace MALClient.Android.Fragments.SettingsFragments
         public TextView SettingsPageGeneralAiringNotificationOffsetTextView => _settingsPageGeneralAiringNotificationOffsetTextView ?? (_settingsPageGeneralAiringNotificationOffsetTextView = FindViewById<TextView>(Resource.Id.SettingsPageGeneralAiringNotificationOffsetTextView));
         public SeekBar SettingsPageGeneralAiringNotificationOffsetSlider => _settingsPageGeneralAiringNotificationOffsetSlider ?? (_settingsPageGeneralAiringNotificationOffsetSlider = FindViewById<SeekBar>(Resource.Id.SettingsPageGeneralAiringNotificationOffsetSlider));
 
-        #endregion
+        #endregion Views
     }
 }

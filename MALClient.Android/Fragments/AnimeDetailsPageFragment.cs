@@ -27,6 +27,7 @@ using MALClient.Android.Resources;
 using MALClient.Android.UserControls;
 using MALClient.Models.Enums;
 using MALClient.XShared.NavArgs;
+using MALClient.XShared.Utils;
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Details;
 
@@ -45,12 +46,9 @@ namespace MALClient.Android.Fragments
 
         protected override void Init(Bundle savedInstanceState)
         {
-            ViewModel = ViewModelLocator.AnimeDetails;            
-            ViewModel.Init(_navArgs,false);
+            ViewModel = ViewModelLocator.AnimeDetails;
+            ViewModel.Init(_navArgs, false);
         }
-
-
-
 
         protected override void InitBindings()
         {
@@ -118,7 +116,6 @@ namespace MALClient.Android.Fragments
                     .WhenSourceChanges(
                         () => AnimeDetailsPagePivot.SetCurrentItem(ViewModel.DetailsPivotSelectedIndex, true)));
 
-
             Bindings.Add(
                 this.SetBinding(() => ViewModel.IsFavourite)
                     .WhenSourceChanges(() =>
@@ -135,9 +132,7 @@ namespace MALClient.Android.Fragments
                             AnimeDetailsPageFavouriteButton.SetImageResource(Resource.Drawable.icon_unfavourite);
                             AnimeDetailsPageFavouriteButton.SetBackgroundColor(Color.Transparent);
                         }
-
                     }));
-
 
             Bindings.Add(this.SetBinding(() => ViewModel.AnimeMode)
                 .WhenSourceChanges(() =>
@@ -188,15 +183,18 @@ namespace MALClient.Android.Fragments
             ImageContainer.SetOnClickListener(new OnClickListener(view =>
                 KeyImageDialog.Instance.ShowDialog(Activity, ViewModel.DetailImage)));
 
-
-
             //OneTime
 
             AnimeDetailsPageWatchedLabel.Text = ViewModel.WatchedEpsLabel;
 
-
-
-            //
+            if (Settings.HideDecrementButtons)
+            {
+                AnimeDetailsPageDecrementButton.Visibility = ViewStates.Gone;
+                AnimeDetailsPageIncrementButton.LayoutParameters.Width =
+                    DimensionsHelper.DpToPx(45);
+                AnimeDetailsPageIncrementButton.LayoutParameters.Height =
+                    DimensionsHelper.DpToPx(45);
+            }
 
             //Events
             AnimeDetailsPageStatusButton.SetOnClickListener(
@@ -207,8 +205,6 @@ namespace MALClient.Android.Fragments
                 new OnClickListener(view => AnimeDetailsPageWatchedButtonOnClick()));
             AnimeDetailsPageReadVolumesButton.SetOnClickListener(
                 new OnClickListener(view => AnimeDetailsPageVolumesButtonOnClick()));
-
-
         }
 
         private void OnMoreFlyoutClick(int i)
@@ -218,27 +214,35 @@ namespace MALClient.Android.Fragments
                 case 0:
                     ViewModel.NavigateForumBoardCommand.Execute(null);
                     break;
+
                 case 1:
                     AnimeDetailsPageDialogBuilder.BuildPromotionalVideoDialog(ViewModel);
                     break;
+
                 case 2:
                     AnimeUpdateDialogBuilder.BuildTagDialog(ViewModel);
                     break;
+
                 case 3:
                     ViewModel.CopyToClipboardCommand.Execute(null);
                     break;
+
                 case 4:
                     ViewModel.OpenInMalCommand.Execute(null);
                     break;
+
                 case 5:
                     ViewModel.RemoveAnimeCommand.Execute(null);
                     break;
+
                 case 6:
                     ViewModel.IsRewatching = !ViewModel.IsRewatching;
                     break;
+
                 case 7:
                     ViewModel.CopyTitleToClipboardCommand.Execute(null);
                     break;
+
                 case 8:
                     ViewModel.ToggleAirNotificationsCommand.Execute(null);
                     break;
@@ -267,10 +271,10 @@ namespace MALClient.Android.Fragments
 
         private void AnimeDetailsPageStatusButtonOnClick()
         {
-            AnimeUpdateDialogBuilder.BuildStatusDialog(ViewModel.AnimeItemReference,ViewModel.AnimeMode, status =>
-            {
-                ViewModel.ChangeStatus(status);
-            });
+            AnimeUpdateDialogBuilder.BuildStatusDialog(ViewModel.AnimeItemReference, ViewModel.AnimeMode, status =>
+             {
+                 ViewModel.ChangeStatus(status);
+             });
         }
 
         private void AnimeDetailsPageVolumesButtonOnClick()
@@ -280,9 +284,8 @@ namespace MALClient.Android.Fragments
                 {
                     ViewModel.ReadVolumesInput = s;
                     ViewModel.ChangeVolumesCommand.Execute(null);
-                },true);
+                }, true);
         }
-
 
         public override int LayoutResourceId => Resource.Layout.AnimeDetailsPage;
     }

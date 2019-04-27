@@ -35,9 +35,8 @@ using MALClient.XShared.Utils;
 
 namespace MALClient.Android.Fragments
 {
-
     public partial class AnimeListPageFragment
-    {      
+    {
         private AnimeListPageNavigationArgs _prevArgs;
 
         private AnimeListViewModel ViewModel = ViewModelLocator.AnimeList;
@@ -53,7 +52,7 @@ namespace MALClient.Android.Fragments
 
         protected override void Init(Bundle savedInstanceState)
         {
-            ViewModelLocator.AnimeList.Init(_prevArgs);     
+            ViewModelLocator.AnimeList.Init(_prevArgs);
         }
 
         private void CurrentContextOnHamburgerOpened(object o, EventArgs eventArgs)
@@ -77,7 +76,7 @@ namespace MALClient.Android.Fragments
 
         private async void AnimeListPageGridViewOnItemClick(AnimeItemViewModel model)
         {
-            await Task.Delay(75); //let's behold this ripple effect
+            await Task.Delay(25); //let's behold this ripple effect
             var args = ViewModelLocator.GeneralMain.GetCurrentListOrderParams();
             args.SelectedItemIndex = ViewModel.AnimeItems.IndexOf(model);
             model.NavigateDetails(null, args);
@@ -104,7 +103,6 @@ namespace MALClient.Android.Fragments
             }
             _loadMoreFooter.LayoutParameters = footerParam;
             InitActionMenu();
-
         }
 
         #region SortingFilterHamburgers
@@ -117,14 +115,14 @@ namespace MALClient.Android.Fragments
 
         private void InitDrawer()
         {
-            if(RightDrawer != null)
+            if (RightDrawer != null)
                 return;
 
             var builder = new DrawerBuilder().WithActivity(Activity);
             builder.WithSliderBackgroundColorRes(ResourceExtension.BrushHamburgerBackgroundRes);
             builder.WithStickyFooterShadow(true);
             builder.WithDisplayBelowStatusBar(true);
-            builder.WithDrawerGravity((int) GravityFlags.Right);
+            builder.WithDrawerGravity((int)GravityFlags.Right);
 
             builder.WithStickyHeaderShadow(true);
             builder.WithStickyHeader(Resource.Layout.AnimeListPageDrawerHeader);
@@ -173,7 +171,6 @@ namespace MALClient.Android.Fragments
             f6.WithName(ViewModel.StatusAllLabel);
             f6.WithIdentifier((int)AnimeStatus.AllOrAiring);
 
- 
             RightDrawer.SetItems(new List<IDrawerItem> { f1, f2, f3, f4, f5, f6 });
             RightDrawer.SetSelection((int)ViewModel.GetDesiredStatus());
 
@@ -181,18 +178,15 @@ namespace MALClient.Android.Fragments
             RightDrawer.StickyHeader.FindViewById<ImageView>(Resource.Id.AnimeListPageDrawerHeaderIcon).SetImageResource(
                 Resource.Drawable.icon_filter);
 
-
-
             if (open)
             {
-                
                 RightDrawer.OpenDrawer();
                 _actionMenu.Close(true);
             }
 
             RightDrawer.OnDrawerItemClickListener = new HamburgerItemClickListener((view, i, arg3) =>
             {
-                if(view == null)
+                if (view == null)
                     return;
                 ViewModel.CurrentStatus = (int)arg3.Identifier;
                 ViewModel.RefreshList();
@@ -206,7 +200,7 @@ namespace MALClient.Android.Fragments
             var items = new List<IDrawerItem>();
             var options = Enum.GetValues(typeof(SortOptions)).Cast<SortOptions>();
             if (ViewModel.IsMangaWorkMode)
-                options = options.Except(new[] {SortOptions.SortAirDay, SortOptions.SortSeason});
+                options = options.Except(new[] { SortOptions.SortAirDay, SortOptions.SortSeason });
             foreach (SortOptions sortOption in options)
             {
                 var btn = HamburgerUtilities.GetBaseSecondaryItem();
@@ -228,7 +222,7 @@ namespace MALClient.Android.Fragments
             items.Add(descendingToggle);
 
             RightDrawer.SetItems(items);
-            RightDrawer.SetSelection((int) ViewModel.SortOption);
+            RightDrawer.SetSelection((int)ViewModel.SortOption);
 
             RightDrawer.StickyHeader.FindViewById<TextView>(Resource.Id.AnimeListPageDrawerHeaderText).Text = "Sorting";
             RightDrawer.StickyHeader.FindViewById<ImageView>(Resource.Id.AnimeListPageDrawerHeaderIcon).SetImageResource(
@@ -239,7 +233,7 @@ namespace MALClient.Android.Fragments
                     return;
                 if (arg3.Identifier == 998877)
                 {
-                    ViewModel.SortDescending =! ViewModel.SortDescending;
+                    ViewModel.SortDescending = !ViewModel.SortDescending;
                     ViewModel.RefreshList();
                 }
                 else
@@ -257,7 +251,7 @@ namespace MALClient.Android.Fragments
             _actionMenu.Close(true);
         }
 
-        private void DescendingToggleOnCheckedChange(IDrawerItem item,bool check)
+        private void DescendingToggleOnCheckedChange(IDrawerItem item, bool check)
         {
             ViewModel.SortDescending = check;
             ViewModel.RefreshList();
@@ -277,8 +271,8 @@ namespace MALClient.Android.Fragments
             f3.WithName("Compact List");
             f3.WithIdentifier((int)AnimeListDisplayModes.IndefiniteCompactList);
 
-            RightDrawer.SetItems(new List<IDrawerItem>(){ f1, f2, f3 });
-            RightDrawer.SetSelection((int) ViewModel.DisplayMode);
+            RightDrawer.SetItems(new List<IDrawerItem>() { f1, f2, f3 });
+            RightDrawer.SetSelection((int)ViewModel.DisplayMode);
 
             RightDrawer.StickyHeader.FindViewById<TextView>(Resource.Id.AnimeListPageDrawerHeaderText).Text = "Display Modes";
             RightDrawer.StickyHeader.FindViewById<ImageView>(Resource.Id.AnimeListPageDrawerHeaderIcon).SetImageResource(
@@ -288,7 +282,7 @@ namespace MALClient.Android.Fragments
                 if (view == null)
                     return;
                 ViewModel.CurrentlySelectedDisplayMode =
-                    new Tuple<AnimeListDisplayModes, string>((AnimeListDisplayModes) arg3.Identifier, null);
+                    new Tuple<AnimeListDisplayModes, string>((AnimeListDisplayModes)arg3.Identifier, null);
                 RightDrawer.OnDrawerItemClickListener = null;
                 RightDrawer.CloseDrawer();
             });
@@ -319,7 +313,7 @@ namespace MALClient.Android.Fragments
             {
                 if (view == null)
                     return;
-                ViewModelLocator.GeneralMain.Navigate(PageIndex.PageAnimeList,AnimeListPageNavigationArgs.TopAnime((TopAnimeType)i));
+                ViewModelLocator.GeneralMain.Navigate(PageIndex.PageAnimeList, AnimeListPageNavigationArgs.TopAnime((TopAnimeType)i));
                 RightDrawer.OnDrawerItemClickListener = null;
                 RightDrawer.CloseDrawer();
             });
@@ -341,7 +335,7 @@ namespace MALClient.Android.Fragments
 
                 items.Add(item);
             }
-            var seasonView = Activity.LayoutInflater.Inflate(Resource.Layout.SeasonSelectionPopup,null);
+            var seasonView = Activity.LayoutInflater.Inflate(Resource.Layout.SeasonSelectionPopup, null);
 
             var spinnerYear = seasonView.FindViewById<Spinner>(Resource.Id.SeasonSelectionPopupYearComboBox);
             var spinnerSeason = seasonView.FindViewById<Spinner>(Resource.Id.SeasonSelectionPopupSeasonComboBox);
@@ -390,8 +384,6 @@ namespace MALClient.Android.Fragments
                 RightDrawer.CloseDrawer();
             });
 
-           
-
             RightDrawer.StickyHeader.FindViewById<TextView>(Resource.Id.AnimeListPageDrawerHeaderText).Text = "Seasonal Selection";
             RightDrawer.StickyHeader.FindViewById<ImageView>(Resource.Id.AnimeListPageDrawerHeaderIcon).SetImageResource(
                 Resource.Drawable.icon_calendar);
@@ -406,6 +398,6 @@ namespace MALClient.Android.Fragments
             RightDrawer.CloseDrawer();
         }
 
-        #endregion
+        #endregion SortingFilterHamburgers
     }
 }

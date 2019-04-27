@@ -44,12 +44,13 @@ namespace MALClient.Android.Fragments.SettingsFragments
             SettingsPageGeneralThemeRadioGroup.Check(Settings.SelectedTheme == 1
                 ? SettingsPageGeneralRadioDarkTheme.Id
                 : SettingsPageGeneralRadioLightTheme.Id);
-            
+
             SettingsPageGeneralThemeRadioGroup.SetOnCheckedChangeListener(new OnCheckedListener(i =>
             {
                 Settings.SelectedTheme = i == SettingsPageGeneralRadioDarkTheme.Id ? 1 : 0;
                 SettingsPageGeneralThemeChangeApply.Visibility =
-                    Converters.BoolToVisibility(Settings.SelectedTheme != MainActivity.CurrentTheme || AndroidColourThemeHelper.CurrentTheme != MainActivity.CurrentAccent);
+                    Converters.BoolToVisibility(Settings.SelectedTheme != MainActivity.CurrentTheme ||
+                                                AndroidColourThemeHelper.CurrentTheme != MainActivity.CurrentAccent);
             }));
             SettingsPageGeneralThemeChangeApply.SetOnClickListener(new OnClickListener(view =>
             {
@@ -59,19 +60,18 @@ namespace MALClient.Android.Fragments.SettingsFragments
 
             //
 
-
             Bindings.Add(
                 this.SetBinding(() => ViewModel.PullHigherQualityImages,
-                    () => SettingsPageGeneralPullHigherSwitch.Checked,BindingMode.TwoWay));
+                    () => SettingsPageGeneralPullHigherSwitch.Checked, BindingMode.TwoWay));
             Bindings.Add(
                 this.SetBinding(() => ViewModel.DisplaySeasonWithType,
-                    () => SettingsPageGeneralSeasonSwitch.Checked,BindingMode.TwoWay));
+                    () => SettingsPageGeneralSeasonSwitch.Checked, BindingMode.TwoWay));
             Bindings.Add(
                 this.SetBinding(() => ViewModel.AutoDescendingSorting,
-                    () => SettingsPageGeneralAutoSortSwitch.Checked,BindingMode.TwoWay));
+                    () => SettingsPageGeneralAutoSortSwitch.Checked, BindingMode.TwoWay));
             Bindings.Add(
                 this.SetBinding(() => ViewModel.MangaFocusVolumes,
-                    () => SettingsPageGeneralVolsImportantSwitch.Checked,BindingMode.TwoWay));
+                    () => SettingsPageGeneralVolsImportantSwitch.Checked, BindingMode.TwoWay));
             Bindings.Add(
                 this.SetBinding(() => ViewModel.HamburgerHideMangaSection,
                     () => SettingsPageGeneralHideHamburgerMangaSwitch.Checked, BindingMode.TwoWay));
@@ -105,6 +105,22 @@ namespace MALClient.Android.Fragments.SettingsFragments
             Bindings.Add(
                 this.SetBinding(() => ViewModel.DisplayUnsetScores,
                     () => SettingsPageGeneralEnableDisplayUnsetScores.Checked, BindingMode.TwoWay));
+
+            Bindings.Add(
+                this.SetBinding(() => ViewModel.HideDecrementButtons,
+                    () => SettingsPageGeneralHideDecrementButtons.Checked, BindingMode.TwoWay));
+
+            Bindings.Add(
+                this.SetBinding(() => ViewModel.DontAskToMoveOnHoldEntries,
+                    () => SettingsPageGeneralDontAskMoveOnHold.Checked, BindingMode.TwoWay));
+
+            Bindings.Add(
+                this.SetBinding(() => ViewModel.HideGlobalScoreInDetailsWhenNotRated,
+                    () => SettingsPageGeneralHideGlobalScore.Checked, BindingMode.TwoWay));
+
+            Bindings.Add(
+                this.SetBinding(() => ViewModel.SqueezeOneMoreGridItem,
+                    () => SettingsPageGeneralSqueezeOneMoreItem.Checked, BindingMode.TwoWay));
             //
 
             SettingsPageGeneralAnimeSortRadioGroup.Check(GetViewIdForAnimeSortOption(Settings.AnimeSortOrder));
@@ -129,55 +145,63 @@ namespace MALClient.Android.Fragments.SettingsFragments
             //
 
             SettingsPageGeneralWatchingViewModeSpinner.Adapter = ViewModel.DisplayModes.GetAdapter(GetTemplateDelegate);
-            SettingsPageGeneralWatchingViewModeSpinner.SetSelection(ViewModel.DisplayModes.IndexOf(ViewModel.SelectedDefaultViewForWatching));
+            SettingsPageGeneralWatchingViewModeSpinner.SetSelection(
+                ViewModel.DisplayModes.IndexOf(ViewModel.SelectedDefaultViewForWatching));
             SettingsPageGeneralWatchingViewModeSpinner.ItemSelected += (sender, args) =>
             {
-                ViewModel.SelectedDefaultViewForWatching = (sender as Spinner).SelectedView.Tag.Unwrap<Tuple<AnimeListDisplayModes, string>>();
+                ViewModel.SelectedDefaultViewForWatching = (sender as Spinner).SelectedView.Tag
+                    .Unwrap<Tuple<AnimeListDisplayModes, string>>();
             };
 
-            SettingsPageGeneralCompletedViewModeSpinner.Adapter = ViewModel.DisplayModes.GetAdapter(GetTemplateDelegate);
-            SettingsPageGeneralCompletedViewModeSpinner.SetSelection(ViewModel.DisplayModes.IndexOf(ViewModel.SelectedDefaultViewForCompleted));
+            SettingsPageGeneralCompletedViewModeSpinner.Adapter =
+                ViewModel.DisplayModes.GetAdapter(GetTemplateDelegate);
+            SettingsPageGeneralCompletedViewModeSpinner.SetSelection(
+                ViewModel.DisplayModes.IndexOf(ViewModel.SelectedDefaultViewForCompleted));
             SettingsPageGeneralCompletedViewModeSpinner.ItemSelected += (sender, args) =>
             {
-                ViewModel.SelectedDefaultViewForCompleted = (sender as Spinner).SelectedView.Tag.Unwrap<Tuple<AnimeListDisplayModes, string>>();
+                ViewModel.SelectedDefaultViewForCompleted = (sender as Spinner).SelectedView.Tag
+                    .Unwrap<Tuple<AnimeListDisplayModes, string>>();
             };
 
             SettingsPageGeneralOnHoldViewModeSpinner.Adapter = ViewModel.DisplayModes.GetAdapter(GetTemplateDelegate);
-            SettingsPageGeneralOnHoldViewModeSpinner.SetSelection(ViewModel.DisplayModes.IndexOf(ViewModel.SelectedDefaultViewForOnHold));
+            SettingsPageGeneralOnHoldViewModeSpinner.SetSelection(
+                ViewModel.DisplayModes.IndexOf(ViewModel.SelectedDefaultViewForOnHold));
             SettingsPageGeneralOnHoldViewModeSpinner.ItemSelected += (sender, args) =>
             {
-                ViewModel.SelectedDefaultViewForOnHold = (sender as Spinner).SelectedView.Tag.Unwrap<Tuple<AnimeListDisplayModes, string>>();
+                ViewModel.SelectedDefaultViewForOnHold = (sender as Spinner).SelectedView.Tag
+                    .Unwrap<Tuple<AnimeListDisplayModes, string>>();
             };
 
             SettingsPageGeneralDroppedViewModeSpinner.Adapter = ViewModel.DisplayModes.GetAdapter(GetTemplateDelegate);
-            SettingsPageGeneralDroppedViewModeSpinner.SetSelection(ViewModel.DisplayModes.IndexOf(ViewModel.SelectedDefaultViewForDropped));
+            SettingsPageGeneralDroppedViewModeSpinner.SetSelection(
+                ViewModel.DisplayModes.IndexOf(ViewModel.SelectedDefaultViewForDropped));
             SettingsPageGeneralDroppedViewModeSpinner.ItemSelected += (sender, args) =>
             {
-                ViewModel.SelectedDefaultViewForDropped = (sender as Spinner).SelectedView.Tag.Unwrap<Tuple<AnimeListDisplayModes, string>>();
+                ViewModel.SelectedDefaultViewForDropped = (sender as Spinner).SelectedView.Tag
+                    .Unwrap<Tuple<AnimeListDisplayModes, string>>();
             };
 
             SettingsPageGeneralPtwViewModeSpinner.Adapter = ViewModel.DisplayModes.GetAdapter(GetTemplateDelegate);
-            SettingsPageGeneralPtwViewModeSpinner.SetSelection(ViewModel.DisplayModes.IndexOf(ViewModel.SelectedDefaultViewForPlanned));
+            SettingsPageGeneralPtwViewModeSpinner.SetSelection(
+                ViewModel.DisplayModes.IndexOf(ViewModel.SelectedDefaultViewForPlanned));
             SettingsPageGeneralPtwViewModeSpinner.ItemSelected += (sender, args) =>
-            {
-                ViewModel.SelectedDefaultViewForPlanned = (sender as Spinner).SelectedView.Tag.Unwrap<Tuple<AnimeListDisplayModes, string>>();
-            };
+                ViewModel.SelectedDefaultViewForPlanned =
+                    (sender as Spinner).SelectedView.Tag.Unwrap<Tuple<AnimeListDisplayModes, string>>();
 
             SettingsPageGeneralAllViewModeSpinner.Adapter = ViewModel.DisplayModes.GetAdapter(GetTemplateDelegate);
-            SettingsPageGeneralAllViewModeSpinner.SetSelection(ViewModel.DisplayModes.IndexOf(ViewModel.SelectedDefaultViewForAll));
+            SettingsPageGeneralAllViewModeSpinner.SetSelection(
+                ViewModel.DisplayModes.IndexOf(ViewModel.SelectedDefaultViewForAll));
             SettingsPageGeneralAllViewModeSpinner.ItemSelected += (sender, args) =>
-            {
-                ViewModel.SelectedDefaultViewForAll = (sender as Spinner).SelectedView.Tag.Unwrap<Tuple<AnimeListDisplayModes, string>>();
-            };
+                ViewModel.SelectedDefaultViewForAll =
+                    (sender as Spinner).SelectedView.Tag.Unwrap<Tuple<AnimeListDisplayModes, string>>();
 
-           
             //
             var filters = Enum.GetValues(typeof(AnimeStatus)).Cast<int>().Take(5).ToList();
             SettingsPageGeneralMangaFilerSpinner.Adapter = filters.GetAdapter(GetMangaTemplateDelegate);
             SettingsPageGeneralMangaFilerSpinner.SetSelection(filters.IndexOf(Settings.DefaultMangaFilter));
             SettingsPageGeneralMangaFilerSpinner.ItemSelected += (sender, args) =>
             {
-                Settings.DefaultMangaFilter = (int) SettingsPageGeneralMangaFilerSpinner.SelectedView.Tag;
+                Settings.DefaultMangaFilter = (int)SettingsPageGeneralMangaFilerSpinner.SelectedView.Tag;
             };
 
             SettingsPageGeneralAnimeFilterSpinner.Adapter = filters.GetAdapter(GetAnimeTemplateDelegate);
@@ -188,29 +212,30 @@ namespace MALClient.Android.Fragments.SettingsFragments
             };
 
             SettingsPageGeneralDefaultAddedStatusSpinner.Adapter = filters.GetAdapter(GetAnimeTemplateDelegate);
-            SettingsPageGeneralDefaultAddedStatusSpinner.SetSelection(filters.IndexOf((int)Settings.DefaultStatusAfterAdding));
+            SettingsPageGeneralDefaultAddedStatusSpinner.SetSelection(
+                filters.IndexOf((int)Settings.DefaultStatusAfterAdding));
             SettingsPageGeneralDefaultAddedStatusSpinner.ItemSelected += (sender, args) =>
             {
-                Settings.DefaultStatusAfterAdding = (AnimeStatus)(int)SettingsPageGeneralDefaultAddedStatusSpinner.SelectedView.Tag;
+                Settings.DefaultStatusAfterAdding =
+                    (AnimeStatus)(int)SettingsPageGeneralDefaultAddedStatusSpinner.SelectedView.Tag;
             };
             //
 
-            
             Bindings.Add(
                 this.SetBinding(() => ViewModel.SetStartDateOnListAdd,
-                    () => SettingsPageGeneralStartDateWhenAddCheckBox.Checked,BindingMode.TwoWay));
+                    () => SettingsPageGeneralStartDateWhenAddCheckBox.Checked, BindingMode.TwoWay));
             Bindings.Add(
                 this.SetBinding(() => ViewModel.SetStartDateOnWatching,
-                    () => SettingsPageGeneralStartDateWhenWatchCheckBox.Checked,BindingMode.TwoWay));
+                    () => SettingsPageGeneralStartDateWhenWatchCheckBox.Checked, BindingMode.TwoWay));
             Bindings.Add(
                 this.SetBinding(() => ViewModel.SetEndDateOnCompleted,
-                    () => SettingsPageGeneralEndDateWhenCompleted.Checked,BindingMode.TwoWay));
+                    () => SettingsPageGeneralEndDateWhenCompleted.Checked, BindingMode.TwoWay));
             Bindings.Add(
                 this.SetBinding(() => ViewModel.SetEndDateOnDropped,
-                    () => SettingsPageGeneralEndDateWhenDropCheckBox.Checked,BindingMode.TwoWay));
+                    () => SettingsPageGeneralEndDateWhenDropCheckBox.Checked, BindingMode.TwoWay));
             Bindings.Add(
                 this.SetBinding(() => ViewModel.OverrideValidStartEndDate,
-                    () => SettingsPageGeneralAllowDateOverrideCheckBox.Checked,BindingMode.TwoWay));
+                    () => SettingsPageGeneralAllowDateOverrideCheckBox.Checked, BindingMode.TwoWay));
             //
             SettingsPageGeneralAirDayOffsetSlider.Progress = Settings.AirDayOffset + 3;
             SettingsPageGeneralAirDayOffsetTextView.Text = (Settings.AirDayOffset).ToString();
@@ -234,10 +259,8 @@ namespace MALClient.Android.Fragments.SettingsFragments
 
             Bindings.Add(this.SetBinding(() => ViewModel.DarkThemeAmoled).WhenSourceChanges(UpdateColourSelection));
 
-            
-
-            SettingsPageGeneralColorOrange.Tag = (int) AndroidColorThemes.Orange;
-            SettingsPageGeneralColorPurple.Tag = (int) AndroidColorThemes.Purple;
+            SettingsPageGeneralColorOrange.Tag = (int)AndroidColorThemes.Orange;
+            SettingsPageGeneralColorPurple.Tag = (int)AndroidColorThemes.Purple;
             SettingsPageGeneralColorBlue.Tag = (int)AndroidColorThemes.Blue;
             SettingsPageGeneralColorLime.Tag = (int)AndroidColorThemes.Lime;
             SettingsPageGeneralColorPink.Tag = (int)AndroidColorThemes.Pink;
@@ -247,7 +270,7 @@ namespace MALClient.Android.Fragments.SettingsFragments
 
             var colorListener = new OnClickListener(view =>
             {
-                AndroidColourThemeHelper.CurrentTheme = (AndroidColorThemes) (int) view.Tag;
+                AndroidColourThemeHelper.CurrentTheme = (AndroidColorThemes)(int)view.Tag;
                 UpdateColourSelection();
             });
 
@@ -259,7 +282,6 @@ namespace MALClient.Android.Fragments.SettingsFragments
             SettingsPageGeneralColorCyan.SetOnClickListener(colorListener);
             SettingsPageGeneralColorSkyBlue.SetOnClickListener(colorListener);
             SettingsPageGeneralColorRed.SetOnClickListener(colorListener);
-
         }
 
         private List<ImageButton> _accentButtons;
@@ -290,27 +312,35 @@ namespace MALClient.Android.Fragments.SettingsFragments
                 case AndroidColorThemes.Orange:
                     SettingsPageGeneralColorOrange.SetImageResource(Resource.Drawable.icon_ok);
                     break;
+
                 case AndroidColorThemes.Purple:
                     SettingsPageGeneralColorPurple.SetImageResource(Resource.Drawable.icon_ok);
                     break;
+
                 case AndroidColorThemes.Blue:
                     SettingsPageGeneralColorBlue.SetImageResource(Resource.Drawable.icon_ok);
                     break;
+
                 case AndroidColorThemes.Lime:
                     SettingsPageGeneralColorLime.SetImageResource(Resource.Drawable.icon_ok);
                     break;
+
                 case AndroidColorThemes.Pink:
                     SettingsPageGeneralColorPink.SetImageResource(Resource.Drawable.icon_ok);
                     break;
+
                 case AndroidColorThemes.Cyan:
                     SettingsPageGeneralColorCyan.SetImageResource(Resource.Drawable.icon_ok);
                     break;
+
                 case AndroidColorThemes.SkyBlue:
                     SettingsPageGeneralColorSkyBlue.SetImageResource(Resource.Drawable.icon_ok);
                     break;
+
                 case AndroidColorThemes.Red:
                     SettingsPageGeneralColorRed.SetImageResource(Resource.Drawable.icon_ok);
                     break;
+
                 default:
                     throw new ArgumentOutOfRangeException();
             }
@@ -332,7 +362,7 @@ namespace MALClient.Android.Fragments.SettingsFragments
             }
             else
             {
-                view.FindViewById<TextView>(AnimeListPageFlyoutBuilder.TextViewTag).Text = Utilities.StatusToString(animeStatus,true);
+                view.FindViewById<TextView>(AnimeListPageFlyoutBuilder.TextViewTag).Text = Utilities.StatusToString(animeStatus, true);
             }
 
             view.Tag = animeStatus;
@@ -364,7 +394,7 @@ namespace MALClient.Android.Fragments.SettingsFragments
             if (view == null)
             {
                 var par = AnimeListPageFlyoutBuilder.ParamRelativeLayout;
-                AnimeListPageFlyoutBuilder.ParamRelativeLayout = new ViewGroup.LayoutParams(DimensionsHelper.DpToPx(100),DimensionsHelper.DpToPx(38));
+                AnimeListPageFlyoutBuilder.ParamRelativeLayout = new ViewGroup.LayoutParams(DimensionsHelper.DpToPx(100), DimensionsHelper.DpToPx(38));
                 view = AnimeListPageFlyoutBuilder.BuildBaseItem(Activity, tuple.Item2,
                     ResourceExtension.BrushAnimeItemInnerBackground, null, false);
                 AnimeListPageFlyoutBuilder.ParamRelativeLayout = par;
@@ -374,14 +404,12 @@ namespace MALClient.Android.Fragments.SettingsFragments
                 view.FindViewById<TextView>(AnimeListPageFlyoutBuilder.TextViewTag).Text = tuple.Item2;
             }
 
-
             view.Tag = tuple.Wrap();
 
             return view;
         }
 
-        #endregion
-
+        #endregion TemplateDelegates
 
         #region SortingViewMapping
 
@@ -391,20 +419,28 @@ namespace MALClient.Android.Fragments.SettingsFragments
             {
                 case SortOptions.SortTitle:
                     return SettingsPageGeneralAnimeSortTitleRadioBtn.Id;
+
                 case SortOptions.SortScore:
                     return SettingsPageGeneralAnimeScoreTitleRadioBtn.Id;
+
                 case SortOptions.SortWatched:
                     return SettingsPageGeneralAnimeWatchedTitleRadioBtn.Id;
+
                 case SortOptions.SortAirDay:
                     return SettingsPageGeneralAnimeSoonAiringTitleRadioBtn.Id;
+
                 case SortOptions.SortLastWatched:
                     return SettingsPageGeneralAnimeLastWatchTitleRadioBtn.Id;
+
                 case SortOptions.SortStartDate:
                     break;
+
                 case SortOptions.SortEndDate:
                     break;
+
                 case SortOptions.SortNothing:
                     return SettingsPageGeneralAnimeSortNoneRadioBtn.Id;
+
                 case SortOptions.SortSeason:
                     break;
             }
@@ -417,12 +453,16 @@ namespace MALClient.Android.Fragments.SettingsFragments
             {
                 case SortOptions.SortTitle:
                     return SettingsPageGeneralMangaSortTitleRadioBtn.Id;
+
                 case SortOptions.SortScore:
                     return SettingsPageGeneralMangaSortScoreRadioBtn.Id;
+
                 case SortOptions.SortWatched:
                     return SettingsPageGeneralMangaSortReadRadioBtn.Id;
+
                 case SortOptions.SortNothing:
                     return SettingsPageGeneralMangaSortNoneRadioBtn.Id;
+
                 case SortOptions.SortLastWatched:
                     return SettingsPageGeneralMangaLastReadTitleRadioBtn.Id;
             }
@@ -444,8 +484,7 @@ namespace MALClient.Android.Fragments.SettingsFragments
             return SortOptions.SortNothing;
         }
 
-        #endregion
-
+        #endregion SortingViewMapping
 
         public override int LayoutResourceId => Resource.Layout.SettingsPageGeneral;
     }

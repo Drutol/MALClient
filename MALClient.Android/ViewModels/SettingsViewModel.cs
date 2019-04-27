@@ -60,10 +60,8 @@ namespace MALClient.Android.ViewModels
             }
         }
 
-
         public override void LoadCachedEntries()
         {
-            
         }
     }
 }

@@ -385,10 +385,10 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@string/font_family_light"
-        android:textSize="@dimen/FontSizeSmall"
         android:alpha=".6"
-        android:text="Due to MAL's limitations I can't obtain all English titles at once. As a workaround they will be saved (if available) upon loading anime details. You can also long press floating action button on anime list to show option to load details for all listed shows. Titles will be changed after list refresh."/>
+        android:fontFamily="@string/font_family_light"
+        android:text="Due to MAL's limitations I can't obtain all English titles at once. As a workaround they will be saved (if available) upon loading anime details. You can also long press floating action button on anime list to show option to load details for all listed shows. Titles will be changed after list refresh."
+        android:textSize="@dimen/FontSizeSmall" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -500,6 +500,94 @@
           android:layout_gravity="center_vertical" />
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:padding="5dp">
+
+      <TextView
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_gravity="center_vertical"
+          android:layout_weight="1"
+          android:text="Hide decrement buttons and enlarge increment ones."
+          android:textColor="?BrushText"
+          android:textSize="@dimen/FontSizeMedium" />
+
+      <Switch
+          android:id="@+id/SettingsPageGeneralHideDecrementButtons"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_gravity="center_vertical" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:padding="5dp">
+
+      <TextView
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_gravity="center_vertical"
+          android:layout_weight="1"
+          android:text="Hide global score of an entry you didn't rate it yet."
+          android:textColor="?BrushText"
+          android:textSize="@dimen/FontSizeMedium" />
+
+      <Switch
+          android:id="@+id/SettingsPageGeneralHideGlobalScore"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_gravity="center_vertical" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:padding="5dp">
+
+      <TextView
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_gravity="center_vertical"
+          android:layout_weight="1"
+          android:text="Squeeze one more grid item on anime list page. Helpful when there's just a little tad of missing space to present new item without making other ones thinner."
+          android:textColor="?BrushText"
+          android:textSize="@dimen/FontSizeMedium" />
+
+      <Switch
+          android:id="@+id/SettingsPageGeneralSqueezeOneMoreItem"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_gravity="center_vertical" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:padding="5dp">
+
+      <TextView
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_gravity="center_vertical"
+          android:layout_weight="1"
+          android:text="Don't display prompts to change status when updating OnHold entry."
+          android:textColor="?BrushText"
+          android:textSize="@dimen/FontSizeMedium" />
+
+      <Switch
+          android:id="@+id/SettingsPageGeneralDontAskMoveOnHold"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_gravity="center_vertical" />
+    </LinearLayout>
+
     <View
         style="@style/Divider"
         android:layout_marginTop="10dp" />
@@ -567,7 +655,6 @@
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:text="None" />
-
         </RadioGroup>
 
         <LinearLayout
@@ -858,7 +945,6 @@
               android:layout_height="wrap_content" />
         </LinearLayout>
       </LinearLayout>
-
     </LinearLayout>
 
     <View

@@ -555,7 +555,7 @@
           android:layout_height="wrap_content"
           android:layout_gravity="center_vertical"
           android:layout_weight="1"
-          android:text="Squeeze one more grid item on anime list page. Helpful when there's just a little tad of missing space to present new item without making other ones thinner."
+          android:text="Squeeze one more grid item on anime list page."
           android:textColor="?BrushText"
           android:textSize="@dimen/FontSizeMedium" />
 
@@ -565,6 +565,14 @@
           android:layout_height="wrap_content"
           android:layout_gravity="center_vertical" />
     </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:alpha=".6"
+        android:fontFamily="@string/font_family_light"
+        android:text="Helpful when there's just a little tad of missing space to present new item without making other ones thinner."
+        android:textSize="@dimen/FontSizeSmall" />
 
     <LinearLayout
         android:layout_width="match_parent"

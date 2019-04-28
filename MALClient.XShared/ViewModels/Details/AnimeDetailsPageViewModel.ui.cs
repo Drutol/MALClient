@@ -53,9 +53,10 @@ namespace MALClient.XShared.ViewModels.Details
             =>
                 MyScore == 0
                     ? "Unranked"
-                    : $"{MyScore.ToString(Settings.SelectedApiType == ApiType.Mal ? "N0" : "N1")}/{(Settings.SelectedApiType == ApiType.Mal ? "10" : "5")}"
-            ;
+                    : $"{MyScore.ToString(Settings.SelectedApiType == ApiType.Mal ? "N0" : "N1")}/{(Settings.SelectedApiType == ApiType.Mal ? "10" : "5")}";
 
+        public bool IsMyScoreSet => MyScore != 0;
+                   
         private float MyScore
         {
             get { return _animeItemReference?.MyScore ?? 0; }

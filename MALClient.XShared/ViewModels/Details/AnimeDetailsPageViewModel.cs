@@ -649,7 +649,7 @@ namespace MALClient.XShared.ViewModels.Details
             {
                 if (MyStatus == AnimeStatus.Completed && MyEpisodes != AllEpisodes && AllEpisodes != 0)
                 {
-                    vm.PromptForWatchedEpsChange(AllEpisodes);
+                    vm.PromptForWatchedEpsChange(AnimeMode ? AllEpisodes : (Settings.MangaFocusVolumes ? AllEpisodes : AllVolumes));
                     RaisePropertyChanged(() => MyEpisodesBind);
                 }
 
@@ -773,7 +773,7 @@ namespace MALClient.XShared.ViewModels.Details
                 {
                     if (prevEps == 0 && AllEpisodes > 1 && MyEpisodes != AllEpisodes &&
                         (MyStatus == AnimeStatus.PlanToWatch || MyStatus == AnimeStatus.Dropped ||
-                         MyStatus == AnimeStatus.OnHold))
+                         (!Settings.DontAskToMoveOnHoldEntries && MyStatus == AnimeStatus.OnHold)))
                     {
                         reference.PromptForStatusChange(AnimeStatus.Watching);
                         RaisePropertyChanged(() => MyStatusBind);

@@ -911,7 +911,7 @@ namespace MALClient.XShared.ViewModels
             LoadingUpdate = true;
             var trigCompleted = true;
             if (MyStatus ==  AnimeStatus.PlanToWatch || MyStatus == AnimeStatus.Dropped ||
-                MyStatus ==  AnimeStatus.OnHold)
+                (!Settings.DontAskToMoveOnHoldEntries && MyStatus == AnimeStatus.OnHold))
             {
                 if (MyEpisodesFocused+1 != AllEpisodesFocused || AllEpisodesFocused == 0) //avoid double status change when show is going to be completed immediatelly
                 {
@@ -995,7 +995,7 @@ namespace MALClient.XShared.ViewModels
 
                 var trigCompleted = true;
                 if (MyStatus == AnimeStatus.PlanToWatch || MyStatus == AnimeStatus.Dropped ||
-                    MyStatus == AnimeStatus.OnHold)
+                    (!Settings.DontAskToMoveOnHoldEntries && MyStatus == AnimeStatus.OnHold))
                 {
                     if (MyEpisodesFocused + watched != AllEpisodesFocused || AllEpisodesFocused == 0) //avoid double status change when show is going to be completed immediatelly
                     {

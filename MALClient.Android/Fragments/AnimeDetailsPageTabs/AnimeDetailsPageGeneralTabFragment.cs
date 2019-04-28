@@ -15,6 +15,7 @@ using MALClient.Android.Activities;
 using MALClient.Android.BindingConverters;
 using MALClient.Android.Listeners;
 using MALClient.Android.Resources;
+using MALClient.XShared.Utils;
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Details;
 
@@ -91,6 +92,24 @@ namespace MALClient.Android.Fragments.AnimeDetailsPageTabs
                             AnimeDetailsPageGeneralTabFragmentSynopsis.Text = "Synopsis unavailable...";
                             AnimeDetailsPageGeneralTabFragmentSynopsis.Gravity = GravityFlags.CenterHorizontal;
                         }
+
+                        if (Settings.HideGlobalScoreInDetailsWhenNotRated && !ViewModel.IsMyScoreSet)
+                        {
+
+                            AnimeDetailsPageGeneralTabFragmentScore.Visibility = ViewStates.Gone;
+                            AnimeDetailsPageGeneralTabFragmentScoreHiddenLabel.Visibility = ViewStates.Visible;
+                            AnimeDetailsPageGeneralTabFragmentScoreHiddenLabel.SetOnClickListener(new OnClickListener(
+                                view =>
+                                {
+                                    AnimeDetailsPageGeneralTabFragmentScoreHiddenLabel.Visibility = ViewStates.Gone;
+                                    AnimeDetailsPageGeneralTabFragmentScore.Visibility = ViewStates.Visible;
+                                }));
+                        }
+                        else
+                        {
+                            AnimeDetailsPageGeneralTabFragmentScoreHiddenLabel.Visibility = ViewStates.Gone;
+                            AnimeDetailsPageGeneralTabFragmentScore.Visibility = ViewStates.Visible;
+                        }
                     }
                 }
                 catch (Exception)
@@ -140,6 +159,7 @@ namespace MALClient.Android.Fragments.AnimeDetailsPageTabs
         private TextView _animeDetailsPageGeneralTabFragmentEpisodesLabel;
         private TextView _animeDetailsPageGeneralTabFragmentEpisodes;
         private TextView _animeDetailsPageGeneralTabFragmentScore;
+        private LinearLayout _animeDetailsPageGeneralTabFragmentScoreHiddenLabel;
         private TextView _animeDetailsPageGeneralTabFragmentStart;
         private TextView _animeDetailsPageGeneralTabFragmentMyStart;
         private FrameLayout _animeDetailsPageGeneralTabFragmentMyStartButton;
@@ -151,27 +171,17 @@ namespace MALClient.Android.Fragments.AnimeDetailsPageTabs
         private TextView _animeDetailsPageGeneralTabFragmentSynopsis;
 
         public TextView AnimeDetailsPageGeneralTabFragmentEpisodesLabel => _animeDetailsPageGeneralTabFragmentEpisodesLabel ?? (_animeDetailsPageGeneralTabFragmentEpisodesLabel = FindViewById<TextView>(Resource.Id.AnimeDetailsPageGeneralTabFragmentEpisodesLabel));
-
         public TextView AnimeDetailsPageGeneralTabFragmentEpisodes => _animeDetailsPageGeneralTabFragmentEpisodes ?? (_animeDetailsPageGeneralTabFragmentEpisodes = FindViewById<TextView>(Resource.Id.AnimeDetailsPageGeneralTabFragmentEpisodes));
-
         public TextView AnimeDetailsPageGeneralTabFragmentScore => _animeDetailsPageGeneralTabFragmentScore ?? (_animeDetailsPageGeneralTabFragmentScore = FindViewById<TextView>(Resource.Id.AnimeDetailsPageGeneralTabFragmentScore));
-
+        public LinearLayout AnimeDetailsPageGeneralTabFragmentScoreHiddenLabel => _animeDetailsPageGeneralTabFragmentScoreHiddenLabel ?? (_animeDetailsPageGeneralTabFragmentScoreHiddenLabel = FindViewById<LinearLayout>(Resource.Id.AnimeDetailsPageGeneralTabFragmentScoreHiddenLabel));
         public TextView AnimeDetailsPageGeneralTabFragmentStart => _animeDetailsPageGeneralTabFragmentStart ?? (_animeDetailsPageGeneralTabFragmentStart = FindViewById<TextView>(Resource.Id.AnimeDetailsPageGeneralTabFragmentStart));
-
         public TextView AnimeDetailsPageGeneralTabFragmentMyStart => _animeDetailsPageGeneralTabFragmentMyStart ?? (_animeDetailsPageGeneralTabFragmentMyStart = FindViewById<TextView>(Resource.Id.AnimeDetailsPageGeneralTabFragmentMyStart));
-
         public FrameLayout AnimeDetailsPageGeneralTabFragmentMyStartButton => _animeDetailsPageGeneralTabFragmentMyStartButton ?? (_animeDetailsPageGeneralTabFragmentMyStartButton = FindViewById<FrameLayout>(Resource.Id.AnimeDetailsPageGeneralTabFragmentMyStartButton));
-
         public TextView AnimeDetailsPageGeneralTabFragmentType => _animeDetailsPageGeneralTabFragmentType ?? (_animeDetailsPageGeneralTabFragmentType = FindViewById<TextView>(Resource.Id.AnimeDetailsPageGeneralTabFragmentType));
-
         public TextView AnimeDetailsPageGeneralTabFragmentStatus => _animeDetailsPageGeneralTabFragmentStatus ?? (_animeDetailsPageGeneralTabFragmentStatus = FindViewById<TextView>(Resource.Id.AnimeDetailsPageGeneralTabFragmentStatus));
-
         public TextView AnimeDetailsPageGeneralTabFragmentEnd => _animeDetailsPageGeneralTabFragmentEnd ?? (_animeDetailsPageGeneralTabFragmentEnd = FindViewById<TextView>(Resource.Id.AnimeDetailsPageGeneralTabFragmentEnd));
-
         public TextView AnimeDetailsPageGeneralTabFragmentMyEnd => _animeDetailsPageGeneralTabFragmentMyEnd ?? (_animeDetailsPageGeneralTabFragmentMyEnd = FindViewById<TextView>(Resource.Id.AnimeDetailsPageGeneralTabFragmentMyEnd));
-
         public FrameLayout AnimeDetailsPageGeneralTabFragmentMyEndButton => _animeDetailsPageGeneralTabFragmentMyEndButton ?? (_animeDetailsPageGeneralTabFragmentMyEndButton = FindViewById<FrameLayout>(Resource.Id.AnimeDetailsPageGeneralTabFragmentMyEndButton));
-
         public TextView AnimeDetailsPageGeneralTabFragmentSynopsis => _animeDetailsPageGeneralTabFragmentSynopsis ?? (_animeDetailsPageGeneralTabFragmentSynopsis = FindViewById<TextView>(Resource.Id.AnimeDetailsPageGeneralTabFragmentSynopsis));
 
         #endregion

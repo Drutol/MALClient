@@ -8,7 +8,6 @@ using Android.App;
 using Android.Content;
 using Android.Content.PM;
 using Android.OS;
-using Android.Support.V4.App;
 using Android.Support.V4.Content;
 using Android.Support.V7.App;
 using Android.Views;
@@ -31,7 +30,8 @@ using MALClient.XShared.Utils;
 using MALClient.XShared.Utils.Managers;
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Interfaces;
-using Fragment = Android.App.Fragment;
+using Fragment = Android.Support.V4.App.Fragment;
+
 
 namespace MALClient.Android.Activities
 {
@@ -204,7 +204,7 @@ namespace MALClient.Android.Activities
             try
             {
                 _lastFragment = fragment;
-                var trans = FragmentManager.BeginTransaction();
+                var trans = SupportFragmentManager.BeginTransaction();
                 trans.SetCustomAnimations(Resource.Animator.animation_slide_btm,
                     Resource.Animator.animation_fade_out,
                     Resource.Animator.animation_slide_btm,

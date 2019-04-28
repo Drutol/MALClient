@@ -10,9 +10,9 @@ using Android.Runtime;
 using Android.Support.V4.View;
 using Android.Views;
 using Android.Widget;
-using Com.Astuetz;
 using MALClient.Android.PagerAdapters;
 using MALClient.Android.Resources;
+
 using MALClient.Models.Enums;
 using MALClient.XShared.NavArgs;
 using MALClient.XShared.ViewModels;
@@ -49,10 +49,10 @@ namespace MALClient.Android.Fragments.SearchFragments
 
         #region Views
 
-        private PagerSlidingTabStrip _searchPageTabStrip;
+        private com.refractored.PagerSlidingTabStrip _searchPageTabStrip;
         private ViewPager _searchPageViewPager;
 
-        public PagerSlidingTabStrip SearchPageTabStrip => _searchPageTabStrip ?? (_searchPageTabStrip = FindViewById<PagerSlidingTabStrip>(Resource.Id.SearchPageTabStrip));
+        public com.refractored.PagerSlidingTabStrip SearchPageTabStrip => _searchPageTabStrip ?? (_searchPageTabStrip = FindViewById<com.refractored.PagerSlidingTabStrip>(Resource.Id.SearchPageTabStrip));
 
         public ViewPager SearchPageViewPager => _searchPageViewPager ?? (_searchPageViewPager = FindViewById<ViewPager>(Resource.Id.SearchPageViewPager));
 

@@ -20,6 +20,7 @@ using MALClient.Models.Enums;
 using MALClient.XShared.ViewModels;
 using Newtonsoft.Json;
 using Messenger = GalaSoft.MvvmLight.Messaging.Messenger;
+using PreserveAttribute = Android.Runtime.PreserveAttribute;
 
 namespace MALClient.Android.Mediation
 {
@@ -86,13 +87,20 @@ namespace MALClient.Android.Mediation
                     new Uri(options?.Link ?? "https://dakimakuri.com/"));
             }));
 
-            if (options?.ImageUrl == null)
+
+            if (options?.ImageUrls?.Any() ?? false)
             {
-                banner.SetImageResource(Resource.Drawable.annak);
+                var random = new Random();
+
+                ImageService.Instance.LoadUrl(options.ImageUrls[random.Next(0, options.ImageUrls.Length)], TimeSpan.FromDays(3)).Into(banner);
+            }
+            else if (options?.ImageUrl != null)
+            {
+                ImageService.Instance.LoadUrl(options.ImageUrl, TimeSpan.FromDays(3)).Into(banner);
             }
             else
             {
-                ImageService.Instance.LoadUrl(options.ImageUrl, TimeSpan.FromDays(1)).Into(banner);
+                banner.SetImageResource(Resource.Drawable.annak);
             }
 
             ResourceLocator.TelemetryProvider.TelemetryTrackEvent(TelemetryTrackedEvents.LoadedDakimakuriAd);

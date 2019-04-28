@@ -1,11 +1,10 @@
 using System;
-using Android.App;
 using Android.Graphics;
 using Android.Runtime;
-using Android.Support.V13.App;
+using Android.Support.V4.App;
 using Android.Views;
 using Android.Widget;
-using Com.Astuetz;
+using com.refractored;
 using MALClient.Android.Fragments;
 using MALClient.Android.Fragments.ArticlesPageFragments;
 using MALClient.Android.Resources;
@@ -15,7 +14,7 @@ using MALClient.XShared.ViewModels.Main;
 
 namespace MALClient.Android.PagerAdapters
 {
-    class ArticlesPagePagerAdapter : FragmentStatePagerAdapter, PagerSlidingTabStrip.ICustomTabProvider
+    class ArticlesPagePagerAdapter : FragmentStatePagerAdapter, ICustomTabProvider
     {
         public ArticlesPagePagerAdapter(IntPtr javaReference, JniHandleOwnership transfer) : base(javaReference, transfer)
         {

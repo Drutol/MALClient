@@ -1,12 +1,11 @@
 ﻿using System;
-using Android.App;
 using Android.Graphics;
 using Android.Runtime;
-using Android.Support.V13.App;
+using Android.Support.V4.App;
 using Android.Util;
 using Android.Views;
 using Android.Widget;
-using Com.Astuetz;
+using com.refractored;
 using Com.Mikepenz.Materialdrawer;
 using MALClient.Android.Fragments;
 using MALClient.Android.Fragments.Clubs;
@@ -17,7 +16,7 @@ using MALClient.XShared.ViewModels;
 
 namespace MALClient.Android.PagerAdapters
 {
-    public class FriendsPagePagerAdapter : FragmentStatePagerAdapter , PagerSlidingTabStrip.ICustomTabProvider
+    public class FriendsPagePagerAdapter : FragmentStatePagerAdapter , ICustomTabProvider
     {
         public FriendsPagePagerAdapter(IntPtr javaReference, JniHandleOwnership transfer) : base(javaReference, transfer)
         {

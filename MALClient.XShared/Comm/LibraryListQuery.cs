@@ -15,7 +15,6 @@ using MALClient.Models.Models.ApiResponses;
 using MALClient.Models.Models.Library;
 using MALClient.XShared.Utils;
 using MALClient.XShared.ViewModels;
-using ModernHttpClient;
 using Newtonsoft.Json;
 
 namespace MALClient.XShared.Comm

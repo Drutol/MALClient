@@ -22,7 +22,6 @@ using MALClient.XShared.BL;
 using MALClient.XShared.Utils;
 using MALClient.XShared.Utils.Managers;
 using MALClient.XShared.ViewModels;
-using ModernHttpClient;
 
 namespace MALClient.Android
 {
@@ -49,7 +48,7 @@ namespace MALClient.Android
             //sp.Start();
             ImageService.Instance.Initialize(new Configuration
             {
-                HttpClient = new HttpClient(new NativeMessageHandler { AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate}),
+                HttpClient = new HttpClient(new HttpClientHandler() { AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate}),
                 ExecuteCallbacksOnUIThread = true,
                 //AnimateGifs = false,
             });

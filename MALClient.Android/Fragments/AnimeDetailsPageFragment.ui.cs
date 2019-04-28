@@ -10,10 +10,11 @@ using Android.Runtime;
 using Android.Support.V4.View;
 using Android.Views;
 using Android.Widget;
-using Com.Astuetz;
+
 using FFImageLoading.Views;
 using MALClient.Android.Resources;
 using MALClient.Android.UserControls;
+
 
 namespace MALClient.Android.Fragments
 {
@@ -38,7 +39,7 @@ namespace MALClient.Android.Fragments
         private ProgressBar _animeDetailsPageLoadingUpdateSpinner;
         private ImageButton _animeDetailsPageFavouriteButton;
         private ImageButton _animeDetailsPageMoreButton;
-        private PagerSlidingTabStrip _animeDetailsPageTabStrip;
+        private com.refractored.PagerSlidingTabStrip _animeDetailsPageTabStrip;
         private HeightAdjustingViewPager _animeDetailsPagePivot;
         private RelativeLayout _animeDetailsPageLoadingOverlay;
 
@@ -76,7 +77,7 @@ namespace MALClient.Android.Fragments
 
         public ImageButton AnimeDetailsPageMoreButton => _animeDetailsPageMoreButton ?? (_animeDetailsPageMoreButton = FindViewById<ImageButton>(Resource.Id.AnimeDetailsPageMoreButton));
 
-        public PagerSlidingTabStrip AnimeDetailsPageTabStrip => _animeDetailsPageTabStrip ?? (_animeDetailsPageTabStrip = FindViewById<PagerSlidingTabStrip>(Resource.Id.AnimeDetailsPageTabStrip));
+        public com.refractored.PagerSlidingTabStrip AnimeDetailsPageTabStrip => _animeDetailsPageTabStrip ?? (_animeDetailsPageTabStrip = FindViewById<com.refractored.PagerSlidingTabStrip>(Resource.Id.AnimeDetailsPageTabStrip));
 
         public HeightAdjustingViewPager AnimeDetailsPagePivot => _animeDetailsPagePivot ?? (_animeDetailsPagePivot = FindViewById<HeightAdjustingViewPager>(Resource.Id.AnimeDetailsPagePivot));
 

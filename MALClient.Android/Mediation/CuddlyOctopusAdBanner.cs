@@ -23,7 +23,7 @@ using Messenger = GalaSoft.MvvmLight.Messaging.Messenger;
 
 namespace MALClient.Android.Mediation
 {
-    [Preserve(AllMembers = true)]
+    [global::Android.Runtime.Preserve(AllMembers = true)]
     public class CuddlyOctopusAdBanner : Java.Lang.Object, ICustomEventBanner
     {
         public void OnDestroy()

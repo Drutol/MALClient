@@ -1,6 +1,6 @@
 using System;
-using Android.App;
 using Android.OS;
+using Android.Support.V4.App;
 using Android.Widget;
 using GalaSoft.MvvmLight.Command;
 using MALClient.Android.Adapters;

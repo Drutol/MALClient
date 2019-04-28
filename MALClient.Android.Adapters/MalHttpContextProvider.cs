@@ -18,7 +18,6 @@ using MALClient.XShared.BL;
 using MALClient.XShared.Comm.MagicalRawQueries;
 using MALClient.XShared.Utils;
 using MALClient.XShared.ViewModels;
-using ModernHttpClient;
 using Xamarin.Android.Net;
 
 namespace MALClient.Android.Adapters
@@ -28,7 +27,7 @@ namespace MALClient.Android.Adapters
     {
         protected override async Task<CsrfHttpClient> ObtainContext()
         {
-            var httpHandler = new NativeMessageHandler(false,false,new NativeCookieHandler())
+            var httpHandler = new HttpClientHandler()
             {
                 AllowAutoRedirect = false,
                 UseCookies = true,

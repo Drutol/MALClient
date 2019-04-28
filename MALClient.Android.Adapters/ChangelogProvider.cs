@@ -31,14 +31,15 @@ namespace MALClient.Android.Adapters
 
         public bool NewChangelog { get; set; }
 
-        public string DateWithVersion => $"{_currentVersion} - 12.04.2019";
+        public string DateWithVersion => $"{_currentVersion} - 28.04.2019";
 
         public List<string> Changelog => new List<string>
         {
-            "Added share buttons in profile page (profile&stats).",
-            "Improved behaviour of background notifications & widget hopefully.",
-            "Fixes for calendar and missing airing data",
-            "Adjustments to images page."
+            "Added option to add(squeeze) one more column to grid in anime list.",
+            "Added option to hide decrement buttons and enlarge increment ones.",
+            "Added option to hide global score on anime details page for yet to be rated shows.",
+            "Added option to disable prompts for status change for OnHold shows.",
+            "Fix for manga volumes number change prompt.",
         };
     }
 }

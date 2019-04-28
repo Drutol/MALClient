@@ -357,12 +357,12 @@ namespace MALClient.Android.Fragments.SettingsFragments
             var view = arg3;
             if (view == null)
             {
-                view = AnimeListPageFlyoutBuilder.BuildBaseItem(Activity, Utilities.StatusToString(animeStatus, true),
+                view = AnimeListPageFlyoutBuilder.BuildBaseItem(Activity, XShared.Utils.Utilities.StatusToString(animeStatus, true),
                     ResourceExtension.BrushAnimeItemInnerBackground, null, false);
             }
             else
             {
-                view.FindViewById<TextView>(AnimeListPageFlyoutBuilder.TextViewTag).Text = Utilities.StatusToString(animeStatus, true);
+                view.FindViewById<TextView>(AnimeListPageFlyoutBuilder.TextViewTag).Text = XShared.Utils.Utilities.StatusToString(animeStatus, true);
             }
 
             view.Tag = animeStatus;
@@ -375,12 +375,12 @@ namespace MALClient.Android.Fragments.SettingsFragments
             var view = arg3;
             if (view == null)
             {
-                view = AnimeListPageFlyoutBuilder.BuildBaseItem(Activity, Utilities.StatusToString(animeStatus),
+                view = AnimeListPageFlyoutBuilder.BuildBaseItem(Activity, XShared.Utils.Utilities.StatusToString(animeStatus),
                     ResourceExtension.BrushAnimeItemInnerBackground, null, false);
             }
             else
             {
-                view.FindViewById<TextView>(AnimeListPageFlyoutBuilder.TextViewTag).Text = Utilities.StatusToString(animeStatus);
+                view.FindViewById<TextView>(AnimeListPageFlyoutBuilder.TextViewTag).Text = XShared.Utils.Utilities.StatusToString(animeStatus);
             }
 
             view.Tag = animeStatus;

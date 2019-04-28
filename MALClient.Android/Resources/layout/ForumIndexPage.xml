@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:orientation="vertical"
     android:layout_height="match_parent" android:background="?BrushDeepBackground">
-  <com.astuetz.PagerSlidingTabStrip
+  <com.refractored.PagerSlidingTabStrip
       android:id="@+id/ForumIndexPageTabStrip"
       android:layout_width="match_parent"
       android:layout_height="25dp"

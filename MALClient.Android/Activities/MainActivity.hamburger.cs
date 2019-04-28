@@ -252,7 +252,7 @@ namespace MALClient.Android.Activities
         private void OnMangaMore(View view)
         {
             _moreMenu = FlyoutMenuBuilder.BuildGenericFlyout(this, view,
-                Enum.GetValues(typeof(AnimeStatus)).Cast<AnimeStatus>().Select(type => Utilities.StatusToString((int)type,true)).ToList(),
+                Enum.GetValues(typeof(AnimeStatus)).Cast<AnimeStatus>().Select(type => XShared.Utils.Utilities.StatusToString((int)type,true)).ToList(),
                 i =>
                 {
                     ViewModel.Navigate(PageIndex.PageTopAnime, new AnimeListPageNavigationArgs(i, AnimeListWorkModes.Manga));
@@ -279,7 +279,7 @@ namespace MALClient.Android.Activities
         private void OnAnimeListMore(View view)
         {
             _moreMenu = FlyoutMenuBuilder.BuildGenericFlyout(this, view,
-                Enum.GetValues(typeof(AnimeStatus)).Cast<AnimeStatus>().Select(type => Utilities.StatusToString((int)type)).ToList(),
+                Enum.GetValues(typeof(AnimeStatus)).Cast<AnimeStatus>().Select(type => XShared.Utils.Utilities.StatusToString((int)type)).ToList(),
                 i =>
                 {
                     ViewModel.Navigate(PageIndex.PageTopAnime, new AnimeListPageNavigationArgs(i,AnimeListWorkModes.Anime));

@@ -12,7 +12,6 @@ using MALClient.XShared.Comm.MagicalRawQueries;
 using MALClient.XShared.Comm.MalSpecific;
 using MALClient.XShared.Utils;
 using MALClient.XShared.ViewModels;
-using ModernHttpClient;
 
 namespace MALClient.XShared.Comm
 {
@@ -28,7 +27,7 @@ namespace MALClient.XShared.Comm
 
         static Query()
         {
-            _client = new HttpClient(new NativeMessageHandler());
+            _client = new HttpClient(new HttpClientHandler());
             RefreshClientAuthHeader();
         }
 

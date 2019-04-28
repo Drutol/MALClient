@@ -12,7 +12,7 @@ using Android.Support.Design.Widget;
 using Android.Support.V4.View;
 using Android.Views;
 using Android.Widget;
-using Com.Astuetz;
+
 using GalaSoft.MvvmLight.Helpers;
 using MALClient.Android.Adapters;
 using MALClient.Android.BindingConverters;

@@ -2,26 +2,25 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
-using Android.App;
 using Android.Content;
 using Android.Graphics;
 using Android.OS;
 using Android.Runtime;
-using Android.Support.V13.App;
+using Android.Support.V4.App;
 using Android.Views;
 using Android.Widget;
-using Com.Astuetz;
+using com.refractored;
 using MALClient.Android.Fragments;
 using MALClient.Android.Fragments.ArticlesPageFragments;
 using MALClient.Android.Fragments.ForumFragments.Tabs;
 using MALClient.Android.Resources;
+
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Main;
 
 namespace MALClient.Android.PagerAdapters
 {
-    public class ForumIndexPagerAdapter : FragmentStatePagerAdapter, PagerSlidingTabStrip.ICustomTabProvider
+    public class ForumIndexPagerAdapter : FragmentStatePagerAdapter, ICustomTabProvider
     {
         public ForumIndexPagerAdapter(IntPtr javaReference, JniHandleOwnership transfer) : base(javaReference, transfer)
         {

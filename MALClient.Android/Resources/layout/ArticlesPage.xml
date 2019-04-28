@@ -6,7 +6,7 @@
                 android:orientation="vertical"
                 android:background="?BrushDeepBackground">
   <LinearLayout android:layout_width="match_parent" android:orientation="vertical" android:layout_height="match_parent">
-    <com.astuetz.PagerSlidingTabStrip
+    <com.refractored.PagerSlidingTabStrip
       android:id="@+id/ArticlesPageTabStrip"
       android:layout_width="match_parent"
       xmlns:app="http://schemas.android.com/apk/res-auto"

@@ -10,13 +10,13 @@ using Android.Runtime;
 using Android.Support.V4.View;
 using Android.Views;
 using Android.Widget;
-using Com.Astuetz;
 using FFImageLoading.Views;
 using GalaSoft.MvvmLight.Helpers;
 using MALClient.Android.BindingConverters;
 using MALClient.Android.Listeners;
 using MALClient.Android.PagerAdapters;
 using MALClient.Android.UserControls;
+
 using MALClient.XShared.NavArgs;
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Details;
@@ -80,7 +80,7 @@ namespace MALClient.Android.Fragments.DetailsFragments
         private FavouriteButton _personDetailsPageFavButton;
         private ImageButton _personDetailsPageLinkButton;
         private TextView _personDetailsPageDescription;
-        private PagerSlidingTabStrip _personDetailsPageTabStrip;
+        private com.refractored.PagerSlidingTabStrip _personDetailsPageTabStrip;
         private ViewPager _personDetailsPagePivot;
         private RelativeLayout _personDetailsPageLoadingSpinner;
 
@@ -94,7 +94,7 @@ namespace MALClient.Android.Fragments.DetailsFragments
 
         public TextView PersonDetailsPageDescription => _personDetailsPageDescription ?? (_personDetailsPageDescription = FindViewById<TextView>(Resource.Id.PersonDetailsPageDescription));
 
-        public PagerSlidingTabStrip PersonDetailsPageTabStrip => _personDetailsPageTabStrip ?? (_personDetailsPageTabStrip = FindViewById<PagerSlidingTabStrip>(Resource.Id.PersonDetailsPageTabStrip));
+        public com.refractored.PagerSlidingTabStrip PersonDetailsPageTabStrip => _personDetailsPageTabStrip ?? (_personDetailsPageTabStrip = FindViewById<com.refractored.PagerSlidingTabStrip>(Resource.Id.PersonDetailsPageTabStrip));
 
         public ViewPager PersonDetailsPagePivot => _personDetailsPagePivot ?? (_personDetailsPagePivot = FindViewById<ViewPager>(Resource.Id.PersonDetailsPagePivot));
 

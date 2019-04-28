@@ -352,7 +352,7 @@
       <Version>4.1.6</Version>
     </PackageReference>
     <PackageReference Include="HtmlAgilityPack">
-      <Version>1.8.13</Version>
+      <Version>1.11.3</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.0.8</Version>
@@ -367,7 +367,7 @@
       <Version>5.4.1.1</Version>
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json">
-      <Version>12.0.1</Version>
+      <Version>12.0.2</Version>
     </PackageReference>
     <PackageReference Include="WinRTXamlToolkit">
       <Version>2.3.0</Version>

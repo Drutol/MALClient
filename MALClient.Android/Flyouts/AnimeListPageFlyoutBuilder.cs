@@ -132,11 +132,11 @@ namespace MALClient.Android.Flyouts
             {
                 if (value == currentStatus)
                     droppyBuilder.AddMenuItem(
-                        new DroppyMenuCustomItem(BuildItem(context, Utilities.StatusToString((int)value,manga), listener, (int) value,
+                        new DroppyMenuCustomItem(BuildItem(context, XShared.Utils.Utilities.StatusToString((int)value,manga), listener, (int) value,
                             ResourceExtension.BrushSelectedDialogItem, ResourceExtension.AccentColour)));
                 else //highlighted
                     droppyBuilder.AddMenuItem(
-                        new DroppyMenuCustomItem(BuildItem(context, Utilities.StatusToString((int)value,manga), listener, (int) value)));
+                        new DroppyMenuCustomItem(BuildItem(context, XShared.Utils.Utilities.StatusToString((int)value,manga), listener, (int) value)));
             }
             droppyBuilder.SetYOffset(DimensionsHelper.DpToPx(30));
             return droppyBuilder.Build();

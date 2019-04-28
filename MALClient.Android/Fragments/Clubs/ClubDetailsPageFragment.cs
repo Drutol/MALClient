@@ -10,11 +10,11 @@ using Android.Runtime;
 using Android.Support.V4.View;
 using Android.Views;
 using Android.Widget;
-using Com.Astuetz;
 using GalaSoft.MvvmLight.Helpers;
 using MALClient.Android.BindingConverters;
 using MALClient.Android.Listeners;
 using MALClient.Android.PagerAdapters;
+
 using MALClient.XShared.NavArgs;
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Clubs;
@@ -63,11 +63,11 @@ namespace MALClient.Android.Fragments.Clubs
 
         #region Views
 
-        private PagerSlidingTabStrip _tabStrip;
+        private com.refractored.PagerSlidingTabStrip _tabStrip;
         private ViewPager _pivot;
         private FrameLayout _loadingSpinner;
 
-        public PagerSlidingTabStrip TabStrip => _tabStrip ?? (_tabStrip = FindViewById<PagerSlidingTabStrip>(Resource.Id.TabStrip));
+        public com.refractored.PagerSlidingTabStrip TabStrip => _tabStrip ?? (_tabStrip = FindViewById<com.refractored.PagerSlidingTabStrip>(Resource.Id.TabStrip));
 
         public ViewPager Pivot => _pivot ?? (_pivot = FindViewById<ViewPager>(Resource.Id.Pivot));
 

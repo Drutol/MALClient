@@ -13,6 +13,7 @@ using Android.Widget;
 using Com.Oguzdev.Circularfloatingactionmenu.Library;
 using GalaSoft.MvvmLight.Helpers;
 using MALClient.XShared.Utils;
+using Fragment = Android.Support.V4.App.Fragment;
 
 
 namespace MALClient.Android.Fragments

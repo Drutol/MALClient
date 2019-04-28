@@ -1,22 +1,22 @@
 ﻿using System;
-using Android.App;
 using Android.Content.Res;
 using Android.Graphics;
 using Android.Runtime;
-using Android.Support.V13.App;
+using Android.Support.V4.App;
 using Android.Views;
 using Android.Widget;
-using Com.Astuetz;
+using com.refractored;
 using MALClient.Android.Fragments;
 using MALClient.Android.Fragments.Clubs;
 using MALClient.Android.Fragments.ProfilePageFragments;
 using MALClient.Android.Resources;
+
 using MALClient.XShared.ViewModels;
 using Orientation = Android.Widget.Orientation;
 
 namespace MALClient.Android.PagerAdapters
 {
-    public class ClubDetailsPagerAdapter : FragmentStatePagerAdapter, PagerSlidingTabStrip.ICustomTabProvider
+    public class ClubDetailsPagerAdapter : FragmentStatePagerAdapter, ICustomTabProvider
     {
         public ClubDetailsPagerAdapter(IntPtr javaReference, JniHandleOwnership transfer) : base(javaReference, transfer)
         {

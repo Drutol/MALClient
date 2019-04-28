@@ -12,7 +12,6 @@ using Android.Provider;
 using Android.Widget;
 using GalaSoft.MvvmLight.Ioc;
 using MALClient.Adapters;
-using ModernHttpClient;
 using Environment = Android.OS.Environment;
 using File = Java.IO.File;
 using Uri = Android.Net.Uri;
@@ -29,7 +28,7 @@ namespace MALClient.Android.Adapters
                 return;
             try
             {
-                var http = new HttpClient(new NativeMessageHandler());
+                var http = new HttpClient();
                 byte[] response = { };
 
                 //get bytes

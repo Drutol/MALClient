@@ -1,22 +1,23 @@
 ﻿using System;
-using Android.App;
 using Android.Graphics;
 using Android.Runtime;
-using Android.Support.V13.App;
+using Android.Support.V4.App;
 using Android.Util;
 using Android.Views;
 using Android.Widget;
-using Com.Astuetz;
+using com.refractored;
 using Com.Mikepenz.Materialdrawer;
 using MALClient.Android.Fragments;
 using MALClient.Android.Fragments.Clubs;
 using MALClient.Android.Resources;
+
 using MALClient.XShared.Comm.MagicalRawQueries.Clubs;
 using MALClient.XShared.ViewModels;
 
+
 namespace MALClient.Android.PagerAdapters
 {
-    public class ClubsIndexPagerAdapter : FragmentStatePagerAdapter , PagerSlidingTabStrip.ICustomTabProvider
+    public class ClubsIndexPagerAdapter : FragmentStatePagerAdapter , ICustomTabProvider
     {
         public ClubsIndexPagerAdapter(IntPtr javaReference, JniHandleOwnership transfer) : base(javaReference, transfer)
         {

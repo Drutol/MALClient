@@ -29,7 +29,7 @@ namespace MALClient.Android.Adapters
         {
             var httpHandler = new HttpClientHandler()
             {
-                AllowAutoRedirect = false,
+                AllowAutoRedirect = true,
                 UseCookies = true,
                 AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate,
                 CookieContainer = new CookieContainer(),

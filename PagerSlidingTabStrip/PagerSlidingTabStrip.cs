@@ -457,13 +457,12 @@ namespace com.refractored
         {
             TabsContainer.RemoveAllViews();
             tabCount = pager.Adapter.Count;
-            View tabView;
             for (int i = 0; i < tabCount; i++)
             {
-
-                if (pager.Adapter is ICustomTabProvider)
+                View tabView;
+                if (pager.Adapter is ICustomTabProvider provider)
                 {
-                    tabView = ((ICustomTabProvider)pager.Adapter).GetCustomTabView(this, i);
+                    tabView = provider.GetCustomTabView(this, i);
                 }
                 else
                 {
@@ -476,7 +475,6 @@ namespace com.refractored
             }
 
             UpdateTabStyles();
-
             ViewTreeObserver.AddOnGlobalLayoutListener(MyOnGlobalLayoutListner);
 
         }
@@ -493,7 +491,6 @@ namespace com.refractored
             #region IOnGlobalLayoutListener implementation
             public void OnGlobalLayout()
             {
-
                 strip.RemoveGlobals();
             }
             #endregion
@@ -574,7 +571,7 @@ namespace com.refractored
             }
         }
 
-        private void ScrollToChild(int position, int offset)
+        public void ScrollToChild(int position, int offset)
         {
             if (tabCount == 0)
                 return;
@@ -793,26 +790,30 @@ namespace com.refractored
         {
             if (tab == null)
                 return;
-
+            (pager.Adapter as ICustomTabProvider)?.TabUnselected(tab);
             var title = tab.FindViewById<TextView>(Resource.Id.psts_tab_title);
             if (title == null)
                 return;
 
             title.SetTypeface(tabTypeface, tabTypefaceStyle);
             title.SetTextColor(tabTextColor);
+
+
         }
 
         void Selected(View tab)
         {
             if (tab == null)
                 return;
-
+            (pager.Adapter as ICustomTabProvider)?.TabSelected(tab);
             var title = tab.FindViewById<TextView>(Resource.Id.psts_tab_title);
             if (title == null)
                 return;
 
             title.SetTypeface(tabTypeface, tabTypefaceSelectedStyle);
             title.SetTextColor(tabTextColorSelected);
+
+
         }
 
 

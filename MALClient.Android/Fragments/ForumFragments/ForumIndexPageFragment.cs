@@ -38,7 +38,7 @@ namespace MALClient.Android.Fragments.ForumFragments
             if(_currentTab == 1)
                 ForumIndexPagePivot.SetCurrentItem(1,false);
 
-            ForumIndexPagePivot.AddOnPageChangeListener(new OnPageChangedListener(i => _currentTab = i));
+            ForumIndexPageTabStrip.OnPageChangeListener = new OnPageChangedListener(i => _currentTab = i);
         }
 
         public override int LayoutResourceId => Resource.Layout.ForumIndexPage;

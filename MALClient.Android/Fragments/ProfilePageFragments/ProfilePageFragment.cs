@@ -57,7 +57,7 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
                 this.SetBinding(() => ViewModel.LoadingVisibility,
                     () => ProfilePageLoadingSpinner.Visibility).ConvertSourceToTarget(Converters.BoolToVisibility));
 
-            ProfilePagePivot.AddOnPageChangeListener(new OnPageChangedListener(i => ViewModel.CurrentPivotIndex = i));
+            ProfilePageTabStrip.OnPageChangeListener = new OnPageChangedListener(i => ViewModel.CurrentPivotIndex = i);
         }
 
         public override int LayoutResourceId => Resource.Layout.ProfilePage;

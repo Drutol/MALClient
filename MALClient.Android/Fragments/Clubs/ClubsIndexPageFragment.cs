@@ -48,7 +48,7 @@ namespace MALClient.Android.Fragments.Clubs
             TabStrip.CenterTabs();
             Pivot.SetCurrentItem(_lastPivotIndex,false);
 
-            Pivot.AddOnPageChangeListener(new OnPageChangedListener(i => _lastPivotIndex = i));
+            TabStrip.OnPageChangeListener = new OnPageChangedListener(i => _lastPivotIndex = i);
         }
 
         private Drawer _rightDrawer;

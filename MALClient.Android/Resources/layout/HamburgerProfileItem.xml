@@ -1,94 +1,176 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:app="http://schemas.android.com/apk/res-auto"
-             android:layout_width="match_parent"
-             android:layout_height="150dp">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="150dp">
 
-  <LinearLayout android:orientation="vertical" android:layout_width="match_parent" android:layout_height="wrap_content">
-    <FrameLayout android:layout_width="match_parent" android:id="@+id/HamburgerBottomViewProfileItem"
-                 android:layout_height="wrap_content" android:clipChildren="false" android:longClickable="true"
-                 android:clickable="true" android:focusable="true" android:foreground="?selectableItemBackground" android:clipToPadding="false">
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="vertical">
+
+    <FrameLayout
+        android:id="@+id/HamburgerBottomViewProfileItem"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:focusable="true"
+        android:foreground="?selectableItemBackground"
+        android:longClickable="true">
+
       <LinearLayout
 
-        android:layout_width="match_parent" android:orientation="horizontal"
-        android:layout_height="wrap_content" android:paddingStart="8dp" >
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:orientation="horizontal"
+          android:paddingStart="8dp">
 
-        <LinearLayout android:paddingTop="16dp" android:paddingBottom="16dp"
-                      android:layout_width="0dp" android:layout_weight="1" android:gravity="center_vertical"
-                      android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp">
+
           <FrameLayout
-            android:layout_width="50dp"
-            android:layout_height="50dp">
+              android:layout_width="50dp"
+              android:layout_height="50dp">
+
             <ImageView
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content" android:layout_gravity="center" android:src="@drawable/icon_account"/>
-            <FFImageLoading.Views.ImageViewAsync android:id="@+id/HamburgerProfileItemImage"
-                                                 android:layout_width="match_parent" android:scaleType="centerCrop"
-                                                 android:layout_height="match_parent" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/icon_account" />
+
+            <FFImageLoading.Views.ImageViewAsync
+                android:id="@+id/HamburgerProfileItemImage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop" />
           </FrameLayout>
 
 
-          <TextView android:id="@+id/HamburgerProfileItemLabel"
-                    android:layout_width="wrap_content" android:textColor="?BrushText" android:layout_marginStart="16dp"
-                    android:layout_height="wrap_content" android:text="Profile" android:fontFamily="@string/font_family_medium" />
+          <TextView
+              android:id="@+id/HamburgerProfileItemLabel"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_marginStart="16dp"
+              android:fontFamily="@string/font_family_medium"
+              android:text="Profile"
+              android:textColor="?BrushText" />
         </LinearLayout>
 
         <LinearLayout
-          android:layout_width="wrap_content" android:paddingEnd="16dp" android:clipToPadding="false"
-          android:layout_height="match_parent" android:paddingStart="16dp"
-          android:layout_gravity="center_vertical">
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:clipToPadding="false"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp">
 
-          <android.support.design.widget.FloatingActionButton android:id="@+id/HamburgerProfileItemNotifications"
-                                                              android:layout_width="wrap_content"
-                                                              android:layout_height="wrap_content" app:backgroundTint="?AccentColourDark"
-                                                              android:layout_gravity="center_vertical"
-                                                              android:layout_marginEnd="15dp"
-                                                              app:fabSize="mini"
-                                                              android:tint="#fff"
-                                                              android:background="?android:selectableItemBackgroundBorderless"
-                                                              android:scaleType="centerInside"
-                                                              android:src="@drawable/icon_notification" />
+          <android.support.design.widget.FloatingActionButton
+              android:id="@+id/HamburgerProfileItemNotifications"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_gravity="center_vertical"
+              android:layout_marginEnd="15dp"
+              android:background="?android:selectableItemBackgroundBorderless"
+              android:scaleType="centerInside"
+              android:src="@drawable/icon_notification"
+              android:tint="#fff"
+              app:backgroundTint="?AccentColourDark"
+              app:fabSize="mini" />
 
-          <android.support.design.widget.FloatingActionButton android:id="@+id/HamburgerProfileItemMessages"
-                                                              android:layout_width="wrap_content" app:backgroundTint="?AccentColourDark"
-                                                              android:layout_height="wrap_content"
-                                                              android:layout_gravity="center_vertical"
-                                                              app:fabSize="mini"
-                                                              android:tint="#fff"
-                                                              android:background="?android:selectableItemBackgroundBorderless"
-                                                              android:scaleType="centerInside"
-                                                              android:src="@drawable/icon_message" />
+          <android.support.design.widget.FloatingActionButton
+              android:id="@+id/HamburgerProfileItemMessages"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_gravity="center_vertical"
+              android:background="?android:selectableItemBackgroundBorderless"
+              android:scaleType="centerInside"
+              android:src="@drawable/icon_message"
+              android:tint="#fff"
+              app:backgroundTint="?AccentColourDark"
+              app:fabSize="mini" />
 
         </LinearLayout>
 
       </LinearLayout>
     </FrameLayout>
-    <FrameLayout android:layout_width="match_parent" android:id="@+id/HamburgerBottomViewSettingsItem"
-                 android:layout_height="wrap_content" android:clipChildren="false" android:paddingTop="4dp" android:paddingBottom="14dp"
-                 android:clickable="true" android:focusable="true" android:foreground="?selectableItemBackground" android:clipToPadding="false">
-      <LinearLayout android:paddingStart="8dp" android:paddingTop="8dp" android:clipToPadding="false"
-                    android:layout_width="match_parent" android:orientation="horizontal"
-                    android:layout_height="wrap_content" android:gravity="center_vertical">
+
+    <FrameLayout
+        android:id="@+id/HamburgerBottomViewSettingsItem"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:focusable="true"
+        android:foreground="?selectableItemBackground"
+        android:paddingTop="4dp"
+        android:paddingBottom="14dp">
+
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:clipToPadding="false"
+          android:gravity="center_vertical"
+          android:orientation="horizontal"
+          android:paddingStart="8dp"
+          android:paddingTop="8dp">
+
         <ImageView
-          android:layout_width="24dp" android:scaleType="centerInside" android:id="@+id/HamburgerSettingsItemIcon"
-          android:layout_height="24dp" android:src="@drawable/icon_settings" android:layout_marginStart="13dp" />
-        <TextView android:id="@+id/HamburgerSettingsItemLabel"
-                  android:layout_width="wrap_content" android:textColor="?BrushText" android:layout_marginStart="28dp"
-                  android:layout_height="wrap_content" android:text="Settings &amp; more" android:fontFamily="@string/font_family_medium" />
+            android:id="@+id/HamburgerSettingsItemIcon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="13dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/icon_settings" />
+
+        <TextView
+            android:id="@+id/HamburgerSettingsItemLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="28dp"
+            android:fontFamily="@string/font_family_medium"
+            android:text="Settings &amp; more"
+            android:textColor="?BrushText" />
       </LinearLayout>
 
-      <android.support.design.widget.FloatingActionButton  android:id="@+id/VideoAdButton" android:layout_marginEnd="74dp"
-                                                           android:layout_width="wrap_content" app:backgroundTint="#ff4400" android:layout_gravity="end|center_vertical"
-                                                           android:layout_height="wrap_content" android:tint="#fff" android:src="@drawable/icon_video_ad" android:clickable="true" android:focusable="true"
-                                                           xmlns:app="http://schemas.android.com/apk/res-auto" app:fabSize="mini" android:layout_marginBottom="0dp" />
+      <android.support.design.widget.FloatingActionButton xmlns:app="http://schemas.android.com/apk/res-auto"
+          android:id="@+id/VideoAdButton"
+          android:layout_width="36dp"
+          android:layout_height="36dp"
+          android:layout_gravity="end|center_vertical"
+          android:layout_marginEnd="74dp"
+          android:layout_marginBottom="0dp"
+          android:clickable="true"
+          android:focusable="true"
+          android:src="@drawable/icon_video_ad"
+          android:tint="#fff"
+          app:fabCustomSize="36dp"
+          app:backgroundTint="#ff4400" />
 
-      <android.support.design.widget.FloatingActionButton  android:id="@+id/HamburgerProfileItemSupport" android:layout_marginEnd="18dp"
-                                                           android:layout_width="wrap_content" app:backgroundTint="#ff4400" android:layout_gravity="end|center_vertical"
-                                                           android:layout_height="wrap_content" android:tint="#fff" android:src="@drawable/icon_heart" android:clickable="true" android:focusable="true"
-                                                           xmlns:app="http://schemas.android.com/apk/res-auto" app:fabSize="mini" android:layout_marginBottom="0dp" />
+      <android.support.design.widget.FloatingActionButton xmlns:app="http://schemas.android.com/apk/res-auto"
+          android:id="@+id/HamburgerProfileItemSupport"
+          android:layout_width="36dp"
+          android:layout_height="36dp"
+          android:layout_gravity="end|center_vertical"
+          android:layout_marginEnd="18dp"
+          android:layout_marginBottom="0dp"
+          android:clickable="true"
+          android:padding="0dp"
+          android:focusable="true"
+          android:src="@drawable/icon_heart"
+          android:tint="#fff"
+          app:borderWidth="0dp"
+          app:backgroundTint="#ff4400"
+          app:fabCustomSize="36dp" />
     </FrameLayout>
   </LinearLayout>
-
 
 
 </FrameLayout>

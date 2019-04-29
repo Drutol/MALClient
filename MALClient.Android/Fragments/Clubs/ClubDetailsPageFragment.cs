@@ -55,7 +55,7 @@ namespace MALClient.Android.Fragments.Clubs
                 this.SetBinding(() => ViewModel.Loading,
                     () => LoadingSpinner.Visibility).ConvertSourceToTarget(Converters.BoolToVisibility));
 
-            Pivot.AddOnPageChangeListener(new OnPageChangedListener(i => _lastIndex = i));
+            TabStrip.OnPageChangeListener = new OnPageChangedListener(i => _lastIndex = i);
         }
 
         public override int LayoutResourceId => Resource.Layout.ClubDetailsPage;

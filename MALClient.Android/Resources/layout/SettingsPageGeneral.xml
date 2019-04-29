@@ -182,15 +182,6 @@
         </LinearLayout>
       </LinearLayout>
 
-      <TextView
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:layout_marginTop="5dp"
-          android:fontFamily="@string/font_family_light"
-          android:gravity="center_horizontal"
-          android:text="Want more accents? Leave me a message on github!"
-          android:textColor="?BrushText" />
-
       <LinearLayout
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
@@ -213,16 +204,54 @@
             android:layout_gravity="center_vertical" />
       </LinearLayout>
 
+      <LinearLayout
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_gravity="center">
+
+        <Button
+            android:id="@+id/SettingsPageGeneralThemeChangeApply"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:backgroundTint="?AccentColour"
+            android:text="Apply!"
+            android:textColor="#fff"
+            android:visibility="visible" />
+      </LinearLayout>
+
+    </LinearLayout>
+
+    <View
+        style="@style/Divider"
+        android:layout_marginTop="10dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:padding="5dp">
+
+      <TextView
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_gravity="center_vertical"
+          android:layout_weight="1"
+          android:text="Pin accent themed icon to the start screen."
+          android:textColor="?BrushText"
+          android:textSize="@dimen/FontSizeMedium" />
+
       <Button
-          android:id="@+id/SettingsPageGeneralThemeChangeApply"
+          android:id="@+id/SettingsPageGeneralPinAccentShortcutButton"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:layout_gravity="center_horizontal"
           android:backgroundTint="?AccentColour"
-          android:text="Apply!"
+          android:text="Pin"
           android:textColor="#fff"
           android:visibility="visible" />
     </LinearLayout>
+
 
     <View
         style="@style/Divider"

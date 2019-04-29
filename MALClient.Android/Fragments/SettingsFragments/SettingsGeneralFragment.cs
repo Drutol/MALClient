@@ -5,11 +5,14 @@ using System.Text;
 
 using Android.App;
 using Android.Content;
+using Android.Content.PM;
+using Android.Graphics.Drawables;
 using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using GalaSoft.MvvmLight.Helpers;
+using Java.Lang;
 using MALClient.Android.Activities;
 using MALClient.Android.BindingConverters;
 using MALClient.Android.Flyouts;
@@ -19,6 +22,7 @@ using MALClient.Android.ViewModels;
 using MALClient.Models.Enums;
 using MALClient.XShared.Utils;
 using MALClient.XShared.ViewModels;
+using Enum = System.Enum;
 
 namespace MALClient.Android.Fragments.SettingsFragments
 {
@@ -282,6 +286,30 @@ namespace MALClient.Android.Fragments.SettingsFragments
             SettingsPageGeneralColorCyan.SetOnClickListener(colorListener);
             SettingsPageGeneralColorSkyBlue.SetOnClickListener(colorListener);
             SettingsPageGeneralColorRed.SetOnClickListener(colorListener);
+
+            SettingsPageGeneralPinAccentShortcutButton.SetOnClickListener(new OnClickListener(PinAccentShortcut));
+        }
+
+        private void PinAccentShortcut(View obj)
+        {
+            var shortcutManager = (ShortcutManager) Context.GetSystemService(Class.FromType(typeof(ShortcutManager)));
+            if (shortcutManager != null)
+            {
+                if (shortcutManager.IsRequestPinShortcutSupported)
+                {
+                    var intent = new Intent(Context, typeof(MainActivity));
+                    intent.SetAction(Intent.ActionView);
+
+                    var shortcut = new ShortcutInfo.Builder(Context, "accentPin")
+                        .SetShortLabel("MALClient")
+                        .SetIcon(Icon.CreateWithResource(Context, Resource.Mipmap.ic_launcher_lime_round))
+                        .SetIntent(intent)
+                        .Build();
+                    shortcutManager.RequestPinShortcut(shortcut, null);
+                }
+                else
+                    Toast.MakeText(Context, "Pinned shortcuts are not supported in your android version!", ToastLength.Short).Show();
+            }
         }
 
         private List<ImageButton> _accentButtons;

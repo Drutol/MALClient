@@ -51,7 +51,7 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Messages
                 msg.ReplyId = ids[3].Substring(0, ids[3].IndexOf('&'));
                 return msg;
             }
-            catch (WebException)
+            catch (Exception)
             {
                 ResourceLocator.MalHttpContextProvider.ErrorMessage("Messages");
             }

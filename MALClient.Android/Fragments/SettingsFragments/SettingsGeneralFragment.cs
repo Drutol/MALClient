@@ -287,7 +287,7 @@ namespace MALClient.Android.Fragments.SettingsFragments
             SettingsPageGeneralColorSkyBlue.SetOnClickListener(colorListener);
             SettingsPageGeneralColorRed.SetOnClickListener(colorListener);
 
-            SettingsPageGeneralPinAccentShortcutButton.SetOnClickListener(new OnClickListener(PinAccentShortcut));
+            //SettingsPageGeneralPinAccentShortcutButton.SetOnClickListener(new OnClickListener(PinAccentShortcut));
         }
 
         private void PinAccentShortcut(View obj)

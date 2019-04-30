@@ -9,8 +9,6 @@
     <com.refractored.PagerSlidingTabStrip
       android:id="@+id/ArticlesPageTabStrip"
       android:layout_width="match_parent"
-      xmlns:app="http://schemas.android.com/apk/res-auto"
-      app:pstsPaddingMiddle="true"
       android:layout_height="25dp"
       android:textColorPrimary="?AccentColour"
       android:background="?BrushPivotHeaderBackground" />

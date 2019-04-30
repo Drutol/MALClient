@@ -5,10 +5,10 @@ namespace MALClient.Android
 {
     public static class TabStripExtensions
     {
-        public static async void CenterTabs(this com.refractored.PagerSlidingTabStrip strip)
+        public static void CenterTabs(this com.refractored.PagerSlidingTabStrip strip)
         {
             //Yeah... so , well...
-            //strip.TabsContainer.SetGravity(GravityFlags.CenterHorizontal);
+            strip.TabsContainer.SetGravity(GravityFlags.CenterHorizontal);
             //strip.ScrollOffset = -350;
         }
     }

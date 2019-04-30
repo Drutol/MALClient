@@ -100,7 +100,7 @@ namespace MALClient.Android.Fragments.SettingsFragments
         public ImageButton SettingsPageGeneralColorRed => _settingsPageGeneralColorRed ?? (_settingsPageGeneralColorRed = FindViewById<ImageButton>(Resource.Id.SettingsPageGeneralColorRed));
         public Switch SettingsPageGeneralAmoledSwitch => _settingsPageGeneralAmoledSwitch ?? (_settingsPageGeneralAmoledSwitch = FindViewById<Switch>(Resource.Id.SettingsPageGeneralAmoledSwitch));
         public Button SettingsPageGeneralThemeChangeApply => _settingsPageGeneralThemeChangeApply ?? (_settingsPageGeneralThemeChangeApply = FindViewById<Button>(Resource.Id.SettingsPageGeneralThemeChangeApply));
-        public Button SettingsPageGeneralPinAccentShortcutButton => _settingsPageGeneralPinAccentShortcutButton ?? (_settingsPageGeneralPinAccentShortcutButton = FindViewById<Button>(Resource.Id.SettingsPageGeneralPinAccentShortcutButton));
+        //public Button SettingsPageGeneralPinAccentShortcutButton => _settingsPageGeneralPinAccentShortcutButton ?? (_settingsPageGeneralPinAccentShortcutButton = FindViewById<Button>(Resource.Id.SettingsPageGeneralPinAccentShortcutButton));
         public Switch SettingsPageGeneralEnableSwipeSwitch => _settingsPageGeneralEnableSwipeSwitch ?? (_settingsPageGeneralEnableSwipeSwitch = FindViewById<Switch>(Resource.Id.SettingsPageGeneralEnableSwipeSwitch));
         public Switch SettingsPageGeneralPullHigherSwitch => _settingsPageGeneralPullHigherSwitch ?? (_settingsPageGeneralPullHigherSwitch = FindViewById<Switch>(Resource.Id.SettingsPageGeneralPullHigherSwitch));
         public Switch SettingsPageGeneralSeasonSwitch => _settingsPageGeneralSeasonSwitch ?? (_settingsPageGeneralSeasonSwitch = FindViewById<Switch>(Resource.Id.SettingsPageGeneralSeasonSwitch));

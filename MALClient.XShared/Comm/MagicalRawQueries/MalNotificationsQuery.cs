@@ -58,7 +58,7 @@ namespace MALClient.XShared.Comm.MagicalRawQueries
 
                 return output;
             }
-            catch (WebException)
+            catch (Exception)
             {
                 //inner background task exception ¯\_(ツ)_/¯
                 return new List<MalNotification>();

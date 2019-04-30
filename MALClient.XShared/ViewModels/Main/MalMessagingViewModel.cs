@@ -118,7 +118,7 @@ namespace MALClient.XShared.ViewModels.Main
                         {
                             Inbox.AddRange(await AccountMessagesManager.GetMessagesAsync(_loadedPages++));
                         }
-                        catch (WebException)
+                        catch (Exception)
                         {
                             ResourceLocator.MalHttpContextProvider.ErrorMessage("Messages");
                         }

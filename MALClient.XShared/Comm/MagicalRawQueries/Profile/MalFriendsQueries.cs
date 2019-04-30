@@ -77,7 +77,7 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Profile
 
                 return response.IsSuccessStatusCode || response.StatusCode == HttpStatusCode.SeeOther;
             }
-            catch (WebException)
+            catch (Exception)
             {
                 ResourceLocator.MalHttpContextProvider.ErrorMessage("Friends");
                 return false;
@@ -104,7 +104,7 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Profile
 
                 return response.IsSuccessStatusCode || response.StatusCode == HttpStatusCode.SeeOther;
             }
-            catch (WebException)
+            catch (Exception)
             {
                 ResourceLocator.MalHttpContextProvider.ErrorMessage("Friends");
                 return false;
@@ -122,7 +122,7 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Profile
 
                 return response.IsSuccessStatusCode || response.StatusCode == HttpStatusCode.SeeOther;
             }
-            catch (WebException)
+            catch (Exception)
             {
                 ResourceLocator.MalHttpContextProvider.ErrorMessage("Friends");
                 return false;

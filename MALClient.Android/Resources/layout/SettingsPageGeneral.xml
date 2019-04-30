@@ -222,7 +222,7 @@
 
     </LinearLayout>
 
-    <View
+    <!--<View
         style="@style/Divider"
         android:layout_marginTop="10dp" />
 
@@ -250,7 +250,7 @@
           android:text="Pin"
           android:textColor="#fff"
           android:visibility="visible" />
-    </LinearLayout>
+    </LinearLayout>-->
 
 
     <View

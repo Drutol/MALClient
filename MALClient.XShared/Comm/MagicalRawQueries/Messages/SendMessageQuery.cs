@@ -33,7 +33,7 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Messages
 
                 return response.IsSuccessStatusCode;
             }
-            catch (WebException)
+            catch (Exception)
             {
                 ResourceLocator.MalHttpContextProvider.ErrorMessage("Messages");
                 return false;

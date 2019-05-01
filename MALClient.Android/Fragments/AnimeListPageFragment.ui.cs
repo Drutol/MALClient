@@ -248,122 +248,126 @@ namespace MALClient.Android.Fragments
             }
         }
 
-        private async void AnimeListOnPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
+        private void AnimeListOnPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
         {
-            if (propertyChangedEventArgs.PropertyName == nameof(ViewModelLocator.AnimeList.AnimeGridItems))
+            MainActivity.CurrentContext.RunOnUiThread(async () =>
             {
-                if (ViewModel.AnimeGridItems != null)
+                if (propertyChangedEventArgs.PropertyName == nameof(ViewModelLocator.AnimeList.AnimeGridItems))
                 {
-                    var footerParam = _loadMoreFooter.LayoutParameters;
-                    footerParam.Height = ViewGroup.LayoutParams.WrapContent;
-
-                    AnimeListPageGridView.InjectAnimeListAdapterWithFooter(Context, ViewModel.AnimeGridItems, AnimeListDisplayModes.IndefiniteGrid, _loadMoreFooter, AnimeListPageGridViewOnItemClick, true, _prevArgs != null);
-                    _gridViewColumnHelper = new GridViewColumnHelper(AnimeListPageGridView, null, Settings.SqueezeOneMoreGridItem ? 3 : 2, 3);
-                    //if row is not full we have to make this footer item bigger in order to avoid cutting of last row of items
-
-                    SwipeRefreshLayout.ScrollingView = AnimeListPageGridView;
-
-                    AnimeListPageListView.ClearFlingAdapter();
-                    AnimeListPageCompactListView.ClearFlingAdapter();
-
-                    await Task.Delay(250);
-                    if (ViewModel.AnimeGridItems == null)
-                        return;
-                    if (_prevArgs != null)
+                    if (ViewModel.AnimeGridItems != null)
                     {
-                        var pos = _prevArgs.SelectedItemIndex;
+                        var footerParam = _loadMoreFooter.LayoutParameters;
+                        footerParam.Height = ViewGroup.LayoutParams.WrapContent;
 
-                        AnimeListPageGridView.RequestFocusFromTouch();
-                        AnimeListPageGridView.SetSelection(pos);
-                        AnimeListPageGridView.RequestFocus();
-                        _prevArgs = null;
+                        AnimeListPageGridView.InjectAnimeListAdapterWithFooter(Context, ViewModel.AnimeGridItems, AnimeListDisplayModes.IndefiniteGrid, _loadMoreFooter, AnimeListPageGridViewOnItemClick, true, _prevArgs != null);
+                        _gridViewColumnHelper = new GridViewColumnHelper(AnimeListPageGridView, null, Settings.SqueezeOneMoreGridItem ? 3 : 2, 3);
+                        //if row is not full we have to make this footer item bigger in order to avoid cutting of last row of items
+
+                        SwipeRefreshLayout.ScrollingView = AnimeListPageGridView;
+
+                        AnimeListPageListView.ClearFlingAdapter();
+                        AnimeListPageCompactListView.ClearFlingAdapter();
+
+                        await Task.Delay(250);
+                        if (ViewModel.AnimeGridItems == null)
+                            return;
+                        if (_prevArgs != null)
+                        {
+                            var pos = _prevArgs.SelectedItemIndex;
+
+                            AnimeListPageGridView.RequestFocusFromTouch();
+                            AnimeListPageGridView.SetSelection(pos);
+                            AnimeListPageGridView.RequestFocus();
+                            _prevArgs = null;
+                        }
+
+                        if (ViewModel.AnimeGridItems.Count % _gridViewColumnHelper.LastColmuns != 0)
+                        {
+                            footerParam.Height = DimensionsHelper.DpToPx(315);
+                        }
+
+                        _loadMoreFooter.LayoutParameters = footerParam;
                     }
-
-                    if (ViewModel.AnimeGridItems.Count % _gridViewColumnHelper.LastColmuns != 0)
-                    {
-                        footerParam.Height = DimensionsHelper.DpToPx(315);
-                    }
-
-                    _loadMoreFooter.LayoutParameters = footerParam;
                 }
-            }
-            else if (propertyChangedEventArgs.PropertyName == nameof(ViewModelLocator.AnimeList.AnimeListItems))
-            {
-                if (ViewModel.AnimeListItems != null)
+                else if (propertyChangedEventArgs.PropertyName == nameof(ViewModelLocator.AnimeList.AnimeListItems))
                 {
-                    var footerParam = _loadMoreFooter.LayoutParameters;
-                    footerParam.Height = ViewGroup.LayoutParams.WrapContent;
-                    _loadMoreFooter.LayoutParameters = footerParam;
-
-                    AnimeListPageListView.InjectAnimeListAdapterWithFooter(Context, ViewModel.AnimeListItems,
-                        AnimeListDisplayModes.IndefiniteList, _loadMoreFooter, AnimeListPageGridViewOnItemClick);
-
-                    if (_prevArgs != null)
+                    if (ViewModel.AnimeListItems != null)
                     {
-                        AnimeListPageListView.SmoothScrollToPosition(_prevArgs.SelectedItemIndex);
-                        _prevArgs = null;
+                        var footerParam = _loadMoreFooter.LayoutParameters;
+                        footerParam.Height = ViewGroup.LayoutParams.WrapContent;
+                        _loadMoreFooter.LayoutParameters = footerParam;
+
+                        AnimeListPageListView.InjectAnimeListAdapterWithFooter(Context, ViewModel.AnimeListItems,
+                            AnimeListDisplayModes.IndefiniteList, _loadMoreFooter, AnimeListPageGridViewOnItemClick);
+
+                        if (_prevArgs != null)
+                        {
+                            AnimeListPageListView.SmoothScrollToPosition(_prevArgs.SelectedItemIndex);
+                            _prevArgs = null;
+                        }
+
+                        SwipeRefreshLayout.ScrollingView = AnimeListPageListView;
+
+                        AnimeListPageGridView.ClearFlingAdapter();
+                        AnimeListPageCompactListView.ClearFlingAdapter();
                     }
-
-                    SwipeRefreshLayout.ScrollingView = AnimeListPageListView;
-
-                    AnimeListPageGridView.ClearFlingAdapter();
-                    AnimeListPageCompactListView.ClearFlingAdapter();
                 }
-            }
-            else if (propertyChangedEventArgs.PropertyName == nameof(ViewModelLocator.AnimeList.AnimeCompactItems))
-            {
-                if (ViewModel.AnimeCompactItems != null)
+                else if (propertyChangedEventArgs.PropertyName == nameof(ViewModelLocator.AnimeList.AnimeCompactItems))
                 {
-                    var footerParam = _loadMoreFooter.LayoutParameters;
-                    footerParam.Height = ViewGroup.LayoutParams.WrapContent;
-                    _loadMoreFooter.LayoutParameters = footerParam;
-                    AnimeListPageCompactListView.InjectAnimeListAdapterWithFooter(Context, ViewModel.AnimeCompactItems, AnimeListDisplayModes.IndefiniteCompactList, _loadMoreFooter, AnimeListPageGridViewOnItemClick);
-
-                    if (_prevArgs != null)
+                    if (ViewModel.AnimeCompactItems != null)
                     {
-                        AnimeListPageListView.SmoothScrollToPosition(_prevArgs.SelectedItemIndex);
-                        _prevArgs = null;
+                        var footerParam = _loadMoreFooter.LayoutParameters;
+                        footerParam.Height = ViewGroup.LayoutParams.WrapContent;
+                        _loadMoreFooter.LayoutParameters = footerParam;
+                        AnimeListPageCompactListView.InjectAnimeListAdapterWithFooter(Context, ViewModel.AnimeCompactItems, AnimeListDisplayModes.IndefiniteCompactList, _loadMoreFooter, AnimeListPageGridViewOnItemClick);
+
+                        if (_prevArgs != null)
+                        {
+                            AnimeListPageListView.SmoothScrollToPosition(_prevArgs.SelectedItemIndex);
+                            _prevArgs = null;
+                        }
+
+                        SwipeRefreshLayout.ScrollingView = AnimeListPageCompactListView;
+
+                        AnimeListPageListView.ClearFlingAdapter();
+                        AnimeListPageGridView.ClearFlingAdapter();
                     }
-
-                    SwipeRefreshLayout.ScrollingView = AnimeListPageCompactListView;
-
-                    AnimeListPageListView.ClearFlingAdapter();
-                    AnimeListPageGridView.ClearFlingAdapter();
                 }
-            }
-            else if (propertyChangedEventArgs.PropertyName == nameof(ViewModel.DisplayMode))
-            {
-                switch (ViewModel.DisplayMode)
+                else if (propertyChangedEventArgs.PropertyName == nameof(ViewModel.DisplayMode))
                 {
-                    case AnimeListDisplayModes.IndefiniteList:
-                        AnimeListPageListView.Visibility = ViewStates.Visible;
+                    switch (ViewModel.DisplayMode)
+                    {
+                        case AnimeListDisplayModes.IndefiniteList:
+                            AnimeListPageListView.Visibility = ViewStates.Visible;
 
-                        AnimeListPageGridView.Visibility = ViewStates.Gone;
-                        AnimeListPageCompactListView.Visibility = ViewStates.Gone;
-                        break;
+                            AnimeListPageGridView.Visibility = ViewStates.Gone;
+                            AnimeListPageCompactListView.Visibility = ViewStates.Gone;
+                            break;
 
-                    case AnimeListDisplayModes.IndefiniteGrid:
-                        AnimeListPageGridView.Visibility = ViewStates.Visible;
+                        case AnimeListDisplayModes.IndefiniteGrid:
+                            AnimeListPageGridView.Visibility = ViewStates.Visible;
 
-                        AnimeListPageListView.Visibility = ViewStates.Gone;
-                        AnimeListPageCompactListView.Visibility = ViewStates.Gone;
-                        break;
+                            AnimeListPageListView.Visibility = ViewStates.Gone;
+                            AnimeListPageCompactListView.Visibility = ViewStates.Gone;
+                            break;
 
-                    case AnimeListDisplayModes.IndefiniteCompactList:
-                        AnimeListPageCompactListView.Visibility = ViewStates.Visible;
+                        case AnimeListDisplayModes.IndefiniteCompactList:
+                            AnimeListPageCompactListView.Visibility = ViewStates.Visible;
 
-                        AnimeListPageListView.Visibility = ViewStates.Gone;
-                        AnimeListPageGridView.Visibility = ViewStates.Gone;
-                        break;
+                            AnimeListPageListView.Visibility = ViewStates.Gone;
+                            AnimeListPageGridView.Visibility = ViewStates.Gone;
+                            break;
+                    }
                 }
-            }
-            else if (propertyChangedEventArgs.PropertyName == nameof(ViewModel.CanLoadMore))
-            {
-                if (ViewModel.CanLoadMore)
-                    _loadMoreFooter.Visibility = ViewStates.Visible;
-                else
-                    _loadMoreFooter.Visibility = ViewStates.Invisible;
-            }
+                else if (propertyChangedEventArgs.PropertyName == nameof(ViewModel.CanLoadMore))
+                {
+                    if (ViewModel.CanLoadMore)
+                        _loadMoreFooter.Visibility = ViewStates.Visible;
+                    else
+                        _loadMoreFooter.Visibility = ViewStates.Invisible;
+                }
+            });
+           
         }
 
         public ScrollableSwipeToRefreshLayout SwipeRefreshLayout => RootView as ScrollableSwipeToRefreshLayout;

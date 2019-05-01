@@ -569,61 +569,77 @@ namespace MALClient.XShared.Comm.Profile
 
         public async Task<List<MalComment>> GetComments()
         {
-            var raw = await (await ResourceLocator.MalHttpContextProvider.GetHttpContextAsync()).GetAsync($"/profile/{_userName}");
-            var doc = new HtmlDocument();
-            doc.LoadHtml(await raw.Content.ReadAsStringAsync());
-            var output = new List<MalComment>();
             try
             {
-                var commentBox = doc.FirstOfDescendantsWithClass("div", "user-comments mt24 pt24");
-                foreach (var comment in commentBox.WhereOfDescendantsWithClass("div", "comment clearfix"))
+
+                var raw =
+                    await (await ResourceLocator.MalHttpContextProvider.GetHttpContextAsync()).GetAsync(
+                        $"/profile/{_userName}");
+                var doc = new HtmlDocument();
+                doc.LoadHtml(await raw.Content.ReadAsStringAsync());
+                var output = new List<MalComment>();
+                try
                 {
-                    var curr = new MalComment();
-                    var imgNode = comment.Descendants("img").First();
-                    if(imgNode.Attributes.Contains("srcset"))
-                        curr.User.ImgUrl = imgNode.Attributes["srcset"].Value.Split(',').Last().Replace("2x","").Trim();
-                    else if (imgNode.Attributes.Contains("data-src"))
-                        curr.User.ImgUrl = imgNode.Attributes["data-src"].Value;
+                    var commentBox = doc.FirstOfDescendantsWithClass("div", "user-comments mt24 pt24");
+                    foreach (var comment in commentBox.WhereOfDescendantsWithClass("div", "comment clearfix"))
+                    {
+                        var curr = new MalComment();
+                        var imgNode = comment.Descendants("img").First();
+                        if (imgNode.Attributes.Contains("srcset"))
+                            curr.User.ImgUrl = imgNode.Attributes["srcset"].Value.Split(',').Last().Replace("2x", "")
+                                .Trim();
+                        else if (imgNode.Attributes.Contains("data-src"))
+                            curr.User.ImgUrl = imgNode.Attributes["data-src"].Value;
 
-                   
-                    var textBlock = comment.Descendants("div").First();
-                    var header = textBlock.Descendants("div").First();
-                    curr.User.Name = header.ChildNodes[1].InnerText;
-                    curr.Date = header.ChildNodes[3].InnerText;
-                    curr.Content = WebUtility.HtmlDecode(textBlock.Descendants("div").Skip(1).First().InnerText.Trim());
-                    var postActionNodes = comment.WhereOfDescendantsWithClass("a", "ml8");
-                    var convNode = postActionNodes.FirstOrDefault(node => node.InnerText.Trim() == "Conversation");
-                    if (convNode != null)
-                    {
-                        curr.ComToCom = WebUtility.HtmlDecode(convNode.Attributes["href"].Value.Split('?').Last());
+
+                        var textBlock = comment.Descendants("div").First();
+                        var header = textBlock.Descendants("div").First();
+                        curr.User.Name = header.ChildNodes[1].InnerText;
+                        curr.Date = header.ChildNodes[3].InnerText;
+                        curr.Content =
+                            WebUtility.HtmlDecode(textBlock.Descendants("div").Skip(1).First().InnerText.Trim());
+                        var postActionNodes = comment.WhereOfDescendantsWithClass("a", "ml8");
+                        var convNode = postActionNodes.FirstOrDefault(node => node.InnerText.Trim() == "Conversation");
+                        if (convNode != null)
+                        {
+                            curr.ComToCom = WebUtility.HtmlDecode(convNode.Attributes["href"].Value.Split('?').Last());
+                        }
+
+                        var deleteNode = postActionNodes.FirstOrDefault(node => node.InnerText.Trim() == "Delete");
+                        if (deleteNode != null)
+                        {
+                            curr.CanDelete = true;
+                            curr.Id =
+                                deleteNode.Attributes["onclick"].Value.Split(new char[] {'(', ')'},
+                                    StringSplitOptions.RemoveEmptyEntries).Last();
+                        }
+
+                        output.Add(curr);
                     }
-                    var deleteNode = postActionNodes.FirstOrDefault(node => node.InnerText.Trim() == "Delete");
-                    if(deleteNode != null)
-                    {
-                        curr.CanDelete = true;
-                        curr.Id =
-                            deleteNode.Attributes["onclick"].Value.Split(new char[] { '(', ')' },
-                                StringSplitOptions.RemoveEmptyEntries).Last();
-                    }
-                    output.Add(curr);
                 }
-            }
-            catch (Exception)
-            {
-                //no comments
-            }
-
-            await Task.Run( async () =>
-            {
-                var data = await DataCache.RetrieveProfileData(_userName);
-                if (data != null)
+                catch (Exception)
                 {
-                    data.Comments = output;
+                    //no comments
                 }
-                DataCache.SaveProfileData(_userName, data);
-            });
 
-            return output;
+                await Task.Run(async () =>
+                {
+                    var data = await DataCache.RetrieveProfileData(_userName);
+                    if (data != null)
+                    {
+                        data.Comments = output;
+                    }
+
+                    DataCache.SaveProfileData(_userName, data);
+                });
+
+                return output;
+
+            }
+            catch
+            {
+                return new List<MalComment>();
+            }
         }
 
         public async Task<string> GetHummingBirdAvatarUrl()

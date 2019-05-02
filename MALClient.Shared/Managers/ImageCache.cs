@@ -19,7 +19,6 @@ using System.Threading.Tasks;
 using Windows.Storage;
 using MALClient.XShared.Utils;
 using MALClient.XShared.ViewModels;
-using ModernHttpClient;
 
 namespace MALClient.UWP.Shared.Managers
 {
@@ -40,7 +39,7 @@ namespace MALClient.UWP.Shared.Managers
         {
             CacheDuration = TimeSpan.FromDays(3);
 
-            _client = new HttpClient(new NativeMessageHandler());
+            _client = new HttpClient();
             _client.ConfigureToAcceptCompressedContent();
         }
 

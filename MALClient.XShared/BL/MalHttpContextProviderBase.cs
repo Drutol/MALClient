@@ -31,7 +31,7 @@ namespace MALClient.XShared.BL
         public virtual async Task<CsrfHttpClient> GetHttpContextAsync(bool skipAtuhCheck = false)
         {
             if(!Credentials.Authenticated && !skipAtuhCheck)
-                return new CsrfHttpClient(new HttpClientHandler()) { Disabled = true };
+                return new CsrfHttpClient(ResourceLocator.MalHttpContextProvider.GetHandler()) { Disabled = true };
             await _semaphoreSlim.WaitAsync();
             try
             {
@@ -59,7 +59,7 @@ namespace MALClient.XShared.BL
                 }
 
                 _skippedFirstError = false;
-                return new CsrfHttpClient(new HttpClientHandler()) {Disabled = true};               
+                return new CsrfHttpClient(ResourceLocator.MalHttpContextProvider.GetHandler()) {Disabled = true};               
             }
             finally
             {
@@ -73,6 +73,8 @@ namespace MALClient.XShared.BL
             _httpClient = null;
             _contextExpirationTime = null;
         }
+
+        public abstract HttpClientHandler GetHandler();
 
         protected FormUrlEncodedContent LoginPostBody 
         {

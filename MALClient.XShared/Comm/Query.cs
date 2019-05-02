@@ -27,7 +27,7 @@ namespace MALClient.XShared.Comm
 
         static Query()
         {
-            _client = new HttpClient(new HttpClientHandler());
+            _client = new HttpClient(ResourceLocator.MalHttpContextProvider.GetHandler());
             RefreshClientAuthHeader();
         }
 

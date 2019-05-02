@@ -16,7 +16,7 @@ namespace MALClient.UWP.Adapters
     {
         protected override async Task<CsrfHttpClient> ObtainContext()
         {
-            var httpHandler = new HttpClientHandler()
+            var httpHandler = ResourceLocator.MalHttpContextProvider.GetHandler()
             {
                 CookieContainer = new CookieContainer(),
                 UseCookies = true,

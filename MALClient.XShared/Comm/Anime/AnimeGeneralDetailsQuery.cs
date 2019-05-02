@@ -32,7 +32,7 @@ namespace MALClient.XShared.Comm.Anime
                 {
                     case ApiType.Mal:
 
-                        using (var client = new HttpClient())
+                        using (var client = new HttpClient(ResourceLocator.MalHttpContextProvider.GetHandler()))
                         {
                             var response = await client.GetStringAsync($"https://api.jikan.moe/{(animeMode ? "anime" : "manga")}/{id}");
 

@@ -51,7 +51,6 @@ namespace MALClient.XShared.ViewModels
             };
         }
 
-
         public abstract ICommand ReviewCommand { get; }
 
         public abstract ICommand RequestNavigationCommand { get; }
@@ -59,7 +58,7 @@ namespace MALClient.XShared.ViewModels
         public ICommand SyncFavsCommand => _syncFavsCommand ?? (_syncFavsCommand = new RelayCommand(async () =>
         {
             IsSyncFavsButtonEnabled = false;
-            await new ProfileQuery().GetProfileData(true,true);
+            await new ProfileQuery().GetProfileData(true, true);
             IsSyncFavsButtonEnabled = true;
         }));
 
@@ -147,37 +146,37 @@ namespace MALClient.XShared.ViewModels
 
         public Tuple<AnimeListDisplayModes, string> SelectedDefaultViewForWatching
         {
-            get => DisplayModes[(int) Settings.WatchingDisplayMode];
+            get => DisplayModes[(int)Settings.WatchingDisplayMode];
             set => Settings.WatchingDisplayMode = value.Item1;
         }
 
         public Tuple<AnimeListDisplayModes, string> SelectedDefaultViewForCompleted
         {
-            get => DisplayModes[(int) Settings.CompletedDisplayMode];
+            get => DisplayModes[(int)Settings.CompletedDisplayMode];
             set => Settings.CompletedDisplayMode = value.Item1;
         }
 
         public Tuple<AnimeListDisplayModes, string> SelectedDefaultViewForOnHold
         {
-            get => DisplayModes[(int) Settings.OnHoldDisplayMode];
+            get => DisplayModes[(int)Settings.OnHoldDisplayMode];
             set => Settings.OnHoldDisplayMode = value.Item1;
         }
 
         public Tuple<AnimeListDisplayModes, string> SelectedDefaultViewForDropped
         {
-            get => DisplayModes[(int) Settings.DroppedDisplayMode];
+            get => DisplayModes[(int)Settings.DroppedDisplayMode];
             set => Settings.DroppedDisplayMode = value.Item1;
         }
 
         public Tuple<AnimeListDisplayModes, string> SelectedDefaultViewForPlanned
         {
-            get => DisplayModes[(int) Settings.PlannedDisplayMode];
+            get => DisplayModes[(int)Settings.PlannedDisplayMode];
             set => Settings.PlannedDisplayMode = value.Item1;
         }
 
         public Tuple<AnimeListDisplayModes, string> SelectedDefaultViewForAll
         {
-            get => DisplayModes[(int) Settings.AllDisplayMode];
+            get => DisplayModes[(int)Settings.AllDisplayMode];
             set => Settings.AllDisplayMode = value.Item1;
         }
 
@@ -311,43 +310,43 @@ namespace MALClient.XShared.ViewModels
             }
         }
 
-        public  bool SetStartDateOnWatching
+        public bool SetStartDateOnWatching
         {
             get => Settings.SetStartDateOnWatching;
             set => Settings.SetStartDateOnWatching = value;
         }
 
-        public  bool SetStartDateOnListAdd
+        public bool SetStartDateOnListAdd
         {
             get => Settings.SetStartDateOnListAdd;
             set => Settings.SetStartDateOnListAdd = value;
         }
 
-        public  bool SetEndDateOnDropped
+        public bool SetEndDateOnDropped
         {
             get => Settings.SetEndDateOnDropped;
             set => Settings.SetEndDateOnDropped = value;
         }
 
-        public  bool SetEndDateOnCompleted
+        public bool SetEndDateOnCompleted
         {
             get => Settings.SetEndDateOnCompleted;
             set => Settings.SetEndDateOnCompleted = value;
         }
 
-        public  bool OverrideValidStartEndDate
+        public bool OverrideValidStartEndDate
         {
             get => Settings.OverrideValidStartEndDate;
             set => Settings.OverrideValidStartEndDate = value;
         }
 
-        public  bool HamburgerMenuDefaultPaneState
+        public bool HamburgerMenuDefaultPaneState
         {
             get => Settings.HamburgerMenuDefaultPaneState;
             set => Settings.HamburgerMenuDefaultPaneState = value;
         }
 
-        public  bool HamburgerHideMangaSection
+        public bool HamburgerHideMangaSection
         {
             get => Settings.HamburgerHideMangaSection;
             set
@@ -363,177 +362,201 @@ namespace MALClient.XShared.ViewModels
             set => Settings.DisplayScoreDialogAfterCompletion = value;
         }
 
-        public  bool CalendarIncludeWatching
+        public bool CalendarIncludeWatching
         {
             get => Settings.CalendarIncludeWatching;
             set => Settings.CalendarIncludeWatching = value;
         }
 
-        public  bool CalendarIncludePlanned
+        public bool CalendarIncludePlanned
         {
             get => Settings.CalendarIncludePlanned;
             set => Settings.CalendarIncludePlanned = value;
         }
 
-        public  bool IsCachingEnabled
+        public bool IsCachingEnabled
         {
             get => Settings.IsCachingEnabled;
             set => Settings.IsCachingEnabled = value;
         }
 
-        public  bool CalendarStartOnToday
+        public bool CalendarStartOnToday
         {
             get => Settings.CalendarStartOnToday;
             set => Settings.CalendarStartOnToday = value;
         }
 
-        public  bool CalendarRemoveEmptyDays
+        public bool CalendarRemoveEmptyDays
         {
             get => Settings.CalendarRemoveEmptyDays;
             set => Settings.CalendarRemoveEmptyDays = value;
         }
 
-        public  bool CalendarStartOnSummary => !Settings.CalendarStartOnToday;
+        public bool CalendarStartOnSummary => !Settings.CalendarStartOnToday;
 
-        public  bool CalendarSwitchMonSun
+        public bool CalendarSwitchMonSun
         {
             get => !Settings.CalendarSwitchMonSun;
             set => Settings.CalendarSwitchMonSun = !value;
         }
 
-        public  bool CalendarPullExactAiringTime
+        public bool CalendarPullExactAiringTime
         {
             get => Settings.CalendarPullExactAiringTime;
             set => Settings.CalendarPullExactAiringTime = value;
         }
 
-        public  bool EnableSwipeToIncDec
+        public bool EnableSwipeToIncDec
         {
             get => Settings.EnableSwipeToIncDec;
             set => Settings.EnableSwipeToIncDec = value;
         }
 
-        public  bool ReverseSwipingDirection
+        public bool ReverseSwipingDirection
         {
             get => Settings.ReverseSwipingDirection;
             set => Settings.ReverseSwipingDirection = value;
         }
 
-        public  bool DetailsListReviewsView
+        public bool DetailsListReviewsView
         {
             get => Settings.DetailsListReviewsView;
             set => Settings.DetailsListReviewsView = value;
         }
 
-        public  bool DetailsListRecomsView
+        public bool DetailsListRecomsView
         {
             get => Settings.DetailsListRecomsView;
             set => Settings.DetailsListRecomsView = value;
         }
 
-        public  bool ArticlesLaunchExternalLinks
+        public bool ArticlesLaunchExternalLinks
         {
             get => Settings.ArticlesLaunchExternalLinks;
             set => Settings.ArticlesLaunchExternalLinks = value;
         }
 
-        public  bool ArticlesDisplayScrollBar
+        public bool ArticlesDisplayScrollBar
         {
             get => Settings.ArticlesDisplayScrollBar;
             set => Settings.ArticlesDisplayScrollBar = value;
         }
 
-        public  bool PreferEnglishTitles
+        public bool PreferEnglishTitles
         {
             get => Settings.PreferEnglishTitles;
             set => Settings.PreferEnglishTitles = value;
         }
 
-        public  bool MakeGridItemsSmaller
+        public bool MakeGridItemsSmaller
         {
             get => Settings.MakeGridItemsSmaller;
             set => Settings.MakeGridItemsSmaller = value;
         }
 
-        public  bool SyncFavsFromTimeToTime
+        public bool SyncFavsFromTimeToTime
         {
             get => Settings.SyncFavsFromTimeToTime;
             set => Settings.SyncFavsFromTimeToTime = value;
         }
 
-        public  bool EnsureRandomizerAlwaysSelectsWinner
+        public bool EnsureRandomizerAlwaysSelectsWinner
         {
             get => Settings.EnsureRandomizerAlwaysSelectsWinner;
             set => Settings.EnsureRandomizerAlwaysSelectsWinner = value;
         }
 
-        public  bool EnableImageCache
+        public bool EnableImageCache
         {
             get => Settings.EnableImageCache;
             set => Settings.EnableImageCache = value;
         }
 
-        public  bool PullPeekPostsOnStartup
+        public bool PullPeekPostsOnStartup
         {
             get => Settings.PullPeekPostsOnStartup;
             set => Settings.PullPeekPostsOnStartup = value;
         }
 
-        public  bool ForumsSearchOnCopy
+        public bool ForumsSearchOnCopy
         {
             get => Settings.ForumsSearchOnCopy;
             set => Settings.ForumsSearchOnCopy = value;
         }
 
-        public  AnimeStatus DefaultStatusAfterAdding
+        public AnimeStatus DefaultStatusAfterAdding
         {
             get => Settings.DefaultStatusAfterAdding;
             set => Settings.DefaultStatusAfterAdding = value;
         }
 
-        public  bool ForceSearchIntoOffPage
+        public bool ForceSearchIntoOffPage
         {
             get => Settings.ForceSearchIntoOffPage;
             set => Settings.ForceSearchIntoOffPage = value;
         }
 
-        public  bool WatchedEpsPromptEnable
+        public bool WatchedEpsPromptEnable
         {
             get => Settings.WatchedEpsPromptEnable;
             set => Settings.WatchedEpsPromptEnable = value;
         }
 
-        public  bool WatchedEpsPromptProceedOnDisabled
+        public bool WatchedEpsPromptProceedOnDisabled
         {
             get => Settings.WatchedEpsPromptProceedOnDisabled;
             set => Settings.WatchedEpsPromptProceedOnDisabled = value;
         }
 
-        public  bool StatusPromptEnable
+        public bool StatusPromptEnable
         {
             get => Settings.StatusPromptEnable;
             set => Settings.StatusPromptEnable = value;
         }
 
-        public  bool StatusPromptProceedOnDisabled
+        public bool StatusPromptProceedOnDisabled
         {
             get => Settings.StatusPromptProceedOnDisabled;
             set => Settings.StatusPromptProceedOnDisabled = value;
         }
 
-        public  bool EnableShareButton
+        public bool EnableShareButton
         {
             get => Settings.EnableShareButton;
             set => Settings.EnableShareButton = value;
         }
 
-        public  bool DisplayUnsetScores
+        public bool DisplayUnsetScores
         {
             get => Settings.DisplayUnsetScores;
             set => Settings.DisplayUnsetScores = value;
         }
 
-        public  bool MangaFocusVolumes
+        public bool HideGlobalScoreInDetailsWhenNotRated
+        {
+            get => Settings.HideGlobalScoreInDetailsWhenNotRated;
+            set => Settings.HideGlobalScoreInDetailsWhenNotRated = value;
+        }
+
+        public bool DontAskToMoveOnHoldEntries
+        {
+            get => Settings.DontAskToMoveOnHoldEntries;
+            set => Settings.DontAskToMoveOnHoldEntries = value;
+        }
+
+        public bool HideDecrementButtons
+        {
+            get => Settings.HideDecrementButtons;
+            set => Settings.HideDecrementButtons = value;
+        }
+
+        public bool SqueezeOneMoreGridItem
+        {
+            get => Settings.SqueezeOneMoreGridItem;
+            set => Settings.SqueezeOneMoreGridItem = value;
+        }
+
+        public bool MangaFocusVolumes
         {
             get => Settings.MangaFocusVolumes;
             set
@@ -546,13 +569,13 @@ namespace MALClient.XShared.ViewModels
                     if (item.LoadedModel)
                         item.ViewModel.MangaFocusChanged(value);
                 }
-                if(!ViewModelLocator.Mobile)
+                if (!ViewModelLocator.Mobile)
                     if (ViewModelLocator.GeneralMain.CurrentMainPage == PageIndex.PageProfile)
                     {
                         foreach (var item in ViewModelLocator.ProfilePage.FavManga.Concat(ViewModelLocator.ProfilePage.RecentManga))
                         {
                             item.MangaFocusChanged(value);
-                        }               
+                        }
                     }
             }
         }
@@ -606,6 +629,7 @@ namespace MALClient.XShared.ViewModels
         public abstract void LoadCachedEntries();
 
         #region Notifications
+
         private ICommand _SetNotificationsRefreshTimeCommand;
 
         public ICommand SetNotificationsRefreshTimeCommand
@@ -654,10 +678,10 @@ namespace MALClient.XShared.ViewModels
             set
             {
                 Settings.EnableNotifications = value;
-                if(value)
+                if (value)
                     ResourceLocator.NotificationsTaskManager.StartTask(BgTasks.Notifications);
                 else
-                    ResourceLocator.NotificationsTaskManager.StopTask(BgTasks.Notifications);                 
+                    ResourceLocator.NotificationsTaskManager.StopTask(BgTasks.Notifications);
             }
         }
 
@@ -681,7 +705,6 @@ namespace MALClient.XShared.ViewModels
             set => Settings.NotificationsRefreshTime = value;
         }
 
-
         public MalNotificationsTypes EnabledNotificationTypes
         {
             get => Settings.EnabledNotificationTypes;
@@ -692,8 +715,7 @@ namespace MALClient.XShared.ViewModels
             }
         }
 
-
-        #endregion
+        #endregion Notifications
 
         #region RecentlyMovedToMvvm
 
@@ -746,6 +768,7 @@ namespace MALClient.XShared.ViewModels
         }
 
         private bool _isSyncFavsButtonEnabled = true;
+        private bool _squeezeOneMoreGridItem;
 
         public bool IsSyncFavsButtonEnabled
         {
@@ -757,7 +780,7 @@ namespace MALClient.XShared.ViewModels
             }
         }
 
-        #endregion
+        #endregion RecentlyMovedToMvvm
 
         #region Ads
 
@@ -784,7 +807,7 @@ namespace MALClient.XShared.ViewModels
             }
         }
 
-        #endregion
+        #endregion Ads
 
         #region Feeds
 
@@ -806,6 +829,6 @@ namespace MALClient.XShared.ViewModels
             set => Settings.FeedsMaxEntryAge = value;
         }
 
-        #endregion
+        #endregion Feeds
     }
 }

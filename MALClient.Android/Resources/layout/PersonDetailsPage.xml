@@ -100,7 +100,7 @@
 
             </LinearLayout>
 
-            <com.astuetz.PagerSlidingTabStrip
+            <com.refractored.PagerSlidingTabStrip
                 android:id="@+id/PersonDetailsPageTabStrip"
                 android:layout_width="match_parent"
                 android:layout_height="25dp"

@@ -134,7 +134,7 @@ namespace MALClient.Android.Fragments
             foreach (var enumValue in Enum.GetValues(typeof(AnimeStatus)).Cast<AnimeStatus>())
             {
                 var btn = HamburgerUtilities.GetBaseSecondaryItem();
-                btn.WithName(Utilities.StatusToString((int)enumValue));
+                btn.WithName(XShared.Utils.Utilities.StatusToString((int)enumValue));
                 btn.WithIdentifier((int)enumValue);
                 items.Add(btn);
             }

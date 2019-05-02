@@ -34,7 +34,7 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Profile
 
                 return response.IsSuccessStatusCode || response.StatusCode == HttpStatusCode.SeeOther;
             }
-            catch (WebException)
+            catch (Exception)
             {
                 ResourceLocator.MalHttpContextProvider.ErrorMessage("Messages");
                 return false;
@@ -68,7 +68,7 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Profile
 
                 return response.IsSuccessStatusCode || response.StatusCode == HttpStatusCode.SeeOther;
             }
-            catch (WebException)
+            catch (Exception)
             {
                 ResourceLocator.MalHttpContextProvider.ErrorMessage("Messages");
                 return false;
@@ -93,7 +93,7 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Profile
 
                 return response.IsSuccessStatusCode || response.StatusCode == HttpStatusCode.SeeOther;
             }
-            catch (WebException)
+            catch (Exception)
             {
                 ResourceLocator.MalHttpContextProvider.ErrorMessage("Messages");
                 return false;
@@ -140,7 +140,7 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Profile
                 return output;
 
             }
-            catch (WebException)
+            catch (Exception)
             {
                 ResourceLocator.MalHttpContextProvider.ErrorMessage("Messages");
                 return new List<MalMessageModel>();

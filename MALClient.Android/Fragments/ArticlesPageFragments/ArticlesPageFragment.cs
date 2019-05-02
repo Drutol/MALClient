@@ -7,12 +7,13 @@ using Android.OS;
 using Android.Support.V4.View;
 using Android.Webkit;
 using Android.Widget;
-using Com.Astuetz;
+
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Helpers;
 using MALClient.Android.BindingConverters;
 using MALClient.Android.PagerAdapters;
 using MALClient.Android.Resources;
+
 using MALClient.Android.Web;
 using MALClient.Models.Enums;
 using MALClient.Models.Models.MalSpecific;
@@ -127,12 +128,12 @@ namespace MALClient.Android.Fragments.ArticlesPageFragments
 
         #region Views
 
-        private PagerSlidingTabStrip _articlesPageTabStrip;
+        private com.refractored.PagerSlidingTabStrip _articlesPageTabStrip;
         private ViewPager _articlesPagePivot;
         private WebView _articlesPageWebView;
         private ProgressBar _articlesPageLoadingSpinner;
 
-        public PagerSlidingTabStrip ArticlesPageTabStrip => _articlesPageTabStrip ?? (_articlesPageTabStrip = FindViewById<PagerSlidingTabStrip>(Resource.Id.ArticlesPageTabStrip));
+        public com.refractored.PagerSlidingTabStrip ArticlesPageTabStrip => _articlesPageTabStrip ?? (_articlesPageTabStrip = FindViewById<com.refractored.PagerSlidingTabStrip>(Resource.Id.ArticlesPageTabStrip));
 
         public ViewPager ArticlesPagePivot => _articlesPagePivot ?? (_articlesPagePivot = FindViewById<ViewPager>(Resource.Id.ArticlesPagePivot));
 

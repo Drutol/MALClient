@@ -90,7 +90,7 @@ namespace MALClient.Android.BackgroundTasks
         {
             try
             {
-                await new NotificationCheckBroadcastReceiver.CalendarTask(MainActivity.CurrentContext).RunUpdate();
+                await new NotificationCheckBroadcastReceiver.CalendarTask(null, MainActivity.CurrentContext).RunUpdate();
             }
             catch (Exception)
             {

@@ -8,7 +8,7 @@ using Android.Runtime;
 using MALClient.Models.Models.Anime;
 using MALClient.XShared.Comm.Anime;
 using MALClient.XShared.Utils;
-using ModernHttpClient;
+using MALClient.XShared.ViewModels;
 using Newtonsoft.Json;
 
 namespace MALClient.XShared.Comm.Manga
@@ -32,7 +32,7 @@ namespace MALClient.XShared.Comm.Manga
 
             try
             {
-                var client = new HttpClient(new NativeMessageHandler());
+                var client = new HttpClient(ResourceLocator.MalHttpContextProvider.GetHandler());
                 var response =
                     await client.GetAsync(
                         $"https://api.jikan.moe/search/manga?q={_query}&page=1");

@@ -48,7 +48,7 @@ namespace MALClient.XShared.Comm.MagicalRawQueries
                 var contentchar = new FormUrlEncodedContent(charCont);
                 await client.PostAsync($"/includes/ajax.inc.php?s=1&t={actionId}", contentchar);
             }
-            catch (WebException)
+            catch (Exception)
             {
                 ResourceLocator.MalHttpContextProvider.ErrorMessage("Favourites");
             }

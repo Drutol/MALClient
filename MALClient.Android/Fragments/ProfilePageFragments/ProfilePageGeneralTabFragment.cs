@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
 using Android.Graphics;
+using Android.Net.Wifi.Hotspot2.Pps;
 using Android.OS;
 using Android.Runtime;
 using Android.Support.Design.Widget;
@@ -24,6 +25,7 @@ using MALClient.Android.Resources;
 using MALClient.Android.UserControls;
 using MALClient.Android.ViewHolders;
 using MALClient.Models.Models;
+using MALClient.XShared.Utils;
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Main;
 
@@ -178,6 +180,7 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
             ProfilePageGeneralTabSendRequestButton.SetOnClickListener(new OnClickListener(view => AddFriendDialog.Instance.ShowDialog(Activity,ViewModel.CurrentData,this)));
             ProfilePageGeneralTabRemoveFriendButton.SetOnClickListener(new OnClickListener(view => ViewModel.RemoveFriendCommand.Execute(null)));
             AboutButton.SetOnClickListener(new OnClickListener(view => ProfileDescriptionDialog.Instance.ShowDialog(Activity,RootView,ViewModel.CurrentData.HtmlContent)));
+            ShareButton.SetOnClickListener(new OnClickListener(view => ShareProfile()));
 
             PopulateComments();
             ProfilePageGeneralTabScrollingContainer.ViewTreeObserver.ScrollChanged -= ViewTreeObserverOnScrollChanged;
@@ -186,6 +189,25 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
             ProfilePageGeneralTabScrollingContainer.Touch += RootViewOnTouch;
             ProfilePageGeneralTabCommentsList.Touch -= RootViewOnTouch;
             ProfilePageGeneralTabCommentsList.Touch += RootViewOnTouch;
+        }
+
+        private void ShareProfile()
+        {
+            try
+            {
+                var shareIntent = new Intent(Intent.ActionSend);
+                shareIntent.SetType("text/plain");
+                shareIntent.PutExtra(Intent.ExtraSubject, "MAL profile");
+                if(ViewModel.IsMyProfile)
+                    shareIntent.PutExtra(Intent.ExtraText, $"My MAL profile: https://myanimelist.net/profile/{Credentials.UserName}");
+                else
+                    shareIntent.PutExtra(Intent.ExtraText, $"{ViewModel.CurrentData.User.Name}'s MAL profile: https://myanimelist.net/profile/{ViewModel.CurrentData.User.Name}");
+                Activity.StartActivity(Intent.CreateChooser(shareIntent, "How to share this profile"));
+            }
+            catch (Exception e)
+            {
+
+            }
         }
 
         #region ScrollHandling
@@ -384,6 +406,7 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
         private Button _profilePageGeneralTabHistoryButton;
         private ImageView _pinButtonIcon;
         private FrameLayout _pinButton;
+        private FrameLayout _shareButton;
         private ImageButton _profilePageGeneralTabSendRequestButton;
         private ImageButton _profilePageGeneralTabRemoveFriendButton;
         private ImageButton _profilePageGeneralTabMoreFriendsButton;
@@ -400,51 +423,29 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
         private FloatingActionButton _profilePageGeneralTabActionButton;
 
         public ImageView ProfilePageGeneralTabImagePlaceholder => _profilePageGeneralTabImagePlaceholder ?? (_profilePageGeneralTabImagePlaceholder = FindViewById<ImageView>(Resource.Id.ProfilePageGeneralTabImagePlaceholder));
-
         public ImageViewAsync ProfilePageGeneralTabAnimeUserImg => _profilePageGeneralTabAnimeUserImg ?? (_profilePageGeneralTabAnimeUserImg = FindViewById<ImageViewAsync>(Resource.Id.ProfilePageGeneralTabAnimeUserImg));
-
         public FloatingActionButton AboutButton => _aboutButton ?? (_aboutButton = FindViewById<FloatingActionButton>(Resource.Id.AboutButton));
-
         public LinearLayout ProfilePageGeneralTabDetailsList => _profilePageGeneralTabDetailsList ?? (_profilePageGeneralTabDetailsList = FindViewById<LinearLayout>(Resource.Id.ProfilePageGeneralTabDetailsList));
-
         public Button ProfilePageGeneralTabAnimeListButton => _profilePageGeneralTabAnimeListButton ?? (_profilePageGeneralTabAnimeListButton = FindViewById<Button>(Resource.Id.ProfilePageGeneralTabAnimeListButton));
-
         public ImageButton ProfilePageGeneralTabCompareList => _profilePageGeneralTabCompareList ?? (_profilePageGeneralTabCompareList = FindViewById<ImageButton>(Resource.Id.ProfilePageGeneralTabCompareList));
-
         public Button ProfilePageGeneralTabMangaListButton => _profilePageGeneralTabMangaListButton ?? (_profilePageGeneralTabMangaListButton = FindViewById<Button>(Resource.Id.ProfilePageGeneralTabMangaListButton));
-
         public Button ProfilePageGeneralTabHistoryButton => _profilePageGeneralTabHistoryButton ?? (_profilePageGeneralTabHistoryButton = FindViewById<Button>(Resource.Id.ProfilePageGeneralTabHistoryButton));
-
         public ImageView PinButtonIcon => _pinButtonIcon ?? (_pinButtonIcon = FindViewById<ImageView>(Resource.Id.PinButtonIcon));
-
         public FrameLayout PinButton => _pinButton ?? (_pinButton = FindViewById<FrameLayout>(Resource.Id.PinButton));
-
+        public FrameLayout ShareButton => _shareButton ?? (_shareButton = FindViewById<FrameLayout>(Resource.Id.ShareButton));
         public ImageButton ProfilePageGeneralTabSendRequestButton => _profilePageGeneralTabSendRequestButton ?? (_profilePageGeneralTabSendRequestButton = FindViewById<ImageButton>(Resource.Id.ProfilePageGeneralTabSendRequestButton));
-
         public ImageButton ProfilePageGeneralTabRemoveFriendButton => _profilePageGeneralTabRemoveFriendButton ?? (_profilePageGeneralTabRemoveFriendButton = FindViewById<ImageButton>(Resource.Id.ProfilePageGeneralTabRemoveFriendButton));
-
         public ImageButton ProfilePageGeneralTabMoreFriendsButton => _profilePageGeneralTabMoreFriendsButton ?? (_profilePageGeneralTabMoreFriendsButton = FindViewById<ImageButton>(Resource.Id.ProfilePageGeneralTabMoreFriendsButton));
-
         public ExpandableGridView ProfilePageGeneralTabFriendsGrid => _profilePageGeneralTabFriendsGrid ?? (_profilePageGeneralTabFriendsGrid = FindViewById<ExpandableGridView>(Resource.Id.ProfilePageGeneralTabFriendsGrid));
-
         public TextView ProfilePageGeneralTabFriendsEmptyNotice => _profilePageGeneralTabFriendsEmptyNotice ?? (_profilePageGeneralTabFriendsEmptyNotice = FindViewById<TextView>(Resource.Id.ProfilePageGeneralTabFriendsEmptyNotice));
-
         public ProgressBar AnimeDetailsPageLoadingUpdateSpinner => _animeDetailsPageLoadingUpdateSpinner ?? (_animeDetailsPageLoadingUpdateSpinner = FindViewById<ProgressBar>(Resource.Id.AnimeDetailsPageLoadingUpdateSpinner));
-
         public ImageButton ReloadButton => _reloadButton ?? (_reloadButton = FindViewById<ImageButton>(Resource.Id.ReloadButton));
-
         public EditText ProfilePageGeneralTabCommentInput => _profilePageGeneralTabCommentInput ?? (_profilePageGeneralTabCommentInput = FindViewById<EditText>(Resource.Id.ProfilePageGeneralTabCommentInput));
-
         public Button ProfilePageGeneralTabSendCommentButton => _profilePageGeneralTabSendCommentButton ?? (_profilePageGeneralTabSendCommentButton = FindViewById<Button>(Resource.Id.ProfilePageGeneralTabSendCommentButton));
-
         public LinearLayout ProfilePageGeneralTabCommentSection => _profilePageGeneralTabCommentSection ?? (_profilePageGeneralTabCommentSection = FindViewById<LinearLayout>(Resource.Id.ProfilePageGeneralTabCommentSection));
-
         public TextView ProfilePageGeneralTabCommentsEmptyNotice => _profilePageGeneralTabCommentsEmptyNotice ?? (_profilePageGeneralTabCommentsEmptyNotice = FindViewById<TextView>(Resource.Id.ProfilePageGeneralTabCommentsEmptyNotice));
-
         public ListView ProfilePageGeneralTabCommentsList => _profilePageGeneralTabCommentsList ?? (_profilePageGeneralTabCommentsList = FindViewById<ListView>(Resource.Id.ProfilePageGeneralTabCommentsList));
-
         public ScrollView ProfilePageGeneralTabScrollingContainer => _profilePageGeneralTabScrollingContainer ?? (_profilePageGeneralTabScrollingContainer = FindViewById<ScrollView>(Resource.Id.ProfilePageGeneralTabScrollingContainer));
-
         public FloatingActionButton ProfilePageGeneralTabActionButton => _profilePageGeneralTabActionButton ?? (_profilePageGeneralTabActionButton = FindViewById<FloatingActionButton>(Resource.Id.ProfilePageGeneralTabActionButton));
 
         #endregion

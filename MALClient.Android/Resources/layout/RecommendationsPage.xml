@@ -16,7 +16,7 @@
                      android:background="?android:selectableItemBackground" android:layout_gravity="center_vertical" />
       </FrameLayout>
 
-      <com.astuetz.PagerSlidingTabStrip
+      <com.refractored.PagerSlidingTabStrip
         android:id="@+id/RecommendationsPageTabStrip"
         android:layout_width="0dp"
         android:layout_height="match_parent"

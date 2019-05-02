@@ -20,7 +20,7 @@ using Android.Support.V7.Widget;
 using Android.Views;
 using Android.Views.InputMethods;
 using Android.Widget;
-using Com.Astuetz;
+
 using Com.Mikepenz.Materialdrawer;
 using Com.Mikepenz.Materialdrawer.Holder;
 using Com.Mikepenz.Materialdrawer.Model;
@@ -409,7 +409,7 @@ namespace MALClient.Android.Activities
             if(!_allowHamburgerNavigation)
                 return;
 
-            SetActiveButton(Utilities.GetButtonForPage(page));
+            SetActiveButton(XShared.Utils.Utilities.GetButtonForPage(page));
             ViewModelLocator.GeneralMain.Navigate(page, GetAppropriateArgsForPage(page));
             _drawer.CloseDrawer();
         }

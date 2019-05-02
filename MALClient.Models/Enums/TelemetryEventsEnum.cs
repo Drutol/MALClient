@@ -15,6 +15,8 @@
         RatePopUpAppeared,
         CreatedClubComment,
         ClickedCoAd,
-        LoadedCoAd
+        LoadedCoAd,
+        LoadedDakimakuriAd,
+        ClickedDakimakuriAd
     }
 }

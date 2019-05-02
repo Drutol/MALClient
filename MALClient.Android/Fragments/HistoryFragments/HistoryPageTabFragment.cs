@@ -65,15 +65,24 @@ namespace MALClient.Android.Fragments.HistoryFragments
         private void DataTemplateFling(View view, int i, Tuple<AnimeItemViewModel, List<MalProfileHistoryEntry>> tuple)
         {
             var img = view.FindViewById<ImageViewAsync>(Resource.Id.AnimeLightItemImage);
-            if (img.AnimeIntoIfLoaded(tuple.Item1.ImgUrl))
-            {
-                view.FindViewById(Resource.Id.AnimeLightItemImgPlaceholder).Visibility = ViewStates.Gone;
-            }
-            else
+            if (tuple?.Item1 == null)
             {
                 view.FindViewById(Resource.Id.AnimeLightItemImgPlaceholder).Visibility = ViewStates.Visible;
                 img.Visibility = ViewStates.Invisible;
-            }         
+            }
+            else
+            {
+                if (img.AnimeIntoIfLoaded(tuple.Item1.ImgUrl))
+                {
+                    view.FindViewById(Resource.Id.AnimeLightItemImgPlaceholder).Visibility = ViewStates.Gone;
+                }
+                else
+                {
+                    view.FindViewById(Resource.Id.AnimeLightItemImgPlaceholder).Visibility = ViewStates.Visible;
+                    img.Visibility = ViewStates.Invisible;
+                }
+
+            }    
         }
 
         private void DataTemplateBasic(View view, int i, Tuple<AnimeItemViewModel, List<MalProfileHistoryEntry>> tuple)

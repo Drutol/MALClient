@@ -10,7 +10,6 @@ using MALClient.Models.Enums;
 using MALClient.Models.Models.Anime;
 using MALClient.XShared.Utils;
 using MALClient.XShared.ViewModels;
-using ModernHttpClient;
 using Newtonsoft.Json;
 
 namespace MALClient.XShared.Comm.Anime
@@ -49,7 +48,7 @@ namespace MALClient.XShared.Comm.Anime
 
             try
             {
-                var client = new HttpClient(new NativeMessageHandler());
+                var client = new HttpClient(ResourceLocator.MalHttpContextProvider.GetHandler());
                 var response = await client.GetAsync($"https://api.jikan.moe/search/anime?q={_query}&page=1{(tryAiring ? "&status=airing" : "")}");
 
                 if (!response.IsSuccessStatusCode)

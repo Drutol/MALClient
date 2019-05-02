@@ -19,7 +19,7 @@ namespace MALClient.Android
         private readonly int _defaultPrefferedItemWidth;
         private readonly List<GridView> _grids;
 
-        public int LastColmuns { get;  private set; }
+        public int LastColmuns { get; private set; }
         public int MinColumns { get; set; }
         public int? MinColumnsLandscape { get; set; }
         public int MinColumnsPortrait { get; set; }
@@ -32,9 +32,8 @@ namespace MALClient.Android
                 : DefaultPrefferedItemWidthBig;
         }
 
-        public GridViewColumnHelper(GridView view,int? prefferedWidthDp = null,int? minColumnsPortrait = null,int? minColumnsInLandscape = null, bool ignoreSmallerSizeSetting = false) : this(ignoreSmallerSizeSetting)
+        public GridViewColumnHelper(GridView view, int? prefferedWidthDp = null, int? minColumnsPortrait = null, int? minColumnsInLandscape = null, bool ignoreSmallerSizeSetting = false) : this(ignoreSmallerSizeSetting)
         {
-
             if (!ignoreSmallerSizeSetting && Settings.MakeGridItemsSmaller)
             {
                 if (minColumnsPortrait.HasValue)
@@ -45,7 +44,8 @@ namespace MALClient.Android
             PrefferedItemWidth = prefferedWidthDp ?? _defaultPrefferedItemWidth;
             MinColumnsPortrait = minColumnsPortrait ?? 2;
             MinColumnsLandscape = minColumnsInLandscape;
-            _grids = new List<GridView> {view};
+
+            _grids = new List<GridView> { view };
             OnConfigurationChanged(MainActivity.CurrentContext.Resources.Configuration);
         }
 
@@ -57,16 +57,16 @@ namespace MALClient.Android
 
         public void RegisterGrid(GridView view)
         {
-            if(_grids.Contains(view))
+            if (_grids.Contains(view))
                 return;
             _grids.Add(view);
             var config = MainActivity.CurrentContext.Resources.Configuration;
-            UpdateGrid(view,GetColumns(config),config);
+            UpdateGrid(view, GetColumns(config), config);
         }
 
         public void DetachGrid(GridView view)
         {
-            if(_grids.Contains(view))
+            if (_grids.Contains(view))
                 _grids.Remove(view);
         }
 
@@ -79,14 +79,14 @@ namespace MALClient.Android
             return columns;
         }
 
-        private void UpdateGrid(GridView grid,int columns,Configuration config)
+        private void UpdateGrid(GridView grid, int columns, Configuration config)
         {
             grid.SetNumColumns(columns);
             var param = grid.LayoutParameters;
             param.Width = DimensionsHelper.DpToPx(PrefferedItemWidth) * columns;
             if (param.Width < 0)
                 param.Width = ViewGroup.LayoutParams.MatchParent;
-            if(param.Width > DimensionsHelper.DpToPx(config.ScreenWidthDp))
+            if (param.Width > DimensionsHelper.DpToPx(config.ScreenWidthDp))
                 param.Width = ViewGroup.LayoutParams.MatchParent;
             grid.LayoutParameters = param;
         }
@@ -101,7 +101,7 @@ namespace MALClient.Android
             var columns = GetColumns(newConfig);
             _grids.ForEach(grid =>
             {
-                UpdateGrid(grid,columns,newConfig);
+                UpdateGrid(grid, columns, newConfig);
             });
         }
     }

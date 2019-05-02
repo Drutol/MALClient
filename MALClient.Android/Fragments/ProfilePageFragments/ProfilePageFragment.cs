@@ -11,11 +11,11 @@ using Android.Runtime;
 using Android.Support.V4.View;
 using Android.Views;
 using Android.Widget;
-using Com.Astuetz;
 using GalaSoft.MvvmLight.Helpers;
 using MALClient.Android.BindingConverters;
 using MALClient.Android.Listeners;
 using MALClient.Android.PagerAdapters;
+
 using MALClient.XShared.NavArgs;
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Main;
@@ -57,7 +57,7 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
                 this.SetBinding(() => ViewModel.LoadingVisibility,
                     () => ProfilePageLoadingSpinner.Visibility).ConvertSourceToTarget(Converters.BoolToVisibility));
 
-            ProfilePagePivot.AddOnPageChangeListener(new OnPageChangedListener(i => ViewModel.CurrentPivotIndex = i));
+            ProfilePageTabStrip.OnPageChangeListener = new OnPageChangedListener(i => ViewModel.CurrentPivotIndex = i);
         }
 
         public override int LayoutResourceId => Resource.Layout.ProfilePage;
@@ -66,12 +66,12 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
         #region Views
 
         private FrameLayout _profilePageLoadingSpinner;
-        private PagerSlidingTabStrip _profilePageTabStrip;
+        private com.refractored.PagerSlidingTabStrip _profilePageTabStrip;
         private ViewPager _profilePagePivot;
 
         public FrameLayout ProfilePageLoadingSpinner => _profilePageLoadingSpinner ?? (_profilePageLoadingSpinner = FindViewById<FrameLayout>(Resource.Id.ProfilePageLoadingSpinner));
 
-        public PagerSlidingTabStrip ProfilePageTabStrip => _profilePageTabStrip ?? (_profilePageTabStrip = FindViewById<PagerSlidingTabStrip>(Resource.Id.ProfilePageTabStrip));
+        public com.refractored.PagerSlidingTabStrip ProfilePageTabStrip => _profilePageTabStrip ?? (_profilePageTabStrip = FindViewById<com.refractored.PagerSlidingTabStrip>(Resource.Id.ProfilePageTabStrip));
 
         public ViewPager ProfilePagePivot => _profilePagePivot ?? (_profilePagePivot = FindViewById<ViewPager>(Resource.Id.ProfilePagePivot));
 

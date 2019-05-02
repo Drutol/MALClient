@@ -19,7 +19,7 @@ using MALClient.XShared.ViewModels;
 
 namespace MALClient.Android.UserControls.AnimeItems
 {
-    public class AnimeListItem : UserControlBase<AnimeItemViewModel,FrameLayout>
+    public class AnimeListItem : UserControlBase<AnimeItemViewModel, FrameLayout>
     {
         private readonly Action<AnimeItemViewModel> _onItemClickAction;
         private PopupMenu _menu;
@@ -48,7 +48,7 @@ namespace MALClient.Android.UserControls.AnimeItems
         {
         }
 
-        #endregion
+        #endregion Constructors
 
         protected override int ResourceId => Resource.Layout.AnimeListItem;
 
@@ -74,11 +74,6 @@ namespace MALClient.Android.UserControls.AnimeItems
                 AnimeListItemImage.Visibility = ViewStates.Visible;
             }
 
-
-
-
-
-
             if (ViewModel.Auth)
             {
                 AnimeListItemWatchedButton.Clickable = true;
@@ -91,12 +86,9 @@ namespace MALClient.Android.UserControls.AnimeItems
                 AnimeListItemWatchedButton.Focusable = false;
             }
 
-
             ViewModel.AnimeItemDisplayContext = ViewModelLocator.AnimeList.AnimeItemsDisplayContext;
 
             ViewModel.PropertyChanged += ViewModelOnPropertyChanged;
-
-
         }
 
         protected override void BindModelBasic()
@@ -107,14 +99,12 @@ namespace MALClient.Android.UserControls.AnimeItems
             AnimeListItemIncButton.Visibility = ViewModel.IncrementEpsVisibility
                 ? ViewStates.Visible
                 : ViewStates.Gone;
-            AnimeListItemDecButton.Visibility = ViewModel.DecrementEpsVisibility
+            AnimeListItemDecButton.Visibility = ViewModel.DecrementEpsVisibility && !Settings.HideDecrementButtons
                 ? ViewStates.Visible
                 : ViewStates.Gone;
             AnimeListItemUpdatingBar.Visibility = ViewModel.LoadingUpdate
                 ? ViewStates.Visible
                 : ViewStates.Gone;
-
-            
 
             AnimeListItemAddToListButton.Visibility = ViewModel.AddToListVisibility ? ViewStates.Visible : ViewStates.Gone;
             ViewModel.AnimeItemDisplayContext = ViewModelLocator.AnimeList.AnimeItemsDisplayContext;
@@ -124,7 +114,7 @@ namespace MALClient.Android.UserControls.AnimeItems
             if (string.IsNullOrEmpty(ViewModel.TopLeftInfoBind))
             {
                 AnimeListItemTopLeftInfo.Visibility = ViewStates.Gone;
-                AnimeListItemTitle.SetMargins(5, 0, 5 , 0);
+                AnimeListItemTitle.SetMargins(5, 0, 5, 0);
             }
             else
             {
@@ -151,7 +141,6 @@ namespace MALClient.Android.UserControls.AnimeItems
                 {
                     AnimeListItemTopLeftInfoSub.Visibility = ViewStates.Gone;
                 }
-
             }
 
             if (string.IsNullOrEmpty(ViewModel.Type))
@@ -175,30 +164,37 @@ namespace MALClient.Android.UserControls.AnimeItems
                 case nameof(ViewModel.MyStatusBind):
                     AnimeListItemStatusButton.Text = ViewModel.MyStatusBind;
                     break;
+
                 case nameof(ViewModel.MyEpisodesBind):
                     AnimeListItemWatchedButton.Text = ViewModel.MyEpisodesBind;
                     break;
+
                 case nameof(ViewModel.MyScoreBind):
                     AnimeListItemScoreButton.Text = ViewModel.MyScoreBind;
                     break;
+
                 case nameof(ViewModel.IncrementEpsVisibility):
                     AnimeListItemIncButton.Visibility = ViewModel.IncrementEpsVisibility
                         ? ViewStates.Visible
                         : ViewStates.Gone;
                     break;
+
                 case nameof(ViewModel.DecrementEpsVisibility):
-                    AnimeListItemDecButton.Visibility = ViewModel.DecrementEpsVisibility
+                    AnimeListItemDecButton.Visibility = ViewModel.DecrementEpsVisibility && !Settings.HideDecrementButtons
                         ? ViewStates.Visible
                         : ViewStates.Gone;
                     break;
+
                 case nameof(ViewModel.LoadingUpdate):
                     AnimeListItemUpdatingBar.Visibility = ViewModel.LoadingUpdate
                         ? ViewStates.Visible
                         : ViewStates.Gone;
                     break;
+
                 case nameof(ViewModel.AddToListVisibility):
                     AnimeListItemAddToListButton.Visibility = ViewModel.AddToListVisibility ? ViewStates.Visible : ViewStates.Gone;
                     break;
+
                 case nameof(ViewModel.Auth):
                     BindModelFull();
                     BindModelBasic();
@@ -227,6 +223,16 @@ namespace MALClient.Android.UserControls.AnimeItems
 
             RootContainer.SetOnLongClickListener(new OnLongClickListener(view => MoreButtonOnClick()));
             RootContainer.SetOnClickListener(new OnClickListener(view => ContainerOnClick()));
+
+            if (Settings.HideDecrementButtons)
+            {
+                AnimeListItemDecButton.Visibility = ViewStates.Gone;
+                AnimeListItemIncButton.LayoutParameters.Width =
+                    (int)(AnimeListItemIncButton.LayoutParameters.Width * 1.5);
+                AnimeListItemIncButton.LayoutParameters.Height =
+                    (int)(AnimeListItemIncButton.LayoutParameters.Height * 1.5);
+            }
+
             base.RootContainerInit();
         }
 
@@ -253,9 +259,11 @@ namespace MALClient.Android.UserControls.AnimeItems
                 case AnimeGridItemMoreFlyoutButtons.CopyLink:
                     ViewModel.CopyLinkToClipboardCommand.Execute(null);
                     break;
+
                 case AnimeGridItemMoreFlyoutButtons.OpenInBrowser:
                     ViewModel.OpenInMALCommand.Execute(null);
                     break;
+
                 case AnimeGridItemMoreFlyoutButtons.CopyTitle:
                     ViewModel.CopyTitleToClipboardCommand.Execute(null);
                     break;
@@ -263,8 +271,7 @@ namespace MALClient.Android.UserControls.AnimeItems
             _menu.Dismiss();
         }
 
-
-        #endregion
+        #endregion Flyouts
 
         #region Dialogs
 
@@ -279,12 +286,14 @@ namespace MALClient.Android.UserControls.AnimeItems
             if (ViewModel.Auth)
                 AnimeUpdateDialogBuilder.BuildWatchedDialog(ViewModel, null, ViewModel.ParentAbstraction.RepresentsAnime ? false : Settings.MangaFocusVolumes);
         }
+
         private void ShowRatingDialog()
         {
             if (ViewModel.Auth)
                 AnimeUpdateDialogBuilder.BuildScoreDialog(ViewModel, f => ViewModel.ChangeScore(f.ToString()));
         }
-        #endregion
+
+        #endregion Dialogs
 
         private void ContainerOnClick()
         {
@@ -354,8 +363,6 @@ namespace MALClient.Android.UserControls.AnimeItems
 
         public LinearLayout AnimeListItemIncDecSection => _animeListItemIncDecSection ?? (_animeListItemIncDecSection = FindViewById<LinearLayout>(Resource.Id.AnimeListItemIncDecSection));
 
-
-
-        #endregion
+        #endregion Views
     }
 }

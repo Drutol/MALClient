@@ -58,7 +58,7 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Messages
 
                 return output;
             }
-            catch (WebException)
+            catch (Exception)
             {
                 ResourceLocator.MalHttpContextProvider.ErrorMessage("Messages");
             }
@@ -95,7 +95,7 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Messages
                     return "0";
                 }
             }
-            catch (WebException)
+            catch (Exception)
             {
                 ResourceLocator.MalHttpContextProvider.ErrorMessage("Messages");
             }

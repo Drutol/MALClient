@@ -154,14 +154,22 @@ namespace MALClient.XShared.Comm.Anime
                             DateTime = Utils.Utilities.ConvertFromUnixTimestamp(child.data.created_utc)
                         };
 
-                        if (child.data.preview?.images.Any() ?? false)
+                        try
                         {
-                            wallpaperData.Thumb = WebUtility.HtmlDecode(child.data.preview?.images.First().resolutions.Last().url);
+                            if (child.data.preview?.images.Any() ?? false)
+                            {
+                                wallpaperData.Thumb = WebUtility.HtmlDecode(child.data.preview?.images.First().resolutions.Last().url);
+                            }
+                            else
+                            {
+                                wallpaperData.Thumb = child.data.thumbnail;
+                            }
                         }
-                        else
+                        catch
                         {
                             wallpaperData.Thumb = child.data.thumbnail;
                         }
+
                         
                         return wallpaperData;
                     }).ToList();

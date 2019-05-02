@@ -1,1030 +1,1168 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical" android:background="?BrushAnimeItemInnerBackground">
+    android:background="?BrushAnimeItemInnerBackground"
+    android:orientation="vertical">
 
-  <LinearLayout android:background="?BrushAnimeItemInnerBackground"
+  <ScrollView
       android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:orientation="vertical">
-
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/AppBarBtnHeight">
-
-      <TextView
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:layout_gravity="center"
-          android:text="Anime Stats"
-          android:textColor="?AccentColour"
-          android:textSize="@dimen/FontSizeHuge" />
-    </FrameLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginStart="20dp"
-        android:gravity="center_vertical"
-        android:paddingBottom="10dp"
-        android:paddingTop="10dp"
-        android:weightSum="100">
-
-      <FrameLayout
-          android:id="@+id/ProfilePageStatsFragmentWatchingAnimeBar"
-          android:layout_width="0dp"
-          android:layout_height="match_parent"
-          android:layout_weight="20"
-          android:background="@color/WatchingColour"
-          android:elevation="2dp">
-
-        <TextView
-            android:id="@+id/ProfilePageStatsFragmentWatchingAnimeBarLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:textColor="#fff" />
-      </FrameLayout>
-
-      <FrameLayout
-          android:id="@+id/ProfilePageStatsFragmentCompletedAnimeBar"
-          android:layout_width="0dp"
-          android:layout_height="match_parent"
-          android:layout_weight="20"
-          android:background="@color/CompletedColour"
-          android:elevation="2dp">
-
-        <TextView
-            android:id="@+id/ProfilePageStatsFragmentCompletedAnimeBarLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:textColor="#fff" />
-      </FrameLayout>
-
-      <FrameLayout
-          android:id="@+id/ProfilePageStatsFragmentOnHoldAnimeBar"
-          android:layout_width="0dp"
-          android:layout_height="match_parent"
-          android:layout_weight="20"
-          android:background="@color/OnHoldColour"
-          android:elevation="2dp">
-
-        <TextView
-            android:id="@+id/ProfilePageStatsFragmentOnHoldAnimeBarLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:textColor="#fff" />
-      </FrameLayout>
-
-      <FrameLayout
-          android:id="@+id/ProfilePageStatsFragmentDroppedAnimeBar"
-          android:layout_width="0dp"
-          android:layout_height="match_parent"
-          android:layout_weight="20"
-          android:background="@color/DroppedColour"
-          android:elevation="2dp">
-
-        <TextView
-            android:id="@+id/ProfilePageStatsFragmentDroppedAnimeBarLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:textColor="#fff" />
-      </FrameLayout>
-
-      <FrameLayout
-          android:id="@+id/ProfilePageStatsFragmentPlannedAnimeBar"
-          android:layout_width="0dp"
-          android:layout_height="match_parent"
-          android:layout_weight="20"
-          android:background="@color/PlannedColour"
-          android:elevation="2dp">
-
-        <TextView
-            android:id="@+id/ProfilePageStatsFragmentPlannedAnimeBarLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:textColor="#fff" />
-      </FrameLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" android:paddingTop="5dp" android:paddingBottom="5dp"
-        android:background="?BrushAnimeItemBackground">
-
-      <LinearLayout
-          android:layout_width="0dp"
-          android:layout_height="wrap_content"
-          android:layout_marginEnd="2dp"
-          android:layout_weight="1"
-          android:orientation="vertical">
-
-        <FrameLayout
-            android:layout_width="match_parent" android:background="?BrushForumPinnedBoard"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="1dp"
-            android:layout_marginStart="2dp"
-            android:layout_marginTop="1dp" >
-
-          <FrameLayout
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:layout_gravity="center"
-              android:background="@drawable/border_accent_rightleft"
-              android:minHeight="40dp"
-              android:orientation="horizontal"
-              android:weightSum="20">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="start|center_vertical"
-                android:layout_margin="5dp"
-                android:gravity="center"
-                android:text="Watching"
-                android:textAlignment="center"
-                android:textColor="?BrushText"
-                android:textSize="@dimen/FontSizeMedium" />
-
-            <TextView
-                android:id="@+id/WatchingAnimeCount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end|center_vertical"
-                android:layout_margin="5dp"
-                android:fontFamily="@string/font_family_light"
-                android:gravity="end|center_vertical"
-                android:textAlignment="center"
-                android:textColor="@color/WatchingColour"
-                android:textSize="@dimen/FontSizeMedium" />
-          </FrameLayout>
-        </FrameLayout>
-        <FrameLayout
-            android:layout_width="match_parent" android:background="?BrushForumPinnedBoard"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="1dp"
-            android:layout_marginStart="2dp"
-            android:layout_marginTop="1dp">
-
-          <FrameLayout
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:layout_gravity="center"
-              android:background="@drawable/border_accent_rightleft"
-              android:minHeight="40dp"
-              android:orientation="horizontal"
-              android:weightSum="20">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="start|center_vertical"
-                android:layout_margin="5dp"
-                android:gravity="center"
-                android:text="Completed"
-                android:textAlignment="center"
-                android:textColor="?BrushText"
-                android:textSize="@dimen/FontSizeMedium" />
-
-            <TextView
-                android:id="@+id/CompletedAnimeCount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end|center_vertical"
-                android:layout_margin="5dp"
-                android:fontFamily="@string/font_family_light"
-                android:gravity="end|center_vertical"
-                android:textAlignment="center"
-                android:textColor="@color/CompletedColour"
-                android:textSize="@dimen/FontSizeMedium" />
-          </FrameLayout>
-        </FrameLayout>
-        <FrameLayout
-            android:layout_width="match_parent" android:background="?BrushForumPinnedBoard"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="1dp"
-            android:layout_marginStart="2dp"
-            android:layout_marginTop="1dp">
-
-          <FrameLayout
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:layout_gravity="center"
-              android:background="@drawable/border_accent_rightleft"
-              android:minHeight="40dp"
-              android:orientation="horizontal"
-              android:weightSum="20">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="start|center_vertical"
-                android:layout_margin="5dp"
-                android:gravity="center"
-                android:text="On Hold"
-                android:textAlignment="center"
-                android:textColor="?BrushText"
-                android:textSize="@dimen/FontSizeMedium" />
-
-            <TextView
-                android:id="@+id/OnHoldAnimeCount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end|center_vertical"
-                android:layout_margin="5dp"
-                android:fontFamily="@string/font_family_light"
-                android:gravity="end|center_vertical"
-                android:textAlignment="center"
-                android:textColor="@color/OnHoldColour"
-                android:textSize="@dimen/FontSizeMedium" />
-          </FrameLayout>
-        </FrameLayout>
-        <FrameLayout
-            android:layout_width="match_parent" android:background="?BrushForumPinnedBoard"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="1dp"
-            android:layout_marginStart="2dp"
-            android:layout_marginTop="1dp">
-
-          <FrameLayout
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:layout_gravity="center"
-              android:background="@drawable/border_accent_rightleft"
-              android:minHeight="40dp"
-              android:orientation="horizontal"
-              android:weightSum="20">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="start|center_vertical"
-                android:layout_margin="5dp"
-                android:gravity="center"
-                android:text="Dropped"
-                android:textAlignment="center"
-                android:textColor="?BrushText"
-                android:textSize="@dimen/FontSizeMedium" />
-
-            <TextView
-                android:id="@+id/DroppedAnimeCount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end|center_vertical"
-                android:layout_margin="5dp"
-                android:fontFamily="@string/font_family_light"
-                android:gravity="end|center_vertical"
-                android:textAlignment="center"
-                android:textColor="@color/DroppedColour"
-                android:textSize="@dimen/FontSizeMedium" />
-          </FrameLayout>
-        </FrameLayout>
-        <FrameLayout
-            android:layout_width="match_parent" android:background="?BrushForumPinnedBoard"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="1dp"
-            android:layout_marginStart="2dp"
-            android:layout_marginTop="1dp">
-
-          <FrameLayout
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:layout_gravity="center"
-              android:background="@drawable/border_accent_rightleft"
-              android:minHeight="40dp"
-              android:orientation="horizontal"
-              android:weightSum="20">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="start|center_vertical"
-                android:layout_margin="5dp"
-                android:gravity="center"
-                android:text="Planned"
-                android:textAlignment="center"
-                android:textColor="?BrushText"
-                android:textSize="@dimen/FontSizeMedium" />
-
-            <TextView
-                android:id="@+id/PlannedAnimeCount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end|center_vertical"
-                android:layout_margin="5dp"
-                android:fontFamily="@string/font_family_light"
-                android:gravity="end|center_vertical"
-                android:textAlignment="center"
-                android:textColor="@color/PlannedColour"
-                android:textSize="@dimen/FontSizeMedium" />
-          </FrameLayout>
-        </FrameLayout>
-      </LinearLayout>
-
-      <LinearLayout
-          android:layout_width="0dp"
-          android:layout_height="wrap_content"
-          android:layout_marginEnd="2dp"
-          android:layout_marginStart="2dp"
-          android:layout_weight="1"
-          android:orientation="vertical">
-
-        <FrameLayout
-            android:layout_width="match_parent" android:background="?BrushForumPinnedBoard"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="1dp"
-            android:layout_marginStart="2dp"
-            android:layout_marginTop="1dp">
-
-          <FrameLayout
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:layout_gravity="center"
-              android:background="@drawable/border_accent_rightleft"
-              android:minHeight="40dp"
-              android:orientation="horizontal"
-              android:weightSum="20">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="start|center_vertical"
-                android:layout_margin="5dp"
-                android:gravity="center"
-                android:text="Total"
-                android:textAlignment="center"
-                android:textColor="?BrushText"
-                android:textSize="@dimen/FontSizeMedium" />
-
-            <TextView
-                android:id="@+id/TotalAnimeCount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end|center_vertical"
-                android:layout_margin="5dp"
-                android:fontFamily="@string/font_family_light"
-                android:gravity="end|center_vertical"
-                android:textAlignment="center"
-                android:textColor="?BrushText"
-                android:textSize="@dimen/FontSizeMedium" />
-          </FrameLayout>
-        </FrameLayout>
-        <FrameLayout
-            android:layout_width="match_parent" android:background="?BrushForumPinnedBoard"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="1dp"
-            android:layout_marginStart="2dp"
-            android:layout_marginTop="1dp">
-
-          <FrameLayout
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:layout_gravity="center"
-              android:background="@drawable/border_accent_rightleft"
-              android:minHeight="40dp"
-              android:orientation="horizontal"
-              android:weightSum="20">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="start|center_vertical"
-                android:layout_margin="5dp"
-                android:gravity="center"
-                android:text="Rewatched"
-                android:textAlignment="center"
-                android:textColor="?BrushText"
-                android:textSize="@dimen/FontSizeMedium" />
-
-            <TextView
-                android:id="@+id/RewatchedAnimeCount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end|center_vertical"
-                android:layout_margin="5dp"
-                android:fontFamily="@string/font_family_light"
-                android:gravity="end|center_vertical"
-                android:textAlignment="center"
-                android:textColor="?BrushText"
-                android:textSize="@dimen/FontSizeMedium" />
-          </FrameLayout>
-        </FrameLayout>
-        <FrameLayout
-            android:layout_width="match_parent" android:background="?BrushForumPinnedBoard"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="1dp"
-            android:layout_marginStart="2dp"
-            android:layout_marginTop="1dp">
-
-          <FrameLayout
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:layout_gravity="center"
-              android:background="@drawable/border_accent_rightleft"
-              android:minHeight="40dp"
-              android:orientation="horizontal"
-              android:weightSum="20">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="start|center_vertical"
-                android:layout_margin="5dp"
-                android:gravity="center"
-                android:text="Episodes"
-                android:textAlignment="center"
-                android:textColor="?BrushText"
-                android:textSize="@dimen/FontSizeMedium" />
-
-            <TextView
-                android:id="@+id/EpisodesAnimeCount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end|center_vertical"
-                android:layout_margin="5dp"
-                android:fontFamily="@string/font_family_light"
-                android:gravity="end|center_vertical"
-                android:textAlignment="center"
-                android:textColor="?BrushText"
-                android:textSize="@dimen/FontSizeMedium" />
-          </FrameLayout>
-        </FrameLayout>
-
-        <TextView android:id="@+id/AnimeDaysLabel" android:layout_gravity="center_horizontal" android:layout_marginTop="10dp"
-                                  android:layout_width="wrap_content" android:text="Days: 47" android:fontFamily="@string/font_family_light" android:textSize="@dimen/FontSizeHuge"
-                                  android:layout_height="wrap_content" android:textColor="?AccentColour"/>
-        <TextView android:id="@+id/AnimeMeanLabel" android:layout_gravity="center_horizontal" android:layout_marginTop="10dp"
-            android:layout_width="wrap_content" android:text="Mean: 7.69" android:fontFamily="@string/font_family_light" android:textSize="@dimen/FontSizeHuge"
-            android:layout_height="wrap_content" android:textColor="?AccentColour"/>
-      </LinearLayout>
-
-    </LinearLayout>
-
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/AppBarBtnHeight"
-        android:background="?BrushAnimeItemInnerBackground">
-
-      <TextView
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:layout_gravity="center"
-          android:text="Manga Stats"
-          android:textColor="?AccentColour"
-          android:textSize="@dimen/FontSizeHuge" />
-    </FrameLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dp" android:layout_marginStart="20dp" android:layout_marginEnd="20dp"
-        android:gravity="center_vertical"
-        android:paddingBottom="10dp"
-        android:paddingTop="10dp"
-        android:weightSum="100">
-
-      <FrameLayout
-          android:id="@+id/ProfilePageStatsFragmentWatchingMangaBar"
-          android:layout_width="0dp"
-          android:layout_height="match_parent"
-          android:layout_weight="20"
-          android:background="@color/WatchingColour"
-          android:elevation="2dp">
-
-        <TextView
-            android:id="@+id/ProfilePageStatsFragmentWatchingMangaBarLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:textColor="#fff" />
-      </FrameLayout>
-
-      <FrameLayout
-          android:id="@+id/ProfilePageStatsFragmentCompletedMangaBar"
-          android:layout_width="0dp"
-          android:layout_height="match_parent"
-          android:layout_weight="20"
-          android:background="@color/CompletedColour"
-          android:elevation="2dp">
-
-        <TextView
-            android:id="@+id/ProfilePageStatsFragmentCompletedMangaBarLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:textColor="#fff" />
-      </FrameLayout>
-
-      <FrameLayout
-          android:id="@+id/ProfilePageStatsFragmentOnHoldMangaBar"
-          android:layout_width="0dp"
-          android:layout_height="match_parent"
-          android:layout_weight="20"
-          android:background="@color/OnHoldColour"
-          android:elevation="2dp">
-
-        <TextView
-            android:id="@+id/ProfilePageStatsFragmentOnHoldMangaBarLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:textColor="#fff" />
-      </FrameLayout>
-
-      <FrameLayout
-          android:id="@+id/ProfilePageStatsFragmentDroppedMangaBar"
-          android:layout_width="0dp"
-          android:layout_height="match_parent"
-          android:layout_weight="20"
-          android:background="@color/DroppedColour"
-          android:elevation="2dp">
-
-        <TextView
-            android:id="@+id/ProfilePageStatsFragmentDroppedMangaBarLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:textColor="#fff" />
-      </FrameLayout>
-
-      <FrameLayout
-          android:id="@+id/ProfilePageStatsFragmentPlannedMangaBar"
-          android:layout_width="0dp"
-          android:layout_height="match_parent"
-          android:layout_weight="20"
-          android:background="@color/PlannedColour"
-          android:elevation="2dp">
-
-        <TextView
-            android:id="@+id/ProfilePageStatsFragmentPlannedMangaBarLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:textColor="#fff" />
-      </FrameLayout>
-    </LinearLayout>
+      android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?BrushAnimeItemBackground">
+        android:background="?BrushAnimeItemInnerBackground"
+        android:orientation="vertical">
+
+      <FrameLayout
+          android:layout_width="match_parent"
+          android:layout_height="@dimen/AppBarBtnHeight">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Anime Stats"
+            android:textColor="?AccentColour"
+            android:textSize="@dimen/FontSizeHuge" />
+      </FrameLayout>
 
       <LinearLayout
-          android:layout_width="0dp"
-          android:layout_height="wrap_content"
-          android:layout_marginEnd="2dp"
-          android:layout_weight="1"
-          android:orientation="vertical">
+          android:layout_width="match_parent"
+          android:layout_height="50dp"
+          android:layout_marginStart="20dp"
+          android:layout_marginEnd="20dp"
+          android:gravity="center_vertical"
+          android:paddingTop="10dp"
+          android:paddingBottom="10dp"
+          android:weightSum="100">
 
         <FrameLayout
-            android:layout_width="match_parent" android:background="?BrushForumPinnedBoard"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="1dp"
-            android:layout_marginStart="2dp"
-            android:layout_marginTop="1dp">
+            android:id="@+id/ProfilePageStatsFragmentWatchingAnimeBar"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="20"
+            android:background="@color/WatchingColour"
+            android:elevation="2dp">
 
-          <FrameLayout
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
+          <TextView
+              android:id="@+id/ProfilePageStatsFragmentWatchingAnimeBarLabel"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
               android:layout_gravity="center"
-              android:background="@drawable/border_accent_rightleft"
-              android:minHeight="40dp"
-              android:orientation="horizontal"
-              android:weightSum="20">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="start|center_vertical"
-                android:layout_margin="5dp"
-                android:gravity="center"
-                android:text="Reading"
-                android:textAlignment="center"
-                android:textColor="?BrushText"
-                android:textSize="@dimen/FontSizeMedium" />
-
-            <TextView
-                android:id="@+id/WatchingMangaCount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end|center_vertical"
-                android:layout_margin="5dp"
-                android:fontFamily="@string/font_family_light"
-                android:gravity="end|center_vertical"
-                android:textAlignment="center"
-                android:textColor="@color/WatchingColour"
-                android:textSize="@dimen/FontSizeMedium" />
-          </FrameLayout>
+              android:textColor="#fff" />
         </FrameLayout>
+
         <FrameLayout
-            android:layout_width="match_parent" android:background="?BrushForumPinnedBoard"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="1dp"
-            android:layout_marginStart="2dp"
-            android:layout_marginTop="1dp">
+            android:id="@+id/ProfilePageStatsFragmentCompletedAnimeBar"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="20"
+            android:background="@color/CompletedColour"
+            android:elevation="2dp">
 
-          <FrameLayout
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
+          <TextView
+              android:id="@+id/ProfilePageStatsFragmentCompletedAnimeBarLabel"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
               android:layout_gravity="center"
-              android:background="@drawable/border_accent_rightleft"
-              android:minHeight="40dp"
-              android:orientation="horizontal"
-              android:weightSum="20">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="start|center_vertical"
-                android:layout_margin="5dp"
-                android:gravity="center"
-                android:text="Completed"
-                android:textAlignment="center"
-                android:textColor="?BrushText"
-                android:textSize="@dimen/FontSizeMedium" />
-
-            <TextView
-                android:id="@+id/CompletedMangaCount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end|center_vertical"
-                android:layout_margin="5dp"
-                android:fontFamily="@string/font_family_light"
-                android:gravity="end|center_vertical"
-                android:textAlignment="center"
-                android:textColor="@color/CompletedColour"
-                android:textSize="@dimen/FontSizeMedium" />
-          </FrameLayout>
+              android:textColor="#fff" />
         </FrameLayout>
+
         <FrameLayout
-            android:layout_width="match_parent" android:background="?BrushForumPinnedBoard"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="1dp"
-            android:layout_marginStart="2dp"
-            android:layout_marginTop="1dp">
+            android:id="@+id/ProfilePageStatsFragmentOnHoldAnimeBar"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="20"
+            android:background="@color/OnHoldColour"
+            android:elevation="2dp">
 
-          <FrameLayout
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
+          <TextView
+              android:id="@+id/ProfilePageStatsFragmentOnHoldAnimeBarLabel"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
               android:layout_gravity="center"
-              android:background="@drawable/border_accent_rightleft"
-              android:minHeight="40dp"
-              android:orientation="horizontal"
-              android:weightSum="20">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="start|center_vertical"
-                android:layout_margin="5dp"
-                android:gravity="center"
-                android:text="On Hold"
-                android:textAlignment="center"
-                android:textColor="?BrushText"
-                android:textSize="@dimen/FontSizeMedium" />
-
-            <TextView
-                android:id="@+id/OnHoldMangaCount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end|center_vertical"
-                android:layout_margin="5dp"
-                android:fontFamily="@string/font_family_light"
-                android:gravity="end|center_vertical"
-                android:textAlignment="center"
-                android:textColor="@color/OnHoldColour"
-                android:textSize="@dimen/FontSizeMedium" />
-          </FrameLayout>
+              android:textColor="#fff" />
         </FrameLayout>
+
         <FrameLayout
-            android:layout_width="match_parent" android:background="?BrushForumPinnedBoard"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="1dp"
-            android:layout_marginStart="2dp"
-            android:layout_marginTop="1dp">
+            android:id="@+id/ProfilePageStatsFragmentDroppedAnimeBar"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="20"
+            android:background="@color/DroppedColour"
+            android:elevation="2dp">
 
-          <FrameLayout
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
+          <TextView
+              android:id="@+id/ProfilePageStatsFragmentDroppedAnimeBarLabel"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
               android:layout_gravity="center"
-              android:background="@drawable/border_accent_rightleft"
-              android:minHeight="40dp"
-              android:orientation="horizontal"
-              android:weightSum="20">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="start|center_vertical"
-                android:layout_margin="5dp"
-                android:gravity="center"
-                android:text="Dropped"
-                android:textAlignment="center"
-                android:textColor="?BrushText"
-                android:textSize="@dimen/FontSizeMedium" />
-
-            <TextView
-                android:id="@+id/DroppedMangaCount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end|center_vertical"
-                android:layout_margin="5dp"
-                android:fontFamily="@string/font_family_light"
-                android:gravity="end|center_vertical"
-                android:textAlignment="center"
-                android:textColor="@color/DroppedColour"
-                android:textSize="@dimen/FontSizeMedium" />
-          </FrameLayout>
+              android:textColor="#fff" />
         </FrameLayout>
+
         <FrameLayout
-            android:layout_width="match_parent" android:background="?BrushForumPinnedBoard"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="1dp"
-            android:layout_marginStart="2dp"
-            android:layout_marginTop="1dp">
+            android:id="@+id/ProfilePageStatsFragmentPlannedAnimeBar"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="20"
+            android:background="@color/PlannedColour"
+            android:elevation="2dp">
 
-          <FrameLayout
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
+          <TextView
+              android:id="@+id/ProfilePageStatsFragmentPlannedAnimeBarLabel"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
               android:layout_gravity="center"
-              android:background="@drawable/border_accent_rightleft"
-              android:minHeight="40dp"
-              android:orientation="horizontal"
-              android:weightSum="20">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="start|center_vertical"
-                android:layout_margin="5dp"
-                android:gravity="center"
-                android:text="Planned"
-                android:textAlignment="center"
-                android:textColor="?BrushText"
-                android:textSize="@dimen/FontSizeMedium" />
-
-            <TextView
-                android:id="@+id/PlannedMangaCount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end|center_vertical"
-                android:layout_margin="5dp"
-                android:fontFamily="@string/font_family_light"
-                android:gravity="end|center_vertical"
-                android:textAlignment="center"
-                android:textColor="@color/PlannedColour"
-                android:textSize="@dimen/FontSizeMedium" />
-          </FrameLayout>
+              android:textColor="#fff" />
         </FrameLayout>
       </LinearLayout>
 
       <LinearLayout
-          android:layout_width="0dp"
+          android:layout_width="match_parent"
           android:layout_height="wrap_content"
-          android:layout_marginEnd="2dp"
-          android:layout_marginStart="2dp"
-          android:layout_weight="1"
-          android:paddingBottom="8dp"
-          android:orientation="vertical">
+          android:background="?BrushAnimeItemBackground"
+          android:paddingTop="5dp"
+          android:paddingBottom="5dp">
 
-        <FrameLayout
-            android:layout_width="match_parent" android:background="?BrushForumPinnedBoard"
+        <LinearLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="1dp"
-            android:layout_marginStart="2dp"
-            android:layout_marginTop="1dp">
+            android:layout_marginEnd="2dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
 
           <FrameLayout
               android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:layout_gravity="center"
-              android:background="@drawable/border_accent_rightleft"
-              android:minHeight="40dp"
-              android:orientation="horizontal"
-              android:weightSum="20">
+              android:layout_height="wrap_content"
+              android:layout_marginStart="2dp"
+              android:layout_marginTop="1dp"
+              android:layout_marginBottom="1dp"
+              android:background="?BrushForumPinnedBoard">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="start|center_vertical"
-                android:layout_margin="5dp"
-                android:gravity="center"
-                android:text="Total"
-                android:textAlignment="center"
-                android:textColor="?BrushText"
-                android:textSize="@dimen/FontSizeMedium" />
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:background="@drawable/border_accent_rightleft"
+                android:minHeight="40dp"
+                android:orientation="horizontal"
+                android:weightSum="20">
 
-            <TextView
-                android:id="@+id/TotalMangaCount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end|center_vertical"
-                android:layout_margin="5dp"
-                android:fontFamily="@string/font_family_light"
-                android:gravity="end|center_vertical"
-                android:textAlignment="center"
-                android:textColor="?BrushText"
-                android:textSize="@dimen/FontSizeMedium" />
+              <TextView
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_gravity="start|center_vertical"
+                  android:layout_margin="5dp"
+                  android:gravity="center"
+                  android:text="Watching"
+                  android:textAlignment="center"
+                  android:textColor="?BrushText"
+                  android:textSize="@dimen/FontSizeMedium" />
+
+              <TextView
+                  android:id="@+id/WatchingAnimeCount"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_gravity="end|center_vertical"
+                  android:layout_margin="5dp"
+                  android:fontFamily="@string/font_family_light"
+                  android:gravity="end|center_vertical"
+                  android:textAlignment="center"
+                  android:textColor="@color/WatchingColour"
+                  android:textSize="@dimen/FontSizeMedium" />
+            </FrameLayout>
           </FrameLayout>
-        </FrameLayout>
-        <FrameLayout
-            android:layout_width="match_parent" android:background="?BrushForumPinnedBoard"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="1dp"
-            android:layout_marginStart="2dp"
-            android:layout_marginTop="1dp">
 
           <FrameLayout
               android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:layout_gravity="center"
-              android:background="@drawable/border_accent_rightleft"
-              android:minHeight="40dp"
-              android:orientation="horizontal"
-              android:weightSum="20">
+              android:layout_height="wrap_content"
+              android:layout_marginStart="2dp"
+              android:layout_marginTop="1dp"
+              android:layout_marginBottom="1dp"
+              android:background="?BrushForumPinnedBoard">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="start|center_vertical"
-                android:layout_margin="5dp"
-                android:gravity="center"
-                android:text="Reread"
-                android:textAlignment="center"
-                android:textColor="?BrushText"
-                android:textSize="@dimen/FontSizeMedium" />
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:background="@drawable/border_accent_rightleft"
+                android:minHeight="40dp"
+                android:orientation="horizontal"
+                android:weightSum="20">
 
-            <TextView
-                android:id="@+id/RereadMangaCount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end|center_vertical"
-                android:layout_margin="5dp"
-                android:fontFamily="@string/font_family_light"
-                android:gravity="end|center_vertical"
-                android:textAlignment="center"
-                android:textColor="?BrushText"
-                android:textSize="@dimen/FontSizeMedium" />
+              <TextView
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_gravity="start|center_vertical"
+                  android:layout_margin="5dp"
+                  android:gravity="center"
+                  android:text="Completed"
+                  android:textAlignment="center"
+                  android:textColor="?BrushText"
+                  android:textSize="@dimen/FontSizeMedium" />
+
+              <TextView
+                  android:id="@+id/CompletedAnimeCount"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_gravity="end|center_vertical"
+                  android:layout_margin="5dp"
+                  android:fontFamily="@string/font_family_light"
+                  android:gravity="end|center_vertical"
+                  android:textAlignment="center"
+                  android:textColor="@color/CompletedColour"
+                  android:textSize="@dimen/FontSizeMedium" />
+            </FrameLayout>
           </FrameLayout>
-        </FrameLayout>
-        <FrameLayout
-            android:layout_width="match_parent" android:background="?BrushForumPinnedBoard"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="1dp"
-            android:layout_marginStart="2dp"
-            android:layout_marginTop="1dp">
 
           <FrameLayout
               android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:layout_gravity="center"
-              android:background="@drawable/border_accent_rightleft"
-              android:minHeight="40dp"
-              android:orientation="horizontal"
-              android:weightSum="20">
+              android:layout_height="wrap_content"
+              android:layout_marginStart="2dp"
+              android:layout_marginTop="1dp"
+              android:layout_marginBottom="1dp"
+              android:background="?BrushForumPinnedBoard">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="start|center_vertical"
-                android:layout_margin="5dp"
-                android:gravity="center"
-                android:text="Chapters"
-                android:textAlignment="center"
-                android:textColor="?BrushText"
-                android:textSize="@dimen/FontSizeMedium" />
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:background="@drawable/border_accent_rightleft"
+                android:minHeight="40dp"
+                android:orientation="horizontal"
+                android:weightSum="20">
 
-            <TextView
-                android:id="@+id/ChaptersMangaCount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end|center_vertical"
-                android:layout_margin="5dp"
-                android:fontFamily="@string/font_family_light"
-                android:gravity="end|center_vertical"
-                android:textAlignment="center"
-                android:textColor="?BrushText"
-                android:textSize="@dimen/FontSizeMedium" />
+              <TextView
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_gravity="start|center_vertical"
+                  android:layout_margin="5dp"
+                  android:gravity="center"
+                  android:text="On Hold"
+                  android:textAlignment="center"
+                  android:textColor="?BrushText"
+                  android:textSize="@dimen/FontSizeMedium" />
+
+              <TextView
+                  android:id="@+id/OnHoldAnimeCount"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_gravity="end|center_vertical"
+                  android:layout_margin="5dp"
+                  android:fontFamily="@string/font_family_light"
+                  android:gravity="end|center_vertical"
+                  android:textAlignment="center"
+                  android:textColor="@color/OnHoldColour"
+                  android:textSize="@dimen/FontSizeMedium" />
+            </FrameLayout>
           </FrameLayout>
-        </FrameLayout>
-
-        <FrameLayout
-            android:layout_width="match_parent" android:background="?BrushForumPinnedBoard"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="1dp"
-            android:layout_marginStart="2dp"
-            android:layout_marginTop="1dp">
 
           <FrameLayout
               android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:layout_gravity="center"
-              android:background="@drawable/border_accent_rightleft"
-              android:minHeight="40dp"
-              android:orientation="horizontal"
-              android:weightSum="20">
+              android:layout_height="wrap_content"
+              android:layout_marginStart="2dp"
+              android:layout_marginTop="1dp"
+              android:layout_marginBottom="1dp"
+              android:background="?BrushForumPinnedBoard">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="start|center_vertical"
-                android:layout_margin="5dp"
-                android:gravity="center"
-                android:text="Volumes"
-                android:textAlignment="center"
-                android:textColor="?BrushText"
-                android:textSize="@dimen/FontSizeMedium" />
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:background="@drawable/border_accent_rightleft"
+                android:minHeight="40dp"
+                android:orientation="horizontal"
+                android:weightSum="20">
 
-            <TextView
-                android:id="@+id/VolumesMangaCount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end|center_vertical"
-                android:layout_margin="5dp"
-                android:fontFamily="@string/font_family_light"
-                android:gravity="end|center_vertical"
-                android:textAlignment="center"
-                android:textColor="?BrushText"
-                android:textSize="@dimen/FontSizeMedium" />
+              <TextView
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_gravity="start|center_vertical"
+                  android:layout_margin="5dp"
+                  android:gravity="center"
+                  android:text="Dropped"
+                  android:textAlignment="center"
+                  android:textColor="?BrushText"
+                  android:textSize="@dimen/FontSizeMedium" />
+
+              <TextView
+                  android:id="@+id/DroppedAnimeCount"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_gravity="end|center_vertical"
+                  android:layout_margin="5dp"
+                  android:fontFamily="@string/font_family_light"
+                  android:gravity="end|center_vertical"
+                  android:textAlignment="center"
+                  android:textColor="@color/DroppedColour"
+                  android:textSize="@dimen/FontSizeMedium" />
+            </FrameLayout>
           </FrameLayout>
-        </FrameLayout>
 
-        <TextView android:id="@+id/MangaDaysLabel" android:layout_gravity="center_horizontal" android:layout_marginTop="10dp"
-            android:layout_width="wrap_content" android:text="Days: 47" android:fontFamily="@string/font_family_light" android:textSize="@dimen/FontSizeHuge"
-            android:layout_height="wrap_content" android:textColor="?AccentColour"/>
-        <TextView android:id="@+id/MangaMeanLabel" android:layout_gravity="center_horizontal" android:layout_marginTop="10dp"
-            android:layout_width="wrap_content" android:text="Mean: 7.69" android:fontFamily="@string/font_family_light" android:textSize="@dimen/FontSizeHuge"
-            android:layout_height="wrap_content" android:textColor="?AccentColour"/>
+          <FrameLayout
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_marginStart="2dp"
+              android:layout_marginTop="1dp"
+              android:layout_marginBottom="1dp"
+              android:background="?BrushForumPinnedBoard">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:background="@drawable/border_accent_rightleft"
+                android:minHeight="40dp"
+                android:orientation="horizontal"
+                android:weightSum="20">
+
+              <TextView
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_gravity="start|center_vertical"
+                  android:layout_margin="5dp"
+                  android:gravity="center"
+                  android:text="Planned"
+                  android:textAlignment="center"
+                  android:textColor="?BrushText"
+                  android:textSize="@dimen/FontSizeMedium" />
+
+              <TextView
+                  android:id="@+id/PlannedAnimeCount"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_gravity="end|center_vertical"
+                  android:layout_margin="5dp"
+                  android:fontFamily="@string/font_family_light"
+                  android:gravity="end|center_vertical"
+                  android:textAlignment="center"
+                  android:textColor="@color/PlannedColour"
+                  android:textSize="@dimen/FontSizeMedium" />
+            </FrameLayout>
+          </FrameLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="2dp"
+            android:layout_marginEnd="2dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+          <FrameLayout
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_marginStart="2dp"
+              android:layout_marginTop="1dp"
+              android:layout_marginBottom="1dp"
+              android:background="?BrushForumPinnedBoard">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:background="@drawable/border_accent_rightleft"
+                android:minHeight="40dp"
+                android:orientation="horizontal"
+                android:weightSum="20">
+
+              <TextView
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_gravity="start|center_vertical"
+                  android:layout_margin="5dp"
+                  android:gravity="center"
+                  android:text="Total"
+                  android:textAlignment="center"
+                  android:textColor="?BrushText"
+                  android:textSize="@dimen/FontSizeMedium" />
+
+              <TextView
+                  android:id="@+id/TotalAnimeCount"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_gravity="end|center_vertical"
+                  android:layout_margin="5dp"
+                  android:fontFamily="@string/font_family_light"
+                  android:gravity="end|center_vertical"
+                  android:textAlignment="center"
+                  android:textColor="?BrushText"
+                  android:textSize="@dimen/FontSizeMedium" />
+            </FrameLayout>
+          </FrameLayout>
+
+          <FrameLayout
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_marginStart="2dp"
+              android:layout_marginTop="1dp"
+              android:layout_marginBottom="1dp"
+              android:background="?BrushForumPinnedBoard">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:background="@drawable/border_accent_rightleft"
+                android:minHeight="40dp"
+                android:orientation="horizontal"
+                android:weightSum="20">
+
+              <TextView
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_gravity="start|center_vertical"
+                  android:layout_margin="5dp"
+                  android:gravity="center"
+                  android:text="Rewatched"
+                  android:textAlignment="center"
+                  android:textColor="?BrushText"
+                  android:textSize="@dimen/FontSizeMedium" />
+
+              <TextView
+                  android:id="@+id/RewatchedAnimeCount"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_gravity="end|center_vertical"
+                  android:layout_margin="5dp"
+                  android:fontFamily="@string/font_family_light"
+                  android:gravity="end|center_vertical"
+                  android:textAlignment="center"
+                  android:textColor="?BrushText"
+                  android:textSize="@dimen/FontSizeMedium" />
+            </FrameLayout>
+          </FrameLayout>
+
+          <FrameLayout
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_marginStart="2dp"
+              android:layout_marginTop="1dp"
+              android:layout_marginBottom="1dp"
+              android:background="?BrushForumPinnedBoard">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:background="@drawable/border_accent_rightleft"
+                android:minHeight="40dp"
+                android:orientation="horizontal"
+                android:weightSum="20">
+
+              <TextView
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_gravity="start|center_vertical"
+                  android:layout_margin="5dp"
+                  android:gravity="center"
+                  android:text="Episodes"
+                  android:textAlignment="center"
+                  android:textColor="?BrushText"
+                  android:textSize="@dimen/FontSizeMedium" />
+
+              <TextView
+                  android:id="@+id/EpisodesAnimeCount"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_gravity="end|center_vertical"
+                  android:layout_margin="5dp"
+                  android:fontFamily="@string/font_family_light"
+                  android:gravity="end|center_vertical"
+                  android:textAlignment="center"
+                  android:textColor="?BrushText"
+                  android:textSize="@dimen/FontSizeMedium" />
+            </FrameLayout>
+          </FrameLayout>
+
+          <TextView
+              android:id="@+id/AnimeDaysLabel"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_gravity="center_horizontal"
+              android:layout_marginTop="10dp"
+              android:fontFamily="@string/font_family_light"
+              android:text="Days: 47"
+              android:textColor="?AccentColour"
+              android:textSize="@dimen/FontSizeHuge" />
+
+          <TextView
+              android:id="@+id/AnimeMeanLabel"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_gravity="center_horizontal"
+              android:layout_marginTop="10dp"
+              android:fontFamily="@string/font_family_light"
+              android:text="Mean: 7.69"
+              android:textColor="?AccentColour"
+              android:textSize="@dimen/FontSizeHuge" />
+        </LinearLayout>
+
       </LinearLayout>
 
+      <FrameLayout
+          android:layout_width="match_parent"
+          android:layout_height="@dimen/AppBarBtnHeight"
+          android:background="?BrushAnimeItemInnerBackground">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Manga Stats"
+            android:textColor="?AccentColour"
+            android:textSize="@dimen/FontSizeHuge" />
+      </FrameLayout>
+
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="50dp"
+          android:layout_marginStart="20dp"
+          android:layout_marginEnd="20dp"
+          android:gravity="center_vertical"
+          android:paddingTop="10dp"
+          android:paddingBottom="10dp"
+          android:weightSum="100">
+
+        <FrameLayout
+            android:id="@+id/ProfilePageStatsFragmentWatchingMangaBar"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="20"
+            android:background="@color/WatchingColour"
+            android:elevation="2dp">
+
+          <TextView
+              android:id="@+id/ProfilePageStatsFragmentWatchingMangaBarLabel"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_gravity="center"
+              android:textColor="#fff" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/ProfilePageStatsFragmentCompletedMangaBar"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="20"
+            android:background="@color/CompletedColour"
+            android:elevation="2dp">
+
+          <TextView
+              android:id="@+id/ProfilePageStatsFragmentCompletedMangaBarLabel"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_gravity="center"
+              android:textColor="#fff" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/ProfilePageStatsFragmentOnHoldMangaBar"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="20"
+            android:background="@color/OnHoldColour"
+            android:elevation="2dp">
+
+          <TextView
+              android:id="@+id/ProfilePageStatsFragmentOnHoldMangaBarLabel"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_gravity="center"
+              android:textColor="#fff" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/ProfilePageStatsFragmentDroppedMangaBar"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="20"
+            android:background="@color/DroppedColour"
+            android:elevation="2dp">
+
+          <TextView
+              android:id="@+id/ProfilePageStatsFragmentDroppedMangaBarLabel"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_gravity="center"
+              android:textColor="#fff" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/ProfilePageStatsFragmentPlannedMangaBar"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="20"
+            android:background="@color/PlannedColour"
+            android:elevation="2dp">
+
+          <TextView
+              android:id="@+id/ProfilePageStatsFragmentPlannedMangaBarLabel"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_gravity="center"
+              android:textColor="#fff" />
+        </FrameLayout>
+      </LinearLayout>
+
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:background="?BrushAnimeItemBackground">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="2dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+          <FrameLayout
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_marginStart="2dp"
+              android:layout_marginTop="1dp"
+              android:layout_marginBottom="1dp"
+              android:background="?BrushForumPinnedBoard">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:background="@drawable/border_accent_rightleft"
+                android:minHeight="40dp"
+                android:orientation="horizontal"
+                android:weightSum="20">
+
+              <TextView
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_gravity="start|center_vertical"
+                  android:layout_margin="5dp"
+                  android:gravity="center"
+                  android:text="Reading"
+                  android:textAlignment="center"
+                  android:textColor="?BrushText"
+                  android:textSize="@dimen/FontSizeMedium" />
+
+              <TextView
+                  android:id="@+id/WatchingMangaCount"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_gravity="end|center_vertical"
+                  android:layout_margin="5dp"
+                  android:fontFamily="@string/font_family_light"
+                  android:gravity="end|center_vertical"
+                  android:textAlignment="center"
+                  android:textColor="@color/WatchingColour"
+                  android:textSize="@dimen/FontSizeMedium" />
+            </FrameLayout>
+          </FrameLayout>
+
+          <FrameLayout
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_marginStart="2dp"
+              android:layout_marginTop="1dp"
+              android:layout_marginBottom="1dp"
+              android:background="?BrushForumPinnedBoard">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:background="@drawable/border_accent_rightleft"
+                android:minHeight="40dp"
+                android:orientation="horizontal"
+                android:weightSum="20">
+
+              <TextView
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_gravity="start|center_vertical"
+                  android:layout_margin="5dp"
+                  android:gravity="center"
+                  android:text="Completed"
+                  android:textAlignment="center"
+                  android:textColor="?BrushText"
+                  android:textSize="@dimen/FontSizeMedium" />
+
+              <TextView
+                  android:id="@+id/CompletedMangaCount"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_gravity="end|center_vertical"
+                  android:layout_margin="5dp"
+                  android:fontFamily="@string/font_family_light"
+                  android:gravity="end|center_vertical"
+                  android:textAlignment="center"
+                  android:textColor="@color/CompletedColour"
+                  android:textSize="@dimen/FontSizeMedium" />
+            </FrameLayout>
+          </FrameLayout>
+
+          <FrameLayout
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_marginStart="2dp"
+              android:layout_marginTop="1dp"
+              android:layout_marginBottom="1dp"
+              android:background="?BrushForumPinnedBoard">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:background="@drawable/border_accent_rightleft"
+                android:minHeight="40dp"
+                android:orientation="horizontal"
+                android:weightSum="20">
+
+              <TextView
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_gravity="start|center_vertical"
+                  android:layout_margin="5dp"
+                  android:gravity="center"
+                  android:text="On Hold"
+                  android:textAlignment="center"
+                  android:textColor="?BrushText"
+                  android:textSize="@dimen/FontSizeMedium" />
+
+              <TextView
+                  android:id="@+id/OnHoldMangaCount"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_gravity="end|center_vertical"
+                  android:layout_margin="5dp"
+                  android:fontFamily="@string/font_family_light"
+                  android:gravity="end|center_vertical"
+                  android:textAlignment="center"
+                  android:textColor="@color/OnHoldColour"
+                  android:textSize="@dimen/FontSizeMedium" />
+            </FrameLayout>
+          </FrameLayout>
+
+          <FrameLayout
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_marginStart="2dp"
+              android:layout_marginTop="1dp"
+              android:layout_marginBottom="1dp"
+              android:background="?BrushForumPinnedBoard">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:background="@drawable/border_accent_rightleft"
+                android:minHeight="40dp"
+                android:orientation="horizontal"
+                android:weightSum="20">
+
+              <TextView
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_gravity="start|center_vertical"
+                  android:layout_margin="5dp"
+                  android:gravity="center"
+                  android:text="Dropped"
+                  android:textAlignment="center"
+                  android:textColor="?BrushText"
+                  android:textSize="@dimen/FontSizeMedium" />
+
+              <TextView
+                  android:id="@+id/DroppedMangaCount"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_gravity="end|center_vertical"
+                  android:layout_margin="5dp"
+                  android:fontFamily="@string/font_family_light"
+                  android:gravity="end|center_vertical"
+                  android:textAlignment="center"
+                  android:textColor="@color/DroppedColour"
+                  android:textSize="@dimen/FontSizeMedium" />
+            </FrameLayout>
+          </FrameLayout>
+
+          <FrameLayout
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_marginStart="2dp"
+              android:layout_marginTop="1dp"
+              android:layout_marginBottom="1dp"
+              android:background="?BrushForumPinnedBoard">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:background="@drawable/border_accent_rightleft"
+                android:minHeight="40dp"
+                android:orientation="horizontal"
+                android:weightSum="20">
+
+              <TextView
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_gravity="start|center_vertical"
+                  android:layout_margin="5dp"
+                  android:gravity="center"
+                  android:text="Planned"
+                  android:textAlignment="center"
+                  android:textColor="?BrushText"
+                  android:textSize="@dimen/FontSizeMedium" />
+
+              <TextView
+                  android:id="@+id/PlannedMangaCount"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_gravity="end|center_vertical"
+                  android:layout_margin="5dp"
+                  android:fontFamily="@string/font_family_light"
+                  android:gravity="end|center_vertical"
+                  android:textAlignment="center"
+                  android:textColor="@color/PlannedColour"
+                  android:textSize="@dimen/FontSizeMedium" />
+            </FrameLayout>
+          </FrameLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="2dp"
+            android:layout_marginEnd="2dp"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:paddingBottom="8dp">
+
+          <FrameLayout
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_marginStart="2dp"
+              android:layout_marginTop="1dp"
+              android:layout_marginBottom="1dp"
+              android:background="?BrushForumPinnedBoard">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:background="@drawable/border_accent_rightleft"
+                android:minHeight="40dp"
+                android:orientation="horizontal"
+                android:weightSum="20">
+
+              <TextView
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_gravity="start|center_vertical"
+                  android:layout_margin="5dp"
+                  android:gravity="center"
+                  android:text="Total"
+                  android:textAlignment="center"
+                  android:textColor="?BrushText"
+                  android:textSize="@dimen/FontSizeMedium" />
+
+              <TextView
+                  android:id="@+id/TotalMangaCount"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_gravity="end|center_vertical"
+                  android:layout_margin="5dp"
+                  android:fontFamily="@string/font_family_light"
+                  android:gravity="end|center_vertical"
+                  android:textAlignment="center"
+                  android:textColor="?BrushText"
+                  android:textSize="@dimen/FontSizeMedium" />
+            </FrameLayout>
+          </FrameLayout>
+
+          <FrameLayout
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_marginStart="2dp"
+              android:layout_marginTop="1dp"
+              android:layout_marginBottom="1dp"
+              android:background="?BrushForumPinnedBoard">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:background="@drawable/border_accent_rightleft"
+                android:minHeight="40dp"
+                android:orientation="horizontal"
+                android:weightSum="20">
+
+              <TextView
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_gravity="start|center_vertical"
+                  android:layout_margin="5dp"
+                  android:gravity="center"
+                  android:text="Reread"
+                  android:textAlignment="center"
+                  android:textColor="?BrushText"
+                  android:textSize="@dimen/FontSizeMedium" />
+
+              <TextView
+                  android:id="@+id/RereadMangaCount"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_gravity="end|center_vertical"
+                  android:layout_margin="5dp"
+                  android:fontFamily="@string/font_family_light"
+                  android:gravity="end|center_vertical"
+                  android:textAlignment="center"
+                  android:textColor="?BrushText"
+                  android:textSize="@dimen/FontSizeMedium" />
+            </FrameLayout>
+          </FrameLayout>
+
+          <FrameLayout
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_marginStart="2dp"
+              android:layout_marginTop="1dp"
+              android:layout_marginBottom="1dp"
+              android:background="?BrushForumPinnedBoard">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:background="@drawable/border_accent_rightleft"
+                android:minHeight="40dp"
+                android:orientation="horizontal"
+                android:weightSum="20">
+
+              <TextView
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_gravity="start|center_vertical"
+                  android:layout_margin="5dp"
+                  android:gravity="center"
+                  android:text="Chapters"
+                  android:textAlignment="center"
+                  android:textColor="?BrushText"
+                  android:textSize="@dimen/FontSizeMedium" />
+
+              <TextView
+                  android:id="@+id/ChaptersMangaCount"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_gravity="end|center_vertical"
+                  android:layout_margin="5dp"
+                  android:fontFamily="@string/font_family_light"
+                  android:gravity="end|center_vertical"
+                  android:textAlignment="center"
+                  android:textColor="?BrushText"
+                  android:textSize="@dimen/FontSizeMedium" />
+            </FrameLayout>
+          </FrameLayout>
+
+          <FrameLayout
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_marginStart="2dp"
+              android:layout_marginTop="1dp"
+              android:layout_marginBottom="1dp"
+              android:background="?BrushForumPinnedBoard">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:background="@drawable/border_accent_rightleft"
+                android:minHeight="40dp"
+                android:orientation="horizontal"
+                android:weightSum="20">
+
+              <TextView
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_gravity="start|center_vertical"
+                  android:layout_margin="5dp"
+                  android:gravity="center"
+                  android:text="Volumes"
+                  android:textAlignment="center"
+                  android:textColor="?BrushText"
+                  android:textSize="@dimen/FontSizeMedium" />
+
+              <TextView
+                  android:id="@+id/VolumesMangaCount"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_gravity="end|center_vertical"
+                  android:layout_margin="5dp"
+                  android:fontFamily="@string/font_family_light"
+                  android:gravity="end|center_vertical"
+                  android:textAlignment="center"
+                  android:textColor="?BrushText"
+                  android:textSize="@dimen/FontSizeMedium" />
+            </FrameLayout>
+          </FrameLayout>
+
+          <TextView
+              android:id="@+id/MangaDaysLabel"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_gravity="center_horizontal"
+              android:layout_marginTop="10dp"
+              android:fontFamily="@string/font_family_light"
+              android:text="Days: 47"
+              android:textColor="?AccentColour"
+              android:textSize="@dimen/FontSizeHuge" />
+
+          <TextView
+              android:id="@+id/MangaMeanLabel"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_gravity="center_horizontal"
+              android:layout_marginTop="10dp"
+              android:fontFamily="@string/font_family_light"
+              android:text="Mean: 7.69"
+              android:textColor="?AccentColour"
+              android:textSize="@dimen/FontSizeHuge" />
+        </LinearLayout>
+
+      </LinearLayout>
+
+      <FrameLayout
+          android:layout_width="match_parent"
+          android:layout_height="@dimen/AppBarBtnHeight"
+          android:layout_marginTop="20dp"
+          android:background="?BrushForumPinnedBoard">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="@string/font_family_light"
+            android:text="Time Stats"
+            android:textColor="?AccentColour"
+            android:textSize="@dimen/FontSizeHuge" />
+      </FrameLayout>
+
+
+      <FrameLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="10dp"
+          android:background="?BrushAnimeItemBackground">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/border_accent_left"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+          <TextView
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:fontFamily="@string/font_family_light"
+              android:text="Custom Approx. time spent watching anime:"
+              android:textColor="?BrushText"
+              android:textSize="@dimen/FontSizeMedium" />
+
+          <TextView
+              android:id="@+id/StatsApproxTimeSpentAnime"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_marginTop="5dp"
+              android:fontFamily="@string/font_family_light"
+              android:textColor="?AccentColour"
+              android:textSize="@dimen/FontSizeHuge"
+              tools:text="1m 22d 13h 15m 45s" />
+        </LinearLayout>
+      </FrameLayout>
+
+      <FrameLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="10dp"
+          android:background="?BrushAnimeItemBackground">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/border_accent_left"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+          <TextView
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:fontFamily="@string/font_family_light"
+              android:text="Approx. time spent watching movies:"
+              android:textColor="?BrushText"
+              android:textSize="@dimen/FontSizeMedium" />
+
+          <TextView
+              android:id="@+id/StatsApproxTimeSpentMovies"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_marginTop="5dp"
+              android:fontFamily="@string/font_family_light"
+              android:textColor="?AccentColour"
+              android:textSize="@dimen/FontSizeHuge"
+              tools:text="1m 22d 13h 15m 45s" />
+        </LinearLayout>
+      </FrameLayout>
+
+      <FrameLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="10dp"
+          android:background="?BrushAnimeItemBackground">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/border_accent_left"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+          <TextView
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:fontFamily="@string/font_family_light"
+              android:text="Approx. total time spent watching:"
+              android:textColor="?BrushText"
+              android:textSize="@dimen/FontSizeMedium" />
+
+          <TextView
+              android:id="@+id/StatsApproxTimeSpentBoth"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_marginTop="5dp"
+              android:fontFamily="@string/font_family_light"
+              android:textColor="?AccentColour"
+              android:textSize="@dimen/FontSizeHuge"
+              tools:text="1m 22d 13h 15m 45s" />
+        </LinearLayout>
+      </FrameLayout>
     </LinearLayout>
+  </ScrollView>
 
-    <FrameLayout
-        android:layout_width="match_parent" android:layout_marginTop="20dp"
-        android:layout_height="@dimen/AppBarBtnHeight"
-        android:background="?BrushForumPinnedBoard">
-
-      <TextView
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:layout_gravity="center"
-          android:fontFamily="@string/font_family_light"
-          android:text="Time Stats"
-          android:textColor="?AccentColour"
-          android:textSize="@dimen/FontSizeHuge" />
-    </FrameLayout>
-
-
-    <FrameLayout
-        android:layout_width="match_parent" android:background="?BrushAnimeItemBackground" android:layout_marginTop="10dp"
-        android:layout_height="wrap_content">
-      <LinearLayout android:padding="16dp"
-          android:layout_width="match_parent" android:background="@drawable/border_accent_left"
-          android:layout_height="wrap_content" android:orientation="vertical">
-        <TextView
-            android:layout_width="wrap_content" android:textColor="?BrushText" android:text="Custom Approx. time spent watching anime:"
-            android:layout_height="wrap_content" android:fontFamily="@string/font_family_light" android:textSize="@dimen/FontSizeMedium"/>
-        <TextView android:id="@+id/StatsApproxTimeSpentAnime"
-            android:layout_width="wrap_content" android:textColor="?AccentColour" tools:text="1m 22d 13h 15m 45s" android:layout_marginTop="5dp"
-            android:layout_height="wrap_content" android:fontFamily="@string/font_family_light" android:textSize="@dimen/FontSizeHuge"/>
-      </LinearLayout>
-    </FrameLayout>
-
-    <FrameLayout
-        android:layout_width="match_parent" android:background="?BrushAnimeItemBackground" android:layout_marginTop="10dp"
-        android:layout_height="wrap_content">
-      <LinearLayout android:padding="16dp"
-          android:layout_width="match_parent" android:background="@drawable/border_accent_left"
-          android:layout_height="wrap_content" android:orientation="vertical">
-        <TextView
-            android:layout_width="wrap_content" android:textColor="?BrushText" android:text="Approx. time spent watching movies:"
-            android:layout_height="wrap_content" android:fontFamily="@string/font_family_light" android:textSize="@dimen/FontSizeMedium"/>
-        <TextView android:id="@+id/StatsApproxTimeSpentMovies"
-            android:layout_width="wrap_content" android:textColor="?AccentColour" tools:text="1m 22d 13h 15m 45s" android:layout_marginTop="5dp"
-            android:layout_height="wrap_content" android:fontFamily="@string/font_family_light" android:textSize="@dimen/FontSizeHuge"/>
-      </LinearLayout>
-    </FrameLayout>
-
-    <FrameLayout
-        android:layout_width="match_parent" android:background="?BrushAnimeItemBackground" android:layout_marginTop="10dp"
-        android:layout_height="wrap_content">
-      <LinearLayout android:padding="16dp"
-          android:layout_width="match_parent" android:background="@drawable/border_accent_left"
-          android:layout_height="wrap_content" android:orientation="vertical">
-        <TextView
-            android:layout_width="wrap_content" android:textColor="?BrushText" android:text="Approx. total time spent watching:"
-            android:layout_height="wrap_content" android:fontFamily="@string/font_family_light" android:textSize="@dimen/FontSizeMedium"/>
-        <TextView android:id="@+id/StatsApproxTimeSpentBoth"
-            android:layout_width="wrap_content" android:textColor="?AccentColour" tools:text="1m 22d 13h 15m 45s" android:layout_marginTop="5dp"
-            android:layout_height="wrap_content" android:fontFamily="@string/font_family_light" android:textSize="@dimen/FontSizeHuge"/>
-      </LinearLayout>
-    </FrameLayout>
-  </LinearLayout>
-</ScrollView>
+  <android.support.design.widget.FloatingActionButton xmlns:app="http://schemas.android.com/apk/res-auto"
+      android:id="@+id/ShareButton"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_gravity="end|bottom"
+      android:layout_margin="16dp"
+      android:clickable="true"
+      android:focusable="true"
+      android:src="@drawable/icon_share"
+      android:tint="#fff"
+      app:backgroundTint="?AccentColourContrast"
+      app:fabSize="normal" />
+</FrameLayout>

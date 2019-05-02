@@ -61,5 +61,17 @@ namespace MALClient.Android.Adapters
             dialog.SetCancelable(false);
             dialog.Show();
         }
+
+        public void ShowChooseDialog(string content, string title,string cancelCommand, string trueCommand,string falseCommand, Action callbackOnTrue, Action callBackOnFalse = null)
+        {
+            var dialog = new AlertDialog.Builder(SimpleIoc.Default.GetInstance<Activity>());
+            dialog.SetPositiveButton(trueCommand, (sender, args) => callbackOnTrue.Invoke());
+            dialog.SetNegativeButton(falseCommand, (sender, args) => callBackOnFalse?.Invoke());
+            dialog.SetNeutralButton(cancelCommand, (sender, args) => {});
+            dialog.SetTitle(title);
+            dialog.SetMessage(content);
+            dialog.SetCancelable(true);
+            dialog.Show();
+        }
     }
 }

@@ -28,13 +28,8 @@ namespace MALClient.Android.Adapters
     {
         protected override async Task<CsrfHttpClient> ObtainContext()
         {
-            var httpHandler = new NativeMessageHandler(false,false,new NativeCookieHandler())
-            {
-                AllowAutoRedirect = false,
-                UseCookies = true,
-                AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate,
-                CookieContainer = new CookieContainer(),
-            };
+            var httpHandler = ResourceLocator.MalHttpContextProvider.GetHandler();
+
 
             _httpClient = new CsrfHttpClient(httpHandler) { BaseAddress = new Uri(MalBaseUrl) };
             _httpClient.DefaultRequestHeaders.TryAddWithoutValidation("authority", "myanimelist.net");
@@ -105,6 +100,16 @@ namespace MALClient.Android.Adapters
             }
 
             throw new WebException("Unable to authorize");
+        }
+
+        public override HttpClientHandler GetHandler()
+        {
+            return new NativeMessageHandler(false, false, new NativeCookieHandler())
+            {
+                AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate,
+                AllowAutoRedirect = true,
+                UseCookies = true,
+            };
         }
     }
 }

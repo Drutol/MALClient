@@ -210,8 +210,6 @@ namespace MALClient.XShared.BL
         [Preserve(AllMembers = true)]
         class AiringData
         {
-            [JsonProperty("id")]
-            public int Id { get; set; }
             [JsonProperty("mal_id")]
             public int MalId { get; set; }
             [JsonProperty("airing")]

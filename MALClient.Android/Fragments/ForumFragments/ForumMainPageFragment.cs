@@ -4,10 +4,10 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
-using Android.App;
 using Android.Content;
 using Android.OS;
 using Android.Runtime;
+using Android.Support.V4.App;
 using Android.Views;
 using Android.Widget;
 using Com.Mikepenz.Iconics;
@@ -31,7 +31,6 @@ namespace MALClient.Android.Fragments.ForumFragments
 
         public ForumMainPageFragment(ForumsNavigationArgs args)
         {
-
             _args = args;
         }
 
@@ -64,15 +63,16 @@ namespace MALClient.Android.Fragments.ForumFragments
                 default:
                     throw new ArgumentOutOfRangeException(nameof(page), page, null);
             }
-            
-            var trans = ChildFragmentManager.BeginTransaction();
-            trans.SetCustomAnimations(Resource.Animator.animation_slide_btm,
-                Resource.Animator.animation_fade_out,
-                Resource.Animator.animation_slide_btm,
-                Resource.Animator.animation_fade_out);
-            trans.Replace(Resource.Id.ForumsContentFrame, fragment);
+
             try
             {
+                var trans = ChildFragmentManager.BeginTransaction();
+                trans.SetCustomAnimations(Resource.Animator.animation_slide_btm,
+                    Resource.Animator.animation_fade_out,
+                    Resource.Animator.animation_slide_btm,
+                    Resource.Animator.animation_fade_out);
+                trans.Replace(Resource.Id.ForumsContentFrame, fragment);
+
                 trans.Commit();
             }
             catch (Exception)

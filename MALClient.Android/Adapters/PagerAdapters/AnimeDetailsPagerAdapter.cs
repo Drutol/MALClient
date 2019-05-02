@@ -1,20 +1,19 @@
 using System;
 using Android.Graphics;
 using Android.Runtime;
-using Android.Support.V13.App;
+using Android.Support.V4.App;
 using Android.Views;
 using Android.Widget;
-using Com.Astuetz;
+using com.refractored;
 using MALClient.Android.Fragments.AnimeDetailsPageTabs;
 using MALClient.Android.Resources;
+
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Details;
-using Fragment = Android.App.Fragment;
-using FragmentManager = Android.App.FragmentManager;
 
 namespace MALClient.Android.PagerAdapters
 {
-    public class AnimeDetailsPagerAdapter : FragmentStatePagerAdapter , PagerSlidingTabStrip.ICustomTabProvider
+    public class AnimeDetailsPagerAdapter : FragmentStatePagerAdapter , ICustomTabProvider
     {
         private AnimeDetailsPageViewModel _viewModel;
 

@@ -8,13 +8,19 @@ using Android.Content;
 using Android.Gms.Ads;
 using Android.Gms.Ads.Mediation;
 using Android.Gms.Ads.Mediation.CustomEvent;
+using Android.Graphics;
 using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using FFImageLoading;
+using FFImageLoading.Views;
 using MALClient.Android.Listeners;
+using MALClient.Models.Enums;
 using MALClient.XShared.ViewModels;
 using Newtonsoft.Json;
+using Messenger = GalaSoft.MvvmLight.Messaging.Messenger;
+using PreserveAttribute = Android.Runtime.PreserveAttribute;
 
 namespace MALClient.Android.Mediation
 {
@@ -44,36 +50,67 @@ namespace MALClient.Android.Mediation
             IMediationAdRequest mediationAdRequest,
             Bundle customEventExtras)
         {
-            //MediationOptions options;
+            MediationOptions options;
 
-            //try
-            //{
-            //    options = JsonConvert.DeserializeObject<MediationOptions>(serverParameter);
-            //}
-            //catch
-            //{
-            //    options = null;
-            //}
+            try
+            {
+                options = JsonConvert.DeserializeObject<MediationOptions>(serverParameter);
+            }
+            catch
+            {
+                options = null;
+            }
 
-            //if (options == null)
-            //{
-            //    var banner = new ImageView(context) {LayoutParameters = new ViewGroup.LayoutParams(-2, -2)};
+            var frame = new FrameLayout(context)
+            { LayoutParameters = new FrameLayout.LayoutParams(-2, -1) { Gravity = GravityFlags.Center } };
+            frame.SetPadding(0, DimensionsHelper.DpToPx(8), 0, 0);
 
-            //    banner.SetOnClickListener(new OnClickListener(view =>
-            //    {
-            //        listener.OnAdClicked();
-            //        ResourceLocator.SystemControlsLauncherService.LaunchUri(new Uri("https://cuddlyoctopus.com/"));
-            //    }));
-            //    banner.SetImageResource(Resource.Drawable.test_banner);
-            //    listener.OnAdLoaded(banner);
+            var banner =
+                new ImageViewAsync(context)
+                {
+                    LayoutParameters = new FrameLayout.LayoutParams(context.Resources.DisplayMetrics.WidthPixels, -1)
+                    {
+                        Gravity = GravityFlags.Center,
+                    },
+                };
+            banner.SetScaleType(ImageView.ScaleType.CenterInside);
+            banner.SetAdjustViewBounds(true);
+            banner.SetMaxHeight(DimensionsHelper.DpToPx(100));
 
-            //    if (options.AdDisplayTime > 0)
-            //    {
-            //        await Task.Delay(options.AdDisplayTime);
-            //        listener.OnAdFailedToLoad(657);
-            //    }
-            //}
+            frame.AddView(banner);
 
+            banner.SetOnClickListener(new OnClickListener(view =>
+            {
+                listener.OnAdClicked();
+                ResourceLocator.TelemetryProvider.TelemetryTrackEvent(TelemetryTrackedEvents.ClickedDakimakuriAd);
+                ResourceLocator.SystemControlsLauncherService.LaunchUri(
+                    new Uri(options?.Link ?? "https://dakimakuri.com/"));
+            }));
+
+
+            if (options?.ImageUrls?.Any() ?? false)
+            {
+                var random = new Random();
+
+                ImageService.Instance.LoadUrl(options.ImageUrls[random.Next(0, options.ImageUrls.Length)], TimeSpan.FromDays(3)).Into(banner);
+            }
+            else if (options?.ImageUrl != null)
+            {
+                ImageService.Instance.LoadUrl(options.ImageUrl, TimeSpan.FromDays(3)).Into(banner);
+            }
+            else
+            {
+                banner.SetImageResource(Resource.Drawable.annak);
+            }
+
+            ResourceLocator.TelemetryProvider.TelemetryTrackEvent(TelemetryTrackedEvents.LoadedDakimakuriAd);
+            listener.OnAdLoaded(frame);
+
+            if (options?.AdDisplayTime > 0)
+            {
+                await Task.Delay(options.AdDisplayTime * 1000);
+                listener.OnAdFailedToLoad(657);
+            }
         }
     }
 }

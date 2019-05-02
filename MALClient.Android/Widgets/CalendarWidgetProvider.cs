@@ -10,6 +10,7 @@ using Android.Content;
 using Android.OS;
 using Android.Preferences;
 using Android.Runtime;
+using Android.Util;
 using Android.Views;
 using Android.Widget;
 using Java.Lang;
@@ -25,6 +26,7 @@ namespace MALClient.Android.Widgets
     {
         public override void OnUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds)
         {
+            Log.Debug(nameof(CalendarWidgetProviderDark), "Starting update.");
             ComponentName thisWidget = new ComponentName(context,
                 Class.FromType(typeof(CalendarWidgetProviderDark)));
             int[] allWidgetIds = appWidgetManager.GetAppWidgetIds(thisWidget);
@@ -35,8 +37,10 @@ namespace MALClient.Android.Widgets
             bundle.PutInt("ResourceId", Resource.Layout.CalendarWidgetDark);
             var component = new ComponentName(context, Class.FromType(typeof(CalendarWidgetUpdateService)));
             var scheduler = (JobScheduler)context.GetSystemService(Context.JobSchedulerService);
+            Log.Debug(nameof(CalendarWidgetProviderDark), "Scheduling...");
             scheduler.Schedule(new JobInfo.Builder(2, component).SetRequiredNetworkType(NetworkType.Any)
                 .SetExtras(bundle).Build());
+            Log.Debug(nameof(CalendarWidgetProviderDark), "Scheduled.");
         }
 
         public override void OnDeleted(Context context, int[] appWidgetIds)

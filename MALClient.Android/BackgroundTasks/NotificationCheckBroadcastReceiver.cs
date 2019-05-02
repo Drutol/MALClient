@@ -33,11 +33,14 @@ namespace MALClient.Android.BackgroundTasks
     [Service(Exported = true, Permission = "android.permission.BIND_JOB_SERVICE")]
     public class NotificationCheckBroadcastReceiver : JobService
     {
+        private JobParameters _params;
+
         public override bool OnStartJob(JobParameters @params)
         {
+            _params = @params;
             Log.Debug("MALClient-Notifications", "Starting job");
-            var updater = new CalendarTask(ApplicationContext);
-            updater.Execute();
+            var updater = new CalendarTask(this, ApplicationContext);
+            updater.Run();
             return true;
         }
 
@@ -48,165 +51,180 @@ namespace MALClient.Android.BackgroundTasks
         }
 
         [global::Android.Runtime.Preserve(AllMembers = true)]
-        public class CalendarTask : AsyncTask<Java.Lang.Void, Java.Lang.Void, Java.Lang.Void>
+        public class CalendarTask : Java.Lang.Thread
         {
+            private const string Tag = "MalClient - Notifications";
+            private readonly NotificationCheckBroadcastReceiver _parent;
             private readonly Context _context;
             private readonly SemaphoreSlim _toastSemaphore = new SemaphoreSlim(1);
 
-            public CalendarTask(Context context)
+            public CalendarTask(NotificationCheckBroadcastReceiver parent, Context context)
             {
+                _parent = parent;
                 _context = context;
             }
 
-            protected override Java.Lang.Void RunInBackground(params Java.Lang.Void[] @params)
+            public override async void Run()
             {
-                Log.Debug("MalClient - Notifications", "Starting update in background.");
-                RunUpdate().Wait();
-                return default(Java.Lang.Void);
+                base.Run();
+                Log.Debug(Tag, "Starting update in background.");
+                await RunUpdate();
             }
+
 
             public async Task RunUpdate()
             {
                 try
                 {
-                    ResourceLocator.RegisterBase();
-                    ResourceLocator.RegisterAppDataServiceAdapter(new ApplicationDataServiceService());
-                    ResourceLocator.RegisterPasswordVaultAdapter(new PasswordVaultProvider());
-                    ResourceLocator.RegisterMessageDialogAdapter(new MessageDialogProvider());
-                    ResourceLocator.RegisterHttpContextAdapter(new MalHttpContextProvider());
-                    ResourceLocator.RegisterDataCacheAdapter(new Adapters.DataCache(null));
-                    Credentials.Init();
-                }
-                catch (Exception)
-                {
-                    //may be already registered... voodoo I guess
-                }
 
 
-                List<MalNotification> notifications = new List<MalNotification>();
-                try
-                {
-                    if (
-                        Settings.EnabledNotificationTypes.HasFlag(MalNotificationsTypes.FriendRequestAcceptDeny) ||
-                        Settings.EnabledNotificationTypes.HasFlag(MalNotificationsTypes.NewRelatedAnime) ||
-                        Settings.EnabledNotificationTypes.HasFlag(MalNotificationsTypes.BlogComment) ||
-                        Settings.EnabledNotificationTypes.HasFlag(MalNotificationsTypes.ClubMessages) ||
-                        Settings.EnabledNotificationTypes.HasFlag(MalNotificationsTypes.ForumQuoute) ||
-                        Settings.EnabledNotificationTypes.HasFlag(MalNotificationsTypes.FriendRequest) ||
-                        Settings.EnabledNotificationTypes.HasFlag(MalNotificationsTypes.NowAiring) ||
-                        Settings.EnabledNotificationTypes.HasFlag(MalNotificationsTypes.ProfileComment) ||
-                        Settings.EnabledNotificationTypes.HasFlag(MalNotificationsTypes.Payment) ||
-                        Settings.EnabledNotificationTypes.HasFlag(MalNotificationsTypes.UserMentions) ||
-                        Settings.EnabledNotificationTypes.HasFlag(MalNotificationsTypes.WatchedTopics))
-                    {
-                        List<MalNotification> notifs = null;
-                        await Task.Run(async () =>
-                        {
-                            notifs = await MalNotificationsQuery.GetNotifications();
-                        });
-                        notifications.AddRange(notifs);
-                        notifications =
-                            notifications.Where(
-                                notification =>
-                                    !notification.IsRead &&
-                                    (Settings.EnabledNotificationTypes & notification.Type) == notification.Type).ToList();
-                    }
-                }
-                catch (Exception e)
-                {
-                    //http exec error
-                }
-
-
-                if ((Settings.EnabledNotificationTypes & MalNotificationsTypes.Messages) == MalNotificationsTypes.Messages)
-                {
                     try
                     {
-                        List<MalMessageModel> msgs = null;
-                        await Task.Run(async () =>
-                        {
-                            msgs = await AccountMessagesManager.GetMessagesAsync(1);
-                        });
-                        foreach (var malMessageModel in msgs)
-                        {
-                            if (!malMessageModel.IsRead)
-                            {
-                                notifications.Add(new MalNotification(malMessageModel)); //I'm assuming that Ids are unique
-                            }
-                        }
+                        ResourceLocator.RegisterBase();
+                        ResourceLocator.RegisterAppDataServiceAdapter(new ApplicationDataServiceService());
+                        ResourceLocator.RegisterPasswordVaultAdapter(new PasswordVaultProvider());
+                        ResourceLocator.RegisterMessageDialogAdapter(new MessageDialogProvider());
+                        ResourceLocator.RegisterHttpContextAdapter(new MalHttpContextProvider());
+                        ResourceLocator.RegisterDataCacheAdapter(new Adapters.DataCache(null));
+                        Credentials.Init();
                     }
                     catch (Exception)
                     {
-                        //no messages
+                        //may be already registered... voodoo I guess
                     }
 
-                }
 
-                bool watchedTopicsUpdated = false;
-                foreach (var watchedTopic in ResourceLocator.HandyDataStorage.WatchedTopics.StoredItems)
-                {
-                    if (!watchedTopic.OnCooldown)
+                    List<MalNotification> notifications = new List<MalNotification>();
+                    try
                     {
-                        var count = await new ForumTopicMessageCountQuery(watchedTopic.Id).GetMessageCount(true);
-                        if (count == null)
-                            continue;
-
-                        if (count > watchedTopic.LastCheckedReplyCount)
+                        if (
+                            Settings.EnabledNotificationTypes.HasFlag(MalNotificationsTypes.FriendRequestAcceptDeny) ||
+                            Settings.EnabledNotificationTypes.HasFlag(MalNotificationsTypes.NewRelatedAnime) ||
+                            Settings.EnabledNotificationTypes.HasFlag(MalNotificationsTypes.BlogComment) ||
+                            Settings.EnabledNotificationTypes.HasFlag(MalNotificationsTypes.ClubMessages) ||
+                            Settings.EnabledNotificationTypes.HasFlag(MalNotificationsTypes.ForumQuoute) ||
+                            Settings.EnabledNotificationTypes.HasFlag(MalNotificationsTypes.FriendRequest) ||
+                            Settings.EnabledNotificationTypes.HasFlag(MalNotificationsTypes.NowAiring) ||
+                            Settings.EnabledNotificationTypes.HasFlag(MalNotificationsTypes.ProfileComment) ||
+                            Settings.EnabledNotificationTypes.HasFlag(MalNotificationsTypes.Payment) ||
+                            Settings.EnabledNotificationTypes.HasFlag(MalNotificationsTypes.UserMentions) ||
+                            Settings.EnabledNotificationTypes.HasFlag(MalNotificationsTypes.WatchedTopics))
                         {
-
-                            var notif = new MalNotification(watchedTopic);
-                            var diff = count - watchedTopic.LastCheckedReplyCount;
-                            if (diff == 1)
-                                notif.Content += " There is one new reply.";
-                            else
-                                notif.Content += $" There are {diff} new replies.";
-
-                            notifications.Add(notif);
-
-                            watchedTopic.OnCooldown = true;
-                            watchedTopic.LastCheckedReplyCount = count.Value;
-                            watchedTopicsUpdated = true;
+                            List<MalNotification> notifs = null;
+                            await Task.Run(async () => { notifs = await MalNotificationsQuery.GetNotifications(); });
+                            notifications.AddRange(notifs);
+                            notifications =
+                                notifications.Where(
+                                        notification =>
+                                            !notification.IsRead &&
+                                            (Settings.EnabledNotificationTypes & notification.Type) ==
+                                            notification.Type)
+                                    .ToList();
                         }
                     }
+                    catch (Exception e)
+                    {
+                        //http exec error
+                    }
+
+
+                    if ((Settings.EnabledNotificationTypes & MalNotificationsTypes.Messages) ==
+                        MalNotificationsTypes.Messages)
+                    {
+                        try
+                        {
+                            List<MalMessageModel> msgs = null;
+                            await Task.Run(async () => { msgs = await AccountMessagesManager.GetMessagesAsync(1); });
+                            foreach (var malMessageModel in msgs)
+                            {
+                                if (!malMessageModel.IsRead)
+                                {
+                                    notifications.Add(
+                                        new MalNotification(malMessageModel)); //I'm assuming that Ids are unique
+                                }
+                            }
+                        }
+                        catch (Exception)
+                        {
+                            //no messages
+                        }
+
+                    }
+
+                    bool watchedTopicsUpdated = false;
+                    foreach (var watchedTopic in ResourceLocator.HandyDataStorage.WatchedTopics.StoredItems)
+                    {
+                        if (!watchedTopic.OnCooldown)
+                        {
+                            var count = await new ForumTopicMessageCountQuery(watchedTopic.Id).GetMessageCount(true);
+                            if (count == null)
+                                continue;
+
+                            if (count > watchedTopic.LastCheckedReplyCount)
+                            {
+
+                                var notif = new MalNotification(watchedTopic);
+                                var diff = count - watchedTopic.LastCheckedReplyCount;
+                                if (diff == 1)
+                                    notif.Content += " There is one new reply.";
+                                else
+                                    notif.Content += $" There are {diff} new replies.";
+
+                                notifications.Add(notif);
+
+                                watchedTopic.OnCooldown = true;
+                                watchedTopic.LastCheckedReplyCount = count.Value;
+                                watchedTopicsUpdated = true;
+                            }
+                        }
+                    }
+
+                    if (watchedTopicsUpdated)
+                        ResourceLocator.HandyDataStorage.WatchedTopics.SaveData();
+
+
+                    if (!notifications.Any())
+                        return;
+
+                    var dataService = (ResourceLocator.ApplicationDataService as ApplicationDataServiceService);
+
+                    dataService.OverridePreferenceManager(_context);
+
+                    var allTriggeredNotifications =
+                        (ResourceLocator.ApplicationDataService[nameof(RoamingDataTypes.ReadNotifications)] ??
+                         string.Empty) as string;
+                    var triggeredNotifications = allTriggeredNotifications?.Split(';').ToList() ?? new List<string>();
+                    Log.Debug(Tag,
+                        $"Checking notifications: trig: {triggeredNotifications.Count} fetched: {notifications.Count}");
+                    //trigger new notifications
+                    foreach (var notification in notifications)
+                    {
+                        if (triggeredNotifications.Contains(notification.Id))
+                            continue;
+
+                        triggeredNotifications.Add(notification.Id);
+                        ScheduleToast(_context.ApplicationContext, notification);
+                    }
+
+                    //remove old triggered entries
+                    var presentNotifications = new List<string>();
+
+                    foreach (var triggeredNotification in triggeredNotifications)
+                    {
+                        if (notifications.Any(notif => notif.Id == triggeredNotification))
+                            presentNotifications.Add(triggeredNotification);
+                    }
+
+                    ResourceLocator.ApplicationDataService[nameof(RoamingDataTypes.ReadNotifications)] = string.Join(
+                        ";",
+                        presentNotifications);
+
+                    dataService.ResetPreferenceManagerOverride();
                 }
-                if (watchedTopicsUpdated)
-                    ResourceLocator.HandyDataStorage.WatchedTopics.SaveData();
-
-
-                if (!notifications.Any())
-                    return;
-
-                var dataService = (ResourceLocator.ApplicationDataService as ApplicationDataServiceService);
-
-                dataService.OverridePreferenceManager(_context);
-
-                var allTriggeredNotifications = (ResourceLocator.ApplicationDataService[nameof(RoamingDataTypes.ReadNotifications)] ?? string.Empty) as string;
-                var triggeredNotifications = allTriggeredNotifications?.Split(';').ToList() ?? new List<string>();
-                Log.Debug("MALClient",
-                    $"Checking notifications: trig: {triggeredNotifications.Count} fetched: {notifications.Count}");
-                //trigger new notifications
-                foreach (var notification in notifications)
+                finally
                 {
-                    if (triggeredNotifications.Contains(notification.Id))
-                        continue;
-
-                    triggeredNotifications.Add(notification.Id);
-                    ScheduleToast(_context.ApplicationContext, notification);
+                    _parent?.JobFinished(_parent._params, false);
                 }
-
-                //remove old triggered entries
-                var presentNotifications = new List<string>();
-
-                foreach (var triggeredNotification in triggeredNotifications)
-                {
-                    if (notifications.Any(notif => notif.Id == triggeredNotification))
-                        presentNotifications.Add(triggeredNotification);
-                }
-
-                ResourceLocator.ApplicationDataService[nameof(RoamingDataTypes.ReadNotifications)] = string.Join(";",
-                    presentNotifications);
-
-                dataService.ResetPreferenceManagerOverride();
             }
 
             private async void ScheduleToast(Context context, MalNotification notification)
@@ -247,7 +265,8 @@ namespace MALClient.Android.BackgroundTasks
                     .SetContentText(notification.Content)
                     .SetAutoCancel(true)
                     .SetGroup(notification.Type.GetDescription())
-                    .SetContentIntent(pendingIntent);
+                    .SetContentIntent(pendingIntent)
+                    .SetVibrate(new long[] {0});
 
                 if (notification.Type != MalNotificationsTypes.Messages &&
                     notification.Type != MalNotificationsTypes.WatchedTopic)

@@ -17,6 +17,8 @@ namespace MALClient.Android.Mediation
     {
         [JsonProperty("I")]
         public string ImageUrl { get; set; }
+        [JsonProperty("IA")]
+        public string[] ImageUrls { get; set; }
         [JsonProperty("T")]
         public int AdDisplayTime { get; set; }
         [JsonProperty("L")]

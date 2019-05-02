@@ -1,15 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Android.App;
 using Android.Content.Res;
 using Android.Graphics;
 using Android.Runtime;
-using Android.Support.V13.App;
+using Android.Support.V4.App;
 using Android.Util;
 using Android.Views;
 using Android.Widget;
-using Com.Astuetz;
+using com.refractored;
 using MALClient.Android.Fragments.CalendarFragments;
 using MALClient.Android.Resources;
 using MALClient.XShared.ViewModels.Main;
@@ -17,7 +16,7 @@ using Orientation = Android.Widget.Orientation;
 
 namespace MALClient.Android.PagerAdapters
 {
-    public class CalendarPagerAdapter : FragmentStatePagerAdapter, PagerSlidingTabStrip.ICustomTabProvider
+    public class CalendarPagerAdapter : FragmentStatePagerAdapter, ICustomTabProvider
     {
         private readonly List<CalendarPivotPage> _pages;
         private readonly List<Fragment> _fragments;

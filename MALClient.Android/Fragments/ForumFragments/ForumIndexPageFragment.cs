@@ -10,9 +10,9 @@ using Android.Runtime;
 using Android.Support.V4.View;
 using Android.Views;
 using Android.Widget;
-using Com.Astuetz;
 using MALClient.Android.Listeners;
 using MALClient.Android.PagerAdapters;
+
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Forums;
 
@@ -38,17 +38,17 @@ namespace MALClient.Android.Fragments.ForumFragments
             if(_currentTab == 1)
                 ForumIndexPagePivot.SetCurrentItem(1,false);
 
-            ForumIndexPagePivot.AddOnPageChangeListener(new OnPageChangedListener(i => _currentTab = i));
+            ForumIndexPageTabStrip.OnPageChangeListener = new OnPageChangedListener(i => _currentTab = i);
         }
 
         public override int LayoutResourceId => Resource.Layout.ForumIndexPage;
 
         #region Views
 
-        private PagerSlidingTabStrip _forumIndexPageTabStrip;
+        private com.refractored.PagerSlidingTabStrip _forumIndexPageTabStrip;
         private ViewPager _forumIndexPagePivot;
 
-        public PagerSlidingTabStrip ForumIndexPageTabStrip => _forumIndexPageTabStrip ?? (_forumIndexPageTabStrip = FindViewById<PagerSlidingTabStrip>(Resource.Id.ForumIndexPageTabStrip));
+        public com.refractored.PagerSlidingTabStrip ForumIndexPageTabStrip => _forumIndexPageTabStrip ?? (_forumIndexPageTabStrip = FindViewById<com.refractored.PagerSlidingTabStrip>(Resource.Id.ForumIndexPageTabStrip));
 
         public ViewPager ForumIndexPagePivot => _forumIndexPagePivot ?? (_forumIndexPagePivot = FindViewById<ViewPager>(Resource.Id.ForumIndexPagePivot));
 

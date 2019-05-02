@@ -15,7 +15,6 @@ using MALClient.Models.Models.ApiResponses;
 using MALClient.Models.Models.Library;
 using MALClient.XShared.Utils;
 using MALClient.XShared.ViewModels;
-using ModernHttpClient;
 using Newtonsoft.Json;
 
 namespace MALClient.XShared.Comm
@@ -76,16 +75,16 @@ namespace MALClient.XShared.Comm
                 return output;
             var client = await ResourceLocator.MalHttpContextProvider.GetHttpContextAsync();
 
-            bool isAmericanDateFormat = false;
+            var isAmericanDateFormat = false;
             try
             {
                 isAmericanDateFormat =
                     (await client.GetStringAsync("https://myanimelist.net/editprofile.php?go=listpreferences"))
                     .Contains("<option value=\"a\" selected>American (MM-DD-YY)");
 
-                int offset = 0;
-                int i = 0;
-                bool loop = true; //loop_noop
+                var offset = 0;
+                var i = 0;
+                var loop = true; //loop_noop
                 while (loop)
                 {
                     Debug.WriteLine($"Loading with offset {offset}");
@@ -116,13 +115,13 @@ namespace MALClient.XShared.Comm
 
                                         foreach (var item in anime)
                                         {
-                                            string title = "";
+                                            var title = "";
                                             string alternateTitle = null;
                                             title = item.anime_title;
 
                                             if (Settings.PreferEnglishTitles &&
                                                 ResourceLocator.EnglishTitlesProvider.TryGetEnglishTitleForSeries(
-                                                    item.anime_id, true, out string engTitle))
+                                                    item.anime_id, true, out var engTitle))
                                             {
                                                 alternateTitle = title;
                                                 title = engTitle;
@@ -212,13 +211,13 @@ namespace MALClient.XShared.Comm
 
                                         foreach (var item in manga)
                                         {
-                                            string title = "";
+                                            var title = "";
                                             string alternateTitle = null;
                                             title = item.manga_title;
 
                                             if (Settings.PreferEnglishTitles &&
                                                 ResourceLocator.EnglishTitlesProvider.TryGetEnglishTitleForSeries(
-                                                    item.manga_id, false, out string engTitle))
+                                                    item.manga_id, false, out var engTitle))
                                             {
                                                 alternateTitle = title;
                                                 title = engTitle;

@@ -3,21 +3,21 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using Android.App;
 using Android.Graphics;
 using Android.Runtime;
-using Android.Support.V13.App;
+using Android.Support.V4.App;
 using Android.Text;
 using Android.Views;
 using Android.Widget;
-using Com.Astuetz;
+using com.refractored;
 using MALClient.Android.Fragments.RecommendationsFragments;
 using MALClient.Android.Resources;
+
 using MALClient.XShared.ViewModels;
 
 namespace MALClient.Android.PagerAdapters
 {
-    public class RecommandtionsPagerAdapter : FragmentStatePagerAdapter, PagerSlidingTabStrip.ICustomTabProvider
+    public class RecommandtionsPagerAdapter : FragmentStatePagerAdapter, ICustomTabProvider
     {
         public RecommandtionsPagerAdapter(IntPtr javaReference, JniHandleOwnership transfer) : base(javaReference, transfer)
         {

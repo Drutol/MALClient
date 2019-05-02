@@ -1,19 +1,20 @@
 using Android.Support.V4.View;
 using Android.Widget;
-using Com.Astuetz;
+
 using MALClient.Android.Resources;
+
 
 namespace MALClient.Android.Fragments.CalendarFragments
 {
     public partial class CalendarPageFragment
     {
-        private PagerSlidingTabStrip _calendarPageTabStrip;
+        private com.refractored.PagerSlidingTabStrip _calendarPageTabStrip;
         private ViewPager _calendarPageViewPager;
         private LinearLayout _calendarPageContentGrid;
         private ProgressBar _calendarPageProgressBar;
         private LinearLayout _calendarPageProgressBarGrid;
 
-        public PagerSlidingTabStrip CalendarPageTabStrip => _calendarPageTabStrip ?? (_calendarPageTabStrip = FindViewById<PagerSlidingTabStrip>(Resource.Id.CalendarPageTabStrip));
+        public com.refractored.PagerSlidingTabStrip CalendarPageTabStrip => _calendarPageTabStrip ?? (_calendarPageTabStrip = FindViewById<com.refractored.PagerSlidingTabStrip>(Resource.Id.CalendarPageTabStrip));
 
         public ViewPager CalendarPageViewPager => _calendarPageViewPager ?? (_calendarPageViewPager = FindViewById<ViewPager>(Resource.Id.CalendarPageViewPager));
 

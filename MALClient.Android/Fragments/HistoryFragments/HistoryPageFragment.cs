@@ -10,10 +10,10 @@ using Android.Runtime;
 using Android.Support.V4.View;
 using Android.Views;
 using Android.Widget;
-using Com.Astuetz;
 using GalaSoft.MvvmLight.Helpers;
 using MALClient.Android.Adapters.PagerAdapters;
 using MALClient.Android.BindingConverters;
+
 using MALClient.Models.Enums;
 using MALClient.XShared.NavArgs;
 using MALClient.XShared.ViewModels;
@@ -50,7 +50,7 @@ namespace MALClient.Android.Fragments.HistoryFragments
                 if(ViewModel.History == null)
                     return;
 
-                HistoryPagePivot.Adapter = new HistoryPagerAdapter(ChildFragmentManager,ViewModel.History);
+                HistoryPagePivot.Adapter = new HistoryPagerAdapter(ChildFragmentManager ,ViewModel.History);
                 HistoryPageTabStrip.SetViewPager(HistoryPagePivot);
             }));
 
@@ -67,12 +67,12 @@ namespace MALClient.Android.Fragments.HistoryFragments
 
         #region Views
 
-        private PagerSlidingTabStrip _historyPageTabStrip;
+        private com.refractored.PagerSlidingTabStrip _historyPageTabStrip;
         private ViewPager _historyPagePivot;
         private ProgressBar _historyPageLoadingSpinner;
         private TextView _historyPageEmptyNotice;
 
-        public PagerSlidingTabStrip HistoryPageTabStrip => _historyPageTabStrip ?? (_historyPageTabStrip = FindViewById<PagerSlidingTabStrip>(Resource.Id.HistoryPageTabStrip));
+        public com.refractored.PagerSlidingTabStrip HistoryPageTabStrip => _historyPageTabStrip ?? (_historyPageTabStrip = FindViewById<com.refractored.PagerSlidingTabStrip>(Resource.Id.HistoryPageTabStrip));
 
         public ViewPager HistoryPagePivot => _historyPagePivot ?? (_historyPagePivot = FindViewById<ViewPager>(Resource.Id.HistoryPagePivot));
 

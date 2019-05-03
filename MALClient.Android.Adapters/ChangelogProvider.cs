@@ -41,6 +41,7 @@ namespace MALClient.Android.Adapters
             "Added option to disable prompts for status change for OnHold shows.",
             "Fix for manga volumes number change prompt.",
             "Major changes on the behind the scenes side of things.",
+            "A few new crashfixes.",
         };
     }
 }

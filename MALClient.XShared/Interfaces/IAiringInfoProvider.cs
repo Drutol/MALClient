@@ -10,10 +10,12 @@ namespace MALClient.XShared.Interfaces
     {
         Task Init(bool cacheOnly);
         bool TryGetCurrentEpisode(int id, out int episode, DateTime? forDay = null);
+        bool TryGetLastEpisode(int id, out int ep);
         bool TryGetNextAirDate(int id, DateTime forDay, out DateTime date);
         bool TryGetAiringDay(int id,out DayOfWeek day);
         bool HasAiringEntry(int id);
 
         bool InitializationSuccess { get; }
+
     }
 }

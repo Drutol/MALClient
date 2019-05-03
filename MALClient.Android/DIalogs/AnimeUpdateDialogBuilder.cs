@@ -92,7 +92,7 @@ namespace MALClient.Android.DIalogs
                 if (volumes)
                 {
                     grid.Adapter = new WatchedDialogAdapter(MainActivity.CurrentContext, viewModel.MyVolumes,
-                        viewModel.AllVolumes,null);
+                        viewModel.AllVolumes, null);
                     view.FindViewById<TextView>(Resource.Id.AnimeItemWatchedDialogTitleTextView).Text = "Read volumes";
                     grid.Post(() =>
                     {
@@ -113,7 +113,7 @@ namespace MALClient.Android.DIalogs
                     int? currentEp = null;
                     if (viewModel.Airing)
                     {
-                        if (ResourceLocator.AiringInfoProvider.TryGetCurrentEpisode(viewModel.Id, out int ep))
+                        if (ResourceLocator.AiringInfoProvider.TryGetCurrentEpisode(viewModel.Id, out int ep, DateTime.Today))
                             currentEp = ep;
                     }
                     grid.Adapter = new WatchedDialogAdapter(MainActivity.CurrentContext, viewModel.MyEpisodes,

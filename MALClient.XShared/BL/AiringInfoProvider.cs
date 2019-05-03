@@ -127,6 +127,20 @@ namespace MALClient.XShared.BL
             return true;
         }
 
+        public bool TryGetLastEpisode(int id, out int ep)
+        {
+            var data = _lookupDictionary[id];
+            if (data?.Episodes == null || !data.Episodes.Any())
+            {
+                ep = 0;
+                return false;
+            }
+
+            ep = data.Episodes.Max(episode => episode.EpisodeNumber);
+
+            return true;
+        }
+
         private int GetCurrentEpisode(AiringData data, int currentTimestamp)
         {
             var next = data.Episodes.FirstOrDefault(ep => ep.Timestamp >= currentTimestamp);

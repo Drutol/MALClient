@@ -43,7 +43,7 @@ namespace MALClient.Android.Fragments.Clubs
         protected override void InitBindings()
         {
             Pivot.OffscreenPageLimit = 3;
-            Pivot.Adapter = new ClubDetailsPagerAdapter(FragmentManager);
+            Pivot.Adapter = new ClubDetailsPagerAdapter(ChildFragmentManager);
             TabStrip.SetViewPager(Pivot);
             TabStrip.CenterTabs();
             if (_lastIndex == null)

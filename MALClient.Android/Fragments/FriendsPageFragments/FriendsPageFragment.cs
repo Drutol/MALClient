@@ -44,7 +44,7 @@ namespace MALClient.Android.Fragments
 
         protected override void InitBindings()
         {
-            Pivot.Adapter = new FriendsPagePagerAdapter(FragmentManager);
+            Pivot.Adapter = new FriendsPagePagerAdapter(ChildFragmentManager);
             TabStrip.SetViewPager(Pivot);
             TabStrip.CenterTabs();
         }

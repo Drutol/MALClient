@@ -335,8 +335,6 @@ namespace com.refractored
             }
         }
 
-        private PagerAdapterObserver adapterObserver;
-
 
         public PagerSlidingTabStrip(Context context)
             : this(context, null)
@@ -352,7 +350,6 @@ namespace com.refractored
             : base(context, attrs, defStyle)
         {
             MyOnGlobalLayoutListner = new MyOnGlobalLayoutListener(this);
-            adapterObserver = new PagerAdapterObserver(this);
             FillViewport = true;
             this.VerticalScrollBarEnabled = false;
             this.HorizontalScrollBarEnabled = false;
@@ -418,13 +415,10 @@ namespace com.refractored
 
             SetMarginBottomTabContainer();
 
-            rectPaint = new Paint();
-            rectPaint.AntiAlias = true;
+            rectPaint = new Paint {AntiAlias = true};
             rectPaint.SetStyle(Paint.Style.Fill);
 
-            dividerPaint = new Paint();
-            dividerPaint.AntiAlias = true;
-            dividerPaint.StrokeWidth = dividerWidth;
+            dividerPaint = new Paint {AntiAlias = true, StrokeWidth = dividerWidth};
 
             defaultTabLayoutParams = new LinearLayout.LayoutParams(LayoutParams.WrapContent, LayoutParams.MatchParent);
             expandedTabLayoutParams = new LinearLayout.LayoutParams(0, LayoutParams.MatchParent, 1.0f);
@@ -448,8 +442,6 @@ namespace com.refractored
             }
 
             pager.SetOnPageChangeListener(this);
-            pager.Adapter.RegisterDataSetObserver(adapterObserver);
-            adapterObserver.IsAttached = true;
             NotifyDataSetChanged();
         }
 
@@ -675,36 +667,47 @@ namespace com.refractored
             if (IsInEditMode || tabCount == 0)
                 return;
 
-            var height = Height;
-            //draw indicator line
-            rectPaint.Color = new Color(indicatorColor);
-            float first, second = 0f;
-            GetIndicatorCoordinates(out first, out second);
-            canvas.DrawRect(first + paddingLeft, height - indicatorHeight, second + paddingLeft, height, rectPaint);
 
-            //draw underline
-            rectPaint.Color = new Color(underlineColor);
-            canvas.DrawRect(paddingLeft, height - underlineHeight, TabsContainer.Width + paddingRight, height, rectPaint);
-
-            //draw divider
-            if (dividerWidth <= 0)
-                return;
-
-            dividerPaint.StrokeWidth = dividerWidth;
-            dividerPaint.Color = new Color(dividerColor);
-
-            var offset = IsPaddingMiddle ? paddingLeft : 0F;
-
-            for (int i = 0; i < tabCount - 1; i++)
+            try
             {
-                var tab = TabsContainer.GetChildAt(i);
-                if (tab != null)
-                {
-                    canvas.DrawLine(offset + tab.Right, dividerPadding, offset + tab.Right, height - dividerPadding, dividerPaint);
 
+
+                var height = Height;
+                //draw indicator line
+                rectPaint.Color = new Color(indicatorColor);
+                float first, second = 0f;
+                GetIndicatorCoordinates(out first, out second);
+                canvas.DrawRect(first + paddingLeft, height - indicatorHeight, second + paddingLeft, height, rectPaint);
+
+                //draw underline
+                rectPaint.Color = new Color(underlineColor);
+                canvas.DrawRect(paddingLeft, height - underlineHeight, TabsContainer.Width + paddingRight, height,
+                    rectPaint);
+
+                //draw divider
+                if (dividerWidth <= 0)
+                    return;
+
+                dividerPaint.StrokeWidth = dividerWidth;
+                dividerPaint.Color = new Color(dividerColor);
+
+                var offset = IsPaddingMiddle ? paddingLeft : 0F;
+
+                for (int i = 0; i < tabCount - 1; i++)
+                {
+                    var tab = TabsContainer.GetChildAt(i);
+                    if (tab != null)
+                    {
+                        canvas.DrawLine(offset + tab.Right, dividerPadding, offset + tab.Right, height - dividerPadding,
+                            dividerPaint);
+
+                    }
                 }
             }
-
+            catch
+            {
+                //disposed
+            }
         }
 
 
@@ -814,130 +817,6 @@ namespace com.refractored
             title.SetTextColor(tabTextColorSelected);
 
 
-        }
-
-
-
-
-        protected class PagerAdapterObserver : DataSetObserver
-        {
-            public bool IsAttached { get; set; }
-            PagerSlidingTabStrip strip;
-            public PagerAdapterObserver(PagerSlidingTabStrip strip)
-            {
-                this.strip = strip;
-            }
-            public override void OnChanged()
-            {
-                strip.NotifyDataSetChanged();
-            }
-        }
-
-        protected override void OnAttachedToWindow()
-        {
-            base.OnAttachedToWindow();
-            if (pager == null || !adapterObserver.IsAttached)
-                return;
-
-            pager.Adapter.UnregisterDataSetObserver(adapterObserver);
-            adapterObserver.IsAttached = false;
-        }
-
-        protected override void OnRestoreInstanceState(IParcelable state)
-        {
-            var bundle = state as Bundle;
-            if (bundle != null)
-            {
-                var superState = bundle.GetParcelable("base") as IParcelable;
-                if (superState != null)
-                    base.OnRestoreInstanceState(superState);
-
-                currentPosition = bundle.GetInt("currentPosition", 0);
-                if (currentPosition != 0 && TabsContainer.ChildCount > 0)
-                {
-                    NotSelected(TabsContainer.GetChildAt(0));
-                    Selected(TabsContainer.GetChildAt(currentPosition));
-                }
-            }
-
-            RequestLayout();
-        }
-
-        protected override IParcelable OnSaveInstanceState()
-        {
-            var superState = base.OnSaveInstanceState();
-            var state = new Bundle();
-            state.PutParcelable("base", superState);
-            state.PutInt("currentPosition", currentPosition);
-            return state;
-        }
-
-        /// <summary>
-        /// The state saved by an instance of PagerSlidingTabStrip during orientation changes etc.
-        /// </summary>
-        public class PagerSlidingTabStripState : BaseSavedState
-        {
-            /// <summary>
-            /// Gets or sets the current position.
-            /// </summary>
-            /// <value>
-            /// The current position.
-            /// </value>
-            public int CurrentPosition { get; set; }
-
-            /// <summary>
-            /// Initializes a new instance of the <see cref="PagerSlidingTabStripState"/> class.
-            /// </summary>
-            /// <param name="superState">State of the super.</param>
-            public PagerSlidingTabStripState(IParcelable superState)
-              : base(superState)
-            {
-
-            }
-
-            public PagerSlidingTabStripState(Parcel source)
-              : base(source)
-            {
-                CurrentPosition = source.ReadInt();
-            }
-
-            /// <summary>
-            /// Implementation of AbsSavedState.WriteToParcel
-            /// 
-            /// This is overriden to 
-            /// </summary>
-            /// <param name="dest">The Parcel in which the object should be written.</param>
-            /// <param name="flags">Additional flags about how the object should be written.
-            /// May be 0 or <c><see cref="F:Android.OS.Parcelable.ParcelableWriteReturnValue" /></c>.</param>
-            public override void WriteToParcel(Parcel dest, ParcelableWriteFlags flags)
-            {
-                base.WriteToParcel(dest, flags);
-                dest.WriteInt(CurrentPosition);
-            }
-
-            [ExportField("CREATOR")]
-            static SavedStateCreator InitializeCreator()
-            {
-                return new SavedStateCreator();
-            }
-
-            class SavedStateCreator : Java.Lang.Object, IParcelableCreator
-            {
-
-                #region IParcelableCreator Members
-
-                public Java.Lang.Object CreateFromParcel(Parcel source)
-                {
-                    return new PagerSlidingTabStripState(source);
-                }
-
-                public Java.Lang.Object[] NewArray(int size)
-                {
-                    return new PagerSlidingTabStripState[size];
-                }
-
-                #endregion
-            }
         }
     }
 }

@@ -43,7 +43,7 @@ namespace MALClient.Android.Fragments.Clubs
                 this.SetBinding(() => ViewModel.Loading,
                     () => LoadingSpinner.Visibility).ConvertSourceToTarget(Converters.BoolToVisibility));
 
-            Pivot.Adapter = new ClubsIndexPagerAdapter(FragmentManager,_rightDrawer);
+            Pivot.Adapter = new ClubsIndexPagerAdapter(ChildFragmentManager,_rightDrawer);
             TabStrip.SetViewPager(Pivot);
             TabStrip.CenterTabs();
             Pivot.SetCurrentItem(_lastPivotIndex,false);

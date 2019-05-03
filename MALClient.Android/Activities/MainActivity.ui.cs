@@ -306,7 +306,10 @@ namespace MALClient.Android.Activities
             }
             else
             {
-                ShareFloatingActionButton.Hide();
+                RunOnUiThread(() =>
+                {
+                    ShareFloatingActionButton.Hide();
+                });
             }
         }
 

@@ -10,6 +10,7 @@ using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Helpers;
 using MALClient.Android.BindingConverters;
 using MALClient.Android.Flyouts;
+using MALClient.Android.Listeners;
 using MALClient.Android.PagerAdapters;
 using MALClient.Android.Resources;
 
@@ -71,7 +72,7 @@ namespace MALClient.Android.Fragments.RecommendationsFragments
                 this.SetBinding(() => ViewModel.Loading,
                     () => RecommendationsPageLoading.Visibility).ConvertSourceToTarget(Converters.BoolToVisibility));
 
-            RecommendationsPageTypeChangeButton.SetCommand("Click",new RelayCommand(OnTypeChangeButtonClick));
+            RecommendationsPageTypeChangeButton.SetOnClickListener(new OnClickListener(v => OnTypeChangeButtonClick()));
         }
 
         private void BindAnimeItems()

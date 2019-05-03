@@ -78,7 +78,7 @@ namespace MALClient.Android.UserControls.AnimeItems
             {
                 AnimeListItemWatchedButton.Clickable = true;
                 AnimeListItemWatchedButton.Focusable = true;
-                AnimeListItemWatchedButton.SetCommand("Click", new RelayCommand(ShowWatchedDialog));
+                AnimeListItemWatchedButton.SetOnClickListener(new OnClickListener(view => ShowWatchedDialog()));
             }
             else
             {

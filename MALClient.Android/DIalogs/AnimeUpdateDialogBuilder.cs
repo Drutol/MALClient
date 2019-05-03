@@ -76,8 +76,8 @@ namespace MALClient.Android.DIalogs
 
 
                 view.FindViewById<ImageButton>(Resource.Id.AnimeItemWatchedDialogAcceptButton)
-                    .SetCommand("Click", new RelayCommand(
-                        () =>
+                    .SetOnClickListener(new OnClickListener(
+                        v =>
                         {
                             if (action == null)
                                 viewModel.OnFlyoutEpsKeyDown.Execute(null);

@@ -4,12 +4,12 @@ using Android.Runtime;
 using Android.Support.V4.App;
 using Android.Views;
 using Android.Widget;
-using com.refractored;
 using MALClient.Android.Fragments;
 using MALClient.Android.Fragments.DetailsFragments;
 using MALClient.Android.Resources;
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Main;
+using PagerSlidingTab;
 
 namespace MALClient.Android.PagerAdapters
 {

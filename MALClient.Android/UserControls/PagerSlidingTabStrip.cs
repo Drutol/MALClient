@@ -1,44 +1,46 @@
 ﻿using System;
-using Android.Widget;
-using Android.Database;
+using Android.Content;
 using Android.Content.Res;
 using Android.Graphics;
+using Android.OS;
+using Android.Runtime;
 using Android.Support.V4.View;
 using Android.Util;
-using Android.Content;
 using Android.Views;
-using Android.Runtime;
-using Android.OS;
-using Java.Interop;
-using PagerSlidingTabStrip;
+using Android.Widget;
+using PagerSlidingTab;
 
 //version 1.0.9
 
-namespace com.refractored
+namespace MALClient.Android.UserControls
 {
-    [Register("com.refractored.PagerSlidingTabStrip")]
-    public class PagerSlidingTabStrip : HorizontalScrollView, Android.Support.V4.View.ViewPager.IOnPageChangeListener, ViewTreeObserver.IOnGlobalLayoutListener
+    [global::Android.Runtime.Preserve(AllMembers = true)]
+    public class PagerSlidingTabStrip : HorizontalScrollView, ViewPager.IOnPageChangeListener, ViewTreeObserver.IOnGlobalLayoutListener
     {
 
         /// <summary>
         /// Gets or sets the page change listener
         /// </summary>
-        public Android.Support.V4.View.ViewPager.IOnPageChangeListener OnPageChangeListener { get; set; }
+        public global::Android.Support.V4.View.ViewPager.IOnPageChangeListener OnPageChangeListener { get; set; }
         /// <summary>
         /// Gets or sets the tab reselected listener
         /// </summary>
         public IOnTabReselectedListener OnTabReselectedListener { get; set; }
 
 
+        public PagerSlidingTabStrip(IntPtr handle, JniHandleOwnership transfer) : base(handle, transfer)
+        {
+
+        }
 
         private static int[] Attrs = new int[]
         {
-            Android.Resource.Attribute.TextColorPrimary,
-            Android.Resource.Attribute.TextSize,
-            Android.Resource.Attribute.TextColor,
-      Android.Resource.Attribute.Padding,
-            Android.Resource.Attribute.PaddingLeft,
-            Android.Resource.Attribute.PaddingRight
+            global::Android.Resource.Attribute.TextColorPrimary,
+            global::Android.Resource.Attribute.TextSize,
+            global::Android.Resource.Attribute.TextColor,
+      global::Android.Resource.Attribute.Padding,
+            global::Android.Resource.Attribute.PaddingLeft,
+            global::Android.Resource.Attribute.PaddingRight
         };
 
         //These indexes must be related with the ATTR array above
@@ -322,7 +324,7 @@ namespace com.refractored
         }
         private int lastScrollX = 0;
 
-        private int tabBackgroundResId = Resource.Drawable.psts_background_tab;
+        private int tabBackgroundResId = global::PagerSlidingTab.Resource.Drawable.psts_background_tab;
         /// <summary>
         /// Sets tab background
         /// </summary>
@@ -355,7 +357,7 @@ namespace com.refractored
             this.HorizontalScrollBarEnabled = false;
             SetWillNotDraw(false);
             TabsContainer = new LinearLayout(context);
-            TabsContainer.Orientation = Android.Widget.Orientation.Horizontal;
+            TabsContainer.Orientation = global::Android.Widget.Orientation.Horizontal;
             TabsContainer.LayoutParameters = new LayoutParams(LayoutParams.MatchParent, LayoutParams.MatchParent);
             AddView(TabsContainer);
 
@@ -372,7 +374,7 @@ namespace com.refractored
             var a = context.ObtainStyledAttributes(attrs, Attrs);
             tabTextSize = a.GetDimensionPixelSize(TextSizeIndex, tabTextSize);
             var colorStateList = a.GetColorStateList(TextColorIndex);
-            var textPrimaryColor = a.GetColor(TextColorPrimaryIndex, Android.Resource.Color.White);
+            var textPrimaryColor = a.GetColor(TextColorPrimaryIndex, global::Android.Resource.Color.White);
 
 
             underlineColor = textPrimaryColor;
@@ -385,25 +387,25 @@ namespace com.refractored
 
 
 
-            a = context.ObtainStyledAttributes(attrs, Resource.Styleable.PagerSlidingTabStrip);
-            indicatorColor = a.GetColor(Resource.Styleable.PagerSlidingTabStrip_pstsIndicatorColor, indicatorColor);
-            underlineColor = a.GetColor(Resource.Styleable.PagerSlidingTabStrip_pstsUnderlineColor, underlineColor);
-            dividerColor = a.GetColor(Resource.Styleable.PagerSlidingTabStrip_pstsDividerColor, dividerColor);
-            dividerWidth = a.GetDimensionPixelSize(Resource.Styleable.PagerSlidingTabStrip_pstsDividerWidth, dividerWidth);
-            indicatorHeight = a.GetDimensionPixelSize(Resource.Styleable.PagerSlidingTabStrip_pstsIndicatorHeight, indicatorHeight);
-            underlineHeight = a.GetDimensionPixelSize(Resource.Styleable.PagerSlidingTabStrip_pstsUnderlineHeight, underlineHeight);
-            dividerPadding = a.GetDimensionPixelSize(Resource.Styleable.PagerSlidingTabStrip_pstsDividerPadding, dividerPadding);
-            tabPadding = a.GetDimensionPixelSize(Resource.Styleable.PagerSlidingTabStrip_pstsTabPaddingLeftRight, tabPadding);
-            tabBackgroundResId = a.GetResourceId(Resource.Styleable.PagerSlidingTabStrip_pstsTabBackground, tabBackgroundResId);
-            shouldExpand = a.GetBoolean(Resource.Styleable.PagerSlidingTabStrip_pstsShouldExpand, shouldExpand);
-            scrollOffset = a.GetDimensionPixelSize(Resource.Styleable.PagerSlidingTabStrip_pstsScrollOffset, scrollOffset);
-            textAllCaps = a.GetBoolean(Resource.Styleable.PagerSlidingTabStrip_pstsTextAllCaps, textAllCaps);
-            isPaddingMiddle = a.GetBoolean(Resource.Styleable.PagerSlidingTabStrip_pstsPaddingMiddle, isPaddingMiddle);
-            tabTypefaceStyle = (TypefaceStyle)a.GetInt(Resource.Styleable.PagerSlidingTabStrip_pstsTextStyle, (int)TypefaceStyle.Bold);
-            tabTypefaceSelectedStyle = (TypefaceStyle)a.GetInt(Resource.Styleable.PagerSlidingTabStrip_pstsTextSelectedStyle, (int)TypefaceStyle.Bold);
-            tabTextColorSelected = a.GetColorStateList(Resource.Styleable.PagerSlidingTabStrip_pstsTextColorSelected);
-            textAlpha = a.GetInt(Resource.Styleable.PagerSlidingTabStrip_pstsTextAlpha, textAlpha);
-            a.Recycle();
+            //a = context.ObtainStyledAttributes(attrs, global::PagerSlidingTab.Resource.Styleable.PagerSlidingTabStrip);
+            //indicatorColor = a.GetColor(global::PagerSlidingTab.Resource.Styleable.PagerSlidingTabStrip_pstsIndicatorColor, indicatorColor);
+            //underlineColor = a.GetColor(global::PagerSlidingTab.Resource.Styleable.PagerSlidingTabStrip_pstsUnderlineColor, underlineColor);
+            //dividerColor = a.GetColor(global::PagerSlidingTab.Resource.Styleable.PagerSlidingTabStrip_pstsDividerColor, dividerColor);
+            //dividerWidth = a.GetDimensionPixelSize(global::PagerSlidingTab.Resource.Styleable.PagerSlidingTabStrip_pstsDividerWidth, dividerWidth);
+            //indicatorHeight = a.GetDimensionPixelSize(global::PagerSlidingTab.Resource.Styleable.PagerSlidingTabStrip_pstsIndicatorHeight, indicatorHeight);
+            //underlineHeight = a.GetDimensionPixelSize(global::PagerSlidingTab.Resource.Styleable.PagerSlidingTabStrip_pstsUnderlineHeight, underlineHeight);
+            //dividerPadding = a.GetDimensionPixelSize(global::PagerSlidingTab.Resource.Styleable.PagerSlidingTabStrip_pstsDividerPadding, dividerPadding);
+            //tabPadding = a.GetDimensionPixelSize(global::PagerSlidingTab.Resource.Styleable.PagerSlidingTabStrip_pstsTabPaddingLeftRight, tabPadding);
+            //tabBackgroundResId = a.GetResourceId(global::PagerSlidingTab.Resource.Styleable.PagerSlidingTabStrip_pstsTabBackground, tabBackgroundResId);
+            //shouldExpand = a.GetBoolean(global::PagerSlidingTab.Resource.Styleable.PagerSlidingTabStrip_pstsShouldExpand, shouldExpand);
+            //scrollOffset = a.GetDimensionPixelSize(global::PagerSlidingTab.Resource.Styleable.PagerSlidingTabStrip_pstsScrollOffset, scrollOffset);
+            //textAllCaps = a.GetBoolean(global::PagerSlidingTab.Resource.Styleable.PagerSlidingTabStrip_pstsTextAllCaps, textAllCaps);
+            //isPaddingMiddle = a.GetBoolean(global::PagerSlidingTab.Resource.Styleable.PagerSlidingTabStrip_pstsPaddingMiddle, isPaddingMiddle);
+            //tabTypefaceStyle = (TypefaceStyle)a.GetInt(global::PagerSlidingTab.Resource.Styleable.PagerSlidingTabStrip_pstsTextStyle, (int)TypefaceStyle.Bold);
+            //tabTypefaceSelectedStyle = (TypefaceStyle)a.GetInt(global::PagerSlidingTab.Resource.Styleable.PagerSlidingTabStrip_pstsTextSelectedStyle, (int)TypefaceStyle.Bold);
+            //tabTextColorSelected = a.GetColorStateList(global::PagerSlidingTab.Resource.Styleable.PagerSlidingTabStrip_pstsTextColorSelected);
+            //textAlpha = a.GetInt(global::PagerSlidingTab.Resource.Styleable.PagerSlidingTabStrip_pstsTextAlpha, textAlpha);
+            //a.Recycle();
 
             tabTextColor = colorStateList == null ? GetColorStateList(Color.Argb(textAlpha,
               Color.GetRedComponent(textPrimaryColor),
@@ -458,7 +460,7 @@ namespace com.refractored
                 }
                 else
                 {
-                    tabView = LayoutInflater.From(Context).Inflate(Resource.Layout.psts_tab, this, false);
+                    tabView = LayoutInflater.From(Context).Inflate(global::PagerSlidingTab.Resource.Layout.psts_tab, this, false);
                 }
 
                 var title = pager.Adapter.GetPageTitle(i);
@@ -503,7 +505,7 @@ namespace com.refractored
 
         private void AddTab(int position, string title, View tabView)
         {
-            var textView = tabView.FindViewById<TextView>(Resource.Id.psts_tab_title);
+            var textView = tabView.FindViewById<TextView>(global::PagerSlidingTab.Resource.Id.psts_tab_title);
             if (textView != null)
             {
                 if (title != null)
@@ -540,7 +542,7 @@ namespace com.refractored
                     continue;
                 v.SetBackgroundResource(tabBackgroundResId);
                 v.SetPadding(tabPadding, v.PaddingTop, tabPadding, v.PaddingBottom);
-                var tab_title = v.FindViewById<TextView>(Resource.Id.psts_tab_title);
+                var tab_title = v.FindViewById<TextView>(global::PagerSlidingTab.Resource.Id.psts_tab_title);
 
                 if (tab_title != null)
                 {
@@ -794,7 +796,7 @@ namespace com.refractored
             if (tab == null)
                 return;
             (pager.Adapter as ICustomTabProvider)?.TabUnselected(tab);
-            var title = tab.FindViewById<TextView>(Resource.Id.psts_tab_title);
+            var title = tab.FindViewById<TextView>(global::PagerSlidingTab.Resource.Id.psts_tab_title);
             if (title == null)
                 return;
 
@@ -809,7 +811,7 @@ namespace com.refractored
             if (tab == null)
                 return;
             (pager.Adapter as ICustomTabProvider)?.TabSelected(tab);
-            var title = tab.FindViewById<TextView>(Resource.Id.psts_tab_title);
+            var title = tab.FindViewById<TextView>(global::PagerSlidingTab.Resource.Id.psts_tab_title);
             if (title == null)
                 return;
 

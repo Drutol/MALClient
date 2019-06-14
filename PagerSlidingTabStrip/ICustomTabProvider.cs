@@ -1,7 +1,6 @@
-﻿using System;
-using Android.Views;
+﻿using Android.Views;
 
-namespace com.refractored
+namespace PagerSlidingTab
 {
     public interface ICustomTabProvider
     {

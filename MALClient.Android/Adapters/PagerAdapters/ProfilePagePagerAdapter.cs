@@ -10,7 +10,6 @@ using Android.Runtime;
 using Android.Support.V4.App;
 using Android.Views;
 using Android.Widget;
-using com.refractored;
 using MALClient.Android.Fragments;
 using MALClient.Android.Fragments.ArticlesPageFragments;
 using MALClient.Android.Fragments.ForumFragments.Tabs;
@@ -19,6 +18,7 @@ using MALClient.Android.Resources;
 
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Main;
+using PagerSlidingTab;
 using Orientation = Android.Widget.Orientation;
 
 namespace MALClient.Android.PagerAdapters

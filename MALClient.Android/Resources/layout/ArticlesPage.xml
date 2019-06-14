@@ -6,7 +6,7 @@
                 android:orientation="vertical"
                 android:background="?BrushDeepBackground">
   <LinearLayout android:layout_width="match_parent" android:orientation="vertical" android:layout_height="match_parent">
-    <com.refractored.PagerSlidingTabStrip
+    <MALClient.Android.UserControls.PagerSlidingTabStrip
       android:id="@+id/ArticlesPageTabStrip"
       android:layout_width="match_parent"
       android:layout_height="25dp"

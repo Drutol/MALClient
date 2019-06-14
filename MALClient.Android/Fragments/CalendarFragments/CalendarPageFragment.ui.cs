@@ -8,13 +8,13 @@ namespace MALClient.Android.Fragments.CalendarFragments
 {
     public partial class CalendarPageFragment
     {
-        private com.refractored.PagerSlidingTabStrip _calendarPageTabStrip;
+        private UserControls.PagerSlidingTabStrip _calendarPageTabStrip;
         private ViewPager _calendarPageViewPager;
         private LinearLayout _calendarPageContentGrid;
         private ProgressBar _calendarPageProgressBar;
         private LinearLayout _calendarPageProgressBarGrid;
 
-        public com.refractored.PagerSlidingTabStrip CalendarPageTabStrip => _calendarPageTabStrip ?? (_calendarPageTabStrip = FindViewById<com.refractored.PagerSlidingTabStrip>(Resource.Id.CalendarPageTabStrip));
+        public UserControls.PagerSlidingTabStrip CalendarPageTabStrip => _calendarPageTabStrip ?? (_calendarPageTabStrip = FindViewById<UserControls.PagerSlidingTabStrip>(Resource.Id.CalendarPageTabStrip));
 
         public ViewPager CalendarPageViewPager => _calendarPageViewPager ?? (_calendarPageViewPager = FindViewById<ViewPager>(Resource.Id.CalendarPageViewPager));
 

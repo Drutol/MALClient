@@ -77,11 +77,11 @@ namespace MALClient.Android.Fragments.Clubs
 
         #region Views
 
-        private com.refractored.PagerSlidingTabStrip _tabStrip;
+        private UserControls.PagerSlidingTabStrip _tabStrip;
         private ViewPager _pivot;
         private ProgressBar _loadingSpinner;
 
-        public com.refractored.PagerSlidingTabStrip TabStrip => _tabStrip ?? (_tabStrip = FindViewById<com.refractored.PagerSlidingTabStrip>(Resource.Id.TabStrip));
+        public UserControls.PagerSlidingTabStrip TabStrip => _tabStrip ?? (_tabStrip = FindViewById<UserControls.PagerSlidingTabStrip>(Resource.Id.TabStrip));
 
         public ViewPager Pivot => _pivot ?? (_pivot = FindViewById<ViewPager>(Resource.Id.Pivot));
 

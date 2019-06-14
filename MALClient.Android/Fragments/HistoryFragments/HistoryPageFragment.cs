@@ -67,12 +67,12 @@ namespace MALClient.Android.Fragments.HistoryFragments
 
         #region Views
 
-        private com.refractored.PagerSlidingTabStrip _historyPageTabStrip;
+        private UserControls.PagerSlidingTabStrip _historyPageTabStrip;
         private ViewPager _historyPagePivot;
         private ProgressBar _historyPageLoadingSpinner;
         private TextView _historyPageEmptyNotice;
 
-        public com.refractored.PagerSlidingTabStrip HistoryPageTabStrip => _historyPageTabStrip ?? (_historyPageTabStrip = FindViewById<com.refractored.PagerSlidingTabStrip>(Resource.Id.HistoryPageTabStrip));
+        public UserControls.PagerSlidingTabStrip HistoryPageTabStrip => _historyPageTabStrip ?? (_historyPageTabStrip = FindViewById<UserControls.PagerSlidingTabStrip>(Resource.Id.HistoryPageTabStrip));
 
         public ViewPager HistoryPagePivot => _historyPagePivot ?? (_historyPagePivot = FindViewById<ViewPager>(Resource.Id.HistoryPagePivot));
 

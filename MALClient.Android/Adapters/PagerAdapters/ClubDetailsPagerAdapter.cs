@@ -5,13 +5,13 @@ using Android.Runtime;
 using Android.Support.V4.App;
 using Android.Views;
 using Android.Widget;
-using com.refractored;
 using MALClient.Android.Fragments;
 using MALClient.Android.Fragments.Clubs;
 using MALClient.Android.Fragments.ProfilePageFragments;
 using MALClient.Android.Resources;
 
 using MALClient.XShared.ViewModels;
+using PagerSlidingTab;
 using Orientation = Android.Widget.Orientation;
 
 namespace MALClient.Android.PagerAdapters

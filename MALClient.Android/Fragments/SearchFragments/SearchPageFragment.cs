@@ -49,10 +49,10 @@ namespace MALClient.Android.Fragments.SearchFragments
 
         #region Views
 
-        private com.refractored.PagerSlidingTabStrip _searchPageTabStrip;
+        private UserControls.PagerSlidingTabStrip _searchPageTabStrip;
         private ViewPager _searchPageViewPager;
 
-        public com.refractored.PagerSlidingTabStrip SearchPageTabStrip => _searchPageTabStrip ?? (_searchPageTabStrip = FindViewById<com.refractored.PagerSlidingTabStrip>(Resource.Id.SearchPageTabStrip));
+        public UserControls.PagerSlidingTabStrip SearchPageTabStrip => _searchPageTabStrip ?? (_searchPageTabStrip = FindViewById<UserControls.PagerSlidingTabStrip>(Resource.Id.SearchPageTabStrip));
 
         public ViewPager SearchPageViewPager => _searchPageViewPager ?? (_searchPageViewPager = FindViewById<ViewPager>(Resource.Id.SearchPageViewPager));
 

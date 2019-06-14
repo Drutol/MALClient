@@ -66,12 +66,12 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
         #region Views
 
         private FrameLayout _profilePageLoadingSpinner;
-        private com.refractored.PagerSlidingTabStrip _profilePageTabStrip;
+        private UserControls.PagerSlidingTabStrip _profilePageTabStrip;
         private ViewPager _profilePagePivot;
 
         public FrameLayout ProfilePageLoadingSpinner => _profilePageLoadingSpinner ?? (_profilePageLoadingSpinner = FindViewById<FrameLayout>(Resource.Id.ProfilePageLoadingSpinner));
 
-        public com.refractored.PagerSlidingTabStrip ProfilePageTabStrip => _profilePageTabStrip ?? (_profilePageTabStrip = FindViewById<com.refractored.PagerSlidingTabStrip>(Resource.Id.ProfilePageTabStrip));
+        public UserControls.PagerSlidingTabStrip ProfilePageTabStrip => _profilePageTabStrip ?? (_profilePageTabStrip = FindViewById<UserControls.PagerSlidingTabStrip>(Resource.Id.ProfilePageTabStrip));
 
         public ViewPager ProfilePagePivot => _profilePagePivot ?? (_profilePagePivot = FindViewById<ViewPager>(Resource.Id.ProfilePagePivot));
 

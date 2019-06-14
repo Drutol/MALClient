@@ -45,10 +45,10 @@ namespace MALClient.Android.Fragments.ForumFragments
 
         #region Views
 
-        private com.refractored.PagerSlidingTabStrip _forumIndexPageTabStrip;
+        private UserControls.PagerSlidingTabStrip _forumIndexPageTabStrip;
         private ViewPager _forumIndexPagePivot;
 
-        public com.refractored.PagerSlidingTabStrip ForumIndexPageTabStrip => _forumIndexPageTabStrip ?? (_forumIndexPageTabStrip = FindViewById<com.refractored.PagerSlidingTabStrip>(Resource.Id.ForumIndexPageTabStrip));
+        public UserControls.PagerSlidingTabStrip ForumIndexPageTabStrip => _forumIndexPageTabStrip ?? (_forumIndexPageTabStrip = FindViewById<UserControls.PagerSlidingTabStrip>(Resource.Id.ForumIndexPageTabStrip));
 
         public ViewPager ForumIndexPagePivot => _forumIndexPagePivot ?? (_forumIndexPagePivot = FindViewById<ViewPager>(Resource.Id.ForumIndexPagePivot));
 

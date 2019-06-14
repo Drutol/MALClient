@@ -117,14 +117,14 @@ namespace MALClient.Android.Fragments.RecommendationsFragments
         #region Views
 
         private ImageButton _recommendationsPageTypeChangeButton;
-        private com.refractored.PagerSlidingTabStrip _recommendationsPageTabStrip;
+        private UserControls.PagerSlidingTabStrip _recommendationsPageTabStrip;
         private ViewPager _recommendationsPagePivot;
         private RelativeLayout _recommendationsPageLoading;
 
 
         public ImageButton RecommendationsPageTypeChangeButton => _recommendationsPageTypeChangeButton ?? (_recommendationsPageTypeChangeButton = FindViewById<ImageButton>(Resource.Id.RecommendationsPageTypeChangeButton));
 
-        public com.refractored.PagerSlidingTabStrip RecommendationsPageTabStrip => _recommendationsPageTabStrip ?? (_recommendationsPageTabStrip = FindViewById<com.refractored.PagerSlidingTabStrip>(Resource.Id.RecommendationsPageTabStrip));
+        public UserControls.PagerSlidingTabStrip RecommendationsPageTabStrip => _recommendationsPageTabStrip ?? (_recommendationsPageTabStrip = FindViewById<UserControls.PagerSlidingTabStrip>(Resource.Id.RecommendationsPageTabStrip));
 
         public ViewPager RecommendationsPagePivot => _recommendationsPagePivot ?? (_recommendationsPagePivot = FindViewById<ViewPager>(Resource.Id.RecommendationsPagePivot));
 

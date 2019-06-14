@@ -80,7 +80,7 @@ namespace MALClient.Android.Fragments.DetailsFragments
         private FavouriteButton _personDetailsPageFavButton;
         private ImageButton _personDetailsPageLinkButton;
         private TextView _personDetailsPageDescription;
-        private com.refractored.PagerSlidingTabStrip _personDetailsPageTabStrip;
+        private UserControls.PagerSlidingTabStrip _personDetailsPageTabStrip;
         private ViewPager _personDetailsPagePivot;
         private RelativeLayout _personDetailsPageLoadingSpinner;
 
@@ -94,7 +94,7 @@ namespace MALClient.Android.Fragments.DetailsFragments
 
         public TextView PersonDetailsPageDescription => _personDetailsPageDescription ?? (_personDetailsPageDescription = FindViewById<TextView>(Resource.Id.PersonDetailsPageDescription));
 
-        public com.refractored.PagerSlidingTabStrip PersonDetailsPageTabStrip => _personDetailsPageTabStrip ?? (_personDetailsPageTabStrip = FindViewById<com.refractored.PagerSlidingTabStrip>(Resource.Id.PersonDetailsPageTabStrip));
+        public UserControls.PagerSlidingTabStrip PersonDetailsPageTabStrip => _personDetailsPageTabStrip ?? (_personDetailsPageTabStrip = FindViewById<UserControls.PagerSlidingTabStrip>(Resource.Id.PersonDetailsPageTabStrip));
 
         public ViewPager PersonDetailsPagePivot => _personDetailsPagePivot ?? (_personDetailsPagePivot = FindViewById<ViewPager>(Resource.Id.PersonDetailsPagePivot));
 

@@ -8,10 +8,10 @@ using Android.Support.V4.App;
 using Android.Util;
 using Android.Views;
 using Android.Widget;
-using com.refractored;
 using MALClient.Android.Fragments.CalendarFragments;
 using MALClient.Android.Resources;
 using MALClient.XShared.ViewModels.Main;
+using PagerSlidingTab;
 using Orientation = Android.Widget.Orientation;
 
 namespace MALClient.Android.PagerAdapters

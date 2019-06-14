@@ -304,7 +304,7 @@
         </RelativeLayout>
       </FrameLayout>
 
-      <com.refractored.PagerSlidingTabStrip
+      <MALClient.Android.UserControls.PagerSlidingTabStrip
           android:id="@+id/AnimeDetailsPageTabStrip"
           android:layout_width="match_parent"
           android:layout_height="25dp"

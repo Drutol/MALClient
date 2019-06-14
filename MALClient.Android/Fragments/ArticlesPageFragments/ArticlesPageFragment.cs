@@ -128,12 +128,12 @@ namespace MALClient.Android.Fragments.ArticlesPageFragments
 
         #region Views
 
-        private com.refractored.PagerSlidingTabStrip _articlesPageTabStrip;
+        private UserControls.PagerSlidingTabStrip _articlesPageTabStrip;
         private ViewPager _articlesPagePivot;
         private WebView _articlesPageWebView;
         private ProgressBar _articlesPageLoadingSpinner;
 
-        public com.refractored.PagerSlidingTabStrip ArticlesPageTabStrip => _articlesPageTabStrip ?? (_articlesPageTabStrip = FindViewById<com.refractored.PagerSlidingTabStrip>(Resource.Id.ArticlesPageTabStrip));
+        public UserControls.PagerSlidingTabStrip ArticlesPageTabStrip => _articlesPageTabStrip ?? (_articlesPageTabStrip = FindViewById<UserControls.PagerSlidingTabStrip>(Resource.Id.ArticlesPageTabStrip));
 
         public ViewPager ArticlesPagePivot => _articlesPagePivot ?? (_articlesPagePivot = FindViewById<ViewPager>(Resource.Id.ArticlesPagePivot));
 

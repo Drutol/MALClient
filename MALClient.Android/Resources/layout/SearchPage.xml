@@ -4,7 +4,7 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:orientation="vertical">
-  <com.refractored.PagerSlidingTabStrip
+  <MALClient.Android.UserControls.PagerSlidingTabStrip
     android:id="@+id/SearchPageTabStrip"
     android:layout_width="match_parent"
     android:layout_height="25dp"

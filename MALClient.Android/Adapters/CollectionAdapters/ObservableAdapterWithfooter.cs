@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using Android.Views;
 using GalaSoft.MvvmLight.Helpers;
 
@@ -50,6 +51,8 @@ namespace MALClient.Android.CollectionAdapters
         {
             if (position == base.Count)
             {
+                if(Footer == null)
+                    Debugger.Break();
                 return Footer;
             }
             else
@@ -67,12 +70,16 @@ namespace MALClient.Android.CollectionAdapters
                             }
                             var v = base.GetView(position, convertView == Footer ? null : convertView, parent);
                             _cachedFirstView = v;
+                            if (v == null)
+                                Debugger.Break();
                             return v;
                         }
                     return base.GetView(position, convertView == Footer ? null : convertView, parent);
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
+                    if (convertView == null)
+                        Debugger.Break();
                     return convertView;
                 }
 

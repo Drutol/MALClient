@@ -10,12 +10,12 @@ using Android.Support.V4.App;
 using Android.Util;
 using Android.Views;
 using Android.Widget;
-using com.refractored;
 using MALClient.Android.Fragments.HistoryFragments;
 using MALClient.Android.Fragments.RecommendationsFragments;
 using MALClient.Android.Resources;
 using MALClient.Models.Models.MalSpecific;
 using MALClient.XShared.ViewModels;
+using PagerSlidingTab;
 
 namespace MALClient.Android.Adapters.PagerAdapters 
 {

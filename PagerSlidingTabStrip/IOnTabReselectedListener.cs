@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace com.refractored
+﻿namespace PagerSlidingTab
 {
 	public interface IOnTabReselectedListener
 	{

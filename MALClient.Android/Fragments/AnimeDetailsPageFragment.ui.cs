@@ -39,7 +39,7 @@ namespace MALClient.Android.Fragments
         private ProgressBar _animeDetailsPageLoadingUpdateSpinner;
         private ImageButton _animeDetailsPageFavouriteButton;
         private ImageButton _animeDetailsPageMoreButton;
-        private com.refractored.PagerSlidingTabStrip _animeDetailsPageTabStrip;
+        private PagerSlidingTabStrip _animeDetailsPageTabStrip;
         private HeightAdjustingViewPager _animeDetailsPagePivot;
         private RelativeLayout _animeDetailsPageLoadingOverlay;
 
@@ -77,7 +77,7 @@ namespace MALClient.Android.Fragments
 
         public ImageButton AnimeDetailsPageMoreButton => _animeDetailsPageMoreButton ?? (_animeDetailsPageMoreButton = FindViewById<ImageButton>(Resource.Id.AnimeDetailsPageMoreButton));
 
-        public com.refractored.PagerSlidingTabStrip AnimeDetailsPageTabStrip => _animeDetailsPageTabStrip ?? (_animeDetailsPageTabStrip = FindViewById<com.refractored.PagerSlidingTabStrip>(Resource.Id.AnimeDetailsPageTabStrip));
+        public UserControls.PagerSlidingTabStrip AnimeDetailsPageTabStrip => _animeDetailsPageTabStrip ?? (_animeDetailsPageTabStrip = FindViewById<UserControls.PagerSlidingTabStrip>(Resource.Id.AnimeDetailsPageTabStrip));
 
         public HeightAdjustingViewPager AnimeDetailsPagePivot => _animeDetailsPagePivot ?? (_animeDetailsPagePivot = FindViewById<HeightAdjustingViewPager>(Resource.Id.AnimeDetailsPagePivot));
 

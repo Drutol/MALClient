@@ -16,13 +16,7 @@ namespace MALClient.UWP.Adapters
     {
         protected override async Task<CsrfHttpClient> ObtainContext()
         {
-            var httpHandler = ResourceLocator.MalHttpContextProvider.GetHandler()
-            {
-                CookieContainer = new CookieContainer(),
-                UseCookies = true,
-                AllowAutoRedirect = true,
-                AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate
-            };
+            var httpHandler = ResourceLocator.MalHttpContextProvider.GetHandler();
             _httpClient = new CsrfHttpClient(httpHandler) { BaseAddress = new Uri(MalBaseUrl) };
             _httpClient.DefaultRequestHeaders.TryAddWithoutValidation("authority", "myanimelist.net");
             _httpClient.DefaultRequestHeaders.TryAddWithoutValidation("Host", "myanimelist.net");
@@ -92,6 +86,17 @@ namespace MALClient.UWP.Adapters
             }
 
             throw new WebException("Unable to authorize");
+        }
+
+        public override HttpClientHandler GetHandler()
+        {
+            return new HttpClientHandler()
+            {
+                CookieContainer = new CookieContainer(),
+                AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate,
+                AllowAutoRedirect = true,
+                UseCookies = true,
+            };
         }
     }
 }

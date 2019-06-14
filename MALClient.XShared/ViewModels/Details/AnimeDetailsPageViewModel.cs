@@ -1114,20 +1114,10 @@ namespace MALClient.XShared.ViewModels.Details
             PopulateData();
         }
 
-        private async void UpdateLoadingWithDelay()
-        {
-            await Task.Delay(100);
-            RaisePropertyChanged(() => LoadingGlobal);
-        }
-
         private async Task FetchData(bool force = false, PageIndex? sourcePage = null)
         {
-#if !ANDROID
-            _loadingGlobal = true;
-            UpdateLoadingWithDelay();
-#else
+
             LoadingGlobal = true;
-#endif
             try
             {
                 var data =

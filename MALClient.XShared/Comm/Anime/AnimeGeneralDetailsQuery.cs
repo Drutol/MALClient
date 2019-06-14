@@ -34,7 +34,9 @@ namespace MALClient.XShared.Comm.Anime
 
                         using (var client = new HttpClient(ResourceLocator.MalHttpContextProvider.GetHandler()))
                         {
-                            var response = await client.GetStringAsync($"https://api.jikan.moe/{(animeMode ? "anime" : "manga")}/{id}");
+                            var response =
+                                await client.GetStringAsync(
+                                    $"https://api.jikan.moe/v3/{(animeMode ? "anime" : "manga")}/{id}");
 
                             if (animeMode)
                             {
@@ -49,12 +51,12 @@ namespace MALClient.XShared.Comm.Anime
                                     StartDate = parsed.aired.from?.ToString("yyyy-MM-dd") ?? "N/A",
                                     EndDate = parsed.aired.to?.ToString("yyyy-MM-dd") ?? "N/A",
                                     ImgUrl = parsed.image_url,
-                                    GlobalScore = (float)(parsed.score ?? 0),
+                                    GlobalScore = (float) (parsed.score ?? 0),
                                     Id = parsed.mal_id,
                                     MalId = parsed.mal_id,
                                     Synopsis = WebUtility.HtmlDecode(parsed.synopsis),
                                     Title = WebUtility.HtmlDecode(parsed.title),
-                                    Synonyms = parsed.title_synonyms?.Split(',').ToList() ?? new List<string>(),
+                                    Synonyms = parsed.title_synonyms ?? new List<string>(),
                                 };
 
                                 if ((output.Type == "Movie" || output.AllEpisodes == 1) && output.EndDate == "N/A" &&
@@ -63,14 +65,15 @@ namespace MALClient.XShared.Comm.Anime
                                     output.EndDate = output.StartDate;
                                 }
 
-                                ResourceLocator.EnglishTitlesProvider.AddOrUpdate(int.Parse(id),true, parsed.title_english);
+                                ResourceLocator.EnglishTitlesProvider.AddOrUpdate(int.Parse(id), true,
+                                    parsed.title_english);
                             }
                             else
                             {
                                 var parsed = JsonConvert.DeserializeObject<MangaRootObject>(response);
 
-                                int.TryParse(parsed.volumes, out var vols);
-                                int.TryParse(parsed.chapters, out var chap);
+                                var vols = parsed.volumes ?? 0;
+                                var chap = parsed.chapters ?? 0;
 
                                 output = new AnimeGeneralDetailsData
                                 {
@@ -82,19 +85,20 @@ namespace MALClient.XShared.Comm.Anime
                                     StartDate = parsed.published.from?.ToString("yyyy-MM-dd") ?? "N/A",
                                     EndDate = parsed.published.to?.ToString("yyyy-MM-dd") ?? "N/A",
                                     ImgUrl = parsed.image_url,
-                                    GlobalScore = (float)(parsed.score ?? 0),
+                                    GlobalScore = (float) (parsed.score ?? 0),
                                     Id = parsed.mal_id,
                                     MalId = parsed.mal_id,
                                     Synopsis = WebUtility.HtmlDecode(parsed.synopsis),
                                     Title = WebUtility.HtmlDecode(parsed.title),
-                                    Synonyms = parsed.title_synonyms?.Split(',').ToList() ?? new List<string>(),
+                                    Synonyms = parsed.title_synonyms ?? new List<string>(),
                                 };
 
-                                ResourceLocator.EnglishTitlesProvider.AddOrUpdate(int.Parse(id), false, parsed.title_english);
+                                ResourceLocator.EnglishTitlesProvider.AddOrUpdate(int.Parse(id), false,
+                                    parsed.title_english);
                             }
                         }
 
-                        
+
                         DataCache.SaveAnimeSearchResultsData(id, output, animeMode);
                         break;
                     default:
@@ -109,101 +113,179 @@ namespace MALClient.XShared.Comm.Anime
 
             return output;
         }
-        
+
+
+        public class From
+        {
+            public int day { get; set; }
+            public int month { get; set; }
+            public int year { get; set; }
+        }
+        [Preserve(AllMembers = true)]
+        public class To
+        {
+            public int day { get; set; }
+            public int month { get; set; }
+            public int year { get; set; }
+        }
 
         [Preserve(AllMembers = true)]
-        class Aired
+        public class Aired
         {
             public DateTime? from { get; set; }
             public DateTime? to { get; set; }
+            public string @string { get; set; }
         }
         [Preserve(AllMembers = true)]
-        class Adaptation
+        public class Adaptation
         {
             public int mal_id { get; set; }
             public string type { get; set; }
+            public string name { get; set; }
             public string url { get; set; }
-            public string title { get; set; }
         }
         [Preserve(AllMembers = true)]
-        class SideStory
+        public class SideStory
         {
             public int mal_id { get; set; }
             public string type { get; set; }
+            public string name { get; set; }
             public string url { get; set; }
-            public string title { get; set; }
         }
         [Preserve(AllMembers = true)]
-        class Summary
-        {
-            public int mal_id { get; set; }
-            public string type { get; set; }
-            public string url { get; set; }
-            public string title { get; set; }
-        }
-        [Preserve(AllMembers = true)]
-        class Related
+        public class Related
         {
             public List<Adaptation> Adaptation { get; set; }
             [JsonProperty("Side story")] public List<SideStory> SideStories { get; set; }
-            public List<Summary> Summary { get; set; }
         }
         [Preserve(AllMembers = true)]
-        class Producer
-        {
-            public string url { get; set; }
-            public string name { get; set; }
-        }
-        [Preserve(AllMembers = true)]
-        class Licensor
-        {
-            public string url { get; set; }
-            public string name { get; set; }
-        }
-        [Preserve(AllMembers = true)]
-        class Studio
-        {
-            public string url { get; set; }
-            public string name { get; set; }
-        }
-        [Preserve(AllMembers = true)]
-        class Genre
-        {
-            public string url { get; set; }
-            public string name { get; set; }
-        }
-        [Preserve(AllMembers = true)]
-        class RootObject
+        public class Producer
         {
             public int mal_id { get; set; }
-            public string title { get; set; }
-            public string title_japanese { get; set; }
-            public string title_synonyms { get; set; }
-            public string title_english { get; set; }
-            public string image_url { get; set; }
             public string type { get; set; }
+            public string name { get; set; }
+            public string url { get; set; }
+        }
+        [Preserve(AllMembers = true)]
+        public class Licensor
+        {
+            public int mal_id { get; set; }
+            public string type { get; set; }
+            public string name { get; set; }
+            public string url { get; set; }
+        }
+        [Preserve(AllMembers = true)]
+        public class Studio
+        {
+            public int mal_id { get; set; }
+            public string type { get; set; }
+            public string name { get; set; }
+            public string url { get; set; }
+        }
+        [Preserve(AllMembers = true)]
+        public class Genre
+        {
+            public int mal_id { get; set; }
+            public string type { get; set; }
+            public string name { get; set; }
+            public string url { get; set; }
+        }
+        [Preserve(AllMembers = true)]
+        public class Published
+        {
+            public DateTime? from { get; set; }
+            public DateTime? to { get; set; }
+            public string @string { get; set; }
+        }
+        [Preserve(AllMembers = true)]
+        public class Author
+        {
+            public int mal_id { get; set; }
+            public string type { get; set; }
+            public string name { get; set; }
+            public string url { get; set; }
+        }
+        [Preserve(AllMembers = true)]
+        public class Serialization
+        {
+            public int mal_id { get; set; }
+            public string type { get; set; }
+            public string name { get; set; }
+            public string url { get; set; }
+        }
+
+        [Preserve(AllMembers = true)]
+        public class RootObject
+        {
+            public string request_hash { get; set; }
+            public bool request_cached { get; set; }
+            public int request_cache_expiry { get; set; }
+            public int mal_id { get; set; }
+            public string url { get; set; }
+            public string image_url { get; set; }
+            public string trailer_url { get; set; }
+            public string title { get; set; }
+            public string title_english { get; set; }
+            public string title_japanese { get; set; }
+            public List<string> title_synonyms { get; set; }
+            public string type { get; set; }
+            public string source { get; set; }
             public int? episodes { get; set; }
             public string status { get; set; }
+            public bool airing { get; set; }
             public Aired aired { get; set; }
+            public string duration { get; set; }
+            public string rating { get; set; }
             public double? score { get; set; }
+            public int scored_by { get; set; }
+            public int rank { get; set; }
+            public int popularity { get; set; }
+            public int members { get; set; }
+            public int favorites { get; set; }
             public string synopsis { get; set; }
+            public string background { get; set; }
+            public string premiered { get; set; }
+            public string broadcast { get; set; }
+            public Related related { get; set; }
+            public List<Producer> producers { get; set; }
+            public List<Licensor> licensors { get; set; }
+            public List<Studio> studios { get; set; }
+            public List<Genre> genres { get; set; }
+            public List<string> opening_themes { get; set; }
+            public List<string> ending_themes { get; set; }
         }
+
         [Preserve(AllMembers = true)]
         class MangaRootObject
         {
+            public string request_hash { get; set; }
+            public bool request_cached { get; set; }
+            public int request_cache_expiry { get; set; }
             public int mal_id { get; set; }
+            public string url { get; set; }
             public string title { get; set; }
-            public string title_synonyms { get; set; }
-            public string title_japanese { get; set; }
             public string title_english { get; set; }
+            public List<string> title_synonyms { get; set; }
+            public string title_japanese { get; set; }
             public string status { get; set; }
             public string image_url { get; set; }
             public string type { get; set; }
-            public string volumes { get; set; }
-            public string chapters { get; set; }
-            public Aired published { get; set; }
+            public int? volumes { get; set; }
+            public int? chapters { get; set; }
+            public bool publishing { get; set; }
+            public Published published { get; set; }
+            public int rank { get; set; }
             public double? score { get; set; }
+            public int scored_by { get; set; }
+            public int popularity { get; set; }
+            public int members { get; set; }
+            public int favorites { get; set; }
             public string synopsis { get; set; }
+            public string background { get; set; }
+            public Related related { get; set; }
+            public List<Genre> genres { get; set; }
+            public List<Author> authors { get; set; }
+            public List<Serialization> serializations { get; set; }
         }
     }
 }

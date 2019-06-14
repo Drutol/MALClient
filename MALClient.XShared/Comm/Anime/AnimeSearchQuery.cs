@@ -42,21 +42,21 @@ namespace MALClient.XShared.Comm.Anime
             }
         }
 
-        public async Task<List<AnimeGeneralDetailsData>> GetSearchResults(bool tryAiring = false)
+        public async Task<List<AnimeGeneralDetailsData>> GetSearchResults()
         {
             var output = new List<AnimeGeneralDetailsData>();
 
             try
             {
                 var client = new HttpClient(ResourceLocator.MalHttpContextProvider.GetHandler());
-                var response = await client.GetAsync($"https://api.jikan.moe/search/anime?q={_query}&page=1{(tryAiring ? "&status=airing" : "")}");
+                var response = await client.GetAsync($"https://api.jikan.moe/v3/search/anime?q={_query}");
 
                 if (!response.IsSuccessStatusCode)
                     return output;
 
                 var results = JsonConvert.DeserializeObject<RootObject>(await response.Content.ReadAsStringAsync());
 
-                foreach (var result in results.result)
+                foreach (var result in results.results)
                 {
                     result.image_url =
                         Regex.Replace(result.image_url, @"\/r\/\d+x\d+", "");
@@ -70,10 +70,10 @@ namespace MALClient.XShared.Comm.Anime
                         Title = WebUtility.HtmlDecode(result.title),
                         ImgUrl = result.image_url,
                         Type = result.type,
-                        Synopsis = WebUtility.HtmlDecode(result.description),
+                        Synopsis = WebUtility.HtmlDecode(result.synopsis),
                         MalId = result.mal_id,
                         GlobalScore = (float)result.score,      
-                        Status = tryAiring ? "Currently Airing" : "Unknown"                       
+                        Status =  result.airing ? "Currently Airing" : "Unknown"                       
                     });
                 }
 
@@ -142,25 +142,26 @@ namespace MALClient.XShared.Comm.Anime
         }
 
         [Preserve(AllMembers = true)]
-        public class Result
+        class Result
         {
             public int mal_id { get; set; }
             public string url { get; set; }
             public string image_url { get; set; }
             public string title { get; set; }
-            public string description { get; set; }
+            public string synopsis { get; set; }
             public string type { get; set; }
             public double score { get; set; }
             public int episodes { get; set; }
+            public bool airing { get; set; }
             public int members { get; set; }
         }
 
         [Preserve(AllMembers = true)]
-        public class RootObject
+        class RootObject
         {
             public string request_hash { get; set; }
             public bool request_cached { get; set; }
-            public List<Result> result { get; set; }
+            public List<Result> results { get; set; }
             public int result_last_page { get; set; }
         }
     }

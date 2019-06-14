@@ -1615,10 +1615,10 @@
             </Pivot.Items>
         </Pivot>
 
-		<Grid Grid.Row="0" Grid.RowSpan="2" Visibility="{Binding LoadingGlobal}" attachedProperties:AnimatedVisibilityExtension.AnimatedVisiblity="{Binding LoadingGlobal}"
+		<Grid x:Name="LoadingOverlay" Grid.Row="0" Grid.RowSpan="2" Visibility="{Binding LoadingGlobal}" attachedProperties:AnimatedVisibilityExtension.AnimatedVisiblity="{Binding LoadingGlobal}"
              attachedProperties:AnimatedVisibilityExtension.AnimatedVisibleStoryboard="{StaticResource OverlayFadeInStoryboard}"
              attachedProperties:AnimatedVisibilityExtension.AnimatedCollapsedStoryboard="{StaticResource OverlayFadeOutStoryboard}"
-			  Background="Transparent">
+			  Background="{StaticResource BrushLoading}">
 			<ProgressRing HorizontalAlignment="Stretch" Width="75" Height="75" VerticalAlignment="Stretch"
                           IsActive="True" />
         </Grid>

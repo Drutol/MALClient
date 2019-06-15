@@ -13,6 +13,7 @@ using MALClient.Android.BindingConverters;
 using MALClient.Android.Resources;
 using MALClient.Models.Enums;
 using MALClient.XShared.NavArgs;
+using MALClient.XShared.Utils;
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Main;
 
@@ -74,15 +75,38 @@ namespace MALClient.Android.Fragments.SearchFragments
         {
             view.FindViewById<TextView>(Resource.Id.AnimeSearchItemTitle).Text = animeSearchItemViewModel.Title;
             view.FindViewById<TextView>(Resource.Id.AnimeSearchItemType).Text = animeSearchItemViewModel.Type;
-            view.FindViewById<TextView>(Resource.Id.AnimeSearchItemDescription).Text = animeSearchItemViewModel.Synopsis;
+            view.FindViewById<TextView>(Resource.Id.AnimeSearchItemDescription).Text =
+                animeSearchItemViewModel.Synopsis;
             view.FindViewById<TextView>(Resource.Id.AnimeSearchItemEpisodes).Text = animeSearchItemViewModel.WatchedEps;
-            view.FindViewById<TextView>(Resource.Id.AnimeSearchItemGlobalScore).Text = animeSearchItemViewModel.GlobalScoreBind;
+
+
+            if (Settings.HideGlobalScoreInDetailsWhenNotRated)
+            {
+                if(animeSearchItemViewModel.IsAuth && animeSearchItemViewModel.MyScore > 0)
+                {
+                    view.FindViewById(Resource.Id.AnimeSearchItemGlobalScoreContainer).Visibility = ViewStates.Visible;
+                    view.FindViewById<TextView>(Resource.Id.AnimeSearchItemGlobalScore).Text = animeSearchItemViewModel.GlobalScoreBind;
+                }
+                else
+                {
+                    view.FindViewById(Resource.Id.AnimeSearchItemGlobalScoreContainer).Visibility = ViewStates.Gone;
+                }
+            }
+            else
+            {
+                view.FindViewById<TextView>(Resource.Id.AnimeSearchItemGlobalScore).Text = animeSearchItemViewModel.GlobalScoreBind;
+            }
+
 
             if (animeSearchItemViewModel.IsAuth)
             {
                 view.FindViewById(Resource.Id.TopRightInfo).Visibility = ViewStates.Visible;
-                view.FindViewById<TextView>(Resource.Id.WatchingStatus).Text = animeSearchItemViewModel.MyStatusBindShort;
-                view.FindViewById<TextView>(Resource.Id.WatchedEpisodes).Text = animeSearchItemViewModel.MyEpisodesBindShort;
+                view.FindViewById<TextView>(Resource.Id.WatchingStatus).Text =
+                    animeSearchItemViewModel.MyStatusBindShort;
+                view.FindViewById<TextView>(Resource.Id.WatchedEpisodes).Text =
+                    animeSearchItemViewModel.MyEpisodesBindShort;
+
+
             }
             else
             {

@@ -66,37 +66,44 @@ namespace MALClient.Android.UserControls
 
         public void BindModel(FavouriteViewModel model)
         {
-            if (!_initialized)
-                Init();
-
-            ViewModel = model;
-
-            Bindings.ForEach(binding => binding.Detach());
-            Bindings.Clear();
-
-            Bindings.Add(this.SetBinding(() => ViewModel.IsFavourite).WhenSourceChanges(() =>
+            try
             {
-                if (ViewModel.IsFavourite)
+                if (!_initialized)
+                    Init();
+
+                ViewModel = model;
+
+                Bindings.ForEach(binding => binding.Detach());
+                Bindings.Clear();
+
+                Bindings.Add(this.SetBinding(() => ViewModel.IsFavourite).WhenSourceChanges(() =>
                 {
-                    _favButton.SetBackgroundResource(ResourceExtension.AccentColourDarkRes);
-                    _favButtonIcon.SetImageResource(Resource.Drawable.icon_favourite);
-                }
+                    if (ViewModel.IsFavourite)
+                    {
+                        _favButton.SetBackgroundResource(ResourceExtension.AccentColourDarkRes);
+                        _favButtonIcon.SetImageResource(Resource.Drawable.icon_favourite);
+                    }
+                    else
+                    {
+                        _favButton.SetBackgroundResource(Resource.Color.BrushOpaqueTextView);
+                        _favButtonIcon.SetImageResource(Resource.Drawable.icon_unfavourite);
+                    }
+                }));
+                Bindings.Add(this.SetBinding(() => ViewModel.IsFavouriteButtonEnabled).WhenSourceChanges(() =>
+                {
+                    _favButton.Alpha = ViewModel.IsFavouriteButtonEnabled ? 1 : .7f;
+                }));
+
+                if (model.Data is AnimeStaffPerson person)
+                    Visibility = person.IsUnknown ? ViewStates.Gone : ViewStates.Visible;
                 else
-                {
-                    _favButton.SetBackgroundResource(Resource.Color.BrushOpaqueTextView);
-                    _favButtonIcon.SetImageResource(Resource.Drawable.icon_unfavourite);
-                }
-            }));
-            Bindings.Add(this.SetBinding(() => ViewModel.IsFavouriteButtonEnabled).WhenSourceChanges(() =>
+                    Visibility = ViewStates.Visible;
+
+            }
+            catch (ObjectDisposedException)
             {
-                _favButton.Alpha = ViewModel.IsFavouriteButtonEnabled ? 1 : .7f;
-            }));
-
-            if (model.Data is AnimeStaffPerson person)
-                Visibility = person.IsUnknown ? ViewStates.Gone : ViewStates.Visible;
-            else
-                Visibility = ViewStates.Visible;
-
+                //button has been disposed already
+            }
         }
 
 

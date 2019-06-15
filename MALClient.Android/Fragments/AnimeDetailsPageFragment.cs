@@ -259,8 +259,16 @@ namespace MALClient.Android.Fragments
             AnimeUpdateDialogBuilder.BuildWatchedDialog(ViewModel.AnimeItemReference as AnimeItemViewModel,
                 (model, s) =>
                 {
-                    ViewModel.WatchedEpsInput = s;
-                    ViewModel.ChangeWatchedCommand.Execute(null);
+                    if (ViewModel != null)
+                    {
+                        ViewModel.WatchedEpsInput = s;
+                        ViewModel.ChangeWatchedCommand.Execute(null);
+                    }
+                    else
+                    {
+                        ResourceLocator.SnackbarProvider.ShowText("Failed to update.");
+                    }
+
                 });
         }
 
@@ -285,8 +293,15 @@ namespace MALClient.Android.Fragments
             AnimeUpdateDialogBuilder.BuildWatchedDialog(ViewModel.AnimeItemReference as AnimeItemViewModel,
                 (model, s) =>
                 {
-                    ViewModel.ReadVolumesInput = s;
-                    ViewModel.ChangeVolumesCommand.Execute(null);
+                    if (ViewModel != null)
+                    {
+                        ViewModel.ReadVolumesInput = s;
+                        ViewModel.ChangeVolumesCommand.Execute(null);
+                    }
+                    else
+                    {
+                        ResourceLocator.SnackbarProvider.ShowText("Failed to update.");
+                    }
                 }, true);
         }
 

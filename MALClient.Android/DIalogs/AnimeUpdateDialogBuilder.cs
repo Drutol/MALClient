@@ -165,9 +165,7 @@ namespace MALClient.Android.DIalogs
             }
             catch (Exception e)
             {
-                //TODO Get from hovckey
-                ResourceLocator.SnackbarProvider.ShowText("An unknown error occurred, cause has been logged. I'll fix it in next update.");
-                ResourceLocator.TelemetryProvider.LogEvent($"BuildWatchedDialog Crash: {e} , {viewModel.Title}, {action == null}, {volumes}, {e.Source}");
+               
             }
             
         }

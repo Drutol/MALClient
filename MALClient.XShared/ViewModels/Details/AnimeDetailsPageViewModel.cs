@@ -1238,8 +1238,8 @@ namespace MALClient.XShared.ViewModels.Details
                 }
                 Information.Add(new Tuple<string, string>(parts[0], string.Join(":", parts.Skip(1))));
             }
-            if(_animeItemReference?.AlaternateTitle != null)
-                Information.Add(new Tuple<string, string>("Alt. Title",_animeItemReference.AlaternateTitle));
+            if(_synonyms?.Any() ?? false)
+                Information.Add(new Tuple<string, string>("Alt. Titles", string.Join("\n", _synonyms)));
 
             foreach (var statistic in data.Statistics)
             {

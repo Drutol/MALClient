@@ -67,7 +67,7 @@ namespace MALClient.Android.Adapters
 
         public void TelemetryTrackNavigation(PageIndex page)
         {
-#if DEBUG
+#if !DEBUG
             Analytics.TrackEvent("Navigation", new Dictionary<string, string>
             {
                 {"Page", page.ToString()}

@@ -11,7 +11,7 @@
       <DefineConstants>TRACE;RELEASE;NETSTANDARD2_0;ANDROID;DEBUG</DefineConstants>
     </PropertyGroup>
     <ItemGroup>
-      <PackageReference Include="HtmlAgilityPack" Version="1.11.3" />
+      <PackageReference Include="HtmlAgilityPack" Version="1.11.7" />
       <PackageReference Include="Microsoft.CSharp" Version="4.5.0" />
       <PackageReference Include="MvvmLightLibsStd10" Version="5.4.1.1" />
       <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />

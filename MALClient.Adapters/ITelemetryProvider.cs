@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using MALClient.Models.Enums;
@@ -15,6 +16,6 @@ namespace MALClient.Adapters
         void TelemetryTrackNavigation(PageIndex page);
         void TelemetryTrackNavigation(ForumsPageIndex page);
         void LogEvent(string @event);
-        void TrackException(Exception e);
+        void TrackException(Exception e, [CallerMemberName] string caller = null);
     }
 }

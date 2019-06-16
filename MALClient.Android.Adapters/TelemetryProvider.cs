@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 
 using Android.App;
@@ -60,9 +61,12 @@ namespace MALClient.Android.Adapters
 #endif
         }
 
-        public void TrackException(Exception e)
+        public void TrackException(Exception e, [CallerMemberName] string caller = null)
         {
-
+            Crashes.TrackError(e, new Dictionary<string, string>
+            {
+                {"Caller", caller}
+            });
         }
 
         public void TelemetryTrackNavigation(PageIndex page)

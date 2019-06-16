@@ -227,6 +227,8 @@
     <Compile Include="Managers\NavMgr.cs" />
     <Compile Include="Mediation\CuddlyOctopusAdBanner.cs" />
     <Compile Include="Mediation\DakimakuriAdBanner.cs" />
+    <Compile Include="Mediation\FacebookCustomEventBanner.cs" />
+    <Compile Include="Mediation\FacebookCustomEventBannerForwarder.cs" />
     <Compile Include="Mediation\MediationOptions.cs" />
     <Compile Include="Resources\AndroidColorThemesEnum.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
@@ -330,6 +332,9 @@
     <PackageReference Include="Xamarin.Android.Support.v4">
       <Version>28.0.0.1</Version>
     </PackageReference>
+    <PackageReference Include="Xamarin.Facebook.AudienceNetwork.Android">
+      <Version>5.1.1</Version>
+    </PackageReference>
     <PackageReference Include="Xamarin.FFImageLoading">
       <Version>2.4.11.982</Version>
     </PackageReference>
@@ -341,6 +346,10 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Binding_Facebook\Binding_Facebook.csproj">
+      <Project>{99432b0f-e4f9-45cb-be00-0d0956f47e57}</Project>
+      <Name>Binding_Facebook</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MALClient.Adapters\MALClient.Adapters.csproj">
       <Project>{9f8e953e-47a6-4f72-a2fe-bef7a2dae850}</Project>
       <Name>MALClient.Adapters</Name>

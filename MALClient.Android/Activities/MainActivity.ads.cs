@@ -56,7 +56,9 @@ namespace MALClient.Android.Activities
                                 .AddKeyword("show")
                                 .AddKeyword("comic")
                                 .AddKeyword("book")
-                                .AddKeyword("tv").Build();
+                                .AddKeyword("tv")
+                                //.AddTestDevice("ECC7350B314C6F43BF4A7CA86394A8FD")
+                                .Build();
                             MainPageAdView.LoadAd(adRequest);
                             MainPageAdView.AdListener = new AdsListener(this);
                             _initializedAds = true;

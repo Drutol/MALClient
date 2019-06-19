@@ -79,11 +79,20 @@ namespace MALClient.Android.DIalogs
                     .SetOnClickListener(new OnClickListener(
                         v =>
                         {
-                            if (action == null)
-                                viewModel.OnFlyoutEpsKeyDown.Execute(null);
-                            else
-                                action.Invoke(_watchedDialogContext, _watchedDialog.HolderView.FindViewById<TextView>(
-                                    Resource.Id.AnimeItemWatchedDialogTextInput).Text);
+                            try
+                            {
+                                if (action == null)
+                                    viewModel.OnFlyoutEpsKeyDown.Execute(null);
+                                else
+                                    action.Invoke(_watchedDialogContext, _watchedDialog.HolderView.FindViewById<TextView>(
+                                        Resource.Id.AnimeItemWatchedDialogTextInput).Text);
+                            }
+                            catch (Exception e)
+                            {
+                                ResourceLocator.SnackbarProvider.ShowText("An error occured while updating.");
+                                ResourceLocator.TelemetryProvider.TrackException(e);
+                            }
+
                             CleanupWatchedDialog();
                         }));
 
@@ -165,7 +174,7 @@ namespace MALClient.Android.DIalogs
             }
             catch (Exception e)
             {
-               
+               ResourceLocator.TelemetryProvider.TrackException(e);
             }
             
         }
@@ -206,7 +215,7 @@ namespace MALClient.Android.DIalogs
 
 
         private static DialogPlus _scoreDialog;
-        public static void BuildScoreDialog(IAnimeData model,Action<float> action = null)
+        public static void BuildScoreDialog(IAnimeData model, Action<float> action = null)
         {
             var dialogBuilder = DialogPlus.NewDialog(MainActivity.CurrentContext);
             dialogBuilder.SetAdapter(new ScoreDialogAdapter(MainActivity.CurrentContext,

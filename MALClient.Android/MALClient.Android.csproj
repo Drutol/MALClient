@@ -226,6 +226,7 @@
     <Compile Include="Managers\ImageCache.cs" />
     <Compile Include="Managers\NavMgr.cs" />
     <Compile Include="Mediation\CuddlyOctopusAdBanner.cs" />
+    <Compile Include="Mediation\GenericAdBanner.cs" />
     <Compile Include="Mediation\DakimakuriAdBanner.cs" />
     <Compile Include="Mediation\FacebookCustomEventBanner.cs" />
     <Compile Include="Mediation\FacebookCustomEventBannerForwarder.cs" />

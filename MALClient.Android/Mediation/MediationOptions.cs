@@ -23,5 +23,7 @@ namespace MALClient.Android.Mediation
         public int AdDisplayTime { get; set; }
         [JsonProperty("L")]
         public string Link { get; set; }
+        [JsonProperty("LA")]
+        public string Label { get; set; }
     }
 }

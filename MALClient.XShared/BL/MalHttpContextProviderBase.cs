@@ -45,9 +45,11 @@ namespace MALClient.XShared.BL
             }
             catch (Exception e)
             {
+                ResourceLocator.TelemetryProvider.TrackException(e);
+
                 _exc = e;
 
-                if (e.Message == "Unable to authorize")
+                if (e.Message.Contains("Unable to authorize"))
                 {
                     ResourceLocator.DispatcherAdapter.Run(async () =>
                     {

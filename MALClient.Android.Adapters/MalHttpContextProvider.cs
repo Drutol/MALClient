@@ -40,11 +40,10 @@ namespace MALClient.Android.Adapters
             await _httpClient.GetToken();
 
             var response = await _httpClient.PostAsync("/login.php", LoginPostBody);
+            var content = await response.Content.ReadAsStringAsync();
             if (response.IsSuccessStatusCode || response.StatusCode == HttpStatusCode.Found ||
                 response.StatusCode == HttpStatusCode.RedirectMethod)
             {
-                var content = await response.Content.ReadAsStringAsync();
-
                 if (content.Contains("Too many failed login attempts. Please try to login again after several hours."))
                 {
                     ResourceLocator.DispatcherAdapter.Run( async () =>
@@ -56,6 +55,7 @@ namespace MALClient.Android.Adapters
                             ViewModelLocator.GeneralMain.Navigate(PageIndex.PageLogIn);
                     });
  
+                    ResourceLocator.TelemetryProvider.TelemetryTrackEvent(TelemetryTrackedEvents.FailedLogin, ("Reason", "Too many failed login attempts."));
                     throw new WebException("Unable to authorize");
                 }
                 if(content.Contains("This account has not yet authorized their e-mail."))
@@ -68,7 +68,7 @@ namespace MALClient.Android.Adapters
                         if (ViewModelLocator.GeneralMain.CurrentMainPage != PageIndex.PageLogIn)
                             ViewModelLocator.GeneralMain.Navigate(PageIndex.PageLogIn);
                     });
-
+                    ResourceLocator.TelemetryProvider.TelemetryTrackEvent(TelemetryTrackedEvents.FailedLogin, ("Reason", "Not verified email."));
                     throw new WebException("Unable to authorize");
                 }
                 if (content.Contains("It has been a while since your last login, for security reasons we require you to also provide a captcha code."))
@@ -82,12 +82,16 @@ namespace MALClient.Android.Adapters
                             ViewModelLocator.GeneralMain.Navigate(PageIndex.PageLogIn);
                     });
 
+                    ResourceLocator.TelemetryProvider.TelemetryTrackEvent(TelemetryTrackedEvents.FailedLogin, ("Reason", "Captcha."));
                     throw new WebException("Unable to authorize");
                 }
 
                 if (content.Contains("Your username or password is incorrect.") ||
                     content.Contains("badresult badresult--is-reset-password"))
+                {
+                    ResourceLocator.TelemetryProvider.TelemetryTrackEvent(TelemetryTrackedEvents.FailedLogin, ("Reason", "Invalid credentials."));
                     throw new WebException("Unable to authorize");
+                }
 
                 var matches = Regex.Match(content, "\\/images\\/userimages\\/(\\d+)\\..*");
                 if (matches.Success)
@@ -99,7 +103,8 @@ namespace MALClient.Android.Adapters
                 return _httpClient; //else we are returning client that can be used for next queries
             }
 
-            throw new WebException("Unable to authorize");
+            ResourceLocator.TelemetryProvider.TelemetryTrackEvent(TelemetryTrackedEvents.FailedLogin, ("Reason", "Too many failed login attempts."));
+            throw new WebException($"Unable to authorize, {content}");
         }
 
         public override HttpClientHandler GetHandler()

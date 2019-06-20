@@ -12,7 +12,7 @@ namespace MALClient.Adapters
     {
         void Init();
         void TelemetryTrackEvent(TelemetryTrackedEvents @event);
-        void TelemetryTrackEvent(TelemetryTrackedEvents @event,string arg);
+        void TelemetryTrackEvent(TelemetryTrackedEvents @event, params (string Key, string Param)[] args);
         void TelemetryTrackNavigation(PageIndex page);
         void TelemetryTrackNavigation(ForumsPageIndex page);
         void LogEvent(string @event);

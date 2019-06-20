@@ -36,6 +36,11 @@ namespace MALClient.UWP.Adapters
 #endif
         }
 
+        public void TelemetryTrackEvent(TelemetryTrackedEvents @event, params (string Key, string Param)[] args)
+        {
+            
+        }
+
         public void TelemetryTrackEvent(TelemetryTrackedEvents @event, string arg)
         {
 #if !DEBUG
@@ -62,6 +67,11 @@ namespace MALClient.UWP.Adapters
 #if !DEBUG
             HockeyClient.Current.TrackTrace(@event);
 #endif
+        }
+
+        public void TrackException(Exception e, string caller = null)
+        {
+
         }
 
         public void TrackException(Exception e)

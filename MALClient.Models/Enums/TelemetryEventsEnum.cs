@@ -17,6 +17,7 @@
         ClickedCoAd,
         LoadedCoAd,
         LoadedDakimakuriAd,
-        ClickedDakimakuriAd
+        ClickedDakimakuriAd,
+        FailedLogin
     }
 }

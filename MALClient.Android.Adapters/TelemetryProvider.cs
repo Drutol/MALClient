@@ -47,10 +47,10 @@ namespace MALClient.Android.Adapters
 #endif
         }
 
-        public void TelemetryTrackEvent(TelemetryTrackedEvents @event, string arg)
+        public void TelemetryTrackEvent(TelemetryTrackedEvents @event, params (string Key, string Param)[] args )
         {
 #if !DEBUG
-            Analytics.TrackEvent($"{@event} {arg}");
+            Analytics.TrackEvent($"{@event}", args.ToDictionary(e => e.Key, e => e.Param));
 #endif
         }
 

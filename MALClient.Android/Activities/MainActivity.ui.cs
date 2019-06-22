@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -117,6 +117,20 @@ namespace MALClient.Android.Activities
                     MainPageSearchView.QueryHint = "Search in whole database";
                 else
                     MainPageSearchView.QueryHint = string.Empty;
+            }));
+
+            Bindings.Add(this.SetBinding(() => ViewModel.UpdateAvailable).WhenSourceChanges(() =>
+            {
+                if (ViewModel.UpdateAvailable)
+                {
+                    MainPageHamburgerButton.SetImageResource(Resource.Drawable.icon_hamburger_update);
+
+                    var view = _accountHamburgerView?.FindViewById(Resource.Id.HamburgerUpdateNotice);
+                    if (view != null)
+                    {
+                        view.Visibility = ViewStates.Visible;
+                    }
+                }
             }));
 
             Bindings.Add(this.SetBinding(() => ViewModel.CurrentStatusSub).WhenSourceChanges(() =>

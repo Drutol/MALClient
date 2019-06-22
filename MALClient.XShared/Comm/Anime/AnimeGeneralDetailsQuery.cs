@@ -279,7 +279,7 @@ namespace MALClient.XShared.Comm.Anime
             public int scored_by { get; set; }
             public int popularity { get; set; }
             public int members { get; set; }
-            public int favorites { get; set; }
+            public int? favorites { get; set; }
             public string synopsis { get; set; }
             public string background { get; set; }
             public Related related { get; set; }

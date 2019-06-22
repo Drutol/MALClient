@@ -521,8 +521,6 @@ namespace MALClient.Android.Activities
             }
 
 
-            //_drawer.AddStickyFooterItem(new SectionDrawerItem().WithName("---   --     Workaround Version     --   ---")
-            //    .WithTextColor(Color.ParseColor("#ff0000")).WithTypeface(Typeface.DefaultBold).WithDivider(true));
             //var settingsButton = new ContainerDrawerItem();
             //settingsButton.WithSelectable(false);
             //settingsButton.WithDivider(false);

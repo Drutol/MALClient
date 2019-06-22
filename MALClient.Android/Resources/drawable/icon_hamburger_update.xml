@@ -1,0 +1,9 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+  <item android:drawable="@drawable/icon_hamburger" />
+  <item
+    android:drawable="@drawable/icon_red_circle_notification"
+    android:left="1dp"
+    android:top="6dp"
+    android:right="24dp"
+    android:bottom="19dp"/>
+</layer-list>

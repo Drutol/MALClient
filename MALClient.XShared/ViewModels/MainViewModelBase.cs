@@ -8,6 +8,7 @@ using System.Windows.Input;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using MALClient.Models.Enums;
+using MALClient.XShared.Comm;
 using MALClient.XShared.Delegates;
 using MALClient.XShared.NavArgs;
 using MALClient.XShared.ViewModels.Main;
@@ -43,6 +44,39 @@ namespace MALClient.XShared.ViewModels
             
         }
 
+        public MainViewModelBase()
+        {
+            CheckForUpdates();
+        }
+
+        private async void CheckForUpdates()
+        {
+            try
+            {
+                var version = new Version(await new AppUpdateQuery().GetRequestResponse());
+                var currentVersion = new Version(ResourceLocator.ChangelogProvider.CurrentVersion);
+
+                if (version > currentVersion)
+                    UpdateAvailable = true;
+
+            }
+            catch
+            {
+                //no version available
+            }
+
+        }
+
+        public bool UpdateAvailable
+        {
+            get => _updateAvailable;
+            set
+            {
+                _updateAvailable = value;
+                RaisePropertyChanged();
+            }
+        }
+
         public PageIndex? CurrentMainPage
         {
             get => _currentMainPage;
@@ -55,8 +89,6 @@ namespace MALClient.XShared.ViewModels
 
         public PageIndex? CurrentMainPageKind { get; set; }
         public PageIndex? CurrentOffPage { get; set; }
-
-
 
         public abstract void Navigate(PageIndex index, object args = null);
 
@@ -581,6 +613,7 @@ namespace MALClient.XShared.ViewModels
         private int _mainContentColumnSpan = 1;
         private bool _changelogVisibility;
         private PageIndex? _currentMainPage;
+        private bool _updateAvailable;
 
         public int MainContentColumnSpan
         {

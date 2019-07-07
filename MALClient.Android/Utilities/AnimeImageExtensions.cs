@@ -41,7 +41,7 @@ namespace MALClient.Android
             return originUrl;
         }
 
-        public static bool AnimeIntoIfLoaded(this ImageViewAsync image, string originUrl)
+        public static bool AnimeIntoIfLoaded(this ImageView image, string originUrl)
         {
             var url = GetImgUrl(originUrl);
             if (LoadedImgs.Contains(url))
@@ -52,13 +52,13 @@ namespace MALClient.Android
             return false;
         }
 
-        public static void AnimeInto(this ImageViewAsync image, string originUrl, View loader = null)
+        public static void AnimeInto(this ImageView image, string originUrl, View loader = null)
         {
             var url = GetImgUrl(originUrl);
             LoadImage(image, originUrl, url, LoadedImgs.Contains(url), loader);
         }
 
-        private static void LoadImage(ImageViewAsync image, string originUrl, string targetUrl,
+        private static void LoadImage(ImageView image, string originUrl, string targetUrl,
             bool? imgLoaded,View loader)
         {
             //if (TasksDictionary.TryGetValue(image, out var task))
@@ -128,8 +128,8 @@ namespace MALClient.Android
 
         #endregion
 
-        public static bool IntoIfLoaded(this ImageViewAsync image, string originUrl, ITransformation transformation = null,
-            Action<ImageViewAsync> onCompleted = null,int? maxHeight = null)
+        public static bool IntoIfLoaded(this ImageView image, string originUrl, ITransformation transformation = null,
+            Action<ImageView> onCompleted = null,int? maxHeight = null)
         {
             if (LoadedImgs.Contains(originUrl))
             {
@@ -139,13 +139,13 @@ namespace MALClient.Android
             return false;
         }
 
-        public static void Into(this ImageViewAsync image, string originUrl, ITransformation transformation = null,Action<ImageViewAsync> onCompleted = null,int? maxHeight = null)
+        public static void Into(this ImageView image, string originUrl, ITransformation transformation = null,Action<ImageView> onCompleted = null,int? maxHeight = null)
         {
             LoadImage(image, originUrl, transformation, onCompleted, maxHeight,null);
         }
 
-        public static void LoadImage(this ImageViewAsync image, string originUrl, ITransformation transformation,
-            Action<ImageViewAsync> onCompleted, int? maxHeight, bool? imgLoaded)
+        public static void LoadImage(this ImageView image, string originUrl, ITransformation transformation,
+            Action<ImageView> onCompleted, int? maxHeight, bool? imgLoaded)
         {
             if (string.IsNullOrEmpty(originUrl) || image == null)
                 return;
@@ -210,7 +210,7 @@ namespace MALClient.Android
             }
         }
 
-        public static ImageView.ScaleType HandleScaling(this ImageViewAsync image,float threshold = .4f)
+        public static ImageView.ScaleType HandleScaling(this ImageView image,float threshold = .4f)
         {
             try
             {
@@ -244,7 +244,7 @@ namespace MALClient.Android
 
         
 
-        public static async void IntoWithTask(this ImageViewAsync image, Task<string> originUrlTask,
+        public static async void IntoWithTask(this ImageView image, Task<string> originUrlTask,
             ITransformation transformation = null)
         {
             try

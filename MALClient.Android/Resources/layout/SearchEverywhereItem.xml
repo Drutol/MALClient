@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clipToPadding="false"
+    android:orientation="horizontal"
+    android:padding="6dp">
+
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:background="?BrushAnimeItemBackground"
+      android:elevation="6dp">
+
+    <FrameLayout
+        android:layout_width="75dp"
+        android:layout_height="wrap_content"
+        android:background="?BrushAnimeItemInnerBackground"
+        android:elevation="4dp">
+
+      <ImageView
+          android:id="@+id/Image"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:adjustViewBounds="true"
+          tools:src="@drawable/icon_search" />
+    </FrameLayout>
+
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="8dp">
+
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+          <TextView
+              android:id="@+id/Title"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:textColor="?BrushText"
+              tools:text="Some test string" />
+
+          <TextView
+              android:id="@+id/Subtitle"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:alpha=".8"
+              android:fontFamily="@string/font_family_light"
+              android:textColor="?BrushText"
+              android:textSize="@dimen/FontSizeSemiNormal"
+              tools:text="Some test string" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/RightMarker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:background="@drawable/border_accent_underline"
+            android:fontFamily="@string/font_family_light"
+            android:textColor="?BrushText"
+            tools:text="Novel" />
+      </LinearLayout>
+
+    </FrameLayout>
+  </LinearLayout>
+
+
+</LinearLayout>

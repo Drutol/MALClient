@@ -184,6 +184,7 @@
     <Compile Include="Fragments\RecommendationsFragments\RecommendationsPageFragment.cs" />
     <Compile Include="Fragments\SearchFragments\AnimeSearchPageFragment.cs" />
     <Compile Include="Fragments\SearchFragments\AnimeTypeSearchFragment.cs" />
+    <Compile Include="Fragments\SearchFragments\SearchEverywherePageFragment.cs" />
     <Compile Include="Fragments\SearchFragments\CharacterSearchPageFragment.cs" />
     <Compile Include="Fragments\SearchFragments\SearchPageFragment.cs" />
     <Compile Include="Fragments\SettingsFragments\SettingsAboutFragment.cs" />
@@ -306,6 +307,12 @@
     <AndroidResource Include="Resources\mipmap-xxxhdpi\ic_launcher_round.png" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="AoLibs.Adapters.Android">
+      <Version>0.6.3</Version>
+    </PackageReference>
+    <PackageReference Include="AoLibs.Adapters.Core">
+      <Version>0.6.3</Version>
+    </PackageReference>
     <PackageReference Include="FastAdapter.Xamarin.Droid">
       <Version>1.6.0.2</Version>
     </PackageReference>
@@ -313,13 +320,13 @@
       <Version>5.3.6.2</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.AppCenter">
-      <Version>2.0.0</Version>
+      <Version>2.1.1</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.AppCenter.Analytics">
-      <Version>2.0.0</Version>
+      <Version>2.1.1</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.AppCenter.Crashes">
-      <Version>2.0.0</Version>
+      <Version>2.1.1</Version>
     </PackageReference>
     <PackageReference Include="modernhttpclient-updated">
       <Version>2.7.2</Version>
@@ -1247,6 +1254,15 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\icon_hamburger_update.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\SearchEverywherePage.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\SearchEverywhereItem.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\SearchEverywhereCategoryItem.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

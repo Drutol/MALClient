@@ -312,7 +312,8 @@ namespace MALClient.XShared.ViewModels
                 RaisePropertyChanged(() => CurrentSearchQuery);
 
                 SetSearchHints();
-                if (SearchToggleLock) return;
+                
+                //if (SearchToggleLock) return;
 
                 if (string.IsNullOrEmpty(value))
                     OnSearchQuerySubmitted?.Invoke(CurrentSearchQuery);

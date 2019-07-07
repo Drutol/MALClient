@@ -32,39 +32,41 @@ namespace MALClient.Android.PagerAdapters
                 {
                     _animeSearchPageFragment = new AnimeSearchPageFragment(true);
                     _mangaSearchPageFragment = new AnimeSearchPageFragment(false);
-                    targetPage = 0;
+                    targetPage = 1;
                 }
                 else
                 {
                     _animeSearchPageFragment = new AnimeSearchPageFragment(false);
                     _mangaSearchPageFragment = new AnimeSearchPageFragment(true);
-                    targetPage = 1;
+                    targetPage = 2;
                 }
                 _characterSearchPageFragment = CharacterSearchPageFragment.BuildInstance(new SearchPageNavArgsBase());
             }
             else
             {
+                
                 _animeSearchPageFragment = new AnimeSearchPageFragment(false);
                 _mangaSearchPageFragment = new AnimeSearchPageFragment(false);
 
                 ViewModelLocator.CharacterSearch.Init(args);
+                _everywhereSearchPageFragment = SearchEverywherePageFragment.BuildInstance(new SearchPageNavArgsBase(), true);
                 _characterSearchPageFragment = CharacterSearchPageFragment.BuildInstance(new SearchPageNavArgsBase(),true);
-                targetPage = 2;
+                targetPage = 3;
 
             }
 
-
-
+            _everywhereSearchPageFragment = SearchEverywherePageFragment.BuildInstance(new SearchPageNavArgsBase(), true);
             _studiosSearchPageFragment = AnimeTypeSearchFragment.Instance;
             _genresSearchPageFragment = AnimeTypeSearchFragment.Instance;
 
             startPage = targetPage;
         }
 
-        public override int Count => 5;
+        public override int Count => 6;
 
         private MalFragmentBase _currentFragment;
 
+        private readonly SearchEverywherePageFragment _everywhereSearchPageFragment;
         private readonly AnimeSearchPageFragment _animeSearchPageFragment;
         private readonly AnimeSearchPageFragment _mangaSearchPageFragment;
         private readonly CharacterSearchPageFragment _characterSearchPageFragment;
@@ -83,21 +85,27 @@ namespace MALClient.Android.PagerAdapters
                     _animeSearchPageFragment.NavigatedTo();
                     _currentFragment = _animeSearchPageFragment;
                     ShowSearchStuff();
-                    ViewModelLocator.SearchPage.Init(new SearchPageNavigationArgs { Query = ViewModelLocator.GeneralMain.CurrentSearchQuery });
+                    ViewModelLocator.SearchEverywhereViewModel.Init(new SearchPageNavigationArgs { Query = ViewModelLocator.GeneralMain.CurrentSearchQuery });
                     break;
                 case 1:
+                    _animeSearchPageFragment.NavigatedTo();
+                    _currentFragment = _animeSearchPageFragment;
+                    ShowSearchStuff();
+                    ViewModelLocator.SearchPage.Init(new SearchPageNavigationArgs { Query = ViewModelLocator.GeneralMain.CurrentSearchQuery });
+                    break;
+                case 2:
                     _mangaSearchPageFragment.NavigatedTo();
                     _currentFragment = _mangaSearchPageFragment;
                     ShowSearchStuff();
                     ViewModelLocator.SearchPage.Init(new SearchPageNavigationArgs {Anime = false , Query = ViewModelLocator.GeneralMain.CurrentSearchQuery});
                     break;
-                case 2:
+                case 3:
                     _currentFragment = _characterSearchPageFragment;
                     ShowSearchStuff();
                     ViewModelLocator.CharacterSearch.Init(new SearchPageNavArgsBase());
                     _currentFragment?.ReattachBindings();
                     break;
-                case 3:
+                case 4:
                     _currentFragment = _genresSearchPageFragment;
                     ViewModelLocator.GeneralMain.SearchToggleLock = false;
                     ViewModelLocator.GeneralMain.HideSearchStuff();
@@ -105,7 +113,7 @@ namespace MALClient.Android.PagerAdapters
                     ViewModelLocator.SearchPage.Init(new SearchPageNavigationArgs { ByGenre = true});
                     _currentFragment?.ReattachBindings();
                     break;
-                case 4:
+                case 5:
                     ViewModelLocator.GeneralMain.HideSearchStuff();
                     ViewModelLocator.GeneralMain.SearchToggleLock = false;
                     ViewModelLocator.GeneralMain.CurrentStatus = "Anime by Studio";
@@ -131,14 +139,16 @@ namespace MALClient.Android.PagerAdapters
             switch (p1)
             {
                 case 0:
-                    return _animeSearchPageFragment;
+                    return _everywhereSearchPageFragment;
                 case 1:
-                    return  _mangaSearchPageFragment;
+                    return _animeSearchPageFragment;
                 case 2:
-                    return _characterSearchPageFragment;
+                    return  _mangaSearchPageFragment;
                 case 3:
-                    return _genresSearchPageFragment;
+                    return _characterSearchPageFragment;
                 case 4:
+                    return _genresSearchPageFragment;
+                case 5:
                     return _studiosSearchPageFragment;
             }
             throw new ArgumentException();
@@ -158,18 +168,21 @@ namespace MALClient.Android.PagerAdapters
             switch (p1)
             {
                 case 0:
-                    txt.Text = "Anime";
+                    txt.Text = "Everywhere";
                     break;
                 case 1:
-                    txt.Text = "Manga";
+                    txt.Text = "Anime";
                     break;
                 case 2:
-                    txt.Text = "Characters";
+                    txt.Text = "Manga";
                     break;
                 case 3:
-                    txt.Text = "Genres";
+                    txt.Text = "Characters";
                     break;
                 case 4:
+                    txt.Text = "Genres";
+                    break;
+                case 5:
                     txt.Text = "Studios";
                     break;
             }

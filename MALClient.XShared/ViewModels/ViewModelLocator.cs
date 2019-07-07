@@ -51,6 +51,7 @@ namespace MALClient.XShared.ViewModels
             SimpleIoc.Default.Register<FriendsPageViewModel>();
             SimpleIoc.Default.Register<ClubIndexViewModel>();
             SimpleIoc.Default.Register<ClubDetailsViewModel>();
+            SimpleIoc.Default.Register<SearchEverywhereViewModel>();
 
             ResourceLocator.RegisterBase();
         }
@@ -100,6 +101,9 @@ namespace MALClient.XShared.ViewModels
 
         public static CharacterSearchViewModel CharacterSearch
             => SimpleIoc.Default.GetInstance<CharacterSearchViewModel>();
+
+        public static SearchEverywhereViewModel SearchEverywhereViewModel
+            => SimpleIoc.Default.GetInstance<SearchEverywhereViewModel>();
 
         public static LogInViewModel LogIn
             => SimpleIoc.Default.GetInstance<LogInViewModel>();

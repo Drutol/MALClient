@@ -373,6 +373,7 @@ namespace MALClient.XShared.ViewModels.Details
                 case PageIndex.PagePopularVideos:
                 case PageIndex.PageListComparison:
                 case PageIndex.PageClubDetails:
+                case PageIndex.PageSearchEverywhere:
                     await FetchData(false, param.Source);
                     if (PrevArgs != null)
                         ViewModelLocator.NavMgr.RegisterBackNav(PrevArgs);

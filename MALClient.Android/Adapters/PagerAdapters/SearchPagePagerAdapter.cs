@@ -40,11 +40,15 @@ namespace MALClient.Android.PagerAdapters
                     _mangaSearchPageFragment = new AnimeSearchPageFragment(true);
                     targetPage = 2;
                 }
+
+                if (arg.Everywhere)
+                    targetPage = 0;
+
+
                 _characterSearchPageFragment = CharacterSearchPageFragment.BuildInstance(new SearchPageNavArgsBase());
             }
             else
             {
-                
                 _animeSearchPageFragment = new AnimeSearchPageFragment(false);
                 _mangaSearchPageFragment = new AnimeSearchPageFragment(false);
 
@@ -52,8 +56,9 @@ namespace MALClient.Android.PagerAdapters
                 _everywhereSearchPageFragment = SearchEverywherePageFragment.BuildInstance(new SearchPageNavArgsBase(), true);
                 _characterSearchPageFragment = CharacterSearchPageFragment.BuildInstance(new SearchPageNavArgsBase(),true);
                 targetPage = 3;
-
             }
+
+            
 
             _everywhereSearchPageFragment = SearchEverywherePageFragment.BuildInstance(new SearchPageNavArgsBase(), true);
             _studiosSearchPageFragment = AnimeTypeSearchFragment.Instance;

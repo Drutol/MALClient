@@ -24,5 +24,6 @@ namespace MALClient.XShared.NavArgs
         public bool Anime { get; set; } = true;
         public string Query { get; set; }
         public bool ForceQuery { get; set; }
+        public bool Everywhere { get; set; }
     }
 }

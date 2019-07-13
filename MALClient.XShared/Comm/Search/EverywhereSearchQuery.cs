@@ -23,8 +23,12 @@ namespace MALClient.XShared.Comm.Search
 
                 var response = JsonConvert.DeserializeObject<SearchEverywhereResponse>(json);
 
-                if(userReponse.Categories.Any())
+                if (userReponse.Categories.Any())
+                {
+                    userReponse.Categories[0].Items =
+                        userReponse.Categories[0].Items.OrderByDescending(item => item.EsScore).Take(5).ToList();
                     response.Categories.Add(userReponse.Categories.First());
+                }
 
                 return response;
             }

@@ -21,6 +21,8 @@ namespace MALClient.Models.Models.ApiResponses
         [JsonProperty("published")] public string Published { get; set; }
         [JsonProperty("related_works")] public List<string> RelatedWorks { get; set; }
         [JsonProperty("favorites")] public int Favorites { get; set; }
+        [JsonProperty("alternative_name")] public string AlternativeName { get; set; }
+        [JsonProperty("birthday")] public string Birthday { get; set; }
 
     }
 

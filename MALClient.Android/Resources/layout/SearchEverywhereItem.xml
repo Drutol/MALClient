@@ -9,9 +9,13 @@
     android:padding="6dp">
 
   <LinearLayout
+      android:id="@+id/ClickSurface"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:background="?BrushAnimeItemBackground"
+      android:clickable="true"
+      android:focusable="true"
+      android:foreground="?selectableItemBackground"
       android:elevation="6dp">
 
     <FrameLayout

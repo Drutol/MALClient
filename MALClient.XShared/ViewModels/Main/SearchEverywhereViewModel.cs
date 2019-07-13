@@ -23,7 +23,8 @@ namespace MALClient.XShared.ViewModels.Main
         private bool _isFirstVisitGridVisible = true;
         private string _prevQuery;
 
-        public ObservableCollection<ISearchEverywhereItem> SearchResults { get; } = new ObservableCollection<ISearchEverywhereItem>();
+        public ObservableCollection<ISearchEverywhereItem> SearchResults { get; } =
+            new ObservableCollection<ISearchEverywhereItem>();
 
         public bool Loading
         {
@@ -55,23 +56,6 @@ namespace MALClient.XShared.ViewModels.Main
             }
         }
 
-        public ICommand NavigateCharacterDetailsCommand
-            => _navigateCharacterDetailsCommand ?? (_navigateCharacterDetailsCommand = new RelayCommand<FavouriteViewModel>(
-                        entry =>
-                        {
-                            if (ViewModelLocator.Mobile)
-                                ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageCharacterSearch, null);
-                            else if (ViewModelLocator.GeneralMain.OffContentVisibility)
-                            {
-                                if (ViewModelLocator.GeneralMain.CurrentOffPage == PageIndex.PageStaffDetails)
-                                    ViewModelLocator.StaffDetails.RegisterSelfBackNav(int.Parse(entry.Data.Id));
-                                else if (ViewModelLocator.GeneralMain.CurrentOffPage == PageIndex.PageCharacterDetails)
-                                    ViewModelLocator.CharacterDetails.RegisterSelfBackNav(int.Parse(entry.Data.Id));
-                            }
-                            ViewModelLocator.GeneralMain.Navigate(PageIndex.PageCharacterDetails,
-                                new CharacterDetailsNavigationArgs { Id = int.Parse(entry.Data.Id) });
-                        }));
-
         public void Init(SearchPageNavArgsBase args)
         {
             if (!Loading && !SearchResults.Any())
@@ -85,6 +69,11 @@ namespace MALClient.XShared.ViewModels.Main
                 IsFirstVisitGridVisible = false;
             }
 
+            if (args is SearchPageNavigationArgs a)
+            {
+                OnOnSearchQuerySubmitted(a.Query);
+            }
+
             if (!_queryHandler)
                 ViewModelLocator.GeneralMain.OnSearchDelayedQuerySubmitted += OnOnSearchQuerySubmitted;
             _queryHandler = true;
@@ -94,7 +83,8 @@ namespace MALClient.XShared.ViewModels.Main
 
         private async void OnOnSearchQuerySubmitted(string query)
         {
-            if (Loading || (query?.Equals(_prevQuery, StringComparison.CurrentCultureIgnoreCase) ?? true) || string.IsNullOrEmpty(query))
+            if (Loading || (query?.Equals(_prevQuery, StringComparison.CurrentCultureIgnoreCase) ?? true) ||
+                string.IsNullOrEmpty(query))
                 return;
             IsFirstVisitGridVisible = false;
             if (query.Length <= 2)
@@ -118,7 +108,7 @@ namespace MALClient.XShared.ViewModels.Main
                 {
                     SearchResults.Add(new SearchCategoryItem
                     {
-                        Name = category.Type
+                        Name = char.ToUpper(category.Type[0]) + category.Type.Substring(1)
                     });
                     foreach (var item in category.Items.OrderByDescending(item => item.EsScore))
                     {
@@ -148,13 +138,13 @@ namespace MALClient.XShared.ViewModels.Main
                     }
                 }
 
-
                 IsEmptyNoticeVisible = !SearchResults.Any();
             }
             catch (Exception)
             {
                 IsEmptyNoticeVisible = true;
             }
+
             Loading = false;
         }
 
@@ -165,8 +155,73 @@ namespace MALClient.XShared.ViewModels.Main
                 SearchResults?.Clear();
                 _prevQuery = "";
             }
+
             ViewModelLocator.GeneralMain.OnSearchQuerySubmitted -= OnOnSearchQuerySubmitted;
             _queryHandler = false;
+        }
+
+        public void NavigateAnimeDetails(SearchEverywhereAnimeItem item)
+        {
+            ViewModelLocator.GeneralMain
+                .Navigate(PageIndex.PageAnimeDetails,
+                    new AnimeDetailsPageNavigationArgs(item.Item.Id, item.Item.Name, null, null,
+                        new SearchPageNavigationArgs
+                        {
+                            Query = ViewModelLocator.SearchPage.PrevQuery,
+                            Anime = false,
+                            DisplayMode = ViewModelLocator.SearchPage.PrevArgs.DisplayMode,
+                            Everywhere = true
+                        })
+                    {
+                        Source = PageIndex.PageSearchEverywhere,
+                        AnimeMode = true
+                    });
+        }
+
+        public void NavigateMangaDetails(SearchEverywhereMangaItem item)
+        {
+            ViewModelLocator.GeneralMain
+                .Navigate(PageIndex.PageAnimeDetails,
+                    new AnimeDetailsPageNavigationArgs(item.Item.Id, item.Item.Name, null, null,
+                        new SearchPageNavigationArgs
+                        {
+                            Query = ViewModelLocator.SearchPage.PrevQuery,
+                            Anime = false,
+                            DisplayMode = ViewModelLocator.SearchPage.PrevArgs.DisplayMode,
+                            Everywhere = true
+                        })
+                    {
+                        Source = PageIndex.PageSearchEverywhere,
+                        AnimeMode = true
+                    });
+        }
+
+        public void NavigateCharacterDetails(SearchEverywhereCharacterItem item)
+        {
+            ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageSearchEverywhere,
+                new SearchPageNavigationArgs {Everywhere = true, Query = _prevQuery });
+            ViewModelLocator.GeneralMain.Navigate(PageIndex.PageCharacterDetails,
+                new CharacterDetailsNavigationArgs {Id = item.Item.Id});
+        }
+
+        public void NavigateUserDetails(SearchEverywhereUserItem item)
+        {
+            ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageSearchEverywhere,
+                new SearchPageNavigationArgs { Everywhere = true, Query = _prevQuery});
+            ViewModelLocator.GeneralMain.Navigate(PageIndex.PageProfile,
+                new ProfilePageNavigationArgs
+                {
+                    AllowBackNavReset = false,
+                    TargetUser = item.Item.Name
+                });
+        }
+
+        public void NavigatePersonDetails(SearchEverywherePersonItem item)
+        {
+            ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageSearchEverywhere,
+                new SearchPageNavigationArgs {Everywhere = true, Query = _prevQuery });
+            ViewModelLocator.GeneralMain.Navigate(PageIndex.PageStaffDetails,
+                new StaffDetailsNaviagtionArgs {Id = item.Item.Id});
         }
     }
 }

@@ -63,6 +63,8 @@
         [EnumUtilities.PageIndexEnumMember(OffPage = false)]
         PageClubIndex,
         [EnumUtilities.PageIndexEnumMember(OffPage = false)]
-        PageClubDetails
+        PageClubDetails,
+        [EnumUtilities.PageIndexEnumMember(OffPage = false)]
+        PageSearchEverywhere,
     }
 }

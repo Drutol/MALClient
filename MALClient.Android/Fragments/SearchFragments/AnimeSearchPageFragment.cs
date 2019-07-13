@@ -105,8 +105,6 @@ namespace MALClient.Android.Fragments.SearchFragments
                     animeSearchItemViewModel.MyStatusBindShort;
                 view.FindViewById<TextView>(Resource.Id.WatchedEpisodes).Text =
                     animeSearchItemViewModel.MyEpisodesBindShort;
-
-
             }
             else
             {

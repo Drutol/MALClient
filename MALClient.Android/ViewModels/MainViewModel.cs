@@ -180,6 +180,7 @@ namespace MALClient.Android.ViewModels
                 case PageIndex.PageSearch:
                 case PageIndex.PageMangaSearch:
                 case PageIndex.PageCharacterSearch:
+                case PageIndex.PageSearchEverywhere:
                     if (CurrentMainPage != PageIndex.PageSearch && CurrentMainPage != PageIndex.PageMangaSearch &&
                         CurrentMainPage != PageIndex.PageCharacterSearch)
                         _searchStateBeforeNavigatingToSearch = SearchToggleStatus;

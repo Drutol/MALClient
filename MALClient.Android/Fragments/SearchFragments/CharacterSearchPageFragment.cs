@@ -32,12 +32,20 @@ namespace MALClient.Android.Fragments.SearchFragments
         {
             CharacterSearchPageList.InjectFlingAdapter(ViewModel.FoundCharacters, DataTemplateFull, DataTemplateFling,
                 ContainerTemplate);
-            _gridViewColumnHelper = new GridViewColumnHelper(CharacterSearchPageList,null,2,3);
+            _gridViewColumnHelper = new GridViewColumnHelper(CharacterSearchPageList, null, 2, 3);
 
-            
-            Bindings.Add(
-                this.SetBinding(() => ViewModel.Loading,
-                    () => CharacterSearchPageLoadingSpinner.Visibility).ConvertSourceToTarget(Converters.BoolToVisibility));
+
+            Bindings.Add(this.SetBinding(() => ViewModel.Loading).WhenSourceChanges(() =>
+            {
+                if (ViewModel.Loading)
+                {
+                    CharacterSearchPageLoadingSpinner.Visibility = ViewStates.Visible;
+                }
+                else
+                {
+                    CharacterSearchPageLoadingSpinner.Visibility = ViewStates.Gone;
+                }
+            }));
         }
 
         private View ContainerTemplate(int i)

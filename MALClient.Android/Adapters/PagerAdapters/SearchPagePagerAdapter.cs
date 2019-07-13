@@ -108,7 +108,6 @@ namespace MALClient.Android.PagerAdapters
                     _currentFragment = _characterSearchPageFragment;
                     ShowSearchStuff();
                     ViewModelLocator.CharacterSearch.Init(new SearchPageNavArgsBase());
-                    _currentFragment?.ReattachBindings();
                     break;
                 case 4:
                     _currentFragment = _genresSearchPageFragment;

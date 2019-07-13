@@ -67,7 +67,7 @@ namespace MALClient.Android.Fragments
             base.OnStop();
         }
 
-        public void DetachBindings()
+        public virtual void DetachBindings()
         {
             Bindings?.ForEach(binding => binding.Detach());
             Bindings = new List<Binding>();

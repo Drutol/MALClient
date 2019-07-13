@@ -5,13 +5,10 @@
                 android:layout_height="match_parent"
                 android:background="?BrushDeepBackground" android:paddingTop="5dp">
 
-  <ListView
-    android:id="@+id/AnimeSearchPageList"
+  <android.support.v7.widget.RecyclerView
+    android:id="@+id/SearchRecyclerView"
     android:layout_width="match_parent"
-    android:layout_gravity="top"
-    android:layout_height="match_parent"
-    android:choiceMode="singleChoice"
-    android:dividerHeight="5dp" android:divider="@color/Transparent" />
+    android:layout_height="match_parent" />
 
   <TextView android:layout_centerInParent="true" android:visibility="gone"
             android:layout_width="wrap_content" android:id="@+id/AnimeSearchPageEmptyNotice" v=""

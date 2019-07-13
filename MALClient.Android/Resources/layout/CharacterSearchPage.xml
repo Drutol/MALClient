@@ -1,24 +1,30 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="?BrushDeepBackground">
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:background="?BrushDeepBackground">
+
   <GridView
     android:id="@+id/CharacterSearchPageList"
-    android:layout_width="match_parent"
-    android:layout_gravity="top"
+    android:layout_width="wrap_content"
     android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:gravity="center"
     android:choiceMode="singleChoice"
-    android:numColumns="auto_fit"
-    android:dividerHeight="5dp" android:divider="@color/Transparent" />
-  <LinearLayout android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true">
-    <ProgressBar android:layout_width="wrap_content"
-                 android:layout_height="wrap_content"
-                 android:id="@+id/CharacterSearchPageLoadingSpinner"
-                 android:indeterminate="true" />
+    android:divider="@color/Transparent"
+    android:dividerHeight="5dp"
+    android:numColumns="auto_fit" />
+
+  <LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center">
+
+    <ProgressBar
+      android:id="@+id/CharacterSearchPageLoadingSpinner"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:indeterminate="true" />
   </LinearLayout>
-</RelativeLayout>
+</FrameLayout>

@@ -153,6 +153,46 @@ namespace MALClient.Android.UserControls
                     BindModelFull();
                     BindModelBasic();
                     break;
+                case nameof(ViewModel.Priority):
+                    SetPriorityIndicator();
+                    break;
+            }
+        }
+
+        private void SetPriorityIndicator()
+        {
+
+            if (Settings.ShowPriorities)
+            {
+                switch (ViewModel.Priority)
+                {
+                    case AnimePriority.Low:
+                        if (Settings.ShowLowPriorities)
+                        {
+                            AnimeGridItemLowerSection.BackgroundTintList =
+                                ColorStateList.ValueOf(ResourceExtension.LowPriorityColour);
+                        }
+                        else
+                        {
+                            AnimeGridItemLowerSection.BackgroundTintList = ColorStateList.ValueOf(Color.Transparent);
+                        }
+                        break;
+                    case AnimePriority.Medium:
+                        AnimeGridItemLowerSection.BackgroundTintList =
+                            ColorStateList.ValueOf(ResourceExtension.MediumPriorityColour);
+                        break;
+                    case AnimePriority.High:
+                        AnimeGridItemLowerSection.BackgroundTintList =
+                            ColorStateList.ValueOf(ResourceExtension.HighPriorityColour);
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+
+            }
+            else
+            {
+                AnimeGridItemLowerSection.BackgroundTintList = ColorStateList.ValueOf(Color.Transparent);
             }
         }
 
@@ -255,6 +295,7 @@ namespace MALClient.Android.UserControls
                 Alpha = 1;
             }
 
+            SetPriorityIndicator();
 
             AnimeGridItemTagsButton.Visibility = ViewModel.TagsControlVisibility ? ViewStates.Visible : ViewStates.Invisible;
         }
@@ -387,6 +428,17 @@ namespace MALClient.Android.UserControls
                 case AnimeGridItemMoreFlyoutButtons.CopyTitle:
                     ViewModel.CopyTitleToClipboardCommand.Execute(null);
                     break;
+                case AnimeGridItemMoreFlyoutButtons.Priority:
+                    break;
+                case AnimeGridItemMoreFlyoutButtons.PriorityLow:
+                    ViewModel.ChangePriority(AnimePriority.Low);
+                    break;
+                case AnimeGridItemMoreFlyoutButtons.PriorityMedium:
+                    ViewModel.ChangePriority(AnimePriority.Medium);
+                    break;
+                case AnimeGridItemMoreFlyoutButtons.PriorityHigh:
+                    ViewModel.ChangePriority(AnimePriority.High);
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(btn), btn, null);
             }
@@ -453,11 +505,11 @@ namespace MALClient.Android.UserControls
         #region Views
 
         private ImageView _surfaceAddIcon;
-        private RelativeLayout _animeGridItemBackSurfaceAdd;
+        private FrameLayout _animeGridItemBackSurfaceAdd;
         private ImageView _surfaceSubtractIcon;
-        private RelativeLayout _animeGridItemBackSurfaceSubtract;
+        private FrameLayout _animeGridItemBackSurfaceSubtract;
         private ProgressBar _animeGridItemImgPlaceholder;
-        private ImageViewAsync _animeGridItemImage;
+        private ImageView _animeGridItemImage;
         private TextView _animeGridItemTopLeftInfoMain;
         private TextView _animeGridItemTopLeftInfoSub;
         private LinearLayout _animeGridItemTopLeftInfo;
@@ -471,64 +523,36 @@ namespace MALClient.Android.UserControls
         private TextView _animeGridItemTimeTillAir;
         private ImageView _animeGridItemTagIcon;
         private FrameLayout _animeGridItemTagsButton;
-        private ImageView _imageView;
         private FrameLayout _animeGridItemAddToListButton;
         private RelativeLayout _animeGridItemUpperSection;
         private TextView _animeGridItemTitle;
         private ImageButton _animeGridItemMoreButton;
         private LinearLayout _animeGridItemLowerSection;
 
-        public ImageView SurfaceAddIcon => _surfaceAddIcon ?? (_surfaceAddIcon = FindViewById<ImageView>(Resource.Id.SurfaceAddIcon));   
-
-        public RelativeLayout AnimeGridItemBackSurfaceAdd => _animeGridItemBackSurfaceAdd ?? (_animeGridItemBackSurfaceAdd = FindViewById<RelativeLayout>(Resource.Id.AnimeGridItemBackSurfaceAdd));
-
+        public ImageView SurfaceAddIcon => _surfaceAddIcon ?? (_surfaceAddIcon = FindViewById<ImageView>(Resource.Id.SurfaceAddIcon));
+        public FrameLayout AnimeGridItemBackSurfaceAdd => _animeGridItemBackSurfaceAdd ?? (_animeGridItemBackSurfaceAdd = FindViewById<FrameLayout>(Resource.Id.AnimeGridItemBackSurfaceAdd));
         public ImageView SurfaceSubtractIcon => _surfaceSubtractIcon ?? (_surfaceSubtractIcon = FindViewById<ImageView>(Resource.Id.SurfaceSubtractIcon));
-
-        public RelativeLayout AnimeGridItemBackSurfaceSubtract => _animeGridItemBackSurfaceSubtract ?? (_animeGridItemBackSurfaceSubtract = FindViewById<RelativeLayout>(Resource.Id.AnimeGridItemBackSurfaceSubtract));
-
+        public FrameLayout AnimeGridItemBackSurfaceSubtract => _animeGridItemBackSurfaceSubtract ?? (_animeGridItemBackSurfaceSubtract = FindViewById<FrameLayout>(Resource.Id.AnimeGridItemBackSurfaceSubtract));
         public ProgressBar AnimeGridItemImgPlaceholder => _animeGridItemImgPlaceholder ?? (_animeGridItemImgPlaceholder = FindViewById<ProgressBar>(Resource.Id.AnimeGridItemImgPlaceholder));
-
-        public ImageViewAsync AnimeGridItemImage => _animeGridItemImage ?? (_animeGridItemImage = FindViewById<ImageViewAsync>(Resource.Id.AnimeGridItemImage));
-
+        public ImageView AnimeGridItemImage => _animeGridItemImage ?? (_animeGridItemImage = FindViewById<ImageView>(Resource.Id.AnimeGridItemImage));
         public TextView AnimeGridItemTopLeftInfoMain => _animeGridItemTopLeftInfoMain ?? (_animeGridItemTopLeftInfoMain = FindViewById<TextView>(Resource.Id.AnimeGridItemTopLeftInfoMain));
-
         public TextView AnimeGridItemTopLeftInfoSub => _animeGridItemTopLeftInfoSub ?? (_animeGridItemTopLeftInfoSub = FindViewById<TextView>(Resource.Id.AnimeGridItemTopLeftInfoSub));
-
         public LinearLayout AnimeGridItemTopLeftInfo => _animeGridItemTopLeftInfo ?? (_animeGridItemTopLeftInfo = FindViewById<LinearLayout>(Resource.Id.AnimeGridItemTopLeftInfo));
-
         public TextView AnimeGridItemCurrentWatchingStatus => _animeGridItemCurrentWatchingStatus ?? (_animeGridItemCurrentWatchingStatus = FindViewById<TextView>(Resource.Id.AnimeGridItemCurrentWatchingStatus));
-
         public TextView AnimeGridItemWatchedStatus => _animeGridItemWatchedStatus ?? (_animeGridItemWatchedStatus = FindViewById<TextView>(Resource.Id.AnimeGridItemWatchedStatus));
-
         public FrameLayout AnimeGridItemWatchedStatusButton => _animeGridItemWatchedStatusButton ?? (_animeGridItemWatchedStatusButton = FindViewById<FrameLayout>(Resource.Id.AnimeGridItemWatchedStatusButton));
-
         public TextView AnimeGridItemScore => _animeGridItemScore ?? (_animeGridItemScore = FindViewById<TextView>(Resource.Id.AnimeGridItemScore));
-
         public ImageView AnimeGridItemFavouriteIndicator => _animeGridItemFavouriteIndicator ?? (_animeGridItemFavouriteIndicator = FindViewById<ImageView>(Resource.Id.AnimeGridItemFavouriteIndicator));
-
         public LinearLayout AnimeGridItemTopRightInfo => _animeGridItemTopRightInfo ?? (_animeGridItemTopRightInfo = FindViewById<LinearLayout>(Resource.Id.AnimeGridItemTopRightInfo));
-
         public TextView AnimeGridItemType => _animeGridItemType ?? (_animeGridItemType = FindViewById<TextView>(Resource.Id.AnimeGridItemType));
-
         public TextView AnimeGridItemTimeTillAir => _animeGridItemTimeTillAir ?? (_animeGridItemTimeTillAir = FindViewById<TextView>(Resource.Id.AnimeGridItemTimeTillAir));
-
         public ImageView AnimeGridItemTagIcon => _animeGridItemTagIcon ?? (_animeGridItemTagIcon = FindViewById<ImageView>(Resource.Id.AnimeGridItemTagIcon));
-
         public FrameLayout AnimeGridItemTagsButton => _animeGridItemTagsButton ?? (_animeGridItemTagsButton = FindViewById<FrameLayout>(Resource.Id.AnimeGridItemTagsButton));
-
-        public ImageView ImageView => _imageView ?? (_imageView = FindViewById<ImageView>(Resource.Id.imageView));
-
         public FrameLayout AnimeGridItemAddToListButton => _animeGridItemAddToListButton ?? (_animeGridItemAddToListButton = FindViewById<FrameLayout>(Resource.Id.AnimeGridItemAddToListButton));
-
         public RelativeLayout AnimeGridItemUpperSection => _animeGridItemUpperSection ?? (_animeGridItemUpperSection = FindViewById<RelativeLayout>(Resource.Id.AnimeGridItemUpperSection));
-
         public TextView AnimeGridItemTitle => _animeGridItemTitle ?? (_animeGridItemTitle = FindViewById<TextView>(Resource.Id.AnimeGridItemTitle));
-
         public ImageButton AnimeGridItemMoreButton => _animeGridItemMoreButton ?? (_animeGridItemMoreButton = FindViewById<ImageButton>(Resource.Id.AnimeGridItemMoreButton));
-
         public LinearLayout AnimeGridItemLowerSection => _animeGridItemLowerSection ?? (_animeGridItemLowerSection = FindViewById<LinearLayout>(Resource.Id.AnimeGridItemLowerSection));
-
-
 
         #endregion
     }

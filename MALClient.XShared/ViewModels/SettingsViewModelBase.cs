@@ -430,6 +430,18 @@ namespace MALClient.XShared.ViewModels
             set => Settings.DetailsListRecomsView = value;
         }
 
+        public bool ShowPriorities
+        {
+            get => Settings.ShowPriorities;
+            set => Settings.ShowPriorities = value;
+        }
+
+        public bool ShowLowPriorities
+        {
+            get => Settings.ShowLowPriorities;
+            set => Settings.ShowLowPriorities = value;
+        }
+
         public bool ArticlesLaunchExternalLinks
         {
             get => Settings.ArticlesLaunchExternalLinks;

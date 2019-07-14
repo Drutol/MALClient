@@ -32,31 +32,20 @@ namespace MALClient.Android.Flyouts
                 menu.Menu.Add(0,3,0,"Set score");
                 menu.Menu.Add(0,4,0,"Set watched");
             }
+
+            if (viewModel.Auth)
+            {
+                var sub = menu.Menu.AddSubMenu(0, 6, 0, "Priority");
+                sub.Add(0, 7, 0, "Low");
+                sub.Add(0, 8, 0, "Medium");
+                sub.Add(0, 9, 0, "High");
+            }
+
             menu.SetOnMenuItemClickListener(new MenuListener(item =>
             {
                 callback.Invoke((AnimeGridItemMoreFlyoutButtons)item.ItemId);
             }));
             return menu;
-
-            //AnimeListPageFlyoutBuilder.ParamRelativeLayout = new ViewGroup.LayoutParams(DimensionsHelper.DpToPx(150), DimensionsHelper.DpToPx(38));
-
-            //var droppyBuilder = new DroppyMenuPopup.Builder(context, parent);
-            //AnimeListPageFlyoutBuilder.InjectAnimation(droppyBuilder);
-
-
-            //var listener = new Action<int>(i => callback.Invoke((AnimeGridItemMoreFlyoutButtons)i));
-
-            ////droppyBuilder.AddMenuItem(new DroppyMenuCustomItem(AnimeListPageFlyoutBuilder.BuildItem(context, "Copy url", listener, 0)));
-            ////droppyBuilder.AddMenuItem(new DroppyMenuCustomItem(AnimeListPageFlyoutBuilder.BuildItem(context, "Copy title", listener, 5)));
-            ////droppyBuilder.AddMenuItem(new DroppyMenuCustomItem(AnimeListPageFlyoutBuilder.BuildItem(context, "Open in browser", listener, 1)));
-            ////if (!forceSmall && viewModel.Auth)
-            ////{
-            ////    droppyBuilder.AddSeparator();
-            ////    droppyBuilder.AddMenuItem(new DroppyMenuCustomItem(AnimeListPageFlyoutBuilder.BuildItem(context, "Set status", listener, 2)));
-            ////    droppyBuilder.AddMenuItem(new DroppyMenuCustomItem(AnimeListPageFlyoutBuilder.BuildItem(context, "Set score", listener, 3)));
-            ////    droppyBuilder.AddMenuItem(new DroppyMenuCustomItem(AnimeListPageFlyoutBuilder.BuildItem(context, "Set watched", listener, 4)));
-            ////}
-            //return droppyBuilder.Build();
         }
 
         public class MenuListener : Java.Lang.Object , PopupMenu.IOnMenuItemClickListener

@@ -102,7 +102,7 @@
             android:fontFamily="@string/font_family_light"
             android:lines="4"
             android:maxLines="5"
-            android:text="Desc.wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww"
+            android:text="Desc."
             android:textColor="?BrushText"
             android:textSize="@dimen/FontSizeNormal" />
       </LinearLayout>

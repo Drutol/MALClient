@@ -14,6 +14,7 @@ using MALClient.Android.Activities;
 using MALClient.Android.DIalogs;
 using MALClient.Android.Flyouts;
 using MALClient.Android.Listeners;
+using MALClient.Models.Enums;
 using MALClient.XShared.Utils;
 using MALClient.XShared.ViewModels;
 
@@ -266,6 +267,16 @@ namespace MALClient.Android.UserControls.AnimeItems
 
                 case AnimeGridItemMoreFlyoutButtons.CopyTitle:
                     ViewModel.CopyTitleToClipboardCommand.Execute(null);
+                    break;
+
+                case AnimeGridItemMoreFlyoutButtons.PriorityLow:
+                    ViewModel.ChangePriority(AnimePriority.Low);
+                    break;
+                case AnimeGridItemMoreFlyoutButtons.PriorityMedium:
+                    ViewModel.ChangePriority(AnimePriority.Medium);
+                    break;
+                case AnimeGridItemMoreFlyoutButtons.PriorityHigh:
+                    ViewModel.ChangePriority(AnimePriority.High);
                     break;
             }
             _menu.Dismiss();

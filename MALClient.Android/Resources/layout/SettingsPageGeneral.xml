@@ -223,34 +223,34 @@
     </LinearLayout>
 
     <!--<View
-        style="@style/Divider"
-        android:layout_marginTop="10dp" />
+            style="@style/Divider"
+            android:layout_marginTop="10dp" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:padding="5dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:padding="5dp">
 
-      <TextView
-          android:layout_width="0dp"
-          android:layout_height="wrap_content"
-          android:layout_gravity="center_vertical"
-          android:layout_weight="1"
-          android:text="Pin accent themed icon to the start screen."
-          android:textColor="?BrushText"
-          android:textSize="@dimen/FontSizeMedium" />
+          <TextView
+              android:layout_width="0dp"
+              android:layout_height="wrap_content"
+              android:layout_gravity="center_vertical"
+              android:layout_weight="1"
+              android:text="Pin accent themed icon to the start screen."
+              android:textColor="?BrushText"
+              android:textSize="@dimen/FontSizeMedium" />
 
-      <Button
-          android:id="@+id/SettingsPageGeneralPinAccentShortcutButton"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:layout_gravity="center_horizontal"
-          android:backgroundTint="?AccentColour"
-          android:text="Pin"
-          android:textColor="#fff"
-          android:visibility="visible" />
-    </LinearLayout>-->
+          <Button
+              android:id="@+id/SettingsPageGeneralPinAccentShortcutButton"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_gravity="center_horizontal"
+              android:backgroundTint="?AccentColour"
+              android:text="Pin"
+              android:textColor="#fff"
+              android:visibility="visible" />
+        </LinearLayout>-->
 
 
     <View
@@ -620,6 +620,50 @@
 
       <Switch
           android:id="@+id/SettingsPageGeneralDontAskMoveOnHold"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_gravity="center_vertical" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:padding="5dp">
+
+      <TextView
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_gravity="center_vertical"
+          android:layout_weight="1"
+          android:text="Display priority indicator on anime items."
+          android:textColor="?BrushText"
+          android:textSize="@dimen/FontSizeMedium" />
+
+      <Switch
+          android:id="@+id/SettingsPageGeneralShowPriorities"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_gravity="center_vertical" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:padding="5dp">
+
+      <TextView
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_gravity="center_vertical"
+          android:layout_weight="1"
+          android:text="Don't display low priority indicator on anime items."
+          android:textColor="?BrushText"
+          android:textSize="@dimen/FontSizeMedium" />
+
+      <Switch
+          android:id="@+id/SettingsPageGeneralDontShowLowPriorities"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:layout_gravity="center_vertical" />

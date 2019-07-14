@@ -40,6 +40,12 @@ namespace MALClient.XShared.ViewModels
             set { VolatileData.GlobalScore = value; }
         }
 
+        public AnimePriority Priority
+        {
+            get => EntryData?.Priority ?? AnimePriority.Low;
+            set => EntryData.Priority = value;
+        }
+
         public int Index;
         public bool LoadedAnime;
         public bool LoadedModel;
@@ -221,6 +227,8 @@ namespace MALClient.XShared.ViewModels
             }
             private set { _viewModel = value; }
         }
+
+
 
         public bool TryRetrieveVolatileData(bool force = false)
         {

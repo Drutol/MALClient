@@ -6,6 +6,7 @@ using System.Text;
 using Android.App;
 using Android.Content;
 using Android.Content.Res;
+using Android.Graphics;
 using Android.OS;
 using Android.Runtime;
 using Android.Support.V4.Content.Res;
@@ -218,7 +219,22 @@ namespace MALClient.Android.Resources
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+
+            LowPriorityColour = new Color(ResourcesCompat.GetColor(MainActivity.CurrentContext.Resources,
+                Resource.Color.WatchingColour, null));
+            MediumPriorityColour = new Color(ResourcesCompat.GetColor(MainActivity.CurrentContext.Resources,
+                Resource.Color.OnHoldColour, null));
+            HighPriorityColour = new Color(ResourcesCompat.GetColor(MainActivity.CurrentContext.Resources,
+                Resource.Color.DroppedColour, null));
         }
+
+        #region Colours
+
+        public static Color LowPriorityColour;
+        public static Color MediumPriorityColour;
+        public static Color HighPriorityColour;
+
+        #endregion
 
         #region Accents
 

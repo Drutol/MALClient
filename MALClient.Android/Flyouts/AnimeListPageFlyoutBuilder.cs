@@ -32,6 +32,10 @@ namespace MALClient.Android.Flyouts
         SetRating,
         SetWatched,
         CopyTitle,
+        Priority,
+        PriorityLow,
+        PriorityMedium,
+        PriorityHigh
     }
 
     public static class AnimeListPageFlyoutBuilder

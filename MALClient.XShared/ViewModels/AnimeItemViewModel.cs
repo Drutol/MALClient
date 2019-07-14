@@ -168,6 +168,15 @@ namespace MALClient.XShared.ViewModels
             set { ParentAbstraction.MyStartDate = value; }
         }
 
+        public AnimePriority Priority
+        {
+            get { return ParentAbstraction.Priority; }
+            set
+            {
+                ParentAbstraction.Priority = value;
+                RaisePropertyChanged();
+            }
+        }
 
         public string TopLeftInfoBind
             =>
@@ -979,6 +988,9 @@ namespace MALClient.XShared.ViewModels
             LoadingUpdate = false;
         }
 
+
+
+
         public async void ChangeWatchedEps()
         {
             int watched;
@@ -1039,6 +1051,22 @@ namespace MALClient.XShared.ViewModels
         private void ChangeStatus(string status)
         {
             ChangeStatus((AnimeStatus)Utils.Utilities.StatusToInt(status));
+        }
+
+
+        public async void ChangePriority(AnimePriority priority)
+        {
+            LoadingUpdate = true;
+
+            var myPrevPriority = Priority;
+
+            Priority = priority;
+
+            var response = await GetAppropriateUpdateQuery().GetRequestResponse();
+            if (response != "Updated" && Settings.SelectedApiType == ApiType.Mal)
+                Priority = myPrevPriority;
+
+            LoadingUpdate = false;
         }
 
         public async void ChangeStatus(AnimeStatus status)
@@ -1350,7 +1378,5 @@ namespace MALClient.XShared.ViewModels
                     "0.5 - Appaling"
                 };
         }
-
-
     }
 }

@@ -125,6 +125,14 @@ namespace MALClient.Android.Fragments.SettingsFragments
             Bindings.Add(
                 this.SetBinding(() => ViewModel.SqueezeOneMoreGridItem,
                     () => SettingsPageGeneralSqueezeOneMoreItem.Checked, BindingMode.TwoWay));
+
+            Bindings.Add(
+                this.SetBinding(() => ViewModel.ShowPriorities,
+                    () => SettingsPageGeneralShowPriorities.Checked, BindingMode.TwoWay));
+
+            Bindings.Add(
+                this.SetBinding(() => ViewModel.ShowLowPriorities,
+                    () => SettingsPageGeneralDontShowLowPriorities.Checked, BindingMode.TwoWay));
             //
 
             SettingsPageGeneralAnimeSortRadioGroup.Check(GetViewIdForAnimeSortOption(Settings.AnimeSortOrder));

@@ -32,6 +32,7 @@ namespace MALClient.XShared.ViewModels
         public string AlaternateTitle { get; }
         public int MyVolumes { get; set; }
         public int AllVolumes { get; set; }
+        public AnimePriority Priority { get; set; }
         public string Title { get; set; }
 
         public bool IsAuth { get; set; }

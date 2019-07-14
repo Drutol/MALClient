@@ -96,11 +96,11 @@ namespace MALClient.XShared.Comm.Anime
                     var doc = new HtmlDocument();
                     doc.Load(updateHtml);
 
-                    var priority = doc.DocumentNode
-                                       .FirstOfDescendantsWithId("select", "add_anime_priority")
-                                       .Descendants("option")
-                                       .First(node => node.Attributes.Contains("selected"))?
-                                       .Attributes["value"].Value ?? "0";
+                    //var priority = doc.DocumentNode
+                    //                   .FirstOfDescendantsWithId("select", "add_anime_priority")
+                    //                   .Descendants("option")
+                    //                   .First(node => node.Attributes.Contains("selected"))?
+                    //                   .Attributes["value"].Value ?? "0";
 
                     var storage = doc.DocumentNode
                         .FirstOfDescendantsWithId("select", "add_anime_storage_type")
@@ -144,11 +144,11 @@ namespace MALClient.XShared.Comm.Anime
                         ["add_anime[status]"] = ((int) _item.MyStatus).ToString(),
                         ["add_anime[score]"] = _item.MyScore == 0 ? null : _item.MyScore.ToString(),
                         ["add_anime[num_watched_episodes]"] = _item.MyEpisodes.ToString(),
-                        ["add_anime[tags]"] = string.IsNullOrEmpty(_item.Notes) ? "" : _item.Notes,                    
+                        ["add_anime[tags]"] = string.IsNullOrEmpty(_item.Notes) ? "" : _item.Notes,
+                        ["add_anime[priority]"] = ((int)_item.Priority).ToString(),
 
                         ["csrf_token"] = client.Token,
 
-                        ["add_anime[priority]"] = priority,
                         ["add_anime[storage_type]"] = storage,
                         ["add_anime[storage_value]"] = storageValue,
                         ["add_anime[num_watched_times]"] = rewatches,
@@ -158,6 +158,8 @@ namespace MALClient.XShared.Comm.Anime
                         ["add_anime[sns_post_type]"] = postSns,
 
                     };
+
+
 
                     if (_item.IsRewatching)
                         content["add_anime[is_rewatching]"] = "1";

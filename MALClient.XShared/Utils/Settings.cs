@@ -99,6 +99,18 @@ namespace MALClient.XShared.Utils
             set => ApplicationDataService["SortDescending"] = value;
         }
 
+        public static bool ShowPriorities
+        {
+            get => (bool)(ApplicationDataService[nameof(ShowPriorities)] ?? true);
+            set => ApplicationDataService[nameof(ShowPriorities)] = value;
+        }
+
+        public static bool ShowLowPriorities
+        {
+            get => (bool)(ApplicationDataService[nameof(ShowLowPriorities)] ?? false);
+            set => ApplicationDataService[nameof(ShowLowPriorities)] = value;
+        }
+
         public static bool IsMangaSortDescending
         {
             get => (bool)(ApplicationDataService["SortDescendingM"] ?? false);
@@ -747,6 +759,8 @@ namespace MALClient.XShared.Utils
             get => (bool)(ApplicationDataService[nameof(AskBeforeSendingCrashReports)] ?? true);
             set => ApplicationDataService[nameof(AskBeforeSendingCrashReports)] = value;
         }
+
+
 
         #endregion Android
     }

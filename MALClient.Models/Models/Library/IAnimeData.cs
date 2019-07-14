@@ -21,5 +21,6 @@ namespace MALClient.Models.Models.Library
         //TODO : Rename this interface
         int MyVolumes { get; set; }
         int AllVolumes { get; }
+        AnimePriority Priority { get; set; }
     }
 }

@@ -165,6 +165,7 @@ namespace MALClient.XShared.Comm
                                                 IsRewatching = item.is_rewatching > 0,
                                                 LastWatched = DateTime.Today.Subtract(TimeSpan.FromMinutes(i)),
                                                 AlternateTitle = alternateTitle,
+                                                Priority = PriorityStringToPriority(item.priority_string)
                                             });
                                             i++;
 
@@ -264,6 +265,7 @@ namespace MALClient.XShared.Comm
                                                 MyEndDate = item.finish_date_string,
                                                 AlternateTitle = alternateTitle,
                                                 LastWatched = DateTime.Today.Subtract(TimeSpan.FromMinutes(i)),
+                                                Priority = PriorityStringToPriority(item.priority_string)
                                             });
                                             i++;
 
@@ -317,6 +319,21 @@ namespace MALClient.XShared.Comm
             return output;
         }
 
+        private AnimePriority PriorityStringToPriority(string itemPriorityString)
+        {
+            switch (itemPriorityString)
+            {
+                case "Low":
+                    return AnimePriority.Low;
+                case "Medium":
+                    return AnimePriority.Medium;
+                case "High":
+                    return AnimePriority.High;
+            }
+
+            return AnimePriority.Low;
+        }
+
         [Preserve(AllMembers = true)]
         public class RootObject
         {
@@ -332,6 +349,7 @@ namespace MALClient.XShared.Comm
             public string anime_media_type_string { get; set; }
             public string start_date_string { get; set; }
             public string finish_date_string { get; set; }
+            public string priority_string { get; set; }
         }
 
         [Preserve(AllMembers = true)]
@@ -351,6 +369,7 @@ namespace MALClient.XShared.Comm
             public string manga_media_type_string { get; set; }
             public string start_date_string { get; set; }
             public string finish_date_string { get; set; }
+            public string priority_string { get; set; }
         }
 
         public static AnimeStatus HummingbirdStatusToMal(string humStatus)

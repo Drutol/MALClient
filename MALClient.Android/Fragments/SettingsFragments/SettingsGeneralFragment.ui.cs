@@ -33,7 +33,6 @@ namespace MALClient.Android.Fragments.SettingsFragments
         private ImageButton _settingsPageGeneralColorRed;
         private Switch _settingsPageGeneralAmoledSwitch;
         private Button _settingsPageGeneralThemeChangeApply;
-        private Button _settingsPageGeneralPinAccentShortcutButton;
         private Switch _settingsPageGeneralEnableSwipeSwitch;
         private Switch _settingsPageGeneralPullHigherSwitch;
         private Switch _settingsPageGeneralSeasonSwitch;
@@ -50,6 +49,8 @@ namespace MALClient.Android.Fragments.SettingsFragments
         private Switch _settingsPageGeneralHideGlobalScore;
         private Switch _settingsPageGeneralSqueezeOneMoreItem;
         private Switch _settingsPageGeneralDontAskMoveOnHold;
+        private Switch _settingsPageGeneralShowPriorities;
+        private Switch _settingsPageGeneralDontShowLowPriorities;
         private RadioButton _settingsPageGeneralAnimeSortTitleRadioBtn;
         private RadioButton _settingsPageGeneralAnimeScoreTitleRadioBtn;
         private RadioButton _settingsPageGeneralAnimeWatchedTitleRadioBtn;
@@ -100,7 +101,6 @@ namespace MALClient.Android.Fragments.SettingsFragments
         public ImageButton SettingsPageGeneralColorRed => _settingsPageGeneralColorRed ?? (_settingsPageGeneralColorRed = FindViewById<ImageButton>(Resource.Id.SettingsPageGeneralColorRed));
         public Switch SettingsPageGeneralAmoledSwitch => _settingsPageGeneralAmoledSwitch ?? (_settingsPageGeneralAmoledSwitch = FindViewById<Switch>(Resource.Id.SettingsPageGeneralAmoledSwitch));
         public Button SettingsPageGeneralThemeChangeApply => _settingsPageGeneralThemeChangeApply ?? (_settingsPageGeneralThemeChangeApply = FindViewById<Button>(Resource.Id.SettingsPageGeneralThemeChangeApply));
-        //public Button SettingsPageGeneralPinAccentShortcutButton => _settingsPageGeneralPinAccentShortcutButton ?? (_settingsPageGeneralPinAccentShortcutButton = FindViewById<Button>(Resource.Id.SettingsPageGeneralPinAccentShortcutButton));
         public Switch SettingsPageGeneralEnableSwipeSwitch => _settingsPageGeneralEnableSwipeSwitch ?? (_settingsPageGeneralEnableSwipeSwitch = FindViewById<Switch>(Resource.Id.SettingsPageGeneralEnableSwipeSwitch));
         public Switch SettingsPageGeneralPullHigherSwitch => _settingsPageGeneralPullHigherSwitch ?? (_settingsPageGeneralPullHigherSwitch = FindViewById<Switch>(Resource.Id.SettingsPageGeneralPullHigherSwitch));
         public Switch SettingsPageGeneralSeasonSwitch => _settingsPageGeneralSeasonSwitch ?? (_settingsPageGeneralSeasonSwitch = FindViewById<Switch>(Resource.Id.SettingsPageGeneralSeasonSwitch));
@@ -117,6 +117,8 @@ namespace MALClient.Android.Fragments.SettingsFragments
         public Switch SettingsPageGeneralHideGlobalScore => _settingsPageGeneralHideGlobalScore ?? (_settingsPageGeneralHideGlobalScore = FindViewById<Switch>(Resource.Id.SettingsPageGeneralHideGlobalScore));
         public Switch SettingsPageGeneralSqueezeOneMoreItem => _settingsPageGeneralSqueezeOneMoreItem ?? (_settingsPageGeneralSqueezeOneMoreItem = FindViewById<Switch>(Resource.Id.SettingsPageGeneralSqueezeOneMoreItem));
         public Switch SettingsPageGeneralDontAskMoveOnHold => _settingsPageGeneralDontAskMoveOnHold ?? (_settingsPageGeneralDontAskMoveOnHold = FindViewById<Switch>(Resource.Id.SettingsPageGeneralDontAskMoveOnHold));
+        public Switch SettingsPageGeneralShowPriorities => _settingsPageGeneralShowPriorities ?? (_settingsPageGeneralShowPriorities = FindViewById<Switch>(Resource.Id.SettingsPageGeneralShowPriorities));
+        public Switch SettingsPageGeneralDontShowLowPriorities => _settingsPageGeneralDontShowLowPriorities ?? (_settingsPageGeneralDontShowLowPriorities = FindViewById<Switch>(Resource.Id.SettingsPageGeneralDontShowLowPriorities));
         public RadioButton SettingsPageGeneralAnimeSortTitleRadioBtn => _settingsPageGeneralAnimeSortTitleRadioBtn ?? (_settingsPageGeneralAnimeSortTitleRadioBtn = FindViewById<RadioButton>(Resource.Id.SettingsPageGeneralAnimeSortTitleRadioBtn));
         public RadioButton SettingsPageGeneralAnimeScoreTitleRadioBtn => _settingsPageGeneralAnimeScoreTitleRadioBtn ?? (_settingsPageGeneralAnimeScoreTitleRadioBtn = FindViewById<RadioButton>(Resource.Id.SettingsPageGeneralAnimeScoreTitleRadioBtn));
         public RadioButton SettingsPageGeneralAnimeWatchedTitleRadioBtn => _settingsPageGeneralAnimeWatchedTitleRadioBtn ?? (_settingsPageGeneralAnimeWatchedTitleRadioBtn = FindViewById<RadioButton>(Resource.Id.SettingsPageGeneralAnimeWatchedTitleRadioBtn));

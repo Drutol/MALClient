@@ -524,7 +524,7 @@ namespace MALClient.XShared.ViewModels.Main
                     }
                     catch (Exception e)
                     {
-                        ResourceLocator.TelemetryProvider.TrackException(e);
+                        //ResourceLocator.TelemetryProvider.TrackException(e);
                     }
 
                 }
@@ -552,6 +552,9 @@ namespace MALClient.XShared.ViewModels.Main
                         break;
                     case SortOptions.SortLastWatched:
                         items = items.OrderBy(abstraction => abstraction.LastWatched);
+                        break;
+                    case SortOptions.SortPriority:
+                        items = items.OrderBy(abstraction => abstraction.Priority);
                         break;
                     case SortOptions.SortNothing:
                         break;
@@ -688,6 +691,9 @@ namespace MALClient.XShared.ViewModels.Main
                     case SortOptions.SortNothing:
                         break;
                     case SortOptions.SortSeason:
+                        _sortDescending = true;
+                        break;
+                    case SortOptions.SortPriority:
                         _sortDescending = true;
                         break;
                     default:

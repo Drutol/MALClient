@@ -145,8 +145,8 @@ namespace MALClient.XShared.BL
 
             string WatchedOrRead() => epDiff.diff.IsAnime ? "watched" : "read";
             string ReWatchingOrRereading() => rewatchDiff.diff.IsAnime ? "re-watching" : "re-reading";
-            string EpisodesOrChapters() => epDiff.diff.IsAnime ? "episodes" : "chapters";
-            string EpisodeOrChapter() => epDiff.diff.IsAnime ? "episode" : "chapter";
+            string EpisodesOrChapters() => epDiff.diff.IsAnime ? "episodes" :  (epDiff.diff.IsVolumes ? "volumes" : "chapters");
+            string EpisodeOrChapter() => epDiff.diff.IsAnime ? "episode" : (epDiff.diff.IsVolumes ? "volume" : "chapter"); ;
         }
 
         private void CountdownTimerOnElapsed(object sender, ElapsedEventArgs e)

@@ -769,8 +769,7 @@ namespace MALClient.XShared.ViewModels.Details
                     });
                 }
 
-                var reference = _animeItemReference as AnimeItemViewModel; //avoid multiple casts
-                if (reference != null)
+                if (_animeItemReference is AnimeItemViewModel reference)
                 {
                     if (prevEps == 0 && AllEpisodes > 1 && MyEpisodes != AllEpisodes &&
                         (MyStatus == AnimeStatus.PlanToWatch || MyStatus == AnimeStatus.Dropped ||
@@ -819,6 +818,18 @@ namespace MALClient.XShared.ViewModels.Details
                 var response = await GetAppropriateUpdateQuery().GetRequestResponse();
                 if (response != "Updated" && Settings.SelectedApiType == ApiType.Mal)
                     MyVolumes = prevVol;
+                else
+                {
+                    ResourceLocator.ShareManager.EnqueueEvent(ShareEvent.AnimeEpisodesChanged, new AnimeShareDiff
+                    {
+                        Title = Title,
+                        NewEpisodes = MyVolumes,
+                        TotalEpisodes = AllVolumes,
+                        Id = Id,
+                        IsAnime = false,
+                        IsVolumes = true
+                    });
+                }
 
                 WatchedEpsInput = "";
             }

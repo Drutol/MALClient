@@ -44,6 +44,8 @@
         [EnumUtilities.Description("None")]
         SortNothing,
         [EnumUtilities.Description("Season")]
-        SortSeason
+        SortSeason,
+        [EnumUtilities.Description("Priority")]
+        SortPriority
     }
 }

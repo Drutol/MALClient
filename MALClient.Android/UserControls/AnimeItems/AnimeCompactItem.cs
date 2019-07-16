@@ -7,6 +7,7 @@ using System.Text;
 using Android.App;
 using Android.Content;
 using Android.Content.Res;
+using Android.Graphics;
 using Android.OS;
 using Android.Runtime;
 using Android.Util;
@@ -18,6 +19,7 @@ using MALClient.Android.DIalogs;
 using MALClient.Android.Flyouts;
 using MALClient.Android.Listeners;
 using MALClient.Android.Resources;
+using MALClient.Models.Enums;
 using MALClient.XShared.Utils;
 using MALClient.XShared.ViewModels;
 using Orientation = Android.Content.Res.Orientation;
@@ -115,6 +117,7 @@ namespace MALClient.Android.UserControls.AnimeItems
                 AnimeCompactItemTopLeftInfo.Text = ViewModel.TopLeftInfoBind;
             }
 
+            SetPriorityIndicator();
 
             AnimeCompactItemScoreLabel.Text = ViewModel.MyScoreBind;
             AnimeCompactItemStatusLabel.Text = ViewModel.MyStatusBind;
@@ -134,6 +137,47 @@ namespace MALClient.Android.UserControls.AnimeItems
                 case nameof(ViewModel.MyScoreBindShort):
                     AnimeCompactItemScoreLabel.Text = ViewModel.MyScoreBind;
                     break;
+
+                case nameof(ViewModel.Priority):
+                    SetPriorityIndicator();
+                    break;
+            }
+        }
+
+        private void SetPriorityIndicator()
+        {
+
+            if (Settings.ShowPriorities)
+            {
+                switch (ViewModel.Priority)
+                {
+                    case AnimePriority.Low:
+                        if (Settings.ShowLowPriorities)
+                        {
+                            RootBorderElement.BackgroundTintList =
+                                ColorStateList.ValueOf(ResourceExtension.LowPriorityColour);
+                        }
+                        else
+                        {
+                            RootBorderElement.BackgroundTintList = null;
+                        }
+                        break;
+                    case AnimePriority.Medium:
+                        RootBorderElement.BackgroundTintList =
+                            ColorStateList.ValueOf(ResourceExtension.MediumPriorityColour);
+                        break;
+                    case AnimePriority.High:
+                        RootBorderElement.BackgroundTintList =
+                            ColorStateList.ValueOf(ResourceExtension.HighPriorityColour);
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+
+            }
+            else
+            {
+                RootBorderElement.BackgroundTintList = null;
             }
         }
 
@@ -240,41 +284,29 @@ namespace MALClient.Android.UserControls.AnimeItems
         private FrameLayout _animeCompactItemScoreButton;
         private TextView _animeCompactItemStatusLabel;
         private FrameLayout _animeCompactItemStatusButton;
+        private View _animeCompactItemAdaptiveItemRight;
         private Button _animeCompactItemWatchedButton;
         private LinearLayout _animeCompactItemEditSection;
-        private View _animeCompactItemAdaptiveItemRight;
+        private RelativeLayout _rootContainer;
+        private FrameLayout _rootBorderElement;
 
         public TextView AnimeCompactItemGlobalScore => _animeCompactItemGlobalScore ?? (_animeCompactItemGlobalScore = FindViewById<TextView>(Resource.Id.AnimeCompactItemGlobalScore));
-
         public TextView AnimeCompactItemType => _animeCompactItemType ?? (_animeCompactItemType = FindViewById<TextView>(Resource.Id.AnimeCompactItemType));
-
         public TextView AnimeCompactItemTitle => _animeCompactItemTitle ?? (_animeCompactItemTitle = FindViewById<TextView>(Resource.Id.AnimeCompactItemTitle));
-
         public TextView AnimeCompactItemTopLeftInfo => _animeCompactItemTopLeftInfo ?? (_animeCompactItemTopLeftInfo = FindViewById<TextView>(Resource.Id.AnimeCompactItemTopLeftInfo));
-
         public ImageView AnimeCompactItemFavouriteIndicator => _animeCompactItemFavouriteIndicator ?? (_animeCompactItemFavouriteIndicator = FindViewById<ImageView>(Resource.Id.AnimeCompactItemFavouriteIndicator));
-
         public FrameLayout AnimeCompactItemTagsButton => _animeCompactItemTagsButton ?? (_animeCompactItemTagsButton = FindViewById<FrameLayout>(Resource.Id.AnimeCompactItemTagsButton));
-
         public LinearLayout AnimeCompactItemGeneralSection => _animeCompactItemGeneralSection ?? (_animeCompactItemGeneralSection = FindViewById<LinearLayout>(Resource.Id.AnimeCompactItemGeneralSection));
-
         public View AnimeCompactItemAdaptiveItemLeft => _animeCompactItemAdaptiveItemLeft ?? (_animeCompactItemAdaptiveItemLeft = FindViewById<View>(Resource.Id.AnimeCompactItemAdaptiveItemLeft));
-
         public TextView AnimeCompactItemScoreLabel => _animeCompactItemScoreLabel ?? (_animeCompactItemScoreLabel = FindViewById<TextView>(Resource.Id.AnimeCompactItemScoreLabel));
-
         public FrameLayout AnimeCompactItemScoreButton => _animeCompactItemScoreButton ?? (_animeCompactItemScoreButton = FindViewById<FrameLayout>(Resource.Id.AnimeCompactItemScoreButton));
-
         public TextView AnimeCompactItemStatusLabel => _animeCompactItemStatusLabel ?? (_animeCompactItemStatusLabel = FindViewById<TextView>(Resource.Id.AnimeCompactItemStatusLabel));
-
         public FrameLayout AnimeCompactItemStatusButton => _animeCompactItemStatusButton ?? (_animeCompactItemStatusButton = FindViewById<FrameLayout>(Resource.Id.AnimeCompactItemStatusButton));
-
         public View AnimeCompactItemAdaptiveItemRight => _animeCompactItemAdaptiveItemRight ?? (_animeCompactItemAdaptiveItemRight = FindViewById<View>(Resource.Id.AnimeCompactItemAdaptiveItemRight));
-
         public Button AnimeCompactItemWatchedButton => _animeCompactItemWatchedButton ?? (_animeCompactItemWatchedButton = FindViewById<Button>(Resource.Id.AnimeCompactItemWatchedButton));
-
         public LinearLayout AnimeCompactItemEditSection => _animeCompactItemEditSection ?? (_animeCompactItemEditSection = FindViewById<LinearLayout>(Resource.Id.AnimeCompactItemEditSection));
-
-
+        public RelativeLayout RootContainer => _rootContainer ?? (_rootContainer = FindViewById<RelativeLayout>(Resource.Id.RootContainer));
+        public FrameLayout RootBorderElement => _rootBorderElement ?? (_rootBorderElement = FindViewById<FrameLayout>(Resource.Id.RootBorderElement));
 
         #endregion
     }

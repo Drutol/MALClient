@@ -942,10 +942,11 @@ namespace MALClient.XShared.ViewModels
                 ResourceLocator.ShareManager.EnqueueEvent(ShareEvent.AnimeEpisodesChanged, new AnimeShareDiff
                 {
                     Title = Title,
-                    NewEpisodes = MyEpisodes,
-                    TotalEpisodes = AllEpisodes,
+                    NewEpisodes = MyEpisodesFocused,
+                    TotalEpisodes = MyEpisodesFocused,
                     Id = Id,
-                    IsAnime = ParentAbstraction.RepresentsAnime
+                    IsAnime = ParentAbstraction.RepresentsAnime,
+                    IsVolumes = Settings.MangaFocusVolumes
                 });
             }
 
@@ -1025,10 +1026,11 @@ namespace MALClient.XShared.ViewModels
                     ResourceLocator.ShareManager.EnqueueEvent(ShareEvent.AnimeEpisodesChanged, new AnimeShareDiff
                     {
                         Title = Title,
-                        NewEpisodes = MyEpisodes,
-                        TotalEpisodes = AllEpisodes,                  
+                        NewEpisodes = MyEpisodesFocused,
+                        TotalEpisodes = AllEpisodesFocused,                  
                         Id = Id,
-                        IsAnime = ParentAbstraction.RepresentsAnime
+                        IsAnime = ParentAbstraction.RepresentsAnime,
+                        IsVolumes = Settings.MangaFocusVolumes
                     });
                 }
                 AdjustIncrementButtonsVisibility();
@@ -1319,7 +1321,7 @@ namespace MALClient.XShared.ViewModels
             }
             catch (Exception)
             {
-                //TODO access denied excpetion? we can try that 
+
             }
 
         }

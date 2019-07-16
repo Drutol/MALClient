@@ -11,6 +11,7 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using Com.Mopub.Common;
 using GalaSoft.MvvmLight.Helpers;
 using MALClient.Android.BindingConverters;
 using MALClient.XShared.Utils;
@@ -47,6 +48,12 @@ namespace MALClient.Android.Activities
                     {
                         if (!_initializedAds)
                         {
+
+                            var sdkConfiguration =
+                                new SdkConfiguration.Builder("b195f8dd8ded45fe847ad89ed1d016da").Build();
+   
+                            MoPub.InitializeSdk(this, sdkConfiguration, null);
+
                             MobileAds.Initialize(ApplicationContext, "ca-app-pub-8220174765620095~3319675764");
                             var adRequest = new AdRequest.Builder()
                                 .AddKeyword("anime")

@@ -2,10 +2,10 @@
 <resources>
 
     <!--DEBUG-->
-    <!--<string name="banner_ad_unit_id">ca-app-pub-8220174765620095/4970171830</string>--> 
+    <string name="banner_ad_unit_id">ca-app-pub-8220174765620095/4970171830</string> 
 
     <!--PROD-->
-    <string name="banner_ad_unit_id">ca-app-pub-8220174765620095/4796408960</string>
+    <!--<string name="banner_ad_unit_id">ca-app-pub-8220174765620095/4796408960</string>-->
 
     <string name="fa_icon_500px" translatable="false">&#xf26e;</string>
     <string name="fa_icon_address_book" translatable="false">&#xf2b9;</string>

@@ -334,6 +334,9 @@
     <PackageReference Include="MvvmLightLibsStd10">
       <Version>5.4.1.1</Version>
     </PackageReference>
+    <PackageReference Include="Newtonsoft.Json">
+      <Version>12.0.2</Version>
+    </PackageReference>
     <PackageReference Include="Square.OkHttp3">
       <Version>3.8.1</Version>
     </PackageReference>
@@ -358,6 +361,10 @@
     <ProjectReference Include="..\Binding_Facebook\Binding_Facebook.csproj">
       <Project>{99432b0f-e4f9-45cb-be00-0d0956f47e57}</Project>
       <Name>Binding_Facebook</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Binding_MoPub\Binding_MoPub.csproj">
+      <Project>{248384a0-67f9-4fb4-a7f6-9ca3188ed747}</Project>
+      <Name>Binding_MoPub</Name>
     </ProjectReference>
     <ProjectReference Include="..\MALClient.Adapters\MALClient.Adapters.csproj">
       <Project>{9f8e953e-47a6-4f72-a2fe-bef7a2dae850}</Project>

@@ -1,16 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Android.Runtime;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
 namespace MALClient.Models.Models.ApiResponses
 {
+    [Preserve(AllMembers = true)]
     public class SearchEverywhereResponse
     {
         [JsonProperty("categories")] public List<Category> Categories { get; set; }
     }
-
+    [Preserve(AllMembers = true)]
     public class Payload
     {
         [JsonProperty("media_type")] public string MediaType { get; set; }
@@ -25,7 +27,7 @@ namespace MALClient.Models.Models.ApiResponses
         [JsonProperty("birthday")] public string Birthday { get; set; }
 
     }
-
+    [Preserve(AllMembers = true)]
     public class Item
     {
         [JsonProperty("id")] public int Id { get; set; }
@@ -37,7 +39,7 @@ namespace MALClient.Models.Models.ApiResponses
         [JsonProperty("payload")] public Payload Payload { get; set; }
         [JsonProperty("es_score")] public double EsScore { get; set; }
     }
-
+    [Preserve(AllMembers = true)]
     public class Category
     {
         public string Type { get; set; }

@@ -12,6 +12,7 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Com.Mopub.Common;
+using Com.Mopub.Common.Logging;
 using GalaSoft.MvvmLight.Helpers;
 using MALClient.Android.BindingConverters;
 using MALClient.XShared.Utils;
@@ -19,12 +20,13 @@ using MALClient.XShared.ViewModels;
 
 namespace MALClient.Android.Activities
 {
-    public partial class  MainActivity : IRewardedVideoAdListener
+    public partial class MainActivity : IRewardedVideoAdListener, ISdkInitializationListener
     {
         private IRewardedVideoAd _videoAd;
         private Timer _timer;
         private bool _initializedAds;
         private bool _adLoaded;
+        public SemaphoreSlim MopubSemaphore { get; } = new SemaphoreSlim(0);
 
         public bool AdLoaded
         {
@@ -40,20 +42,19 @@ namespace MALClient.Android.Activities
         {
             ViewModelLocator.Settings.OnAdsMinutesPerDayChanged += SettingsOnOnAdsMinutesPerDayChanged;
 
+            var sdkConfiguration =
+                new SdkConfiguration.Builder("9d83d5eb18444b859eb2a8a6d7110f65").Build();
+            /*.WithLogLevel(MoPubLog.LogLevel.Debug)*/
+
+            MoPub.InitializeSdk(this, sdkConfiguration, this);
 
             Bindings.Add(this.SetBinding(() => ViewModel.AdsContainerVisibility)
-                .WhenSourceChanges(() =>
+                .WhenSourceChanges(async () =>
                 {
                     if (ViewModel.AdsContainerVisibility && Credentials.Authenticated)
                     {
                         if (!_initializedAds)
                         {
-
-                            var sdkConfiguration =
-                                new SdkConfiguration.Builder("b195f8dd8ded45fe847ad89ed1d016da").Build();
-   
-                            MoPub.InitializeSdk(this, sdkConfiguration, null);
-
                             MobileAds.Initialize(ApplicationContext, "ca-app-pub-8220174765620095~3319675764");
                             var adRequest = new AdRequest.Builder()
                                 .AddKeyword("anime")
@@ -219,5 +220,9 @@ namespace MALClient.Android.Activities
         #endregion
 
 
+        public void OnInitializationFinished()
+        {
+            MopubSemaphore.Release();
+        }
     }
 }

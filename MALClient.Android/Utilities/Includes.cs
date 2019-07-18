@@ -136,6 +136,7 @@ namespace MALClient.Android
         public void Include(FriendsPageViewModel vm) { var vm1 = new FriendsPageViewModel(); }
         public void Include(ClubDetailsViewModel vm) { var vm1 = new ClubDetailsViewModel(); }
         public void Include(ClubIndexViewModel vm) { var vm1 = new ClubIndexViewModel(null); }
+        public void Include(SearchEverywhereViewModel vm) { var vm1 = new SearchEverywhereViewModel(); }
 
         public void Include(AnimeLibraryDataStorage vm) { var vm1 = new AnimeLibraryDataStorage(); }
         public void Include(HandyDataStorage vm) { var vm1 = new HandyDataStorage(null,null); }

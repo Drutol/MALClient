@@ -1,0 +1,30 @@
+﻿<metadata>
+  <!--
+  This sample removes the class: android.support.v4.content.AsyncTaskLoader.LoadTask:
+  <remove-node path="/api/package[@name='android.support.v4.content']/class[@name='AsyncTaskLoader.LoadTask']" />
+  
+  This sample removes the method: android.support.v4.content.CursorLoader.loadInBackground:
+  <remove-node path="/api/package[@name='android.support.v4.content']/class[@name='CursorLoader']/method[@name='loadInBackground']" />
+  -->
+  <remove-node path="/api/package[@name='com.mopub.mobileads.dfp.adapters']/class[@name='DownloadDrawablesAsync']"/>
+  <remove-node path="/api/package[@name='com.mopub.volley.toolbox']/class[@name='StringRequest']"/>
+  <remove-node path="/api/package[@name='com.mopub.volley.toolbox']/class[@name='ImageRequest']"/>
+  <remove-node path="/api/package[@name='com.mopub.volley.toolbox']/class[@name='JsonObjectRequest']"/>
+  <remove-node path="/api/package[@name='com.mopub.volley.toolbox']/class[@name='JsonRequest']"/>
+  <remove-node path="/api/package[@name='com.mopub.volley.toolbox']/class[@name='JsonArrayRequest']"/>
+  <remove-node path="/api/package[@name='com.mopub.volley.toolbox']/class[@name='ClearCacheRequest']"/>
+  <remove-node path="/api/package[@name='com.mopub.volley']/class[@name='Request']"/>
+  <remove-node path="/api/package[@name='com.mopub.common']/class[@name='UrlResolutionTask']"/>
+  <remove-node path="/api/package[@name='com.mopub.mobileads']/class[@name='VastAbsoluteProgressTracker']"/>
+  <remove-node path="/api/package[@name='com.mopub.common']/class[@name='VisibilityTracker']"/>
+  <remove-node path="/api/package[@name='com.mopub.network']/class[@name='MultiAdResponse']"/>
+  <remove-node path="/api/package[@name='com.mopub.common']/class[@name='AdapterConfigurationManager']"/>
+  <remove-node path="/api/package[@name='com.mopub.mobileads']/class[@name='VastXmlManagerAggregator']"/>
+  <remove-node  path="/api/package[@name='com.mopub.mobileads']/class[@name='VastVideoBlurLastVideoFrameTask']"/>
+  <remove-node  path="/api/package[@name='com.mopub.mobileads']/class[@name='VastFractionalProgressTracker']"/>
+  <remove-node  path="/api/package[@name='com.mopub.mobileads']/class[@name='VastCompanionAdConfig']"/>
+  <remove-node  path="/api/package[@name='com.mopub.mobileads']/class[@name='VastCompanionAdConfig']"/>
+  <remove-node  path="/api/package[@name='com.mopub.mobileads']/class[@name='VideoDownloader']"/>
+  <remove-node  path="/api/package[@name='com.mopub.mraid']/class[@name='MraidBridge']"/>
+  <remove-node  path="/api/package[@name='com.mopub.mraid']/class[@name='MraidNativeCommandHandler']"/>
+</metadata>

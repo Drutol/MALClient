@@ -233,6 +233,8 @@
     <Compile Include="Mediation\FacebookCustomEventBanner.cs" />
     <Compile Include="Mediation\FacebookCustomEventBannerForwarder.cs" />
     <Compile Include="Mediation\MediationOptions.cs" />
+    <Compile Include="Mediation\MoPubAdBanner.cs" />
+    <Compile Include="Mediation\MoPubCustomEventBannerForwarder.cs" />
     <Compile Include="Resources\AndroidColorThemesEnum.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -361,6 +363,10 @@
     <ProjectReference Include="..\Binding_Facebook\Binding_Facebook.csproj">
       <Project>{99432b0f-e4f9-45cb-be00-0d0956f47e57}</Project>
       <Name>Binding_Facebook</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Binding_MoPubBase\Binding_MoPubBase.csproj">
+      <Project>{3d2a66f9-8b9c-44fa-b1aa-fddfe0996130}</Project>
+      <Name>Binding_MoPubBase</Name>
     </ProjectReference>
     <ProjectReference Include="..\Binding_MoPub\Binding_MoPub.csproj">
       <Project>{248384a0-67f9-4fb4-a7f6-9ca3188ed747}</Project>

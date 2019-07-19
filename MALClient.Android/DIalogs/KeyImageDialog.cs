@@ -43,7 +43,7 @@ namespace MALClient.Android.Dialogs
             var animeLink = AnimeImageExtensions.GetImgUrl(link);
             if (animeLink == null || link == "https://cdn.myanimelist.net/images/anime//0.jpg")
             {
-                ResourceLocator.SnackbarProvider.ShowText("Failed obatining image.");
+                ResourceLocator.SnackbarProvider.ShowText("Failed obtaining image.");
                 return;
             }
             var dialogBuilder = DialogPlus.NewDialog(context);

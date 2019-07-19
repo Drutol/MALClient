@@ -72,7 +72,7 @@ namespace MALClient.XShared.Comm.Anime
                     i++;
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 //ejchtiemel
             }

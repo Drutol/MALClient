@@ -650,7 +650,7 @@ namespace MALClient.XShared.ViewModels.Details
             {
                 if (MyStatus == AnimeStatus.Completed && MyEpisodes != AllEpisodes && AllEpisodes != 0)
                 {
-                    vm.PromptForWatchedEpsChange(AnimeMode ? AllEpisodes : (Settings.MangaFocusVolumes ? AllEpisodes : AllVolumes));
+                    vm.PromptForWatchedEpsChange(AnimeMode ? AllEpisodes : (Settings.MangaFocusVolumes ? AllVolumes : AllEpisodes));
                     RaisePropertyChanged(() => MyEpisodesBind);
                 }
 

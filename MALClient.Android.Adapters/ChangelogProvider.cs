@@ -35,10 +35,11 @@ namespace MALClient.Android.Adapters
 
         public List<string> Changelog => new List<string>
         {
-            "General maintenance.",
-            "Added more studios to search tab.",
-            "Added alternative title to details.",
-            "Now also hiding scores on search page when setting to do so is enabled.",
+            "Added support for entry priorities",
+            "Added search everywhere and refreshed search pages a little bit. You can now search for people and other users!",
+            "Improved share feature with added support for volumes.",
+            "Fixed wrong chapter number update after completing manga from details page",
+            "Tags are now case sensitive."
         };
     }
 }

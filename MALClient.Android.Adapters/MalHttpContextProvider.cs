@@ -86,10 +86,21 @@ namespace MALClient.Android.Adapters
                     throw new WebException("Unable to authorize");
                 }
 
-                if (content.Contains("Your username or password is incorrect.") ||
-                    content.Contains("badresult badresult--is-reset-password"))
+                if (content.Contains("Your username or password is incorrect."))
                 {
+                    await ResourceLocator.MessageDialogProvider.ShowMessageDialogAsync(
+                        "App got response that your username or password is incorrect.",
+                        "Check your credentials");
                     ResourceLocator.TelemetryProvider.TelemetryTrackEvent(TelemetryTrackedEvents.FailedLogin, ("Reason", "Invalid credentials."));
+                    throw new WebException("Unable to authorize");
+                }
+
+                if (content.Contains("badresult badresult--is-reset-password"))
+                {
+                    await ResourceLocator.MessageDialogProvider.ShowMessageDialogAsync(
+                        "App got response that there's need for a password reset.",
+                        "Website sign in required");
+                    ResourceLocator.TelemetryProvider.TelemetryTrackEvent(TelemetryTrackedEvents.FailedLogin, ("Reason", "Password reset."));
                     throw new WebException("Unable to authorize");
                 }
 

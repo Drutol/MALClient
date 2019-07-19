@@ -518,9 +518,9 @@ namespace MALClient.XShared.ViewModels.Main
                     try
                     {
                         if (ViewModelLocator.GeneralMain.SearchHints.Count > 0) //if there are any tags to begin with
-                            items = items.Where(item => item.Title.ToLower().Contains(query) || item.Tags.Contains(query));
+                            items = items.Where(item => item.Title.ToLower().Contains(query.ToLower()) || item.Tags.Select(s => s.ToLower()).Contains(query.ToLower()));
                         else
-                            items = items.Where(item => item.Title.ToLower().Contains(query));
+                            items = items.Where(item => item.Title.ToLower().Contains(query.ToLower()));
                     }
                     catch (Exception e)
                     {

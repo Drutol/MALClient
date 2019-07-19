@@ -23,8 +23,8 @@ namespace MALClient.XShared.ViewModels.Main
         private bool _isFirstVisitGridVisible = true;
         private string _prevQuery;
 
-        public ObservableCollection<ISearchEverywhereItem> SearchResults { get; } =
-            new ObservableCollection<ISearchEverywhereItem>();
+        public SmartObservableCollection<ISearchEverywhereItem> SearchResults { get; } =
+            new SmartObservableCollection<ISearchEverywhereItem>();
 
         public bool Loading
         {
@@ -100,13 +100,14 @@ namespace MALClient.XShared.ViewModels.Main
             SearchResults.Clear();
             Loading = true;
 
+            var list = new List<ISearchEverywhereItem>();
             try
             {
                 var searchResultsQuery = await new EverywhereSearchQuery().GetResult(query);
 
                 foreach (var category in searchResultsQuery.Categories)
                 {
-                    SearchResults.Add(new SearchCategoryItem
+                    list.Add(new SearchCategoryItem
                     {
                         Name = char.ToUpper(category.Type[0]) + category.Type.Substring(1)
                     });
@@ -134,9 +135,11 @@ namespace MALClient.XShared.ViewModels.Main
                                 continue;
                         }
 
-                        SearchResults.Add(listItem);
+                        list.Add(listItem);
                     }
                 }
+
+                SearchResults.AddRange(list);
 
                 IsEmptyNoticeVisible = !SearchResults.Any();
             }

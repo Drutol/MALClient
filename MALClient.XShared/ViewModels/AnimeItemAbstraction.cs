@@ -146,8 +146,8 @@ namespace MALClient.XShared.ViewModels
             ? new List<string>()
             : Notes.Contains(",")
                 ? Notes.Split(new char[] {','}, StringSplitOptions.RemoveEmptyEntries)
-                    .Select(s => s.ToLower()).ToList()
-                : new List<string> {Notes.ToLower()});
+                    .Select(s => s).ToList()
+                : new List<string> {Notes});
 
         public DateTime LastWatched
         {

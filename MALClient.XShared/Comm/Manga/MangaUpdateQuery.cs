@@ -67,11 +67,11 @@ namespace MALClient.XShared.Comm.Manga
                     var doc = new HtmlDocument();
                     doc.Load(updateHtml);
 
-                    var priority = doc.DocumentNode
-                                       .FirstOfDescendantsWithId("select", "add_manga_priority")
-                                       .Descendants("option")
-                                       .First(node => node.Attributes.Contains("selected"))?
-                                       .Attributes["value"].Value ?? "0";
+                    //var priority = doc.DocumentNode
+                    //                   .FirstOfDescendantsWithId("select", "add_manga_priority")
+                    //                   .Descendants("option")
+                    //                   .First(node => node.Attributes.Contains("selected"))?
+                    //                   .Attributes["value"].Value ?? "0";
 
                     var storage = doc.DocumentNode
                         .FirstOfDescendantsWithId("select", "add_manga_storage_type")
@@ -118,10 +118,11 @@ namespace MALClient.XShared.Comm.Manga
                         ["add_manga[num_read_chapters]"] = _item.MyEpisodes.ToString(),
                         ["add_manga[num_read_volumes]"] = _item.MyVolumes.ToString(),
                         ["add_manga[tags]"] = string.IsNullOrEmpty(_item.Notes) ? "" : _item.Notes,
+                        ["add_manga[priority]"] = ((int)_item.Priority).ToString(),
 
                         ["csrf_token"] = client.Token,
 
-                        ["add_manga[priority]"] = priority,
+                        //["add_manga[priority]"] = priority,
                         ["add_manga[storage_type]"] = storage,
                         ["add_manga[num_retail_volumes]"] = storageValue,
                         ["add_manga[num_read_times]"] = rewatches,

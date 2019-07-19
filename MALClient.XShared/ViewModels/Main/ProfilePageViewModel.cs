@@ -482,14 +482,22 @@ namespace MALClient.XShared.ViewModels.Main
         public ICommand RefreshCommentsCommand
             => _refreshCommentsCommand ?? (_refreshCommentsCommand = new RelayCommand(async () =>
             {
-                if (_refreshingComments)
-                    return;
-                LoadingCommentsVisiblity = true;
-                _refreshingComments = true;
-                await CurrentData.UpdateComments();
-                MalComments = new ObservableCollection<MalComment>(CurrentData.Comments);
-                _refreshingComments = false;
-                LoadingCommentsVisiblity = false;
+                try
+                {
+                    if (_refreshingComments)
+                        return;
+                    LoadingCommentsVisiblity = true;
+                    _refreshingComments = true;
+                    await CurrentData.UpdateComments();
+                    MalComments = new ObservableCollection<MalComment>(CurrentData.Comments);
+                    _refreshingComments = false;
+                    LoadingCommentsVisiblity = false;
+                }
+                catch (Exception e)
+                {
+                    ResourceLocator.SnackbarProvider.ShowText("Failed to load comments.");
+                }
+
             }));
 
         private List<AnimeItemViewModel> _recentAnime;

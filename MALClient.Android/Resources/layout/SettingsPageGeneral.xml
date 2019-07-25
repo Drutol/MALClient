@@ -658,7 +658,7 @@
           android:layout_height="wrap_content"
           android:layout_gravity="center_vertical"
           android:layout_weight="1"
-          android:text="Don't display low priority indicator on anime items."
+          android:text="Display low priority indicator on anime items."
           android:textColor="?BrushText"
           android:textSize="@dimen/FontSizeMedium" />
 

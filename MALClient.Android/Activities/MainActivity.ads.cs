@@ -47,7 +47,6 @@ namespace MALClient.Android.Activities
             /*.WithLogLevel(MoPubLog.LogLevel.Debug)*/
 
             MoPub.InitializeSdk(this, sdkConfiguration, this);
-
             Bindings.Add(this.SetBinding(() => ViewModel.AdsContainerVisibility)
                 .WhenSourceChanges(async () =>
                 {
@@ -55,6 +54,7 @@ namespace MALClient.Android.Activities
                     {
                         if (!_initializedAds)
                         {
+                            await MopubSemaphore.WaitAsync(TimeSpan.FromSeconds(3));
                             MobileAds.Initialize(ApplicationContext, "ca-app-pub-8220174765620095~3319675764");
                             var adRequest = new AdRequest.Builder()
                                 .AddKeyword("anime")
@@ -211,6 +211,11 @@ namespace MALClient.Android.Activities
         public void OnRewardedVideoAdOpened()
         {
 
+        }
+
+        public void OnRewardedVideoCompleted()
+        {
+            
         }
 
         public void OnRewardedVideoStarted()

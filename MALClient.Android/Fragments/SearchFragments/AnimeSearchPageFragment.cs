@@ -162,26 +162,26 @@ namespace MALClient.Android.Fragments.SearchFragments
             private TextView _watchingStatus;
             private TextView _watchedEpisodes;
             private LinearLayout _topRightInfo;
+            private TextView _animeSearchItemTitle;
+            private TextView _animeSearchItemDescription;
             private TextView _animeSearchItemType;
             private TextView _animeSearchItemEpisodes;
             private TextView _animeSearchItemGlobalScore;
-            private RelativeLayout _animeSearchItemGlobalScoreContainer;
-            private RelativeLayout _animeSearchItemBtmSection;
-            private TextView _animeSearchItemTitle;
-            private TextView _animeSearchItemDescription;
+            private FrameLayout _animeSearchItemGlobalScoreContainer;
+            private FrameLayout _animeSearchItemBtmSection;
             private LinearLayout _clickSurface;
 
             public ImageView AnimeSearchItemImage => _animeSearchItemImage ?? (_animeSearchItemImage = _view.FindViewById<ImageView>(Resource.Id.AnimeSearchItemImage));
             public TextView WatchingStatus => _watchingStatus ?? (_watchingStatus = _view.FindViewById<TextView>(Resource.Id.WatchingStatus));
             public TextView WatchedEpisodes => _watchedEpisodes ?? (_watchedEpisodes = _view.FindViewById<TextView>(Resource.Id.WatchedEpisodes));
             public LinearLayout TopRightInfo => _topRightInfo ?? (_topRightInfo = _view.FindViewById<LinearLayout>(Resource.Id.TopRightInfo));
+            public TextView AnimeSearchItemTitle => _animeSearchItemTitle ?? (_animeSearchItemTitle = _view.FindViewById<TextView>(Resource.Id.AnimeSearchItemTitle));
+            public TextView AnimeSearchItemDescription => _animeSearchItemDescription ?? (_animeSearchItemDescription = _view.FindViewById<TextView>(Resource.Id.AnimeSearchItemDescription));
             public TextView AnimeSearchItemType => _animeSearchItemType ?? (_animeSearchItemType = _view.FindViewById<TextView>(Resource.Id.AnimeSearchItemType));
             public TextView AnimeSearchItemEpisodes => _animeSearchItemEpisodes ?? (_animeSearchItemEpisodes = _view.FindViewById<TextView>(Resource.Id.AnimeSearchItemEpisodes));
             public TextView AnimeSearchItemGlobalScore => _animeSearchItemGlobalScore ?? (_animeSearchItemGlobalScore = _view.FindViewById<TextView>(Resource.Id.AnimeSearchItemGlobalScore));
-            public RelativeLayout AnimeSearchItemGlobalScoreContainer => _animeSearchItemGlobalScoreContainer ?? (_animeSearchItemGlobalScoreContainer = _view.FindViewById<RelativeLayout>(Resource.Id.AnimeSearchItemGlobalScoreContainer));
-            public RelativeLayout AnimeSearchItemBtmSection => _animeSearchItemBtmSection ?? (_animeSearchItemBtmSection = _view.FindViewById<RelativeLayout>(Resource.Id.AnimeSearchItemBtmSection));
-            public TextView AnimeSearchItemTitle => _animeSearchItemTitle ?? (_animeSearchItemTitle = _view.FindViewById<TextView>(Resource.Id.AnimeSearchItemTitle));
-            public TextView AnimeSearchItemDescription => _animeSearchItemDescription ?? (_animeSearchItemDescription = _view.FindViewById<TextView>(Resource.Id.AnimeSearchItemDescription));
+            public FrameLayout AnimeSearchItemGlobalScoreContainer => _animeSearchItemGlobalScoreContainer ?? (_animeSearchItemGlobalScoreContainer = _view.FindViewById<FrameLayout>(Resource.Id.AnimeSearchItemGlobalScoreContainer));
+            public FrameLayout AnimeSearchItemBtmSection => _animeSearchItemBtmSection ?? (_animeSearchItemBtmSection = _view.FindViewById<FrameLayout>(Resource.Id.AnimeSearchItemBtmSection));
             public LinearLayout ClickSurface => _clickSurface ?? (_clickSurface = _view.FindViewById<LinearLayout>(Resource.Id.ClickSurface));
         }
 

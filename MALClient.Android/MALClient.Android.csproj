@@ -364,6 +364,10 @@
       <Project>{99432b0f-e4f9-45cb-be00-0d0956f47e57}</Project>
       <Name>Binding_Facebook</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Binding_InMobi\Binding_InMobi.csproj">
+      <Project>{ae5be2b1-eb85-402f-a1f2-bce1513a9bb0}</Project>
+      <Name>Binding_InMobi</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Binding_MoPubBase\Binding_MoPubBase.csproj">
       <Project>{3d2a66f9-8b9c-44fa-b1aa-fddfe0996130}</Project>
       <Name>Binding_MoPubBase</Name>

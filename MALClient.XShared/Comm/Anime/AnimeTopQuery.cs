@@ -85,7 +85,12 @@ namespace MALClient.XShared.Comm.Anime
 
             var doc = new HtmlDocument();
             doc.LoadHtml(raw);
-            var topNodes = doc.DocumentNode.Descendants("table").First(node => node.Attributes.Contains("class") && node.Attributes["class"].Value == "top-ranking-table");
+            var topNodes = doc.DocumentNode.Descendants("table").FirstOrDefault(node =>
+                node.Attributes.Contains("class") && node.Attributes["class"].Value == "top-ranking-table");
+
+            if(topNodes == null)
+                return new List<TopAnimeData>();
+
             var i = 50*_page;
             string imgUrlType = _type == TopAnimeType.Manga ? "manga/" : "anime/";
             foreach (var item in topNodes.Descendants("tr").Where(node => node.Attributes.Contains("class") && node.Attributes["class"].Value == "ranking-list"))

@@ -378,8 +378,17 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
             var view = convertView ??
                        Activity.LayoutInflater.Inflate(Resource.Layout.ProfilePageGeneralTabDetailsItem, null);
 
-            view.FindViewById<TextView>(Resource.Id.ProfilePageGeneralTabDetailsItemLeft).Text = tuple.Item1;
-            view.FindViewById<TextView>(Resource.Id.ProfilePageGeneralTabDetailsItemRight).Text = tuple.Item2;
+            try
+            {
+                view.FindViewById<TextView>(Resource.Id.ProfilePageGeneralTabDetailsItemLeft).Text = tuple?.Item1;
+                view.FindViewById<TextView>(Resource.Id.ProfilePageGeneralTabDetailsItemRight).Text = tuple?.Item2;
+            }
+            catch (Exception e)
+            {
+                ResourceLocator.TelemetryProvider.TrackException(e);
+                //random crash
+            }
+
 
             return view;
         }

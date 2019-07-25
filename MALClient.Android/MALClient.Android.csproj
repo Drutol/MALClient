@@ -372,6 +372,10 @@
       <Project>{3d2a66f9-8b9c-44fa-b1aa-fddfe0996130}</Project>
       <Name>Binding_MoPubBase</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Binding_MoPubMediation\Binding_MoPubMediation.csproj">
+      <Project>{bd766ba7-7f1f-400e-8258-16d130421fbc}</Project>
+      <Name>Binding_MoPubMediation</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Binding_MoPub\Binding_MoPub.csproj">
       <Project>{248384a0-67f9-4fb4-a7f6-9ca3188ed747}</Project>
       <Name>Binding_MoPub</Name>

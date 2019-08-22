@@ -233,8 +233,6 @@
     <Compile Include="Mediation\FacebookCustomEventBanner.cs" />
     <Compile Include="Mediation\FacebookCustomEventBannerForwarder.cs" />
     <Compile Include="Mediation\MediationOptions.cs" />
-    <Compile Include="Mediation\MoPubAdBanner.cs" />
-    <Compile Include="Mediation\MoPubCustomEventBannerForwarder.cs" />
     <Compile Include="Resources\AndroidColorThemesEnum.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -367,18 +365,6 @@
     <ProjectReference Include="..\Binding_InMobi\Binding_InMobi.csproj">
       <Project>{ae5be2b1-eb85-402f-a1f2-bce1513a9bb0}</Project>
       <Name>Binding_InMobi</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Binding_MoPubBase\Binding_MoPubBase.csproj">
-      <Project>{3d2a66f9-8b9c-44fa-b1aa-fddfe0996130}</Project>
-      <Name>Binding_MoPubBase</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Binding_MoPubMediation\Binding_MoPubMediation.csproj">
-      <Project>{bd766ba7-7f1f-400e-8258-16d130421fbc}</Project>
-      <Name>Binding_MoPubMediation</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Binding_MoPub\Binding_MoPub.csproj">
-      <Project>{248384a0-67f9-4fb4-a7f6-9ca3188ed747}</Project>
-      <Name>Binding_MoPub</Name>
     </ProjectReference>
     <ProjectReference Include="..\MALClient.Adapters\MALClient.Adapters.csproj">
       <Project>{9f8e953e-47a6-4f72-a2fe-bef7a2dae850}</Project>

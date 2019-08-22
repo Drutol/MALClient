@@ -41,81 +41,90 @@ namespace MALClient.Android.Adapters
 
             var response = await _httpClient.PostAsync("/login.php", LoginPostBody);
             var content = await response.Content.ReadAsStringAsync();
-            if (response.IsSuccessStatusCode || response.StatusCode == HttpStatusCode.Found ||
-                response.StatusCode == HttpStatusCode.RedirectMethod)
+            try
             {
-                if (content.Contains("Too many failed login attempts. Please try to login again after several hours."))
+                if (response.IsSuccessStatusCode || response.StatusCode == HttpStatusCode.Found ||
+                response.StatusCode == HttpStatusCode.RedirectMethod)
                 {
-                    ResourceLocator.DispatcherAdapter.Run( async () =>
+                    if (content.Contains("Too many failed login attempts. Please try to login again after several hours."))
+                    {
+                        ResourceLocator.DispatcherAdapter.Run(async () =>
+                        {
+                            await ResourceLocator.MessageDialogProvider.ShowMessageDialogAsync(
+                                "Too many failed login attempts. Your account is locked according to MAL. Please try signing in on website.",
+                                "Failed to authorize.");
+                            if (ViewModelLocator.GeneralMain.CurrentMainPage != PageIndex.PageLogIn)
+                                ViewModelLocator.GeneralMain.Navigate(PageIndex.PageLogIn);
+                        });
+
+                        ResourceLocator.TelemetryProvider.TelemetryTrackEvent(TelemetryTrackedEvents.FailedLogin, ("Reason", "Too many failed login attempts."));
+                        throw new WebException("Unable to authorize");
+                    }
+                    if (content.Contains("This account has not yet authorized their e-mail."))
+                    {
+                        ResourceLocator.DispatcherAdapter.Run(async () =>
+                        {
+                            await ResourceLocator.MessageDialogProvider.ShowMessageDialogAsync(
+                                "You didn't confirm your email address. Please confirm it before signing in.",
+                                "Confirm your email.");
+                            if (ViewModelLocator.GeneralMain.CurrentMainPage != PageIndex.PageLogIn)
+                                ViewModelLocator.GeneralMain.Navigate(PageIndex.PageLogIn);
+                        });
+                        ResourceLocator.TelemetryProvider.TelemetryTrackEvent(TelemetryTrackedEvents.FailedLogin, ("Reason", "Not verified email."));
+                        throw new WebException("Unable to authorize");
+                    }
+                    if (content.Contains("It has been a while since your last login, for security reasons we require you to also provide a captcha code."))
+                    {
+                        ResourceLocator.DispatcherAdapter.Run(async () =>
+                        {
+                            await ResourceLocator.MessageDialogProvider.ShowMessageDialogAsync(
+                                "It looks like a captcha is waiting for you. Please sign in on website before using this app.",
+                                "Website sign in required");
+                            if (ViewModelLocator.GeneralMain.CurrentMainPage != PageIndex.PageLogIn)
+                                ViewModelLocator.GeneralMain.Navigate(PageIndex.PageLogIn);
+                        });
+
+                        ResourceLocator.TelemetryProvider.TelemetryTrackEvent(TelemetryTrackedEvents.FailedLogin, ("Reason", "Captcha."));
+                        throw new WebException("Unable to authorize");
+                    }
+
+                    if (content.Contains("Your username or password is incorrect."))
                     {
                         await ResourceLocator.MessageDialogProvider.ShowMessageDialogAsync(
-                            "Too many failed login attempts. Your account is locked according to MAL. Please try signing in on website.",
-                            "Failed to authorize.");
-                        if(ViewModelLocator.GeneralMain.CurrentMainPage != PageIndex.PageLogIn)
-                            ViewModelLocator.GeneralMain.Navigate(PageIndex.PageLogIn);
-                    });
- 
-                    ResourceLocator.TelemetryProvider.TelemetryTrackEvent(TelemetryTrackedEvents.FailedLogin, ("Reason", "Too many failed login attempts."));
-                    throw new WebException("Unable to authorize");
-                }
-                if(content.Contains("This account has not yet authorized their e-mail."))
-                {
-                    ResourceLocator.DispatcherAdapter.Run(async () =>
+                            "App got response that your username or password is incorrect.",
+                            "Check your credentials");
+                        ResourceLocator.TelemetryProvider.TelemetryTrackEvent(TelemetryTrackedEvents.FailedLogin, ("Reason", "Invalid credentials."));
+                        throw new WebException("Unable to authorize");
+                    }
+
+                    if (content.Contains("badresult badresult--is-reset-password"))
                     {
                         await ResourceLocator.MessageDialogProvider.ShowMessageDialogAsync(
-                            "You didn't confirm your email address. Please confirm it before signing in.",
-                            "Confirm your email.");
-                        if (ViewModelLocator.GeneralMain.CurrentMainPage != PageIndex.PageLogIn)
-                            ViewModelLocator.GeneralMain.Navigate(PageIndex.PageLogIn);
-                    });
-                    ResourceLocator.TelemetryProvider.TelemetryTrackEvent(TelemetryTrackedEvents.FailedLogin, ("Reason", "Not verified email."));
-                    throw new WebException("Unable to authorize");
-                }
-                if (content.Contains("It has been a while since your last login, for security reasons we require you to also provide a captcha code."))
-                {
-                    ResourceLocator.DispatcherAdapter.Run(async () =>
-                    {
-                        await ResourceLocator.MessageDialogProvider.ShowMessageDialogAsync(
-                            "It looks like a captcha is waiting for you. Please sign in on website before using this app.",
+                            "App got response that there's need for a password reset.",
                             "Website sign in required");
-                        if (ViewModelLocator.GeneralMain.CurrentMainPage != PageIndex.PageLogIn)
-                            ViewModelLocator.GeneralMain.Navigate(PageIndex.PageLogIn);
-                    });
+                        ResourceLocator.TelemetryProvider.TelemetryTrackEvent(TelemetryTrackedEvents.FailedLogin, ("Reason", "Password reset."));
+                        throw new WebException("Unable to authorize");
+                    }
 
-                    ResourceLocator.TelemetryProvider.TelemetryTrackEvent(TelemetryTrackedEvents.FailedLogin, ("Reason", "Captcha."));
-                    throw new WebException("Unable to authorize");
+                    var matches = Regex.Match(content, "\\/images\\/userimages\\/(\\d+)\\..*");
+                    if (matches.Success)
+                    {
+                        Credentials.SetId(int.Parse(matches.Groups[1].Captures[0].Value));
+                    }
+
+                    _contextExpirationTime = DateTime.Now.Add(TimeSpan.FromHours(.5));
+                    return _httpClient; //else we are returning client that can be used for next queries
                 }
 
-                if (content.Contains("Your username or password is incorrect."))
-                {
-                    await ResourceLocator.MessageDialogProvider.ShowMessageDialogAsync(
-                        "App got response that your username or password is incorrect.",
-                        "Check your credentials");
-                    ResourceLocator.TelemetryProvider.TelemetryTrackEvent(TelemetryTrackedEvents.FailedLogin, ("Reason", "Invalid credentials."));
-                    throw new WebException("Unable to authorize");
-                }
-
-                if (content.Contains("badresult badresult--is-reset-password"))
-                {
-                    await ResourceLocator.MessageDialogProvider.ShowMessageDialogAsync(
-                        "App got response that there's need for a password reset.",
-                        "Website sign in required");
-                    ResourceLocator.TelemetryProvider.TelemetryTrackEvent(TelemetryTrackedEvents.FailedLogin, ("Reason", "Password reset."));
-                    throw new WebException("Unable to authorize");
-                }
-
-                var matches = Regex.Match(content, "\\/images\\/userimages\\/(\\d+)\\..*");
-                if (matches.Success)
-                {
-                    Credentials.SetId(int.Parse(matches.Groups[1].Captures[0].Value));
-                }
-
-                _contextExpirationTime = DateTime.Now.Add(TimeSpan.FromHours(.5));
-                return _httpClient; //else we are returning client that can be used for next queries
+                ResourceLocator.TelemetryProvider.TelemetryTrackEvent(TelemetryTrackedEvents.FailedLogin, ("Reason", "Too many failed login attempts."));
+                throw new WebException($"Unable to authorize, {content}");
             }
-
-            ResourceLocator.TelemetryProvider.TelemetryTrackEvent(TelemetryTrackedEvents.FailedLogin, ("Reason", "Too many failed login attempts."));
-            throw new WebException($"Unable to authorize, {content}");
+            catch (Exception e)
+            {
+                ResourceLocator.ClipboardProvider.SetText($"{e}\n{response}\n{content}");
+                ResourceLocator.SnackbarProvider.ShowText("Error copied to clipboard.");
+                throw;
+            }
         }
 
         public override HttpClientHandler GetHandler()

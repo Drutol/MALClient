@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Windows.Storage;
 using Windows.UI;
 using Windows.UI.Xaml;
@@ -25,7 +26,7 @@ namespace MALClient.UWP.Shared.UserControls
             var data = await file.GetBasicPropertiesAsync();
             _fileName = file.Name;
             _saveTime = data.DateModified.LocalDateTime;
-            TxtDate.Text = _saveTime.ToString("dd/MM/yyyy HH:mm");
+            TxtDate.Text = _saveTime.ToString("dd/MM/yyyy HH:mm", CultureInfo.InvariantCulture);
             TxtSize.Text = Utilities.SizeSuffix((long) data.Size);
         }
 

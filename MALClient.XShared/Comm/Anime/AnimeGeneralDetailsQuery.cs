@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -26,6 +27,7 @@ namespace MALClient.XShared.Comm.Anime
                 return output;
 
             var requestedApiType = apiOverride ?? CurrentApiType;
+            var response = string.Empty;
             try
             {
                 switch (requestedApiType)
@@ -34,8 +36,7 @@ namespace MALClient.XShared.Comm.Anime
 
                         using (var client = new HttpClient(ResourceLocator.MalHttpContextProvider.GetHandler()))
                         {
-                            var response =
-                                await client.GetStringAsync(
+                            response = await client.GetStringAsync(
                                     $"https://api.jikan.moe/v3/{(animeMode ? "anime" : "manga")}/{id}");
 
                             if (animeMode)
@@ -48,8 +49,8 @@ namespace MALClient.XShared.Comm.Anime
                                     Status = parsed.status,
                                     Type = parsed.type,
                                     AlternateTitle = parsed.title_japanese,
-                                    StartDate = parsed.aired.from?.ToString("yyyy-MM-dd") ?? "N/A",
-                                    EndDate = parsed.aired.to?.ToString("yyyy-MM-dd") ?? "N/A",
+                                    StartDate = parsed.aired.from?.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture) ?? "N/A",
+                                    EndDate = parsed.aired.to?.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture) ?? "N/A",
                                     ImgUrl = parsed.image_url,
                                     GlobalScore = (float) (parsed.score ?? 0),
                                     Id = parsed.mal_id,
@@ -82,8 +83,8 @@ namespace MALClient.XShared.Comm.Anime
                                     Status = parsed.status,
                                     Type = parsed.type,
                                     AlternateTitle = parsed.title_japanese,
-                                    StartDate = parsed.published.from?.ToString("yyyy-MM-dd") ?? "N/A",
-                                    EndDate = parsed.published.to?.ToString("yyyy-MM-dd") ?? "N/A",
+                                    StartDate = parsed.published.from?.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture) ?? "N/A",
+                                    EndDate = parsed.published.to?.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture) ?? "N/A",
                                     ImgUrl = parsed.image_url,
                                     GlobalScore = (float) (parsed.score ?? 0),
                                     Id = parsed.mal_id,
@@ -107,6 +108,8 @@ namespace MALClient.XShared.Comm.Anime
             }
             catch (Exception e)
             {
+                ResourceLocator.ClipboardProvider.SetText($"{e}\n{response}");
+                ResourceLocator.SnackbarProvider.ShowText("Error copied to clipboard.");
                 // todo android notification nav bug
                 // probably MAl garbled response
             }

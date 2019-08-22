@@ -11,8 +11,6 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
-using Com.Mopub.Common;
-using Com.Mopub.Common.Logging;
 using GalaSoft.MvvmLight.Helpers;
 using MALClient.Android.BindingConverters;
 using MALClient.XShared.Utils;
@@ -20,7 +18,7 @@ using MALClient.XShared.ViewModels;
 
 namespace MALClient.Android.Activities
 {
-    public partial class MainActivity : IRewardedVideoAdListener, ISdkInitializationListener
+    public partial class MainActivity : IRewardedVideoAdListener
     {
         private IRewardedVideoAd _videoAd;
         private Timer _timer;
@@ -42,11 +40,6 @@ namespace MALClient.Android.Activities
         {
             ViewModelLocator.Settings.OnAdsMinutesPerDayChanged += SettingsOnOnAdsMinutesPerDayChanged;
 
-            var sdkConfiguration =
-                new SdkConfiguration.Builder("9d83d5eb18444b859eb2a8a6d7110f65").Build();
-            /*.WithLogLevel(MoPubLog.LogLevel.Debug)*/
-
-            MoPub.InitializeSdk(this, sdkConfiguration, this);
             Bindings.Add(this.SetBinding(() => ViewModel.AdsContainerVisibility)
                 .WhenSourceChanges(async () =>
                 {

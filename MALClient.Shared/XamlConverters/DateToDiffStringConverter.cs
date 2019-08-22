@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Windows.UI.Xaml.Data;
 
 namespace MALClient.UWP.Shared.XamlConverters
@@ -10,7 +11,7 @@ namespace MALClient.UWP.Shared.XamlConverters
             var date = (DateTime)value;
             var diff = DateTime.Now.Subtract(date);
             if (diff.TotalDays > 10)
-                return date.ToString("g");
+                return date.ToString("g", CultureInfo.InvariantCulture);
             return
                 $@"{(diff.Days > 0 ? $"{diff.Days} {(diff.Days == 1 ? "day" : "days")}" : "")} {(diff.Hours > 0
                     ? $"{diff.Hours} {(diff.Hours == 1 ? "hour" : "hours")}"

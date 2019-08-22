@@ -1,4 +1,5 @@
 using System.Collections.Specialized;
+using System.Globalization;
 using System.Security.Cryptography;
 using System.Windows.Input;
 using Android.Support.Design.Widget;
@@ -56,6 +57,16 @@ namespace MALClient.Android
         {
             var a = sb.Max;
             sb.Max = 10;
+        }
+
+        public void Include(UmAlQuraCalendar sb)
+        {
+            sb = new System.Globalization.UmAlQuraCalendar();
+        }
+
+        public void Include(ThaiBuddhistCalendar sb)
+        {
+            sb = new System.Globalization.ThaiBuddhistCalendar();
         }
 
         public void Include(Switch sw)

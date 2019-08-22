@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -187,7 +188,7 @@ namespace MALClient.XShared.ViewModels.Main
                                 message.Target = MessageTarget;
                                 message.Sender = Credentials.UserName;
                                 message.IsRead = true;
-                                message.Date = DateTime.Now.ToString("d");
+                                message.Date = DateTime.Now.ToString("d", CultureInfo.InvariantCulture);
                                 message.Subject = MessageSubject;
                                 MessageThreads[message.ThreadId] = new List<MalMessageModel> {message};
                                 _prevMsg = message;
@@ -229,7 +230,7 @@ namespace MALClient.XShared.ViewModels.Main
                         {
                             Subject = _prevMsg.Subject,
                             Content = MessageText,
-                            Date = DateTime.Now.ToString("d"),
+                            Date = DateTime.Now.ToString("d", CultureInfo.InvariantCulture),
                             Id = "0",
                             Sender = Credentials.UserName,
                             Target = _prevMsg.Target,
@@ -269,7 +270,7 @@ namespace MALClient.XShared.ViewModels.Main
                             {
                                 Content = MessageText,
                                 Sender = Credentials.UserName,
-                                Date = DateTime.Now.ToString("d")
+                                Date = DateTime.Now.ToString("d", CultureInfo.InvariantCulture)
                             }
                         );
                         MessageText = "";

@@ -93,6 +93,9 @@ namespace MALClient.Android.BackgroundTasks
                         //may be already registered... voodoo I guess
                     }
 
+                    if(!Credentials.Authenticated)
+                        return;
+
 
                     List<MalNotification> notifications = new List<MalNotification>();
                     try

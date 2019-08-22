@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using Android.Views;
 using MALClient.Models.Enums;
 
@@ -40,7 +41,7 @@ namespace MALClient.Android.BindingConverters
         {
             var diff = DateTime.Now.Subtract(dateTime);
             if (diff.TotalDays > 10)
-                return dateTime.ToString("g");
+                return dateTime.ToString("g", CultureInfo.InvariantCulture);
             return
                 $@"{(diff.Days > 0 ? $"{diff.Days} {(diff.Days == 1 ? "day" : "days")}" : "")}{(diff.Hours > 0
                     ? $" {diff.Hours} {(diff.Hours == 1 ? "hour" : "hours")}"

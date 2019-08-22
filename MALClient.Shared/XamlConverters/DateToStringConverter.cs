@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,7 +12,7 @@ namespace MALClient.UWP.Shared.XamlConverters
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            return ((DateTime)value).ToString("g");
+            return ((DateTime)value).ToString("g", CultureInfo.InvariantCulture);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)

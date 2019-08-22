@@ -1,12 +1,17 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net;
+using System.Net.Http;
+using System.Threading.Tasks;
 using System.Xml.Linq;
 using MALClient.Adapters;
 using MALClient.Adapters.Credentials;
 using MALClient.Models.AdapterModels;
 using MALClient.Models.Enums;
+using MALClient.Models.Models.Auth;
 using MALClient.XShared.Comm;
 using MALClient.XShared.ViewModels;
+using Newtonsoft.Json;
 
 namespace MALClient.XShared.Utils
 {
@@ -21,57 +26,32 @@ namespace MALClient.XShared.Utils
             ApplicationDataService = ResourceLocator.ApplicationDataService;
             PasswordVault = ResourceLocator.PasswordVaultProvider;
 
-            HummingbirdToken = (string)(ApplicationDataService["HummingbirdToken"] ?? "");
-            Id = (int)(ApplicationDataService["UserId"] ?? 0);
-            Authenticated = bool.Parse(ApplicationDataService["Auth"] as string ?? "False"); //why? because I can? but I shouldn't
+            var tokens = (string) ApplicationDataService[nameof(TokenResponse)];
+            if (!string.IsNullOrEmpty(tokens))
+            {
+                Tokens = JsonConvert.DeserializeObject<TokenResponse>(tokens);
+            }
+
+            Id = (int) (ApplicationDataService["UserId"] ?? 0);
+            Authenticated =
+                bool.Parse(ApplicationDataService["Auth"] as string ?? "False"); //why? because I can? but I shouldn't
         }
-
-        public static string HummingbirdToken { get; private set; }
-
-
         public static string UserName
         {
             get { return _userName; }
             private set { _userName = value?.Trim(); }
         }
 
-        public static string Password { get; set; }
-
         public static int Id { get; private set; }
-
-
-        public static bool Authenticated { get;
-            private set; }
-
-        internal static ICredentials GetHttpCreditentials()
-        {
-            return new NetworkCredential(UserName, Password);
-        }
-
-        internal static string GetHummingbirdCredentialChain()
-        {
-            return $"username={UserName}&password={Password}";
-        }
-
-        public static void Update(string name, string passwd, ApiType type)
-        {
-            PasswordVault.Reset();
-
-            UserName = name;
-            Password = passwd;
-
-            Query.RefreshClientAuthHeader();
-
-            if (!string.IsNullOrWhiteSpace(name) && !string.IsNullOrWhiteSpace(passwd))
-                PasswordVault.Add(new VaultCredential((type == ApiType.Mal ? "MALClient" : "MALClientHum"), UserName, Password));
-        }
+        public static TokenResponse Tokens { get; set; }
+        public static bool Authenticated { get; private set; }
 
         public static void Reset()
         {
             PasswordVault.Reset();
             SetAuthStatus(false);
-            SetAuthToken("");
-            UserName = Password = string.Empty;
+            SetAuthTokenResponse(null);
+            UserName = string.Empty;
         }
 
         public static void SetAuthStatus(bool status)
@@ -87,75 +67,33 @@ namespace MALClient.XShared.Utils
             Id = id;
         }
 
-        public static void SetAuthToken(string token)
+        public static void SetAuthTokenResponse(TokenResponse tokens)
         {
-            var trimmedToken = token == "" ? "" : token.Substring(1, token.Length - 2);
-            ApplicationDataService["HummingbirdToken"] = trimmedToken;
-            HummingbirdToken = trimmedToken;
+            ApplicationDataService[nameof(TokenResponse)] = tokens == null ? null : JsonConvert.SerializeObject(tokens);
+            Tokens = tokens;
+            Query.RefreshClientAuthHeader();
         }
 
-        public static void Init()
+        public static async Task Init()
         {
             try
             {
-                var deductedApiType = ApiType.Mal;
-                VaultCredential credential = null;
-                try
+                if (Tokens != null)
                 {
-                    credential = PasswordVault.Get("MALClient");
+                    if (DateTime.UtcNow < Tokens.ValidTill)
+                    {
+                        //obtain access token from refresh token
+                        var response = await new AuthQuery(new FormUrlEncodedContent(new Dictionary<string, string>
+                        {
+                            {"grant_type", "refresh_token"},
+                            {"refresh_token", Tokens.RefreshToken},
+                            {"client_id", Secrets.OauthClientId},
+                        })).GetRequestResponse();
+                        var tokens = JsonConvert.DeserializeObject<TokenResponse>(response);
+                        SetAuthTokenResponse(tokens);
+                    }
                 }
-                catch (Exception)
-                {
-                    credential = PasswordVault.Get("MALClientHum");
-                    deductedApiType = ApiType.Hummingbird;
-                }
-                if (credential != null)
-                {
-                    Settings.SelectedApiType = deductedApiType;
-                    UserName = credential.UserName;
-                    Password = credential.Password;
-                    Authenticated = true;
-                    if ((Settings.SelectedApiType == ApiType.Mal &&
-                        ApplicationDataService["UserId"] == null) ||
-                        (Settings.SelectedApiType == ApiType.Hummingbird &&
-                        string.IsNullOrEmpty(ApplicationDataService["HummingbirdToken"] as string)))
-                        //we have credentials without Id
-                        FillInMissingIdData();
-                }
-                else
-                    Authenticated = false;
-            }
-            catch (Exception)
-            {
-                Authenticated = false;
-            }
-        }
 
-        private static async void FillInMissingIdData()
-        {
-            try
-            {
-                string response = null;
-                switch (Settings.SelectedApiType)
-                {
-                    case ApiType.Mal:
-                        response = await new AuthQuery(ApiType.Mal).GetRequestResponse();
-                        if (string.IsNullOrEmpty(response))
-                            throw new Exception();
-                        var doc = XDocument.Parse(response);
-                        SetId(int.Parse(doc.Element("user").Element("id").Value));
-                        break;
-                    case ApiType.Hummingbird:
-                        response = await new AuthQuery(ApiType.Hummingbird).GetRequestResponse();
-                        if (string.IsNullOrEmpty(response))
-                            throw new Exception();
-                        if (response.Contains("\"error\": \"Invalid credentials\""))
-                            throw new Exception();
-                        SetAuthToken(response);
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException();
-                }
             }
             catch (Exception)
             {

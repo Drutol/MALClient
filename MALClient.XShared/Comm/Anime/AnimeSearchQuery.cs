@@ -21,25 +21,6 @@ namespace MALClient.XShared.Comm.Anime
         public AnimeSearchQuery(string query, ApiType? apiOverride = null)
         {
             _query = query;
-            var targettedApi = apiOverride ?? CurrentApiType;
-            switch (targettedApi)
-            {
-                case ApiType.Mal:
-                    Request =
-                        WebRequest.Create(new Uri($"https://myanimelist.net/api/anime/search.xml?q={query}"));
-                    Request.Credentials = Credentials.GetHttpCreditentials();
-                    Request.ContentType = "application/x-www-form-urlencoded";
-                    Request.Method = "GET";
-                    break;
-                case ApiType.Hummingbird:
-                    Request =
-                        WebRequest.Create(Uri.EscapeUriString($"http://hummingbird.me/api/v1/search/anime?query={query}"));
-                    Request.ContentType = "application/x-www-form-urlencoded";
-                    Request.Method = "GET";
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
         }
 
         public async Task<List<AnimeGeneralDetailsData>> GetSearchResults()

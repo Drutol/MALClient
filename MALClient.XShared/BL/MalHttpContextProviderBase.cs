@@ -78,21 +78,6 @@ namespace MALClient.XShared.BL
 
         public abstract HttpClientHandler GetHandler();
 
-        protected FormUrlEncodedContent LoginPostBody 
-        {
-            get
-            {
-                var loginPostInfo = new List<KeyValuePair<string, string>>
-                {
-                    new KeyValuePair<string, string>("user_name", Credentials.UserName),
-                    new KeyValuePair<string, string>("password", Credentials.Password),
-                    new KeyValuePair<string, string>("sublogin", "Login"),
-                    new KeyValuePair<string, string>("cookie", "1"),
-                    new KeyValuePair<string, string>("submit", "1"),
-                    new KeyValuePair<string, string>("csrf_token", _httpClient.Token)
-                };
-                return new FormUrlEncodedContent(loginPostInfo);
-            }
-        }
+       
     }
 }

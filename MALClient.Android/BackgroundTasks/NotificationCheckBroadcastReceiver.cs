@@ -76,8 +76,6 @@ namespace MALClient.Android.BackgroundTasks
             {
                 try
                 {
-
-
                     try
                     {
                         ResourceLocator.RegisterBase();

@@ -72,6 +72,11 @@ namespace MALClient.Android.Activities
             "/people/.*",
         }
     )]
+    [IntentFilter(new[] { "android.intent.action.VIEW" },
+        Categories = new[] { "android.intent.category.DEFAULT", "android.intent.category.BROWSABLE" },
+        DataSchemes = new[] { "http" }, 
+        DataHosts = new [] {"localhost"},
+        DataPathPatterns = new[] {"/malclient_android"})]
     public partial class MainActivity
     {
         private DroppyMenuPopup _upperFilterMenu;

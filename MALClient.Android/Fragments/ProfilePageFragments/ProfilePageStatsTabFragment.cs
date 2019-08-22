@@ -217,7 +217,7 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
                     "Cancel", "Anime", "Manga",
                     () =>
                     {
-                        shareIntent.PutExtra(Intent.ExtraText, $"• {ViewModel.CurrentData.User.Name}'s Anime Stats •\n" +
+                        shareIntent.PutExtra(Intent.ExtraText, $"ï¿½ {ViewModel.CurrentData.User.Name}'s Anime Stats ï¿½\n" +
                                                                $"Watching: {ViewModel.CurrentData.AnimeWatching} | Completed: {ViewModel.CurrentData.AnimeCompleted}\n" +
                                                                $"On Hold: {ViewModel.CurrentData.AnimeOnHold} | Dropped: {ViewModel.CurrentData.AnimeDropped}\n" +
                                                                $"Planned: {ViewModel.CurrentData.AnimePlanned}\n" +
@@ -227,7 +227,7 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
                         Activity.StartActivity(Intent.CreateChooser(shareIntent, "How to share stats"));
                     }, () =>
                     {
-                        shareIntent.PutExtra(Intent.ExtraText, $"• {ViewModel.CurrentData.User.Name}'s Manga Stats •\n" +
+                        shareIntent.PutExtra(Intent.ExtraText, $"ï¿½ {ViewModel.CurrentData.User.Name}'s Manga Stats ï¿½\n" +
                                                                $"Watching: {ViewModel.CurrentData.MangaReading} | Completed: {ViewModel.CurrentData.MangaCompleted}\n" +
                                                                $"On Hold: {ViewModel.CurrentData.MangaOnHold} | Dropped: {ViewModel.CurrentData.MangaDropped}\n" +
                                                                $"Planned: {ViewModel.CurrentData.MangaPlanned}\n" +

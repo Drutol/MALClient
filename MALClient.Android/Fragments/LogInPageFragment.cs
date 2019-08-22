@@ -22,11 +22,13 @@ using MALClient.Models.Enums;
 using MALClient.XShared.Utils;
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Main;
- 
+
+
 namespace MALClient.Android.Fragments
 {
     public partial class LogInPageFragment
     {
+        private string _codeVerifier;
         public override int LayoutResourceId => Resource.Layout.LogInPage;
 
         private LogInViewModel ViewModel { get; set; }
@@ -98,7 +100,6 @@ namespace MALClient.Android.Fragments
                 BottomButtonsSection.Visibility = ViewStates.Visible;
             }
         }
-
 
         protected override void Cleanup()
         {

@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -9,8 +12,12 @@ using Android.Runtime;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using MALClient.Models.Enums;
+using MALClient.Models.Models.Auth;
 using MALClient.XShared.Comm;
 using MALClient.XShared.Utils;
+using PCLCrypto;
+using static PCLCrypto.WinRTCrypto;
+using HashAlgorithm = PCLCrypto.HashAlgorithm;
 
 namespace MALClient.XShared.ViewModels.Main
 {
@@ -23,17 +30,14 @@ namespace MALClient.XShared.ViewModels.Main
     /// </summary>
     public class LogInViewModel : ViewModelBase
     {
-        private ICommand _focusMalCommand;
-        private ICommand _focusHumCommand;
         private ICommand _logOutCommand;
         private ICommand _logInCommand;
 		private ICommand _problemsCommand;
         private ICommand _navigateRegister;
         private bool _authenticating;
         private bool _logOutButtonVisibility;
-        private bool _isHumToggleChecked;
-        private bool _isMalToggleChecked;
         private ApiType _currentApiType;
+        private string _codeVerifier;
 
         public ApiType CurrentApiType
         {
@@ -88,16 +92,6 @@ namespace MALClient.XShared.ViewModels.Main
                                              LogOutButtonVisibility = false;
                                          }));
 
-        public ICommand FocusMalCommand => _focusMalCommand ?? (_focusMalCommand = new RelayCommand(() =>
-                                           {                                 
-                                               CurrentApiType = ApiType.Mal;
-                                           }));
-
-        public ICommand FocusHumCommand => _focusHumCommand ?? (_focusHumCommand = new RelayCommand(() =>
-                                           {                                                                                        
-                                               CurrentApiType = ApiType.Hummingbird;
-                                           }));
-
         public ICommand LogInCommand => _logInCommand ?? (_logInCommand = new RelayCommand(AttemptAuthentication));
 
 		public ICommand ProblemsCommand => _problemsCommand ?? (_problemsCommand = new RelayCommand(() =>
@@ -109,81 +103,162 @@ namespace MALClient.XShared.ViewModels.Main
 
         public ICommand NavigateRegister => _navigateRegister ?? (_navigateRegister = new RelayCommand(() =>
         {
-            //ResourceLocator.MessageDialogProvider.ShowMessageDialog(
-            //    "Sorry, MyAnimeList.net has disabled registration for the time being. It's not something I can change, please go complain to MAL directly via support ticket.",
-            //    "Registration disabled");
             ResourceLocator.SystemControlsLauncherService.LaunchUri(new Uri("https://myanimelist.net/register.php"));
         }));
-
 
         public void Init()
         {
             ViewModelLocator.GeneralMain
                 .CurrentOffStatus = Credentials.Authenticated ? $"Logged in as {Credentials.UserName}" : "Log In";
 
-            CurrentApiType = ApiType.Mal;//Settings.SelectedApiType;
+            CurrentApiType = ApiType.Mal;
             LogOutButtonVisibility = Credentials.Authenticated;
+        }
+
+        private string CreateCodeChallenge()
+        {
+            _codeVerifier = CreateUniqueId();
+            var sha256 = HashAlgorithmProvider.OpenAlgorithm(HashAlgorithm.Sha256);
+            var challengeBuffer = sha256.HashData(
+                CryptographicBuffer.CreateFromByteArray(Encoding.UTF8.GetBytes(_codeVerifier)));
+            CryptographicBuffer.CopyToByteArray(challengeBuffer, out var challengeBytes);
+            return Convert.ToBase64String(challengeBytes);
+        }
+
+        public static string CreateUniqueId(int length = 64)
+        {
+            var bytes = CryptographicBuffer.GenerateRandom(length);
+            return ByteArrayToString(bytes);
+        }
+
+        private static string ByteArrayToString(byte[] array)
+        {
+            var hex = new StringBuilder(array.Length * 2);
+            foreach (byte b in array)
+            {
+                hex.AppendFormat("{0:x2}", b);
+            }
+            return hex.ToString();
+        }
+
+        private async void OnOauthResponse(OAuthResponse obj)
+        {
+            MessengerInstance.Unregister<OAuthResponse>(this, OnOauthResponse);
+
+            var dict = new Dictionary<string, string>
+            {
+                {"client_id", Secrets.OauthClientId},
+                {"grant_type", "authorization_code"},
+                {"code", obj.Code},
+                {"code_verifier", _codeVerifier},
+            };
+
+            var formContent = new FormUrlEncodedContent(dict);
+
+            var response = await new AuthQuery(formContent).GetRequestResponse();
+
+            if (response == null)
+            {
+                ResourceLocator.MessageDialogProvider.ShowMessageDialog("Failed to authorize.", "Sign in");
+            }
         }
 
         private async void AttemptAuthentication()
         {
-            if (Authenticating)
-                return;
-            Authenticating = true;
-            Credentials.Update(UserNameInput, PasswordInput, CurrentApiType);
-#if ANDROID
-            Query.RefreshClientAuthHeader();
-#endif
-            PasswordInput = string.Empty;
-            RaisePropertyChanged(() => PasswordInput);
-            try
-            {
-                if (CurrentApiType == ApiType.Mal)
-                {
-                    var response = await new AuthQuery(ApiType.Mal).GetRequestResponse();
-                    if (string.IsNullOrEmpty(response))
-                        throw new Exception();
-                    Settings.SelectedApiType = ApiType.Mal;
-                    Credentials.SetId(123456);
-                    Credentials.SetAuthStatus(true);
-                    ResourceLocator.TelemetryProvider.TelemetryTrackEvent(TelemetryTrackedEvents.LoggedInMyAnimeList);
-                }
-                else //hummingbird
-                {
-                    var response = await new AuthQuery(ApiType.Hummingbird).GetRequestResponse();
-                    if (string.IsNullOrEmpty(response))
-                        throw new Exception();
-                    if (response.Contains("\"error\": \"Invalid credentials\""))
-                        throw new Exception();
-                    Settings.SelectedApiType = ApiType.Hummingbird;
-                    Credentials.SetAuthToken(response);
-                    Credentials.SetAuthStatus(true);
-                    ResourceLocator.TelemetryProvider.TelemetryTrackEvent(TelemetryTrackedEvents.LoggedInHummingbird);
+            var challenge = CreateCodeChallenge();
+            var authorizeRequest = new AuthorizeRequest("https://myanimelist.net/v1/oauth2/authorize");
 
-                }
-            }
-            catch (Exception e)
+            var dic = new Dictionary<string, string>
             {
-                Credentials.SetAuthStatus(false);
-                Credentials.Update(string.Empty, string.Empty, ApiType.Mal);
-                ResourceLocator.MessageDialogProvider.ShowMessageDialog("Unable to authorize with provided credentials. If problem persists please try to sign-in on website.","Authorization failed.");              
-                Authenticating = false;
-                return;
-            }
-            try
-            {
-                await ViewModelLocator.GeneralHamburger.UpdateProfileImg();
-            }
-            catch (Exception)
-            {
-                //
-            }
-            ViewModelLocator.GeneralMain.HideOffContentCommand.Execute(null);
-            await DataCache.ClearApiRelatedCache();
-            ViewModelLocator.GeneralMain.Navigate(PageIndex.PageAnimeList);
-            ViewModelLocator.GeneralHamburger.SetActiveButton(HamburgerButtons.AnimeList);
+                {"client_id", Secrets.OauthClientId},
+                {"response_type", "code"},
+                //{"redirect_uri", "malclient://oauth"},
+                {"state", Guid.NewGuid().ToString("N")},
+                {"code_challenge", _codeVerifier},
+                {"code_challenge_method", "plain"}
+            };
+
+            var authorizeUri = authorizeRequest.Create(dic);
+           
+            ResourceLocator.SystemControlsLauncherService.LaunchUri(new Uri(authorizeUri));
+
+            MessengerInstance.Register<OAuthResponse>(this, OnOauthResponse);
+
+
+            //            if (Authenticating)
+            //                return;
+            //            Authenticating = true;
+            //            Credentials.Update(UserNameInput, PasswordInput, CurrentApiType);
+            //#if ANDROID
+            //            Query.RefreshClientAuthHeader();
+            //#endif
+            //            PasswordInput = string.Empty;
+            //            RaisePropertyChanged(() => PasswordInput);
+            //            try
+            //            {
+            //                if (CurrentApiType == ApiType.Mal)
+            //                {
+            //                    var response = await new AuthQuery(ApiType.Mal).GetRequestResponse();
+            //                    if (string.IsNullOrEmpty(response))
+            //                        throw new Exception();
+            //                    Settings.SelectedApiType = ApiType.Mal;
+            //                    Credentials.SetId(123456);
+            //                    Credentials.SetAuthStatus(true);
+            //                    ResourceLocator.TelemetryProvider.TelemetryTrackEvent(TelemetryTrackedEvents.LoggedInMyAnimeList);
+            //                }
+            //                else //hummingbird
+            //                {
+            //                    var response = await new AuthQuery(ApiType.Hummingbird).GetRequestResponse();
+            //                    if (string.IsNullOrEmpty(response))
+            //                        throw new Exception();
+            //                    if (response.Contains("\"error\": \"Invalid credentials\""))
+            //                        throw new Exception();
+            //                    Settings.SelectedApiType = ApiType.Hummingbird;
+            //                    Credentials.SetAuthToken(response);
+            //                    Credentials.SetAuthStatus(true);
+            //                    ResourceLocator.TelemetryProvider.TelemetryTrackEvent(TelemetryTrackedEvents.LoggedInHummingbird);
+
+            //                }
+            //            }
+            //            catch (Exception e)
+            //            {
+            //                Credentials.SetAuthStatus(false);
+            //                Credentials.Update(string.Empty, string.Empty, ApiType.Mal);
+            //                ResourceLocator.MessageDialogProvider.ShowMessageDialog("Unable to authorize with provided credentials. If problem persists please try to sign-in on website.","Authorization failed.");              
+            //                Authenticating = false;
+            //                return;
+            //            }
+            //            try
+            //            {
+            //                await ViewModelLocator.GeneralHamburger.UpdateProfileImg();
+            //            }
+            //            catch (Exception)
+            //            {
+            //                //
+            //            }
+            //ViewModelLocator.GeneralMain.HideOffContentCommand.Execute(null);
+            //await DataCache.ClearApiRelatedCache();
+            //ViewModelLocator.GeneralMain.Navigate(PageIndex.PageAnimeList);
+            //ViewModelLocator.GeneralHamburger.SetActiveButton(HamburgerButtons.AnimeList);
 
             Authenticating = false;
+        }
+
+        public class AuthorizeRequest
+        {
+            readonly Uri _authorizeEndpoint;
+
+            public AuthorizeRequest(string authorizeEndpoint)
+            {
+                _authorizeEndpoint = new Uri(authorizeEndpoint);
+            }
+
+            public string Create(IDictionary<string, string> values)
+            {
+                var queryString = string.Join("&", values.Select(kvp =>
+                    $"{WebUtility.UrlEncode(kvp.Key)}={WebUtility.UrlEncode(kvp.Value)}").ToArray());
+                return $"{_authorizeEndpoint.AbsoluteUri}?{queryString}";
+            }
         }
     }
 }

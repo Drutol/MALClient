@@ -33,8 +33,9 @@ namespace MALClient.XShared.Comm
 
         public static void RefreshClientAuthHeader()
         {
-            _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic",
-                Convert.ToBase64String(Encoding.UTF8.GetBytes($"{Credentials.UserName}:{Credentials.Password}")));
+            if(Credentials.Authenticated)
+                _client.DefaultRequestHeaders.Authorization =
+                    new AuthenticationHeaderValue("Bearer", Credentials.Tokens.AccessToken);
         }
 
 #endif

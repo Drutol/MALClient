@@ -17,10 +17,6 @@ namespace MALClient.XShared.Comm.Manga
         {
             _id = id;
             MangaUpdateQuery.UpdatedSomething = true;
-            Request = WebRequest.Create(Uri.EscapeUriString($"https://myanimelist.net/api/mangalist/delete/{id}.xml"));
-            Request.Credentials = Credentials.GetHttpCreditentials();
-            Request.ContentType = "application/x-www-form-urlencoded";
-            Request.Method = "GET";
         }
 
         public override async Task<string> GetRequestResponse()

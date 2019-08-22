@@ -20,6 +20,7 @@ using MALClient.Android.Fragments;
 using MALClient.Android.Resources;
 using MALClient.Android.ViewModels;
 using MALClient.Models.Enums;
+using MALClient.Models.Models.Auth;
 using MALClient.Models.Models.Notifications;
 using MALClient.XShared.BL;
 using MALClient.XShared.Comm.Anime;
@@ -31,6 +32,7 @@ using MALClient.XShared.Utils.Managers;
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Interfaces;
 using Fragment = Android.Support.V4.App.Fragment;
+using Messenger = GalaSoft.MvvmLight.Messaging.Messenger;
 
 
 namespace MALClient.Android.Activities
@@ -221,6 +223,15 @@ namespace MALClient.Android.Activities
         {
             if (!string.IsNullOrWhiteSpace(args))
             {
+                if (args.StartsWith("http://localhost/malclient_android?code="))
+                {
+                    Messenger.Default.Send(new OAuthResponse
+                    {
+                        Code = args.Split('=')[1].Replace("&state","")
+                    });
+                    return;
+                }
+
                 Tuple<int, string> navArgs = null;
                 Tuple<PageIndex, object> fullNavArgs = null;
                 if (args.Contains('~')) //from notification -> mark read

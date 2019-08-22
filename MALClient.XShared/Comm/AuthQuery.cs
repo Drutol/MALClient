@@ -1,47 +1,38 @@
 ﻿using System;
 using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
 using MALClient.Models.Enums;
+using MALClient.Models.Models.Auth;
 using MALClient.XShared.Comm.MagicalRawQueries;
 using MALClient.XShared.Utils;
 using MALClient.XShared.ViewModels;
+using Newtonsoft.Json;
 
 namespace MALClient.XShared.Comm
 {
     public class AuthQuery : Query
     {
-        public AuthQuery(ApiType forApi)
+        private readonly FormUrlEncodedContent _content;
+
+        public AuthQuery(FormUrlEncodedContent content)
         {
-            switch (forApi)
-            {
-                case ApiType.Mal:
-                    Request =
-                        WebRequest.Create(
-                            Uri.EscapeUriString("https://myanimelist.net/api/account/verify_credentials.xml"));
-                    Request.Credentials = Credentials.GetHttpCreditentials();
-                    Request.Method = "GET";
-                    break;
-                case ApiType.Hummingbird:
-                    Request =
-                        WebRequest.Create(
-                            Uri.EscapeUriString(
-                                $"https://hummingbird.me/api/v1/users/authenticate?{Credentials.GetHummingbirdCredentialChain()}"));
-                    Request.ContentType = "application/x-www-form-urlencoded";
-                    Request.Method = "POST";
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
+            _content = content;
         }
 
         public override async Task<string> GetRequestResponse()
         {
             try
             {
-                ResourceLocator.MalHttpContextProvider.Invalidate();
-                var client = await ResourceLocator.MalHttpContextProvider.GetHttpContextAsync(true);
-                if (client.Disabled)
-                    return null;
+                var response = await _client.PostAsync("https://myanimelist.net/v1/oauth2/token", _content);
+                response.EnsureSuccessStatusCode();
+                var tokens = JsonConvert.DeserializeObject<TokenResponse>(await response.Content.ReadAsStringAsync());
+
+                tokens.ValidTill = DateTime.UtcNow.AddSeconds(tokens.ExpiresIn);
+
+                Credentials.SetAuthTokenResponse(tokens);
+
+                
                 return "ok";
             }
             catch (Exception e)

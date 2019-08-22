@@ -3,6 +3,7 @@
         <TargetFramework>netstandard2.0</TargetFramework>
         <PackageTargetFallback>$(PackageTargetFallback);portable-win+net45+wp8+win81+wpa8</PackageTargetFallback>
         <LangVersion>latest</LangVersion>
+      <RuntimeIdentifier>win</RuntimeIdentifier>
     </PropertyGroup> 
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='AndroidRelease|AnyCPU'">
       <DefineConstants>TRACE;RELEASE;NETSTANDARD2_0;ANDROID</DefineConstants>
@@ -15,6 +16,7 @@
       <PackageReference Include="Microsoft.CSharp" Version="4.5.0" />
       <PackageReference Include="MvvmLightLibsStd10" Version="5.4.1.1" />
       <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
+      <PackageReference Include="PCLCrypto" Version="2.0.147" />
     </ItemGroup>
     <ItemGroup>
       <ProjectReference Include="..\MALClient.Adapters\MALClient.Adapters.csproj" />

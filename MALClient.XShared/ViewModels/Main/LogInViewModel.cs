@@ -149,6 +149,7 @@ namespace MALClient.XShared.ViewModels.Main
             {
                 {"client_id", Secrets.OauthClientId},
                 {"grant_type", "authorization_code"},
+                {"redirect_url", Secrets.OauthRedirectUrl },
                 {"code", obj.Code},
                 {"code_verifier", _codeVerifier},
             };

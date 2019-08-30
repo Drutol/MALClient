@@ -74,9 +74,8 @@ namespace MALClient.Android.Activities
     )]
     [IntentFilter(new[] { "android.intent.action.VIEW" },
         Categories = new[] { "android.intent.category.DEFAULT", "android.intent.category.BROWSABLE" },
-        DataSchemes = new[] { "http" }, 
-        DataHosts = new [] {"localhost"},
-        DataPathPatterns = new[] {"/malclient_android"})]
+        DataSchemes = new[] { "malclient" }, 
+        DataHosts = new [] {"oauth"})]
     public partial class MainActivity
     {
         private DroppyMenuPopup _upperFilterMenu;
@@ -87,7 +86,6 @@ namespace MALClient.Android.Activities
 
         private void InitBindings()
         {
-
             Bindings.Add(
                 this.SetBinding(() => ViewModel.CurrentStatus,
                     () => MainPageCurrentStatus.Text));

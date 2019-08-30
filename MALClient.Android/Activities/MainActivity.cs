@@ -223,7 +223,7 @@ namespace MALClient.Android.Activities
         {
             if (!string.IsNullOrWhiteSpace(args))
             {
-                if (args.StartsWith("http://localhost/malclient_android?code="))
+                if (args.StartsWith(Secrets.OauthRedirectUrl))
                 {
                     Messenger.Default.Send(new OAuthResponse
                     {

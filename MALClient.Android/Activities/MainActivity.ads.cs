@@ -24,7 +24,6 @@ namespace MALClient.Android.Activities
         private Timer _timer;
         private bool _initializedAds;
         private bool _adLoaded;
-        public SemaphoreSlim MopubSemaphore { get; } = new SemaphoreSlim(0);
 
         public bool AdLoaded
         {
@@ -47,7 +46,6 @@ namespace MALClient.Android.Activities
                     {
                         if (!_initializedAds)
                         {
-                            await MopubSemaphore.WaitAsync(TimeSpan.FromSeconds(3));
                             MobileAds.Initialize(ApplicationContext, "ca-app-pub-8220174765620095~3319675764");
                             var adRequest = new AdRequest.Builder()
                                 .AddKeyword("anime")
@@ -216,11 +214,5 @@ namespace MALClient.Android.Activities
 
         }
         #endregion
-
-
-        public void OnInitializationFinished()
-        {
-            MopubSemaphore.Release();
-        }
     }
 }

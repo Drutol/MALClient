@@ -90,7 +90,7 @@ namespace MALClient.XShared.Comm
                     Debug.WriteLine($"Loading with offset {offset}");
                     try
                     {
-                        var cts = new CancellationTokenSource(TimeSpan.FromSeconds(10));
+                        var cts = new CancellationTokenSource(TimeSpan.FromMinutes(1));
 
                         switch (CurrentApiType)
                         {
@@ -108,7 +108,7 @@ namespace MALClient.XShared.Comm
                                             return await DataCache.RetrieveDataForUser(_source, _mode) ?? output;
 
                                         var anime = JsonConvert.DeserializeObject<List<RootObject>>(rawAnime);
-                                        offset += anime.Count;
+                                         offset += anime.Count;
 
                                         if (anime.Count < 300)
                                             loop = false;
@@ -313,6 +313,7 @@ namespace MALClient.XShared.Comm
             }
             catch (Exception e)
             {
+
             }
 
             DataCache.SaveDataForUser(_source, output, _mode);

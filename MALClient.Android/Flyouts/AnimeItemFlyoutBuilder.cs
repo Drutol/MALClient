@@ -26,14 +26,14 @@ namespace MALClient.Android.Flyouts
             menu.Menu.Add(0,0,0,"Copy url");
             menu.Menu.Add(0,5,0,"Copy title");
             menu.Menu.Add(0,1,0,"Open in browser");
-            if (!forceSmall && viewModel.Auth)
+            if (!forceSmall && (viewModel?.Auth ?? false))
             {
                 menu.Menu.Add(0,2,0,"Set status");
                 menu.Menu.Add(0,3,0,"Set score");
                 menu.Menu.Add(0,4,0,"Set watched");
             }
 
-            if (viewModel.Auth)
+            if (viewModel?.Auth ?? false)
             {
                 var sub = menu.Menu.AddSubMenu(0, 6, 0, "Priority");
                 sub.Add(0, 7, 0, "Low");

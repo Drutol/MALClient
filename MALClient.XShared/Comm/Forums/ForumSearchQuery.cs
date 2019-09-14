@@ -22,7 +22,7 @@ namespace MALClient.XShared.Comm.Forums
                 {
                     var client = await ResourceLocator.MalHttpContextProvider.GetHttpContextAsync();
 
-                    var resp = await client.GetAsync($"/forum/search?q={query}&u=&uloc=1&loc={scope}");
+                    var resp = await client.GetAsync($"https://myanimelist.net/forum/search?q={query}&u=&uloc=1&loc={scope}");
 
                     var doc = new HtmlDocument();
                     doc.LoadHtml(await resp.Content.ReadAsStringAsync());
@@ -58,7 +58,7 @@ namespace MALClient.XShared.Comm.Forums
                 {
                     var client = await ResourceLocator.MalHttpContextProvider.GetHttpContextAsync();
 
-                    var resp = await client.GetAsync($"/forum/search?u={user}&q=&uloc=1&loc=-1");
+                    var resp = await client.GetAsync($"https://myanimelist.net/forum/search?u={user}&q=&uloc=1&loc=-1");
 
                     var doc = new HtmlDocument();
                     doc.LoadHtml(await resp.Content.ReadAsStringAsync());
@@ -94,7 +94,7 @@ namespace MALClient.XShared.Comm.Forums
                 {
                     var client = await ResourceLocator.MalHttpContextProvider.GetHttpContextAsync();
 
-                    var resp = await client.GetAsync("/forum/?action=viewstarred");
+                    var resp = await client.GetAsync("https://myanimelist.net/forum/?action=viewstarred");
 
                     var doc = new HtmlDocument();
                     doc.LoadHtml(await resp.Content.ReadAsStringAsync());

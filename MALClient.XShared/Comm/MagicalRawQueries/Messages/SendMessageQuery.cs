@@ -64,7 +64,7 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Messages
                 var response =
                     await
                         client.PostAsync(
-                            $"/mymessages.php?go=send&replyid={replyId}&threadid={threadId}&toname={targetUser}",
+                            $"https://myanimelist.net/mymessages.php?go=send&replyid={replyId}&threadid={threadId}&toname={targetUser}",
                             content);
 
                 return response.IsSuccessStatusCode;

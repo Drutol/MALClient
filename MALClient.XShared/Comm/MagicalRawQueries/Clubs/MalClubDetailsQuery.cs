@@ -22,7 +22,7 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Clubs
 
 
                 var response =
-                    await client.GetAsync($"/clubs.php?cid={clubId}");
+                    await client.GetAsync($"https://myanimelist.net/clubs.php?cid={clubId}");
 
                 if (!response.IsSuccessStatusCode)
                     return null;
@@ -225,7 +225,7 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Clubs
 
 
                 var response =
-                    await client.GetAsync($"/clubs.php?id={clubId}&action=view&t=comments&show={page*20}");
+                    await client.GetAsync($"https://myanimelist.net/clubs.php?id={clubId}&action=view&t=comments&show={page*20}");
 
                 if (!response.IsSuccessStatusCode)
                     return null;
@@ -298,7 +298,7 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Clubs
 
 
                 var response =
-                    await client.GetAsync($"/clubs.php?id={clubId}&action=view&t=members");
+                    await client.GetAsync($"https://myanimelist.net/clubs.php?id={clubId}&action=view&t=members");
 
                 if (!response.IsSuccessStatusCode)
                     return null;

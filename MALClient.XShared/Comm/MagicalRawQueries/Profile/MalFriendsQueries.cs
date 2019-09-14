@@ -73,7 +73,7 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Profile
                 var content = new FormUrlEncodedContent(contentPairs);
 
                 var response =
-                    await client.PostAsync($"/myfriends.php?go=add&id={id}", content);
+                    await client.PostAsync($"https://myanimelist.net/myfriends.php?go=add&id={id}", content);
 
                 return response.IsSuccessStatusCode || response.StatusCode == HttpStatusCode.SeeOther;
             }
@@ -100,7 +100,7 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Profile
                 var content = new FormUrlEncodedContent(contentPairs);
 
                 var response =
-                    await client.PostAsync(accept ? "/myfriends.php?go=confirm" : "/myfriends.php?go=deny", content);
+                    await client.PostAsync(accept ? "https://myanimelist.net/myfriends.php?go=confirm" : "https://myanimelist.net/myfriends.php?go=deny", content);
 
                 return response.IsSuccessStatusCode || response.StatusCode == HttpStatusCode.SeeOther;
             }
@@ -118,7 +118,7 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Profile
                 var client = await ResourceLocator.MalHttpContextProvider.GetHttpContextAsync();
 
                 var response =
-                    await client.GetAsync($"/myfriends.php?go=remove&id={id}");
+                    await client.GetAsync($"https://myanimelist.net/myfriends.php?go=remove&id={id}");
 
                 return response.IsSuccessStatusCode || response.StatusCode == HttpStatusCode.SeeOther;
             }

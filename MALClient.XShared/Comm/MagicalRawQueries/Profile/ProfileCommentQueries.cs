@@ -30,7 +30,7 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Profile
                 var content = new FormUrlEncodedContent(contentPairs);
 
                 var response =
-                    await client.PostAsync("/addcomment.php", content);
+                    await client.PostAsync("https://myanimelist.net/addcomment.php", content);
 
                 return response.IsSuccessStatusCode || response.StatusCode == HttpStatusCode.SeeOther;
             }
@@ -58,7 +58,7 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Profile
                 var content = new FormUrlEncodedContent(contentPairs);
 
                 var response =
-                    await client.PostAsync("/addcomment.php", content);
+                    await client.PostAsync("https://myanimelist.net/addcomment.php", content);
 
                 //edit comment function - not sure what it does
                 // /includes/ajax.inc.php?t=73
@@ -89,7 +89,7 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Profile
                 var content = new FormUrlEncodedContent(contentPairs);
 
                 var response =
-                    await client.PostAsync("/includes/ajax.inc.php?t=78 ", content);
+                    await client.PostAsync("https://myanimelist.net/includes/ajax.inc.php?t=78 ", content);
 
                 return response.IsSuccessStatusCode || response.StatusCode == HttpStatusCode.SeeOther;
             }
@@ -107,7 +107,7 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Profile
                 var client = await ResourceLocator.MalHttpContextProvider.GetHttpContextAsync();
 
                 var response =
-                    await client.GetAsync($"/comtocom.php?{path}");
+                    await client.GetAsync($"https://myanimelist.net/comtocom.php?{path}");
 
                 var doc = new HtmlDocument();
                 doc.LoadHtml(await response.Content.ReadAsStringAsync());

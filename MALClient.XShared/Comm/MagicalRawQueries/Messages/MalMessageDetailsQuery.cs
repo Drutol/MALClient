@@ -17,7 +17,7 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Messages
             try
             {
                 var client = await ResourceLocator.MalHttpContextProvider.GetHttpContextAsync();
-                var response = await client.GetAsync($"/mymessages.php?go=read&id={msg.Id}{(sentMessage ? "&f=1" : "")}");
+                var response = await client.GetAsync($"https://myanimelist.net/mymessages.php?go=read&id={msg.Id}{(sentMessage ? "&f=1" : "")}");
                 var raw = await response.Content.ReadAsStringAsync();
 
                 var doc = new HtmlDocument();
@@ -64,7 +64,7 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Messages
             try
             {
                 var client = await ResourceLocator.MalHttpContextProvider.GetHttpContextAsync();
-                var response = await client.GetAsync($"/mymessages.php?go=read&id={msg.Id}&threadid={msg.ThreadId}");
+                var response = await client.GetAsync($"https://myanimelist.net/mymessages.php?go=read&id={msg.Id}&threadid={msg.ThreadId}");
                 var raw = await response.Content.ReadAsStringAsync();
 
                 var doc = new HtmlDocument();

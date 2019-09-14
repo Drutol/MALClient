@@ -54,8 +54,8 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Clubs
                 var response =
                     await client.GetAsync(
                         type == QueryType.All
-                            ? $"/clubs.php?catid={(int) category}{(string.IsNullOrEmpty(searchQuery) || searchQuery.Length < 2 ? "" :$"&cn={searchQuery}&action=find")}&p={page}"
-                            : "/clubs.php?action=myclubs");
+                            ? $"https://myanimelist.net/clubs.php?catid={(int) category}{(string.IsNullOrEmpty(searchQuery) || searchQuery.Length < 2 ? "" :$"&cn={searchQuery}&action=find")}&p={page}"
+                            : "https://myanimelist.net/clubs.php?action=myclubs");
 
                 if (!response.IsSuccessStatusCode)
                     return null;
@@ -156,7 +156,7 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Clubs
 
                 var response =
                     await client.PostAsync(
-                        "/clubs.php?action=invchoice", requestContent);
+                        "https://myanimelist.net/clubs.php?action=invchoice", requestContent);
 
                 return response.IsSuccessStatusCode;
             }
@@ -183,7 +183,7 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Clubs
 
                 var response =
                     await client.PostAsync(
-                        $"/clubs.php?action=join&id={id}", requestContent);
+                        $"https://myanimelist.net/clubs.php?action=join&id={id}", requestContent);
 
                 return response.IsSuccessStatusCode;
             }
@@ -210,7 +210,7 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Clubs
 
                 var response =
                     await client.PostAsync(
-                        $"/clubs.php?cid={clubId}", requestContent);
+                        $"https://myanimelist.net/clubs.php?cid={clubId}", requestContent);
 
                 return response.IsSuccessStatusCode;
             }
@@ -254,7 +254,7 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Clubs
 
                 var response =
                     await client.PostAsync(
-                        $"/clubs.php?action=request&id={id}", requestContent);
+                        $"https://myanimelist.net/clubs.php?action=request&id={id}", requestContent);
 
                 return response.IsSuccessStatusCode;
             }
@@ -281,7 +281,7 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Clubs
 
                 var response =
                     await client.PostAsync(
-                        $"/clubs.php?action=leave&id={id}", requestContent);
+                        $"https://myanimelist.net/clubs.php?action=leave&id={id}", requestContent);
 
                 return response.IsSuccessStatusCode;
             }

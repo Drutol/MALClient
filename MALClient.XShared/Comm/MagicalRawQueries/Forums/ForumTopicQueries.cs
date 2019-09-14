@@ -35,16 +35,16 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Forums
             string question = null, List<string> answers = null)
         {
             return CreateNewTopic(title, message, type == TopicType.Anime
-                ? $"/forum/?action=post&anime_id={id}"
-                : $"/forum/?action=post&manga_id={id}", question, answers);
+                ? $"https://myanimelist.net/forum/?action=post&anime_id={id}"
+                : $"https://myanimelist.net/forum/?action=post&manga_id={id}", question, answers);
         }
 
         public static Task<Tuple<bool, string>> CreateNewTopic(string title, string message, ForumType type, int id,
             string question = null, List<string> answers = null)
         {
             return CreateNewTopic(title, message, type == ForumType.Normal
-                ? $"/forum/?action=post&boardid={id}"
-                : $"/forum/?action=post&club_id={id}", question, answers);
+                ? $"https://myanimelist.net/forum/?action=post&boardid={id}"
+                : $"https://myanimelist.net/forum/?action=post&club_id={id}", question, answers);
         }
         private static async Task<Tuple<bool,string>> CreateNewTopic(string title, string message, string endpoint, string question = null, List<string> answers = null)
         {
@@ -132,7 +132,7 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Forums
 
                 var response =
                     await client.PostAsync(
-                        $"/forum/?action=message&topic_id={id}", requestContent);
+                        $"https://myanimelist.net/forum/?action=message&topic_id={id}", requestContent);
 
                 //var response =
                 //    await client.PostAsync(
@@ -180,7 +180,7 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Forums
 
                 var response =
                     await client.PostAsync(
-                        $"/includes/ajax.inc.php?t=86", requestContent);
+                        $"https://myanimelist.net/includes/ajax.inc.php?t=86", requestContent);
 
                 if (!response.IsSuccessStatusCode)
                     return null;
@@ -224,7 +224,7 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Forums
 
                 var response =
                     await client.PostAsync(
-                        $"/includes/ajax.inc.php?t=85", requestContent);
+                        $"https://myanimelist.net/includes/ajax.inc.php?t=85", requestContent);
 
                 if (!response.IsSuccessStatusCode)
                     return null;
@@ -259,7 +259,7 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Forums
 
                 var response =
                     await client.PostAsync(
-                        "/includes/ajax.inc.php?t=84", requestContent);
+                        "https://myanimelist.net/includes/ajax.inc.php?t=84", requestContent);
 
                 return response.IsSuccessStatusCode;
             }
@@ -299,10 +299,10 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Forums
                 var response =
                     await client.GetAsync(
                         lastpage
-                            ? $"/forum/?topicid={topicId}&goto=lastpost"
+                            ? $"https://myanimelist.net/forum/?topicid={topicId}&goto=lastpost"
                             : messageId != null
-                                ? $"/forum/message/{messageId}?goto=topic"
-                                : $"/forum/?topicid={topicId}&show={(page - 1) * 50}");
+                                ? $"https://myanimelist.net/forum/message/{messageId}?goto=topic"
+                                : $"https://myanimelist.net/forum/?topicid={topicId}&show={(page - 1) * 50}");
 
                 if ((lastpage || messageId != null) && response.StatusCode == HttpStatusCode.RedirectMethod)
                 {
@@ -537,7 +537,7 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Forums
 
                 var response =
                     await client.PostAsync(
-                        "/includes/ajax.inc.php?t=69", requestContent);
+                        "https://myanimelist.net/includes/ajax.inc.php?t=69", requestContent);
 
                 if (!response.IsSuccessStatusCode)
                     return null;
@@ -575,7 +575,7 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Forums
 
                 var response =
                     await client.PostAsync(
-                        "/includes/quotetext.php", requestContent);
+                        "https://myanimelist.net/includes/quotetext.php", requestContent);
 
                 if (!response.IsSuccessStatusCode)
                     return null;

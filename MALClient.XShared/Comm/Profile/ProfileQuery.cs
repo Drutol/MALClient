@@ -63,7 +63,7 @@ namespace MALClient.XShared.Comm.Profile
                 }
                 var raw = !updateFavsOnly
                     ? await (await (await ResourceLocator.MalHttpContextProvider.GetHttpContextAsync())
-                        .GetAsync($"/profile/{_userName}")).Content.ReadAsStringAsync()
+                        .GetAsync($"https://myanimelist.net/profile/{_userName}")).Content.ReadAsStringAsync()
                     : await GetRequestResponse();
                 var doc = new HtmlDocument();
                 doc.LoadHtml(raw);
@@ -574,7 +574,7 @@ namespace MALClient.XShared.Comm.Profile
 
                 var raw =
                     await (await ResourceLocator.MalHttpContextProvider.GetHttpContextAsync()).GetAsync(
-                        $"/profile/{_userName}");
+                        $"https://myanimelist.net/profile/{_userName}");
                 var doc = new HtmlDocument();
                 doc.LoadHtml(await raw.Content.ReadAsStringAsync());
                 var output = new List<MalComment>();

@@ -648,9 +648,6 @@ namespace MALClient.XShared.ViewModels.Main
             //If we have items then we should hide EmptyNotice       
             EmptyNoticeVisibility = _animeItemsSet.Count == 0;
 
-            //How many pages do we have?
-            if (fakeDelay)
-                await Task.Delay(10);
             UpdatePageSetup();
             UpdateUpperStatus();
         }

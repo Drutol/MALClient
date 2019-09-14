@@ -46,7 +46,7 @@ namespace MALClient.XShared.Comm.MagicalRawQueries
                     new KeyValuePair<string, string>("csrf_token", client.Token)
                 };
                 var contentchar = new FormUrlEncodedContent(charCont);
-                await client.PostAsync($"/includes/ajax.inc.php?s=1&t={actionId}", contentchar);
+                await client.PostAsync($"https://myanimelist.net/includes/ajax.inc.php?s=1&t={actionId}", contentchar);
             }
             catch (Exception)
             {

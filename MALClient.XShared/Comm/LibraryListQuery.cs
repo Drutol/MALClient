@@ -85,9 +85,13 @@ namespace MALClient.XShared.Comm
                 var offset = 0;
                 var i = 0;
                 var loop = true; //loop_noop
+                var failedOnce = false;
                 while (loop)
                 {
                     Debug.WriteLine($"Loading with offset {offset}");
+
+                    if (offset == 0)
+                        Debugger.Break();
                     try
                     {
                         var cts = new CancellationTokenSource(TimeSpan.FromMinutes(1));
@@ -112,6 +116,9 @@ namespace MALClient.XShared.Comm
 
                                         if (anime.Count < 300)
                                             loop = false;
+
+                                        if(offset == 0 || anime.Count == 0)
+                                            Debugger.Break();
 
                                         foreach (var item in anime)
                                         {
@@ -304,10 +311,16 @@ namespace MALClient.XShared.Comm
                     }
                     catch (Exception e)
                     {
-#if ANDROID
-                    ResourceLocator.SnackbarProvider.ShowText($"MAL refused access to animelist for some reason... I'm still trying to figure this one. {e?.GetType().Name}");
-#endif
-                        loop = false;
+                        Console.WriteLine($"Failed to read anime list, {e}");
+                        if (failedOnce)
+                        {
+                            loop = false;
+                        }
+                        else
+                        {
+                            failedOnce = true;
+                            await Task.Delay(TimeSpan.FromSeconds(4));
+                        }
                     }
                 }
             }
@@ -315,6 +328,9 @@ namespace MALClient.XShared.Comm
             {
 
             }
+
+            if(output.Count % 300 == 0)
+                Debugger.Break();
 
             DataCache.SaveDataForUser(_source, output, _mode);
             return output;

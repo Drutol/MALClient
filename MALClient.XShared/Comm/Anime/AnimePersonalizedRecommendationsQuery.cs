@@ -82,7 +82,7 @@ namespace MALClient.XShared.Comm.Anime
 
             var raw =
                 await (await client.GetAsync(
-                        $"/auto_recommendation/personalized_suggestions.json?placement={(_anime ? _animePlacement : _mangaPlacement)}"))
+                        $"https://myanimelist.net/auto_recommendation/personalized_suggestions.json?placement={(_anime ? _animePlacement : _mangaPlacement)}"))
                     .Content.ReadAsStringAsync();
             var data =  JsonConvert.DeserializeObject<List<AnimePersonalizedRecommendationData>>(raw) ?? new List<AnimePersonalizedRecommendationData>();
 

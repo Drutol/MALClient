@@ -15,7 +15,7 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Messages
         public async Task<List<MalMessageModel>> GetMessages(int page = 1)
         {
             var client = await ResourceLocator.MalHttpContextProvider.GetHttpContextAsync();
-            string path = $"/mymessages.php?go=&show={page*20 - 20}";
+            string path = $"https://myanimelist.net/mymessages.php?go=&show={page*20 - 20}";
             var res = await client.GetAsync(path);
             var body = await res.Content.ReadAsStringAsync();
 
@@ -42,7 +42,7 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Messages
             try
             {
                 var client = await ResourceLocator.MalHttpContextProvider.GetHttpContextAsync();
-                string path = $"/mymessages.php?go=sent";
+                string path = $"https://myanimelist.net/mymessages.php?go=sent";
                 var res = await client.GetAsync(path);
                 var body = await res.Content.ReadAsStringAsync();
 
@@ -74,7 +74,7 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Messages
             try
             {
                 var client = await ResourceLocator.MalHttpContextProvider.GetHttpContextAsync();
-                var res = await client.GetAsync("/mymessages.php?go=sent");
+                var res = await client.GetAsync("https://myanimelist.net/mymessages.php?go=sent");
                 var body = await res.Content.ReadAsStringAsync();
 
                 try

@@ -115,7 +115,14 @@ namespace MALClient.XShared.Comm
                                          offset += anime.Count;
 
                                         if (anime.Count < 300)
+                                        {
                                             loop = false;
+                                        }
+                                        else
+                                        {
+                                            //MAL likes to throw "too many requests"
+                                            await Task.Delay(400);
+                                        }
 
                                         if(offset == 0 || anime.Count == 0)
                                             Debugger.Break();

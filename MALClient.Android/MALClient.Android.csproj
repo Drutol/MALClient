@@ -45,6 +45,7 @@
     <AndroidDexTool>d8</AndroidDexTool>
     <AndroidLinkTool>r8</AndroidLinkTool>
     <MandroidI18n />
+    <AndroidEnableProfiledAot>false</AndroidEnableProfiledAot>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugSymbols>True</DebugSymbols>
@@ -68,9 +69,19 @@
     <AndroidDexTool>d8</AndroidDexTool>
     <AndroidLinkTool>r8</AndroidLinkTool>
     <AndroidEnableSGenConcurrent>true</AndroidEnableSGenConcurrent>
+    <AndroidEnableProfiledAot>true</AndroidEnableProfiledAot>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ModernHttpClient">
+      <HintPath>Lib\ModernHttpClient.dll</HintPath>
+    </Reference>
     <Reference Include="Mono.Android.Export" />
+    <Reference Include="Square.OkHttp3">
+      <HintPath>Lib\Square.OkHttp3.dll</HintPath>
+    </Reference>
+    <Reference Include="Square.OkIO">
+      <HintPath>Lib\Square.OkIO.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
@@ -328,17 +339,11 @@
     <PackageReference Include="Microsoft.AppCenter.Crashes">
       <Version>2.1.1</Version>
     </PackageReference>
-    <PackageReference Include="modernhttpclient-updated">
-      <Version>3.3.4</Version>
-    </PackageReference>
     <PackageReference Include="MvvmLightLibsStd10">
       <Version>5.4.1.1</Version>
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json">
       <Version>12.0.2</Version>
-    </PackageReference>
-    <PackageReference Include="Square.OkHttp3">
-      <Version>3.14.2</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.Android.Support.Design" Version="28.0.0.1" />
     <PackageReference Include="Xamarin.Android.Support.v4">
@@ -1270,6 +1275,11 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\SearchEverywhereCategoryItem.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Lib\ModernHttpClient.dll" />
+    <Content Include="Lib\Square.OkHttp3.dll" />
+    <Content Include="Lib\Square.OkIO.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

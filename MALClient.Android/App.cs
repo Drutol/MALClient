@@ -18,6 +18,7 @@ using FFImageLoading;
 using FFImageLoading.Config;
 using FFImageLoading.Helpers;
 using FFImageLoading.Work;
+using Javax.Net.Ssl;
 using MALClient.XShared.BL;
 using MALClient.XShared.Utils;
 using MALClient.XShared.Utils.Managers;
@@ -49,8 +50,8 @@ namespace MALClient.Android
             //sp.Start();
             ImageService.Instance.Initialize(new Configuration
             {
-                HttpClient = new HttpClient(new NativeMessageHandler()
-                    { AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate }),
+                HttpClient = new HttpClient(new NativeMessageHandler(false, new TLSConfig())
+                    {AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate}),
                 ExecuteCallbacksOnUIThread = true,
                 //AnimateGifs = false,
             });

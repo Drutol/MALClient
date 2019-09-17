@@ -38,7 +38,7 @@ namespace MALClient.Android.Adapters
             _httpClient.Handler.CookieContainer.Add(new Cookie("anime_update_advanced", "0", "/", "myanimelist.net"));
 
             await _httpClient.GetToken();
-
+            await Task.Delay(500); //too may requests from MAL
             var response = await _httpClient.PostAsync("https://myanimelist.net/login.php", LoginPostBody);
             var content = await response.Content.ReadAsStringAsync();
             try
@@ -129,11 +129,7 @@ namespace MALClient.Android.Adapters
 
         public override HttpClientHandler GetHandler()
         {
-            return new NativeMessageHandler(false, new TLSConfig
-            {
-                DangerousAcceptAnyServerCertificateValidator = true,
-                DangerousAllowInsecureHTTPLoads = true
-            }, new NativeCookieHandler())
+            return new NativeMessageHandler(false, new TLSConfig(), new NativeCookieHandler())
             { 
                 AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate,
                 AllowAutoRedirect = true,

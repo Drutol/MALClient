@@ -189,6 +189,8 @@
     <ProjectReference Include="..\MALClient.iOS.Adapters\MALClient.iOS.Adapters.csproj">
       <Project>{B7380F21-80AA-4602-8B57-ED3D1E733524}</Project>
       <Name>MALClient.iOS.Adapters</Name>
+      <IsAppExtension>false</IsAppExtension>
+      <IsWatchApp>false</IsWatchApp>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />

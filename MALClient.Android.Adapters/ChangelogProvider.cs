@@ -31,12 +31,13 @@ namespace MALClient.Android.Adapters
 
         public bool NewChangelog { get; set; }
 
-        public string DateWithVersion => $"{_currentVersion} - 25.07.2019";
+        public string DateWithVersion => $"{_currentVersion} -15.09.2019";
 
         public List<string> Changelog => new List<string>
         {
-            "Faster startup times. Should be around 1 second faster on average.",
-            "Fixed search page crash when one had hide scores option enabled.",
+            "Maintenance updates.",
+            "Fixed issues with sometimes missing anime from list.",
+            "Crashfix for long pressing list anime item.",
         };
     }
 }

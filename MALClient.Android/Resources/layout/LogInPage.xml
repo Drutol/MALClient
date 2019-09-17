@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+﻿
 
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
              android:layout_width="match_parent"
@@ -13,9 +13,11 @@
 
   <ScrollView
     android:layout_width="match_parent"
+    android:paddingBottom="48dp"
     android:layout_height="match_parent">
 
     <LinearLayout android:gravity="center_horizontal"
+                  android:paddingBottom="16dp"
                   android:layout_width="300dp"
                   android:layout_height="wrap_content"
                   android:layout_gravity="center_horizontal"
@@ -90,6 +92,14 @@
           android:layout_height="wrap_content"
           android:indeterminate="true"
           android:indeterminateOnly="true" />
+
+        <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_gravity="center_horizontal"
+          android:layout_marginTop="5dp"
+          android:text="There's lots of issues where people are having trouble with signing in.\nUnfortunately MAL as of now does not have any sort of API, it's just one big pile of workarounds and its behaviour is quite unpredictable.\nOfficial API which will resolve issues is in the works."
+          android:textColor="#fff" />
       </LinearLayout>
 
 

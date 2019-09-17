@@ -46,7 +46,7 @@ namespace MALClient.Android.Fragments.SettingsFragments
             {
                 Header = "Discord",
                 PageType = SettingsPageIndex.Discord,
-                Subtitle = "Join MALClient discord server!",
+                Subtitle = "Join MALClient discord server! Best place to report bugs and issues.",
                 Symbol = SettingsSymbolsEnum.Discord
             });
             SettingsPageHomepageList.SetAdapter(pages.GetAdapter(GetTemplateDelegate));

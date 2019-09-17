@@ -716,7 +716,7 @@ namespace MALClient.XShared.ViewModels.Main
 
         private async void LoadMore()
         {
-            if (CurrentPage > 4 || !CanLoadMore)
+            if (CurrentPage > 10 || !CanLoadMore)
             {
                 CanLoadMore = false;
                 return; //we have reached max 
@@ -733,10 +733,7 @@ namespace MALClient.XShared.ViewModels.Main
             else
             {
                 CanLoadMore = CurrentPage <= 4 && WorkMode.GetAttribute<EnumUtilities.AnimeListWorkModeEnumMember>().AllowLoadingMore;
-
             }
-
-            
         }
 
         public void UpdateGridItemWidth(Tuple<Tuple<double,double>, Tuple<double, double>> args)

@@ -48,7 +48,7 @@ namespace MALClient.XShared.Comm.Details
                 var leftColumn = columns[0];
                 var image = leftColumn.Descendants("img").FirstOrDefault();
                 if (image != null && image.Attributes.Contains("alt"))
-                    output.ImgUrl = image.Attributes["src"].Value;
+                    output.ImgUrl = image.Attributes["data-src"].Value;
 
                 output.Name = WebUtility.HtmlDecode(doc.DocumentNode.Descendants("h1").First().InnerText.Trim());
 

@@ -42,13 +42,6 @@ namespace MALClient.Android.Fragments.SettingsFragments
                 Symbol = SettingsSymbolsEnum.Lightbulb,
 
             });
-            pages.Add(new SettingsPageEntry
-            {
-                Header = "Discord",
-                PageType = SettingsPageIndex.Discord,
-                Subtitle = "Join MALClient discord server! Best place to report bugs and issues.",
-                Symbol = SettingsSymbolsEnum.Discord
-            });
             SettingsPageHomepageList.SetAdapter(pages.GetAdapter(GetTemplateDelegate));
         }
 

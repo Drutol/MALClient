@@ -33,6 +33,8 @@ namespace MALClient.UWP.Shared.XamlConverters
                     return Symbol.SwitchApps;
                 case SettingsSymbolsEnum.ContactInfo:
                     return Symbol.ContactInfo;
+                case SettingsSymbolsEnum.Discord:
+                    return (Symbol) 0xEC24;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(value), value, null);
             }

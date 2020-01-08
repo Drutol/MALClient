@@ -425,7 +425,7 @@ namespace MALClient.XShared.Comm.Profile
                         }
                         current.User.ImgUrl =
                             doc.FirstOfDescendantsWithClass("div", "user-image mb8").Descendants("img").First()
-                                .Attributes["src"].Value;
+                                .Attributes["data-src"].Value;
 
                     }
                     catch (Exception)

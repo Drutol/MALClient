@@ -13,11 +13,12 @@ namespace MALClient.UWP.Adapters
         public bool NewChangelog { get; set; }
         public string CurrentVersion => UWPUtilities.GetAppVersion();
 
-        public string DateWithVersion =>  $"v{UWPUtilities.GetAppVersion()} - 15.09.2019";
+        public string DateWithVersion =>  $"v{UWPUtilities.GetAppVersion()} - 13.10.2019";
 
         public List<string> Changelog => new List<string>
         {
-            "Maintenance update.",
+            "Fixed airing info and calendar.",
+            "You can now find discord invite link in settings. Join out little community there. Also the easiest place to catch me if something happens.",
         };
     }
 }

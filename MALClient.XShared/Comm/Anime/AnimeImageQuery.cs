@@ -139,7 +139,7 @@ namespace MALClient.XShared.Comm.Anime
             try
             {
                 doc.LoadHtml(raw);
-                return doc.FirstOfDescendantsWithClass("img", "ac").Attributes["src"].Value;
+                return doc.FirstOfDescendantsWithClass("img", "ac").Attributes["data-src"].Value;
             }
             catch (Exception e)
             {

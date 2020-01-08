@@ -54,7 +54,7 @@ namespace MALClient.XShared.Comm.Details
                         {
                             var curr = new AnimeLightEntry { IsAnime = true };
                             curr.Id = int.Parse(links[0].Attributes["href"].Value.Split('/')[4]);
-                            var img = links[0].Descendants("img").First().Attributes["src"].Value;
+                            var img = links[0].Descendants("img").First().Attributes["data-src"].Value;
                             if (!img.Contains("questionmark"))
                             {
                                 img = Regex.Replace(img, @"\/r\/\d+x\d+", "");
@@ -67,7 +67,7 @@ namespace MALClient.XShared.Comm.Details
                         {
                             var curr = new AnimeLightEntry { IsAnime = false };
                             curr.Id = int.Parse(links[0].Attributes["href"].Value.Split('/')[4]);
-                            var img = links[0].Descendants("img").First().Attributes["src"].Value;
+                            var img = links[0].Descendants("img").First().Attributes["data-src"].Value;
                             if (!img.Contains("questionmark"))
                             {
                                 img = Regex.Replace(img, @"\/r\/\d+x\d+", "");
@@ -81,7 +81,7 @@ namespace MALClient.XShared.Comm.Details
                 var image = leftColumn.Descendants("img").First();
                 if (image.Attributes.Contains("alt"))
                 {
-                    output.ImgUrl = image.Attributes["src"].Value;
+                    output.ImgUrl = image.Attributes["data-src"].Value;
                 }
 
                 output.Name = WebUtility.HtmlDecode(doc.DocumentNode.Descendants("h1").First().InnerText).Trim().Replace("  "," "); //because mal tends to leave two spaces there and there's pretty hardcore guy on github who can spot such things... props ;d
@@ -101,9 +101,10 @@ namespace MALClient.XShared.Comm.Details
                         {
                             var current = new AnimeStaffPerson();
                             var img = descendant.Descendants("img").First();
-                            var imgUrl = img.Attributes["src"].Value;
+                            var imgUrl = img.Attributes["data-src"].Value;
                             if (!imgUrl.Contains("questionmark"))
                             {
+
                                 var pos = imgUrl.LastIndexOf("v");
                                 if (pos != -1)
                                     imgUrl = imgUrl.Remove(pos, 1);
@@ -120,16 +121,17 @@ namespace MALClient.XShared.Comm.Details
                 }
                 output.Content = output.Content.Trim();
                 output.SpoilerContent = output.SpoilerContent.Trim();
+
+                output.Content =
+                    output.Content.Replace(
+                        "No voice actors have been added to this character. Help improve our database by searching for a voice actor, and adding this character to their roles.",
+                        "");
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 //html
             }
 
-            output.Content =
-                output.Content.Replace(
-                    "No voice actors have been added to this character. Help improve our database by searching for a voice actor, and adding this character to their roles.",
-                    "");
 
             DataCache.SaveData(output, _id.ToString(), "character_details");
 

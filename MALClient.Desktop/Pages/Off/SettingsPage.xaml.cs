@@ -69,6 +69,9 @@ namespace MALClient.UWP.Pages.Off
                 case SettingsPageIndex.Feeds:
                     pageType = typeof(SettingsFeedsPage);
                     break;
+                case SettingsPageIndex.Discord:
+                    ResourceLocator.SystemControlsLauncherService.LaunchUri(new Uri("https://discord.gg/5yETtFT"));
+                    return;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(page), page, null);
             }

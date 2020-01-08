@@ -16,7 +16,7 @@ namespace MALClient.XShared.Comm.Anime
 
         public override Task<string> GetRequestResponse()
         {
-            return _httpClient.GetStringAsync("https://mylovelyvps.ml/malclient/airing.json");
+            return _httpClient.GetStringAsync("https://mylovelyvps.xyz/malclient/airing.json");
         }
     }
 }

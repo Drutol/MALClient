@@ -90,8 +90,8 @@ namespace MALClient.XShared.Comm
                 {
                     Debug.WriteLine($"Loading with offset {offset}");
 
-                    if (offset == 0)
-                        Debugger.Break();
+                    //if (offset == 0)
+                    //    Debugger.Break();
                     try
                     {
                         var cts = new CancellationTokenSource(TimeSpan.FromMinutes(1));

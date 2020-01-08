@@ -13,7 +13,7 @@ namespace MALClient.XShared.Comm
 
         public Task<string> GetRequestResponse()
         {
-            return _httpClient.GetStringAsync("https://mylovelyvps.ml/malclient/appVersion.json");
+            return _httpClient.GetStringAsync("https://mylovelyvps.xyz/malclient/appVersion.json");
         }
     }
 }

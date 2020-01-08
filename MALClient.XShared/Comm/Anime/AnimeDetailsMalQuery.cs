@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -65,6 +66,14 @@ namespace MALClient.XShared.Comm.Anime
                     }
                     if (child.Name == "div")
                     {
+                        var doubleGenreNodes = child.Descendants("span")
+                            .Where(node => node.Attributes.Contains("itemprop"))
+                            .ToList();
+                        foreach (var node in doubleGenreNodes)
+                        {
+                            child.RemoveChild(node);
+                        }
+
                         currentString = Regex.Replace(WebUtility.HtmlDecode(child.InnerText.Replace('\n', ' ').Trim()), @"[ ]{2,}", " ");
                         switch (currentStage)
                         {
@@ -95,7 +104,7 @@ namespace MALClient.XShared.Comm.Anime
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 //hatemeł
             }

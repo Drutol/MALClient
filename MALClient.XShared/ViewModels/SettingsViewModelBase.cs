@@ -141,6 +141,13 @@ namespace MALClient.XShared.ViewModels
                 Subtitle = "Review popup settings...",
                 Symbol = SettingsSymbolsEnum.Placeholder,
                 PageType = SettingsPageIndex.Misc
+            },
+            new SettingsPageEntry
+            {
+                Header = "Discord",
+                PageType = SettingsPageIndex.Discord,
+                Subtitle = "Join MALClient discord server! Best place to report bugs and issues.",
+                Symbol = SettingsSymbolsEnum.Discord
             }
         };
 

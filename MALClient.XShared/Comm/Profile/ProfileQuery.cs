@@ -122,8 +122,8 @@ namespace MALClient.XShared.Comm.Profile
                             .Descendants("li"))
                     {
                         var curr = new AnimeCharacter();
-                        var imgNode = favCharNode.Descendants("a").First();
-                        var styleString = imgNode.Attributes["style"].Value.Substring(22);
+                        var imgNode = favCharNode.Descendants("img").First();
+                        var styleString = imgNode.Attributes["data-src"].Value;
                         curr.ImgUrl = styleString.Replace("/r/80x120", "");
                         curr.ImgUrl = curr.ImgUrl.Substring(0, curr.ImgUrl.IndexOf('?'));
                         var infoNode = favCharNode.Descendants("div").Skip(1).First();
@@ -213,11 +213,12 @@ namespace MALClient.XShared.Comm.Profile
                             .Descendants("li"))
                     {
                         var curr = new AnimeStaffPerson();
-                        var aElems = favPersonNode.Descendants("a");
-                        var styleString = aElems.First().Attributes["style"].Value.Substring(22);
+                        var img = favPersonNode.Descendants("img");
+                        var styleString = img.First().Attributes["data-src"].Value;
                         curr.ImgUrl = styleString.Replace("/r/80x120", "");
                         curr.ImgUrl = curr.ImgUrl.Substring(0, curr.ImgUrl.IndexOf('?'));
 
+                        var aElems = favPersonNode.Descendants("a");
                         curr.Name = aElems.Skip(1).First().InnerText.Trim();
                         curr.Id = aElems.Skip(1).First().Attributes["href"].Value.Substring(9).Split('/')[2];
 

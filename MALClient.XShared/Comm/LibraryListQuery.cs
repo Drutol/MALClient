@@ -81,7 +81,7 @@ namespace MALClient.XShared.Comm
                 isAmericanDateFormat =
                     (await client.GetStringAsync("https://myanimelist.net/editprofile.php?go=listpreferences"))
                     .Contains("<option value=\"a\" selected>American (MM-DD-YY)");
-
+                await Task.Delay(100);
                 var offset = 0;
                 var i = 0;
                 var loop = true; //loop_noop

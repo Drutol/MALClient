@@ -46,7 +46,7 @@ namespace MALClient.XShared.Comm.Search
                         if (smalls.Any())
                             character.Notes = WebUtility.HtmlDecode(smalls.Last().InnerText);
 
-                        var img = tds[0].Descendants("img").First().Attributes["src"].Value;
+                        var img = tds[0].Descendants("img").First().Attributes["data-src"].Value;
                         if (!img.Contains("questionmark"))
                         {
                             img = Regex.Replace(img, @"\/r\/\d+x\d+", "");

@@ -53,6 +53,7 @@ namespace MALClient.XShared.Comm
                     HandleMalBuggines();
                 }
 
+                await Task.Delay(150);
                 var content = await res.Content.ReadAsStringAsync();
                 return content;
 

@@ -32,6 +32,7 @@ namespace MALClient.XShared.BL
         {
             if(!Credentials.Authenticated && !skipAtuhCheck)
                 return new CsrfHttpClient(ResourceLocator.MalHttpContextProvider.GetHandler()) { Disabled = true };
+            await Task.Delay(100);
             await _semaphoreSlim.WaitAsync();
             try
             {

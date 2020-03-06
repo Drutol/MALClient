@@ -289,7 +289,7 @@ namespace MALClient.Android.UserControls.ForumItems
 
                         ViewModelLocator.GeneralMain.Navigate(navArgs.Item1, navArgs.Item2);
                     }
-                    else if (Settings.ArticlesLaunchExternalLinks)
+                    else
                     {
                         ResourceLocator.SystemControlsLauncherService.LaunchUri(new Uri(targetUrl));
                     }

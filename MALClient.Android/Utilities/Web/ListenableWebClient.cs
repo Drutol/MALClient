@@ -1,6 +1,8 @@
+using System;
 using Android.Graphics;
 using Android.Webkit;
 using MALClient.XShared.Delegates;
+using MALClient.XShared.ViewModels;
 
 namespace MALClient.Android.Web
 {
@@ -29,6 +31,7 @@ namespace MALClient.Android.Web
                 var result = await invoke;
                 if(!string.IsNullOrEmpty(result))
                     view.LoadUrl(url);
+
             }
         }
 

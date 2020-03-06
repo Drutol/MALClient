@@ -46,7 +46,7 @@ namespace MALClient.XShared.Comm.Anime
             int currentStage = 0;
             try
             {
-                foreach (var child in doc.FirstOfDescendantsWithClass("div", "js-scrollfix-bottom").ChildNodes)
+                foreach (var child in doc.FirstOfDescendantsWithClass("td", "borderClass").FirstChild.ChildNodes)
                 {
 
                     if (!recording)

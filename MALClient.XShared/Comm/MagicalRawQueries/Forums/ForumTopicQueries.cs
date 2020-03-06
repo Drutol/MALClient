@@ -418,8 +418,8 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Forums
                             tds[0].Descendants("img")
                                 .FirstOrDefault(
                                     node =>
-                                        node.Attributes.Contains("src") &&
-                                        node.Attributes["src"].Value.Contains("useravatars"))?.Attributes["src"].Value;
+                                        node.Attributes.Contains("data-src") &&
+                                        node.Attributes["data-src"].Value.Contains("useravatars"))?.Attributes["data-src"].Value;
                         if (tds[0].ChildNodes[1].ChildNodes.Count == 10)
                         {
                             poster.Status = tds[0].ChildNodes[1].ChildNodes[5].InnerText.Trim();

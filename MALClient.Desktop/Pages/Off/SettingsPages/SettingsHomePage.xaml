@@ -20,39 +20,43 @@
         </TransitionCollection>
     </Page.Transitions>
 
-    <ScrollViewer VerticalScrollBarVisibility="Hidden">
-        <ItemsControl ItemsSource="{Binding SettingsPages}">
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <Button Command="{Binding Settings.RequestNavigationCommand,Source={StaticResource Locator}}"
+    <Grid>
+        <ScrollViewer VerticalScrollBarVisibility="Hidden">
+            <ItemsControl ItemsSource="{Binding SettingsPages}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Button Command="{Binding Settings.RequestNavigationCommand,Source={StaticResource Locator}}"
                             CommandParameter="{Binding PageType}" Background="Transparent"
                             HorizontalAlignment="Stretch" Padding="5,5,0,5" HorizontalContentAlignment="Left"
                             Margin="0,0,0,0" BorderThickness="1" Style="{StaticResource ButtonRevealStyle}">
-                        <Grid HorizontalAlignment="Left">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-                            <SymbolIcon Foreground="{StaticResource SystemControlBackgroundAccentBrush}"
+                            <Grid HorizontalAlignment="Left">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <SymbolIcon Foreground="{StaticResource SystemControlBackgroundAccentBrush}"
                                         RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Center"
                                         VerticalAlignment="Center" Symbol="{Binding Symbol,Converter={StaticResource SettingsSymbolToSymbolConverter}}" Margin="5,0,10,0">
-                                <SymbolIcon.RenderTransform>
-                                    <ScaleTransform ScaleX="1.35" ScaleY="1.35" />
-                                </SymbolIcon.RenderTransform>
-                            </SymbolIcon>
-                            <Grid Margin="10,0" Grid.Column="1" HorizontalAlignment="Left">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                </Grid.RowDefinitions>
-                                <TextBlock Text="{Binding Header}" FontWeight="Medium" />
-                                <TextBlock Grid.Row="1" Text="{Binding Subtitle}" FontWeight="SemiLight"
+                                    <SymbolIcon.RenderTransform>
+                                        <ScaleTransform ScaleX="1.35" ScaleY="1.35" />
+                                    </SymbolIcon.RenderTransform>
+                                </SymbolIcon>
+                                <Grid Margin="10,0" Grid.Column="1" HorizontalAlignment="Left">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Text="{Binding Header}" FontWeight="Medium" />
+                                    <TextBlock Grid.Row="1" Text="{Binding Subtitle}" FontWeight="SemiLight"
                                            Foreground="{ThemeResource BrushSettingsSubtitle}" />
+                                </Grid>
                             </Grid>
-                        </Grid>
-                    </Button>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
-    </ScrollViewer>
+                        </Button>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+        <Button Style="{StaticResource TextBlockButtonStyle}" Click="PrivacyPolicyButtonOnClick" Content="Privacy Policy" VerticalAlignment="Bottom" HorizontalAlignment="Right"/>
+    </Grid>
+
 </Page>

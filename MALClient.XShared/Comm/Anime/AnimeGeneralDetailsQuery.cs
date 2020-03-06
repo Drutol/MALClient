@@ -108,8 +108,8 @@ namespace MALClient.XShared.Comm.Anime
             }
             catch (Exception e)
             {
-                ResourceLocator.ClipboardProvider.SetText($"{e}\n{response}");
-                ResourceLocator.SnackbarProvider.ShowText("Error copied to clipboard.");
+                //ResourceLocator.ClipboardProvider.SetText($"{e}\n{response}");
+                //ResourceLocator.SnackbarProvider.ShowText("Error copied to clipboard.");
                 // todo android notification nav bug
                 // probably MAl garbled response
             }

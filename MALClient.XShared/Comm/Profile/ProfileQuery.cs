@@ -123,7 +123,15 @@ namespace MALClient.XShared.Comm.Profile
                     {
                         var curr = new AnimeCharacter();
                         var imgNode = favCharNode.Descendants("img").First();
-                        var styleString = imgNode.Attributes["data-src"].Value;
+                        string styleString = null;
+                        try
+                        {
+                            styleString = imgNode.Attributes["src"].Value;
+                        }
+                        catch 
+                        {
+                            styleString = imgNode.Attributes["data-src"].Value;
+                        }
                         curr.ImgUrl = styleString.Replace("/r/80x120", "");
                         curr.ImgUrl = curr.ImgUrl.Substring(0, curr.ImgUrl.IndexOf('?'));
                         var infoNode = favCharNode.Descendants("div").Skip(1).First();
@@ -214,7 +222,15 @@ namespace MALClient.XShared.Comm.Profile
                     {
                         var curr = new AnimeStaffPerson();
                         var img = favPersonNode.Descendants("img");
-                        var styleString = img.First().Attributes["data-src"].Value;
+                        string styleString = null;
+                        try
+                        {
+                            styleString = img.First().Attributes["src"].Value;
+                        }
+                        catch
+                        {
+                            styleString = img.First().Attributes["data-src"].Value;
+                        }
                         curr.ImgUrl = styleString.Replace("/r/80x120", "");
                         curr.ImgUrl = curr.ImgUrl.Substring(0, curr.ImgUrl.IndexOf('?'));
 

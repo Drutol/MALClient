@@ -100,6 +100,10 @@ namespace MALClient.Android.Dialogs
 
                     ViewModelLocator.GeneralMain.Navigate(navArgs.Item1, navArgs.Item2);
                 }
+                else
+                {
+                    ResourceLocator.SystemControlsLauncherService.LaunchUri(new Uri(targetUrl));
+                }
             }
             return null;
         }

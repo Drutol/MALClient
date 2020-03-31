@@ -35,7 +35,7 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Profile
                 {
                     var current = new MalFriendRequest();
                     var tds = rows[i + 1].Descendants("td").ToList();
-                    current.User.ImgUrl = tds[0].Descendants("img").First().Attributes["src"].Value.Replace("/thumbs", "").Replace("_thumb", "");
+                    current.User.ImgUrl = tds[0].Descendants("img").First().Attributes["data-src"].Value.Replace("/thumbs", "").Replace("_thumb", "");
                     current.User.Name = WebUtility.HtmlDecode(tds[1].Descendants("strong").First().InnerText.Trim());
                     current.Message = WebUtility.HtmlDecode(tds[1].FirstOrDefaultOfDescendantsWithClass("div", "spaceit")?.InnerText?.Substring(17)?.Trim());
                     current.Id = rows[i].Descendants("td").First().Id.Substring(3);

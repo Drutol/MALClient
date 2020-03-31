@@ -257,8 +257,16 @@ namespace MALClient.XShared.Comm.Profile
                         var generalStats = animeStats.Descendants("div").First().Descendants("div");
                         current.AnimeDays = float.Parse(generalStats.First().InnerText.Substring(5).Trim(),
                             NumberStyles.Any, CultureInfo.InvariantCulture);
-                        current.AnimeMean = float.Parse(generalStats.Last().InnerText.Substring(11).Trim(),
-                            NumberStyles.Any, CultureInfo.InvariantCulture);
+                        try
+                        {
+                            current.AnimeMean = float.Parse(generalStats.Last().ChildNodes[3].InnerText.Trim(),
+                                NumberStyles.Any, CultureInfo.InvariantCulture);
+                        }
+                        catch (Exception e)
+                        {
+                            //no mean
+                        }
+
                         var i = 0;
 
                         #region AnimeStats
@@ -334,8 +342,16 @@ namespace MALClient.XShared.Comm.Profile
                         generalStats = animeStats.Descendants("div").First().Descendants("div");
                         current.MangaDays = float.Parse(generalStats.First().InnerText.Substring(5).Trim(),
                             NumberStyles.Any, CultureInfo.InvariantCulture);
-                        current.MangaMean = float.Parse(generalStats.Last().InnerText.Substring(11).Trim(),
-                            NumberStyles.Any, CultureInfo.InvariantCulture);
+                        try
+                        {
+                            current.MangaMean = float.Parse(generalStats.Last().ChildNodes[3].InnerText.Trim(),
+                                NumberStyles.Any, CultureInfo.InvariantCulture);
+                        }
+                        catch (Exception e)
+                        {
+                           //no mean 
+                        }
+ 
 
                         #region MangaStats
 

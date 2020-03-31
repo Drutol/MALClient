@@ -150,14 +150,7 @@ namespace MALClient.XShared.Comm.Anime
                 //image has changed again.. sigh
             }
             
-            var scoreTxt =
-                htmlNode.Descendants("span")
-                    .First(
-                        node =>
-                            node.Attributes.Contains("class") &&
-                            node.Attributes["class"].Value ==
-                            "score")
-                    .InnerText;
+            var scoreTxt = htmlNode.FirstOfDescendantsWithClassContaining("span", "score").InnerText.Trim();
             //var infoNode =
             //    htmlNode.Descendants("div")
             //        .First(

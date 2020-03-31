@@ -55,8 +55,8 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Clubs
                     try
                     {
                         output.ImgUrl = rightBar.Descendants("img")
-                            .First(node => node.Attributes.Contains("src") &&
-                                           node.Attributes["src"].Value.Contains("/clubs/")).Attributes["src"].Value;
+                            .First(node => node.Attributes.Contains("data-src") &&
+                                           node.Attributes["data-src"].Value.Contains("/clubs/")).Attributes["data-src"].Value;
                     }
                     catch (Exception)
                     {
@@ -150,7 +150,7 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Clubs
                         current.Name = WebUtility.HtmlDecode(innerDivs[0].InnerText.Trim());
                         try
                         {
-                            current.ImgUrl = member.Descendants("img").First().Attributes["src"].Value
+                            current.ImgUrl = member.Descendants("img").First().Attributes["data-src"].Value
                                 .Replace("/thumbs", "").Replace("_thumb", "");
                         }
                         catch (Exception e)
@@ -176,7 +176,7 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Clubs
                     try
                     {
                         current.User.ImgUrl = htmlNode.FirstOfDescendantsWithClass("div", "picSurround")
-                            .Descendants("img").First().Attributes["src"].Value
+                            .Descendants("img").First().Attributes["data-src"].Value
                             .Replace("/thumbs", "").Replace("_thumb", "");
                     }
                     catch (Exception e)
@@ -197,7 +197,7 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Clubs
                     {
                         foreach (var image in htmlNode.WhereOfDescendantsWithClass("img", "userimg"))
                         {
-                            current.Images.Add(image.Attributes["src"].Value);
+                            current.Images.Add(image.Attributes["data-src"].Value);
                         }
                     }
                     catch (Exception)
@@ -248,7 +248,7 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Clubs
                     try
                     {
                         current.User.ImgUrl = htmlNode.FirstOfDescendantsWithClass("div", "picSurround")
-                            .Descendants("img").First().Attributes["src"].Value
+                            .Descendants("img").First().Attributes["data-src"].Value
                             .Replace("/thumbs", "").Replace("_thumb", "");
                     }
                     catch (Exception e)
@@ -268,7 +268,7 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Clubs
                     {
                         foreach (var image in htmlNode.WhereOfDescendantsWithClass("img", "userimg"))
                         {
-                            current.Images.Add(image.Attributes["src"].Value);
+                            current.Images.Add(image.Attributes["data-src"].Value);
                         }
                     }
                     catch (Exception)
@@ -314,7 +314,7 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Clubs
 
                     try
                     {
-                        current.ImgUrl = htmlNode.Descendants("img").First().Attributes["src"].Value
+                        current.ImgUrl = htmlNode.Descendants("img").First().Attributes["data-src"].Value
                             .Replace("/thumbs", "").Replace("_thumb", "");
                     }
                     catch (Exception)

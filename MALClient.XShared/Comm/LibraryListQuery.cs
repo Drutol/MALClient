@@ -26,6 +26,7 @@ namespace MALClient.XShared.Comm
 
         public LibraryListQuery(string source, AnimeListWorkModes mode)
         {
+            Debug.WriteLine($"Getting library for {mode}@{source}.");
             _mode = mode;
             _source = source;
             var type = _mode == AnimeListWorkModes.Anime ? "anime" : "manga";
@@ -75,10 +76,9 @@ namespace MALClient.XShared.Comm
                 return output;
             var client = await ResourceLocator.MalHttpContextProvider.GetHttpContextAsync();
 
-            var isAmericanDateFormat = false;
             try
             {
-                isAmericanDateFormat =
+                var isAmericanDateFormat = 
                     (await client.GetStringAsync("https://myanimelist.net/editprofile.php?go=listpreferences"))
                     .Contains("<option value=\"a\" selected>American (MM-DD-YY)");
                 await Task.Delay(100);

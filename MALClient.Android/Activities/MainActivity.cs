@@ -35,10 +35,14 @@ using Fragment = Android.Support.V4.App.Fragment;
 
 namespace MALClient.Android.Activities
 {
-    [Activity(Label = "MALClient", ScreenOrientation = ScreenOrientation.Portrait, ResizeableActivity = true,
-        Icon = "@mipmap/ic_launcher", RoundIcon = "@mipmap/ic_launcher_round",
+    [Activity(
+        Label = "MALClient",
+        ScreenOrientation = ScreenOrientation.Portrait, ResizeableActivity = true,
+        Icon = "@mipmap/ic_launcher",
+        RoundIcon = "@mipmap/ic_launcher_round",
         WindowSoftInputMode = SoftInput.AdjustUnspecified, MainLauncher = true, LaunchMode = LaunchMode.SingleInstance,
-        Theme = "@style/Theme.Splash", ConfigurationChanges = ConfigChanges.Orientation | ConfigChanges.ScreenSize)]
+        Theme = "@style/Theme.Splash", 
+        ConfigurationChanges = ConfigChanges.Orientation | ConfigChanges.ScreenSize)]
     public partial class MainActivity : AppCompatActivity, IDimensionsProvider
     {
         private static bool _staticInitPerformed;

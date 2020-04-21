@@ -298,27 +298,27 @@ namespace MALClient.Android.Fragments.SettingsFragments
             //SettingsPageGeneralPinAccentShortcutButton.SetOnClickListener(new OnClickListener(PinAccentShortcut));
         }
 
-        private void PinAccentShortcut(View obj)
-        {
-            var shortcutManager = (ShortcutManager) Context.GetSystemService(Class.FromType(typeof(ShortcutManager)));
-            if (shortcutManager != null)
-            {
-                if (shortcutManager.IsRequestPinShortcutSupported)
-                {
-                    var intent = new Intent(Context, typeof(MainActivity));
-                    intent.SetAction(Intent.ActionView);
+        //private void PinAccentShortcut(View obj)
+        //{
+        //    var shortcutManager = (ShortcutManager) Context.GetSystemService(Class.FromType(typeof(ShortcutManager)));
+        //    if (shortcutManager != null)
+        //    {
+        //        if (shortcutManager.IsRequestPinShortcutSupported)
+        //        {
+        //            var intent = new Intent(Context, typeof(MainActivity));
+        //            intent.SetAction(Intent.ActionView);
 
-                    var shortcut = new ShortcutInfo.Builder(Context, "accentPin")
-                        .SetShortLabel("MALClient")
-                        .SetIcon(Icon.CreateWithResource(Context, Resource.Mipmap.ic_launcher_lime_round))
-                        .SetIntent(intent)
-                        .Build();
-                    shortcutManager.RequestPinShortcut(shortcut, null);
-                }
-                else
-                    Toast.MakeText(Context, "Pinned shortcuts are not supported in your android version!", ToastLength.Short).Show();
-            }
-        }
+        //            var shortcut = new ShortcutInfo.Builder(Context, "accentPin")
+        //                .SetShortLabel("MALClient")
+        //                .SetIcon(Icon.CreateWithResource(Context, Resource.Mipmap.ic_launcher_lime_round))
+        //                .SetIntent(intent)
+        //                .Build();
+        //            shortcutManager.RequestPinShortcut(shortcut, null);
+        //        }
+        //        else
+        //            Toast.MakeText(Context, "Pinned shortcuts are not supported in your android version!", ToastLength.Short).Show();
+        //    }
+        //}
 
         private List<ImageButton> _accentButtons;
         private bool _amoledDarkTheme;

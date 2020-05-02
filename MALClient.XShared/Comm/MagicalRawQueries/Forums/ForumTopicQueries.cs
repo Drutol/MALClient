@@ -366,7 +366,9 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Forums
                         output.IsLocked = true;
                     }
                 }
-                foreach (var bradcrumb in doc.FirstOfDescendantsWithClass("div", "breadcrumb").ChildNodes.Where(node => node.Name == "div"))
+                foreach (var bradcrumb in doc
+                    .FirstOfDescendantsWithClassContaining("div", "breadcrumb")
+                    .ChildNodes.Where(node => node.Name == "div"))
                 {
                     output.Breadcrumbs.Add(new ForumBreadcrumb
                     {
@@ -390,6 +392,9 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Forums
 
                 foreach (var row in doc.WhereOfDescendantsWithClass("div", "forum_border_around"))
                 {
+                    if (!row.Attributes.Contains("id"))
+                        continue; //it's an ad
+
                     var current = new ForumMessageEntry {TopicId = topicId};
 
                     current.Id = row.Attributes["id"].Value.Replace("forumMsg", "");
@@ -486,7 +491,7 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Forums
                 
                 return output;
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 return new ForumTopicData();
             }

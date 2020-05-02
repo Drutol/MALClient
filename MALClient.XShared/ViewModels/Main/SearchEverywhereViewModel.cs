@@ -195,7 +195,7 @@ namespace MALClient.XShared.ViewModels.Main
                         })
                     {
                         Source = PageIndex.PageSearchEverywhere,
-                        AnimeMode = true
+                        AnimeMode = false
                     });
         }
 

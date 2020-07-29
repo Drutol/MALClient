@@ -14,6 +14,7 @@
         SwitchApps,
         ContactInfo,
         Lightbulb,
-        Discord
+        Discord,
+        Rocket
     }
 }

@@ -118,24 +118,29 @@ namespace MALClient.XShared.Comm.Anime
                 List<HtmlNode> staffTables = new List<HtmlNode>();
                 bool nowStaff = false;
                 int headerCount = 0;
-                foreach (var node in mainContainer.ChildNodes)
+                foreach (var node in doc.DocumentNode.Descendants("table"))
                 {
-                    if (!nowStaff)
-                    {
-                        if(node.Name == "table")
-                            charTables.Add(node);
-                        else if (node.Name == "h2")
-                        {
-                            headerCount++;
-                            if(headerCount == 2)
-                                nowStaff = true;
-                        }
-                    }
-                    else
+                    try
                     {
                         if (node.Name == "table")
-                            staffTables.Add(node);
+                        {
+                            var tdCount = node.Descendants("td").Count();
+                            if (tdCount >= 3)
+                            {
+                                charTables.Add(node);
+                            }
+                            else if (tdCount == 2)
+                            {
+                                staffTables.Add(node);
+                            }
+     
+                        }
                     }
+                    catch (Exception e)
+                    {
+                        
+                    }
+                    
                 }
                 int i = 0;
                 foreach (var table in charTables)
@@ -187,7 +192,7 @@ namespace MALClient.XShared.Comm.Anime
                         if (i++ > 30)
                             break;
                     }
-                    catch (Exception)
+                    catch (Exception e)
                     {
                         //oddities
                     }
@@ -217,13 +222,13 @@ namespace MALClient.XShared.Comm.Anime
                         if (i++ > 30)
                             break;
                     }
-                    catch (Exception)
+                    catch (Exception e)
                     {
                         //what can I say?
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 //mysteries of html
             }

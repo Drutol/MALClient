@@ -295,7 +295,7 @@
   <ItemGroup>
     <AndroidInterfaceDescription Include="Aidl\Bundle.aidl" />
     <AndroidInterfaceDescription Include="Aidl\IInAppBillingService.aidl" />
-    <AndroidAsset Include="Assets\fonts\fontawesome-webfont.ttf" />
+    <AndroidResource Include="Resources\font\fontawesomewebfont.ttf" />
     <ProguardConfiguration Include="proguard.cfg" />
     <None Include="Resources\AboutResources.txt" />
     <None Include="Properties\AndroidManifest.xml" />
@@ -414,6 +414,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Assets\fonts\" />
     <Folder Include="Utilities\ImageLoading\" />
   </ItemGroup>
   <ItemGroup>
@@ -1272,6 +1273,9 @@
     <AndroidResource Include="Resources\mipmap-xxhdpi\ic_launcher_foreground.png" />
     <AndroidResource Include="Resources\mipmap-xxxhdpi\ic_launcher_foreground.png" />
     <AndroidResource Include="Resources\values\ic_launcher_background.xml" />
+    <AndroidResource Include="Resources\drawable\icon_rocket.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

@@ -1409,12 +1409,13 @@ namespace MALClient.XShared.ViewModels.Details
         {
             try
             {
-                var youTube = YouTube.Default;
-                var video = youTube.GetVideo(data.YtLink);
-                var uri =  await video.GetUriAsync();
-                ViewModelLocator.GeneralMain.MediaElementSource = uri;
-                ViewModelLocator.GeneralMain.MediaElementVisibility = true;
-                ViewModelLocator.GeneralMain.MediaElementIndirectSource = data.YtLink;
+                //var youTube = YouTube.Default;
+                //var video = youTube.GetVideo(data.YtLink);
+                ResourceLocator.SystemControlsLauncherService.LaunchUri(new Uri(data.YtLink));
+                //var uri =  await video.GetUriAsync();
+                //ViewModelLocator.GeneralMain.MediaElementSource = uri;
+                //ViewModelLocator.GeneralMain.MediaElementVisibility = true;
+                //ViewModelLocator.GeneralMain.MediaElementIndirectSource = data.YtLink;
             }
             catch (Exception e)
             {

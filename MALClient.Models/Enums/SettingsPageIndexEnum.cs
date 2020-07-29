@@ -16,5 +16,6 @@
         Feeds,
         Info,
         Discord,
+        Daki
     }
 }

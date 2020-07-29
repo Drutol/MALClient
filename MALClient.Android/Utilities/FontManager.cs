@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Android.Content;
 using Android.Graphics;
+using Android.Support.V4.Content.Res;
 
 namespace MALClient.Android
 {
@@ -16,7 +17,7 @@ namespace MALClient.Android
             if (CacheTypefaces.ContainsKey(font))
                 return CacheTypefaces[font];
 
-            var typeFace =  Typeface.CreateFromAsset(context.Assets, font);
+            var typeFace = ResourcesCompat.GetFont(context, Resource.Font.fontawesomewebfont);
 
             CacheTypefaces.Add(font,typeFace);
 

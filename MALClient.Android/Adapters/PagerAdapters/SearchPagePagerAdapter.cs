@@ -32,13 +32,13 @@ namespace MALClient.Android.PagerAdapters
                 {
                     _animeSearchPageFragment = new AnimeSearchPageFragment(true);
                     _mangaSearchPageFragment = new AnimeSearchPageFragment(false);
-                    targetPage = 1;
+                    targetPage = 0;
                 }
                 else
                 {
                     _animeSearchPageFragment = new AnimeSearchPageFragment(false);
                     _mangaSearchPageFragment = new AnimeSearchPageFragment(true);
-                    targetPage = 2;
+                    targetPage = 0;
                 }
 
                 if (arg.Everywhere)

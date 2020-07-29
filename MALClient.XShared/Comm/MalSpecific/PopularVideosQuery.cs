@@ -17,7 +17,7 @@ namespace MALClient.XShared.Comm.MalSpecific
             Request =
                 WebRequest.Create(
                     Uri.EscapeUriString(
-                        "https://myanimelist.net/watch/promotion/popular"));
+                        "https://myanimelist.net/watch/promotion"));
             Request.ContentType = "application/x-www-form-urlencoded";
             Request.Method = "GET";
         }
@@ -36,26 +36,33 @@ namespace MALClient.XShared.Comm.MalSpecific
             {
                 foreach (var videoNode in doc.WhereOfDescendantsWithClass("div", "video-list-outer-vertical"))
                 {
-                    var current = new AnimeVideoData();
+                    try
+                    {
+                        var current = new AnimeVideoData();
 
-                    var link = videoNode.ChildNodes.First(node => node.Name == "a");
-                    current.Thumb = link.Attributes["data-bg"].Value;
-                    if(current.Thumb.Contains("banned"))
-                        continue;
-                    current.AnimeId = int.Parse(link.Attributes["data-anime-id"].Value);
+                        var link = videoNode.ChildNodes.First(node => node.Name == "a");
+                        current.Thumb = link.Attributes["data-bg"].Value;
+                        if (current.Thumb.Contains("banned"))
+                            continue;
+                        current.AnimeId = int.Parse(link.Attributes["data-anime-id"].Value);
 
-                    var href = link.Attributes["href"].Value;
-                    var pos = href.IndexOf('?');
-                    href = href.Substring(0, pos);
-                    current.YtLink = $"https://www.youtube.com/watch?v={href.Split('/').Last()}";
+                        var href = link.Attributes["href"].Value;
+                        var pos = href.IndexOf('?');
+                        href = href.Substring(0, pos);
+                        current.YtLink = $"https://www.youtube.com/watch?v={href.Split('/').Last()}";
 
-                    current.Name =
-                        WebUtility.HtmlDecode(
-                            videoNode.FirstOfDescendantsWithClass("div", "info-container").InnerText.Trim());
+                        current.Name =
+                            WebUtility.HtmlDecode(
+                                videoNode.FirstOfDescendantsWithClass("div", "info-container").InnerText.Trim());
 
-                    current.AnimeTitle = WebUtility.HtmlDecode(videoNode.Descendants("a").Last().InnerText.Trim());
+                        current.AnimeTitle = WebUtility.HtmlDecode(videoNode.Descendants("a").Last().InnerText.Trim());
 
-                    output.Add(current);
+                        output.Add(current);
+                    }
+                    catch (Exception e)
+                    {
+                        
+                    }
                 }
             }
             catch (Exception)

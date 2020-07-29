@@ -72,10 +72,8 @@ namespace MALClient.Android.Fragments.ForumFragments
                 this.SetBinding(() => ViewModel.LoadingTopic,
                     () => ForumTopicPageLoadingSpinner.Visibility).ConvertSourceToTarget(Converters.BoolToVisibility));
 
-
             Bindings.Add(this.SetBinding(() => ViewModel.Messages).WhenSourceChanges(() =>
             {
-
                 if (ViewModel.Messages != null)
                 {
                     _items = ViewModel.Messages.Select(model => new ForumTopicItem(Activity)).ToList();
@@ -87,7 +85,6 @@ namespace MALClient.Android.Fragments.ForumFragments
                 this.SetBinding(() => ViewModel.ToggleWatchingButtonText,
                     () => ForumTopicPageToggleWatchingButton.Text));
 
-
             ForumTopicPageGotoPageButton.SetOnClickListener(new OnClickListener(v => ForumTopicPageGotoPageButtonOnClick()));
             ForumTopicPageActionButton.SetOnClickListener(new OnClickListener(v => ForumTopicPageActionButtonOnClick()));
             ForumTopicPageToggleWatchingButton.SetOnClickListener(new OnClickListener(v => ViewModel.ToggleWatchingCommand.Execute(null)));
@@ -98,8 +95,6 @@ namespace MALClient.Android.Fragments.ForumFragments
                 UpdatePageSelection();
             }));
         }
-
-
 
         private async void ForumTopicPageGotoPageButtonOnClick()
         {
@@ -130,6 +125,10 @@ namespace MALClient.Android.Fragments.ForumFragments
 
         private async void ForumTopicPageActionButtonOnClick()
         {
+            ResourceLocator.MessageDialogProvider.ShowMessageDialog("Sorry, but MAL has introduced recaptchas which limit what I can do on the forums." +
+                                                                    " Forums will be back once their API is well enough featured and stable.", "Sorry.");
+            return;
+            
             var str = await TextInputDialogBuilder.BuildForumPostTextInputDialog(Context, TextInputDialogBuilder.ForumPostTextInputContext.Reply, "");
             if (!string.IsNullOrEmpty(str))
             {
@@ -258,7 +257,5 @@ namespace MALClient.Android.Fragments.ForumFragments
 
 
         #endregion
-
-
     }
 }

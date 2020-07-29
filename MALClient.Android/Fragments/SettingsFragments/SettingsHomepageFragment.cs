@@ -42,6 +42,13 @@ namespace MALClient.Android.Fragments.SettingsFragments
                 Symbol = SettingsSymbolsEnum.Lightbulb,
 
             });
+            //pages.Add(new SettingsPageEntry
+            //{
+            //    Header = "Dakimakura stores",
+            //    PageType = SettingsPageIndex.Daki,
+            //    Subtitle = "Make your life comfier and avoid filthy thieves/bootleggers!",
+            //    Symbol = SettingsSymbolsEnum.Rocket,
+            //});
             SettingsPageHomepageList.SetAdapter(pages.GetAdapter(GetTemplateDelegate));
         }
 

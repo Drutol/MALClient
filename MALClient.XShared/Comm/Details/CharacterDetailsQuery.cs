@@ -105,9 +105,9 @@ namespace MALClient.XShared.Comm.Details
                             if (!imgUrl.Contains("questionmark"))
                             {
 
-                                var pos = imgUrl.LastIndexOf("v");
-                                if (pos != -1)
-                                    imgUrl = imgUrl.Remove(pos, 1);
+                                //var pos = imgUrl.LastIndexOf("v");
+                                //if (pos != -1)
+                                //    imgUrl = imgUrl.Remove(pos, 1);
 
                             }
                             current.ImgUrl = imgUrl;

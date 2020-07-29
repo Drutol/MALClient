@@ -125,7 +125,7 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Forums
                 {
                     new KeyValuePair<string, string>("msg_text", message),
                     new KeyValuePair<string, string>("csrf_token", client.Token),
-                    new KeyValuePair<string, string>("submit", "Submit")
+                    new KeyValuePair<string, string>("action_type", "submit")
                 };
 
                 var requestContent = new FormUrlEncodedContent(data);
@@ -140,7 +140,7 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Forums
 
                 return response.IsSuccessStatusCode;
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 return false;
             }

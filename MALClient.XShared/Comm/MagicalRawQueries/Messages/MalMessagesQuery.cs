@@ -28,10 +28,12 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Messages
             doc.LoadHtml(body);
             output.AddRange(
                 doc.WhereOfDescendantsWithClass("div", "message unread spot1 clearfix")
-                    .Select(msgNode => ParseInboxHtmlToMalMessage(msgNode, false)));
+                    .Select(msgNode => ParseInboxHtmlToMalMessage(msgNode, false))
+                    .Where(model => model != null));
             output.AddRange(
                 doc.WhereOfDescendantsWithClass("div", "message read spot1 clearfix")
-                    .Select(msgNode => ParseInboxHtmlToMalMessage(msgNode, true)));
+                    .Select(msgNode => ParseInboxHtmlToMalMessage(msgNode, true))
+                    .Where(model => model != null));
 
 
             return output;
@@ -104,39 +106,53 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Messages
 
         private MalMessageModel ParseOutboxHtmlToMalMessage(HtmlNode msgNode)
         {
-            var current = new MalMessageModel();
-            current.Target = msgNode.FirstOfDescendantsWithClass("div", "mym mym_user").InnerText.Trim();
-            current.Sender = Credentials.UserName;
-            var contentNode = msgNode.FirstOfDescendantsWithClass("div", "mym mym_subject");
-            current.Subject =
-                WebUtility.HtmlDecode(contentNode.Descendants("a").First().ChildNodes[0].InnerText.Trim().Trim('-'));
-            current.Content = WebUtility.HtmlDecode(contentNode.Descendants("span").First().InnerText.Trim());
-            current.Date = msgNode.FirstOfDescendantsWithClass("span", "mym_date").InnerText.Trim();
-            current.IsMine = true;
-            return current;
+            try
+            {
+                var current = new MalMessageModel();
+                current.Target = msgNode.FirstOfDescendantsWithClass("div", "mym mym_user").InnerText.Trim();
+                current.Sender = Credentials.UserName;
+                var contentNode = msgNode.FirstOfDescendantsWithClass("div", "mym mym_subject");
+                current.Subject =
+                    WebUtility.HtmlDecode(contentNode.Descendants("a").First().ChildNodes[0].InnerText.Trim().Trim('-'));
+                current.Content = WebUtility.HtmlDecode(contentNode.Descendants("span").First().InnerText.Trim());
+                current.Date = msgNode.FirstOfDescendantsWithClass("span", "mym_date").InnerText.Trim();
+                current.IsMine = true;
+                return current;
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
         }
 
         private MalMessageModel ParseInboxHtmlToMalMessage(HtmlNode msgNode, bool read)
         {
-            var current = new MalMessageModel();
-            current.Sender = msgNode.FirstOfDescendantsWithClass("div", "mym mym_user").InnerText.Trim();
-            current.Target = Credentials.UserName;
-            var contentNode = msgNode.FirstOfDescendantsWithClass("div", "mym mym_subject");
-            current.Subject =
-                WebUtility.HtmlDecode(contentNode.Descendants("a").First().ChildNodes[0].InnerText.Trim().Trim('-'));
-            current.Content = WebUtility.HtmlDecode(contentNode.Descendants("span").First().InnerText.Trim());
-            current.Id =
-                contentNode.FirstOfDescendantsWithClass("a", "subject-link").Attributes["href"].Value.Split('=')
-                    .Last();
-            current.Date = msgNode.FirstOfDescendantsWithClass("span", "mym_date").InnerText.Trim();
-            current.IsRead = read;
+            try
+            {
+                var current = new MalMessageModel();
+                current.Sender = msgNode.FirstOfDescendantsWithClass("div", "mym mym_user").InnerText.Trim();
+                current.Target = Credentials.UserName;
+                var contentNode = msgNode.FirstOfDescendantsWithClass("div", "mym mym_subject");
+                current.Subject =
+                    WebUtility.HtmlDecode(contentNode.Descendants("a").First().ChildNodes[0].InnerText.Trim().Trim('-'));
+                current.Content = WebUtility.HtmlDecode(contentNode.Descendants("span").First().InnerText.Trim());
+                current.Id =
+                    contentNode.FirstOfDescendantsWithClass("a", "subject-link").Attributes["href"].Value.Split('=')
+                        .Last();
+                current.Date = msgNode.FirstOfDescendantsWithClass("span", "mym_date").InnerText.Trim();
+                current.IsRead = read;
 
-            var ids =
-                msgNode.FirstOfDescendantsWithClass("span", "mym_actions").Descendants("a").First().Attributes["href"]
-                    .Value.Split('=');
-            current.ThreadId = ids[3].Substring(0, ids[3].IndexOf('&'));
-            current.ReplyId = ids[2].Substring(0, ids[3].IndexOf('&'));
-            return current;
+                var ids =
+                    msgNode.FirstOfDescendantsWithClass("span", "mym_actions").Descendants("a").First().Attributes["href"]
+                        .Value.Split('=');
+                current.ThreadId = ids[3].Substring(0, ids[3].IndexOf('&'));
+                current.ReplyId = ids[2].Substring(0, ids[3].IndexOf('&'));
+                return current;
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
         }
     }
 }

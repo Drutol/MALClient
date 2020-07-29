@@ -27,7 +27,6 @@ namespace MALClient.XShared.Comm.Anime
 
         public async Task<List<AnimeVideoData>> GetVideos(bool force)
         {
-
             var output = force
                 ? new List<AnimeVideoData>()
                 : await DataCache.RetrieveData<List<AnimeVideoData>>($"videos_{_id}", "AnimeDetails", 7) ??

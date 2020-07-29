@@ -36,7 +36,7 @@ namespace MALClient.Android.Fragments.SearchFragments
             SearchPageTabStrip.CenterTabs();
             SearchPageViewPager.OffscreenPageLimit = 5;
 
-            SearchPageViewPager.SetCurrentItem(start,false);
+            SearchPageViewPager.SetCurrentItem(start, false);
             HasOnlyManualBindings = true;
         }
 

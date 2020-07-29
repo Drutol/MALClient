@@ -58,22 +58,30 @@ namespace MALClient.XShared.Comm.Anime
 
                 foreach (var result in results.results)
                 {
-                    result.image_url =
-                        Regex.Replace(result.image_url, @"\/r\/\d+x\d+", "");
-                    result.image_url =
-                        result.image_url.Substring(0, result.image_url.IndexOf('?'));
+                    try
+                    {
+                        result.image_url =
+                            Regex.Replace(result.image_url, @"\/r\/\d+x\d+", "");
+                        result.image_url =
+                            result.image_url.Substring(0, result.image_url.IndexOf('?'));
+                    }
+                    catch
+                    {
+                        //image is okay
+                    }
+
 
                     output.Add(new AnimeGeneralDetailsData
                     {
                         Id = result.mal_id,
-                        AllEpisodes = result.episodes,
+                        AllEpisodes = (result.episodes ?? 0),
                         Title = WebUtility.HtmlDecode(result.title),
                         ImgUrl = result.image_url,
                         Type = result.type,
                         Synopsis = WebUtility.HtmlDecode(result.synopsis),
                         MalId = result.mal_id,
                         GlobalScore = (float)result.score,      
-                        Status =  result.airing ? "Currently Airing" : "Unknown"                       
+                        Status =  (result.airing ?? false) ? "Currently Airing" : "Unknown"                       
                     });
                 }
 
@@ -150,10 +158,10 @@ namespace MALClient.XShared.Comm.Anime
             public string title { get; set; }
             public string synopsis { get; set; }
             public string type { get; set; }
-            public double score { get; set; }
-            public int episodes { get; set; }
-            public bool airing { get; set; }
-            public int members { get; set; }
+            public double? score { get; set; }
+            public int? episodes { get; set; }
+            public bool? airing { get; set; }
+            public int? members { get; set; }
         }
 
         [Preserve(AllMembers = true)]

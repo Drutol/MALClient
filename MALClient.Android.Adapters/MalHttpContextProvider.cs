@@ -18,6 +18,8 @@ using MALClient.XShared.BL;
 using MALClient.XShared.Comm.MagicalRawQueries;
 using MALClient.XShared.Utils;
 using MALClient.XShared.ViewModels;
+using Microsoft.AppCenter.Analytics;
+using Microsoft.AppCenter.Crashes;
 using ModernHttpClient;
 using Xamarin.Android.Net;
 
@@ -29,7 +31,6 @@ namespace MALClient.Android.Adapters
         protected override async Task<CsrfHttpClient> ObtainContext()
         {
             var httpHandler = ResourceLocator.MalHttpContextProvider.GetHandler();
-
 
             _httpClient = new CsrfHttpClient(httpHandler) { BaseAddress = new Uri(MalBaseUrl) };
             _httpClient.DefaultRequestHeaders.TryAddWithoutValidation("authority", "myanimelist.net");
@@ -121,6 +122,10 @@ namespace MALClient.Android.Adapters
             }
             catch (Exception e)
             {
+                Crashes.GetErrorAttachments = report => new List<ErrorAttachmentLog>
+                {
+                    ErrorAttachmentLog.AttachmentWithText(content, "login.html")
+                };
                 //ResourceLocator.ClipboardProvider.SetText($"{e}\n{response}\n{content}");
                 //ResourceLocator.SnackbarProvider.ShowText("Error copied to clipboard.");
                 throw;

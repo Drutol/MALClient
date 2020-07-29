@@ -69,9 +69,16 @@ namespace MALClient.XShared.Comm.Anime
                         var doubleGenreNodes = child.Descendants("span")
                             .Where(node => node.Attributes.Contains("itemprop"))
                             .ToList();
-                        foreach (var node in doubleGenreNodes)
+                        try
                         {
-                            child.RemoveChild(node);
+                            foreach (var node in doubleGenreNodes)
+                            {
+                                child.RemoveChild(node);
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            
                         }
 
                         currentString = Regex.Replace(WebUtility.HtmlDecode(child.InnerText.Replace('\n', ' ').Trim()), @"[ ]{2,}", " ");

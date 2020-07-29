@@ -121,7 +121,7 @@ namespace MALClient.XShared.Comm
                                         else
                                         {
                                             //MAL likes to throw "too many requests"
-                                            await Task.Delay(400);
+                                            await Task.Delay(200);
                                         }
 
                                         if(offset == 0 || anime.Count == 0)
@@ -326,7 +326,7 @@ namespace MALClient.XShared.Comm
                         else
                         {
                             failedOnce = true;
-                            await Task.Delay(TimeSpan.FromSeconds(4));
+                            await Task.Delay(TimeSpan.FromSeconds(1));
                         }
                     }
                 }

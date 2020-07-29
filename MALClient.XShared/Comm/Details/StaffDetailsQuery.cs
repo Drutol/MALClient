@@ -51,7 +51,7 @@ namespace MALClient.XShared.Comm.Details
                     output.ImgUrl = image.Attributes["data-src"].Value;
 
                 output.Name = WebUtility.HtmlDecode(doc.DocumentNode.Descendants("h1").First().InnerText.Trim());
-
+                output.Name = output.Name?.Split('\n')[0];
                 bool recording = false;
                 var currentString = "";
                 int i = 0;

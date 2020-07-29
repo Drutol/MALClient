@@ -5,6 +5,8 @@ using System.Text;
 
 using Android.App;
 using Android.Content;
+using Android.Content.Res;
+using Android.Graphics;
 using Android.OS;
 using Android.Runtime;
 using Android.Views;
@@ -22,6 +24,7 @@ namespace MALClient.Android.Fragments.SettingsFragments
     public class SettingsHomepageFragment : MalFragmentBase
     {
         private SettingsViewModel ViewModel;
+        private Random _random = new Random();
 
         protected override void Init(Bundle savedInstanceState)
         {
@@ -36,19 +39,21 @@ namespace MALClient.Android.Fragments.SettingsFragments
                                 (Credentials.Authenticated || entry.PageType != SettingsPageIndex.Ads)).ToList();
             pages.Add(new SettingsPageEntry
             {
+                Header = "Dakimakura Guide",
+                PageType = SettingsPageIndex.Daki,
+                Subtitle = "Make your life comfier and avoid filthy thieves and bootleggers!",
+                Symbol = SettingsSymbolsEnum.Rocket,
+            });
+
+            pages.Add(new SettingsPageEntry
+            {
                 Header = "Did you know?",
                 PageType = SettingsPageIndex.Info,
                 Subtitle = "Me explaining this UI...",
                 Symbol = SettingsSymbolsEnum.Lightbulb,
 
             });
-            //pages.Add(new SettingsPageEntry
-            //{
-            //    Header = "Dakimakura stores",
-            //    PageType = SettingsPageIndex.Daki,
-            //    Subtitle = "Make your life comfier and avoid filthy thieves/bootleggers!",
-            //    Symbol = SettingsSymbolsEnum.Rocket,
-            //});
+
             SettingsPageHomepageList.SetAdapter(pages.GetAdapter(GetTemplateDelegate));
         }
 
@@ -64,8 +69,21 @@ namespace MALClient.Android.Fragments.SettingsFragments
 
             view.FindViewById<TextView>(Resource.Id.SettingsPageItemHeader).Text = settingsPageEntry.Header;
             view.FindViewById<TextView>(Resource.Id.SettingsPageItemSubtitle).Text = settingsPageEntry.Subtitle;
-            view.FindViewById<ImageView>(Resource.Id.SettingsPageItemIcon).SetImageResource(GetIcon(settingsPageEntry.Symbol));
-            
+            var img = view.FindViewById<ImageView>(Resource.Id.SettingsPageItemIcon);
+            img.SetImageResource(GetIcon(settingsPageEntry.Symbol));
+
+            if (settingsPageEntry.PageType == SettingsPageIndex.Daki)
+            {
+                img.ImageTintList = null;
+                img.ScaleX = 1.5f;
+                img.ScaleY = 1.5f;
+            }
+            else
+            {
+                img.ImageTintList = ColorStateList.ValueOf(new Color(ResourceExtension.AccentColour));
+                img.ScaleX = 1f;
+                img.ScaleY = 1f;
+            }
 
             return view;
         }
@@ -78,37 +96,24 @@ namespace MALClient.Android.Fragments.SettingsFragments
 
         private int GetIcon(SettingsSymbolsEnum symbol)
         {
-            switch (symbol)
+            return symbol switch
             {
-                case SettingsSymbolsEnum.Setting:
-                    return Resource.Drawable.icon_settings;
-                case SettingsSymbolsEnum.SaveLocal:
-                    return Resource.Drawable.icon_save_local;
-                case SettingsSymbolsEnum.CalendarWeek:
-                    return Resource.Drawable.icon_calendar;
-                case SettingsSymbolsEnum.PreviewLink:
-                    return Resource.Drawable.icon_newspaper;
-                case SettingsSymbolsEnum.PostUpdate:
-                    return Resource.Drawable.icon_newspaper;
-                case SettingsSymbolsEnum.Manage:
-                    return Resource.Drawable.icon_info;
-                case SettingsSymbolsEnum.Contact:
-                    return Resource.Drawable.icon_account;
-                case SettingsSymbolsEnum.Placeholder:
-                    return Resource.Drawable.icon_placeholder;
-                case SettingsSymbolsEnum.Important:
-                    return Resource.Drawable.icon_notification;
-                case SettingsSymbolsEnum.SwitchApps:
-                    return Resource.Drawable.icon_ads;
-                case SettingsSymbolsEnum.ContactInfo:
-                    return Resource.Drawable.icon_feeds;
-                case SettingsSymbolsEnum.Lightbulb:
-                    return Resource.Drawable.icon_bulb;
-                case SettingsSymbolsEnum.Discord:
-                    return Resource.Drawable.icon_discord;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(symbol), symbol, null);
-            }
+                SettingsSymbolsEnum.Setting => Resource.Drawable.icon_settings,
+                SettingsSymbolsEnum.SaveLocal => Resource.Drawable.icon_save_local,
+                SettingsSymbolsEnum.CalendarWeek => Resource.Drawable.icon_calendar,
+                SettingsSymbolsEnum.PreviewLink => Resource.Drawable.icon_newspaper,
+                SettingsSymbolsEnum.PostUpdate => Resource.Drawable.icon_newspaper,
+                SettingsSymbolsEnum.Manage => Resource.Drawable.icon_info,
+                SettingsSymbolsEnum.Contact => Resource.Drawable.icon_account,
+                SettingsSymbolsEnum.Placeholder => Resource.Drawable.icon_placeholder,
+                SettingsSymbolsEnum.Important => Resource.Drawable.icon_notification,
+                SettingsSymbolsEnum.SwitchApps => Resource.Drawable.icon_ads,
+                SettingsSymbolsEnum.ContactInfo => Resource.Drawable.icon_feeds,
+                SettingsSymbolsEnum.Lightbulb => Resource.Drawable.icon_bulb,
+                SettingsSymbolsEnum.Discord => Resource.Drawable.icon_discord,
+                SettingsSymbolsEnum.Rocket => _random.NextDouble() > .5 ? Resource.Drawable.kuri : Resource.Drawable.octo,
+                _ => throw new ArgumentOutOfRangeException(nameof(symbol), symbol, null)
+            };
         }
 
         public override int LayoutResourceId => Resource.Layout.SettingsPageHomepage;

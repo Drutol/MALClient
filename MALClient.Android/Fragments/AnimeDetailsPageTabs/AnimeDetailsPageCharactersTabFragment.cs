@@ -8,10 +8,13 @@ using Android.Content;
 using Android.Content.Res;
 using Android.OS;
 using Android.Runtime;
+using Android.Support.V7.Widget;
 using Android.Views;
 using Android.Widget;
+using AoLibs.Adapters.Android.Recycler;
 using GalaSoft.MvvmLight.Helpers;
 using MALClient.Android.BindingConverters;
+using MALClient.Android.Listeners;
 using MALClient.Android.UserControls;
 using MALClient.Models.Models.Favourites;
 using MALClient.XShared.ViewModels;
@@ -32,14 +35,29 @@ namespace MALClient.Android.Fragments.AnimeDetailsPageTabs
 
         protected override void InitBindings()
         {
-            _gridHelper = new GridViewColumnHelper(AnimeDetailsPageCharactersTabGridView,340,1);
+            //_gridHelper = new GridViewColumnHelper(AnimeDetailsPageCharactersTabGridView,340,1);
             Bindings.Add(this.SetBinding(() => ViewModel.AnimeStaffData).WhenSourceChanges(() =>
             {
+                //if (ViewModel.AnimeStaffData == null)
+                //    AnimeDetailsPageCharactersTabGridView.Adapter = null;
+                //else
+                //    AnimeDetailsPageCharactersTabGridView.InjectFlingAdapter(ViewModel.AnimeStaffData.AnimeCharacterPairs, DataTemplateFull, DataTemplateFling, ContainerTemplate);
+
                 if (ViewModel.AnimeStaffData == null)
-                    AnimeDetailsPageCharactersTabGridView.Adapter = null;
+                    AnimeDetailsPageCharactersTabGridView.SetAdapter(null);
                 else
-                    AnimeDetailsPageCharactersTabGridView.InjectFlingAdapter(ViewModel.AnimeStaffData.AnimeCharacterPairs,DataTemplateFull,DataTemplateFling,ContainerTemplate  );
+                    AnimeDetailsPageCharactersTabGridView.SetAdapter(
+                        new ObservableRecyclerAdapter<
+                            AnimeDetailsPageViewModel.AnimeStaffDataViewModels.AnimeCharacterStaffModelViewModel,
+                            Holder>(
+                            ViewModel.AnimeStaffData.AnimeCharacterPairs,
+                            DataTemplate,
+                            LayoutInflater,
+                            Resource.Layout.CharacterActorPairItem));
+
             }));
+
+            AnimeDetailsPageCharactersTabGridView.SetLayoutManager(new GridLayoutManager(Activity, 2));
 
             Bindings.Add(
                 this.SetBinding(() => ViewModel.LoadingCharactersVisibility,
@@ -49,56 +67,37 @@ namespace MALClient.Android.Fragments.AnimeDetailsPageTabs
             SetUpForOrientation(Activity.Resources.Configuration.Orientation);
         }
 
-        private View ContainerTemplate(int i)
+        private void DataTemplate(
+            AnimeDetailsPageViewModel.AnimeStaffDataViewModels.AnimeCharacterStaffModelViewModel item,
+            Holder holder, int position)
         {
-            var view =  Activity.LayoutInflater.Inflate(Resource.Layout.CharacterActorPairItem, null);
-            return view;
-        }
-
-        private void ItemPersonOnClick(object sender, EventArgs eventArgs)
-        {
-            ViewModel.NavigateStaffDetailsCommand.Execute((sender as View).Tag.Unwrap<FavouriteViewModel>().Data);
-        }
-
-        private void ItemCharacterOnClick(object sender, EventArgs eventArgs)
-        {
-            ViewModel.NavigateCharacterDetailsCommand.Execute((sender as View).Tag.Unwrap<FavouriteViewModel>().Data);
-        }
-
-        private void DataTemplateFling(View view,int i, AnimeDetailsPageViewModel.AnimeStaffDataViewModels.AnimeCharacterStaffModelViewModel models)
-        {
-            var itemCharacter = view.FindViewById<FavouriteItem>(Resource.Id.CharacterActorPairItemCharacter);
-            var itemPerson = view.FindViewById<FavouriteItem>(Resource.Id.CharacterActorPairItemActor);
-                
-            itemCharacter.BindModel(models.AnimeCharacter, true);
-            itemPerson.BindModel(models.AnimeStaffPerson, true);
-        }
-
-        private void DataTemplateFull(View view, int i, AnimeDetailsPageViewModel.AnimeStaffDataViewModels.AnimeCharacterStaffModelViewModel models)
-        {
+            var view = holder.ItemView;
             var itemCharacter = view.FindViewById<FavouriteItem>(Resource.Id.CharacterActorPairItemCharacter);
             var itemPerson = view.FindViewById<FavouriteItem>(Resource.Id.CharacterActorPairItemActor);
 
-            bool firstRun = !itemCharacter.Initialized;
-            itemCharacter.BindModel(models.AnimeCharacter,false);
-            itemPerson.BindModel(models.AnimeStaffPerson,false);
+            itemCharacter.BindModel(item.AnimeCharacter, false);
+            itemPerson.BindModel(item.AnimeStaffPerson, false);
 
-            if (firstRun)
-            {
-                itemCharacter.Click += ItemCharacterOnClick;
-                itemPerson.Click += ItemPersonOnClick;
-            }
+            holder.CharacterActorPairItemActor.FavouriteItemImage.Into(item.AnimeStaffPerson.Data.ImgUrl);
+            holder.CharacterActorPairItemCharacter.FavouriteItemImage.Into(item.AnimeCharacter.Data.ImgUrl);
+
+            itemCharacter.RootContainer.SetOnClickListener(new OnClickListener(view1 => ItemCharacterOnClick(item.AnimeCharacter)));
+            itemPerson.RootContainer.SetOnClickListener(new OnClickListener(view1 => ItemPersonOnClick(item.AnimeStaffPerson)));
+
+        }
+
+        private void ItemPersonOnClick(FavouriteViewModel item)
+        {
+            ViewModel.NavigateStaffDetailsCommand.Execute(item.Data);
+        }
+
+        private void ItemCharacterOnClick(FavouriteViewModel item)
+        {
+            ViewModel.NavigateCharacterDetailsCommand.Execute(item.Data);
         }
 
         public override int LayoutResourceId => Resource.Layout.AnimeDetailsPageCharactersTab;
 
-
-        public override void OnConfigurationChanged(Configuration newConfig)
-        {
-            //SetUpForOrientation(newConfig.Orientation);
-            _gridHelper.OnConfigurationChanged(newConfig);
-            base.OnConfigurationChanged(newConfig);
-        }
 
         private void SetUpForOrientation(Orientation orientation)
         {
@@ -124,13 +123,30 @@ namespace MALClient.Android.Fragments.AnimeDetailsPageTabs
 
         #region Views
 
-        private GridView _animeDetailsPageCharactersTabGridView;
+        private RecyclerView _animeDetailsPageCharactersTabGridView;
         private ProgressBar _animeDetailsPageCharactersTabLoadingSpinner;
 
-        public GridView AnimeDetailsPageCharactersTabGridView => _animeDetailsPageCharactersTabGridView ?? (_animeDetailsPageCharactersTabGridView = FindViewById<GridView>(Resource.Id.AnimeDetailsPageCharactersTabGridView));
+        public RecyclerView AnimeDetailsPageCharactersTabGridView => _animeDetailsPageCharactersTabGridView ?? (_animeDetailsPageCharactersTabGridView = FindViewById<RecyclerView>(Resource.Id.AnimeDetailsPageCharactersTabGridView));
 
         public ProgressBar AnimeDetailsPageCharactersTabLoadingSpinner => _animeDetailsPageCharactersTabLoadingSpinner ?? (_animeDetailsPageCharactersTabLoadingSpinner = FindViewById<ProgressBar>(Resource.Id.AnimeDetailsPageCharactersTabLoadingSpinner));
 
         #endregion
+
+        class Holder : RecyclerView.ViewHolder
+        {
+            private readonly View _view;
+
+            public Holder(View view) : base(view)
+            {
+                _view = view;
+            }
+
+            private FavouriteItem _characterActorPairItemCharacter;
+            private FavouriteItem _characterActorPairItemActor;
+
+            public FavouriteItem CharacterActorPairItemCharacter => _characterActorPairItemCharacter ?? (_characterActorPairItemCharacter = _view.FindViewById<FavouriteItem>(Resource.Id.CharacterActorPairItemCharacter));
+            public FavouriteItem CharacterActorPairItemActor => _characterActorPairItemActor ?? (_characterActorPairItemActor = _view.FindViewById<FavouriteItem>(Resource.Id.CharacterActorPairItemActor));
+        }
+
     }
 }

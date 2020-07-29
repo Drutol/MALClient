@@ -26,14 +26,11 @@ namespace MALClient.Android.UserControls
         private readonly bool _ignoreSmallItemsSetting;
         public bool Initialized { get; private set; }
 
-        public new event EventHandler Click
-        {
-            add { _rootContainer.Click += value; }
-            remove { _rootContainer.Click -= value; }
-        }
 
         private FrameLayout _rootContainer;
         private FavouriteViewModel ViewModel;
+
+        public FrameLayout RootContainer => _rootContainer;
 
         private static readonly ConcurrentDictionary<string, ImageView.ScaleType> ScaleTypes = new ConcurrentDictionary<string, ImageView.ScaleType>();
 
@@ -91,7 +88,9 @@ namespace MALClient.Android.UserControls
             if (!Initialized)
                 Init();
 
-            if (!fling && ViewModel != model)
+            FavouriteItemImage.Into(model.Data.ImgUrl);
+
+            if (ViewModel != model)
             {
                 ViewModel = model;
                 _rootContainer.Tag = model.Wrap();
@@ -100,63 +99,18 @@ namespace MALClient.Android.UserControls
 
                 if (string.IsNullOrWhiteSpace(model.Data.ImgUrl))
                 {
-                    FavouriteItemImage.Visibility = ViewStates.Invisible;
                     FavouriteItemImgPlaceholder.Visibility = ViewStates.Gone;
                     FavouriteItemNoImageIcon.Visibility = ViewStates.Visible;
                 }
                 else
                 {
-                    FavouriteItemImage.Visibility = ViewStates.Invisible;
                     FavouriteItemImgPlaceholder.Visibility = ViewStates.Gone;
-                    if (ScaleTypes.TryGetValue(model.Data.ImgUrl, out ImageView.ScaleType type))
-                    {
-                        FavouriteItemImage.SetScaleType(type);
-                        FavouriteItemImage.Into(model.Data.ImgUrl);
-                    }
-                    else
-                    {
-                        FavouriteItemImage.Into(model.Data.ImgUrl, null, img =>
-                        {
-                            ScaleTypes[model.Data.ImgUrl] = img.HandleScaling();
-                        });
-                    }
-  
                     FavouriteItemNoImageIcon.Visibility = ViewStates.Gone;
                 }
 
                 FavouriteItemName.Text = model.Data.Name;
                 FavouriteItemRole.Text = model.Data.Notes;
             }
-            else if (fling)
-            {
-                if (string.IsNullOrWhiteSpace(model.Data.ImgUrl))
-                {
-                    FavouriteItemImage.Visibility = ViewStates.Invisible;
-                    FavouriteItemImgPlaceholder.Visibility = ViewStates.Gone;
-                    FavouriteItemNoImageIcon.Visibility = ViewStates.Visible;
-                }
-                else
-                {
-                    FavouriteItemNoImageIcon.Visibility = ViewStates.Gone;
-                    if (FavouriteItemImage.IntoIfLoaded(model.Data.ImgUrl))
-                    {
-                        FavouriteItemImage.Visibility = ViewStates.Visible;
-                        FavouriteItemImgPlaceholder.Visibility = ViewStates.Gone;
-                        if (ScaleTypes.TryGetValue(model.Data.ImgUrl, out ImageView.ScaleType type))
-                            FavouriteItemImage.SetScaleType(type);
-                        else
-                        {
-                            FavouriteItemImage.Visibility = ViewStates.Invisible;
-                            FavouriteItemImgPlaceholder.Visibility = ViewStates.Visible;
-                        }
-
-                    }
-
-                    FavouriteItemName.Text = model.Data.Name;
-                    FavouriteItemRole.Text = model.Data.Notes;
-                }
-            }
-
         }
 
         #region Views
@@ -185,7 +139,6 @@ namespace MALClient.Android.UserControls
         public TextView FavouriteItemRole => _favouriteItemRole ?? (_favouriteItemRole = FindViewById<TextView>(Resource.Id.FavouriteItemRole));
 
         public LinearLayout FavouriteItemLowerSection => _favouriteItemLowerSection ?? (_favouriteItemLowerSection = FindViewById<LinearLayout>(Resource.Id.FavouriteItemLowerSection));
-
 
 
         #endregion

@@ -155,7 +155,6 @@ namespace MALClient.Android.Fragments
             Bindings.Add(this.SetBinding(() => ViewModel.DetailImage)
                 .WhenSourceChanges(() =>
                 {
-                    AnimeDetailsPageShowCoverImage.Visibility = ViewStates.Invisible;
                     AnimeDetailsPageShowCoverImage.Into(ViewModel.DetailImage);
                 }));
 

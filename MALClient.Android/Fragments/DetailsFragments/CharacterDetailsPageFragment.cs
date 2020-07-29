@@ -114,7 +114,7 @@ namespace MALClient.Android.Fragments.DetailsFragments
                 else
                 {
                     CharactersDetailsPageNoImgNotice.Visibility = ViewStates.Gone;
-                    CharacterDetailsPageImage.Into(ViewModel.Data.ImgUrl, null, img => img.HandleScaling());
+                    CharacterDetailsPageImage.Into(ViewModel.Data.ImgUrl);
                 }
                 CharactersPageFavButton.BindModel(ViewModel.FavouriteViewModel);
 
@@ -148,7 +148,7 @@ namespace MALClient.Android.Fragments.DetailsFragments
             view.Tag = animeLightEntry.Wrap();
 
             view.FindViewById<TextView>(Resource.Id.AnimeLightItemTitle).Text = animeLightEntry.Title;
-            view.FindViewById<ImageViewAsync>(Resource.Id.AnimeLightItemImage).Into(animeLightEntry.ImgUrl,null,img => img.HandleScaling());
+            view.FindViewById<ImageViewAsync>(Resource.Id.AnimeLightItemImage).Into(animeLightEntry.ImgUrl);
 
             return view;
         }

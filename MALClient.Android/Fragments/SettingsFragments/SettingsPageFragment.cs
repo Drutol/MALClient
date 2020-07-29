@@ -78,8 +78,11 @@ namespace MALClient.Android.Fragments.SettingsFragments
                     fragment = new SettingsInfoFragment();
                     break;
                 case SettingsPageIndex.Discord:
-                    ResourceLocator.SystemControlsLauncherService.LaunchUri(new Uri("https://discord.gg/5yETtFT"));
+                    ResourceLocator.SystemControlsLauncherService.LaunchUri(new Uri("https://mylovelyvps.xyz/daki"));
                     return;
+                case SettingsPageIndex.Daki:
+                    ResourceLocator.SystemControlsLauncherService.LaunchUri(new Uri("https://discord.gg/5yETtFT"));
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(page), page, null);
             }

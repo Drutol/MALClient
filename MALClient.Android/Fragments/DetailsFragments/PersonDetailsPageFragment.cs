@@ -63,7 +63,7 @@ namespace MALClient.Android.Fragments.DetailsFragments
                 else
                 {
                     PersonDetailsPageNoImgNotice.Visibility = ViewStates.Gone;
-                    PersonDetailsPageImage.Into(ViewModel.Data.ImgUrl, null, img => img.HandleScaling());
+                    PersonDetailsPageImage.Into(ViewModel.Data.ImgUrl);
                 }
                 PersonDetailsPageFavButton.BindModel(ViewModel.FavouriteViewModel);
             }));

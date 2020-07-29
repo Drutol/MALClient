@@ -59,7 +59,7 @@ namespace MALClient.Android
         }
 
         private static void LoadImage(ImageView image, string originUrl, string targetUrl,
-            bool? imgLoaded,View loader)
+            bool? imgLoaded, View loader)
         {
             //if (TasksDictionary.TryGetValue(image, out var task))
             //{
@@ -95,7 +95,7 @@ namespace MALClient.Android
                 image.Tag = originUrl;
                 //we can fallback to lower quality image
                 if (!originUrl.Equals(targetUrl))
-                {                
+                {
                     work.Error(exception =>
                     {
                         if (!ResourceLocator.ConnectionInfoProvider.HasInternetConnection)
@@ -104,7 +104,7 @@ namespace MALClient.Android
                             return;
                         }
                         ResourceLocator.ConnectionInfoProvider.Init();
-                        var img = (string) image.Tag;
+                        var img = (string)image.Tag;
                         ImageService.Instance.LoadUrl(img)
                             .FadeAnimation(false)
                             .Into(image);
@@ -113,7 +113,7 @@ namespace MALClient.Android
                     });
                 }
                 work.FadeAnimation(false).Into(image);
-                
+
             }
             catch (Exception)
             {
@@ -129,19 +129,19 @@ namespace MALClient.Android
         #endregion
 
         public static bool IntoIfLoaded(this ImageView image, string originUrl, ITransformation transformation = null,
-            Action<ImageView> onCompleted = null,int? maxHeight = null)
+            Action<ImageView> onCompleted = null, int? maxHeight = null)
         {
             if (LoadedImgs.Contains(originUrl))
             {
-                LoadImage(image, originUrl,transformation,onCompleted,maxHeight,true);
+                LoadImage(image, originUrl, transformation, onCompleted, maxHeight, true);
                 return true;
             }
             return false;
         }
 
-        public static void Into(this ImageView image, string originUrl, ITransformation transformation = null,Action<ImageView> onCompleted = null,int? maxHeight = null)
+        public static void Into(this ImageView image, string originUrl, ITransformation transformation = null, Action<ImageView> onCompleted = null, int? maxHeight = null)
         {
-            LoadImage(image, originUrl, transformation, onCompleted, maxHeight,null);
+            LoadImage(image, originUrl, transformation, onCompleted, maxHeight, null);
         }
 
         public static void LoadImage(this ImageView image, string originUrl, ITransformation transformation,
@@ -210,7 +210,7 @@ namespace MALClient.Android
             }
         }
 
-        public static ImageView.ScaleType HandleScaling(this ImageView image,float threshold = .4f)
+        public static ImageView.ScaleType HandleScaling(this ImageView image, float threshold = .4f)
         {
             try
             {
@@ -237,25 +237,18 @@ namespace MALClient.Android
             catch (Exception)
             {
                 //somehow called from non ui thread
-               return ImageView.ScaleType.CenterCrop;
+                return ImageView.ScaleType.CenterCrop;
             }
-            
         }
-
-        
 
         public static async void IntoWithTask(this ImageView image, Task<string> originUrlTask,
             ITransformation transformation = null)
         {
             try
             {
-
                 var originUrl = await originUrlTask;
-                
 
-
-                Into(image,originUrl,transformation);
-
+                Into(image, originUrl, transformation);
             }
             catch (Exception)
             {

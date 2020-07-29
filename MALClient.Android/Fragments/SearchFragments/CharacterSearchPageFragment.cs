@@ -7,9 +7,11 @@ using Android.Widget;
 using GalaSoft.MvvmLight.Helpers;
 using MALClient.Android.Activities;
 using MALClient.Android.BindingConverters;
+using MALClient.Android.Listeners;
 using MALClient.Android.Resources;
 using MALClient.Android.UserControls;
 using MALClient.Models.Enums;
+using MALClient.Models.Models.Favourites;
 using MALClient.XShared.NavArgs;
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Main;
@@ -61,17 +63,13 @@ namespace MALClient.Android.Fragments.SearchFragments
         private void DataTemplateFull(View view, int i, FavouriteViewModel arg3)
         {
             var item = (FavouriteItem) view;
-            var firstRun = !item.Initialized;
             item.BindModel(arg3, false);
-            if (firstRun)
-            {
-                item.Click += ItemOnClick;
-            }
+            item.RootContainer.SetOnClickListener(new OnClickListener(v => ItemOnClick(arg3)));
         }
 
-        private void ItemOnClick(object sender, EventArgs eventArgs)
+        private void ItemOnClick(FavouriteViewModel fav)
         {
-            ViewModel.NavigateCharacterDetailsCommand.Execute((sender as View).Tag.Unwrap<FavouriteViewModel>());
+            ViewModel.NavigateCharacterDetailsCommand.Execute(fav);
         }
 
         protected override void Init(Bundle savedInstanceState)

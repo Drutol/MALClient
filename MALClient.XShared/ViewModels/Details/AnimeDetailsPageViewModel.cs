@@ -1187,93 +1187,133 @@ namespace MALClient.XShared.ViewModels.Details
             }
             DetailedDataVisibility = true;
             //Now we can build elements here
-            var i = 1;
-            foreach (var genre in data.Information.FirstOrDefault(s => s.StartsWith("Genres:"))?.Substring(7).Split(',') ?? Enumerable.Empty<string>())
+
+            try
             {
-                if (i%2 == 0)
-                    LeftGenres.Add(Utils.Utilities.FirstCharToUpper(genre));
-                else
-                    RightGenres.Add(Utils.Utilities.FirstCharToUpper(genre));
-                i++;
+                var i = 1;
+                foreach (var genre in data.Information.FirstOrDefault(s => s.StartsWith("Genres:"))?.Substring(7).Split(',') ?? Enumerable.Empty<string>())
+                {
+                    if (i % 2 == 0)
+                        LeftGenres.Add(Utils.Utilities.FirstCharToUpper(genre));
+                    else
+                        RightGenres.Add(Utils.Utilities.FirstCharToUpper(genre));
+                    i++;
+                }
+            }
+            catch
+            {
+                
             }
 
-            //Umm... K-ON is NOT music anime
-            if (Id == 5680 || Id == 7791 || Id == 9617)
+            try
             {
-                bool truthHadBeenTold = false;
-                for (int j = 0; j < LeftGenres.Count; j++)
+                //Umm... K-ON is NOT music anime
+                if (Id == 5680 || Id == 7791 || Id == 9617)
                 {
-                    if (LeftGenres[j].Trim() == "Music")
+                    bool truthHadBeenTold = false;
+                    for (int j = 0; j < LeftGenres.Count; j++)
                     {
-                        LeftGenres[j] = "Certainly NOT Music Anime...";
-                        truthHadBeenTold = true;
-                        break;
-                    }
-                }
-                if (!truthHadBeenTold)
-                {
-                    for (int j = 0; j < RightGenres.Count; j++)
-                    {
-                        if (RightGenres[j].Trim() == "Music")
+                        if (LeftGenres[j].Trim() == "Music")
                         {
-                            RightGenres[j] = "Certainly NOT Music Anime...";
+                            LeftGenres[j] = "Certainly NOT Music Anime...";
+                            truthHadBeenTold = true;
                             break;
                         }
                     }
-                }
-            }
-
-            foreach (var info in data.Information)
-            {
-                var infoString = info;
-                if (info.StartsWith("Genres:"))
-                    continue;
-                infoString = infoString.Replace(", add some", "");
-                var parts = infoString.Split(':');
-
-                if (parts[0] == "Broadcast" && parts[1] != "Unknown")
-                {
-                    if (_animeItemReference is AnimeItemViewModel vm)
+                    if (!truthHadBeenTold)
                     {
-                        if (vm.ParentAbstraction.LoadedVolatile)
+                        for (int j = 0; j < RightGenres.Count; j++)
                         {
-                            var time = data.ExtractAiringTime();
-                            if (time != null)
+                            if (RightGenres[j].Trim() == "Music")
                             {
-                                DataCache.UpdateVolatileDataWithExactDate(Id, time);
-                                vm.ParentAbstraction.ExactAiringTime = time;
+                                RightGenres[j] = "Certainly NOT Music Anime...";
+                                break;
                             }
-                            else
-                                DataCache.RegisterVolatileDataAiringTimeFetchFailure(Id);
                         }
                     }
                 }
-                Information.Add(new Tuple<string, string>(parts[0], string.Join(":", parts.Skip(1))));
+            }
+            catch
+            {
+                
+            }
+            
+            foreach (var info in data.Information)
+            {
+                try
+                {
+                    var infoString = info;
+                    if (info.StartsWith("Genres:"))
+                        continue;
+                    infoString = infoString.Replace(", add some", "");
+                    var parts = infoString.Split(':');
+
+                    if (parts[0] == "Broadcast" && parts[1] != "Unknown")
+                    {
+                        if (_animeItemReference is AnimeItemViewModel vm)
+                        {
+                            if (vm.ParentAbstraction.LoadedVolatile)
+                            {
+                                var time = data.ExtractAiringTime();
+                                if (time != null)
+                                {
+                                    DataCache.UpdateVolatileDataWithExactDate(Id, time);
+                                    vm.ParentAbstraction.ExactAiringTime = time;
+                                }
+                                else
+                                    DataCache.RegisterVolatileDataAiringTimeFetchFailure(Id);
+                            }
+                        }
+                    }
+                    Information.Add(new Tuple<string, string>(parts[0], string.Join(":", parts.Skip(1))));
+                }
+                catch (Exception e)
+                {
+                    
+                }
+                
             }
             if(_synonyms?.Any() ?? false)
                 Information.Add(new Tuple<string, string>("Alt. Titles", string.Join("\n", _synonyms)));
 
             foreach (var statistic in data.Statistics)
             {
-                var infoString = statistic;
-                var pos = infoString.IndexOf("1 indicates", StringComparison.Ordinal);
-                if (pos != -1)
-                    continue;
-                pos = infoString.IndexOf("2 based", StringComparison.Ordinal);
-                if (pos != -1)
-                    infoString = infoString.Substring(0, pos - 2);
-                pos = infoString.IndexOf("(scored", StringComparison.Ordinal);
-                if (pos != -1)
-                    infoString = infoString.Substring(0, pos - 2);
+                try
+                {
+                    var infoString = statistic;
+                    var pos = infoString.IndexOf("1 indicates", StringComparison.Ordinal);
+                    if (pos != -1)
+                        continue;
+                    pos = infoString.IndexOf("2 based", StringComparison.Ordinal);
+                    if (pos != -1)
+                        infoString = infoString.Substring(0, pos - 2);
+                    pos = infoString.IndexOf("(scored", StringComparison.Ordinal);
+                    if (pos != -1)
+                        infoString = infoString.Substring(0, pos - 2);
 
-                var parts = infoString.Split(':');
-                Stats.Add(new Tuple<string, string>(parts[0], parts[1]));
+                    var parts = infoString.Split(':');
+                    Stats.Add(new Tuple<string, string>(parts[0], parts[1]));
+                }
+                catch
+                {
+                    
+                }
+
             }
 
-            foreach (var op in data.Openings)
-                OPs.Add(op);
-            foreach (var ed in data.Endings)
-                EDs.Add(ed);
+
+            try
+            {
+                foreach (var op in data.Openings)
+                    OPs.Add(op);
+                foreach (var ed in data.Endings)
+                    EDs.Add(ed);
+            }
+            catch
+            {
+                
+            }
+
 
             if (AnimeMode)
             {

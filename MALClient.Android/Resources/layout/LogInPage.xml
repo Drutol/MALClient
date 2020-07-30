@@ -1,6 +1,4 @@
-﻿
-
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+﻿<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
              android:background="?BrushDeepBackground" android:focusableInTouchMode="true">
@@ -17,13 +15,13 @@
     android:layout_height="match_parent">
 
     <LinearLayout android:gravity="center_horizontal"
-                  android:paddingBottom="16dp"
                   android:layout_width="300dp"
                   android:layout_height="wrap_content"
                   android:layout_gravity="center_horizontal"
                   android:layout_marginTop="20dp"
                   android:background="@drawable/border_accent_left"
-                  android:orientation="vertical" android:paddingStart="2dp">
+                  android:orientation="vertical"
+                  android:paddingStart="2dp">
 
       <FrameLayout
         android:layout_width="match_parent" android:background="?BrushLoading"
@@ -37,7 +35,7 @@
 
       <LinearLayout
         android:layout_width="match_parent" android:background="?BrushLoading" android:gravity="center_horizontal"
-        android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp">
+        android:layout_height="match_parent" android:orientation="vertical" android:padding="16dp">
         <TextView
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
@@ -98,11 +96,9 @@
           android:layout_height="wrap_content"
           android:layout_gravity="center_horizontal"
           android:layout_marginTop="5dp"
-          android:text="There's lots of issues where people are having trouble with signing in.\nUnfortunately MAL as of now does not have any sort of API, it's just one big pile of workarounds and its behaviour is quite unpredictable.\nOfficial API which will resolve issues is in the works."
+          android:text="There's lots of issues where people are having trouble with signing in but I can't do much as it's usually an issue on MAL's side. Once their API is sufficiently featured I'll migrate."
           android:textColor="#fff" />
       </LinearLayout>
-
-
     </LinearLayout>
   </ScrollView>
 
@@ -111,6 +107,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="bottom"
+    android:layout_margin="16dp"
     android:paddingBottom="5dp">
 
     <Button

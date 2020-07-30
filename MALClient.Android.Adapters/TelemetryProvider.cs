@@ -65,7 +65,10 @@ namespace MALClient.Android.Adapters
         {
             Crashes.TrackError(e, new Dictionary<string, string>
             {
-                {"Caller", caller}
+                {"Caller", caller},
+            }, new ErrorAttachmentLog[]
+            {
+                ErrorAttachmentLog.AttachmentWithText(e.Message, "message.txt"), 
             });
         }
 

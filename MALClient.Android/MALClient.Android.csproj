@@ -1264,7 +1264,6 @@
     <AndroidResource Include="Resources\layout\SearchEverywhereCategoryItem.xml" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\kuri.png" />
     <Content Include="Lib\ModernHttpClient.dll" />
     <Content Include="Lib\Square.OkHttp3.dll" />
     <Content Include="Lib\Square.OkIO.dll" />

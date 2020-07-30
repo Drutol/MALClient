@@ -101,54 +101,75 @@ namespace MALClient.Android.UserControls.ForumItems
 
         protected override void BindModelFull()
         {
-            if (string.IsNullOrEmpty(ViewModel.Data.Poster.MalUser.ImgUrl))
-                ForumTopicPageItemAuthorImage.Visibility = ViewStates.Gone;
-            else
+            try
             {
-                if (ForumTopicPageItemAuthorImage.Tag == null || (string)ForumTopicPageItemAuthorImage.Tag != ViewModel.Data.Poster.MalUser.ImgUrl)
+                if (string.IsNullOrEmpty(ViewModel.Data.Poster.MalUser.ImgUrl))
+                    ForumTopicPageItemAuthorImage.Visibility = ViewStates.Gone;
+                else
                 {
-                    ForumTopicPageItemAuthorImage.Into(ViewModel.Data.Poster.MalUser.ImgUrl);
+                    if (ForumTopicPageItemAuthorImage.Tag == null || (string)ForumTopicPageItemAuthorImage.Tag != ViewModel.Data.Poster.MalUser.ImgUrl)
+                    {
+                        ForumTopicPageItemAuthorImage.Into(ViewModel.Data.Poster.MalUser.ImgUrl);
+                    }
                 }
+                ForumTopicPageItemWebView.Visibility = ViewStates.Visible;
+
+
+                _bindings.Add(this.SetBinding(() => ViewModel.Data).WhenSourceChanges(() =>
+                {
+                    try
+                    {
+                        var tag = ForumTopicPageItemWebView.Tag.Unwrap<WebViewTag>();
+                        if (tag.ContentHash == 0 || tag.ContentHash != ViewModel.Data.HtmlContent.GetHashCode())
+                        {
+                            ForumTopicPageItemWebView.LoadDataWithBaseURL(null, ResourceLocator.CssManager.WrapWithCss(ViewModel.Data.HtmlContent), "text/html; charset=utf-8", "UTF-8", null);
+                            tag.ContentHash = ViewModel.Data.HtmlContent.GetHashCode();
+                            ForumTopicPageItemWebView.Tag = tag.Wrap();
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        //webview disposed
+                    }
+
+                }));
+
+                _bindings.Add(this.SetBinding(() => ViewModel.ComputedHtmlHeight).WhenSourceChanges(() =>
+                {
+                    try
+                    {
+                        if (ForumTopicPageItemWebView.Height < ViewModel.ComputedHtmlHeight)
+                        {
+                            UpdateViewWithNewHeight(ForumTopicPageItemWebView, (int)ViewModel.ComputedHtmlHeight);
+                        }
+                        else
+                        {
+                            UpdateViewWithNewHeight(ForumTopicPageItemWebView, DimensionsHelper.DpToPx(200));
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                       //webview disposed 
+                    }
+
+                }));
+
+                _bindings.Add(this.SetBinding(() => ViewModel.Loading).WhenSourceChanges(() =>
+                {
+                    if (ViewModel.Loading)
+                    {
+                        ForumTopicPageItemLoadingOverlay.Visibility = ViewStates.Gone;
+                    }
+                    else
+                    {
+                        ForumTopicPageItemLoadingOverlay.Visibility = ViewStates.Gone;
+                    }
+                }));
             }
-            ForumTopicPageItemWebView.Visibility = ViewStates.Visible;
-
-
-            _bindings.Add(this.SetBinding(() => ViewModel.Data).WhenSourceChanges(() =>
+            catch (Exception e)
             {
-                var tag = ForumTopicPageItemWebView.Tag.Unwrap<WebViewTag>();
-                if (tag.ContentHash == 0 || tag.ContentHash != ViewModel.Data.HtmlContent.GetHashCode())
-                {
-                    ForumTopicPageItemWebView.LoadDataWithBaseURL(null, ResourceLocator.CssManager.WrapWithCss(ViewModel.Data.HtmlContent), "text/html; charset=utf-8", "UTF-8", null);
-                    tag.ContentHash = ViewModel.Data.HtmlContent.GetHashCode();
-                    ForumTopicPageItemWebView.Tag = tag.Wrap();
-                }
-            }));
-
-            _bindings.Add(this.SetBinding(() => ViewModel.ComputedHtmlHeight).WhenSourceChanges(() =>
-            {
-                if (ForumTopicPageItemWebView.Height < ViewModel.ComputedHtmlHeight)
-                {
-                    UpdateViewWithNewHeight(ForumTopicPageItemWebView, (int)ViewModel.ComputedHtmlHeight);
-                }
-                else
-                {
-                    UpdateViewWithNewHeight(ForumTopicPageItemWebView, DimensionsHelper.DpToPx(200));
-                }
-            }));
-
-            _bindings.Add(this.SetBinding(() => ViewModel.Loading).WhenSourceChanges(() =>
-            {
-                if (ViewModel.Loading)
-                {
-                    ForumTopicPageItemLoadingOverlay.Visibility = ViewStates.Gone;
-                }
-                else
-                {
-                    ForumTopicPageItemLoadingOverlay.Visibility = ViewStates.Gone;
-                }
-            }));
-
-            
+                //webview disposed
+            }
         }
 
 

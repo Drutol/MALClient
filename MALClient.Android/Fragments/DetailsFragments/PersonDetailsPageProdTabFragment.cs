@@ -15,6 +15,7 @@ using AoLibs.Adapters.Android.Recycler;
 using AoLibs.Adapters.Core;
 using FFImageLoading.Views;
 using GalaSoft.MvvmLight.Helpers;
+using MALClient.Android.Listeners;
 using MALClient.Android.UserControls;
 using MALClient.Models.Models.Anime;
 using MALClient.XShared.ViewModels;
@@ -87,7 +88,6 @@ namespace MALClient.Android.Fragments.DetailsFragments
             var view = Activity.LayoutInflater.Inflate(Resource.Layout.AnimeLightItem, null);
             view.FindViewById<TextView>(Resource.Id.AnimeLightItemTitle).SetMaxLines(1);
             view.FindViewById<TextView>(Resource.Id.AnimeLightItemNotes).Visibility = ViewStates.Visible;
-            view.Click += LightItemOnClick;
 
             return view;
         }
@@ -104,13 +104,12 @@ namespace MALClient.Android.Fragments.DetailsFragments
                 image.Into(item.ImgUrl);
                 image.Tag = item.ImgUrl;
             }
+            holder.ItemView.SetOnClickListener(new OnClickListener(view => LightItemOnClick(item)));
         }
 
-
-
-        private void LightItemOnClick(object sender, EventArgs e)
+        private void LightItemOnClick(AnimeLightEntry item)
         {
-            ViewModel.NavigateAnimeDetailsCommand.Execute((sender as View).Tag.Unwrap<AnimeLightEntry>());
+            ViewModel.NavigateAnimeDetailsCommand.Execute(item);
         }
 
         public override int LayoutResourceId => Resource.Layout.AnimeDetailsPageCharactersTab;

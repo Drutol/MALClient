@@ -15,6 +15,7 @@ using MALClient.XShared.Utils;
 using MALClient.XShared.ViewModels;
 using Microsoft.Toolkit.Uwp.Notifications;
 using Newtonsoft.Json;
+using TileSize = Windows.UI.StartScreen.TileSize;
 
 namespace MALClient.UWP.Shared.Managers
 {
@@ -208,7 +209,7 @@ namespace MALClient.UWP.Shared.Managers
         public static async void PinNewsTile()
         {
             SecondaryTile tile = new SecondaryTile(NewsTileId, "News", "https://myanimelist.net/news",
-                new Uri("ms-appx:///Assets/Square150x150Logo.scale-200.png"), TileSize.Square150x150);
+                new Uri("ms-appx:///Assets/Square150x150Logo.scale-200.png"), Windows.UI.StartScreen.TileSize.Square150x150);
             tile.VisualElements.Wide310x150Logo = new Uri("ms-appx:///Assets/Wide310x150Logo.scale-200.png");
             tile.VisualElements.Square310x310Logo = new Uri("ms-appx:///Assets/Wide310x310Logo.scale-200.png");
 
@@ -220,7 +221,7 @@ namespace MALClient.UWP.Shared.Managers
         public static async void PinArticlesTile()
         {
             SecondaryTile tile = new SecondaryTile(ArticlesTileId, "Articles", "https://myanimelist.net/featured",
-                new Uri("ms-appx:///Assets/Square150x150Logo.scale-200.png"), TileSize.Square150x150);
+                new Uri("ms-appx:///Assets/Square150x150Logo.scale-200.png"), Windows.UI.StartScreen.TileSize.Square150x150);
             tile.VisualElements.Wide310x150Logo = new Uri("ms-appx:///Assets/Wide310x150Logo.scale-200.png");
             tile.VisualElements.Square310x310Logo = new Uri("ms-appx:///Assets/Wide310x310Logo.scale-200.png");
 

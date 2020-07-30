@@ -165,24 +165,20 @@ namespace MALClient.Android.Fragments.DetailsFragments
         private View GetTemplateDelegate(int i, FavouriteViewModel favouriteViewModel, View arg3)
         {
             var view = arg3;
-            var firstRun = false;
             if (view == null)
             {
                 view = new FavouriteItem(Activity,true);
-                firstRun = true;
             }
 
             (view as FavouriteItem).BindModel(favouriteViewModel,false);
-            if (firstRun)
-            {
-                ((FavouriteItem)view).Click += PersonOnClick;
-            }
+            ((FavouriteItem)view).RootContainer.SetOnClickListener(new OnClickListener(v => PersonOnClick(favouriteViewModel.Data)));
+            
             return view;
         }
 
-        private void PersonOnClick(object sender, EventArgs eventArgs)
+        private void PersonOnClick(FavouriteBase favBase)
         {
-            ViewModel.NavigateStaffDetailsCommand.Execute((sender as View).Tag.Unwrap<FavouriteViewModel>().Data);
+            ViewModel.NavigateStaffDetailsCommand.Execute(favBase);
         }
 
         public override int LayoutResourceId => Resource.Layout.CharacterDetailsPage;

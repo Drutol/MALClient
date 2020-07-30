@@ -107,13 +107,20 @@ namespace MALClient.XShared.ViewModels.Main
 
 
 
-        public ICommand NavigateRegister => _navigateRegister ?? (_navigateRegister = new RelayCommand(() =>
+        public ICommand NavigateRegister => new RelayCommand(async () =>
         {
             //ResourceLocator.MessageDialogProvider.ShowMessageDialog(
             //    "Sorry, MyAnimeList.net has disabled registration for the time being. It's not something I can change, please go complain to MAL directly via support ticket.",
             //    "Registration disabled");
-            ResourceLocator.SystemControlsLauncherService.LaunchUri(new Uri("https://myanimelist.net/register.php"));
-        }));
+            try
+            {
+                ResourceLocator.SystemControlsLauncherService.LaunchUri(new Uri("https://myanimelist.net/register.php"));
+            }
+            catch (Exception e)
+            {
+                ResourceLocator.MessageDialogProvider.ShowMessageDialog("Looks like there's nothing that can launch this link... You can register at: https://myanimelist.net/register.php", "Error");
+            }
+        });
 
 
         public void Init()

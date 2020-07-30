@@ -59,7 +59,7 @@ namespace MALClient.Android.Adapters
                         });
 
                         ResourceLocator.TelemetryProvider.TelemetryTrackEvent(TelemetryTrackedEvents.FailedLogin, ("Reason", "Too many failed login attempts."));
-                        throw new WebException("Unable to authorize");
+                        throw new WebException($"Unable to authorize, {content}. {response.ReasonPhrase}. {response.StatusCode}");
                     }
                     if (content.Contains("This account has not yet authorized their e-mail."))
                     {
@@ -72,7 +72,7 @@ namespace MALClient.Android.Adapters
                                 ViewModelLocator.GeneralMain.Navigate(PageIndex.PageLogIn);
                         });
                         ResourceLocator.TelemetryProvider.TelemetryTrackEvent(TelemetryTrackedEvents.FailedLogin, ("Reason", "Not verified email."));
-                        throw new WebException("Unable to authorize");
+                        throw new WebException($"Unable to authorize, {content}. {response.ReasonPhrase}. {response.StatusCode}");
                     }
                     if (content.Contains("It has been a while since your last login, for security reasons we require you to also provide a captcha code."))
                     {
@@ -86,7 +86,7 @@ namespace MALClient.Android.Adapters
                         });
 
                         ResourceLocator.TelemetryProvider.TelemetryTrackEvent(TelemetryTrackedEvents.FailedLogin, ("Reason", "Captcha."));
-                        throw new WebException("Unable to authorize");
+                        throw new WebException($"Unable to authorize, {content}. {response.ReasonPhrase}. {response.StatusCode}");
                     }
 
                     if (content.Contains("Your username or password is incorrect."))
@@ -95,7 +95,7 @@ namespace MALClient.Android.Adapters
                             "App got response that your username or password is incorrect.",
                             "Check your credentials");
                         ResourceLocator.TelemetryProvider.TelemetryTrackEvent(TelemetryTrackedEvents.FailedLogin, ("Reason", "Invalid credentials."));
-                        throw new WebException("Unable to authorize");
+                        throw new WebException($"Unable to authorize, {content}. {response.ReasonPhrase}. {response.StatusCode}");
                     }
 
                     if (content.Contains("badresult badresult--is-reset-password"))
@@ -104,7 +104,7 @@ namespace MALClient.Android.Adapters
                             "App got response that there's need for a password reset.",
                             "Website sign in required");
                         ResourceLocator.TelemetryProvider.TelemetryTrackEvent(TelemetryTrackedEvents.FailedLogin, ("Reason", "Password reset."));
-                        throw new WebException("Unable to authorize");
+                        throw new WebException($"Unable to authorize, {content}. {response.ReasonPhrase}. {response.StatusCode}");
                     }
 
                     var matches = Regex.Match(content, "\\/images\\/userimages\\/(\\d+)\\..*");
@@ -118,7 +118,7 @@ namespace MALClient.Android.Adapters
                 }
 
                 ResourceLocator.TelemetryProvider.TelemetryTrackEvent(TelemetryTrackedEvents.FailedLogin, ("Reason", "Too many failed login attempts."));
-                throw new WebException($"Unable to authorize, {content}");
+                throw new WebException($"Unable to authorize, {content}. {response.ReasonPhrase}. {response.StatusCode}");
             }
             catch (Exception e)
             {

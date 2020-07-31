@@ -88,8 +88,8 @@ namespace MALClient.Android.Activities
             SetRightTheme();
             ResourceExtension.Init();
             base.OnCreate(bundle);
-            if (Resources.DisplayMetrics.WidthPixels >= 1080)
-                Settings.MakeGridItemsSmaller = true;
+            //if (Resources.DisplayMetrics.WidthPixels >= 1080)
+            //    Settings.MakeGridItemsSmaller = true;
 
             AnimeListPageFragment.RightDrawer = null;
             if (!_addedNavHandlers)

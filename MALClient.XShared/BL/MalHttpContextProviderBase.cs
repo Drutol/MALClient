@@ -46,7 +46,6 @@ namespace MALClient.XShared.BL
             }
             catch (Exception e)
             {
-                ResourceLocator.TelemetryProvider.TrackException(e);
 
                 _exc = e;
 

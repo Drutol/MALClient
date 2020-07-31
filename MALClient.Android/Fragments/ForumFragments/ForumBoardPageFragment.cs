@@ -166,20 +166,26 @@ namespace MALClient.Android.Fragments.ForumFragments
             if(ViewModel.LoadingTopics)
                 return;
 
-            var view = sender as View;
+            try
+            {
+                var view = sender as View;
 
-            //update it immediatelly
-            view.FindViewById(Resource.Id.PageIndicatorItemBackgroundPanel)
-                .SetBackgroundResource(ResourceExtension.AccentColourRes);
-            view.FindViewById<TextView>(Resource.Id.PageIndicatorItemNumber)
-                .SetTextColor(Color.White);
-            _prevHighlightedPageIndicator.FindViewById(Resource.Id.PageIndicatorItemBackgroundPanel)
-                .SetBackgroundResource(ResourceExtension.BrushAnimeItemInnerBackgroundRes);
-            _prevHighlightedPageIndicator.FindViewById<TextView>(Resource.Id.PageIndicatorItemNumber)
-                .SetTextColor(new Color(ResourceExtension.BrushText));
+                //update it immediatelly
+                view.FindViewById(Resource.Id.PageIndicatorItemBackgroundPanel)
+                    .SetBackgroundResource(ResourceExtension.AccentColourRes);
+                view.FindViewById<TextView>(Resource.Id.PageIndicatorItemNumber)
+                    .SetTextColor(Color.White);
+                _prevHighlightedPageIndicator.FindViewById(Resource.Id.PageIndicatorItemBackgroundPanel)
+                    .SetBackgroundResource(ResourceExtension.BrushAnimeItemInnerBackgroundRes);
+                _prevHighlightedPageIndicator.FindViewById<TextView>(Resource.Id.PageIndicatorItemNumber)
+                    .SetTextColor(new Color(ResourceExtension.BrushText));
 
-            ViewModel.LoadPageCommand.Execute((int) view.Tag);
-            
+                ViewModel.LoadPageCommand.Execute((int)view.Tag);
+            }
+            catch (Exception e)
+            {
+                
+            }
         }
 
         private View GetTopicTemplateDelegate(int i, ForumTopicEntryViewModel forumTopicEntryViewModel, View arg3)

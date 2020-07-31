@@ -17,5 +17,6 @@ namespace MALClient.Adapters
         void TelemetryTrackNavigation(ForumsPageIndex page);
         void LogEvent(string @event);
         void TrackException(Exception e, [CallerMemberName] string caller = null);
+        void TrackException(Exception e, string message, [CallerMemberName] string caller = null);
     }
 }

@@ -147,12 +147,6 @@ namespace MALClient.Android.Fragments.DetailsFragments
 
         public override int LayoutResourceId => Resource.Layout.AnimeDetailsPageCharactersTab;
 
-        public override void OnConfigurationChanged(Configuration newConfig)
-        {
-            _gridViewColumnHelper.OnConfigurationChanged(newConfig);
-            base.OnConfigurationChanged(newConfig);
-        }
-
         class Holder : RecyclerView.ViewHolder
         {
             private readonly View _view;

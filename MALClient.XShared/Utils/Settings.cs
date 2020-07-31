@@ -750,7 +750,7 @@ namespace MALClient.XShared.Utils
 
         public static bool MakeGridItemsSmaller
         {
-            get => (bool)(ApplicationDataService[nameof(MakeGridItemsSmaller)] ?? false);
+            get => (bool)(ApplicationDataService[nameof(MakeGridItemsSmaller)] ?? true);
             set => ApplicationDataService[nameof(MakeGridItemsSmaller)] = value;
         }
 

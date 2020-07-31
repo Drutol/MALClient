@@ -74,6 +74,11 @@ namespace MALClient.UWP.Adapters
 
         }
 
+        public void TrackException(Exception e, string message, string caller = null)
+        {
+            
+        }
+
         public void TrackException(Exception e)
         {
 #if !DEBUG

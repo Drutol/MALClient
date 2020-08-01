@@ -13,9 +13,11 @@ using Android.Views;
 using Android.Widget;
 using AoLibs.Adapters.Android.Recycler;
 using AoLibs.Adapters.Core;
+using FFImageLoading;
 using FFImageLoading.Views;
 using GalaSoft.MvvmLight.Helpers;
 using MALClient.Android.UserControls;
+using MALClient.Android.Utilities.ImageLoading;
 using MALClient.Models.Models.Anime;
 using MALClient.Models.Models.Favourites;
 using MALClient.Models.Models.ScrappedDetails;
@@ -79,7 +81,7 @@ namespace MALClient.Android.Fragments.DetailsFragments
             }));
 
             AnimeDetailsPageCharactersTabGridView.SetLayoutManager(new GridLayoutManager(Activity, 2));
-
+            AnimeDetailsPageCharactersTabGridView.AddOnScrollListener(new CustomScrollListener());
             //AnimeDetailsPageCharactersTabGridView.EmptyView = AnimeDetailsPageCharactersTabEmptyNotice;
         }
 
@@ -102,6 +104,7 @@ namespace MALClient.Android.Fragments.DetailsFragments
             view.AddView(animeEntry);
             view.AddView(characterEntry);
 
+
             return view;
         }
 
@@ -119,10 +122,11 @@ namespace MALClient.Android.Fragments.DetailsFragments
             view.FindViewById(Resource.Layout.FavouriteItem).Tag = item.AnimeCharacter.Wrap();
 
             var image = view.FindViewById<ImageViewAsync>(Resource.Id.AnimeLightItemImage);
-            if (image.Tag == null || (string)image.Tag != item.AnimeLightEntry.ImgUrl)
+            if (image.Tag == null || (string) image.Tag != item.AnimeLightEntry.ImgUrl)
             {
                 image.Into(item.AnimeLightEntry.ImgUrl);
             }
+
             view.FindViewById(Resource.Id.AnimeLightItemImgPlaceholder).Visibility = ViewStates.Gone;
 
 
@@ -143,7 +147,6 @@ namespace MALClient.Android.Fragments.DetailsFragments
         {
             ViewModel.NavigateAnimeDetailsCommand.Execute((sender as View).Tag.Unwrap<AnimeLightEntry>());
         }
-
 
         public override int LayoutResourceId => Resource.Layout.AnimeDetailsPageCharactersTab;
 

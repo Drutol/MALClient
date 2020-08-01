@@ -150,8 +150,6 @@ namespace MALClient.Android
             if (string.IsNullOrEmpty(originUrl) || image == null)
                 return;
 
-
-
             if (image.Tag != null && (string)image.Tag == originUrl)
             {
                 image.Visibility = ViewStates.Visible;
@@ -200,9 +198,9 @@ namespace MALClient.Android
                 }
                 image.Tag = originUrl;
                 if (transformation == null)
-                    work.FadeAnimation(false).Into(image);
+                    work.FadeAnimation(false).Delay(50).Into(image);
                 else
-                    work.FadeAnimation(false).Transform(transformation).Into(image);
+                    work.FadeAnimation(false).Delay(50).Transform(transformation).Into(image);
             }
             catch (Exception)
             {

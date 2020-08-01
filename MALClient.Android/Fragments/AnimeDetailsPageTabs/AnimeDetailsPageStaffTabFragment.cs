@@ -18,6 +18,7 @@ using GalaSoft.MvvmLight.Helpers;
 using MALClient.Android.BindingConverters;
 using MALClient.Android.Listeners;
 using MALClient.Android.UserControls;
+using MALClient.Android.Utilities.ImageLoading;
 using MALClient.Models.Models.Favourites;
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Details;
@@ -68,6 +69,7 @@ namespace MALClient.Android.Fragments.AnimeDetailsPageTabs
             }));
 
             AnimeDetailsPageCharactersTabGridView.SetLayoutManager(new GridLayoutManager(Activity, 3));
+            AnimeDetailsPageCharactersTabGridView.AddOnScrollListener(new CustomScrollListener());
 
             Bindings.Add(
                 this.SetBinding(() => ViewModel.LoadingCharactersVisibility,

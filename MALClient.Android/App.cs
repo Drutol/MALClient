@@ -50,8 +50,8 @@ namespace MALClient.Android
             //sp.Start();
             ImageService.Instance.Initialize(new Configuration
             {
-                HttpClient = new HttpClient(new NativeMessageHandler(false, new TLSConfig())
-                    {AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate}),
+                //HttpClient = new HttpClient(new NativeMessageHandler(false, new TLSConfig())
+                //    {AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate}),
                 ExecuteCallbacksOnUIThread = true,
                 //AnimateGifs = false,
             });

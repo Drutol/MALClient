@@ -130,7 +130,7 @@ namespace MALClient.Android.Adapters
                 //ResourceLocator.ClipboardProvider.SetText($"{e}\n{response}\n{content}");
                 //ResourceLocator.SnackbarProvider.ShowText("Error copied to clipboard.");
                 if(!e.Message.Contains("captcha") && !e.Message.Contains("failed logins"))
-                    ResourceLocator.TelemetryProvider.TrackException(e, content);
+                    ResourceLocator.TelemetryProvider.TrackExceptionWithMessage(e, content);
 
                 throw;
             }

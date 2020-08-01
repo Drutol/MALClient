@@ -69,12 +69,9 @@ namespace MALClient.Android.Adapters
             });
         }
 
-        public void TrackException(Exception e, string message, [CallerMemberName] string caller = null)
+        public void TrackExceptionWithMessage(Exception e, string message)
         {
-            Crashes.TrackError(e, new Dictionary<string, string>
-            {
-                {"Caller", caller},
-            }, new ErrorAttachmentLog[]
+            Crashes.TrackError(e, null, new ErrorAttachmentLog[]
             {
                 ErrorAttachmentLog.AttachmentWithText(message, "message.txt"),
             });

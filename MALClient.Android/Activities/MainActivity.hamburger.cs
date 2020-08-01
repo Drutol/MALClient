@@ -89,11 +89,11 @@ namespace MALClient.Android.Activities
             builder.WithStickyFooterShadow(true);
             builder.WithDisplayBelowStatusBar(true);
 
-
             var animeButton = GetBasePrimaryItem(OnAnimeListMore);
             animeButton.WithName("Anime list");
             animeButton.WithIdentifier((int)PageIndex.PageAnimeList);
             animeButton.WithIcon(Resource.Drawable.icon_list);
+
 
             var searchButton = GetBasePrimaryItem();
             searchButton.WithName("Search");
@@ -239,8 +239,8 @@ namespace MALClient.Android.Activities
 
                 });
             }
-
             _drawer = builder.Build();
+
             UpdateLogInLabel();
             _drawer.StickyFooter.SetBackgroundColor(new Color(Settings.SelectedTheme == 1
                 ? ResourceExtension.BrushAnimeItemInnerBackground

@@ -17,6 +17,7 @@ using FFImageLoading.Views;
 using GalaSoft.MvvmLight.Helpers;
 using MALClient.Android.Listeners;
 using MALClient.Android.UserControls;
+using MALClient.Android.Utilities.ImageLoading;
 using MALClient.Models.Models.Anime;
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Details;
@@ -79,8 +80,7 @@ namespace MALClient.Android.Fragments.DetailsFragments
             }));
 
             AnimeDetailsPageCharactersTabGridView.SetLayoutManager(new GridLayoutManager(Activity, 3));
-
-            
+            AnimeDetailsPageCharactersTabGridView.AddOnScrollListener(new CustomScrollListener());
         }
 
         private View ItemTemplate(int viewtype)

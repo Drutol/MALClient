@@ -88,13 +88,14 @@ namespace MALClient.Android.UserControls
             if (!Initialized)
                 Init();
 
-            FavouriteItemImage.Into(model.Data.ImgUrl);
+            
 
             if (ViewModel != model)
             {
                 ViewModel = model;
                 _rootContainer.Tag = model.Wrap();
 
+                FavouriteItemImage.Into(model.Data.ImgUrl);
                 FavouriteItemFavButton.BindModel(model);
 
                 if (string.IsNullOrWhiteSpace(model.Data.ImgUrl))

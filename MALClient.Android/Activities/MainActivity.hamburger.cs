@@ -553,7 +553,7 @@ namespace MALClient.Android.Activities
                     _supportMenu.Menu.Add(0,0,0,"GitHub Feedback");
                     _supportMenu.Menu.Add(0,1,0,"Review");
                     _supportMenu.Menu.Add(0,2,0,"Donate Google");
-                    _supportMenu.Menu.Add(0,3,0,"Donate PayPal");
+                    //_supportMenu.Menu.Add(0,3,0,"Donate PayPal");
                     _supportMenu.Menu.Add(0,4,0,"Turn on ads");
                     _supportMenu.Menu.Add(0,5,0,"Watch VideoAd");
 

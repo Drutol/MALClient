@@ -174,7 +174,8 @@ namespace MALClient.XShared.ViewModels
             set
             {
                 ParentAbstraction.Priority = value;
-                RaisePropertyChanged();
+                RaisePropertyChanged(() => MyPriorityBrushBind);
+                RaisePropertyChanged(() => Priority);
             }
         }
 
@@ -324,7 +325,7 @@ namespace MALClient.XShared.ViewModels
 
         public string MyStatusBind => Utils.Utilities.StatusToString((int)MyStatus, !ParentAbstraction.RepresentsAnime,ParentAbstraction.IsRewatching);
         public string MyStatusBindShort => Utils.Utilities.StatusToShortString((int)MyStatus, !ParentAbstraction.RepresentsAnime,ParentAbstraction.IsRewatching);
-
+        public string MyPriorityBrushBind => Utils.Utilities.PriorityToBrush(Priority);
         public AnimeStatus MyStatus
         {
             get { return ParentAbstraction.MyStatus; }
@@ -631,6 +632,10 @@ namespace MALClient.XShared.ViewModels
         private ICommand _changeStatusCommand;
 
         public ICommand ChangeStatusCommand => _changeStatusCommand ?? (_changeStatusCommand = new RelayCommand<string>(ChangeStatus));
+
+        private ICommand _changePriorityCommand;
+
+        public ICommand ChangePriorityCommand => _changePriorityCommand ?? (_changePriorityCommand = new RelayCommand<string>(ChangePriority));
 
         private ICommand _changeScoreCommand;
 
@@ -1055,11 +1060,15 @@ namespace MALClient.XShared.ViewModels
             ChangeStatus((AnimeStatus)Utils.Utilities.StatusToInt(status));
         }
 
+        private void ChangePriority(string priority)
+        {
+            ChangePriority((AnimePriority)Utils.Utilities.PriorityToInt(priority));
+        }
 
         public async void ChangePriority(AnimePriority priority)
         {
             LoadingUpdate = true;
-
+            
             var myPrevPriority = Priority;
 
             Priority = priority;

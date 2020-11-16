@@ -84,6 +84,40 @@ namespace MALClient.XShared.Utils
             }
         }
 
+        public static int PriorityToInt(string Priority)
+        {
+            switch (Priority)
+            {
+                case "Low":
+                    return 0;
+                case "Medium":
+                    return 1;
+                case "High":
+                    return 2;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        public static string PriorityToBrush(AnimePriority Priority)
+        {
+            if (!Settings.ShowPriorities)
+                return "Transparent";
+            switch (Priority)
+            {
+                case AnimePriority.Low:
+                    if (!Settings.ShowLowPriorities)
+                        return "Transparent";
+                    return "DodgerBlue";
+                case AnimePriority.Medium:
+                    return "Yellow";
+                case AnimePriority.High:
+                    return "Crimson";
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+
         public static string DayToString(DayOfWeek day, bool ignoreOffset = false)
         {
             if (day < 0)

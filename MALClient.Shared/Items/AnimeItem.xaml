@@ -38,7 +38,12 @@
 				Width="Auto"
 				MaxWidth="120" Margin="1,1" attachedProperties:AnimeImageExtensions.MalBaseImageSource="{x:Bind ViewModel.ImgUrl}"/>
 		</Grid>
-		<Grid Grid.Row="0" Grid.Column="0" Margin="1,0,0,1" HorizontalAlignment="Left" VerticalAlignment="Bottom" Background="{StaticResource AnimeGridItemGridBackground}">
+        <Grid Grid.Row="0" Grid.Column="0" Margin="3,3,0,0" HorizontalAlignment="Left" VerticalAlignment="Top">
+            <Polygon Grid.Row="0" Grid.Column="1" 
+                     Points="0,0 17,0 0,17 0,0" 
+                     Fill="{Binding MyPriorityBrushBind,Mode=OneWay}" FlowDirection="LeftToRight"/>
+        </Grid>
+        <Grid Grid.Row="0" Grid.Column="0" Margin="1,0,0,1" HorizontalAlignment="Left" VerticalAlignment="Bottom" Background="{StaticResource AnimeGridItemGridBackground}">
 			<Button Grid.Row="0" Grid.Column="0"
                 Height="40"
                 Visibility="Visible" Click="BtnMoreOnClick">

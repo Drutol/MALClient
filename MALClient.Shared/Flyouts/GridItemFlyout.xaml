@@ -77,5 +77,15 @@
             <MenuFlyoutItem Text="Decrement" Command="{Binding DecrementWatchedCommand}"
                             Visibility="{Binding DecrementEpsVisibility,Converter={StaticResource BoolToVisibilityConverter}}" />
         </MenuFlyoutSubItem>
+        <MenuFlyoutSubItem Text="Priority"
+                           Visibility="{Binding Auth,Converter={StaticResource BoolToVisibilityConverter}}">
+            <MenuFlyoutItem Text="Low" Command="{Binding ChangePriorityCommand}"
+                            CommandParameter="Low"/>
+            <MenuFlyoutItem Text="Medium" Command="{Binding ChangePriorityCommand}"
+                            CommandParameter="Medium"/>
+            <MenuFlyoutItem Text="High" Command="{Binding ChangePriorityCommand}"
+                            CommandParameter="High"/>
+                             
+        </MenuFlyoutSubItem>
     </MenuFlyout>
 </MenuFlyoutPresenter>

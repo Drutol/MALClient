@@ -185,6 +185,22 @@
                             IsOn="{Binding EnsureRandomizerAlwaysSelectsWinner,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                             OnContent="Ensure selected" OffContent="Do nothing" HorizontalAlignment="Center" />
                     </Grid>
+                    <TextBlock Text="Display priority indicator on anime items."
+                               FontWeight="Medium"
+                               HorizontalAlignment="Center" Margin="0,5"
+                               TextWrapping="WrapWholeWords" TextAlignment="Center" />
+                    <Grid>
+                        <ToggleSwitch IsOn="{Binding ShowPriorities,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                      HorizontalAlignment="Center"/>
+                    </Grid>
+                    <TextBlock Text="Display low priority indicator on anime items."
+                               FontWeight="Medium"
+                               HorizontalAlignment="Center" Margin="0,5"
+                               TextWrapping="WrapWholeWords" TextAlignment="Center" />
+                    <Grid>
+                        <ToggleSwitch IsOn="{Binding ShowLowPriorities,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                      HorizontalAlignment="Center"/>
+                    </Grid>
                 </StackPanel>
             </Grid>
             <MenuFlyoutSeparator Margin="0,5" />

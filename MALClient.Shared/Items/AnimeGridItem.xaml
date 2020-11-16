@@ -112,10 +112,10 @@
                        HorizontalAlignment="Center" VerticalAlignment="Bottom"
                        Foreground="{StaticResource AnimeGridItemTextDays}" FontSize="14" FontStyle="Italic" />
             </Grid>
-			<Grid Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Bottom"
+            <Grid Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Bottom"
                   Visibility="{Binding Type,Converter={StaticResource AnyTextToVisibilityConverter},Mode=OneWay}"
 				  Background="{StaticResource AnimeGridItemGridBackground}">
-				<TextBlock x:Name="TypeTextBlock" Text="{Binding Type,Mode=OneWay}" Foreground="{StaticResource AnimeGridItemText}" FontWeight="SemiLight" FontStyle="Italic"
+                <TextBlock x:Name="TypeTextBlock" Text="{Binding Type,Mode=OneWay}" Foreground="{StaticResource AnimeGridItemText}" FontWeight="SemiLight" FontStyle="Italic"
                            FontSize="13"
                            VerticalAlignment="Bottom" Margin="5,0,5,5" />
             </Grid>
@@ -151,7 +151,7 @@
                         </Flyout>
                     </Button.Flyout>
                 </Button>
-
+                <Border BorderBrush="{Binding MyPriorityBrushBind,Mode=OneWay}" BorderThickness="3,0,3,0" Margin="0,1"/>
             </Grid>
             <StackPanel Orientation="Horizontal" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Bottom">
 				<Grid Background="{StaticResource AnimeGridItemGridBackground}">

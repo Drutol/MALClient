@@ -190,16 +190,18 @@
                                HorizontalAlignment="Center" Margin="0,5"
                                TextWrapping="WrapWholeWords" TextAlignment="Center" />
                     <Grid>
-                        <ToggleSwitch IsOn="{Binding ShowPriorities,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
-                                      HorizontalAlignment="Center"/>
+                        <ToggleSwitch 
+                            IsOn="{Binding ShowPriorities,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                            OnContent="Show" OffContent="Hide" HorizontalAlignment="Center"/>
                     </Grid>
                     <TextBlock Text="Display low priority indicator on anime items."
                                FontWeight="Medium"
                                HorizontalAlignment="Center" Margin="0,5"
                                TextWrapping="WrapWholeWords" TextAlignment="Center" />
                     <Grid>
-                        <ToggleSwitch IsOn="{Binding ShowLowPriorities,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
-                                      HorizontalAlignment="Center"/>
+                        <ToggleSwitch 
+                            IsOn="{Binding ShowLowPriorities,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                            OnContent="Show" OffContent="Hide" HorizontalAlignment="Center"/>
                     </Grid>
                 </StackPanel>
             </Grid>

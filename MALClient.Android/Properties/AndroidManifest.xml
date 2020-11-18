@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.drutol.malclient" android:installLocation="auto" android:versionName="1.5.4.18" android:versionCode="126">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.drutol.malclient" android:installLocation="auto" android:versionName="1.5.4.19" android:versionCode="127">
 	<uses-permission android:name="com.android.vending.BILLING" />
 	<uses-permission android:name="android.permission.INTERNET" />
 	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />

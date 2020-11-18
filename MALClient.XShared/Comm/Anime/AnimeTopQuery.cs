@@ -113,7 +113,8 @@ namespace MALClient.XShared.Comm.Anime
                     if (pos != -1)
                         imgurl = imgurl.Substring(0, pos);
                     current.ImgUrl = "https://cdn.myanimelist.net/images/" + imgUrlType + imgurl;
-                    var titleNode = item.Descendants("a").First(node => node.Attributes.Contains("class") && node.Attributes["class"].Value == (_type != TopAnimeType.Manga  ? "hoverinfo_trigger fl-l fs14 fw-b" : "hoverinfo_trigger fs14 fw-b"));
+                    var titleNode = item.Descendants("h3").First().Descendants("a").First();
+                        //.First(node => node.Attributes.Contains("class") && node.Attributes["class"].Value == (_type != TopAnimeType.Manga  ? "hoverinfo_trigger fl-l fs14 fw-b" : "hoverinfo_trigger fs14 fw-b"));
                     current.Title = WebUtility.HtmlDecode(titleNode.InnerText).Trim();
                     current.Id = Convert.ToInt32(titleNode.Attributes["href"].Value.Substring(8).Split('/')[2]);
                     try

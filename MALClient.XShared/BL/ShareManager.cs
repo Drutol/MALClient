@@ -159,14 +159,17 @@ namespace MALClient.XShared.BL
 
         private string FormatEpisode(int ep)
         {
-            switch (ep)
+            if (ep % 100 > 3 && ep % 100 < 21)
+                return $"{ep}th";
+
+            switch (ep % 10)
             {
                 case 1:
-                    return "1st";
+                    return $"{ep}st";
                 case 2:
-                    return "2nd";
+                    return $"{ep}nd";
                 case 3:
-                    return "3rd";
+                    return $"{ep}rd";
                 default:
                     return $"{ep}th";
             }

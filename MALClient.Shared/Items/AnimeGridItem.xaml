@@ -151,7 +151,8 @@
                         </Flyout>
                     </Button.Flyout>
                 </Button>
-                <Border BorderBrush="{Binding MyPriorityBrushBind,Mode=OneWay}" BorderThickness="3,0,3,0" Margin="0,1"/>
+                <Border BorderBrush="{Binding MyPriorityBrushBind,Mode=OneWay}" BorderThickness="3,0,3,0" Margin="0,1"
+                        Visibility="{Binding UpdateButtonsVisibility,Mode=OneWay,Converter={StaticResource BoolToVisibilityConverter}}"/>
             </Grid>
             <StackPanel Orientation="Horizontal" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Bottom">
 				<Grid Background="{StaticResource AnimeGridItemGridBackground}">

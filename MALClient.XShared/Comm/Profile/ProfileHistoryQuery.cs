@@ -5,6 +5,7 @@ using System.Net;
 using System.Threading.Tasks;
 using HtmlAgilityPack;
 using MALClient.Models.Models.MalSpecific;
+using MALClient.XShared.Utils;
 using MALClient.XShared.ViewModels;
 
 namespace MALClient.XShared.Comm.Profile
@@ -36,7 +37,7 @@ namespace MALClient.XShared.Comm.Profile
                     try
                     {
                         //so this is one big table if it contains only on chld it means that it's day/week header so
-                        if (historyRow.ChildNodes.Count == 3)
+                        if (historyRow.FirstOrDefaultOfDescendantsWithClass("div", "normal_header") != null)
                         {
                             if (historyRow.InnerText.Trim() == "&nbsp;")
                                 continue;
@@ -50,7 +51,7 @@ namespace MALClient.XShared.Comm.Profile
                             current.Id = int.Parse(link.Attributes["href"].Value.Split('=').Last());
                             current.IsAnime = link.Attributes["href"].Value.Contains("/anime");
                             current.WatchedEpisode = int.Parse(historyRow.Descendants("strong").First().InnerText);
-                            current.Date = historyRow.Descendants("td").Last().InnerText.Replace("Edit","").Trim(); //skip "Edit" button
+                            current.Date = historyRow.Descendants("td").Last().InnerText.Replace("Edit","").Replace("&nbsp;", "").Trim(); //skip "Edit" button
                             output.Last().Value.Add(current);
                         }
                     }

@@ -3,6 +3,8 @@
              android:layout_height="match_parent"
              android:background="?BrushDeepBackground" android:focusableInTouchMode="true">
 
+
+
   <ImageView
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -36,7 +38,7 @@
       <LinearLayout
         android:layout_width="match_parent" android:background="?BrushLoading" android:gravity="center_horizontal"
         android:layout_height="match_parent" android:orientation="vertical" android:padding="16dp">
-        <TextView
+        <!--<TextView
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:layout_gravity="center_horizontal"
@@ -72,7 +74,7 @@
           android:layout_height="wrap_content"
           android:backgroundTint="?AccentColour"
           android:inputType="textPassword" android:drawablePadding="5dp"
-          android:textColor="?BrushText" />
+          android:textColor="?BrushText" />-->
 
         <Button
           android:id="@+id/SignInButton"
@@ -91,13 +93,13 @@
           android:indeterminate="true"
           android:indeterminateOnly="true" />
 
-        <TextView
+<!--        <TextView
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:layout_gravity="center_horizontal"
           android:layout_marginTop="5dp"
           android:text="There's lots of issues where people are having trouble with signing in but I can't do much as it's usually an issue on MAL's side. Once their API is sufficiently featured I'll migrate."
-          android:textColor="#fff" />
+          android:textColor="#fff" />-->
       </LinearLayout>
     </LinearLayout>
   </ScrollView>
@@ -141,5 +143,11 @@
       android:textAllCaps="false"
       android:textColor="?AccentColour" />
   </FrameLayout>
+
+  <android.webkit.WebView
+    android:visibility="gone"
+    android:id="@+id/AuthWebView"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"/>
 
 </FrameLayout>

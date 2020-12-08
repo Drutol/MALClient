@@ -10,6 +10,7 @@ using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using MALClient.Models.Enums;
 using MALClient.XShared.Comm;
+using MALClient.XShared.Interfaces;
 using MALClient.XShared.Utils;
 
 namespace MALClient.XShared.ViewModels.Main
@@ -23,6 +24,7 @@ namespace MALClient.XShared.ViewModels.Main
     /// </summary>
     public class LogInViewModel : ViewModelBase
     {
+        private readonly IMalHttpContextProvider _httpContextProvider;
         private ICommand _focusMalCommand;
         private ICommand _focusHumCommand;
         private ICommand _logOutCommand;
@@ -34,6 +36,11 @@ namespace MALClient.XShared.ViewModels.Main
         private bool _isHumToggleChecked;
         private bool _isMalToggleChecked;
         private ApiType _currentApiType;
+
+        public LogInViewModel(IMalHttpContextProvider httpContextProvider)
+        {
+            _httpContextProvider = httpContextProvider;
+        }
 
         public ApiType CurrentApiType
         {
@@ -77,16 +84,16 @@ namespace MALClient.XShared.ViewModels.Main
 
         public bool ProblemsButtonVisibility => CurrentApiType == ApiType.Mal;
 
-        public ICommand LogOutCommand => _logOutCommand ?? (_logOutCommand = new RelayCommand(() =>
-                                         {
-                                             Credentials.Reset();
-                                             ResourceLocator.AnimeLibraryDataStorage.Reset();
-                                             ResourceLocator.MalHttpContextProvider.Invalidate();
-                                             ResourceLocator.DataCacheService.ClearAnimeListData();
-                                             ViewModelLocator.GeneralMain.CurrentOffStatus = "Log In";
-                                             ViewModelLocator.GeneralHamburger.UpdateLogInLabel();
-                                             LogOutButtonVisibility = false;
-                                         }));
+        public ICommand LogOutCommand => _logOutCommand ??= new RelayCommand(() =>
+        {
+            Credentials.Reset();
+            ResourceLocator.AnimeLibraryDataStorage.Reset();
+            ResourceLocator.MalHttpContextProvider.Invalidate();
+            ResourceLocator.DataCacheService.ClearAnimeListData();
+            ViewModelLocator.GeneralMain.CurrentOffStatus = "Log In";
+            ViewModelLocator.GeneralHamburger.UpdateLogInLabel();
+            LogOutButtonVisibility = false;
+        });
 
         public ICommand FocusMalCommand => _focusMalCommand ?? (_focusMalCommand = new RelayCommand(() =>
                                            {                                 
@@ -98,7 +105,7 @@ namespace MALClient.XShared.ViewModels.Main
                                                CurrentApiType = ApiType.Hummingbird;
                                            }));
 
-        public ICommand LogInCommand => _logInCommand ?? (_logInCommand = new RelayCommand(AttemptAuthentication));
+        public ICommand LogInCommand => _logInCommand ??= new RelayCommand(AttemptAuthentication);
 
 		public ICommand ProblemsCommand => _problemsCommand ?? (_problemsCommand = new RelayCommand(() =>
 											{
@@ -191,6 +198,63 @@ namespace MALClient.XShared.ViewModels.Main
             ViewModelLocator.GeneralHamburger.SetActiveButton(HamburgerButtons.AnimeList);
 
             Authenticating = false;
+        }
+
+        public async void SignIn(string cookies)
+        {
+            Authenticating = true;
+            if (cookies.Contains("is_logged_in=1"))
+            {
+                Credentials.SetAuthStatus(true);
+                Credentials.Update("", cookies, ApiType.Mal);
+                _httpContextProvider.SetCookies(cookies);
+
+                try
+                {
+                    var context = await _httpContextProvider.GetHttpContextAsync();
+
+                    Credentials.Update(Credentials.UserName, cookies, ApiType.Mal);
+                    ViewModelLocator.AnimeList.ListSource = Credentials.UserName;
+                    Settings.SelectedApiType = ApiType.Mal;
+                    Credentials.SetId(123456);
+                    Credentials.SetAuthStatus(true);
+                    ResourceLocator.TelemetryProvider.TelemetryTrackEvent(TelemetryTrackedEvents.LoggedInMyAnimeList);
+
+                    try
+                    {
+                        await ViewModelLocator.GeneralHamburger.UpdateProfileImg();
+                    }
+                    catch (Exception)
+                    {
+                        //
+                    }
+
+                    ViewModelLocator.AnimeList.ListSource = Credentials.UserName;
+                    ViewModelLocator.GeneralMain.HideOffContentCommand.Execute(null);
+                    await DataCache.ClearApiRelatedCache();
+                    ViewModelLocator.GeneralMain.Navigate(PageIndex.PageAnimeList);
+                    ViewModelLocator.GeneralHamburger.SetActiveButton(HamburgerButtons.AnimeList);
+
+                    Authenticating = false;
+                }
+                catch (Exception e)
+                {
+                    Credentials.SetAuthStatus(false);
+                    Credentials.Update(string.Empty, string.Empty, ApiType.Mal);
+                    ResourceLocator.MessageDialogProvider.ShowMessageDialog("Unable to authorize with provided credentials. If problem persists please try to sign-in on website.", "Authorization failed.");
+                    Authenticating = false;
+                    return;
+                }
+
+
+            }
+            else
+            {
+                Credentials.SetAuthStatus(false);
+                Credentials.Update(string.Empty, string.Empty, ApiType.Mal);
+                ResourceLocator.MessageDialogProvider.ShowMessageDialog("Unable to authorize with provided credentials. If problem persists please try to sign-in on website.", "Authorization failed.");
+                Authenticating = false;
+            }
         }
     }
 }

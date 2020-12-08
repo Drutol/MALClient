@@ -66,6 +66,9 @@
     <Reference Include="GalaSoft.MvvmLight.Platform, Version=5.4.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MvvmLightLibsStd10.5.4.1.1\lib\monoandroid1\GalaSoft.MvvmLight.Platform.dll</HintPath>
     </Reference>
+    <Reference Include="HtmlAgilityPack, Version=1.11.28.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
+      <HintPath>..\packages\HtmlAgilityPack.1.11.28\lib\netstandard2.0\HtmlAgilityPack.dll</HintPath>
+    </Reference>
     <Reference Include="Java.Interop" />
     <Reference Include="Microsoft.AppCenter, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AppCenter.3.4.0\lib\MonoAndroid403\Microsoft.AppCenter.dll</HintPath>
@@ -117,6 +120,7 @@
     <Compile Include="DispatcherAdapter.cs" />
     <Compile Include="ImageDownloaderService.cs" />
     <Compile Include="ISystemControlsLauncherService.cs" />
+    <Compile Include="ListenableWebClient.cs" />
     <Compile Include="MalHttpContextProvider.cs" />
     <Compile Include="MessageDialogProvider.cs" />
     <Compile Include="NotificationTaskManagerAdapter.cs" />

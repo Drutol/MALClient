@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Web;
 using MALClient.XShared.Comm.MagicalRawQueries;
 using MALClient.XShared.Interfaces;
 using MALClient.XShared.Utils;
@@ -20,6 +22,25 @@ namespace MALClient.XShared.BL
         protected DateTime? _contextExpirationTime;
         private SemaphoreSlim _semaphoreSlim = new SemaphoreSlim(1);
         private Exception _exc;
+
+        public void SetCookies(string cookies)
+        {
+            if (_httpClient != null)
+            {
+                foreach (var cookie in cookies.Split(';'))
+                {
+                    var tokens = cookie.Split('=');
+                    try
+                    {
+                        _httpClient.Handler.CookieContainer.Add(new Cookie(HttpUtility.UrlEncode(tokens[0].Trim()), HttpUtility.UrlEncode(tokens[1].Trim()), "/", "myanimelist.net"));
+                    }
+                    catch (Exception e)
+                    {
+
+                    }
+                }
+            }
+        }
 
         protected abstract Task<CsrfHttpClient> ObtainContext();
 
@@ -89,7 +110,8 @@ namespace MALClient.XShared.BL
                     new KeyValuePair<string, string>("sublogin", "Login"),
                     new KeyValuePair<string, string>("cookie", "1"),
                     new KeyValuePair<string, string>("submit", "1"),
-                    new KeyValuePair<string, string>("csrf_token", _httpClient.Token)
+                    new KeyValuePair<string, string>("csrf_token", _httpClient.Token),
+                    new KeyValuePair<string, string>("g-recaptcha-response", "03AGdBq26L7XLbz4ZBud-qOsVbW7gMKggzg81EKyaxF3uaXuwNspa2kfr570Q2qpV9UQ3i6n-S6Mf738-5KROfCGohykKaOLIPZRLR6wBH15-8tk-1IzqW-TYArPe-03S7h2wptvKIlG9xZRonmFndkZrJ9O8gcWlVMDGIdOE8OJ6LfTRkc4H6nh5UWwQsK-iqObn3FGsvNxy2EFilVyZ1-susUAGqFzX5KkfuxXW3RlOdikP_3mFXxniTzZ6Z54WXHdGeJJXKL9AONpzOGWjh78NrPxTU_ZCgvQuBryc7ZEcajIb6aoE8p-8FdwAbbOKaPqCd6WlG3VnkLAGKKeo7vFqq5VJEdebIGIek1VJ4LUAyIRg-gEdt3WcdpcXWp8SwwPLVt_cKW-mtSySQn-G2a_y5mVhW02XsZiA7vWhfZUpDgvqy4A7Z1yjEYPe6rAdhuDDzyLqcZ5uj")
                 };
                 return new FormUrlEncodedContent(loginPostInfo);
             }

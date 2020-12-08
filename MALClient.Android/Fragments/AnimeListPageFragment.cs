@@ -139,7 +139,15 @@ namespace MALClient.Android.Fragments
             onOpen: () =>
             {
                 ViewModelLocator.NavMgr.RegisterOneTimeMainOverride(new RelayCommand(CloseDrawer));
-                _actionMenu.Close(true);
+                try
+                {
+                    _actionMenu.Close(true);
+                }
+                catch (Exception e)
+                {
+                    //invalid handle
+                }
+
             }));
 
             OpenFiltersDrawer(false);

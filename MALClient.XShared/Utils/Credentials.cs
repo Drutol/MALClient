@@ -23,7 +23,7 @@ namespace MALClient.XShared.Utils
 
             HummingbirdToken = (string)(ApplicationDataService["HummingbirdToken"] ?? "");
             Id = (int)(ApplicationDataService["UserId"] ?? 0);
-            Authenticated = bool.Parse(ApplicationDataService["Auth"] as string ?? "False"); //why? because I can? but I shouldn't
+            Authenticated = bool.Parse(ApplicationDataService["Auth"] as string ?? "False"); 
         }
 
         public static string HummingbirdToken { get; private set; }
@@ -32,7 +32,7 @@ namespace MALClient.XShared.Utils
         public static string UserName
         {
             get { return _userName; }
-            private set { _userName = value?.Trim(); }
+            set { _userName = value?.Trim(); }
         }
 
         public static string Password { get; set; }
@@ -40,8 +40,11 @@ namespace MALClient.XShared.Utils
         public static int Id { get; private set; }
 
 
-        public static bool Authenticated { get;
-            private set; }
+        public static bool Authenticated
+        {
+            get; 
+            set;
+        }
 
         internal static ICredentials GetHttpCreditentials()
         {
@@ -62,7 +65,7 @@ namespace MALClient.XShared.Utils
 
             Query.RefreshClientAuthHeader();
 
-            if (!string.IsNullOrWhiteSpace(name) && !string.IsNullOrWhiteSpace(passwd))
+            if (!string.IsNullOrWhiteSpace(passwd))
                 PasswordVault.Add(new VaultCredential((type == ApiType.Mal ? "MALClient" : "MALClientHum"), UserName, Password));
         }
 

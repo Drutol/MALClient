@@ -287,7 +287,6 @@
     <Compile Include="Utilities\RateReminderPopUp.cs" />
     <Compile Include="Utilities\TabStripExtensions.cs" />
     <Compile Include="Utilities\Web\DataJavascriptInterface.cs" />
-    <Compile Include="Utilities\Web\ListenableWebClient.cs" />
     <Compile Include="ViewHolders\CommentViewHolder.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModel.cs" />

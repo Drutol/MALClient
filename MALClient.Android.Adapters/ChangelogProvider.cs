@@ -31,13 +31,15 @@ namespace MALClient.Android.Adapters
 
         public bool NewChangelog { get; set; }
 
-        public string DateWithVersion => $"{_currentVersion} -15.09.2019";
+        public string DateWithVersion => $"{_currentVersion} - 08.12.2020";
 
         public List<string> Changelog => new List<string>
         {
-            "Maintenance updates.",
-            "Fixed issues with sometimes missing anime from list.",
-            "Crashfix for long pressing list anime item.",
+           "Reworked login flow due to recent changes that occured on MAL. " +
+           "**You are required to sign in again**, this time directly on MAL's website. \n" +
+           "This was quite sudden change and I'm trying to address the issue " +
+           "as fast as possible so if anything will not work as expected I'll issue following updates.\n\n" +
+           "Sorry for inconvenience. :("
         };
     }
 }

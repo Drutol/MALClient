@@ -14,8 +14,15 @@ namespace MALClient.Android.Web
         private bool _loading;
         private bool _redirect;
 
+        public override WebResourceResponse? ShouldInterceptRequest(WebView? view, IWebResourceRequest? request)
+        {
+            return base.ShouldInterceptRequest(view, request);
+        }
+
         public override bool ShouldOverrideUrlLoading(WebView view, string url)
         {
+            
+
             if (_loading)
                 _redirect = true;
 

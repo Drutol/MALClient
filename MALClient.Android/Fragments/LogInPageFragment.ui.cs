@@ -12,6 +12,7 @@ using Android.Support.V4.App;
 using Android.Support.V7.App;
 using Android.Util;
 using Android.Views;
+using Android.Webkit;
 using Android.Widget;
 using GalaSoft.MvvmLight.Helpers;
 using Java.Lang;
@@ -23,34 +24,24 @@ namespace MALClient.Android.Fragments
 {
     public partial class LogInPageFragment : MalFragmentBase
     {
+        #region Views
 
-
-
-        private EditText _usernameInput;
-        private EditText _passwordInput;
+        private WebView _authWebView;
         private Button _signInButton;
         private ProgressBar _loginPageLoadingSpinner;
-        private Button _loginPageRegisterButton;
         private Button _loginPageLogOutButton;
         private Button _loginPageProblemsButton;
+        private Button _loginPageRegisterButton;
         private FrameLayout _bottomButtonsSection;
 
-        public EditText UsernameInput => _usernameInput ?? (_usernameInput = FindViewById<EditText>(Resource.Id.UsernameInput));
-
-        public EditText PasswordInput => _passwordInput ?? (_passwordInput = FindViewById<EditText>(Resource.Id.PasswordInput));
-
+        public WebView AuthWebView => _authWebView ?? (_authWebView = FindViewById<WebView>(Resource.Id.AuthWebView));
         public Button SignInButton => _signInButton ?? (_signInButton = FindViewById<Button>(Resource.Id.SignInButton));
-
         public ProgressBar LoginPageLoadingSpinner => _loginPageLoadingSpinner ?? (_loginPageLoadingSpinner = FindViewById<ProgressBar>(Resource.Id.LoginPageLoadingSpinner));
-
-        public Button LoginPageRegisterButton => _loginPageRegisterButton ?? (_loginPageRegisterButton = FindViewById<Button>(Resource.Id.LoginPageRegisterButton));
-
         public Button LoginPageLogOutButton => _loginPageLogOutButton ?? (_loginPageLogOutButton = FindViewById<Button>(Resource.Id.LoginPageLogOutButton));
-
         public Button LoginPageProblemsButton => _loginPageProblemsButton ?? (_loginPageProblemsButton = FindViewById<Button>(Resource.Id.LoginPageProblemsButton));
-
+        public Button LoginPageRegisterButton => _loginPageRegisterButton ?? (_loginPageRegisterButton = FindViewById<Button>(Resource.Id.LoginPageRegisterButton));
         public FrameLayout BottomButtonsSection => _bottomButtonsSection ?? (_bottomButtonsSection = FindViewById<FrameLayout>(Resource.Id.BottomButtonsSection));
 
-
+        #endregion
     }
 }

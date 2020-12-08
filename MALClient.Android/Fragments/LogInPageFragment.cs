@@ -12,12 +12,14 @@ using Android.Runtime;
 using Android.Util;
 using Android.Views;
 using Android.Views.InputMethods;
+using Android.Webkit;
 using Android.Widget;
 using GalaSoft.MvvmLight.Helpers;
 using MALClient.Android.Activities;
 using MALClient.Android.BindingConverters;
 using MALClient.Android.Listeners;
 using MALClient.Android.Resources;
+using MALClient.Android.Web;
 using MALClient.Models.Enums;
 using MALClient.XShared.Utils;
 using MALClient.XShared.ViewModels;
@@ -54,32 +56,61 @@ namespace MALClient.Android.Fragments
         {
             MainActivity.CurrentContext.RequestedOrientation = ScreenOrientation.Portrait;
             Bindings = new List<Binding>();
-            Bindings.Add(this.SetBinding(() => ViewModel.UserNameInput, () => UsernameInput.Text, BindingMode.TwoWay));
+            //Bindings.Add(this.SetBinding(() => ViewModel.UserNameInput, () => UsernameInput.Text, BindingMode.TwoWay));
             Bindings.Add(this.SetBinding(() => ViewModel.Authenticating, () => LoginPageLoadingSpinner.Visibility,
                     BindingMode.OneWay)
                 .ConvertSourceToTarget(Converters.BoolToVisibility));
-            Bindings.Add(this.SetBinding(() => ViewModel.PasswordInput, () => PasswordInput.Text, BindingMode.TwoWay));
+            //Bindings.Add(this.SetBinding(() => ViewModel.PasswordInput, () => PasswordInput.Text, BindingMode.TwoWay));
 
             Bindings.Add(
                 this.SetBinding(() => ViewModel.LogOutButtonVisibility,
                     () => LoginPageLogOutButton.Visibility).ConvertSourceToTarget(Converters.BoolToVisibility));
 
-            PasswordInput.SetOnEditorActionListener(new OnEditorActionListener(action =>
-            {
-                if(action == ImeAction.Done)
-                    ViewModel.LogInCommand.Execute(null);
-                AndroidUtilities.HideKeyboard();
-            }));
+            //PasswordInput.SetOnEditorActionListener(new OnEditorActionListener(action =>
+            //{
+            //    if(action == ImeAction.Done)
+            //        ViewModel.LogInCommand.Execute(null);
+            //    AndroidUtilities.HideKeyboard();
+            //}));
 
             LoginPageRegisterButton.SetOnClickListener(new OnClickListener(v => ViewModel.NavigateRegister.Execute(null)));
             LoginPageProblemsButton.SetOnClickListener(new OnClickListener(v => ViewModel.ProblemsCommand.Execute(null)));
 
             SignInButton.SetOnClickListener(new OnClickListener(v =>
             {
-                ViewModel.LogInCommand.Execute(null);
-                AndroidUtilities.HideKeyboard();
+                AuthWebView.Visibility = ViewStates.Visible;
+                var client = new ListenableWebClient();
+                AuthWebView.SetWebViewClient(client);
+                AuthWebView.Settings.JavaScriptEnabled = true;
+                AuthWebView.LoadUrl("https://myanimelist.net/login.php");
+
+                client.NavigationInterceptOpportunity += NavigationInterceptOpportunity;
             }));
-            LoginPageLogOutButton.SetOnClickListener(new OnClickListener(v=>ViewModel.LogOutCommand.Execute(null)));
+
+            LoginPageLogOutButton.SetOnClickListener(new OnClickListener(v=>
+            {
+                CookieManager.Instance.RemoveAllCookies(null);
+                CookieManager.Instance.Flush();
+
+                ViewModel.LogOutCommand.Execute(null);
+            }));
+        }
+
+        private async Task<string> NavigationInterceptOpportunity(string targeturl)
+        {
+            if (targeturl == "https://myanimelist.net/")
+            {
+                AuthWebView.Visibility = ViewStates.Gone;
+                var cookies = CookieManager.Instance.GetCookie("https://myanimelist.net");
+
+                ViewModel.SignIn(cookies);
+
+
+
+                return null;
+            }
+
+            return null;
         }
 
         private async void ViewTreeObserverOnGlobalLayout(object sender, EventArgs eventArgs)

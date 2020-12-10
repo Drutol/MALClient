@@ -49,14 +49,14 @@ namespace MALClient.XShared.Comm.MagicalRawQueries
 
 
 
-        protected new void Dispose(bool disposing)
+        protected new void Dispose()
         {
             //it's not disposable
         }
 
         public void ExpiredDispose()
         {
-            base.Dispose();
+            //base.Dispose();
         }
 
         public new Task<HttpResponseMessage> GetAsync(string uri)
@@ -99,6 +99,11 @@ namespace MALClient.XShared.Comm.MagicalRawQueries
                             htmlNode.Attributes["name"].Value == "csrf_token")
                     .Attributes["content"].Value;
             Token = csfr;
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            //base.Dispose(disposing);
         }
 
         //private void ProcessCookies(HttpResponseMessage raw)

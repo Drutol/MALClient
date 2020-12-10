@@ -391,24 +391,6 @@ namespace MALClient.Android.ViewModels
 
         public void PerformFirstNavigation()
         {
-            var previousVersion = Settings.AppVersion;
-            var currentVersion = ResourceLocator.ChangelogProvider.CurrentVersion;
-            var isNewVersion = false;
-            if (previousVersion != null)
-            {
-                if (previousVersion.Substring(0, previousVersion.LastIndexOf('.')) !=
-                    currentVersion.Substring(0, currentVersion.LastIndexOf('.')))
-                {
-                    //isNewVersion = true;
-                    Credentials.Reset();
-                    ResourceLocator.AnimeLibraryDataStorage.Reset();
-                    ResourceLocator.MalHttpContextProvider.Invalidate();
-                    ResourceLocator.DataCacheService.ClearAnimeListData();
-                }
-            }
-
-
-
             bool hasArgumentsWithSync =
                     InitDetailsFull?.Item1.GetAttribute<EnumUtilities.PageIndexEnumMember>().RequiresSyncBlock ?? true;
             if (Credentials.Authenticated)

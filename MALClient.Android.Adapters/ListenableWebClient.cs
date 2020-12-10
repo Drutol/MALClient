@@ -14,6 +14,8 @@ namespace MALClient.Android.Web
         private bool _loading;
         private bool _redirect;
 
+        public bool NavigateIfNoInterception { get; set; }
+
         public override WebResourceResponse? ShouldInterceptRequest(WebView? view, IWebResourceRequest? request)
         {
             return base.ShouldInterceptRequest(view, request);
@@ -36,9 +38,19 @@ namespace MALClient.Android.Web
             if (invoke != null)
             {
                 var result = await invoke;
-                if(!string.IsNullOrEmpty(result))
+                if (!string.IsNullOrEmpty(result))
+                    view.LoadUrl(result);
+                else if (NavigateIfNoInterception)
+                {
                     view.LoadUrl(url);
-
+                }
+            }
+            else
+            {
+                if (NavigateIfNoInterception)
+                {
+                    view.LoadUrl(url);
+                }
             }
         }
 

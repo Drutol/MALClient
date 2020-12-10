@@ -29,6 +29,7 @@ namespace MALClient.Android.Fragments
 {
     public partial class LogInPageFragment
     {
+        private ListenableWebClient _client;
         public override int LayoutResourceId => Resource.Layout.LogInPage;
 
         private LogInViewModel ViewModel { get; set; }
@@ -43,6 +44,8 @@ namespace MALClient.Android.Fragments
                 ViewModelLocator.NavMgr.ResetMainBackNav();
                 ViewModelLocator.NavMgr.RegisterBackNav(PageIndex.PageAnimeList, null);
             }
+
+            ViewModel.Authenticating = false;
         }
 
         public override void OnResume()
@@ -78,13 +81,23 @@ namespace MALClient.Android.Fragments
 
             SignInButton.SetOnClickListener(new OnClickListener(v =>
             {
+                if(ViewModel.Authenticating)
+                    return;
+
+                ViewModel.Authenticating = true;
+
                 AuthWebView.Visibility = ViewStates.Visible;
-                var client = new ListenableWebClient();
-                AuthWebView.SetWebViewClient(client);
+                _client = new ListenableWebClient
+                {
+                    NavigateIfNoInterception = true
+                };
+                AuthWebView.SetWebViewClient(_client);
                 AuthWebView.Settings.JavaScriptEnabled = true;
+                AuthWebView.Settings.UserAgentString =
+                    "Mozilla/5.0 (Linux; Android 7.0; SM-G930V Build/NRD90M) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.125 Mobile Safari/537.36";
                 AuthWebView.LoadUrl("https://myanimelist.net/login.php");
 
-                client.NavigationInterceptOpportunity += NavigationInterceptOpportunity;
+                _client.NavigationInterceptOpportunity += NavigationInterceptOpportunity;
             }));
 
             LoginPageLogOutButton.SetOnClickListener(new OnClickListener(v=>
@@ -98,19 +111,36 @@ namespace MALClient.Android.Fragments
 
         private async Task<string> NavigationInterceptOpportunity(string targeturl)
         {
-            if (targeturl == "https://myanimelist.net/")
+            if (targeturl == "https://myanimelist.net/" || 
+                targeturl == "https://myanimelist.net/#" || //from google signi
+                targeturl.StartsWith("https://myanimelist.net/#"))  //from fb signin
             {
                 AuthWebView.Visibility = ViewStates.Gone;
                 var cookies = CookieManager.Instance.GetCookie("https://myanimelist.net");
 
                 ViewModel.SignIn(cookies);
 
-
-
+                _client.NavigateIfNoInterception = false;
                 return null;
             }
 
-            return null;
+            if (targeturl == "https://myanimelist.net/register.php")
+            {
+                ViewModel.NavigateRegister.Execute(null);
+            }
+
+            if (targeturl.StartsWith("https://api.twitter") ||
+                targeturl.StartsWith("https://myanimelist.net/sns/login") ||
+                targeturl.StartsWith("https://myanimelist.net/sns/callback") ||
+                targeturl.Contains("apple") ||
+                targeturl.StartsWith("https://www.facebook") ||
+                targeturl.StartsWith("https://m.facebook") ||
+                targeturl.StartsWith("https://accounts.google") ||
+                targeturl.StartsWith("https://accounts.youtube") ||
+                targeturl.StartsWith("https://myanimelist.net/login.php"))
+                return targeturl;
+
+            return "https://myanimelist.net/login.php";
         }
 
         private async void ViewTreeObserverOnGlobalLayout(object sender, EventArgs eventArgs)

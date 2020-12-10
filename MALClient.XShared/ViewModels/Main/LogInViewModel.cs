@@ -158,7 +158,6 @@ namespace MALClient.XShared.ViewModels.Main
                     if (string.IsNullOrEmpty(response))
                         throw new Exception();
                     Settings.SelectedApiType = ApiType.Mal;
-                    Credentials.SetId(123456);
                     Credentials.SetAuthStatus(true);
                     ResourceLocator.TelemetryProvider.TelemetryTrackEvent(TelemetryTrackedEvents.LoggedInMyAnimeList);
                 }
@@ -216,7 +215,6 @@ namespace MALClient.XShared.ViewModels.Main
                     Credentials.Update(Credentials.UserName, cookies, ApiType.Mal);
                     ViewModelLocator.AnimeList.ListSource = Credentials.UserName;
                     Settings.SelectedApiType = ApiType.Mal;
-                    Credentials.SetId(123456);
                     Credentials.SetAuthStatus(true);
                     ResourceLocator.TelemetryProvider.TelemetryTrackEvent(TelemetryTrackedEvents.LoggedInMyAnimeList);
 

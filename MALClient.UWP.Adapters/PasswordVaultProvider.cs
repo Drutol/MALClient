@@ -7,10 +7,12 @@ namespace MALClient.UWP.Adapters
 {
     public class PasswordVaultProvider : IPasswordVault
     {
+        private const string NullUserName = "<><>!Null!<><>";
+
         public void Add(VaultCredential credential)
         {
             var vault = new PasswordVault();
-            vault.Add(new PasswordCredential(credential.Domain, credential.UserName, credential.Password));
+            vault.Add(new PasswordCredential(credential.Domain, string.IsNullOrEmpty(credential.UserName) ? NullUserName : credential.UserName, credential.Password));
         }
 
         public VaultCredential Get(string domain)
@@ -18,7 +20,7 @@ namespace MALClient.UWP.Adapters
             var vault = new PasswordVault();
             var credential = vault.FindAllByResource(domain).FirstOrDefault();
             credential.RetrievePassword();
-            return new VaultCredential(credential.Resource, credential.UserName, credential.Password);
+            return new VaultCredential(credential.Resource, credential.UserName == NullUserName ? "" : credential.UserName, credential.Password);
         }
 
         public void Reset()

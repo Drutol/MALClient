@@ -2,11 +2,11 @@
     x:Class="MALClient.UWP.Pages.Main.LogInPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:MALClient.UWP.Pages"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:xamlConverters="using:MALClient.UWP.Shared.XamlConverters"
-    mc:Ignorable="d" MinWidth="310" RequestedTheme="Dark" DataContext="{Binding Source={StaticResource Locator},Path=LogIn}">
+    mc:Ignorable="d" MinWidth="310" RequestedTheme="Dark"
+    DataContext="{Binding Source={StaticResource Locator},Path=LogIn}">
 
     <Page.Resources>
         <xamlConverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
@@ -21,58 +21,62 @@
         </TransitionCollection>
     </Page.Transitions>
 
-
     <Grid>
-        <Grid.Background>
-            <ImageBrush ImageSource="/Assets/LogInBG.PNG" Opacity=".7" Stretch="UniformToFill"></ImageBrush>
-        </Grid.Background>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width=".5*" />
-            <ColumnDefinition Width=".5*" />
-        </Grid.ColumnDefinitions>
-        <Grid Grid.ColumnSpan="2" Grid.Column="0" Padding="0,10,0,10">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-            <StackPanel Margin="0,40,0,0" Grid.Row="0" Padding="10" HorizontalAlignment="Center" BorderThickness="1"
-                              BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}">
-                <StackPanel.Background>
-                    <AcrylicBrush 
-                        BackgroundSource="Backdrop"
-                        TintColor="{StaticResource BrushDeepBackgroundColor}"
-                        TintOpacity="0.1"
-                        FallbackColor="{StaticResource BrushDeepBackgroundColor}"/>
-                </StackPanel.Background>
-                <Image Source="/Assets/Wide310x150Logo.png" Width="310" Height="150"
-                   VerticalAlignment="Center" />
-                
-                <TextBlock TextAlignment="Center" FontWeight="Medium">
-                    Sign in with your
-                    MAL credentials.
-                </TextBlock>
+        <Grid>
+            <Grid.Background>
+                <ImageBrush ImageSource="/Assets/LogInBG.PNG" Opacity=".7" Stretch="UniformToFill" />
+            </Grid.Background>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width=".5*" />
+                <ColumnDefinition Width=".5*" />
+            </Grid.ColumnDefinitions>
+            <Grid Grid.ColumnSpan="2" Grid.Column="0" Padding="0,10,0,10">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <StackPanel Margin="0,40,0,0" Grid.Row="0" Padding="10" HorizontalAlignment="Center"
+                            BorderThickness="1"
+                            BorderBrush="{StaticResource SystemControlBackgroundAccentBrush}">
+                    <StackPanel.Background>
+                        <AcrylicBrush
+                            BackgroundSource="Backdrop"
+                            TintColor="{StaticResource BrushDeepBackgroundColor}"
+                            TintOpacity="0.1"
+                            FallbackColor="{StaticResource BrushDeepBackgroundColor}" />
+                    </StackPanel.Background>
+                    <Image Source="/Assets/Wide310x150Logo.png" Width="310" Height="150"
+                           VerticalAlignment="Center" />
 
-                <StackPanel Margin="0,20,0,0" HorizontalAlignment="Center" VerticalAlignment="Top" MaxWidth="300" Width="Auto"
-                        MinWidth="200">
-                    <TextBlock Text="Username:" HorizontalAlignment="Center" Margin="0,2" FontWeight="SemiBold" />
-					<TextBox KeyDown="UserName_OnKeyDown" Text="{Binding UserNameInput,Mode=TwoWay}" BorderBrush="{StaticResource SystemControlTransparentRevealBorderBrush}" />
-                    <TextBlock Text="Password:" HorizontalAlignment="Center" Margin="0,2" FontWeight="SemiBold" />
-					<PasswordBox x:Name="UserPassword" KeyDown="Password_OnKeyDown" Password="{Binding PasswordInput,Mode=TwoWay}" BorderBrush="{StaticResource SystemControlTransparentRevealBorderBrush}"/>
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="5">
-                        <Button Content="Log In" Command="{Binding LogInCommand}" HorizontalAlignment="Center" Margin="3,3" BorderThickness="1" Style="{StaticResource ButtonRevealStyle}"/>
-                        <ProgressRing  IsActive="True" Visibility="{Binding Authenticating,Converter={StaticResource BoolToVisibilityConverter}}" Margin="5,0" />
+                    <TextBlock TextAlignment="Center" FontWeight="Medium">
+                        Sign in with your
+                        MAL credentials.
+                    </TextBlock>
+
+                    <StackPanel Margin="0,20,0,0" HorizontalAlignment="Center" VerticalAlignment="Top" MaxWidth="300"
+                                Width="Auto"
+                                MinWidth="200">
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="5">
+                            <Button Content="Log In" Click="SignInButtonClick" HorizontalAlignment="Center"
+                                    Margin="3,3" BorderThickness="1" Style="{StaticResource ButtonRevealStyle}" />
+                            <ProgressRing IsActive="True"
+                                          Visibility="{Binding Authenticating,Converter={StaticResource BoolToVisibilityConverter}}"
+                                          Margin="5,0" />
+                        </StackPanel>
                     </StackPanel>
                 </StackPanel>
-            </StackPanel>
-            <Button Grid.Row="1" Command="{Binding LogOutCommand}" VerticalAlignment="Bottom"
-                    HorizontalAlignment="Center" Visibility="{Binding LogOutButtonVisibility}" Content="Log out" Margin="3,3"
-                    BorderThickness="1"
-                    Style="{StaticResource ButtonRevealStyle}" />
-            <Button Grid.Row="1" Content="Register!" Style="{StaticResource TextBlockButtonStyle}"
-                    VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="5" Command="{Binding NavigateRegister}" />
-            <Button Grid.Row="1" Content="Problems?" Style="{StaticResource TextBlockButtonStyle}"
-                    VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="5,5,16,5" Visibility="{Binding ProblemsButtonVisibility,Converter={StaticResource BoolToVisibilityConverter}}"
-                    Click="ButtonProblems_OnClick" />
+                <Button Grid.Row="1" VerticalAlignment="Bottom" Click="ButtonBase_OnClick"
+                        HorizontalAlignment="Center" Visibility="{Binding LogOutButtonVisibility}" Content="Log out"
+                        Margin="3,3"
+                        BorderThickness="1"
+                        Style="{StaticResource ButtonRevealStyle}" />
+                <Button Grid.Row="1" Content="Register!" Style="{StaticResource TextBlockButtonStyle}"
+                        VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="5"
+                        Command="{Binding NavigateRegister}" />
+            </Grid>
         </Grid>
+
+        <WebView x:Name="SignInWebView" Visibility="Collapsed" HorizontalAlignment="Stretch"
+                 VerticalAlignment="Stretch" />
     </Grid>
 </Page>

@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using HtmlAgilityPack;
 using MALClient.Models.Enums;
 using MALClient.XShared.BL;
 using MALClient.XShared.Comm.MagicalRawQueries;
@@ -18,74 +19,52 @@ namespace MALClient.UWP.Adapters
         {
             var httpHandler = ResourceLocator.MalHttpContextProvider.GetHandler();
             _httpClient = new CsrfHttpClient(httpHandler) { BaseAddress = new Uri(MalBaseUrl) };
+
             _httpClient.DefaultRequestHeaders.TryAddWithoutValidation("authority", "myanimelist.net");
             _httpClient.DefaultRequestHeaders.TryAddWithoutValidation("Host", "myanimelist.net");
             _httpClient.DefaultRequestHeaders.Add("X-Requested-With", new[] { "XMLHttpRequest" });
             _httpClient.Handler.CookieContainer.Add(new Cookie("anime_update_advanced", "0", "/", "myanimelist.net"));
 
+            var existingCookies = Credentials.Password;
+
+            if (!string.IsNullOrEmpty(existingCookies))
+            {
+                SetCookies(existingCookies);
+
+                try
+                {
+                    var req = await _httpClient.GetAsync("https://myanimelist.net/editprofile.php?go=myoptions");
+                    req.EnsureSuccessStatusCode();
+                }
+                catch (Exception e)
+                {
+                    await ResourceLocator.MessageDialogProvider.ShowMessageDialogAsync(
+                        "Failed to sign in.",
+                        "Error.");
+                    throw new WebException($"Unable to authorize,");
+                }
+            }
+
             await _httpClient.GetToken();
 
-            var response = await _httpClient.PostAsync("/login.php", LoginPostBody);
-            if (response.IsSuccessStatusCode || response.StatusCode == HttpStatusCode.Found ||
-                response.StatusCode == HttpStatusCode.RedirectMethod)
+            if (string.IsNullOrEmpty(Credentials.UserName))
             {
-                var content = await response.Content.ReadAsStringAsync();
+                var raw = await _httpClient.GetStringAsync("https://myanimelist.net");
+                var doc = new HtmlDocument();
+                doc.LoadHtml(raw);
 
-                if (content.Contains("Too many failed login attempts. Please try to login again after several hours."))
-                {
-                    ResourceLocator.DispatcherAdapter.Run(async () =>
-                    {
-                        await ResourceLocator.MessageDialogProvider.ShowMessageDialogAsync(
-                            "Too many failed login attempts. Your account is locked according to MAL. Please try signing in on website.",
-                            "Failed to authorize.");
-                        if (ViewModelLocator.GeneralMain.CurrentMainPage != PageIndex.PageLogIn)
-                            ViewModelLocator.GeneralMain.Navigate(PageIndex.PageLogIn);
-                    });
+                var username = doc.FirstOfDescendantsWithClass("a", "header-profile-link").InnerText.Trim();
 
-                    throw new WebException("Unable to authorize");
-                }
-                if (content.Contains("This account has not yet authorized their e-mail."))
-                {
-                    ResourceLocator.DispatcherAdapter.Run(async () =>
-                    {
-                        await ResourceLocator.MessageDialogProvider.ShowMessageDialogAsync(
-                            "You didn't confirm your email address. Please confirm it before signing in.",
-                            "Confirm your email.");
-                        if (ViewModelLocator.GeneralMain.CurrentMainPage != PageIndex.PageLogIn)
-                            ViewModelLocator.GeneralMain.Navigate(PageIndex.PageLogIn);
-                    });
+                Credentials.UserName = username;
 
-                    throw new WebException("Unable to authorize");
-                }
-                if (content.Contains("It has been a while since your last login, for security reasons we require you to also provide a captcha code."))
-                {
-                    ResourceLocator.DispatcherAdapter.Run(async () =>
-                    {
-                        await ResourceLocator.MessageDialogProvider.ShowMessageDialogAsync(
-                            "It looks like a captcha is waiting for you. Please sign in on website before using this app.",
-                            "Website sign in required");
-                        if (ViewModelLocator.GeneralMain.CurrentMainPage != PageIndex.PageLogIn)
-                            ViewModelLocator.GeneralMain.Navigate(PageIndex.PageLogIn);
-                    });
-
-                    throw new WebException("Unable to authorize");
-                }
-
-                if (content.Contains("Your username or password is incorrect.") ||
-                    content.Contains("badresult badresult--is-reset-password"))
-                    throw new WebException("Unable to authorize");
-
-                var matches = Regex.Match(content, "\\/images\\/userimages\\/(\\d+)\\..*");
+                var matches = Regex.Match(raw, "\\/images\\/userimages\\/(\\d+)\\..*");
                 if (matches.Success)
                 {
                     Credentials.SetId(int.Parse(matches.Groups[1].Captures[0].Value));
                 }
-
-                _contextExpirationTime = DateTime.Now.Add(TimeSpan.FromHours(.5));
-                return _httpClient; //else we are returning client that can be used for next queries
             }
 
-            throw new WebException("Unable to authorize");
+            return _httpClient;
         }
 
         public override HttpClientHandler GetHandler()

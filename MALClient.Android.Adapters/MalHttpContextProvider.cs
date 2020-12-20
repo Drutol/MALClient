@@ -52,7 +52,7 @@ namespace MALClient.Android.Adapters
             _httpClient.Handler.CookieContainer.Add(new Cookie("anime_update_advanced", "0", "/", "myanimelist.net"));
 
             var existingCookies = Credentials.Password;
-            bool needsWebView = false;
+            var needsWebView = false;
 
             if (!string.IsNullOrEmpty(existingCookies))
             {
@@ -81,11 +81,23 @@ namespace MALClient.Android.Adapters
 
                 var success = await _tcs.Task;
 
+                try
+                {
+                    var req = await _httpClient.GetAsync("https://myanimelist.net/editprofile.php?go=myoptions");
+                    req.EnsureSuccessStatusCode();
+                    success = true;
+                }
+                catch (Exception e)
+                {
+                    success = false;
+                }
+
                 if (!success)
                 {
                     await ResourceLocator.MessageDialogProvider.ShowMessageDialogAsync(
-                        "Failed to sign in.",
+                        "Failed to sign in. Please sign in again, MAL seems to have invalidated your current session :(",
                         "Error.");
+                    
                     throw new WebException($"Unable to authorize,");
                 }
             }
@@ -233,6 +245,7 @@ namespace MALClient.Android.Adapters
                 }
             }
 
+            _tcs.SetResult(false);
             return null;
         }
 

@@ -53,16 +53,17 @@ namespace MALClient.XShared.BL
         {
             if(!Credentials.Authenticated && !skipAtuhCheck)
                 return new CsrfHttpClient(ResourceLocator.MalHttpContextProvider.GetHandler()) { Disabled = true };
+
+            if (_httpClient != null)
+                return _httpClient;
+            
             await Task.Delay(100);
             await _semaphoreSlim.WaitAsync();
             try
             {
-                if (_contextExpirationTime == null || DateTime.Now.CompareTo(_contextExpirationTime.Value) > 0)
-                {
-                    _httpClient?.ExpiredDispose();
-
-                    return await ObtainContext();
-                }
+                if (_httpClient == null)
+                    _httpClient = await ObtainContext();
+                
                 return _httpClient;
             }
             catch (Exception e)

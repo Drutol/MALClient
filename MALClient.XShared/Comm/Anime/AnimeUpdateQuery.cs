@@ -186,9 +186,7 @@ namespace MALClient.XShared.Comm.Anime
                 }
                 catch (Exception e)
                 {
-#if ANDROID
-                ResourceLocator.SnackbarProvider.ShowText("Failed to send update to MAL.");
-#endif
+                    ResourceLocator.SnackbarProvider.ShowText("Failed to send update to MAL. Please try signing in again.");
                 }
 
                 if (string.IsNullOrEmpty(result) && !SuppressOfflineSync && Settings.EnableOfflineSync)

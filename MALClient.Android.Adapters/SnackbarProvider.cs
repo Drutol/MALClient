@@ -23,7 +23,7 @@ namespace MALClient.Android.Adapters
                 SimpleIoc.Default.GetInstance<Activity>().RunOnUiThread(() =>
                 {
                     var t = Toast.MakeText(Application.Context, text, ToastLength.Short);
-                    t.Show();
+                    t?.Show();
                 });
             }
             catch (Exception)

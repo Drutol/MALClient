@@ -65,9 +65,11 @@ namespace MALClient.Android.Fragments
                 .ConvertSourceToTarget(Converters.BoolToVisibility));
             //Bindings.Add(this.SetBinding(() => ViewModel.PasswordInput, () => PasswordInput.Text, BindingMode.TwoWay));
 
-            Bindings.Add(
-                this.SetBinding(() => ViewModel.LogOutButtonVisibility,
-                    () => LoginPageLogOutButton.Visibility).ConvertSourceToTarget(Converters.BoolToVisibility));
+            //Bindings.Add(
+            //    this.SetBinding(() => ViewModel.LogOutButtonVisibility,
+            //        () => LoginPageLogOutButton.Visibility).ConvertSourceToTarget(Converters.BoolToVisibility));
+
+            LoginPageLogOutButton.Visibility = ViewStates.Visible;
 
             //PasswordInput.SetOnEditorActionListener(new OnEditorActionListener(action =>
             //{

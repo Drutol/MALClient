@@ -26,8 +26,10 @@ namespace MALClient.Android.DialogAdapters
 
             if (maxEpisodes == 0 && currentAiringEpisode.HasValue)
                 maxEpisodes = currentAiringEpisode.Value;
-            else if (maxEpisodes == 0)
+            else if (maxEpisodes == 0 && currentEpisodes == 0)
                 maxEpisodes = 13;
+            else if (maxEpisodes == 0)
+                maxEpisodes = currentEpisodes + 10;
 
             int i = currentEpisodes, j = currentEpisodes - 1, k = 0;
             for (; i <= maxEpisodes || k < 10; i++, j--, k++)

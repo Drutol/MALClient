@@ -52,7 +52,7 @@ namespace MALClient.Android.Adapters
             _httpClient.Handler.CookieContainer.Add(new Cookie("anime_update_advanced", "0", "/", "myanimelist.net"));
 
             var existingCookies = Credentials.Password;
-            var needsWebView = false;
+            var success = false;
 
             if (!string.IsNullOrEmpty(existingCookies))
             {
@@ -61,45 +61,31 @@ namespace MALClient.Android.Adapters
                 try
                 {
                     var req = await _httpClient.GetAsync("https://myanimelist.net/editprofile.php?go=myoptions");
-                    req.EnsureSuccessStatusCode();
-                }
-                catch (Exception e)
-                {
-                    needsWebView = true;
-                }
-            }
 
-            if (needsWebView)
-            {
-                _authWebView = new WebView(Application.Context);
-                var client = new ListenableWebClient();
-                _authWebView.SetWebViewClient(client);
-                _authWebView.Settings.JavaScriptEnabled = true;
-                _authWebView.LoadUrl("https://myanimelist.net/login.php");
-
-                client.NavigationInterceptOpportunity += NavigationInterceptOpportunity;
-
-                var success = await _tcs.Task;
-
-                try
-                {
-                    var req = await _httpClient.GetAsync("https://myanimelist.net/editprofile.php?go=myoptions");
                     req.EnsureSuccessStatusCode();
                     success = true;
+
+                    //if((int)req.StatusCode > 300 && (int)req.StatusCode < 400)
+                    //    success = true;
+                    //else
+                    //    success = false;
                 }
                 catch (Exception e)
                 {
                     success = false;
                 }
+            }
 
-                if (!success)
+            if (!success)
+            {
+                ResourceLocator.DispatcherAdapter.Run(async () =>
                 {
                     await ResourceLocator.MessageDialogProvider.ShowMessageDialogAsync(
                         "Failed to sign in. Please sign in again, MAL seems to have invalidated your current session :(",
                         "Error.");
-                    
-                    throw new WebException($"Unable to authorize,");
-                }
+                });
+
+                throw new WebException($"Unable to authorize,");
             }
 
             await _httpClient.GetToken();

@@ -45,6 +45,18 @@ namespace MALClient.XShared.Utils
             }
         }
 
+        public static string ApiToken
+        {
+            get => (string)(ApplicationDataService[nameof(ApiToken)] ?? true);
+            set => ApplicationDataService[nameof(ApiToken)] = value;
+        }      
+        
+        public static string RefreshToken
+        {
+            get => (string)(ApplicationDataService[nameof(RefreshToken)] ?? true);
+            set => ApplicationDataService[nameof(RefreshToken)] = value;
+        }
+
         public static int CachePersitence
         {
             get => (int)(ApplicationDataService["CachePersistency"] ?? 7200);
@@ -758,10 +770,8 @@ namespace MALClient.XShared.Utils
         {
             get => (bool)(ApplicationDataService[nameof(AskBeforeSendingCrashReports)] ?? true);
             set => ApplicationDataService[nameof(AskBeforeSendingCrashReports)] = value;
-        }
-
-
-
+        }      
+        
         #endregion Android
     }
 }

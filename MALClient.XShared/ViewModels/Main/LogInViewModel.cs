@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -12,6 +13,7 @@ using MALClient.Models.Enums;
 using MALClient.XShared.Comm;
 using MALClient.XShared.Interfaces;
 using MALClient.XShared.Utils;
+using Newtonsoft.Json;
 
 namespace MALClient.XShared.ViewModels.Main
 {
@@ -129,6 +131,15 @@ namespace MALClient.XShared.ViewModels.Main
             }
         });
 
+        public string PkceChallenge { get; } = RandomString(50);
+
+        private static readonly Random Random = new Random();
+        public static string RandomString(int length)
+        {
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            return new string(Enumerable.Repeat(chars, length)
+                .Select(s => s[Random.Next(s.Length)]).ToArray());
+        }
 
         public void Init()
         {
@@ -199,7 +210,7 @@ namespace MALClient.XShared.ViewModels.Main
             Authenticating = false;
         }
 
-        public async void SignIn(string cookies)
+        public async void SignIn(string cookies, string apiCode)
         {
             Authenticating = true;
             if (cookies.Contains("is_logged_in=1"))
@@ -211,6 +222,21 @@ namespace MALClient.XShared.ViewModels.Main
                 try
                 {
                     var context = await _httpContextProvider.GetHttpContextAsync();
+
+                    using var tokenClient = new HttpClient();
+                    using var content = new FormUrlEncodedContent(new List<KeyValuePair<string, string>>
+                    {
+                        new("client_id", "183063f74126e7551b00c3b4de66986c"),
+                        new("grant_type", "authorization_code"),
+                        new("code", apiCode),
+                        new("code_verifier", PkceChallenge),
+                    });
+                    var response = await tokenClient.PostAsync("https://myanimelist.net/v1/oauth2/token", content);
+
+                    var json = await response.Content.ReadAsStringAsync();
+                    var tokens = JsonConvert.DeserializeObject<TokenResponse>(json);
+                    Settings.ApiToken = tokens.access_token;
+                    Settings.RefreshToken = tokens.refresh_token;
 
                     Credentials.Update(Credentials.UserName, cookies, ApiType.Mal);
                     ViewModelLocator.AnimeList.ListSource = Credentials.UserName;
@@ -254,5 +280,13 @@ namespace MALClient.XShared.ViewModels.Main
                 Authenticating = false;
             }
         }
+    }
+
+    public class TokenResponse
+    {
+        public string token_type { get; set; }
+        public int expires_in { get; set; }
+        public string access_token { get; set; }
+        public string refresh_token { get; set; }
     }
 }

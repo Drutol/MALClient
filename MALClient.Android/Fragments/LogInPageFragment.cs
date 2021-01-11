@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
@@ -30,9 +31,14 @@ namespace MALClient.Android.Fragments
     public partial class LogInPageFragment
     {
         private ListenableWebClient _client;
+        private string? _cookies;
+
         public override int LayoutResourceId => Resource.Layout.LogInPage;
 
         private LogInViewModel ViewModel { get; set; }
+
+        private bool _googleFlow;
+
 
         protected override void Init(Bundle savedInstanceState)
         {
@@ -117,19 +123,36 @@ namespace MALClient.Android.Fragments
                 targeturl == "https://myanimelist.net/#" || //from google signi
                 targeturl.StartsWith("https://myanimelist.net/#"))  //from fb signin
             {
-                AuthWebView.Visibility = ViewStates.Gone;
+
                 var cookies = CookieManager.Instance.GetCookie("https://myanimelist.net");
 
-                ViewModel.SignIn(cookies);
+                _cookies = cookies;
 
+                _client.NavigationInterceptOpportunity -= NavigationInterceptOpportunity;
+                _client = new ListenableWebClient
+                {
+                    NavigateIfNoInterception = true
+                };
+                AuthWebView.SetWebViewClient(_client);
+                _client.NavigationInterceptOpportunity += NavigationInterceptOpportunityToken;
                 _client.NavigateIfNoInterception = false;
-                return null;
+                return "https://myanimelist.net/v1/oauth2/authorize?response_type=code&" +
+                                    "client_id=183063f74126e7551b00c3b4de66986c&" +
+                                    "state=signin&" +
+                                    $"code_challenge={ViewModel.PkceChallenge}&" +
+                                    "code_challenge_method=plain";
             }
 
             if (targeturl == "https://myanimelist.net/register.php")
             {
                 ViewModel.NavigateRegister.Execute(null);
             }
+
+            if (!_googleFlow && targeturl.Contains("google"))
+                _googleFlow = true;
+
+            if (_googleFlow)
+                return targeturl;
 
             if (targeturl.StartsWith("https://api.twitter") ||
                 targeturl.StartsWith("https://myanimelist.net/sns/login") ||
@@ -143,6 +166,19 @@ namespace MALClient.Android.Fragments
                 return targeturl;
 
             return "https://myanimelist.net/login.php";
+        }
+
+        private async Task<string> NavigationInterceptOpportunityToken(string targeturl)
+        {
+            if (targeturl.Contains("maloauth"))
+            {
+                var regex = new Regex(".*maloauth\\?code=(.*)\\&.*");
+                var match = regex.Matches(targeturl);
+                AuthWebView.Visibility = ViewStates.Gone;
+                ViewModel.SignIn(_cookies, match[0].Groups[1].Value);
+            }
+
+            return targeturl;
         }
 
         private async void ViewTreeObserverOnGlobalLayout(object sender, EventArgs eventArgs)

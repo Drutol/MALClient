@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -11,6 +12,7 @@ using MALClient.XShared.Comm.MagicalRawQueries;
 using MALClient.XShared.Interfaces;
 using MALClient.XShared.Utils;
 using MALClient.XShared.ViewModels;
+using Newtonsoft.Json;
 
 namespace MALClient.XShared.BL
 {
@@ -18,6 +20,7 @@ namespace MALClient.XShared.BL
     {
         public const string MalBaseUrl = "https://myanimelist.net";
         protected CsrfHttpClient _httpClient;
+        private HttpClient _apiHttpClient;
         private bool _skippedFirstError;
         protected DateTime? _contextExpirationTime;
         private SemaphoreSlim _semaphoreSlim = new SemaphoreSlim(1);
@@ -40,6 +43,44 @@ namespace MALClient.XShared.BL
                     }
                 }
             }
+        }
+
+        public async Task<HttpClient> GetApiHttpContextAsync()
+        {
+            if (_apiHttpClient != null)
+                return _apiHttpClient;
+
+            using var tokenClient = new HttpClient();
+            var content = new FormUrlEncodedContent(new List<KeyValuePair<string, string>>
+            {
+                new("client_id", "183063f74126e7551b00c3b4de66986c"),
+                new("grant_type", "refresh_token"),
+                new("refresh_token", Settings.RefreshToken)
+            });
+
+            try
+            {
+                var response = await tokenClient.PostAsync("https://myanimelist.net/v1/oauth2/token", content);
+                var json = await response.Content.ReadAsStringAsync();
+                var tokens = JsonConvert.DeserializeObject<TokenResponse>(json);
+
+                Settings.ApiToken = tokens.access_token;
+                Settings.RefreshToken = tokens.refresh_token;
+
+                _apiHttpClient = new HttpClient();
+                _apiHttpClient.DefaultRequestHeaders.Authorization =
+                    new AuthenticationHeaderValue("Bearer", Settings.ApiToken);
+            }
+            catch (Exception e)
+            {
+                ResourceLocator.DispatcherAdapter.Run(() =>
+                    ResourceLocator.MessageDialogProvider.ShowMessageDialog("Error",
+                        "Failed to authorize with MyAnimeList, please try signing in again."));
+                throw;
+            }
+
+
+            return _apiHttpClient;
         }
 
         protected abstract Task<CsrfHttpClient> ObtainContext();
@@ -116,6 +157,14 @@ namespace MALClient.XShared.BL
                 };
                 return new FormUrlEncodedContent(loginPostInfo);
             }
+        }
+
+        public class TokenResponse
+        {
+            public string token_type { get; set; }
+            public int expires_in { get; set; }
+            public string access_token { get; set; }
+            public string refresh_token { get; set; }
         }
     }
 }

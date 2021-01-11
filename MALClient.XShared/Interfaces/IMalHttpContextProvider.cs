@@ -30,5 +30,7 @@ namespace MALClient.XShared.Interfaces
         void Invalidate();
         HttpClientHandler GetHandler();
         void SetCookies(string cookies);
+
+        Task<HttpClient> GetApiHttpContextAsync();
     }
 }

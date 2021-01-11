@@ -252,6 +252,8 @@ namespace MALClient.Android.Adapters
                 UseCookies = true,
             };
         }
+
+        
     }
 
     class ValueCallback : Java.Lang.Object, IValueCallback

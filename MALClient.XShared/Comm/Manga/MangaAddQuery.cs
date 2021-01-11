@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Text;
@@ -55,19 +56,19 @@ namespace MALClient.XShared.Comm.Manga
         {
             try
             {
-                var client = await ResourceLocator.MalHttpContextProvider.GetHttpContextAsync();
-                var response = await client.PostAsync("https://myanimelist.net/ownlist/manga/add.json",
-                    new StringContent(new JObject
-                    {
-                        ["manga_id"] = int.Parse(_id),
-                        ["status"] = (int)AnimeStatus.PlanToWatch,
-                        ["score"] = 0,
-                        ["num_read_chapters"] = 0,
-                        ["num_read_volumes"] = 0,
-                        ["csrf_token"] = client.Token,
-                    }.ToString(Formatting.None)));
+                var client = await ResourceLocator.MalHttpContextProvider.GetApiHttpContextAsync();
+                var data = new List<KeyValuePair<string, string>>
+                {
+                    new("status", ToApiParam(AnimeStatus.PlanToWatch)),
+                };
+                using var content = new FormUrlEncodedContent(data);
+                var response = await client.SendAsync(new HttpRequestMessage(new HttpMethod("PUT"),
+                        $"https://api.myanimelist.net/v2/manga/{_id}/my_list_status")
+                    { Content = content });
+
                 if (response.IsSuccessStatusCode)
                     return "Created";
+
             }
             catch (Exception e)
             {
@@ -75,6 +76,19 @@ namespace MALClient.XShared.Comm.Manga
             }
 
             return "";
+        }
+
+        private string ToApiParam(AnimeStatus itemMyStatus)
+        {
+            return itemMyStatus switch
+            {
+                AnimeStatus.Watching => "reading",
+                AnimeStatus.Completed => "completed",
+                AnimeStatus.OnHold => "on_hold",
+                AnimeStatus.Dropped => "dropped",
+                AnimeStatus.PlanToWatch => "plan_to_read",
+                _ => throw new ArgumentOutOfRangeException(nameof(itemMyStatus), itemMyStatus, null)
+            };
         }
     }
 }

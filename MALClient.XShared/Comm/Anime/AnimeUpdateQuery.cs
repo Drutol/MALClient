@@ -89,100 +89,115 @@ namespace MALClient.XShared.Comm.Anime
                 var result = "";
                 try
                 {
-                    var client = await ResourceLocator.MalHttpContextProvider.GetHttpContextAsync();
-
-                    var updateHtml = await
-                        client.GetStreamAsync($"https://myanimelist.net/ownlist/anime/{_item.Id}/edit?hideLayout=");
-                    var doc = new HtmlDocument();
-                    doc.Load(updateHtml);
-
-                    //var priority = doc.DocumentNode
-                    //                   .FirstOfDescendantsWithId("select", "add_anime_priority")
-                    //                   .Descendants("option")
-                    //                   .First(node => node.Attributes.Contains("selected"))?
-                    //                   .Attributes["value"].Value ?? "0";
-
-                    var storage = doc.DocumentNode
-                        .FirstOfDescendantsWithId("select", "add_anime_storage_type")
-                        .Descendants("option")
-                        .FirstOrDefault(node => node.Attributes.Contains("selected"))?
-                        .Attributes["value"].Value;
-
-                    var storageValue = doc.DocumentNode
-                        .FirstOfDescendantsWithId("input", "add_anime_storage_value")
-                        .Attributes["value"].Value;
-
-                    var rewatches = doc.DocumentNode
-                        .FirstOfDescendantsWithId("input", "add_anime_num_watched_times")
-                        .Attributes["value"].Value;
-
-                    var rewatchValue = doc.DocumentNode
-                        .FirstOfDescendantsWithId("select", "add_anime_rewatch_value")
-                        .Descendants("option")
-                        .FirstOrDefault(node => node.Attributes.Contains("selected"))?
-                        .Attributes["value"].Value;
-
-                    var comments = doc.DocumentNode
-                        .FirstOfDescendantsWithId("textarea", "add_anime_comments").InnerText;
-
-                    var askDiscuss = doc.DocumentNode
-                                         .FirstOfDescendantsWithId("select", "add_anime_is_asked_to_discuss")
-                                         .Descendants("option")
-                                         .FirstOrDefault(node => node.Attributes.Contains("selected"))?
-                                         .Attributes["value"].Value ?? "0";
-
-                    var postSns = doc.DocumentNode
-                                      .FirstOfDescendantsWithId("select", "add_anime_sns_post_type")
-                                      .Descendants("option")
-                                      .FirstOrDefault(node => node.Attributes.Contains("selected"))?
-                                      .Attributes["value"].Value ?? "0";
-
-
-                    var content = new Dictionary<string, string>
+                    var client = await ResourceLocator.MalHttpContextProvider.GetApiHttpContextAsync();
+                    var data = new List<KeyValuePair<string, string>>
                     {
-                        ["anime_id"] = _item.Id.ToString(),
-                        ["add_anime[status]"] = ((int) _item.MyStatus).ToString(),
-                        ["add_anime[score]"] = _item.MyScore == 0 ? null : _item.MyScore.ToString(),
-                        ["add_anime[num_watched_episodes]"] = _item.MyEpisodes.ToString(),
-                        ["add_anime[tags]"] = string.IsNullOrEmpty(_item.Notes) ? "" : _item.Notes,
-                        ["add_anime[priority]"] = ((int)_item.Priority).ToString(),
-
-                        ["csrf_token"] = client.Token,
-
-                        ["add_anime[storage_type]"] = storage,
-                        ["add_anime[storage_value]"] = storageValue,
-                        ["add_anime[num_watched_times]"] = rewatches,
-                        ["add_anime[rewatch_value]"] = rewatchValue,
-                        ["add_anime[comments]"] = comments,
-                        ["add_anime[is_asked_to_discuss]"] = askDiscuss,
-                        ["add_anime[sns_post_type]"] = postSns,
-
+                        new("status", ToApiParam(_item.MyStatus)),
+                        new("is_rewatching", _item.IsRewatching.ToString().ToLower()),
+                        new("score", _item.MyScore.ToString()),
+                        new("num_watched_episodes", _item.MyEpisodes.ToString()),
+                        //new("priority", ((int) _item.Priority).ToString()),
+                        new("tags", _item.Notes),
                     };
+                    using var content = new FormUrlEncodedContent(data);
+                    var response = await client.SendAsync(new HttpRequestMessage(new HttpMethod("PUT"),
+                        $"https://api.myanimelist.net/v2/anime/{_item.Id}/my_list_status") {Content = content});
 
-
-
-                    if (_item.IsRewatching)
-                        content["add_anime[is_rewatching]"] = "1";
-
-                    if (_item.StartDate != null)
-                    {
-                        content["add_anime[start_date][month]"] = _item.StartDate.Substring(5, 2).TrimStart('0');
-                        content["add_anime[start_date][day]"] = _item.StartDate.Substring(8, 2).TrimStart('0');
-                        content["add_anime[start_date][year]"] = _item.StartDate.Substring(0, 4).Replace("0000","");
-                    }
-
-                    if (_item.EndDate != null)
-                    {
-                        content["add_anime[finish_date][month]"] = _item.EndDate.Substring(5, 2).TrimStart('0');
-                        content["add_anime[finish_date][day]"] = _item.EndDate.Substring(8, 2).TrimStart('0');
-                        content["add_anime[finish_date][year]"] = _item.EndDate.Substring(0, 4).Replace("0000","");
-                    }
-
-                    var response = await client.PostAsync(
-                        $"https://myanimelist.net/ownlist/anime/{_item.Id}/edit?hideLayout",
-                        new FormUrlEncodedContent(content));
-                    if (!(await response.Content.ReadAsStringAsync()).Contains("badresult"))
+                    if (response.IsSuccessStatusCode)
                         result = "Updated";
+
+                    //var updateHtml = await
+                    //    client.GetStreamAsync($"https://myanimelist.net/ownlist/anime/{_item.Id}/edit?hideLayout=");
+                    //var doc = new HtmlDocument();
+                    //doc.Load(updateHtml);
+
+                    ////var priority = doc.DocumentNode
+                    ////                   .FirstOfDescendantsWithId("select", "add_anime_priority")
+                    ////                   .Descendants("option")
+                    ////                   .First(node => node.Attributes.Contains("selected"))?
+                    ////                   .Attributes["value"].Value ?? "0";
+
+                    //var storage = doc.DocumentNode
+                    //    .FirstOfDescendantsWithId("select", "add_anime_storage_type")
+                    //    .Descendants("option")
+                    //    .FirstOrDefault(node => node.Attributes.Contains("selected"))?
+                    //    .Attributes["value"].Value;
+
+                    //var storageValue = doc.DocumentNode
+                    //    .FirstOfDescendantsWithId("input", "add_anime_storage_value")
+                    //    .Attributes["value"].Value;
+
+                    //var rewatches = doc.DocumentNode
+                    //    .FirstOfDescendantsWithId("input", "add_anime_num_watched_times")
+                    //    .Attributes["value"].Value;
+
+                    //var rewatchValue = doc.DocumentNode
+                    //    .FirstOfDescendantsWithId("select", "add_anime_rewatch_value")
+                    //    .Descendants("option")
+                    //    .FirstOrDefault(node => node.Attributes.Contains("selected"))?
+                    //    .Attributes["value"].Value;
+
+                    //var comments = doc.DocumentNode
+                    //    .FirstOfDescendantsWithId("textarea", "add_anime_comments").InnerText;
+
+                    //var askDiscuss = doc.DocumentNode
+                    //                     .FirstOfDescendantsWithId("select", "add_anime_is_asked_to_discuss")
+                    //                     .Descendants("option")
+                    //                     .FirstOrDefault(node => node.Attributes.Contains("selected"))?
+                    //                     .Attributes["value"].Value ?? "0";
+
+                    //var postSns = doc.DocumentNode
+                    //                  .FirstOfDescendantsWithId("select", "add_anime_sns_post_type")
+                    //                  .Descendants("option")
+                    //                  .FirstOrDefault(node => node.Attributes.Contains("selected"))?
+                    //                  .Attributes["value"].Value ?? "0";
+
+
+                    //var content = new Dictionary<string, string>
+                    //{
+                    //    ["anime_id"] = _item.Id.ToString(),
+                    //    ["add_anime[status]"] = ((int) _item.MyStatus).ToString(),
+                    //    ["add_anime[score]"] = _item.MyScore == 0 ? null : _item.MyScore.ToString(),
+                    //    ["add_anime[num_watched_episodes]"] = _item.MyEpisodes.ToString(),
+                    //    ["add_anime[tags]"] = string.IsNullOrEmpty(_item.Notes) ? "" : _item.Notes,
+                    //    ["add_anime[priority]"] = ((int)_item.Priority).ToString(),
+
+                    //    ["csrf_token"] = client.Token,
+
+                    //    ["add_anime[storage_type]"] = storage,
+                    //    ["add_anime[storage_value]"] = storageValue,
+                    //    ["add_anime[num_watched_times]"] = rewatches,
+                    //    ["add_anime[rewatch_value]"] = rewatchValue,
+                    //    ["add_anime[comments]"] = comments,
+                    //    ["add_anime[is_asked_to_discuss]"] = askDiscuss,
+                    //    ["add_anime[sns_post_type]"] = postSns,
+
+                    //};
+
+
+
+                    //if (_item.IsRewatching)
+                    //    content["add_anime[is_rewatching]"] = "1";
+
+                    //if (_item.StartDate != null)
+                    //{
+                    //    content["add_anime[start_date][month]"] = _item.StartDate.Substring(5, 2).TrimStart('0');
+                    //    content["add_anime[start_date][day]"] = _item.StartDate.Substring(8, 2).TrimStart('0');
+                    //    content["add_anime[start_date][year]"] = _item.StartDate.Substring(0, 4).Replace("0000","");
+                    //}
+
+                    //if (_item.EndDate != null)
+                    //{
+                    //    content["add_anime[finish_date][month]"] = _item.EndDate.Substring(5, 2).TrimStart('0');
+                    //    content["add_anime[finish_date][day]"] = _item.EndDate.Substring(8, 2).TrimStart('0');
+                    //    content["add_anime[finish_date][year]"] = _item.EndDate.Substring(0, 4).Replace("0000","");
+                    //}
+
+                    //var response = await client.PostAsync(
+                    //    $"https://myanimelist.net/ownlist/anime/{_item.Id}/edit?hideLayout",
+                    //    new FormUrlEncodedContent(content));
+                    //if (!(await response.Content.ReadAsStringAsync()).Contains("badresult"))
+                    //    result = "Updated";
                 }
                 catch (Exception e)
                 {
@@ -202,6 +217,19 @@ namespace MALClient.XShared.Comm.Anime
             {
                 _updateSemaphore.Release();
             }
+        }
+
+        private string ToApiParam(AnimeStatus itemMyStatus)
+        {
+            return itemMyStatus switch
+            {
+                AnimeStatus.Watching => "watching",
+                AnimeStatus.Completed => "completed",
+                AnimeStatus.OnHold => "on_hold",
+                AnimeStatus.Dropped => "dropped",
+                AnimeStatus.PlanToWatch => "plan_to_watch",
+                _ => throw new ArgumentOutOfRangeException(nameof(itemMyStatus), itemMyStatus, null)
+            };
         }
 
         public override string SnackbarMessageOnFail => "Your changes will be synced with MAL on next app launch when online.";

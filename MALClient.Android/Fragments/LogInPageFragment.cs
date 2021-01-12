@@ -170,12 +170,28 @@ namespace MALClient.Android.Fragments
 
         private async Task<string> NavigationInterceptOpportunityToken(string targeturl)
         {
-            if (targeturl.Contains("maloauth"))
+            //http://localhost/maloauth?state=signin&error=access_denied&message=The+resource+owner+or+authorization+server+denied+the+request.&hint=The+user+denied+the+request
+            if (targeturl.Contains("maloauth?state=signin&error="))
             {
-                var regex = new Regex(".*maloauth\\?code=(.*)\\&.*");
-                var match = regex.Matches(targeturl);
                 AuthWebView.Visibility = ViewStates.Gone;
-                ViewModel.SignIn(_cookies, match[0].Groups[1].Value);
+                ViewModel.FailedSignIn();
+                return "https://myanimelist.net/login.php";
+            }
+            else if (targeturl.Contains("maloauth"))
+            {
+                try
+                {
+                    var regex = new Regex(".*maloauth\\?code=(.*)\\&.*");
+                    var match = regex.Matches(targeturl);
+                    AuthWebView.Visibility = ViewStates.Gone;
+                    ViewModel.SignIn(_cookies, match[0].Groups[1].Value);
+                }
+                catch
+                {
+                    AuthWebView.Visibility = ViewStates.Gone;
+                    ViewModel.FailedSignIn();
+                    return "https://myanimelist.net/login.php";
+                }
             }
 
             return targeturl;

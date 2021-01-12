@@ -69,7 +69,7 @@ namespace MALClient.XShared.Comm.Manga
                         new("score", _item.MyScore.ToString()),
                         new("num_chapters_read", _item.MyEpisodes.ToString()),
                         new("num_volumes_read", _item.MyVolumes.ToString()),
-                        new("priority", ((int) _item.Priority).ToString()),
+                        //new("priority", ((int) _item.Priority).ToString()),
                         new("tags", _item.Notes),
                     };
                     using var content = new FormUrlEncodedContent(data);

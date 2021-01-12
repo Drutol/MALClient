@@ -37,6 +37,7 @@ namespace MALClient.Android.Flyouts
                 droppyBuilder.AddMenuItem(
                     new DroppyMenuCustomItem(
                         AnimeListPageFlyoutBuilder.BuildItem(context, viewModel.RewatchingLabel, listener, 6, viewModel.IsRewatching ? (int?)ResourceExtension.AccentColour : null)));
+            droppyBuilder.AddMenuItem(new DroppyMenuCustomItem(AnimeListPageFlyoutBuilder.BuildItem(context, "Set rewatch count", listener, 8)));
             droppyBuilder.AddMenuItem(new DroppyMenuCustomItem(AnimeListPageFlyoutBuilder.BuildItem(context, "Copy title", listener, 7)));
             droppyBuilder.AddMenuItem(new DroppyMenuCustomItem(AnimeListPageFlyoutBuilder.BuildItem(context, "Copy link", listener, 3)));
             droppyBuilder.AddMenuItem(new DroppyMenuCustomItem(AnimeListPageFlyoutBuilder.BuildItem(context, "Open in browser", listener, 4)));

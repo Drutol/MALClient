@@ -161,7 +161,6 @@ namespace MALClient.Android.UserControls
 
         private void SetPriorityIndicator()
         {
-
             if (Settings.ShowPriorities)
             {
                 switch (ViewModel.Priority)

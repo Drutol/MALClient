@@ -179,7 +179,7 @@ namespace MALClient.XShared.Comm
                                                 IsRewatching = item.is_rewatching > 0,
                                                 LastWatched = DateTime.Today.Subtract(TimeSpan.FromMinutes(i)),
                                                 AlternateTitle = alternateTitle,
-                                                Priority = PriorityStringToPriority(item.priority_string)
+                                                Priority = PriorityStringToPriority(item.priority_string),
                                             });
                                             i++;
 

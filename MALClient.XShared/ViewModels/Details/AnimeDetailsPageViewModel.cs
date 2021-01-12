@@ -735,8 +735,19 @@ namespace MALClient.XShared.ViewModels.Details
         private async void ChangeRewatchingCount(int count)
         {
             LoadingUpdate = true;
-            await GetAppropriateUpdateQuery(count).GetRequestResponse();
+            var response = await GetAppropriateUpdateQuery(count).GetRequestResponse();
             LoadingUpdate = false;
+
+            if (response == "Updated")
+            {
+                ResourceLocator.ShareManager.EnqueueEvent(ShareEvent.ChangedRewatchingCount, new AnimeShareDiff
+                {
+                    Id = Id,
+                    IsAnime = AnimeMode,
+                    Title = Title,
+                    RewatchCount = count,
+                });
+            }
         }
 
         private async void ChangeWatchedEps() //change from input

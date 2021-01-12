@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
@@ -13,6 +14,7 @@ using Android.Runtime;
 using Android.Util;
 using Android.Views;
 using Android.Widget;
+using AoLibs.Adapters.Core.Interfaces;
 using Com.Shehabic.Droppy;
 using FFImageLoading;
 using GalaSoft.MvvmLight.Helpers;
@@ -209,7 +211,7 @@ namespace MALClient.Android.Fragments
                 new OnClickListener(view => AnimeDetailsPageVolumesButtonOnClick()));
         }
 
-        private void OnMoreFlyoutClick(int i)
+        private async void OnMoreFlyoutClick(int i)
         {
             switch (i)
             {
@@ -246,11 +248,49 @@ namespace MALClient.Android.Fragments
                     break;
 
                 case 8:
-                    ViewModel.ToggleAirNotificationsCommand.Execute(null);
+                    var counts = Enumerable.Range(0, 10);
+                    var pickerResult = await ShowItemsPicker(counts.Select(i1 => i1.ToString()), 0,
+                        "Times rewatched", "Cancel", "Ok");
+                    if(pickerResult.HasValue)
+                        ViewModel.SetRewatchingCountCommand.Execute(pickerResult.Value);
                     break;
             }
             _menu?.Dismiss(true);
             _menu = null;
+        }
+
+        public async Task<int?> ShowItemsPicker(
+            IEnumerable<string> items,
+            int selectedIndex,
+            string title,
+            string cancelText,
+            string okText)
+        {
+            var semaphore = new SemaphoreSlim(0);
+            var builder = new AlertDialog.Builder(Context);
+
+            int? selectedItem = selectedIndex;
+            builder.SetTitle(title);
+            builder.SetSingleChoiceItems(items.ToArray(), selectedIndex, (sender, args) =>
+            {
+                selectedItem = args.Which;
+            });
+            builder.SetNegativeButton(cancelText, (sender, args) =>
+            {
+                selectedItem = null;
+                semaphore.Release();
+            });
+            builder.SetPositiveButton(okText, (sender, args) => semaphore.Release());
+
+            var dialog = builder.Create();
+            dialog.SetCanceledOnTouchOutside(false);
+            dialog.SetCancelable(false);
+            dialog.Show();
+
+            await semaphore.WaitAsync();
+            dialog.Dismiss();
+
+            return selectedItem;
         }
 
         private void AnimeDetailsPageWatchedButtonOnClick()

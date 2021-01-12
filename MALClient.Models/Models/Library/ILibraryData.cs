@@ -21,5 +21,6 @@ namespace MALClient.Models.Models.Library
         bool IsRewatching { get; set; }
         string AlternateTitle { get; set; }
         AnimePriority Priority { get; set; }
+        int RewatchingCount { get; set; }
     }
 }

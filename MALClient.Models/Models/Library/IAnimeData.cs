@@ -22,5 +22,6 @@ namespace MALClient.Models.Models.Library
         int MyVolumes { get; set; }
         int AllVolumes { get; }
         AnimePriority Priority { get; set; }
+        int RewatchingCount { get; set; }
     }
 }

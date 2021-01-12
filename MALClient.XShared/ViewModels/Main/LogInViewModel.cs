@@ -12,6 +12,7 @@ using GalaSoft.MvvmLight.Command;
 using MALClient.Models.Enums;
 using MALClient.XShared.Comm;
 using MALClient.XShared.Interfaces;
+using MALClient.XShared.NavArgs;
 using MALClient.XShared.Utils;
 using Newtonsoft.Json;
 
@@ -238,6 +239,12 @@ namespace MALClient.XShared.ViewModels.Main
                     Settings.ApiToken = tokens.access_token;
                     Settings.RefreshToken = tokens.refresh_token;
 
+                    var client = await ResourceLocator.MalHttpContextProvider.GetApiHttpContextAsync();
+                    var profileData = JsonConvert.DeserializeObject<AccountResponse>(await client.GetStringAsync("https://api.myanimelist.net/v2/users/@me"));
+
+                    Credentials.SetId(profileData.id);
+                    Credentials.UserName = profileData.name;
+
                     Credentials.Update(Credentials.UserName, cookies, ApiType.Mal);
                     ViewModelLocator.AnimeList.ListSource = Credentials.UserName;
                     Settings.SelectedApiType = ApiType.Mal;
@@ -280,7 +287,25 @@ namespace MALClient.XShared.ViewModels.Main
                 Authenticating = false;
             }
         }
+
+        public void FailedSignIn()
+        {
+            Authenticating = false;
+            ResourceLocator.MessageDialogProvider.ShowMessageDialog("Unable to authorize, try again.", "Authorization failed.");
+        }
     }
+
+    public class AccountResponse
+    {
+        public int id { get; set; }
+        public string name { get; set; }
+        public string gender { get; set; }
+        public string birthday { get; set; }
+        public string location { get; set; }
+        public DateTime joined_at { get; set; }
+        public string picture { get; set; }
+    }
+
 
     public class TokenResponse
     {

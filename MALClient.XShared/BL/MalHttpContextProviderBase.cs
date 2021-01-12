@@ -24,6 +24,7 @@ namespace MALClient.XShared.BL
         private bool _skippedFirstError;
         protected DateTime? _contextExpirationTime;
         private SemaphoreSlim _semaphoreSlim = new SemaphoreSlim(1);
+        private DateTime _lastRefresh = DateTime.MinValue;
         private Exception _exc;
 
         public void SetCookies(string cookies)
@@ -47,8 +48,14 @@ namespace MALClient.XShared.BL
 
         public async Task<HttpClient> GetApiHttpContextAsync()
         {
-            if (_apiHttpClient != null)
+            if (_apiHttpClient != null && DateTime.UtcNow - _lastRefresh < TimeSpan.FromMinutes(50))
                 return _apiHttpClient;
+            
+            if (_apiHttpClient != null)
+            {
+                _apiHttpClient.Dispose();
+                _apiHttpClient = null;
+            }
 
             using var tokenClient = new HttpClient();
             var content = new FormUrlEncodedContent(new List<KeyValuePair<string, string>>
@@ -74,8 +81,8 @@ namespace MALClient.XShared.BL
             catch (Exception e)
             {
                 ResourceLocator.DispatcherAdapter.Run(() =>
-                    ResourceLocator.MessageDialogProvider.ShowMessageDialog("Error",
-                        "Failed to authorize with MyAnimeList, please try signing in again."));
+                    ResourceLocator.MessageDialogProvider.ShowMessageDialog(
+                        "Failed to authorize with MyAnimeList, please try signing in again.", "Error"));
                 throw;
             }
 

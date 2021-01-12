@@ -90,23 +90,6 @@ namespace MALClient.Android.Adapters
 
             await _httpClient.GetToken();
 
-            if (string.IsNullOrEmpty(Credentials.UserName))
-            {
-                var raw = await _httpClient.GetStringAsync("https://myanimelist.net");
-                var doc = new HtmlDocument();
-                doc.LoadHtml(raw);
-
-                var username = doc.FirstOfDescendantsWithClass("a", "header-profile-link").InnerText.Trim();
-
-                Credentials.UserName = username;
-
-                var matches = Regex.Match(raw, "\\/images\\/userimages\\/(\\d+)\\..*");
-                if (matches.Success)
-                {
-                    Credentials.SetId(int.Parse(matches.Groups[1].Captures[0].Value));
-                }
-            }
-
             return _httpClient;
 
             //await _httpClient.GetToken();

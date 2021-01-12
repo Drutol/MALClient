@@ -21,6 +21,7 @@ namespace MALClient.XShared.Comm.Anime
 {
     public class AnimeUpdateQuery : Query
     {
+        private readonly int? _rewatched;
         private readonly IAnimeData _item;
         public static bool SuppressOfflineSync { get; set; }
         public static bool UpdatedSomething { get; set; } //used for data saving on suspending in app.xaml.cs
@@ -31,8 +32,10 @@ namespace MALClient.XShared.Comm.Anime
         /// </summary>
         /// <param name="item"></param>
         /// <param name="rewatched"></param>
-        public AnimeUpdateQuery(IAnimeData item, int rewatched)
+        public AnimeUpdateQuery(IAnimeData item, int? rewatched)
         {
+            _item = item;
+            _rewatched = rewatched;
             var xml = new StringBuilder();
             xml.AppendLine("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
             xml.AppendLine("<entry>");
@@ -99,6 +102,12 @@ namespace MALClient.XShared.Comm.Anime
                         //new("priority", ((int) _item.Priority).ToString()),
                         new("tags", _item.Notes),
                     };
+
+                    if (_rewatched != null)
+                    {
+                        data.Add(new KeyValuePair<string, string>("num_times_rewatched", _rewatched.Value.ToString()));
+                    }
+
                     using var content = new FormUrlEncodedContent(data);
                     var response = await client.SendAsync(new HttpRequestMessage(new HttpMethod("PUT"),
                         $"https://api.myanimelist.net/v2/anime/{_item.Id}/my_list_status") {Content = content});

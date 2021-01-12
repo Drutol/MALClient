@@ -139,12 +139,20 @@ namespace MALClient.XShared.BL
                 return
                     $"I've started {ReWatchingOrRereading()} {rewatchDiff.diff.Title} \n" +
                     $"{rewatchDiff.diff.Url}";
+            }    
+            
+            if (events.HasFlag(ShareEvent.ChangedRewatchingCount))
+            {
+                return
+                    $"I've {ReWatchedOrReread()} {rewatchDiff.diff.Title} {rewatchDiff.diff.RewatchCount} \n" +
+                    $"{rewatchDiff.diff.Url}";
             }
 
             return null;
 
             string WatchedOrRead() => epDiff.diff.IsAnime ? "watched" : "read";
             string ReWatchingOrRereading() => rewatchDiff.diff.IsAnime ? "re-watching" : "re-reading";
+            string ReWatchedOrReread() => rewatchDiff.diff.IsAnime ? "re-watched" : "re-reread";
             string EpisodesOrChapters() => epDiff.diff.IsAnime ? "episodes" :  (epDiff.diff.IsVolumes ? "volumes" : "chapters");
             string EpisodeOrChapter() => epDiff.diff.IsAnime ? "episode" : (epDiff.diff.IsVolumes ? "volume" : "chapter"); ;
         }

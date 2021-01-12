@@ -17,6 +17,7 @@ namespace MALClient.Models.Models.Library
             AllEpisodes = other.AllEpisodes;
             ImgUrl = other.ImgUrl;
             Type = other.Type;
+            RewatchingCount = other.RewatchingCount;
         }
 
         private int _id = -1;
@@ -43,5 +44,6 @@ namespace MALClient.Models.Models.Library
         public bool IsRewatching { get; set; }
         public string AlternateTitle { get; set; }
         public AnimePriority Priority { get; set; }
+        public int RewatchingCount { get; set; }
     }
 }

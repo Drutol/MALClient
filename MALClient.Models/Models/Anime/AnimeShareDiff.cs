@@ -23,5 +23,6 @@ namespace MALClient.Models.Models.Anime
         public int TotalEpisodes { get; set; }
         public int Id { get; set; }
         public bool IsVolumes { get; set; }
+        public int RewatchCount { get; set; }
     }
 }

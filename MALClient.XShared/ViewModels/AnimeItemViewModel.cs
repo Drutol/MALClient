@@ -178,6 +178,8 @@ namespace MALClient.XShared.ViewModels
             }
         }
 
+        public int RewatchingCount { get; set; }
+
         public string TopLeftInfoBind
             =>
                 AnimeItemDisplayContext == AnimeItemDisplayContext.Index
@@ -1058,6 +1060,10 @@ namespace MALClient.XShared.ViewModels
 
         public async void ChangePriority(AnimePriority priority)
         {
+            await ResourceLocator.MessageDialogProvider.ShowMessageDialogAsync(
+                "Sorry, but the current MAL api is bugged and does not allow to change priority.", "Error");
+            return; //TODO Change when api is fixed
+
             LoadingUpdate = true;
 
             var myPrevPriority = Priority;

@@ -272,12 +272,10 @@ namespace MALClient.XShared.ViewModels.Main
                 {
                     Credentials.SetAuthStatus(false);
                     Credentials.Update(string.Empty, string.Empty, ApiType.Mal);
-                    ResourceLocator.MessageDialogProvider.ShowMessageDialog("Unable to authorize with provided credentials. If problem persists please try to sign-in on website.", "Authorization failed.");
+                    ResourceLocator.MessageDialogProvider.ShowMessageDialog($"Unable to authorize, try again later. {e}", "Authorization failed.");
                     Authenticating = false;
                     return;
                 }
-
-
             }
             else
             {
@@ -295,6 +293,7 @@ namespace MALClient.XShared.ViewModels.Main
         }
     }
 
+    [Preserve(AllMembers = true)]
     public class AccountResponse
     {
         public int id { get; set; }
@@ -306,7 +305,7 @@ namespace MALClient.XShared.ViewModels.Main
         public string picture { get; set; }
     }
 
-
+    [Preserve(AllMembers = true)]
     public class TokenResponse
     {
         public string token_type { get; set; }

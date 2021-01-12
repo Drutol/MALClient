@@ -31,13 +31,13 @@ namespace MALClient.Android.Adapters
 
         public bool NewChangelog { get; set; }
 
-        public string DateWithVersion => $"{_currentVersion} - 10.12.2020";
+        public string DateWithVersion => $"{_currentVersion} - 12.01.2021";
 
         public List<string> Changelog => new List<string>
         {
-           "Next batch of login related fixes.",
-           "Now you can sign in with Google, Facebook and Twitter.",
-           "Fixed avatar loading in hamburger menu."
+           "Incorporate portion of official API to fight the sign-in issues. **Due to that you are required to sign-in once more**, let's hope that's the last time.",
+           "Fix google sign-in flow issues.",
+           "Added option to set re-watched/re-read count."
         };
     }
 }

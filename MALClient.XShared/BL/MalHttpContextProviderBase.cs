@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
+using Android.Runtime;
 using MALClient.XShared.Comm.MagicalRawQueries;
 using MALClient.XShared.Interfaces;
 using MALClient.XShared.Utils;
@@ -166,6 +167,7 @@ namespace MALClient.XShared.BL
             }
         }
 
+        [Preserve(AllMembers = true)]
         public class TokenResponse
         {
             public string token_type { get; set; }

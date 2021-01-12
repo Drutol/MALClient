@@ -94,16 +94,17 @@ namespace MALClient.Android.Fragments
 
                 ViewModel.Authenticating = true;
 
-                AuthWebView.Visibility = ViewStates.Visible;
                 _client = new ListenableWebClient
                 {
                     NavigateIfNoInterception = true
                 };
+                _googleFlow = false;
                 AuthWebView.SetWebViewClient(_client);
                 AuthWebView.Settings.JavaScriptEnabled = true;
                 AuthWebView.Settings.UserAgentString =
                     "Mozilla/5.0 (Linux; Android 7.0; SM-G930V Build/NRD90M) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.125 Mobile Safari/537.36";
                 AuthWebView.LoadUrl("https://myanimelist.net/login.php");
+                AuthWebView.Visibility = ViewStates.Visible;
 
                 _client.NavigationInterceptOpportunity += NavigationInterceptOpportunity;
             }));

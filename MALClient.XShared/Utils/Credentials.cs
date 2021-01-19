@@ -75,6 +75,7 @@ namespace MALClient.XShared.Utils
             SetAuthStatus(false);
             SetAuthToken("");
             UserName = Password = string.Empty;
+            SetAuthStatus(false);
         }
 
         public static void SetAuthStatus(bool status)

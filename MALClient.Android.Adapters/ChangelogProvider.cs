@@ -31,13 +31,12 @@ namespace MALClient.Android.Adapters
 
         public bool NewChangelog { get; set; }
 
-        public string DateWithVersion => $"{_currentVersion} - 12.01.2021";
+        public string DateWithVersion => $"{_currentVersion} - 19.01.2021";
 
         public List<string> Changelog => new List<string>
         {
-           "Incorporate portion of official API to fight the sign-in issues. **Due to that you are required to sign-in once more**, let's hope that's the last time.",
-           "Fix google sign-in flow issues.",
-           "Added option to set re-watched/re-read count."
+           "Fix setting start and end dates for anime/manga. Sorry, it was lost in transition to the API and MAL still has these fields undocumented. Pain to work with sadly :(",
+           "Fix deleting anime/manga"
         };
     }
 }

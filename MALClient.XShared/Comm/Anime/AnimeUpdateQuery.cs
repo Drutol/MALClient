@@ -93,6 +93,10 @@ namespace MALClient.XShared.Comm.Anime
                 try
                 {
                     var client = await ResourceLocator.MalHttpContextProvider.GetApiHttpContextAsync();
+
+                    var dateStart = FormatDate(_item.StartDate);
+                    var dateEnd = FormatDate(_item.EndDate);
+
                     var data = new List<KeyValuePair<string, string>>
                     {
                         new("status", ToApiParam(_item.MyStatus)),
@@ -106,6 +110,16 @@ namespace MALClient.XShared.Comm.Anime
                     if (_rewatched != null)
                     {
                         data.Add(new KeyValuePair<string, string>("num_times_rewatched", _rewatched.Value.ToString()));
+                    }
+
+                    if (dateStart != null)
+                    {
+                        data.Add(new KeyValuePair<string, string>("start_date", dateStart));
+                    }      
+                    
+                    if (dateEnd != null)
+                    {
+                        data.Add(new KeyValuePair<string, string>("finish_date", dateEnd));
                     }
 
                     using var content = new FormUrlEncodedContent(data);
@@ -226,6 +240,18 @@ namespace MALClient.XShared.Comm.Anime
             {
                 _updateSemaphore.Release();
             }
+        }
+
+        private string FormatDate(string date)
+        {
+            if (date == null)
+                return null;
+
+            var month = date.Substring(5, 2);
+            var day = date.Substring(8, 2);
+            var year = date.Substring(0, 4);
+
+            return $"{year}-{month}-{day}";
         }
 
         private string ToApiParam(AnimeStatus itemMyStatus)

@@ -27,12 +27,11 @@ namespace MALClient.XShared.Comm.Manga
         {
             try
             {
-                var client = await ResourceLocator.MalHttpContextProvider.GetHttpContextAsync();
-                var response = await client.PostAsync($"https://myanimelist.net/ownlist/manga/{_id}/delete",
-                    new StringContent(new JObject
-                    {
-                        ["csrf_token"] = client.Token,
-                    }.ToString(Formatting.None)));
+                var client = await ResourceLocator.MalHttpContextProvider.GetApiHttpContextAsync();
+
+                var response =
+                    await client.DeleteAsync($"https://api.myanimelist.net/v2/manga/{_id}/my_list_status");
+
                 if (response.IsSuccessStatusCode)
                     return "Updated";
             }

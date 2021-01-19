@@ -76,6 +76,10 @@ namespace MALClient.XShared.Comm.Anime
                 {
                     new("status", ToApiParam(AnimeStatus.PlanToWatch)),
                 };
+
+                if (Settings.SetStartDateOnListAdd)
+                    data.Add(new("start_date", DateTime.Now.ToString("yyyy-MM-dd")));
+
                 using var content = new FormUrlEncodedContent(data);
                 var response = await client.SendAsync(new HttpRequestMessage(new HttpMethod("PUT"),
                         $"https://api.myanimelist.net/v2/anime/{_id}/my_list_status")

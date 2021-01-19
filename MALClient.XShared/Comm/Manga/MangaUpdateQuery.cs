@@ -62,6 +62,10 @@ namespace MALClient.XShared.Comm.Manga
                 try
                 {
                     var client = await ResourceLocator.MalHttpContextProvider.GetApiHttpContextAsync();
+
+                    var dateStart = FormatDate(_item.StartDate);
+                    var dateEnd = FormatDate(_item.EndDate);
+
                     var data = new List<KeyValuePair<string, string>>
                     {
                         new("status", ToApiParam(_item.MyStatus)),
@@ -72,6 +76,17 @@ namespace MALClient.XShared.Comm.Manga
                         //new("priority", ((int) _item.Priority).ToString()),
                         new("tags", _item.Notes),
                     };
+
+                    if (dateStart != null)
+                    {
+                        data.Add(new KeyValuePair<string, string>("start_date", dateStart));
+                    }
+
+                    if (dateEnd != null)
+                    {
+                        data.Add(new KeyValuePair<string, string>("finish_date", dateEnd));
+                    }
+
                     using var content = new FormUrlEncodedContent(data);
                     var response = await client.SendAsync(new HttpRequestMessage(new HttpMethod("PUT"),
                             $"https://api.myanimelist.net/v2/manga/{_item.Id}/my_list_status")
@@ -241,6 +256,18 @@ namespace MALClient.XShared.Comm.Manga
             //{
             //    return string.Empty;
             //}
+        }
+
+        private string FormatDate(string date)
+        {
+            if (date == null)
+                return null;
+
+            var month = date.Substring(5, 2);
+            var day = date.Substring(8, 2);
+            var year = date.Substring(0, 4);
+
+            return $"{year}-{month}-{day}";
         }
 
         private string ToApiParam(AnimeStatus itemMyStatus)

@@ -122,17 +122,19 @@ namespace MALClient.XShared.BL
 
                 if (e.Message.Contains("Unable to authorize"))
                 {
-                    ResourceLocator.DispatcherAdapter.Run(async () =>
-                    {
-                        Credentials.Reset();
-                        ResourceLocator.AnimeLibraryDataStorage.Reset();
-                        ResourceLocator.MalHttpContextProvider.Invalidate();
-                        await ResourceLocator.DataCacheService.ClearAnimeListData();
-                    });
+                    ResourceLocator.DispatcherAdapter.Run(
+                        () =>
+                        {
+                            ResourceLocator.SnackbarProvider.ShowText("Failed to authorize with website API, some functionality may be limited. " +
+                                                                      "Basic operations will use official API. Sign in again if needed.");
+                        });
                 }
 
                 _skippedFirstError = false;
-                return new CsrfHttpClient(ResourceLocator.MalHttpContextProvider.GetHandler()) {Disabled = true};               
+                return new CsrfHttpClient(ResourceLocator.MalHttpContextProvider.GetHandler())
+                {
+                    Token = "None"
+                };               
             }
             finally
             {

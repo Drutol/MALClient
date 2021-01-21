@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using MALClient.Models.Enums;
 using MALClient.XShared.Comm;
@@ -35,6 +37,25 @@ namespace MALClient.XShared.BL
                     () => { ResourceLocator.NotificationsTaskManager.CallTask(BgTasks.Notifications); });
             ResourceLocator.HandyDataStorage.Init();
             AwaitableCompletion.SetResult(true);
+
+            try
+            {
+                using var client = new HttpClient();
+                using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(10));
+                var result = await client.GetAsync("https://myanimelist.net", cts.Token);
+
+                result.EnsureSuccessStatusCode();
+            }
+            catch (Exception e)
+            {
+                ResourceLocator.DispatcherAdapter.Run(() =>
+                {
+                    ResourceLocator.MessageDialogProvider.ShowMessageDialog(
+                        "Failed to connect to MyAnimeList.net. Website is probably down, try checking on the browser. If it's down try again later.",
+                        "MAL is down");
+                });
+            }
+
         }
 
         public static void InitPostUpdate()

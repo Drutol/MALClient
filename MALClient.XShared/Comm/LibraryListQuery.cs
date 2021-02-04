@@ -74,14 +74,10 @@ namespace MALClient.XShared.Comm
                 : await DataCache.RetrieveDataForUser(_source, _mode) ?? new List<ILibraryData>();
             if (output.Count > 0)
                 return output;
-            var client = await ResourceLocator.MalHttpContextProvider.GetHttpContextAsync();
+            var client = await ResourceLocator.MalHttpContextProvider.GetApiHttpContextAsync();
 
             try
             {
-                var isAmericanDateFormat = 
-                    (await client.GetStringAsync("https://myanimelist.net/editprofile.php?go=listpreferences"))
-                    .Contains("<option value=\"a\" selected>American (MM-DD-YY)");
-                await Task.Delay(100);
                 var offset = 0;
                 var i = 0;
                 var loop = true; //loop_noop
@@ -102,102 +98,88 @@ namespace MALClient.XShared.Comm
                                 switch (_mode)
                                 {
                                     case AnimeListWorkModes.Anime:
-                                        var animeReponse = await client.GetAsync(
-                                            $"https://myanimelist.net/animelist/{_source}/load.json?offset={offset}&status=7&order=5",
-                                            cts.Token);
+                                        var animeResponse = await client.GetAsync(
+                                            $"https://api.myanimelist.net/v2/users/{_source}/animelist?fields=" +
+                                            $"title," +
+                                            $"status," +
+                                            $"media_type," +
+                                            $"num_episodes," +
+                                            $"my_list_status{{start_date," +
+                                            $"tags," +
+                                            $"finish_date," +
+                                            $"comments," +
+                                            $"priority," +
+                                            $"num_episodes_rewatched," +
+                                            $"num_watched_times," +
+                                            $"list_updated_at}}&limit=1000&offset={offset}", cts.Token);
 
-                                        var rawAnime = await animeReponse.Content.ReadAsStringAsync();
+                                        var rawAnime = await animeResponse.Content.ReadAsStringAsync();
 
                                         if (string.IsNullOrEmpty(rawAnime))
                                             return await DataCache.RetrieveDataForUser(_source, _mode) ?? output;
 
-                                        var anime = JsonConvert.DeserializeObject<List<RootObject>>(rawAnime);
-                                         offset += anime.Count;
+                                        var anime = JsonConvert.DeserializeObject<Root>(rawAnime);
+                                        offset += anime.data.Count;
 
-                                        if (anime.Count < 300)
+                                        if (anime.paging?.next == null)
                                         {
                                             loop = false;
                                         }
-                                        else
-                                        {
-                                            //MAL likes to throw "too many requests"
-                                            await Task.Delay(200);
-                                        }
+  
 
-                                        if(offset == 0 || anime.Count == 0)
+                                        if(offset == 0 || anime.data.Count == 0)
                                             Debugger.Break();
 
-                                        foreach (var item in anime)
+                                        foreach (var node in anime.data)
                                         {
+                                            var item = node.node;
                                             var title = "";
                                             string alternateTitle = null;
-                                            title = item.anime_title;
+                                            title = item.title;
 
                                             if (Settings.PreferEnglishTitles &&
                                                 ResourceLocator.EnglishTitlesProvider.TryGetEnglishTitleForSeries(
-                                                    item.anime_id, true, out var engTitle))
+                                                    item.id, true, out var engTitle))
                                             {
                                                 alternateTitle = title;
                                                 title = engTitle;
                                             }
 
-                                            item.anime_image_path =
-                                                Regex.Replace(item.anime_image_path, @"\/r\/\d+x\d+", "");
-                                            item.anime_image_path =
-                                                item.anime_image_path.Substring(0, item.anime_image_path.IndexOf('?'));
-
-                                            if (!string.IsNullOrEmpty(item.start_date_string))
-                                            {
-                                                var startDateTokens = item.start_date_string.Split('-');
-                                                var yearToken = int.Parse(startDateTokens[2]);
-                                                item.start_date_string =
-                                                    $"{(yearToken < 50 ? $"20{yearToken.ToString().PadLeft(2,'0')}" : $"19{yearToken.ToString().PadLeft(2, '0')}")}-{startDateTokens[isAmericanDateFormat ? 0 : 1]}-{startDateTokens[isAmericanDateFormat ? 1 : 0]}";
-                                            }
-
-                                            if (!string.IsNullOrEmpty(item.finish_date_string))
-                                            {
-                                                var endDateTokens = item.finish_date_string.Split('-');
-                                                var yearToken = int.Parse(endDateTokens[2]);
-                                                item.finish_date_string =
-                                                    $"{(yearToken < 50 ? $"20{yearToken.ToString().PadLeft(2, '0')}" : $"19{yearToken.ToString().PadLeft(2, '0')}")}-{endDateTokens[isAmericanDateFormat ? 0 : 1]}-{endDateTokens[isAmericanDateFormat ? 1 : 0]}";
-                                            }
-
-
                                             output.Add(new AnimeLibraryItemData
                                             {
                                                 Title = title,
-                                                ImgUrl = item.anime_image_path,
+                                                ImgUrl =  item.main_picture.medium ?? item.main_picture.large,
                                                 Type = (int) GetMediaType(),
-                                                MalId = item.anime_id,
-                                                MyStatus = (AnimeStatus) item.status,
-                                                MyEpisodes = item.num_watched_episodes,
-                                                AllEpisodes = item.anime_num_episodes,
-                                                MyStartDate = item.start_date_string,
-                                                MyEndDate = item.finish_date_string,
-                                                MyScore = item.score,
-                                                Notes = item.tags,
-                                                IsRewatching = item.is_rewatching > 0,
-                                                LastWatched = DateTime.Today.Subtract(TimeSpan.FromMinutes(i)),
+                                                MalId = item.id,
+                                                MyStatus = ParseAnimeStatus(item.my_list_status.status),
+                                                MyEpisodes = item.my_list_status.num_episodes_watched,
+                                                AllEpisodes = item.num_episodes,
+                                                MyStartDate = item.my_list_status.start_date,
+                                                MyEndDate = item.my_list_status.finish_date,
+                                                MyScore = item.my_list_status.score,
+                                                Notes = string.Join(",",item.my_list_status.tags),
+                                                IsRewatching = item.my_list_status.is_rewatching,
+                                                LastWatched = item.my_list_status.updated_at,
                                                 AlternateTitle = alternateTitle,
-                                                Priority = PriorityStringToPriority(item.priority_string),
+                                                Priority = (AnimePriority)item.my_list_status.priority,
                                             });
                                             i++;
 
                                             AnimeType GetMediaType()
                                             {
-                                                switch (item.anime_media_type_string)
+                                                switch (item.media_type)
                                                 {
-                                                    case "TV":
+                                                    case "tv":
                                                         return AnimeType.TV;
-                                                    case "Movie":
+                                                    case "movie":
                                                         return AnimeType.Movie;
-                                                    case "Speical":
+                                                    case "special":
                                                         return AnimeType.Special;
-                                                    case "OVA":
+                                                    case "ova":
                                                         return AnimeType.OVA;
-                                                    case "ONA":
+                                                    case "ona":
                                                         return AnimeType.ONA;
-                                                    case "Music":
+                                                    case "music":
                                                         return AnimeType.Music;
                                                 }
 
@@ -207,97 +189,88 @@ namespace MALClient.XShared.Comm
 
                                         break;
                                     case AnimeListWorkModes.Manga:
-                                        var reponseManga = await client.GetAsync(
-                                            $"https://myanimelist.net/mangalist/{_source}/load.json?offset={offset}&status=7&order=5",
-                                            cts.Token);
+                                        var mangaResponse = await client.GetAsync(
+                                            $"https://api.myanimelist.net/v2/users/{_source}/mangalist?fields=" +
+                                            $"title," +
+                                            $"status," +
+                                            $"media_type," +
+                                            $"num_chapters," +
+                                            $"num_volumes," +
+                                            $"my_list_status{{start_date," +
+                                            $"tags," +
+                                            $"finish_date," +
+                                            $"comments," +
+                                            $"priority," +
+                                            $"num_episodes_rewatched," +
+                                            $"num_watched_times," +
+                                            $"list_updated_at}}&limit=1000&offset={offset}", cts.Token);
 
-                                        var rawManga = await reponseManga.Content.ReadAsStringAsync();
+                                        var rawManga = await mangaResponse.Content.ReadAsStringAsync();
 
                                         if (string.IsNullOrEmpty(rawManga))
                                             return await DataCache.RetrieveDataForUser(_source, _mode) ?? output;
 
+                                        var manga = JsonConvert.DeserializeObject<Root>(rawManga);
+                                        offset += manga.data.Count;
 
-                                        var manga = JsonConvert.DeserializeObject<List<MangaRootObject>>(rawManga);
-
-                                        offset += manga.Count;
-
-                                        if (manga.Count < 300)
-                                            loop = false;
-
-                                        foreach (var item in manga)
+                                        if (manga.paging?.next == null)
                                         {
+                                            loop = false;
+                                        }
+
+                                        foreach (var node in manga.data)
+                                        {
+                                            var item = node.node;
                                             var title = "";
                                             string alternateTitle = null;
-                                            title = item.manga_title;
+                                            title = item.title;
 
                                             if (Settings.PreferEnglishTitles &&
                                                 ResourceLocator.EnglishTitlesProvider.TryGetEnglishTitleForSeries(
-                                                    item.manga_id, false, out var engTitle))
+                                                    item.id, false, out var engTitle))
                                             {
                                                 alternateTitle = title;
                                                 title = engTitle;
                                             }
 
-
-                                            item.manga_image_path =
-                                                Regex.Replace(item.manga_image_path, @"\/r\/\d+x\d+", "");
-                                            item.manga_image_path =
-                                                item.manga_image_path.Substring(0, item.manga_image_path.IndexOf('?'));
-
-                                            if (!string.IsNullOrEmpty(item.start_date_string))
-                                            {
-                                                var startDateTokens = item.start_date_string.Split('-');
-                                                var yearToken = int.Parse(startDateTokens[2]);
-                                                item.start_date_string =
-                                                    $"{(yearToken < 50 ? $"20{yearToken.ToString().PadLeft(2, '0')}" : $"19{yearToken.ToString().PadLeft(2, '0')}")}-{startDateTokens[isAmericanDateFormat ? 0 : 1]}-{startDateTokens[isAmericanDateFormat ? 1 : 0]}";
-                                            }
-
-                                            if (!string.IsNullOrEmpty(item.finish_date_string))
-                                            {
-                                                var endDateTokens = item.finish_date_string.Split('-');
-                                                var yearToken = int.Parse(endDateTokens[2]);
-                                                item.finish_date_string =
-                                                    $"{(yearToken < 50 ? $"20{yearToken.ToString().PadLeft(2, '0')}" : $"19{yearToken.ToString().PadLeft(2, '0')}")}-{endDateTokens[isAmericanDateFormat ? 0 : 1]}-{endDateTokens[isAmericanDateFormat ? 1 : 0]}";
-                                            }
-
                                             output.Add(new MangaLibraryItemData
                                             {
                                                 Title = title,
-                                                ImgUrl = item.manga_image_path,
-                                                Id = item.manga_id,
-                                                AllEpisodes = item.manga_num_chapters,
-                                                MyEpisodes = item.num_read_chapters,
-                                                AllVolumes = item.manga_num_volumes,
-                                                MyVolumes = item.num_read_volumes,
-                                                MalId = item.manga_id,
+                                                ImgUrl = item.main_picture.medium ?? item.main_picture.large,
+                                                Id = item.id,
+                                                AllEpisodes = item.num_chapters,
+                                                MyEpisodes = item.my_list_status.num_chapters_read,
+                                                AllVolumes = item.num_volumes,
+                                                MyVolumes = item.my_list_status.num_volumes_read,
+                                                MalId = item.id,
                                                 Type = (int) GetMangaMediaType(),
-                                                MyScore = item.score,
-                                                Notes = item.tags,
-                                                IsRewatching = item.is_rereading > 0,
-                                                MyStatus = (AnimeStatus) item.status,
-                                                MyStartDate = item.start_date_string,
-                                                MyEndDate = item.finish_date_string,
+                                                MyScore = item.my_list_status.score,
+                                                Notes = string.Join(",", item.my_list_status.tags),
+                                                IsRewatching = item.my_list_status.is_rereading,
+                                                MyStatus = ParseMangaStatus(item.my_list_status.status),
+                                                MyStartDate = item.my_list_status.start_date,
+                                                MyEndDate = item.my_list_status.finish_date,
                                                 AlternateTitle = alternateTitle,
-                                                LastWatched = DateTime.Today.Subtract(TimeSpan.FromMinutes(i)),
-                                                Priority = PriorityStringToPriority(item.priority_string)
+                                                LastWatched = item.my_list_status.updated_at,
+                                                Priority = (AnimePriority)item.my_list_status.priority
                                             });
                                             i++;
 
                                             MangaType GetMangaMediaType()
                                             {
-                                                switch (item.manga_media_type_string)
+                                                switch (item.media_type)
                                                 {
-                                                    case "Novel":
+                                                    case "novel":
                                                         return MangaType.Novel;
-                                                    case "Manga":
+                                                    case "manga":
                                                         return MangaType.Manga;
-                                                    case "Doujinshi":
+                                                    case "doujinshi":
                                                         return MangaType.Doujinshi;
-                                                    case "OneShot":
+                                                    case "oneshot":
                                                         return MangaType.OneShot;
-                                                    case "Manhwa":
+                                                    case "manhwa":
                                                         return MangaType.Manhwa;
-                                                    case "Manhua":
+                                                    case "manhua":
                                                         return MangaType.Manhua;
                                                     default:
                                                         return MangaType.Manga;
@@ -336,11 +309,34 @@ namespace MALClient.XShared.Comm
 
             }
 
-            if(output.Count % 300 == 0)
-                Debugger.Break();
-
             DataCache.SaveDataForUser(_source, output, _mode);
             return output;
+        }
+
+        private AnimeStatus ParseAnimeStatus(string status)
+        {
+            return status switch
+            {
+                "watching" => AnimeStatus.Watching,
+                "completed" => AnimeStatus.Completed,
+                "on_hold" => AnimeStatus.OnHold,
+                "dropped" => AnimeStatus.Dropped,
+                "plan_to_watch" => AnimeStatus.PlanToWatch,
+                _ => AnimeStatus.PlanToWatch
+            };
+        }     
+        
+        private AnimeStatus ParseMangaStatus(string status)
+        {
+            return status switch
+            {
+                "reading" => AnimeStatus.Watching,
+                "completed" => AnimeStatus.Completed,
+                "on_hold" => AnimeStatus.OnHold,
+                "dropped" => AnimeStatus.Dropped,
+                "plan_to_read" => AnimeStatus.PlanToWatch,
+                _ => AnimeStatus.PlanToWatch
+            };
         }
 
         private AnimePriority PriorityStringToPriority(string itemPriorityString)
@@ -357,6 +353,62 @@ namespace MALClient.XShared.Comm
 
             return AnimePriority.Low;
         }
+
+        [Preserve(AllMembers = true)]
+        public class MainPicture
+        {
+            public string medium { get; set; }
+            public string large { get; set; }
+        }
+        [Preserve(AllMembers = true)]
+        public class MyListStatus
+        {
+            public string status { get; set; }
+            public int score { get; set; }
+            public int num_episodes_watched { get; set; }
+            public bool is_rewatching { get; set; }
+            public DateTime updated_at { get; set; }
+            public string start_date { get; set; }
+            public List<string> tags { get; set; }
+            public string comments { get; set; }
+            public int priority { get; set; }
+            public string finish_date { get; set; }
+            public bool is_rereading { get; set; }
+            public int num_volumes_read { get; set; }
+            public int num_chapters_read { get; set; }
+
+        }
+        [Preserve(AllMembers = true)]
+        public class Node
+        {
+            public int id { get; set; }
+            public string title { get; set; }
+            public MainPicture main_picture { get; set; }
+            public string status { get; set; }
+            public string media_type { get; set; }
+            public int num_episodes { get; set; }
+            public int num_chapters { get; set; }
+            public int num_volumes { get; set; }
+            public MyListStatus my_list_status { get; set; }
+        }
+        [Preserve(AllMembers = true)]
+        public class Datum
+        {
+            public Node node { get; set; }
+        }
+        [Preserve(AllMembers = true)]
+        public class Paging
+        {
+            public string next { get; set; }
+        }
+        [Preserve(AllMembers = true)]
+        public class Root
+        {
+            public List<Datum> data { get; set; }
+            public Paging paging { get; set; }
+        }
+
+
 
         [Preserve(AllMembers = true)]
         public class RootObject
@@ -394,44 +446,6 @@ namespace MALClient.XShared.Comm
             public string start_date_string { get; set; }
             public string finish_date_string { get; set; }
             public string priority_string { get; set; }
-        }
-
-        public static AnimeStatus HummingbirdStatusToMal(string humStatus)
-        {
-            switch (humStatus)
-            {
-                case "currently-watching":
-                    return AnimeStatus.Watching;
-                case "plan-to-watch":
-                    return AnimeStatus.PlanToWatch;
-                case "completed":
-                    return AnimeStatus.Completed;
-                case "on-hold":
-                    return AnimeStatus.OnHold;
-                case "dropped":
-                    return AnimeStatus.Dropped;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(humStatus), "Hummingbird has gone crazy");
-            }
-        }
-
-        private static AnimeStatus HummingbirdMangaStatusToMal(string humStatus)
-        {
-            switch (humStatus)
-            {
-                case "Currently Reading":
-                    return AnimeStatus.Watching;
-                case "Plan to Read":
-                    return AnimeStatus.PlanToWatch;
-                case "Completed":
-                    return AnimeStatus.Completed;
-                case "On Hold":
-                    return AnimeStatus.OnHold;
-                case "Dropped":
-                    return AnimeStatus.Dropped;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(humStatus), "Hummingbird has gone crazy");
-            }
         }
     }
 }

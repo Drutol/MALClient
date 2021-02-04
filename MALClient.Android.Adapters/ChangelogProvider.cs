@@ -31,12 +31,11 @@ namespace MALClient.Android.Adapters
 
         public bool NewChangelog { get; set; }
 
-        public string DateWithVersion => $"{_currentVersion} - 19.01.2021";
+        public string DateWithVersion => $"{_currentVersion} - 04.02.2021";
 
         public List<string> Changelog => new List<string>
         {
-           "Fix setting start and end dates for anime/manga. Sorry, it was lost in transition to the API and MAL still has these fields undocumented. Pain to work with sadly :(",
-           "Fix deleting anime/manga"
+           "Switched list fetching to API based calls. Should resolve date issues and be a tad faster.",
         };
     }
 }

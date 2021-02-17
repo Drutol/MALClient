@@ -47,13 +47,13 @@ namespace MALClient.XShared.Utils
 
         public static string ApiToken
         {
-            get => (string)(ApplicationDataService[nameof(ApiToken)] ?? true);
+            get => (string)(ApplicationDataService[nameof(ApiToken)] ?? null);
             set => ApplicationDataService[nameof(ApiToken)] = value;
         }      
         
         public static string RefreshToken
         {
-            get => (string)(ApplicationDataService[nameof(RefreshToken)] ?? true);
+            get => (string)(ApplicationDataService[nameof(RefreshToken)] ?? null);
             set => ApplicationDataService[nameof(RefreshToken)] = value;
         }
 

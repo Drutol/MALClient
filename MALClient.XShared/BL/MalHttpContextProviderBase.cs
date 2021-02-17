@@ -52,12 +52,6 @@ namespace MALClient.XShared.BL
             if (_apiHttpClient != null && DateTime.UtcNow - _lastRefresh < TimeSpan.FromMinutes(50))
                 return _apiHttpClient;
             
-            if (_apiHttpClient != null)
-            {
-                _apiHttpClient.Dispose();
-                _apiHttpClient = null;
-            }
-
             using var tokenClient = new HttpClient();
             var content = new FormUrlEncodedContent(new List<KeyValuePair<string, string>>
             {

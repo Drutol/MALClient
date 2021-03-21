@@ -167,7 +167,7 @@ namespace MALClient.XShared.Comm.Anime
             }
         }
 
-        public static bool IsCached(int id, bool anime,ref string url)
+        public static bool IsCached(int id, bool anime, ref string url)
         {
             if (anime)
             {
@@ -179,9 +179,9 @@ namespace MALClient.XShared.Comm.Anime
             }
             else
             {
-                if (CachedAnimeImages.ContainsKey(id))
+                if (CachedMangaImages.ContainsKey(id))
                 {
-                    url = CachedAnimeImages[id];
+                    url = CachedMangaImages[id];
                     return true;
                 }
             }

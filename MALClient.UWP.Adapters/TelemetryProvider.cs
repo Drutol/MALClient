@@ -79,6 +79,11 @@ namespace MALClient.UWP.Adapters
 
         }
 
+        public void TrackExceptionWithAttachment(Exception e, string attachment = null, string caller = null)
+        {
+            throw new NotImplementedException();
+        }
+
         public void TrackException(Exception e, string message, string caller = null)
         {
             

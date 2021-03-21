@@ -69,12 +69,21 @@ namespace MALClient.Android.Adapters
             });
         }
 
+
         public void TrackExceptionWithMessage(Exception e, string message)
         {
             Crashes.TrackError(e, null, new ErrorAttachmentLog[]
             {
                 ErrorAttachmentLog.AttachmentWithText(message, "message.txt"),
             });
+        }
+
+        public void TrackExceptionWithAttachment(Exception e, string attachment = null, string caller = null)
+        {
+            Crashes.TrackError(e, new Dictionary<string, string>
+            {
+                {"Caller", caller},
+            }, ErrorAttachmentLog.AttachmentWithText(attachment, "attachment.txt"));
         }
 
         public void TelemetryTrackNavigation(PageIndex page)

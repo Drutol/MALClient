@@ -467,9 +467,11 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Forums
                             .OuterHtml;
 
                     var actions = row.FirstOfDescendantsWithClass("div", "postActions");
-                    current.CanEdit = actions.ChildNodes[0].ChildNodes.Any(node => node.InnerText?.Contains("Edit") ?? false);
-                    current.CanDelete = actions.ChildNodes[0].ChildNodes.Any(node => node.InnerText?.Contains("Delete") ?? false);
-
+                    if (actions != null && actions.ChildNodes.Count > 0)
+                    {
+                        current.CanEdit = actions.ChildNodes[0].ChildNodes.Any(node => node.InnerText?.Contains("Edit") ?? false);
+                        current.CanDelete = actions.ChildNodes[0].ChildNodes.Any(node => node.InnerText?.Contains("Delete") ?? false);
+                    }
                     output.Messages.Add(current);
                 }
 

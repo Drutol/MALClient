@@ -81,7 +81,6 @@ namespace MALClient.XShared.BL
                 throw;
             }
 
-
             return _apiHttpClient;
         }
 

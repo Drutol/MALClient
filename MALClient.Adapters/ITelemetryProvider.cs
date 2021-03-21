@@ -18,5 +18,6 @@ namespace MALClient.Adapters
         void LogEvent(string @event);
         void TrackExceptionWithMessage(Exception e, string message);
         void TrackException(Exception e, [CallerMemberName] string caller = null);
+        void TrackExceptionWithAttachment(Exception e, string attachment = null, [CallerMemberName] string caller = null);
     }
 }

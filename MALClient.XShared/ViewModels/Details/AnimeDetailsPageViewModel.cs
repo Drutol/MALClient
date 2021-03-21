@@ -537,20 +537,28 @@ namespace MALClient.XShared.ViewModels.Details
 
         private Query GetAppropriateUpdateQuery(int? rewatchCount = null)
         {
-            if (AnimeItemReference is AnimeItemViewModel vm)
-                vm.ParentAbstraction.LastWatched = DateTime.Now;
+            try
+            {
+                if (AnimeItemReference is AnimeItemViewModel vm)
+                    vm.ParentAbstraction.LastWatched = DateTime.Now;
 
-            if (rewatchCount == null)
-            {
-                if (AnimeMode)
-                    return new AnimeUpdateQuery(_animeItemReference);
-                return new MangaUpdateQuery(_animeItemReference);
+                if (rewatchCount == null)
+                {
+                    if (AnimeMode)
+                        return new AnimeUpdateQuery(_animeItemReference);
+                    return new MangaUpdateQuery(_animeItemReference);
+                }
+                else
+                {
+                    if (AnimeMode)
+                        return new AnimeUpdateQuery(_animeItemReference, rewatchCount.Value);
+                    return new MangaUpdateQuery(_animeItemReference, rewatchCount.Value);
+                }
             }
-            else
+            catch (Exception e)
             {
-                if (AnimeMode)
-                    return new AnimeUpdateQuery(_animeItemReference, rewatchCount.Value);
-                return new MangaUpdateQuery(_animeItemReference, rewatchCount.Value);
+                ResourceLocator.DispatcherAdapter.Run(() => ResourceLocator.SnackbarProvider.ShowText("Failed to update the entry."));
+                return null;
             }
         }
 
@@ -734,8 +742,12 @@ namespace MALClient.XShared.ViewModels.Details
 
         private async void ChangeRewatchingCount(int count)
         {
+            var query = GetAppropriateUpdateQuery(count);
+
+            if(query == null)
+                return;
             LoadingUpdate = true;
-            var response = await GetAppropriateUpdateQuery(count).GetRequestResponse();
+            var response = await query.GetRequestResponse();
             LoadingUpdate = false;
 
             if (response == "Updated")

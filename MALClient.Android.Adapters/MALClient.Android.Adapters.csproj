@@ -70,23 +70,23 @@
       <HintPath>..\packages\HtmlAgilityPack.1.11.28\lib\netstandard2.0\HtmlAgilityPack.dll</HintPath>
     </Reference>
     <Reference Include="Java.Interop" />
-    <Reference Include="Microsoft.AppCenter, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AppCenter.3.4.0\lib\MonoAndroid403\Microsoft.AppCenter.dll</HintPath>
+    <Reference Include="Microsoft.AppCenter, Version=0.0.0.0, Culture=neutral, PublicKeyToken=8a600e2fee7ba272, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AppCenter.4.2.0\lib\MonoAndroid50\Microsoft.AppCenter.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.AppCenter.Analytics, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AppCenter.Analytics.3.4.0\lib\MonoAndroid403\Microsoft.AppCenter.Analytics.dll</HintPath>
+    <Reference Include="Microsoft.AppCenter.Analytics, Version=0.0.0.0, Culture=neutral, PublicKeyToken=8a600e2fee7ba272, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AppCenter.Analytics.4.2.0\lib\MonoAndroid50\Microsoft.AppCenter.Analytics.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.AppCenter.Analytics.Android.Bindings, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AppCenter.Analytics.3.4.0\lib\MonoAndroid403\Microsoft.AppCenter.Analytics.Android.Bindings.dll</HintPath>
+    <Reference Include="Microsoft.AppCenter.Analytics.Android.Bindings, Version=0.0.0.0, Culture=neutral, PublicKeyToken=8a600e2fee7ba272, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AppCenter.Analytics.4.2.0\lib\MonoAndroid50\Microsoft.AppCenter.Analytics.Android.Bindings.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.AppCenter.Android.Bindings, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AppCenter.3.4.0\lib\MonoAndroid403\Microsoft.AppCenter.Android.Bindings.dll</HintPath>
+    <Reference Include="Microsoft.AppCenter.Android.Bindings, Version=0.0.0.0, Culture=neutral, PublicKeyToken=8a600e2fee7ba272, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AppCenter.4.2.0\lib\MonoAndroid50\Microsoft.AppCenter.Android.Bindings.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.AppCenter.Crashes, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AppCenter.Crashes.3.4.0\lib\MonoAndroid403\Microsoft.AppCenter.Crashes.dll</HintPath>
+    <Reference Include="Microsoft.AppCenter.Crashes, Version=0.0.0.0, Culture=neutral, PublicKeyToken=8a600e2fee7ba272, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AppCenter.Crashes.4.2.0\lib\MonoAndroid50\Microsoft.AppCenter.Crashes.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.AppCenter.Crashes.Android.Bindings, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AppCenter.Crashes.3.4.0\lib\MonoAndroid403\Microsoft.AppCenter.Crashes.Android.Bindings.dll</HintPath>
+    <Reference Include="Microsoft.AppCenter.Crashes.Android.Bindings, Version=0.0.0.0, Culture=neutral, PublicKeyToken=8a600e2fee7ba272, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AppCenter.Crashes.4.2.0\lib\MonoAndroid50\Microsoft.AppCenter.Crashes.Android.Bindings.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="ModernHttpClient">
@@ -95,7 +95,7 @@
     <Reference Include="Mono.Android" />
     <Reference Include="mscorlib" />
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\netstandard2.0\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\netstandard2.0\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="Square.OkHttp3">
       <HintPath>..\MALClient.Android\Lib\Square.OkHttp3.dll</HintPath>

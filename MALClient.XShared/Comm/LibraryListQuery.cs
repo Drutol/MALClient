@@ -90,6 +90,7 @@ namespace MALClient.XShared.Comm
 
                 string rawAnime = null;
 
+
                 Debug.WriteLine($"Loading with offset {offset}");
                 if (!forceOtherUser && _source.ToLower() == Credentials.UserName.ToLower())
                 {
@@ -176,8 +177,8 @@ namespace MALClient.XShared.Comm
                                                         MyStatus = ParseAnimeStatus(item.my_list_status.status),
                                                         MyEpisodes = item.my_list_status.num_episodes_watched,
                                                         AllEpisodes = item.num_episodes,
-                                                        MyStartDate = item.my_list_status.start_date,
-                                                        MyEndDate = item.my_list_status.finish_date,
+                                                        MyStartDate = FixDate(item.my_list_status.start_date),
+                                                        MyEndDate = FixDate(item.my_list_status.finish_date),
                                                         MyScore = item.my_list_status.score,
                                                         Notes = string.Join(",", item.my_list_status.tags),
                                                         IsRewatching = item.my_list_status.is_rewatching,
@@ -281,8 +282,8 @@ namespace MALClient.XShared.Comm
                                                         Notes = string.Join(",", item.my_list_status.tags),
                                                         IsRewatching = item.my_list_status.is_rereading,
                                                         MyStatus = ParseMangaStatus(item.my_list_status.status),
-                                                        MyStartDate = item.my_list_status.start_date,
-                                                        MyEndDate = item.my_list_status.finish_date,
+                                                        MyStartDate = FixDate(item.my_list_status.start_date),
+                                                        MyEndDate = FixDate(item.my_list_status.finish_date),
                                                         AlternateTitle = alternateTitle,
                                                         LastWatched = item.my_list_status.updated_at,
                                                         Priority = (AnimePriority) item.my_list_status.priority
@@ -332,12 +333,13 @@ namespace MALClient.XShared.Comm
                     }
                     catch (Exception e)
                     {
-                        ResourceLocator.TelemetryProvider.TrackExceptionWithAttachment(e, "GetLibraryApi", rawAnime + $"\n{e.ToString()}");
+                        ResourceLocator.TelemetryProvider.TrackExceptionWithAttachment(e, rawAnime + $"\n{e.ToString()}", "GetLibraryApi");
                         return await GetLibrary(false, true);
                     }
                 }
                 else //other user
                 {
+                    var americanDateTime = true;
                     while (loop)
                     {
 
@@ -373,6 +375,31 @@ namespace MALClient.XShared.Comm
                                     if (offset == 0 || anime.Count == 0)
                                         Debugger.Break();
 
+                                    //on first loop
+                                    if (output.Count == 0)
+                                    {
+                                        var dates = anime.Select(o => o.start_date_string)
+                                            .Concat(anime.Select(o => o.finish_date_string));
+                                        foreach (var date in dates)
+                                        {
+                                            var tokens = date.Split('-');
+                                            var first = int.Parse(tokens[0]);
+                                            var second = int.Parse(tokens[1]);
+
+                                            if (first > 12) //first is day thus european
+                                            {
+                                                americanDateTime = false;
+                                                break;
+                                            }
+
+                                            if (second > 12) //day is on 2nd pos thus american
+                                            {
+                                                americanDateTime = true;
+                                                break;
+                                            }
+                                        }
+                                    }
+
                                     foreach (var item in anime)
                                     {
                                         var title = "";
@@ -398,7 +425,9 @@ namespace MALClient.XShared.Comm
                                             var startDateTokens = item.start_date_string.Split('-');
                                             var yearToken = int.Parse(startDateTokens[2]);
                                             item.start_date_string =
-                                                $"{(yearToken < 50 ? $"20{yearToken.ToString().PadLeft(2, '0')}" : $"19{yearToken.ToString().PadLeft(2, '0')}")}-{startDateTokens[true ? 0 : 1]}-{startDateTokens[true ? 1 : 0]}";
+                                                $"{(yearToken < 50 ? $"20{yearToken.ToString().PadLeft(2, '0')}" : $"19{yearToken.ToString().PadLeft(2, '0')}")}" +
+                                                $"-{startDateTokens[americanDateTime ? 0 : 1]}" +
+                                                $"-{startDateTokens[americanDateTime ? 1 : 0]}";
                                         }
 
                                         if (!string.IsNullOrEmpty(item.finish_date_string))
@@ -406,9 +435,10 @@ namespace MALClient.XShared.Comm
                                             var endDateTokens = item.finish_date_string.Split('-');
                                             var yearToken = int.Parse(endDateTokens[2]);
                                             item.finish_date_string =
-                                                $"{(yearToken < 50 ? $"20{yearToken.ToString().PadLeft(2, '0')}" : $"19{yearToken.ToString().PadLeft(2, '0')}")}-{endDateTokens[true ? 0 : 1]}-{endDateTokens[true ? 1 : 0]}";
+                                                $"{(yearToken < 50 ? $"20{yearToken.ToString().PadLeft(2, '0')}" : $"19{yearToken.ToString().PadLeft(2, '0')}")}" +
+                                                $"-{endDateTokens[americanDateTime ? 0 : 1]}" +
+                                                $"-{endDateTokens[americanDateTime ? 1 : 0]}";
                                         }
-
 
                                         output.Add(new AnimeLibraryItemData
                                         {
@@ -470,6 +500,31 @@ namespace MALClient.XShared.Comm
 
                                     if (manga.Count < 300)
                                         loop = false;
+
+                                    //on first loop
+                                    if (output.Count == 0)
+                                    {
+                                        var dates = manga.Select(o => o.start_date_string)
+                                            .Concat(manga.Select(o => o.finish_date_string));
+                                        foreach (var date in dates)
+                                        {
+                                            var tokens = date.Split('-');
+                                            var first = int.Parse(tokens[0]);
+                                            var second = int.Parse(tokens[1]);
+
+                                            if (first > 12) //first is day thus european
+                                            {
+                                                americanDateTime = false;
+                                                break;
+                                            }
+
+                                            if (second > 12) //day is on 2nd pos thus american
+                                            {
+                                                americanDateTime = true;
+                                                break;
+                                            }
+                                        }
+                                    }
 
                                     foreach (var item in manga)
                                     {
@@ -587,6 +642,21 @@ namespace MALClient.XShared.Comm
 
             DataCache.SaveDataForUser(_source, output, _mode);
             return output;
+        }
+
+        private string FixDate(string date)
+        {
+            if (date == null)
+                return null;
+
+            if (date.Length == 10)
+                return date;
+
+            if (date.Length == 4) //only year
+                return $"{date}-00-00";
+
+            //year + month
+            return $"{date}-00";
         }
 
         private AnimeStatus ParseAnimeStatus(string status)

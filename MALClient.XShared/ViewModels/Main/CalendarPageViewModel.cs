@@ -165,11 +165,12 @@ namespace MALClient.XShared.ViewModels.Main
             InitPages();
             _initialized = true;
 
-            var abstractions = _animeLibraryDataStorage.AllLoadedAuthAnimeItems.Where(abstraction => ResourceLocator.AiringInfoProvider.HasAiringEntry(abstraction.Id)).Where(
-                abstraction => abstraction.Type == (int) AnimeType.TV && (
-                                   (Settings.CalendarIncludePlanned &&
-                                    abstraction.MyStatus == AnimeStatus.PlanToWatch) ||
-                                   (Settings.CalendarIncludeWatching && abstraction.MyStatus == AnimeStatus.Watching)));
+            var abstractions = _animeLibraryDataStorage.AllLoadedAuthAnimeItems.Where(abstraction =>
+                ResourceLocator.AiringInfoProvider.HasAiringEntry(abstraction.Id)).Where(
+                abstraction => abstraction.Type == (int)AnimeType.TV && (
+                    (Settings.CalendarIncludePlanned &&
+                     abstraction.MyStatus == AnimeStatus.PlanToWatch) ||
+                    (Settings.CalendarIncludeWatching && abstraction.MyStatus == AnimeStatus.Watching))).ToList();
             
             //Limit items to 40 at most
             if (abstractions.Count() > 40)
@@ -177,13 +178,13 @@ namespace MALClient.XShared.ViewModels.Main
                 var watchingCount = abstractions.Count(abstraction => abstraction.MyStatus == AnimeStatus.Watching);
                 //with currently watched ones having most priority
                 if (watchingCount > 40)
-                    abstractions = abstractions.Where(abstraction => abstraction.MyStatus == AnimeStatus.Watching).Take(40);
+                    abstractions = abstractions.Where(abstraction => abstraction.MyStatus == AnimeStatus.Watching).Take(40).ToList();
                 else
                 {
                     //take all watching and add ptw to make at most 40 entries
                     abstractions = abstractions.Where(abstraction => abstraction.MyStatus == AnimeStatus.Watching)
                         .Concat(abstractions.Where(abstraction => abstraction.MyStatus == AnimeStatus.PlanToWatch)
-                            .Take(40 - watchingCount));
+                            .Take(40 - watchingCount)).ToList();
                 }
             }
 

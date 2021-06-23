@@ -149,13 +149,13 @@ namespace MALClient.XShared.Utils
 
         public static int ReviewsToPull
         {
-            get => (int)(ApplicationDataService["ReviewsToPull"] ?? 20);
+            get => (int)(ApplicationDataService["ReviewsToPull"] ?? 99);
             set => ApplicationDataService["ReviewsToPull"] = value;
         }
 
         public static int RecommsToPull
         {
-            get => (int)(ApplicationDataService["RecommsToPull"] ?? 10);
+            get => (int)(ApplicationDataService["RecommsToPull"] ?? 99);
             set => ApplicationDataService["RecommsToPull"] = value;
         }
 
@@ -535,7 +535,7 @@ namespace MALClient.XShared.Utils
 
         public static bool CalendarIncludePlanned
         {
-            get => (bool)(ApplicationDataService["CalendarIncludePlanned"] ?? false);
+            get => (bool)(ApplicationDataService["CalendarIncludePlanned"] ?? true);
             set => ApplicationDataService["CalendarIncludePlanned"] = value;
         }
 

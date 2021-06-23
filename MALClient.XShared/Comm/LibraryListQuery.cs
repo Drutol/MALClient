@@ -92,7 +92,7 @@ namespace MALClient.XShared.Comm
 
 
                 Debug.WriteLine($"Loading with offset {offset}");
-                if (!forceOtherUser && _source.ToLower() == Credentials.UserName.ToLower())
+                if (!forceOtherUser/* && _source.ToLower() == Credentials.UserName.ToLower()*/)
                 {
                     try
                     {
@@ -112,7 +112,7 @@ namespace MALClient.XShared.Comm
                                                 $"status," +
                                                 $"media_type," +
                                                 $"num_episodes," +
-                                                $"my_list_status{{start_date," +
+                                                $"list_status{{start_date," +
                                                 $"tags," +
                                                 $"finish_date," +
                                                 $"comments," +
@@ -174,17 +174,17 @@ namespace MALClient.XShared.Comm
                                                             item?.main_picture?.medium ?? item?.main_picture?.large,
                                                         Type = (int) GetMediaType(),
                                                         MalId = item.id,
-                                                        MyStatus = ParseAnimeStatus(item.my_list_status.status),
-                                                        MyEpisodes = item.my_list_status.num_episodes_watched,
+                                                        MyStatus = ParseAnimeStatus(node.list_status.status),
+                                                        MyEpisodes = node.list_status.num_episodes_watched,
                                                         AllEpisodes = item.num_episodes,
-                                                        MyStartDate = FixDate(item.my_list_status.start_date),
-                                                        MyEndDate = FixDate(item.my_list_status.finish_date),
-                                                        MyScore = item.my_list_status.score,
-                                                        Notes = string.Join(",", item.my_list_status.tags),
-                                                        IsRewatching = item.my_list_status.is_rewatching,
-                                                        LastWatched = item.my_list_status.updated_at,
+                                                        MyStartDate = FixDate(node.list_status.start_date),
+                                                        MyEndDate = FixDate(node.list_status.finish_date),
+                                                        MyScore = node.list_status.score,
+                                                        Notes = string.Join(",", node.list_status.tags),
+                                                        IsRewatching = node.list_status.is_rewatching,
+                                                        LastWatched = node.list_status.updated_at,
                                                         AlternateTitle = alternateTitle,
-                                                        Priority = (AnimePriority) item.my_list_status.priority,
+                                                        Priority = (AnimePriority)node.list_status?.priority,
                                                     });
                                                 }
                                                 catch (Exception e)
@@ -227,7 +227,7 @@ namespace MALClient.XShared.Comm
                                                 $"media_type," +
                                                 $"num_chapters," +
                                                 $"num_volumes," +
-                                                $"my_list_status{{start_date," +
+                                                $"list_status{{start_date," +
                                                 $"tags," +
                                                 $"finish_date," +
                                                 $"comments," +
@@ -273,20 +273,20 @@ namespace MALClient.XShared.Comm
                                                             item?.main_picture?.medium ?? item?.main_picture?.large,
                                                         Id = item.id,
                                                         AllEpisodes = item.num_chapters,
-                                                        MyEpisodes = item.my_list_status.num_chapters_read,
+                                                        MyEpisodes = node.list_status.num_chapters_read,
                                                         AllVolumes = item.num_volumes,
-                                                        MyVolumes = item.my_list_status.num_volumes_read,
+                                                        MyVolumes = node.list_status.num_volumes_read,
                                                         MalId = item.id,
                                                         Type = (int) GetMangaMediaType(),
-                                                        MyScore = item.my_list_status.score,
-                                                        Notes = string.Join(",", item.my_list_status.tags),
-                                                        IsRewatching = item.my_list_status.is_rereading,
-                                                        MyStatus = ParseMangaStatus(item.my_list_status.status),
-                                                        MyStartDate = FixDate(item.my_list_status.start_date),
-                                                        MyEndDate = FixDate(item.my_list_status.finish_date),
+                                                        MyScore = node.list_status.score,
+                                                        Notes = string.Join(",", node.list_status.tags),
+                                                        IsRewatching = node.list_status.is_rereading,
+                                                        MyStatus = ParseMangaStatus(node.list_status.status),
+                                                        MyStartDate = FixDate(node.list_status.start_date),
+                                                        MyEndDate = FixDate(node.list_status.finish_date),
                                                         AlternateTitle = alternateTitle,
-                                                        LastWatched = item.my_list_status.updated_at,
-                                                        Priority = (AnimePriority) item.my_list_status.priority
+                                                        LastWatched = node.list_status.updated_at,
+                                                        Priority = (AnimePriority)node.list_status.priority
                                                     });
                                                 }
                                                 catch (Exception e)
@@ -379,7 +379,8 @@ namespace MALClient.XShared.Comm
                                     if (output.Count == 0)
                                     {
                                         var dates = anime.Select(o => o.start_date_string)
-                                            .Concat(anime.Select(o => o.finish_date_string));
+                                            .Concat(anime.Select(o => o.finish_date_string))
+                                            .Where(s => !string.IsNullOrEmpty(s));
                                         foreach (var date in dates)
                                         {
                                             var tokens = date.Split('-');
@@ -735,12 +736,13 @@ namespace MALClient.XShared.Comm
             public int num_episodes { get; set; }
             public int num_chapters { get; set; }
             public int num_volumes { get; set; }
-            public MyListStatus my_list_status { get; set; }
+
         }
         [Preserve(AllMembers = true)]
         public class Datum
         {
             public Node node { get; set; }
+            public MyListStatus list_status { get; set; }
         }
         [Preserve(AllMembers = true)]
         public class Paging
@@ -753,8 +755,6 @@ namespace MALClient.XShared.Comm
             public List<Datum> data { get; set; }
             public Paging paging { get; set; }
         }
-
-
 
         [Preserve(AllMembers = true)]
         public class RootObject

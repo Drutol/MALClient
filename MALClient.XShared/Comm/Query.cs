@@ -104,7 +104,7 @@ namespace MALClient.XShared.Comm
                 await _buggedMalMessageSemaphore.WaitAsync();
 
                 await ResourceLocator.MessageDialogProvider.ShowMessageDialogAsync(
-                    "Looks like MAL has banned your IP supposedly for 10 failed log-in attempts... Truth be told they have this system bugged as reported on forums and it triggers on false-positives from time to time.\n\nYou will now have to either obtain new IP or wait for 2 hours without making any requests to MAL via apps. Sorry for inconvenince but I cannot do much about it :(", "Whoops!");
+                    "There was an error connecting to MAL Api, it tends to behave in unpredictable ways unfortunately and there's nothing I can do about it. Please try again later.", "Whoops!");
                 _buggedMalMessageSemaphore.Release();
             });
             //Couldn't handle it :(

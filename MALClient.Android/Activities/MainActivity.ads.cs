@@ -6,7 +6,7 @@ using System.Threading;
 using Android.App;
 using Android.Content;
 using Android.Gms.Ads;
-using Android.Gms.Ads.Reward;
+using Android.Gms.Ads.Initialization;
 using Android.OS;
 using Android.Runtime;
 using Android.Views;
@@ -18,9 +18,8 @@ using MALClient.XShared.ViewModels;
 
 namespace MALClient.Android.Activities
 {
-    public partial class MainActivity : IRewardedVideoAdListener
+    public partial class MainActivity : IOnInitializationCompleteListener
     {
-        private IRewardedVideoAd _videoAd;
         private Timer _timer;
         private bool _initializedAds;
         private bool _adLoaded;
@@ -46,7 +45,7 @@ namespace MALClient.Android.Activities
                     {
                         if (!_initializedAds)
                         {
-                            MobileAds.Initialize(ApplicationContext, "ca-app-pub-8220174765620095~3319675764");
+                            MobileAds.Initialize(ApplicationContext, this);
                             var adRequest = new AdRequest.Builder()
                                 .AddKeyword("anime")
                                 .AddKeyword("watch")
@@ -69,9 +68,6 @@ namespace MALClient.Android.Activities
                         MainPageAdView.Visibility = ViewStates.Gone;
                     }
                 }));
-
-            _videoAd = MobileAds.GetRewardedVideoAdInstance(this);
-            _videoAd.RewardedVideoAdListener = this;
 
             StartAdsTimeMeasurements();
         }
@@ -155,64 +151,17 @@ namespace MALClient.Android.Activities
                 base.OnAdLoaded();
             }
 
-            public override void OnAdFailedToLoad(int errorCode)
+            public override void OnAdFailedToLoad(LoadAdError p0)
             {
-                if(errorCode != 657)
+                if (p0.Code != 657)
                     _parent.AdLoaded = false;
-                base.OnAdFailedToLoad(errorCode);
+                base.OnAdFailedToLoad(p0);
             }
-        }
-
-        #region VideoAd
-        private void DisplayVideoAd()
-        {
-#if DEBUG
-            _videoAd.LoadAd("ca-app-pub-3940256099942544/5224354917", new AdRequest.Builder().Build());
-#else
-            _videoAd.LoadAd("ca-app-pub-8220174765620095/2143765819",new AdRequest.Builder().Build());
-#endif
-            ResourceLocator.SnackbarProvider.ShowText("Ad is now loading!");
-        }
-
-        public void OnRewarded(IRewardItem reward)
-        {
-            ResourceLocator.SnackbarProvider.ShowText("Thanks for support! ^^");
-        }
-
-        public void OnRewardedVideoAdClosed()
-        {
 
         }
-
-        public void OnRewardedVideoAdFailedToLoad(int errorCode)
-        {
-            ResourceLocator.SnackbarProvider.ShowText("Welp, google has some problems and cannot serve an ad :( Thanks for trying though!");
-        }
-
-        public void OnRewardedVideoAdLeftApplication()
-        {
-
-        }
-
-        public void OnRewardedVideoAdLoaded()
-        {
-            _videoAd.Show();
-        }
-
-        public void OnRewardedVideoAdOpened()
-        {
-
-        }
-
-        public void OnRewardedVideoCompleted()
+        public void OnInitializationComplete(IInitializationStatus p0)
         {
             
         }
-
-        public void OnRewardedVideoStarted()
-        {
-
-        }
-        #endregion
     }
 }

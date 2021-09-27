@@ -286,7 +286,6 @@ namespace MALClient.Android.Activities
 
         protected override void OnDestroy()
         {
-            _videoAd?.Destroy(this);
             ViewModel.MediaElementCollapsed -= ViewModelOnMediaElementCollapsed;
             ViewModel.MainNavigationRequested -= ViewModelOnMainNavigationRequested;
             base.OnDestroy();
@@ -300,7 +299,6 @@ namespace MALClient.Android.Activities
 
         protected override void OnPause()
         {
-            _videoAd?.Pause(this);
             MemoryWatcher.Watcher.Pause();
 #pragma warning disable 4014
             if (Settings.IsCachingEnabled)

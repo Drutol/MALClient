@@ -144,19 +144,6 @@
               android:textColor="?BrushText" />
         </LinearLayout>
 
-        <android.support.design.widget.FloatingActionButton xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/VideoAdButton"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
-            android:layout_gravity="end|center_vertical"
-            android:layout_marginEnd="74dp"
-            android:layout_marginBottom="0dp"
-            android:clickable="true"
-            android:focusable="true"
-            android:src="@drawable/icon_video_ad"
-            android:tint="#fff"
-            app:backgroundTint="#ff4400"
-            app:fabCustomSize="36dp" />
 
         <android.support.design.widget.FloatingActionButton xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/HamburgerProfileItemSupport"

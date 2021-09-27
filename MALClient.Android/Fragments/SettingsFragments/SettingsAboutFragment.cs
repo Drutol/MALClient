@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using Android.App;
+using Android.BillingClient.Api;
 using Android.Content;
 using Android.OS;
 using Android.Runtime;
@@ -11,7 +12,7 @@ using Android.Views;
 using Android.Widget;
 using Java.Lang;
 using MALClient.Android.Activities;
-using MALClient.Android.Aidl;
+using MALClient.Android.Adapters;
 using MALClient.Android.DIalogs;
 using MALClient.Android.Listeners;
 using MALClient.Android.ViewModels;
@@ -56,39 +57,31 @@ namespace MALClient.Android.Fragments.SettingsFragments
 
         private async void AboutPageDonateButtonOnClick(View view)
         {
-            InAppBillingServiceConnection connection = null;
+            BillingAdapter adapter = null;
             try
             {
-                connection = new InAppBillingServiceConnection(Activity);
-                var sem = new SemaphoreSlim(0);
-                connection.OnConnected += (sender, args) => sem.Release();
-                connection.Connect();
-                if (await sem.WaitAsync(TimeSpan.FromSeconds(5)))
-                {
-                    //first try to redeem all existing ones
-                    var ownedItems = connection.Service.GetPurchases(3, Context.PackageName, "inapp", null);
-                    if (ownedItems.GetInt("RESPONSE_CODE") != 0)
-                        throw new Exception();
+                adapter = new BillingAdapter();
+                await adapter.Initialize(Activity);
 
-                    // Get the list of purchased items
-                    foreach (var purchaseData in ownedItems.GetStringArrayList("INAPP_PURCHASE_DATA_LIST"))
-                    {
-                        var o = new JSONObject(purchaseData);
-                        var purchaseToken = o.OptString("token", o.OptString("purchaseToken"));
-                        // Consume purchaseToken, handling any errors
-                        connection.Service.ConsumePurchase(3, Context.PackageName, purchaseToken);
-                    }
-
-                    var buyIntentBundle = connection.Service.GetBuyIntent(3, Context.PackageName,
-                        GetProductSku(), "inapp", "");
-                    var pendingIntent = buyIntentBundle.GetParcelable("BUY_INTENT") as PendingIntent;
-                    MainActivity.CurrentContext.StartIntentSenderForResult(pendingIntent.IntentSender, 1001,
-                        new Intent(), 0, 0, 0, Bundle.Empty);
-                }
-                else
-                {
+                //first try to redeem all existing ones
+                var ownedItems = adapter.BillingClient.QueryPurchases("inapp");
+                if (ownedItems.ResponseCode != 0)
                     throw new Exception();
+
+                // Get the list of purchased items
+                foreach (var purchaseData in ownedItems.PurchasesList)
+                {
+                    await adapter.BillingClient.ConsumeAsync(ConsumeParams.NewBuilder().SetPurchaseToken(purchaseData.PurchaseToken).Build());
                 }
+
+                var sku = await adapter.BillingClient.QuerySkuDetailsAsync(SkuDetailsParams.NewBuilder()
+                    .SetSkusList(new List<string> { GetProductSku() }).SetType("inapp").Build());
+
+                if(sku.Result.ResponseCode != BillingResponseCode.Ok)
+                    throw new Exception();
+
+                var buyIntentBundle = adapter.BillingClient.LaunchBillingFlow(Activity,
+                    BillingFlowParams.NewBuilder().SetSkuDetails(sku.SkuDetails[0]).Build());
             }
             catch (Exception e)
             {
@@ -97,7 +90,7 @@ namespace MALClient.Android.Fragments.SettingsFragments
             }
             finally
             {
-                connection?.Disconnected();
+                adapter?.BillingClient?.EndConnection();
             }
 
             string GetProductSku()

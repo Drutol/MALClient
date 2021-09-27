@@ -468,10 +468,6 @@ namespace MALClient.Android.Activities
                     var support = _settingsHamburgerView.FindViewById(Resource.Id.HamburgerProfileItemSupport);
                     support.SetOnClickListener(listener);
                     support.StartAnimation(AnimationUtils.LoadAnimation(this, Resource.Animator.animation_pulse));
-
-                    _settingsHamburgerView.FindViewById(Resource.Id.VideoAdButton).SetOnClickListener(listener);
-
-
                     //
                     _settingsHamburgerView.SetOnClickListener(new OnClickListener(view =>
                     {
@@ -555,7 +551,6 @@ namespace MALClient.Android.Activities
                     _supportMenu.Menu.Add(0,2,0,"Donate Google");
                     //_supportMenu.Menu.Add(0,3,0,"Donate PayPal");
                     _supportMenu.Menu.Add(0,4,0,"Turn on ads");
-                    _supportMenu.Menu.Add(0,5,0,"Watch VideoAd");
 
                     _supportMenu.Show();
 
@@ -570,10 +565,6 @@ namespace MALClient.Android.Activities
                         OnSupportMenuSelection(item.ItemId);
                     }));
 
-                    break;
-                case Resource.Id.VideoAdButton:
-                    DisplayVideoAd();
-                    _drawer.CloseDrawer();
                     break;
             }
         }
@@ -601,10 +592,6 @@ namespace MALClient.Android.Activities
                 case 4:
                     ViewModelLocator.GeneralMain.Navigate(PageIndex.PageSettings,SettingsPageIndex.Ads);
                     SetActiveButton(HamburgerButtons.Settings);
-                    _drawer.CloseDrawer();
-                    break;
-                case 5:
-                    DisplayVideoAd();
                     _drawer.CloseDrawer();
                     break;
                 //case 6:

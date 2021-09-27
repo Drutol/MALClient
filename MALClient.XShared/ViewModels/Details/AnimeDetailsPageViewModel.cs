@@ -79,6 +79,7 @@ namespace MALClient.XShared.ViewModels.Details
         public AnimeDetailsPageNavigationArgs PrevArgs { get; private set; }
         private List<string> _synonyms = new List<string>(); //used to increase ann's search reliability
         private bool _animeMode;
+        private bool _loadedCharacters;
 
         public AnimeDetailsPageViewModel(IClipboardProvider clipboardProvider,
             ISystemControlsLauncherService systemControlsLauncherService, IAnimeLibraryDataStorage animeLibraryDataStorage, IAiringNotificationsAdapter airingNotificationsAdapter)
@@ -236,7 +237,7 @@ namespace MALClient.XShared.ViewModels.Details
             _loadingAlternate = false;
 
             //details reset
-            _loadedDetails = _loadedReviews = _loadedRecomm = _loadedRelated = _loadedVideos = false;
+            _loadedDetails = _loadedReviews = _loadedRecomm = _loadedRelated = _loadedVideos = _loadedCharacters = false;
 
             //basic init assignment
             _animeItemReference = param.AnimeItem;
@@ -1184,7 +1185,9 @@ namespace MALClient.XShared.ViewModels.Details
             if (_loadedRecomm)
                 LoadRecommendations(true);
             if(_loadedRelated)
-                LoadRelatedAnime(true);
+                LoadRelatedAnime(true);  
+            if(_loadedCharacters)
+                LoadCharacters(true);
         }
 
         public event EmptyEventHander OnDetailsLoaded;
@@ -1420,9 +1423,6 @@ namespace MALClient.XShared.ViewModels.Details
 
         public async void LoadCharacters(bool force = false)
         {
-            if(!LoadCharactersButtonVisibility)
-                return;
-
             LoadingCharactersVisibility = true;
             LoadCharactersButtonVisibility = false;
             try
@@ -1432,6 +1432,7 @@ namespace MALClient.XShared.ViewModels.Details
                     AnimeStaffData =
                         new AnimeStaffDataViewModels(
                             await new AnimeCharactersStaffQuery(MalId, AnimeMode).GetCharStaffData(force));
+                    _loadedCharacters = true;
                     CharactersGridVisibility = true;
                 }
                 else //broken for now -> malformed html

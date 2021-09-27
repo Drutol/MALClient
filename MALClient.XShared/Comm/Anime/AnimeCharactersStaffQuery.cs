@@ -102,7 +102,7 @@ namespace MALClient.XShared.Comm.Anime
                 ? new AnimeStaffData()
                 : await DataCache.RetrieveData<AnimeStaffData>($"staff_{_animeId}", "AnimeDetails", 7) ??
                   new AnimeStaffData();
-            if (output.AnimeCharacterPairs.Count > 0 || output.AnimeStaff.Count > 0) return output;
+            if ((output.AnimeCharacterPairs.Count > 0 || output.AnimeStaff.Count > 0) && !force) return output;
 
             var raw = await GetRequestResponse();
             if (string.IsNullOrEmpty(raw))
@@ -118,7 +118,7 @@ namespace MALClient.XShared.Comm.Anime
                 List<HtmlNode> staffTables = new List<HtmlNode>();
                 bool nowStaff = false;
                 int headerCount = 0;
-                foreach (var node in doc.DocumentNode.Descendants("table"))
+                foreach (var node in mainContainer.Descendants("table"))
                 {
                     try
                     {
@@ -147,6 +147,9 @@ namespace MALClient.XShared.Comm.Anime
                 {
                     try
                     {
+                        if (table.Attributes["class"].Value == "js-anime-character-va")
+                            continue;
+
                         var current = new AnimeCharacterStaffModel();
 
                         var imgs = table.Descendants("img").ToList();
@@ -164,8 +167,16 @@ namespace MALClient.XShared.Comm.Anime
                         current.AnimeCharacter.ShowId = _animeId.ToString();
                         current.AnimeCharacter.Name =
                             WebUtility.HtmlDecode(imgs[0].Attributes["alt"].Value.Replace(",", ""));
-                        current.AnimeCharacter.Id = infos[1].ChildNodes[1].Attributes["href"].Value.Split('/')[4];
-                        current.AnimeCharacter.Notes = infos[1].ChildNodes[3].InnerText.Trim();
+
+                        current.AnimeCharacter.Id = infos[1].Descendants("a").First().Attributes["href"].Value.Split('/')[4];
+
+                        var pads = infos[1].WhereOfDescendantsWithClass("div", "spaceit_pad").ToList();
+
+
+                        if(pads.Count > 1)
+                            current.AnimeCharacter.Notes = WebUtility.HtmlDecode(pads[1].InnerText.Replace("\n","").Trim());
+                        //if (pads.Count > 2)
+                        //    current.AnimeCharacter.Notes += "," + WebUtility.HtmlDecode(pads[2].InnerText.Replace("\n", "").Trim());
 
                         //voiceactor
                         try
@@ -177,10 +188,15 @@ namespace MALClient.XShared.Comm.Anime
                                 current.AnimeStaffPerson.ImgUrl = img.Substring(0, img.IndexOf('?'));
                             }
                             current.AnimeStaffPerson.Name = WebUtility.HtmlDecode(imgs[1].Attributes["alt"].Value.Replace(",", ""));
-                            current.AnimeStaffPerson.Id = infos[3].ChildNodes[1].Attributes["href"].Value.Split('/')[4];
-                            current.AnimeStaffPerson.Notes = infos[3].ChildNodes[4].InnerText.Trim();
+
+                            var padss = infos[3].WhereOfDescendantsWithClass("div", "spaceit_pad").ToList();
+
+                            current.AnimeStaffPerson.Id = padss[0].ChildNodes[1].Attributes["href"].Value.Split('/')[4];
+                            if(padss.Count > 1)
+                                current.AnimeStaffPerson.Notes = WebUtility.HtmlDecode(padss[1].InnerText.Replace("\n", "").Trim());
+
                         }
-                        catch (Exception)
+                        catch (Exception e)
                         {
                             //no voice actor
                             current.AnimeStaffPerson.Name = "Unknown";

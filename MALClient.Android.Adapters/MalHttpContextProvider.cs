@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Security;
 using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -225,6 +226,17 @@ namespace MALClient.Android.Adapters
                 AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate,
                 AllowAutoRedirect = true,
                 UseCookies = true,
+                //TODO, let's encrypt cert expired and caused issues
+                ServerCertificateCustomValidationCallback = (message, certificate2, chain, errors) =>
+                {
+                    if (message.RequestUri.ToString().StartsWith("https://api.jikan.moe"))
+                        return true;
+
+                    if (errors == SslPolicyErrors.None)
+                        return true;
+
+                    return false;
+                }
             };
 
 

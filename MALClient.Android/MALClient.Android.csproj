@@ -48,6 +48,8 @@
     <AndroidEnableProfiledAot>false</AndroidEnableProfiledAot>
     <JavaMaximumHeapSize>4G</JavaMaximumHeapSize>
     <LangVersion>latest</LangVersion>
+    <AndroidTlsProvider>
+    </AndroidTlsProvider>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugSymbols>True</DebugSymbols>

@@ -234,6 +234,9 @@ namespace MALClient.XShared.Comm.Anime
                         current.Id = link.Attributes["href"].Value.Split('/')[4];
                         current.Notes = staffRow.FirstOfDescendantsWithClass("div", "spaceit_pad").InnerText.Trim();
 
+                        if(string.IsNullOrEmpty(current.Name))
+                            continue;
+
                         output.AnimeStaff.Add(current);
                         if (i++ > 30)
                             break;

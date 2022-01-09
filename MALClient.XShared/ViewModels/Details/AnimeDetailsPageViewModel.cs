@@ -1435,10 +1435,10 @@ namespace MALClient.XShared.ViewModels.Details
                     _loadedCharacters = true;
                     CharactersGridVisibility = true;
                 }
-                else //broken for now -> malformed html
+                else 
                 {
-                    //MangaCharacterData = await new AnimeCharactersStaffQuery(Id, _animeMode).GetMangaCharacters(force);
-                    MangaCharacterGridVisibility = true;
+                    //MangaCharacterData = (await new AnimeCharactersStaffQuery(MalId, AnimeMode).GetMangaCharacters(force)).Select(character => new FavouriteViewModel(character)).ToList();
+                    //MangaCharacterGridVisibility = true;
                 }
                 LoadingCharactersVisibility = false;
             }

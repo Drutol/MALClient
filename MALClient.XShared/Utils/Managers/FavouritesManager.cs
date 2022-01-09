@@ -45,7 +45,7 @@ namespace MALClient.XShared.Utils.Managers
                 await DataCache.SaveDataRoaming(KnownFavourites, "favourites");
         }
 
-        public static void ForceNewSet(FavouriteType type,List<string> favs)
+        public static void ForceNewSet(FavouriteType type, List<string> favs)
         {
             _changedSth = true;
             KnownFavourites[type] = favs;

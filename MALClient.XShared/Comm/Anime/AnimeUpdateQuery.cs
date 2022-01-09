@@ -80,7 +80,7 @@ namespace MALClient.XShared.Comm.Anime
                         new("is_rewatching", _item.IsRewatching.ToString().ToLower()),
                         new("score", _item.MyScore.ToString()),
                         new("num_watched_episodes", _item.MyEpisodes.ToString()),
-                        //new("priority", ((int) _item.Priority).ToString()),
+                        new("priority", ((int) _item.Priority).ToString()),
                         new("tags", _item.Notes),
                     };
 

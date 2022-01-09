@@ -1,12 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.drutol.malclient" android:installLocation="auto" android:versionName="1.5.9.8" android:versionCode="145">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.drutol.malclient" android:installLocation="auto" android:versionName="1.5.10.0" android:versionCode="146">
 	<uses-permission android:name="com.android.vending.BILLING" />
 	<uses-permission android:name="android.permission.INTERNET" />
 	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 	<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 	<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-	<uses-sdk android:minSdkVersion="22" android:targetSdkVersion="29" />
+	<uses-sdk android:minSdkVersion="22" android:targetSdkVersion="30" />
 	<application android:label="MALClient" android:icon="@mipmap/ic_launcher" android:roundIcon="@mipmap/ic_launcher_round">
 		<uses-library android:name="org.apache.http.legacy" android:required="false" />
 		<meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />

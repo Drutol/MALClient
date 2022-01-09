@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using HtmlAgilityPack;
+using JikanDotNet;
 using MALClient.Models.Enums;
 using MALClient.Models.Models;
 using MALClient.Models.Models.ApiResponses;
@@ -107,146 +108,49 @@ namespace MALClient.XShared.Comm.Profile
 
                 #endregion
 
-                #region FavChar
-
                 try
                 {
-                    foreach (
-                        var favCharNode in
-                        doc.DocumentNode.Descendants("ul")
-                            .First(
-                                node =>
-                                    node.Attributes.Contains("class") &&
-                                    node.Attributes["class"].Value ==
-                                    "favorites-list characters")
-                            .Descendants("li"))
+                    var jikan = new Jikan();
+                    var profile = await jikan.GetUserProfile(_userName);
+
+                    foreach (var favAnime in profile.Favorites.Anime)
                     {
-                        var curr = new AnimeCharacter();
-                        var imgNode = favCharNode.Descendants("img").First();
-                        string styleString = null;
-                        try
+                        current.FavouriteAnime.Add((int)favAnime.MalId);
+                    }  
+                    
+                    foreach (var favAnime in profile.Favorites.Manga)
+                    {
+                        current.FavouriteManga.Add((int)favAnime.MalId);
+                    }    
+                    
+                    foreach (var favChar in profile.Favorites.Characters)
+                    {
+                        current.FavouriteCharacters.Add(new AnimeCharacter
                         {
-                            styleString = imgNode.Attributes["src"].Value;
-                        }
-                        catch 
+                            Id = favChar.MalId.ToString(),
+                            Name = favChar.Name,
+                            ImgUrl = favChar.ImageURL,
+                            FromAnime = favChar.Url.Contains("manga"),
+                            Notes = favChar.Role,
+                            ShowId = favChar.MalId.ToString()
+                        });
+                    }        
+                    
+                    foreach (var favChar in profile.Favorites.People)
+                    {
+                        current.FavouritePeople.Add(new AnimeStaffPerson
                         {
-                            styleString = imgNode.Attributes["data-src"].Value;
-                        }
-                        curr.ImgUrl = styleString.Replace("/r/80x120", "");
-                        curr.ImgUrl = curr.ImgUrl.Substring(0, curr.ImgUrl.IndexOf('?'));
-                        var infoNode = favCharNode.Descendants("div").Skip(1).First();
-                        var nameNode = infoNode.Descendants("a").First();
-                        curr.Name = nameNode.InnerText.Trim();
-                        curr.Id = nameNode.Attributes["href"].Value.Substring(9).Split('/')[2];
-                        var originNode = infoNode.Descendants("a").Skip(1).First();
-                        curr.Notes = originNode.InnerText.Trim();
-                        curr.ShowId = originNode.Attributes["href"].Value.Split('/')[2];
-                        curr.FromAnime = originNode.Attributes["href"].Value.Split('/')[1] == "anime";
-                        current.FavouriteCharacters.Add(curr);
+                            Id = favChar.MalId.ToString(),
+                            Name = favChar.Name,
+                            ImgUrl = favChar.ImageURL,
+                            Notes = favChar.Role,
+                        });
                     }
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
                     //no favs
                 }
-
-                #endregion
-
-                #region FavManga
-
-                try
-                {
-                    foreach (
-                        var favMangaNode in
-                        doc.DocumentNode.Descendants("ul")
-                            .First(
-                                node =>
-                                    node.Attributes.Contains("class") &&
-                                    node.Attributes["class"].Value ==
-                                    "favorites-list manga")
-                            .Descendants("li"))
-                    {
-                        current.FavouriteManga.Add(
-                            int.Parse(
-                                favMangaNode.Descendants("a").First().Attributes["href"].Value.Substring(9).Split('/')[2
-                                ]));
-                    }
-                }
-                catch (Exception)
-                {
-                    //no favs
-                }
-
-                #endregion
-
-                #region FavAnime
-
-                try
-                {
-                    foreach (
-                        var favAnimeNode in
-                        doc.DocumentNode.Descendants("ul")
-                            .First(
-                                node =>
-                                    node.Attributes.Contains("class") &&
-                                    node.Attributes["class"].Value ==
-                                    "favorites-list anime")
-                            .Descendants("li"))
-                    {
-                        current.FavouriteAnime.Add(
-                            int.Parse(
-                                favAnimeNode.Descendants("a").First().Attributes["href"].Value.Substring(9).Split('/')[2
-                                ]));
-                    }
-                }
-                catch (Exception)
-                {
-                    //no favs
-                }
-
-                #endregion
-
-                #region FavPpl
-
-                try
-                {
-                    foreach (
-                        var favPersonNode in
-                        doc.DocumentNode.Descendants("ul")
-                            .First(
-                                node =>
-                                    node.Attributes.Contains("class") &&
-                                    node.Attributes["class"].Value ==
-                                    "favorites-list people")
-                            .Descendants("li"))
-                    {
-                        var curr = new AnimeStaffPerson();
-                        var img = favPersonNode.Descendants("img");
-                        string styleString = null;
-                        try
-                        {
-                            styleString = img.First().Attributes["src"].Value;
-                        }
-                        catch
-                        {
-                            styleString = img.First().Attributes["data-src"].Value;
-                        }
-                        curr.ImgUrl = styleString.Replace("/r/80x120", "");
-                        curr.ImgUrl = curr.ImgUrl.Substring(0, curr.ImgUrl.IndexOf('?'));
-
-                        var aElems = favPersonNode.Descendants("a");
-                        curr.Name = aElems.Skip(1).First().InnerText.Trim();
-                        curr.Id = aElems.Skip(1).First().Attributes["href"].Value.Substring(9).Split('/')[2];
-
-                        current.FavouritePeople.Add(curr);
-                    }
-                }
-                catch (Exception)
-                {
-                    //no favs
-                }
-
-                #endregion
 
                 #region Stats
 

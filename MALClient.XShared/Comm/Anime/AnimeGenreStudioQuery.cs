@@ -5,6 +5,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using HtmlAgilityPack;
+using JikanDotNet;
 using MALClient.Models.Enums;
 using MALClient.Models.Models.AnimeScrapped;
 using MALClient.XShared.Utils;
@@ -53,29 +54,43 @@ namespace MALClient.XShared.Comm.Anime
             if (output.Count > 0)
                 return output;
 
-            var raw = await GetRequestResponse();
-            if (string.IsNullOrEmpty(raw))
-                return output;
+            var jikan = new Jikan();
 
-            var doc = new HtmlDocument();
-            doc.LoadHtml(raw);
-            int i = 1 + 100*(_page-1);
-            i = i < 1 ? 1 : i;
-            try
+            if (_genreMode)
             {
-                foreach (var htmlNode in doc.WhereOfDescendantsWithPartialClass("div", "seasonal-anime js-seasonal-anime"))
+                var genres = await jikan.GetAnimeGenre((int)_genre, _page);
+                foreach (var animeSubEntry in genres.Anime)
                 {
-                    var model = AnimeSeasonalQuery.ParseFromHtml(htmlNode,i,false);
-                    if(model == null)
-                        continue;
-                    output.Add(model);
-                    i++;
+                    output.Add(new SeasonalAnimeData
+                    {
+                        Title = animeSubEntry.Title,
+                        Id = (int)animeSubEntry.MalId,
+                        ImgUrl = animeSubEntry.ImageURL,
+                        Episodes = (animeSubEntry.Episodes ?? 0).ToString(),
+                        Score = animeSubEntry.Score ?? 0,
+                        Genres = animeSubEntry.Genres.Select(item => item.Name).ToList(),
+                        Index = genres.Anime.FindIndex(animeSubEntry) + 1
+                    });
                 }
             }
-            catch (Exception e)
+            else
             {
-                //ejchtiemel
+                var genres = await jikan.GetProducer((int)_studio, _page);
+                foreach (var animeSubEntry in genres.Anime)
+                {
+                    output.Add(new SeasonalAnimeData
+                    {
+                        Title = animeSubEntry.Title,
+                        Id = (int)animeSubEntry.MalId,
+                        ImgUrl = animeSubEntry.ImageURL,
+                        Episodes = (animeSubEntry.Episodes ?? 0).ToString(),
+                        Score = animeSubEntry.Score ?? 0,
+                        Genres = animeSubEntry.Genres.Select(item => item.Name).ToList(),
+                        Index = genres.Anime.FindIndex(animeSubEntry) + 1
+                    });
+                }
             }
+
 
             if(_genreMode)
                 DataCache.SaveData(output, $"genre_{_genre}_page{_page}", "AnimesByGenre");

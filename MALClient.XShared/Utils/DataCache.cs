@@ -43,7 +43,6 @@ namespace MALClient.XShared.Utils
             ApplicationDataService = ResourceLocator.ApplicationDataService;
             ConnectionInfoProvider = ResourceLocator.ConnectionInfoProvider;
             LoadVolatileData();
-            LoadSeasonalurls();
             RetrieveHumMalIdDictionary();      
         }
 
@@ -219,7 +218,6 @@ namespace MALClient.XShared.Utils
         #region VolatileData
 
         private static Dictionary<int, VolatileDataCache> _volatileDataCache;
-        public static Dictionary<string, string> SeasonalUrls;
 
         private static async void LoadVolatileData()
         {
@@ -334,35 +332,6 @@ namespace MALClient.XShared.Utils
                 //No file
             }
             return null;
-        }
-
-        #endregion
-
-        #region SeasonalUrls
-
-        public static async void SaveSeasonalUrls(Dictionary<string, string> seasonData)
-        {
-            try
-            {
-                SeasonalUrls = seasonData;
-                await DataCacheService.SaveData(seasonData, "seasonal_urls.json", "");
-            }
-            catch (Exception)
-            {
-                //ignored
-            }
-        }
-
-        private static async void LoadSeasonalurls()
-        {
-            try
-            {
-                SeasonalUrls = await RetrieveData<Dictionary<string, string>>("seasonal_urls.json", "", 0);
-            }
-            catch (Exception)
-            {
-                SeasonalUrls = new Dictionary<string, string>();
-            }
         }
 
         #endregion

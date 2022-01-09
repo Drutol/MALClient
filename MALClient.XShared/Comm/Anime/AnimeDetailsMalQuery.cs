@@ -101,13 +101,21 @@ namespace MALClient.XShared.Comm.Anime
 
                 if (_anime)
                 {
-                    foreach (var row in doc.FirstOfDescendantsWithClass("div", "theme-songs js-theme-songs ending").Descendants("span"))
+                    foreach (var row in doc.FirstOfDescendantsWithClass("div", "theme-songs js-theme-songs ending").Descendants("td"))
                     {
-                        output.Endings.Add(WebUtility.HtmlDecode(row.InnerText));
+                        if (row.ChildNodes.Any(n => n.HasClass("theme-song-artist")))
+                        {
+                            if (!string.IsNullOrWhiteSpace(row.InnerText))
+                                output.Endings.Add(WebUtility.HtmlDecode(row.InnerText.Trim()));
+                        }
                     }
-                    foreach (var row in doc.FirstOfDescendantsWithClass("div", "theme-songs js-theme-songs opnening").Descendants("span"))
+                    foreach (var row in doc.FirstOfDescendantsWithClass("div", "theme-songs js-theme-songs opnening").Descendants("td"))
                     {
-                        output.Openings.Add(WebUtility.HtmlDecode(row.InnerText));
+                        if (row.ChildNodes.Any(n => n.HasClass("theme-song-artist")))
+                        {
+                            if (!string.IsNullOrWhiteSpace(row.InnerText))
+                                output.Openings.Add(WebUtility.HtmlDecode(row.InnerText.Trim()));
+                        }
                     }
                 }
             }

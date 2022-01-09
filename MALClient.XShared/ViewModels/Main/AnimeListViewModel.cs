@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using JikanDotNet;
 using MALClient.Models.Enums;
 using MALClient.Models.Models;
 using MALClient.Models.Models.Anime;
@@ -23,6 +24,8 @@ using MALClient.XShared.Interfaces;
 using MALClient.XShared.NavArgs;
 using MALClient.XShared.Utils;
 using MALClient.XShared.ViewModels.Interfaces;
+using AnimeType = MALClient.Models.Enums.AnimeType;
+using MangaType = MALClient.Models.Enums.MangaType;
 
 namespace MALClient.XShared.ViewModels.Main
 {
@@ -955,7 +958,7 @@ namespace MALClient.XShared.ViewModels.Main
             var setDefaultSeason = false;
             if (CurrentSeason == null)
             {
-                CurrentSeason = new AnimeSeason {Name = "Airing", Url = "https://myanimelist.net/anime/season"};
+                CurrentSeason = new AnimeSeason {Name = "Airing" };
                 setDefaultSeason = true;
             }
             //get top or seasonal anime
@@ -1066,20 +1069,21 @@ namespace MALClient.XShared.ViewModels.Main
                 SeasonSelection.Clear();
                 var i = 0;
                 var currSeasonIndex = -1;
-                foreach (var seasonalUrl in DataCache.SeasonalUrls)
+                var seasons = await new Jikan().GetSeasonArchive();
+
+                foreach (var season in seasons.Archives.Take(3))
                 {
-                    if (seasonalUrl.Key != "current")
+                    foreach (var yearSeason in season.Season)
                     {
-                        SeasonSelection.Add(new AnimeSeason {Name = seasonalUrl.Key, Url = seasonalUrl.Value});
+                        SeasonSelection.Add(new AnimeSeason { Name = $"{yearSeason} {season.Year}", Year = season.Year, Season = yearSeason});
                         i++;
                     }
-                    else
-                        currSeasonIndex = Convert.ToInt32(seasonalUrl.Value) - 1;
-                    if (seasonalUrl.Key == CurrentSeason.Name)
-                    {
-                        _seasonalUrlsSelectedIndex = i - 1;
-                        RaisePropertyChanged(() => SeasonalUrlsSelectedIndex);
-                    }
+
+                    //if (seasonalUrl.Key == CurrentSeason.Name)
+                    //{
+                    //    _seasonalUrlsSelectedIndex = i - 1;
+                    //    RaisePropertyChanged(() => SeasonalUrlsSelectedIndex);
+                    //}
                 }
                 //we have set artificial default one because we did not know what lays ahead of us
                 if (setDefaultSeason && currSeasonIndex != -1)

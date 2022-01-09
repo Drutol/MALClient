@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using GalaSoft.MvvmLight.Command;
+using JikanDotNet;
 using MALClient.Models.Enums;
 using MALClient.Models.Models.Anime;
 using MALClient.XShared.Comm.Anime;
@@ -485,7 +486,14 @@ namespace MALClient.XShared.ViewModels.Main
                     CurrentSeason = new AnimeSeason
                     {
                         Name = $"{CurrentlySelectedCustomSeasonSeason} {CurrentlySelectedCustomSeasonYear}",
-                        Url = $"https://myanimelist.net/anime/season/{CurrentlySelectedCustomSeasonYear}/{CurrentlySelectedCustomSeasonSeason.ToLower()}"
+                        Year = int.Parse(CurrentlySelectedCustomSeasonYear),
+                        Season = CurrentlySelectedCustomSeasonSeason switch
+                        {
+                            "Winter" => Seasons.Winter,
+                            "Spring" => Seasons.Spring,
+                            "Summer" => Seasons.Summer,
+                            "Fall" => Seasons.Fall
+                        },
                     };
                     SeasonSelection.Add(CurrentSeason);
                     _seasonalUrlsSelectedIndex = 4;

@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Android.Runtime;
-using MALClient.Models.Models.Anime;
+using JikanDotNet;
 using Newtonsoft.Json;
+using AnimeEpisode = MALClient.Models.Models.Anime.AnimeEpisode;
 
 namespace MALClient.XShared.Comm.Anime
 {
@@ -21,20 +23,37 @@ namespace MALClient.XShared.Comm.Anime
             {
                 var result = new List<AnimeEpisode>();
                 int page = 1;
+                var jikan = new Jikan();
                 while (true)
                 {
-                    var json = await _client.GetStringAsync($"https://api.jikan.moe/v3/anime/{animeId}/episodes/{page}");
-                    var eps = JsonConvert.DeserializeObject<RootObject>(json);
+                    try
+                    {
 
-                    result.AddRange(eps.Episodes);
+                        var episodes = await jikan.GetAnimeEpisodesAsync(animeId, page);
+                        result.AddRange(episodes.Data.Select(episode => new AnimeEpisode
+                        {
+                            EpisodeId = episode.MalId,
+                            Filler = episode.Filler ?? false,
+                            ForumUrl = episode.ForumUrl,
+                            Recap = episode.Recap ?? false,
+                            Title = episode.Title,
+                            TitleJapanese = episode.TitleJapanese,
+                            TitleRomanji = episode.Title,
+                            VideoUrl = episode.Url
+                        }));
 
-                    if (eps.Episodes.Count < 100)
-                        break;
+                        if (episodes.Data.Count < 100)
+                            break;
 
-                    page++;
+                        page++;
 
-                    if(page > 10)
-                        break;
+                        if (page > 10)
+                            break;
+                    }
+                    catch (Exception e)
+                    {
+                        await Task.Delay(TimeSpan.FromSeconds(1));
+                    }
                 }
       
                 _cache[animeId] = result;

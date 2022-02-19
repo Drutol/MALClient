@@ -10,7 +10,7 @@ namespace MALClient.Models.Models.Anime
     [Preserve(AllMembers = true)]
     public class AnimeEpisode
     {
-        [JsonProperty("episode_id")] public int EpisodeId { get; set; }
+        [JsonProperty("episode_id")] public long EpisodeId { get; set; }
         [JsonProperty("title")] public string Title { get; set; }
         [JsonProperty("title_japanese")] public string TitleJapanese { get; set; }
         [JsonProperty("title_romanji")] public string TitleRomanji { get; set; }

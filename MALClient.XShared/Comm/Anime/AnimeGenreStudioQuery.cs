@@ -58,35 +58,44 @@ namespace MALClient.XShared.Comm.Anime
 
             if (_genreMode)
             {
-                var genres = await jikan.GetAnimeGenre((int)_genre, _page);
-                foreach (var animeSubEntry in genres.Anime)
+                var genres = await jikan.SearchAnimeAsync(new AnimeSearchConfig
+                {
+                    Genres = new List<AnimeGenreSearch> { (AnimeGenreSearch)_genre },
+                    Page = _page
+                });
+
+                foreach (var animeSubEntry in genres.Data)
                 {
                     output.Add(new SeasonalAnimeData
                     {
                         Title = animeSubEntry.Title,
                         Id = (int)animeSubEntry.MalId,
-                        ImgUrl = animeSubEntry.ImageURL,
+                        ImgUrl = animeSubEntry.Images.JPG.ImageUrl,
                         Episodes = (animeSubEntry.Episodes ?? 0).ToString(),
-                        Score = animeSubEntry.Score ?? 0,
+                        Score = (float)(animeSubEntry.Score ?? 0),
                         Genres = animeSubEntry.Genres.Select(item => item.Name).ToList(),
-                        Index = genres.Anime.FindIndex(animeSubEntry) + 1
+                        Index = genres.Data.FindIndex(animeSubEntry) + 1
                     });
                 }
             }
             else
             {
-                var genres = await jikan.GetProducer((int)_studio, _page);
-                foreach (var animeSubEntry in genres.Anime)
+                var genres = await jikan.SearchAnimeAsync(new AnimeSearchConfig
+                {
+                    ProducerIds = new List<long> { (long)_studio },
+                    Page = _page
+                });
+                foreach (var animeSubEntry in genres.Data)
                 {
                     output.Add(new SeasonalAnimeData
                     {
                         Title = animeSubEntry.Title,
                         Id = (int)animeSubEntry.MalId,
-                        ImgUrl = animeSubEntry.ImageURL,
+                        ImgUrl = animeSubEntry.Images.JPG.ImageUrl,
                         Episodes = (animeSubEntry.Episodes ?? 0).ToString(),
-                        Score = animeSubEntry.Score ?? 0,
+                        Score = (float)(animeSubEntry.Score ?? 0),
                         Genres = animeSubEntry.Genres.Select(item => item.Name).ToList(),
-                        Index = genres.Anime.FindIndex(animeSubEntry) + 1
+                        Index = genres.Data.FindIndex(animeSubEntry) + 1
                     });
                 }
             }

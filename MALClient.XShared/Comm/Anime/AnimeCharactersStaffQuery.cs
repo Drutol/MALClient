@@ -113,7 +113,7 @@ namespace MALClient.XShared.Comm.Anime
 
             try
             {
-                var mainContainer = doc.FirstOfDescendantsWithClass("div", "js-scrollfix-bottom-rel");
+                var mainContainer = doc.FirstOfDescendantsWithClassContaining("div", "js-scrollfix-bottom-rel");
                 List<HtmlNode> charTables = new List<HtmlNode>();
                 List<HtmlNode> staffTables = new List<HtmlNode>();
                 bool nowStaff = false;

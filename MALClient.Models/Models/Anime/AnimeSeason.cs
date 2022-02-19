@@ -6,7 +6,7 @@ namespace MALClient.Models.Models.Anime
     {
         public string Name { get; set; }
         public int Year { get; set; }
-        public Seasons Season { get; set; }
+        public Season Season { get; set; }
     }
 
 }

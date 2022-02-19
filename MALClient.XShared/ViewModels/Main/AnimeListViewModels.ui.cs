@@ -489,10 +489,10 @@ namespace MALClient.XShared.ViewModels.Main
                         Year = int.Parse(CurrentlySelectedCustomSeasonYear),
                         Season = CurrentlySelectedCustomSeasonSeason switch
                         {
-                            "Winter" => Seasons.Winter,
-                            "Spring" => Seasons.Spring,
-                            "Summer" => Seasons.Summer,
-                            "Fall" => Seasons.Fall
+                            "Winter" => Season.Winter,
+                            "Spring" => Season.Spring,
+                            "Summer" => Season.Summer,
+                            "Fall" => Season.Fall
                         },
                     };
                     SeasonSelection.Add(CurrentSeason);

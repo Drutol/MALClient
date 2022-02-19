@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using Android.Runtime;
+using JikanDotNet;
 using MALClient.Models.Enums;
 using MALClient.Models.Models.Anime;
 using MALClient.XShared.Utils;
@@ -48,40 +50,22 @@ namespace MALClient.XShared.Comm.Anime
 
             try
             {
-                var client = new HttpClient(ResourceLocator.MalHttpContextProvider.GetHandler());
-                var response = await client.GetAsync($"https://api.jikan.moe/v3/search/anime?q={_query}");
+                var jikan = new Jikan();
+                var searchResult = await jikan.SearchAnimeAsync(_query);
 
-                if (!response.IsSuccessStatusCode)
-                    return output;
-
-                var results = JsonConvert.DeserializeObject<RootObject>(await response.Content.ReadAsStringAsync());
-
-                foreach (var result in results.results)
+                foreach (var result in searchResult.Data)
                 {
-                    try
-                    {
-                        result.image_url =
-                            Regex.Replace(result.image_url, @"\/r\/\d+x\d+", "");
-                        result.image_url =
-                            result.image_url.Substring(0, result.image_url.IndexOf('?'));
-                    }
-                    catch
-                    {
-                        //image is okay
-                    }
-
-
                     output.Add(new AnimeGeneralDetailsData
                     {
-                        Id = result.mal_id,
-                        AllEpisodes = (result.episodes ?? 0),
-                        Title = WebUtility.HtmlDecode(result.title),
-                        ImgUrl = result.image_url,
-                        Type = result.type,
-                        Synopsis = WebUtility.HtmlDecode(result.synopsis),
-                        MalId = result.mal_id,
-                        GlobalScore = (float)result.score,      
-                        Status =  (result.airing ?? false) ? "Currently Airing" : "Unknown"                       
+                        Id = (int)result.MalId,
+                        AllEpisodes = (result.Episodes ?? 0),
+                        Title = WebUtility.HtmlDecode(result.Title),
+                        ImgUrl = result.Images.JPG.ImageUrl,
+                        Type = result.Type,
+                        Synopsis = WebUtility.HtmlDecode(result.Synopsis),
+                        MalId = (int)result.MalId,
+                        GlobalScore = (float)(result.Score ?? 0f),      
+                        Status =  result.Airing ? "Currently Airing" : "Unknown"                       
                     });
                 }
 
@@ -147,30 +131,6 @@ namespace MALClient.XShared.Comm.Anime
             //}
 
             //return output;
-        }
-
-        [Preserve(AllMembers = true)]
-        class Result
-        {
-            public int mal_id { get; set; }
-            public string url { get; set; }
-            public string image_url { get; set; }
-            public string title { get; set; }
-            public string synopsis { get; set; }
-            public string type { get; set; }
-            public double? score { get; set; }
-            public int? episodes { get; set; }
-            public bool? airing { get; set; }
-            public int? members { get; set; }
-        }
-
-        [Preserve(AllMembers = true)]
-        class RootObject
-        {
-            public string request_hash { get; set; }
-            public bool request_cached { get; set; }
-            public List<Result> results { get; set; }
-            public int result_last_page { get; set; }
         }
     }
 }

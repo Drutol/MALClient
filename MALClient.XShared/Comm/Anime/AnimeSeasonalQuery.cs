@@ -5,6 +5,7 @@ using System.Net;
 using System.Threading.Tasks;
 using HtmlAgilityPack;
 using JikanDotNet;
+using JikanDotNet.Config;
 using MALClient.Models.Models.Anime;
 using MALClient.Models.Models.AnimeScrapped;
 using MALClient.XShared.Utils;
@@ -28,26 +29,32 @@ namespace MALClient.XShared.Comm.Anime
             //current season without suffix
             if (output.Count != 0) return output;
 
-            var jikan = new Jikan(true);
-            Season season = null;
+            var jikan = new Jikan(new JikanClientConfiguration { SuppressException = true });
+            PaginatedJikanResponse<ICollection<JikanDotNet.Anime>> season;
             try
             {
                 if (_season.Year != 0)
-                    season = await jikan.GetSeason(_season.Year, _season.Season);
+                    season = await jikan.GetSeasonAsync(_season.Year, _season.Season);
                 else
-                    season = await jikan.GetSeason();
+                    season = await jikan.GetSeasonAsync(DateTime.UtcNow.Year, DateTime.UtcNow.Month switch
+                    {
+                        > 0 and <= 3 => Season.Winter,
+                        > 3 and <= 6 => Season.Spring,
+                        > 6 and <= 9 => Season.Summer,
+                        > 0 and <= 12 => Season.Fall
+                    });
 
-                foreach (var seasonSeasonEntry in season.SeasonEntries)
+                foreach (var seasonSeasonEntry in season.Data)
                 {
                     output.Add(new SeasonalAnimeData
                     {
                         Title = seasonSeasonEntry.Title,
-                        Id = (int)seasonSeasonEntry.MalId,
-                        ImgUrl = seasonSeasonEntry.ImageURL,
+                        Id = (int)(seasonSeasonEntry.MalId ?? -1),
+                        ImgUrl = seasonSeasonEntry.Images.JPG.ImageUrl,
                         Episodes = (seasonSeasonEntry.Episodes ?? 0).ToString(),
-                        Score = seasonSeasonEntry.Score ?? 0,
+                        Score = (float)(seasonSeasonEntry.Score ?? 0),
                         Genres = seasonSeasonEntry.Genres.Select(item => item.Name).ToList(),
-                        Index = season.SeasonEntries.FindIndex(seasonSeasonEntry) + 1
+                        Index = season.Data.FindIndex(seasonSeasonEntry) + 1
                     });
                 }
 

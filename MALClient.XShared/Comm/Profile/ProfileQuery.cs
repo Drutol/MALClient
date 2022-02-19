@@ -15,6 +15,7 @@ using MALClient.XShared.Utils;
 using MALClient.XShared.Utils.Managers;
 using MALClient.XShared.ViewModels;
 using Newtonsoft.Json;
+using AnimeCharacter = MALClient.Models.Models.Favourites.AnimeCharacter;
 
 namespace MALClient.XShared.Comm.Profile
 {
@@ -111,39 +112,38 @@ namespace MALClient.XShared.Comm.Profile
                 try
                 {
                     var jikan = new Jikan();
-                    var profile = await jikan.GetUserProfile(_userName);
-
-                    foreach (var favAnime in profile.Favorites.Anime)
+                    var favs = await jikan.GetUserFavoritesAsync(_userName);
+                    foreach (var favAnime in favs.Data.Anime)
                     {
                         current.FavouriteAnime.Add((int)favAnime.MalId);
                     }  
                     
-                    foreach (var favAnime in profile.Favorites.Manga)
+                    foreach (var favAnime in favs.Data.Manga)
                     {
                         current.FavouriteManga.Add((int)favAnime.MalId);
                     }    
                     
-                    foreach (var favChar in profile.Favorites.Characters)
+                    foreach (var favChar in favs.Data.Characters)
                     {
                         current.FavouriteCharacters.Add(new AnimeCharacter
                         {
                             Id = favChar.MalId.ToString(),
                             Name = favChar.Name,
-                            ImgUrl = favChar.ImageURL,
+                            ImgUrl = favChar.Images.JPG.ImageUrl,
                             FromAnime = favChar.Url.Contains("manga"),
-                            Notes = favChar.Role,
+                            Notes = favChar.Title,
                             ShowId = favChar.MalId.ToString()
                         });
                     }        
                     
-                    foreach (var favChar in profile.Favorites.People)
+                    foreach (var favChar in favs.Data.People)
                     {
                         current.FavouritePeople.Add(new AnimeStaffPerson
                         {
                             Id = favChar.MalId.ToString(),
                             Name = favChar.Name,
-                            ImgUrl = favChar.ImageURL,
-                            Notes = favChar.Role,
+                            ImgUrl = favChar.Images.JPG.ImageUrl,
+                            Notes = favChar.Title,
                         });
                     }
                 }

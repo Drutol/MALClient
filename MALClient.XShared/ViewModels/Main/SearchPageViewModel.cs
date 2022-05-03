@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using GalaSoft.MvvmLight;
+using JikanDotNet;
 using MALClient.Models.Enums;
 using MALClient.Models.Models.Anime;
 using MALClient.XShared.Comm.Anime;
@@ -41,7 +42,7 @@ namespace MALClient.XShared.ViewModels.Main
 
 
                 if (args.ByGenre)
-                    AvailableSelectionChoices = Enum.GetValues(typeof(AnimeGenres)).Cast<Enum>()
+                    AvailableSelectionChoices = Enum.GetValues(typeof(AnimeGenreSearch)).Cast<Enum>()
                         .OrderBy(val => val.ToString()).ToList();
                 else
                     AvailableSelectionChoices = Enum.GetValues(typeof(AnimeStudios)).Cast<Enum>()

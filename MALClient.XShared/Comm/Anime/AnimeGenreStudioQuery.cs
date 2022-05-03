@@ -16,10 +16,10 @@ namespace MALClient.XShared.Comm.Anime
     {
         private readonly AnimeStudios _studio;
         private readonly int _page;
-        private readonly AnimeGenres _genre;
+        private readonly AnimeGenreSearch _genre;
         private readonly bool _genreMode;
 
-        public AnimeGenreStudioQuery(AnimeGenres genre,int page = 1)
+        public AnimeGenreStudioQuery(AnimeGenreSearch genre, int page = 1)
         {
             _genre = genre;
             _page = page;
@@ -31,7 +31,7 @@ namespace MALClient.XShared.Comm.Anime
             Request.Method = "GET";
         }
 
-        public AnimeGenreStudioQuery(AnimeStudios studio,int page = 1)
+        public AnimeGenreStudioQuery(AnimeStudios studio, int page = 1)
         {
             _studio = studio;
             _page = page;
@@ -44,7 +44,6 @@ namespace MALClient.XShared.Comm.Anime
 
         public async Task<List<SeasonalAnimeData>> GetAnime()
         {
-
             var output =
                 await
                     DataCache.RetrieveData<List<SeasonalAnimeData>>(
@@ -56,52 +55,62 @@ namespace MALClient.XShared.Comm.Anime
 
             var jikan = new Jikan();
 
+            var jikanPage = _page;
+            try
+            {
+
+
+                if (_genreMode)
+                {
+                    var genres = await jikan.SearchAnimeAsync(new AnimeSearchConfig
+                    {
+                        Genres = new List<AnimeGenreSearch> { (AnimeGenreSearch)_genre },
+                        Page = jikanPage
+                    });
+
+                    foreach (var animeSubEntry in genres.Data)
+                    {
+                        output.Add(new SeasonalAnimeData
+                        {
+                            Title = animeSubEntry.Title,
+                            Id = (int)animeSubEntry.MalId,
+                            ImgUrl = animeSubEntry.Images.JPG.ImageUrl,
+                            Episodes = (animeSubEntry.Episodes ?? 0).ToString(),
+                            Score = (float)(animeSubEntry.Score ?? 0),
+                            Genres = animeSubEntry.Genres.Select(item => item.Name).ToList(),
+                            Index = genres.Data.FindIndex(animeSubEntry) + (25 * (_page - 1)) + 1 
+                        });
+                    }
+                }
+                else
+                {
+                    var genres = await jikan.SearchAnimeAsync(new AnimeSearchConfig
+                    {
+                        ProducerIds = new List<long> { (long)_studio },
+                        Page = jikanPage
+                    });
+                    foreach (var animeSubEntry in genres.Data)
+                    {
+                        output.Add(new SeasonalAnimeData
+                        {
+                            Title = animeSubEntry.Title,
+                            Id = (int)animeSubEntry.MalId,
+                            ImgUrl = animeSubEntry.Images.JPG.ImageUrl,
+                            Episodes = (animeSubEntry.Episodes ?? 0).ToString(),
+                            Score = (float)(animeSubEntry.Score ?? 0),
+                            Genres = animeSubEntry.Genres.Select(item => item.Name).ToList(),
+                            Index = genres.Data.FindIndex(animeSubEntry) + (25 * (_page - 1)) + 1
+                        });
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                return output;
+            }
+
+
             if (_genreMode)
-            {
-                var genres = await jikan.SearchAnimeAsync(new AnimeSearchConfig
-                {
-                    Genres = new List<AnimeGenreSearch> { (AnimeGenreSearch)_genre },
-                    Page = _page
-                });
-
-                foreach (var animeSubEntry in genres.Data)
-                {
-                    output.Add(new SeasonalAnimeData
-                    {
-                        Title = animeSubEntry.Title,
-                        Id = (int)animeSubEntry.MalId,
-                        ImgUrl = animeSubEntry.Images.JPG.ImageUrl,
-                        Episodes = (animeSubEntry.Episodes ?? 0).ToString(),
-                        Score = (float)(animeSubEntry.Score ?? 0),
-                        Genres = animeSubEntry.Genres.Select(item => item.Name).ToList(),
-                        Index = genres.Data.FindIndex(animeSubEntry) + 1
-                    });
-                }
-            }
-            else
-            {
-                var genres = await jikan.SearchAnimeAsync(new AnimeSearchConfig
-                {
-                    ProducerIds = new List<long> { (long)_studio },
-                    Page = _page
-                });
-                foreach (var animeSubEntry in genres.Data)
-                {
-                    output.Add(new SeasonalAnimeData
-                    {
-                        Title = animeSubEntry.Title,
-                        Id = (int)animeSubEntry.MalId,
-                        ImgUrl = animeSubEntry.Images.JPG.ImageUrl,
-                        Episodes = (animeSubEntry.Episodes ?? 0).ToString(),
-                        Score = (float)(animeSubEntry.Score ?? 0),
-                        Genres = animeSubEntry.Genres.Select(item => item.Name).ToList(),
-                        Index = genres.Data.FindIndex(animeSubEntry) + 1
-                    });
-                }
-            }
-
-
-            if(_genreMode)
                 DataCache.SaveData(output, $"genre_{_genre}_page{_page}", "AnimesByGenre");
             else
                 DataCache.SaveData(output, $"studio_{_studio}_page{_page}", "AnimesByStudio");

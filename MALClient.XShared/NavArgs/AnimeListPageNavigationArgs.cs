@@ -1,4 +1,5 @@
-﻿using MALClient.Models.Enums;
+﻿using JikanDotNet;
+using MALClient.Models.Enums;
 using MALClient.Models.Models.Anime;
 using MALClient.XShared.Comm.Anime;
 
@@ -18,7 +19,7 @@ namespace MALClient.XShared.NavArgs
         public SortOptions SortOption;
         public TopAnimeType TopWorkMode = TopAnimeType.General;
         public AnimeListWorkModes WorkMode = AnimeListWorkModes.Anime;
-        public AnimeGenres Genre;
+        public AnimeGenreSearch Genre;
         public AnimeStudios Studio;
 
         public AnimeListPageNavigationArgs(SortOptions sort, int status, bool desc,
@@ -50,7 +51,7 @@ namespace MALClient.XShared.NavArgs
             Studio = studio;
         }
 
-        public AnimeListPageNavigationArgs(AnimeGenres genre)
+        public AnimeListPageNavigationArgs(AnimeGenreSearch genre)
         {
             WorkMode = AnimeListWorkModes.AnimeByGenre;
             Genre = genre;

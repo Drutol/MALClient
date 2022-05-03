@@ -479,13 +479,13 @@ namespace MALClient.Android.Activities
 
                 ImageService.Instance
                     .LoadUrl($"https://cdn.myanimelist.net/images/userimages/{Credentials.Id}.webp",
-                        TimeSpan.FromDays(1))
+                        TimeSpan.FromMinutes(10))
                     .FadeAnimation(false).Transform(new CircleTransformation())
                     .Error(e =>
                     {
                         ImageService.Instance
                             .LoadUrl($"https://cdn.myanimelist.net/images/userimages/{Credentials.Id}.jpg",
-                                TimeSpan.FromDays(1))
+                                TimeSpan.FromMinutes(10))
                             .FadeAnimation(false).Transform(new CircleTransformation())
                             .Into(_accountHamburgerView.FindViewById<ImageViewAsync>(Resource.Id
                                 .HamburgerProfileItemImage));

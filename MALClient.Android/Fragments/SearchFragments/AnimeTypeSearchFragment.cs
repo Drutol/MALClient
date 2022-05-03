@@ -10,6 +10,7 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using GalaSoft.MvvmLight.Helpers;
+using JikanDotNet;
 using MALClient.Android.Activities;
 using MALClient.Android.Resources;
 using MALClient.Models.Enums;
@@ -60,8 +61,8 @@ namespace MALClient.Android.Fragments.SearchFragments
         private void ViewOnClick(object sender, EventArgs eventArgs)
         {
             var item = (sender as View).Tag.Unwrap<Enum>();
-            if (item is AnimeGenres)
-                ViewModelLocator.GeneralMain.Navigate(PageIndex.PageAnimeList, new AnimeListPageNavigationArgs((AnimeGenres)item));
+            if (item is AnimeGenreSearch)
+                ViewModelLocator.GeneralMain.Navigate(PageIndex.PageAnimeList, new AnimeListPageNavigationArgs((AnimeGenreSearch)item));
             else                                                                                                             
                 ViewModelLocator.GeneralMain.Navigate(PageIndex.PageAnimeList, new AnimeListPageNavigationArgs((AnimeStudios)item));
         }

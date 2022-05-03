@@ -34,8 +34,8 @@ namespace MALClient.XShared.ViewModels.Main
         private readonly IAnimeLibraryDataStorage _animeLibraryDataStorage;
         private const int ItemPrefferedWidth = 385;
         private const int LastIndexPositionOnRefresh = -10; //just a constant
-        private const int ItemsPerPage = 50; //just a constant
-        private const int ItemsPerGenereStudioPage = 100; //just a constant
+        private const int ItemsPerPage = 25; //just a constant
+        private const int ItemsPerGenereStudioPage = 25; //just a constant
 
         private SmartObservableCollection<AnimeItemViewModel> _animeItems =
             new SmartObservableCollection<AnimeItemViewModel>();
@@ -64,7 +64,7 @@ namespace MALClient.XShared.ViewModels.Main
         public bool CanAddScrollHandler;
         public AnimeSeason CurrentSeason;
 
-        public AnimeGenres Genre { get; set; }
+        public AnimeGenreSearch Genre { get; set; }
         public AnimeStudios Studio { get; set; }
 
         public IDimensionsProvider DimensionsProvider { get; set; }

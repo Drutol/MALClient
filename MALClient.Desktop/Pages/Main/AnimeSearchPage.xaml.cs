@@ -1,6 +1,7 @@
 ﻿using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using JikanDotNet;
 using MALClient.Models.Enums;
 using MALClient.XShared.NavArgs;
 using MALClient.XShared.ViewModels;
@@ -89,8 +90,8 @@ namespace MALClient.UWP.Pages.Main
 
         private void SelectionGridViewOnClick(object sender, ItemClickEventArgs e)
         {
-            if(e.ClickedItem is AnimeGenres)
-                ViewModelLocator.GeneralMain.Navigate(PageIndex.PageAnimeList,new AnimeListPageNavigationArgs((AnimeGenres)e.ClickedItem));
+            if(e.ClickedItem is AnimeGenreSearch)
+                ViewModelLocator.GeneralMain.Navigate(PageIndex.PageAnimeList,new AnimeListPageNavigationArgs((AnimeGenreSearch)e.ClickedItem));
             else
                 ViewModelLocator.GeneralMain.Navigate(PageIndex.PageAnimeList, new AnimeListPageNavigationArgs((AnimeStudios)e.ClickedItem));
         }

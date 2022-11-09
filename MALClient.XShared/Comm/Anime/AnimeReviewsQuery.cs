@@ -34,30 +34,32 @@ namespace MALClient.XShared.Comm.Anime
                 : await DataCache.RetrieveReviewsData(_targetId, _anime) ?? new List<AnimeReviewData>();
             if (output.Count != 0) return output;
 
-            var jikan = new Jikan();
-            PaginatedJikanResponse<ICollection<Review>> reviews;
-            if (_anime)
+            try
             {
-                 reviews = await jikan.GetAnimeReviewsAsync(_targetId);
-            }
-            else
-            {
-                reviews = await jikan.GetMangaReviewsAsync(_targetId);
-            }
-
-            foreach (var review in reviews.Data)
-            {
-                output.Add(new AnimeReviewData
+                var jikan = new Jikan();
+                PaginatedJikanResponse<ICollection<Review>> reviews;
+                if (_anime)
                 {
-                    AuthorAvatar = review.User.Images.JPG.ImageUrl ?? review.User.Images.WebP.ImageUrl,
-                    Author = review.User.Username,
-                    Date = review.Date?.ToString("d") ?? "N/A",
-                    EpisodesSeen = review.EpisodesWatched?.ToString() ?? "N/A",
-                    HelpfulCount = review.Votes?.ToString() ?? "N/A",
-                    Id = review.MalId.ToString(),
-                    OverallRating = review.ReviewScores.Overall?.ToString() ?? "N/A",
-                    Review = review.Content,
-                    Score = new List<ReviewScore>
+                    reviews = await jikan.GetAnimeReviewsAsync(_targetId);
+                }
+                else
+                {
+                    reviews = await jikan.GetMangaReviewsAsync(_targetId);
+                }
+
+                foreach (var review in reviews.Data)
+                {
+                    output.Add(new AnimeReviewData
+                    {
+                        AuthorAvatar = review.User.Images.JPG.ImageUrl ?? review.User.Images.WebP.ImageUrl,
+                        Author = review.User.Username,
+                        Date = review.Date?.ToString("d") ?? "N/A",
+                        EpisodesSeen = review.EpisodesWatched?.ToString() ?? "N/A",
+                        HelpfulCount = review.Votes?.ToString() ?? "N/A",
+                        Id = review.MalId.ToString(),
+                        OverallRating = review.ReviewScores.Overall?.ToString() ?? "N/A",
+                        Review = review.Content,
+                        Score = new List<ReviewScore>
                     {
                         new ReviewScore
                         {
@@ -90,9 +92,17 @@ namespace MALClient.XShared.Comm.Anime
                             Score = review.ReviewScores.Story?.ToString() ?? "N/A"
                         },
                     }
-                    
-                });
+
+                    });
+
+                    DataCache.SaveAnimeReviews(_targetId, output, _anime);
+                }
             }
+            catch (Exception e)
+            {
+                
+            }
+            
             
             //try
             //{
@@ -167,7 +177,7 @@ namespace MALClient.XShared.Comm.Anime
             //{
             //    //no reviews
             //}
-            DataCache.SaveAnimeReviews(_targetId, output, _anime);
+
 
             return output;
         }

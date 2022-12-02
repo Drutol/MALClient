@@ -58,7 +58,7 @@ namespace MALClient.Android.BackgroundTasks
                 notificationIntent.SetAction(DateTime.Now.Ticks.ToString());
                 notificationIntent.PutExtra("launchArgs", $"https://myanimelist.net/anime/{entry.Id}");
                 var pendingIntent =
-                    PendingIntent.GetActivity(context, 0, notificationIntent, PendingIntentFlags.OneShot);
+                    PendingIntent.GetActivity(context, 0, notificationIntent, PendingIntentFlags.OneShot | PendingIntentFlags.Immutable);
                 var notificationBuilder = new NotificationCompat.Builder(context)
                     .SetSmallIcon(Resource.Drawable.ic_stat_name)
                     .SetContentTitle("New anime episode is on air!")

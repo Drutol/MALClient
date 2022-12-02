@@ -18,6 +18,8 @@ namespace MALClient.Models.Models.AnimeScrapped
         public string OverallRating { get; set; }
         public string EpisodesSeen { get; set; }
         public string HelpfulCount { get; set; }
+        public bool HasSpoilers { get; set; }
+        public bool IsPreliminary { get; set; }
         public List<ReviewScore> Score { get; set; } = new List<ReviewScore>();
     }
 }

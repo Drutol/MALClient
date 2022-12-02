@@ -5,6 +5,7 @@ using System.Windows.Input;
 using Android.Support.Design.Widget;
 using Android.Views;
 using Android.Widget;
+using AoLibs.Adapters.Android;
 using MALClient.Android.Adapters;
 using MALClient.Android.BackgroundTasks;
 using MALClient.Android.Fragments.SettingsFragments;
@@ -14,6 +15,8 @@ using MALClient.XShared.ViewModels.Clubs;
 using MALClient.XShared.ViewModels.Details;
 using MALClient.XShared.ViewModels.Forums;
 using MALClient.XShared.ViewModels.Main;
+using ClipboardProvider = MALClient.Android.Adapters.ClipboardProvider;
+using DispatcherAdapter = MALClient.Android.Adapters.DispatcherAdapter;
 
 namespace MALClient.Android
 {

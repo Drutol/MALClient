@@ -36,7 +36,7 @@ namespace MALClient.Android.Adapters
         public void Init()
         {
 #if !DEBUG
-            AppCenter.Start(Secrets.AndroidAppCenterKey,typeof(Crashes),typeof(Analytics));
+            AppCenter.Start("4bfd20dc-d9ba-4bdf-bb15-01397ec4a176", typeof(Crashes),typeof(Analytics));
 #endif
         }
 

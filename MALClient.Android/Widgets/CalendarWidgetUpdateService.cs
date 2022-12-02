@@ -198,7 +198,7 @@ namespace MALClient.Android.Widgets
 
                             var intentTemplate = new Intent(_parent.ApplicationContext, typeof(MainActivity));
                             view.Item1.SetPendingIntentTemplate(Resource.Id.GridView,
-                                PendingIntent.GetActivity(_parent.ApplicationContext, 0, intentTemplate, 0));
+                                PendingIntent.GetActivity(_parent.ApplicationContext, 0, intentTemplate, PendingIntentFlags.Immutable));
 
                             var refreshIntent = new Intent(_parent.ApplicationContext,
                                 typeof(CalendarWidgetUpdateStarterBroadcastReceiver));
@@ -206,7 +206,7 @@ namespace MALClient.Android.Widgets
                             refreshIntent.PutExtra("ResourceId", layoutId);
 
                             view.Item1.SetOnClickPendingIntent(Resource.Id.RefreshButton,
-                                PendingIntent.GetBroadcast(_parent.ApplicationContext, 0, refreshIntent, 0));
+                                PendingIntent.GetBroadcast(_parent.ApplicationContext, 0, refreshIntent, PendingIntentFlags.Immutable));
 
                             var ids = preferences.GetStringSet("lastWidgetItems", new List<string>()).Select(int.Parse)
                                 .ToList();
@@ -241,7 +241,7 @@ namespace MALClient.Android.Widgets
                             refreshIntent.PutExtra(AppWidgetManager.ExtraAppwidgetIds, new[] {view.Item2});
                             refreshIntent.PutExtra("ResourceId", layoutId);
                             view.Item1.SetOnClickPendingIntent(Resource.Id.RefreshButton,
-                                PendingIntent.GetBroadcast(_parent.ApplicationContext, 0, refreshIntent, 0));
+                                PendingIntent.GetBroadcast(_parent.ApplicationContext, 0, refreshIntent, PendingIntentFlags.Immutable));
 
 
                             manager.UpdateAppWidget(view.Item2, view.Item1);

@@ -169,6 +169,7 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
                 ViewModel.IsPinned = !ViewModel.IsPinned;
                 PinButtonIcon.Rotation = ViewModel.IsPinned ? 0 : 45;
             }));
+
             ProfilePageGeneralTabAnimeListButton.SetOnClickListener(new OnClickListener(v => ViewModel.NavigateAnimeListCommand.Execute(null)));
             ProfilePageGeneralTabMangaListButton.SetOnClickListener(new OnClickListener(v => ViewModel.NavigateMangaListCommand.Execute(null)));
             ProfilePageGeneralTabHistoryButton.SetOnClickListener(new OnClickListener(v => ViewModel.NavigateHistoryCommand.Execute(null)));
@@ -181,8 +182,27 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
             ProfilePageGeneralTabRemoveFriendButton.SetOnClickListener(new OnClickListener(view => ViewModel.RemoveFriendCommand.Execute(null)));
             AboutButton.SetOnClickListener(new OnClickListener(view => ProfileDescriptionDialog.Instance.ShowDialog(Activity,RootView,ViewModel.CurrentData.HtmlContent)));
             ShareButton.SetOnClickListener(new OnClickListener(view => ShareProfile()));
+            
+            FindViewById<FloatingActionButton>(Resource.Id.ReportUserButton).SetOnClickListener(new OnClickListener(view =>
+            {
+                ResourceLocator.MessageDialogProvider.ShowMessageDialogWithInput(
+                    "If you wish to report or block this user you will be redirected to the web form on the MyAnimeList website. Please sign-in in the browser in order to access it, being a 3rd party app I cannot provide direct in-app form.",
+                    "Report", "Report", "Block",
+                    () =>
+                    {
+                        ResourceLocator.SystemControlsLauncherService.LaunchUri(
+                            new Uri("https://myanimelist.net/modules.php?go=report"));
+                    },
+                    () =>
+                    {
+                        ResourceLocator.SystemControlsLauncherService.LaunchUri(
+                            new Uri("https://myanimelist.net/editprofile.php?go=privacy"));
+                    });
+            }));
+
 
             PopulateComments();
+
             ProfilePageGeneralTabScrollingContainer.ViewTreeObserver.ScrollChanged -= ViewTreeObserverOnScrollChanged;
             ProfilePageGeneralTabScrollingContainer.ViewTreeObserver.ScrollChanged += ViewTreeObserverOnScrollChanged;
             ProfilePageGeneralTabScrollingContainer.Touch -= RootViewOnTouch;
@@ -298,6 +318,23 @@ namespace MALClient.Android.Fragments.ProfilePageFragments
                 .SetOnClickListener(new OnClickListener(OnCommentConversationClick));
             view.FindViewById(Resource.Id.ProfilePageGeneralTabCommentItemImgButton)
                 .SetOnClickListener(new OnClickListener(OnCommentAuthorClick));
+
+            view.FindViewById(Resource.Id.ReportCommentButton).SetOnClickListener(new OnClickListener(view =>
+            {
+                ResourceLocator.MessageDialogProvider.ShowMessageDialogWithInput(
+                    "If you wish to report this comment or block its author you will be redirected to the web form on the MyAnimeList website. Please sign-in in the browser in order to access it, being a 3rd party app I cannot provide direct in-app form.",
+                    "Report or Block", "Report", "Block Author",
+                    () =>
+                    {
+                        ResourceLocator.SystemControlsLauncherService.LaunchUri(
+                            new Uri("https://myanimelist.net/modules.php?go=report"));
+                    },
+                    () =>
+                    {
+                        ResourceLocator.SystemControlsLauncherService.LaunchUri(
+                            new Uri("https://myanimelist.net/editprofile.php?go=privacy"));
+                    });
+            }));
 
             return view;
         }

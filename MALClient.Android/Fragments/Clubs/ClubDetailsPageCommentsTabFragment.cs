@@ -103,6 +103,7 @@ namespace MALClient.Android.Fragments.Clubs
                     }));
 
 
+
             return view;
         }
 

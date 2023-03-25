@@ -17,7 +17,7 @@ using MALClient.XShared.ViewModels;
 
 namespace MALClient.Android.BackgroundTasks
 {
-    [BroadcastReceiver]
+    [BroadcastReceiver(Exported = true)]
     [IntentFilter(new[] { Intent.ActionBootCompleted })]
     public class BootCompletedreceiver : BroadcastReceiver
     {

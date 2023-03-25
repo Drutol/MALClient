@@ -18,7 +18,7 @@
     <AndroidResgenClass>Resource</AndroidResgenClass>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
     <AndroidUseLatestPlatformSdk>false</AndroidUseLatestPlatformSdk>
-    <TargetFrameworkVersion>v11.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v12.0</TargetFrameworkVersion>
     <AndroidManifest>Properties\AndroidManifest.xml</AndroidManifest>
     <MonoAndroidResourcePrefix>Resources</MonoAndroidResourcePrefix>
     <MonoAndroidAssetsPrefix>Assets</MonoAndroidAssetsPrefix>
@@ -345,6 +345,9 @@
     <PackageReference Include="Microsoft.AppCenter.Crashes">
       <Version>4.4.0</Version>
     </PackageReference>
+    <PackageReference Include="morelinq">
+      <Version>3.3.2</Version>
+    </PackageReference>
     <PackageReference Include="MvvmLightLibsStd10">
       <Version>5.4.1.1</Version>
     </PackageReference>
@@ -365,7 +368,7 @@
       <Version>28.0.0.3</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.AndroidX.Legacy.Support.V4">
-      <Version>1.0.0.10</Version>
+      <Version>1.0.0.15</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.FFImageLoading">
       <Version>2.4.11.982</Version>
@@ -374,13 +377,13 @@
       <Version>2.4.11.982</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.Google.Android.Material">
-      <Version>1.4.0.4</Version>
+      <Version>1.7.0.1</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.GooglePlayServices.Ads.Identifier">
-      <Version>117.0.1.3</Version>
+      <Version>118.0.1.2</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.GooglePlayServices.Ads.Lite">
-      <Version>120.3.0.3</Version>
+      <Version>121.2.0</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
@@ -397,7 +400,7 @@
       <Name>MALClient.Adapters</Name>
     </ProjectReference>
     <ProjectReference Include="..\MALClient.Android.Adapters\MALClient.Android.Adapters.csproj">
-      <Project>{7fae60d4-665d-4220-84ee-966236afaccc}</Project>
+      <Project>{7FAE60D4-665D-4220-84EE-966236AFACCC}</Project>
       <Name>MALClient.Android.Adapters</Name>
     </ProjectReference>
     <ProjectReference Include="..\MALClient.Models\MALClient.Models.csproj">
@@ -1296,6 +1299,7 @@
       <SubType>Designer</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\drawable\octo.png" />
+    <AndroidResource Include="Resources\drawable\icon_report.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

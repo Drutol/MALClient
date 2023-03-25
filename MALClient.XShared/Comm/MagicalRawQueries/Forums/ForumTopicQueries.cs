@@ -390,7 +390,7 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Forums
                     output.Id = topicId;
                 }
 
-                foreach (var row in doc.WhereOfDescendantsWithClass("div", "forum_border_around"))
+                foreach (var row in doc.WhereOfDescendantsWithClass("div", "forum-topic-message"))
                 {
                     if (!row.Attributes.Contains("id"))
                         continue; //it's an ad
@@ -402,12 +402,10 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Forums
                     var divs = row.ChildNodes.Where(node => node.Name == "div").ToList();
                     var headerDivs = divs[0].Descendants("div").ToList();
 
-                    current.CreateDate = WebUtility.HtmlDecode(headerDivs[2].InnerText.Trim());
-                    current.MessageNumber = WebUtility.HtmlDecode(headerDivs[1].InnerText.Trim());
+                    current.CreateDate = WebUtility.HtmlDecode(headerDivs[1].InnerText.Trim());
+                    current.MessageNumber = WebUtility.HtmlDecode(headerDivs[0].InnerText.Trim());
 
-                    var tds = row.Descendants("tr").First().ChildNodes.Where(node => node.Name == "td").ToList();
-
-                    var posterName = WebUtility.HtmlDecode(tds[0].Descendants("strong").First().InnerText.Trim());
+                    var posterName = WebUtility.HtmlDecode(row.FirstOfDescendantsWithClass("div", "username").InnerText);
 
                     if (foundMembers.ContainsKey(posterName))
                     {
@@ -418,35 +416,31 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Forums
                         var poster = new MalForumUser();
 
                         poster.MalUser.Name = posterName;
-                        poster.Title =  WebUtility.HtmlDecode(tds[0].FirstOrDefaultOfDescendantsWithClass("div", "custom-forum-title")?.InnerText.Trim());
-                        poster.MalUser.ImgUrl =
-                            tds[0].Descendants("img")
+                        var titleNode = row.FirstOrDefaultOfDescendantsWithClass("div", "custom-forum-title");
+                        if (titleNode != null)
+                        {
+                            poster.Title = WebUtility.HtmlDecode(titleNode.InnerText).Trim();
+                        }
+
+                        var forumIcon = row.WhereOfDescendantsWithClass("a", "forum-icon").FirstOrDefault();
+
+                        if (forumIcon != default)
+                        {
+                            poster.MalUser.ImgUrl =
+                                forumIcon.Descendants("img")
                                 .FirstOrDefault(
                                     node =>
                                         node.Attributes.Contains("data-src") &&
                                         node.Attributes["data-src"].Value.Contains("useravatars"))?.Attributes["data-src"].Value;
-                        if (tds[0].ChildNodes[1].ChildNodes.Count == 10)
-                        {
-                            poster.Status = tds[0].ChildNodes[1].ChildNodes[5].InnerText.Trim();
-                            poster.Joined = tds[0].ChildNodes[1].ChildNodes[7].InnerText.Trim();
-                            poster.Posts = tds[0].ChildNodes[1].ChildNodes[9].InnerText.Trim();
-                        }
-                        else if (tds[0].ChildNodes[1].ChildNodes.Count == 11)
-                        {
-                            poster.Status = tds[0].ChildNodes[1].ChildNodes[6].InnerText.Trim();
-                            poster.Joined = tds[0].ChildNodes[1].ChildNodes[8].InnerText.Trim();
-                            poster.Posts = tds[0].ChildNodes[1].ChildNodes[10].InnerText.Trim();
-                        }
-                        else
-                        {
-                            poster.Status = tds[0].ChildNodes[1].ChildNodes[2].InnerText.Trim();
-                            poster.Joined = tds[0].ChildNodes[1].ChildNodes[4].InnerText.Trim();
-                            poster.Posts = tds[0].ChildNodes[1].ChildNodes[6].InnerText.Trim();
                         }
 
+                        poster.Status = WebUtility.HtmlDecode(row.FirstOfDescendantsWithClassContaining("div", "userstatus").InnerText).Trim();
+                        poster.Joined = WebUtility.HtmlDecode(row.FirstOfDescendantsWithClass("div", "userinfo joined").InnerText).Trim();
+                        poster.Posts = WebUtility.HtmlDecode(row.FirstOfDescendantsWithClass("div", "userinfo posts").InnerText).Trim();
+                        
                         try
                         {
-                            poster.SignatureHtml = tds[1].FirstOfDescendantsWithClass("div", "sig").OuterHtml;
+                            poster.SignatureHtml = row.FirstOfDescendantsWithClass("div", "sig").OuterHtml;
                         }
                         catch (Exception)
                         {
@@ -457,14 +451,13 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Forums
                         current.Poster = poster;
                     }
 
-                    current.EditDate = WebUtility.HtmlDecode(tds[1].Descendants("em").FirstOrDefault()?.InnerText.Trim());
+                    var editNode = row.FirstOrDefaultOfDescendantsWithClass("div", "modified");
+                    if (editNode != default)
+                    {
+                        current.EditDate = "Modified by " + string.Join(" ", editNode.ChildNodes.Select(n => WebUtility.HtmlDecode(n.InnerText).Trim()));
+                    }
 
-                    current.HtmlContent =
-                        tds[1].Descendants("div")
-                            .First(
-                                node =>
-                                    node.Attributes.Contains("id") && node.Attributes["id"].Value == $"message{current.Id}")
-                            .OuterHtml;
+                    current.HtmlContent = row.FirstOfDescendantsWithClass("div", "message-text").OuterHtml;
 
                     var actions = row.FirstOfDescendantsWithClass("div", "postActions");
                     if (actions != null && actions.ChildNodes.Count > 0)

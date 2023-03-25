@@ -67,7 +67,21 @@
                 android:src="@drawable/icon_info"
                 android:tint="#fff"
                 app:backgroundTint="?AccentColourDark"
-                app:fabSize="mini" />
+                app:fabSize="mini" /> 
+            
+            <android.support.design.widget.FloatingActionButton xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                                android:id="@+id/ReportUserButton"
+                                                                android:layout_width="wrap_content"
+                                                                android:layout_height="wrap_content"
+                                                                android:layout_gravity="start|bottom"
+                                                                android:clickable="true"
+                                                                android:focusable="true"
+                                                                android:scaleX=".8"
+                                                                android:scaleY=".8"
+                                                                android:src="@drawable/icon_report"
+                                                                android:tint="#fff"
+                                                                app:backgroundTint="?AccentColourDark"
+                                                                app:fabSize="mini" />
           </FrameLayout>
 
         </LinearLayout>

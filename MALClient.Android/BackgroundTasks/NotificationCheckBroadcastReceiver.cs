@@ -244,7 +244,7 @@ namespace MALClient.Android.BackgroundTasks
                                   notification.Type == MalNotificationsTypes.ClubMessages
                                      ? "OpenUrl;"
                                      : "") + notification.LaunchArgs);
-                var pendingIntent = PendingIntent.GetActivity(context, 0, intent, PendingIntentFlags.OneShot);
+                var pendingIntent = PendingIntent.GetActivity(context, 0, intent, PendingIntentFlags.OneShot | PendingIntentFlags.Immutable);
 
                 var notificationManager = (NotificationManager)context.GetSystemService(Context.NotificationService);
                 if (Build.VERSION.SdkInt >= global::Android.OS.BuildVersionCodes.O)
@@ -281,7 +281,7 @@ namespace MALClient.Android.BackgroundTasks
                     var readIntent = new Intent(context, typeof(NotificationClickBroadcastReceiver));
                     readIntent.SetAction(DateTime.Now.Ticks.ToString());
                     readIntent.PutExtra(NotificationClickBroadcastReceiver.NotificationReadKey, notification.Id);
-                    var pendingReadIntent = PendingIntent.GetBroadcast(context, 23, readIntent, PendingIntentFlags.OneShot);
+                    var pendingReadIntent = PendingIntent.GetBroadcast(context, 23, readIntent, PendingIntentFlags.OneShot | PendingIntentFlags.Immutable);
                     notificationBuilder.AddAction(new NotificationCompat.Action(Resource.Drawable.icon_eye_notification, "Mark as Read",
                         pendingReadIntent));
                 }

@@ -68,6 +68,18 @@
           android:minWidth="30dp"
           android:padding="3dp"
           android:text="Conversation"
+          android:textAllCaps="false" />    
+        
+        <Button
+          android:id="@+id/ReportCommentButton"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginEnd="10dp"
+          android:background="@drawable/button_underline_background_style"
+          android:minHeight="25dp"
+          android:minWidth="30dp"
+          android:padding="3dp"
+          android:text="Report/Block"
           android:textAllCaps="false" />
       </LinearLayout>
     </LinearLayout>

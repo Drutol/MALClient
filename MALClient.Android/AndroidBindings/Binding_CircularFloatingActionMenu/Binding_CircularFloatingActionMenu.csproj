@@ -76,7 +76,6 @@
     <LibraryProjectZip Include="CircularFloatingActionMenu-1.0.2.aar" />
     <None Include="Jars\AboutJars.txt" />
     <None Include="Additions\AboutAdditions.txt" />
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <TransformFile Include="Transforms\Metadata.xml" />

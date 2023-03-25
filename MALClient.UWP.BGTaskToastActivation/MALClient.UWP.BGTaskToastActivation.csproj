@@ -117,10 +117,6 @@
       <Project>{9948a48d-1cfc-40e5-9bfa-6f93fe4c44a0}</Project>
       <Name>MALClient.Models</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MALClient.UWP.Adapters\MALClient.UWP.Adapters.csproj">
-      <Project>{7087a044-1675-413b-86c3-a0005c87b0b5}</Project>
-      <Name>MALClient.UWP.Adapters</Name>
-    </ProjectReference>
     <ProjectReference Include="..\MALClient.XShared\MALClient.XShared.csproj">
       <Project>{036824de-34ca-4611-a8ee-02a939cdd295}</Project>
       <Name>MALClient.XShared</Name>

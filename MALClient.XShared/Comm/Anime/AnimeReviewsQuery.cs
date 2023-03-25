@@ -2,9 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Android.Runtime;
 using HtmlAgilityPack;
+using JikanDotNet;
 using MALClient.Models.Models.AnimeScrapped;
 using MALClient.XShared.Utils;
 
@@ -33,86 +37,197 @@ namespace MALClient.XShared.Comm.Anime
                 : await DataCache.RetrieveReviewsData(_targetId, _anime) ?? new List<AnimeReviewData>();
             if (output.Count != 0) return output;
 
-            var raw = await GetRequestResponse();
-            if (string.IsNullOrEmpty(raw))
-                return null;
-
             try
             {
-                var doc = new HtmlDocument();
-                doc.LoadHtml(raw);
-                var reviewNodes = doc.DocumentNode.WhereOfDescendantsWithClass("div", "borderDark").Take(Settings.ReviewsToPull);
-
-                foreach (var reviewNode in reviewNodes)
+                var jikan = new Jikan();
+                Root reviews;
+                if (_anime)
                 {
-                    try
-                    {
-                        var current = new AnimeReviewData();
+                    var json = await _client.GetStringAsync($"https://api.jikan.moe/v4/anime/{_targetId}/reviews?page=0");
+                    reviews = JsonSerializer.Deserialize<Root>(json);
+                }
+                else
+                {
+                    var json = await _client.GetStringAsync($"https://api.jikan.moe/v4/manga/{_targetId}/reviews?page=0");
+                    reviews = JsonSerializer.Deserialize<Root>(json);
+                }
 
-                        //Details
-                        var detailsNode = reviewNode.ChildNodes.First(node => node.Name == "div");
-                        var pictureNode = detailsNode.WhereOfDescendantsWithClass("div", "picSurround")
-                            .First() //1nd picSurround
-                            .Descendants("a").First(); //2nd a tag
-                        current.Author = pictureNode.Attributes["href"].Value.Split('/').Last();
-                        current.AuthorAvatar = pictureNode.Descendants("img").First().Attributes["data-src"].Value;
-                        //
-                        current.HelpfulCount =
-                            detailsNode.WhereOfDescendantsWithClass("div", "lightLink spaceit")
-                                .Skip(1)
-                                .First()
-                                .InnerText.Trim()
-                                .TrimWhitespaceInside();
-                        //
-                        var rightTableNode = reviewNode.FirstOfDescendantsWithClass("div", "mb8");
-                        var rightTableNodeDivs = rightTableNode.Descendants("div").ToList();
-                        current.Date = rightTableNodeDivs[0].InnerText.Trim();
-                        current.EpisodesSeen = rightTableNodeDivs[1].InnerText.Trim();
-                        current.OverallRating = rightTableNodeDivs[2].InnerText.Trim().TrimWhitespaceInside();
-                        //Review Content
-                        var reviewNodeContent = reviewNode.FirstOfDescendantsWithClass("div", "spaceit textReadability word-break pt8 mt8");
-                        foreach (var scoreRow in reviewNodeContent.ChildNodes[1].Descendants("tr").Skip(1))
+                foreach (var review in reviews.Data)
+                {
+                    output.Add(new AnimeReviewData
+                    {
+                        AuthorAvatar = review.User.Images.Jpg.ImageUrl ?? review.User.Images.Webp.ImageUrl,
+                        Author = review.User.Username,
+                        Date = review.Date?.ToString("d") ?? "N/A",
+                        EpisodesSeen = review.EpisodesWatched?.ToString() ?? "N/A",
+                        HelpfulCount = review.Reactions.Informative.ToString() ?? "N/A",
+                        Id = review.MalId.ToString(),
+                        OverallRating = review.Score?.ToString() ?? "N/A",
+                        Review = review.Review,
+                        HasSpoilers = review.IsSpoiler,
+                        IsPreliminary = review.IsPreliminary,
+                        Score = new List<ReviewScore>
                         {
-                            var tds = scoreRow.Descendants("td").ToList();
-                            current.Score.Add(new ReviewScore {Field = tds[0].InnerText,Score = tds[1].InnerText == "&nbsp;" ? "N/A" : tds[1].InnerText });
+                            new ReviewScore
+                            {
+                                Field = "Informative",
+                                Score = review.Reactions.Informative?.ToString() ?? "N/A"
+                            },
+                            new ReviewScore
+                            {
+                                Field = "Confusing",
+                                Score = review.Reactions.Confusing?.ToString() ?? "N/A"
+                            },
+                            new ReviewScore
+                            {
+                                Field = "Creative",
+                                Score = review.Reactions.Creative?.ToString() ?? "N/A"
+                            },
+                            new ReviewScore
+                            {
+                                Field = "Funny",
+                                Score = review.Reactions.Funny?.ToString() ?? "N/A"
+                            },
+                            new ReviewScore
+                            {
+                                Field = "Love It",
+                                Score = review.Reactions.LoveIt?.ToString() ?? "N/A"
+                            },
+                            new ReviewScore
+                            {
+                                Field = "Well Written",
+                                Score = review.Reactions.WellWritten?.ToString() ?? "N/A"
+                            },
                         }
-                        reviewNodeContent.ChildNodes.Remove(1);
-                        var rawReview = reviewNodeContent.ChildNodes.Where(node => node.Name == "#text")
-                            .Aggregate("", (s, node) => s += node.InnerText)
-                            .Trim(' ', '\n', '\r');
+                    });
 
-                        var reviewSecondPart = (reviewNodeContent.ChildNodes.FirstOrDefault(node => node.Name == "span")?.InnerText ?? "")
-                            .TrimWhitespaceInside(false).Trim(' ', '\n', '\r');
-
-                        var oblivionStartIndex = reviewSecondPart.IndexOf("\r\n\r\n");
-                        if (oblivionStartIndex != -1)
-                            reviewSecondPart = reviewSecondPart.Remove(oblivionStartIndex, 4);
-
-                        rawReview += reviewSecondPart;
-
-                        current.Review =
-                            WebUtility.HtmlDecode(rawReview.Replace("read more", "")
-                                .Replace("Helpful", "").Trim(' ', '\n', '\r'));
-
-                        var idNode = reviewNode.FirstOrDefaultOfDescendantsWithClass("a", "js-toggle-review-button");
-
-                        current.Id = idNode == null ? null : idNode.Attributes["data-id"].Value ?? null;
-
-                        output.Add(current);
-                    }
-                    catch (Exception)
-                    {
-                        //something unexpected
-                    }
+                    DataCache.SaveAnimeReviews(_targetId, output, _anime);
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                //no reviews
+                
             }
-            DataCache.SaveAnimeReviews(_targetId, output, _anime);
-
+            
             return output;
         }
+    }
+
+    [Preserve(AllMembers = true)]
+    public class Datum
+    {
+        [JsonPropertyName("mal_id")]
+        public int MalId { get; set; }
+
+        [JsonPropertyName("url")]
+        public string Url { get; set; }
+
+        [JsonPropertyName("type")]
+        public string Type { get; set; }
+
+        [JsonPropertyName("reactions")]
+        public Reactions Reactions { get; set; }
+
+        [JsonPropertyName("date")]
+        public DateTime? Date { get; set; }
+
+        [JsonPropertyName("review")]
+        public string Review { get; set; }
+
+        [JsonPropertyName("score")]
+        public int? Score { get; set; }
+
+        [JsonPropertyName("tags")]
+        public List<string> Tags { get; set; }
+
+        [JsonPropertyName("is_spoiler")]
+        public bool IsSpoiler { get; set; }
+
+        [JsonPropertyName("is_preliminary")]
+        public bool IsPreliminary { get; set; }
+
+        [JsonPropertyName("episodes_watched")]
+        public int? EpisodesWatched { get; set; }
+
+        [JsonPropertyName("user")]
+        public User User { get; set; }
+    }
+    [Preserve(AllMembers = true)]
+    public class Images
+    {
+        [JsonPropertyName("jpg")]
+        public Jpg Jpg { get; set; }
+
+        [JsonPropertyName("webp")]
+        public Webp Webp { get; set; }
+    }
+    [Preserve(AllMembers = true)]
+    public class Jpg
+    {
+        [JsonPropertyName("image_url")]
+        public string ImageUrl { get; set; }
+    }
+    [Preserve(AllMembers = true)]
+    public class Pagination
+    {
+        [JsonPropertyName("last_visible_page")]
+        public int LastVisiblePage { get; set; }
+
+        [JsonPropertyName("has_next_page")]
+        public bool HasNextPage { get; set; }
+    }
+    [Preserve(AllMembers = true)]
+    public class Reactions
+    {
+        [JsonPropertyName("overall")]
+        public int? Overall { get; set; }
+
+        [JsonPropertyName("nice")]
+        public int? Nice { get; set; }
+
+        [JsonPropertyName("love_it")]
+        public int? LoveIt { get; set; }
+
+        [JsonPropertyName("funny")]
+        public int? Funny { get; set; }
+
+        [JsonPropertyName("confusing")]
+        public int? Confusing { get; set; }
+
+        [JsonPropertyName("informative")]
+        public int? Informative { get; set; }
+
+        [JsonPropertyName("well_written")]
+        public int? WellWritten { get; set; }
+
+        [JsonPropertyName("creative")]
+        public int? Creative { get; set; }
+    }
+    [Preserve(AllMembers = true)]
+    public class Root
+    {
+        [JsonPropertyName("pagination")]
+        public Pagination Pagination { get; set; }
+
+        [JsonPropertyName("data")]
+        public List<Datum> Data { get; set; }
+    }
+    [Preserve(AllMembers = true)]
+    public class User
+    {
+        [JsonPropertyName("url")]
+        public string Url { get; set; }
+
+        [JsonPropertyName("username")]
+        public string Username { get; set; }
+
+        [JsonPropertyName("images")]
+        public Images Images { get; set; }
+    }
+    [Preserve(AllMembers = true)]
+    public class Webp
+    {
+        [JsonPropertyName("image_url")]
+        public string ImageUrl { get; set; }
     }
 }

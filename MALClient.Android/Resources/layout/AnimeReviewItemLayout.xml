@@ -88,25 +88,15 @@
             android:text="9 of 20 eps seen"
             android:textColor="?BrushText" />
 
-
         <TextView
-            android:id="@+id/AnimeReviewItemLayoutHelpfulCount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@string/font_family_light"
-            android:maxWidth="200dp"
-            android:textColor="?BrushText"
-            tools:text="12 found this helpful" />
-
-        <Button
             android:id="@+id/MarkAsHelpfulButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/border_accent_underline"
             android:minWidth="0dp"
             android:minHeight="0dp"
-            android:paddingStart="0dp"
-            android:paddingEnd="10dp"
+            android:paddingStart="4dp"
+            android:paddingEnd="4dp"
             android:paddingTop="5dp"
             android:text="Mark as helpful"
             android:textAllCaps="false" />
@@ -124,6 +114,7 @@
             android:id="@+id/AnimeReviewItemLayoutOverallScore"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="end"
             android:background="@drawable/border_accent_underline"
             android:fontFamily="@string/font_family_light"
             android:text="Overall: 9"

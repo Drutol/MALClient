@@ -23,6 +23,7 @@ using MALClient.Models.Models.AnimeScrapped;
 using MALClient.XShared.Comm.MagicalRawQueries;
 using MALClient.XShared.ViewModels;
 using MALClient.XShared.ViewModels.Details;
+using MoreLinq;
 
 namespace MALClient.Android.Fragments.AnimeDetailsPageTabs
 {
@@ -81,21 +82,31 @@ namespace MALClient.Android.Fragments.AnimeDetailsPageTabs
 
             view.FindViewById<TextView>(Resource.Id.AnimeReviewItemLayoutAuthor).Text = animeReviewData.Author;
             view.FindViewById<TextView>(Resource.Id.AnimeReviewItemLayoutDate).Text = animeReviewData.Date;
-            view.FindViewById<TextView>(Resource.Id.AnimeReviewItemLayoutOverallScore).Text = animeReviewData.OverallRating;
-            view.FindViewById<TextView>(Resource.Id.AnimeReviewItemLayoutEpsSeen).Text = animeReviewData.EpisodesSeen;
-            view.FindViewById<TextView>(Resource.Id.AnimeReviewItemLayoutHelpfulCount).Text = animeReviewData.HelpfulCount;
-            view.FindViewById<Button>(Resource.Id.MarkAsHelpfulButton).SetOnClickListener(new OnClickListener(async v =>
+            view.FindViewById<TextView>(Resource.Id.AnimeReviewItemLayoutOverallScore).Text =  $"Overall Rating: {animeReviewData.OverallRating}";
+            if (animeReviewData.EpisodesSeen == "N/A")
             {
-                var result = await MalHelpfulReviewQuery.MarkReviewHelpful(animeReviewData.Id);
-                if (result)
-                {
-                    ResourceLocator.SnackbarProvider.ShowText("Marked review as helpful.");
-                }
-                else
-                {
-                    ResourceLocator.SnackbarProvider.ShowText("Failed to mark review as helpful.");
-                }
-            }));
+                view.FindViewById<TextView>(Resource.Id.AnimeReviewItemLayoutEpsSeen).Visibility = ViewStates.Gone;
+            }
+            else
+            {
+                view.FindViewById<TextView>(Resource.Id.AnimeReviewItemLayoutEpsSeen).Visibility = ViewStates.Visible;
+                view.FindViewById<TextView>(Resource.Id.AnimeReviewItemLayoutEpsSeen).Text =
+                    $"{animeReviewData.EpisodesSeen} episodes seen";
+            }
+
+            var text = animeReviewData.HasSpoilers ? "Has Spoilers!" : string.Empty;
+            text += animeReviewData.IsPreliminary ? " Preliminary Review" : string.Empty;
+
+            if (string.IsNullOrEmpty(text))
+            {
+                view.FindViewById<TextView>(Resource.Id.MarkAsHelpfulButton).Visibility = ViewStates.Gone;
+            }
+            else
+            {
+                view.FindViewById<TextView>(Resource.Id.MarkAsHelpfulButton).Visibility = ViewStates.Visible;
+                view.FindViewById<TextView>(Resource.Id.MarkAsHelpfulButton).Text = text.Trim();
+            }
+            
         }
 
         private void DataTemplateFling(View view, int i, AnimeReviewData animeReviewData)
@@ -127,7 +138,7 @@ namespace MALClient.Android.Fragments.AnimeDetailsPageTabs
             view.FindViewById(Resource.Id.AnimeReviewItemImgPlaceholder).Visibility = ViewStates.Gone;
         }
 
-        private void LoadScores(View view,AnimeReviewData animeReviewData)
+        private void LoadScores(View view, AnimeReviewData animeReviewData)
         {
             var scores = view.FindViewById<LinearLayout>(Resource.Id.AnimeReviewItemLayoutMarksList);
             scores.RemoveAllViews();

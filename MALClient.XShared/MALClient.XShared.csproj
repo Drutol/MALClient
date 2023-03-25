@@ -12,8 +12,7 @@
     </PropertyGroup>
     <ItemGroup>
       <PackageReference Include="HtmlAgilityPack" Version="1.11.28" />
-      <PackageReference Include="JikanDotNet" Version="2.0.1" />
-      <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+      <PackageReference Include="JikanDotNet" Version="2.4.2" />
       <PackageReference Include="MvvmLightLibsStd10" Version="5.4.1.1" />
       <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     </ItemGroup>
@@ -25,6 +24,9 @@
     <ItemGroup>
       <Reference Include="libvideo">
         <HintPath>Lib\libvideo.dll</HintPath>
+      </Reference>
+      <Reference Include="Microsoft.CSharp">
+        <HintPath>..\..\..\..\..\..\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\ReferenceAssemblies\Microsoft\Framework\MonoAndroid\v1.0\Microsoft.CSharp.dll</HintPath>
       </Reference>
       <Reference Include="ModernHttpClient">
         <HintPath>..\..\..\.nuget\packages\modernhttpclient\2.4.2\lib\MonoAndroid\ModernHttpClient.dll</HintPath>

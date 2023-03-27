@@ -402,8 +402,8 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Forums
                     var divs = row.ChildNodes.Where(node => node.Name == "div").ToList();
                     var headerDivs = divs[0].Descendants("div").ToList();
 
-                    current.CreateDate = WebUtility.HtmlDecode(headerDivs[1].InnerText.Trim());
-                    current.MessageNumber = WebUtility.HtmlDecode(headerDivs[0].InnerText.Trim());
+                    current.CreateDate = WebUtility.HtmlDecode(headerDivs[0].InnerText.Trim());
+                    current.MessageNumber = WebUtility.HtmlDecode(headerDivs[1].InnerText.Trim());
 
                     var posterName = WebUtility.HtmlDecode(row.FirstOfDescendantsWithClass("div", "username").InnerText);
 
@@ -457,7 +457,7 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Forums
                         current.EditDate = "Modified by " + string.Join(" ", editNode.ChildNodes.Select(n => WebUtility.HtmlDecode(n.InnerText).Trim()));
                     }
 
-                    current.HtmlContent = row.FirstOfDescendantsWithClass("div", "message-text").OuterHtml;
+                    current.HtmlContent = row.FirstOfDescendantsWithClassContaining("div", "message-text").OuterHtml;
 
                     var actions = row.FirstOfDescendantsWithClass("div", "postActions");
                     if (actions != null && actions.ChildNodes.Count > 0)

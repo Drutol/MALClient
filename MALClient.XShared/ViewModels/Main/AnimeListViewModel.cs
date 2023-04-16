@@ -34,7 +34,7 @@ namespace MALClient.XShared.ViewModels.Main
         private readonly IAnimeLibraryDataStorage _animeLibraryDataStorage;
         private const int ItemPrefferedWidth = 385;
         private const int LastIndexPositionOnRefresh = -10; //just a constant
-        private const int ItemsPerPage = 25; //just a constant
+        private const int ItemsPerPage = 50; //just a constant
         private const int ItemsPerGenereStudioPage = 25; //just a constant
 
         private SmartObservableCollection<AnimeItemViewModel> _animeItems =

@@ -190,7 +190,7 @@ namespace MALClient.XShared.ViewModels.Main
             set
             {
                 _currentPage = value;
-                CanLoadMore = value <= 4 && WorkMode.GetAttribute<EnumUtilities.AnimeListWorkModeEnumMember>().AllowLoadingMore; ;
+                CanLoadMore = value <= 10 && WorkMode.GetAttribute<EnumUtilities.AnimeListWorkModeEnumMember>().AllowLoadingMore; ;
             }
         }
 

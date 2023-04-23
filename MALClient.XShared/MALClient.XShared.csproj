@@ -14,7 +14,7 @@
       <PackageReference Include="HtmlAgilityPack" Version="1.11.28" />
       <PackageReference Include="JikanDotNet" Version="2.4.2" />
       <PackageReference Include="MvvmLightLibsStd10" Version="5.4.1.1" />
-      <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+      <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
     </ItemGroup>
     <ItemGroup>
       <ProjectReference Include="..\MALClient.Adapters\MALClient.Adapters.csproj" />

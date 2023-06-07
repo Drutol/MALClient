@@ -518,6 +518,14 @@ namespace MALClient.XShared.Utils
             return
                 doc.DocumentNode.Descendants(descendants)
                     .Where(node => node.Attributes.Contains("class") && node.Attributes["class"].Value.Trim() == targettedClass);
+        }   
+        
+        public static IEnumerable<HtmlNode> WhereOfDescendantsWithContainingClass(this HtmlDocument doc, string descendants,
+            string targettedClass)
+        {
+            return
+                doc.DocumentNode.Descendants(descendants)
+                    .Where(node => node.Attributes.Contains("class") && node.Attributes["class"].Value.Contains(targettedClass));
         }
 
         public static IEnumerable<HtmlNode> WhereOfDescendantsWithPartialClass(this HtmlDocument doc, string descendants,
@@ -542,6 +550,14 @@ namespace MALClient.XShared.Utils
             return
                 doc.Descendants(descendants)
                     .Where(node => node.Attributes.Contains("class") && node.Attributes["class"].Value.Trim() == targettedClass);
+        }     
+        
+        public static IEnumerable<HtmlNode> WhereOfDescendantsWithContainingClass(this HtmlNode doc, string descendants,
+            string targettedClass)
+        {
+            return
+                doc.Descendants(descendants)
+                    .Where(node => node.Attributes.Contains("class") && node.Attributes["class"].Value.Contains(targettedClass));
         }
 
         public static void ForEach<T>(this IEnumerable<T> source,Action<T> action)

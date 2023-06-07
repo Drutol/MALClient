@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using MALClient.Models.Enums;
 using MALClient.XShared.Comm;
 using MALClient.XShared.Comm.Anime;
+using MALClient.XShared.Interfaces;
 using MALClient.XShared.Utils;
 using MALClient.XShared.Utils.Managers;
 using MALClient.XShared.ViewModels;
@@ -28,6 +29,12 @@ namespace MALClient.XShared.BL
             FavouritesManager.LoadData();
             AnimeImageQuery.Init();
             ViewModelLocator.ForumsMain.LoadPinnedTopics();
+            if (Credentials.Authenticated)
+            {
+                // preload access token
+                await ResourceLocator.MalHttpContextProvider.GetApiHttpContextAsync();
+            }
+
             await Task.WhenAll(
                 ResourceLocator.AiringInfoProvider.Init(false),
                 ResourceLocator.EnglishTitlesProvider.Init());
@@ -55,6 +62,7 @@ namespace MALClient.XShared.BL
                         "MAL is down");
                 });
             }
+
 
         }
 

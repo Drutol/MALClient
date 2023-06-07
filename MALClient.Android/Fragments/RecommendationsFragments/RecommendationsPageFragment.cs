@@ -64,10 +64,6 @@ namespace MALClient.Android.Fragments.RecommendationsFragments
                         BindMangaItems();
                 }));
 
-
-
-
-
             Bindings.Add(
                 this.SetBinding(() => ViewModel.Loading,
                     () => RecommendationsPageLoading.Visibility).ConvertSourceToTarget(Converters.BoolToVisibility));

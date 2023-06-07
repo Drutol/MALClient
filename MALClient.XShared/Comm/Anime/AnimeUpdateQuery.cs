@@ -100,6 +100,7 @@ namespace MALClient.XShared.Comm.Anime
                     }
 
                     using var content = new FormUrlEncodedContent(data);
+                    await Task.Delay(TimeSpan.FromMilliseconds(300));
                     var response = await client.SendAsync(new HttpRequestMessage(new HttpMethod("PUT"),
                         $"https://api.myanimelist.net/v2/anime/{_item.Id}/my_list_status") {Content = content});
 

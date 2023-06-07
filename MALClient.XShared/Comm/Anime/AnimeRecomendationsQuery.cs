@@ -51,7 +51,7 @@ namespace MALClient.XShared.Comm.Anime
                     if (desc != null)
                     {
                         var titleNodes =
-                            recomNode.Descendants("a").Where(node => node.Attributes.Count == 2).Take(2).ToArray();
+                            recomNode.Descendants("a").Where(node => node.Attributes.Contains("title")).Take(2).ToArray();
                         var titles = titleNodes.Select(node => WebUtility.HtmlDecode(node.InnerText.Trim())).ToArray();
                         var ids =
                             titleNodes.Select(
@@ -72,10 +72,8 @@ namespace MALClient.XShared.Comm.Anime
                         int TryGetIdFromThisFreakingInconsistentHtmlTag(string value)
                         {
                             var tokens = value.Split('/');
-                            if (tokens.Length == 6)
-                                return Convert.ToInt32(tokens[4]);
-
-                            return Convert.ToInt32(tokens[2]);
+                            var idTokens = tokens.Select(s => int.TryParse(s, out var id) ? id : -1);
+                            return idTokens.FirstOrDefault(i => i != -1);
                         }
                     }
                 }

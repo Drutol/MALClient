@@ -311,7 +311,8 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Forums
                 }
 
                 var doc = new HtmlDocument();
-                doc.Load(await response.Content.ReadAsStreamAsync());
+                var html = await response.Content.ReadAsStreamAsync();
+                doc.Load(html);
 
                 var foundMembers = new Dictionary<string,MalForumUser>();
                 var output = new ForumTopicData {Id = topicId};
@@ -390,7 +391,7 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Forums
                     output.Id = topicId;
                 }
 
-                foreach (var row in doc.WhereOfDescendantsWithClass("div", "forum-topic-message"))
+                foreach (var row in doc.WhereOfDescendantsWithContainingClass("div", "forum-topic-message"))
                 {
                     if (!row.Attributes.Contains("id"))
                         continue; //it's an ad
@@ -422,7 +423,7 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Forums
                             poster.Title = WebUtility.HtmlDecode(titleNode.InnerText).Trim();
                         }
 
-                        var forumIcon = row.WhereOfDescendantsWithClass("a", "forum-icon").FirstOrDefault();
+                        var forumIcon = row.WhereOfDescendantsWithContainingClass("a", "forum-icon").FirstOrDefault();
 
                         if (forumIcon != default)
                         {
@@ -457,7 +458,7 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Forums
                         current.EditDate = "Modified by " + string.Join(" ", editNode.ChildNodes.Select(n => WebUtility.HtmlDecode(n.InnerText).Trim()));
                     }
 
-                    current.HtmlContent = row.FirstOfDescendantsWithClassContaining("div", "message-text").OuterHtml;
+                    current.HtmlContent = row.FirstOfDescendantsWithClassContaining("div", "content").OuterHtml;
 
                     var actions = row.FirstOfDescendantsWithClass("div", "postActions");
                     if (actions != null && actions.ChildNodes.Count > 0)
@@ -471,10 +472,13 @@ namespace MALClient.XShared.Comm.MagicalRawQueries.Forums
 
 
                 if (!CachedMessagesDictionary.ContainsKey(topicId))
+                {
                     CachedMessagesDictionary.Add(topicId, new Dictionary<int, ForumTopicData>
                     {
                         {output.CurrentPage, output}
                     });
+
+                }
                 else
                 {
                     if (CachedMessagesDictionary[topicId].ContainsKey(output.CurrentPage))

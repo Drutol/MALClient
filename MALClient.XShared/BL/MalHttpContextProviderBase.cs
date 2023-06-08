@@ -70,8 +70,17 @@ namespace MALClient.XShared.BL
 
                 try
                 {
-                    var cachedJwtData = JsonConvert.DeserializeObject<Root>(Encoding.UTF8.GetString(Convert.FromBase64String(Settings.ApiToken.Split('.')[1])));
-                    var expirationDiff = DateTimeOffset.FromUnixTimeSeconds(cachedJwtData.exp) - DateTimeOffset.UtcNow;
+                    var expirationDiff = TimeSpan.Zero;
+                    try
+                    {
+                        var cachedJwtData = JsonConvert.DeserializeObject<Root>(Encoding.UTF8.GetString(Convert.FromBase64String(Settings.ApiToken.Split('.')[1])));
+                        expirationDiff = DateTimeOffset.FromUnixTimeSeconds(cachedJwtData.exp) - DateTimeOffset.UtcNow;
+                    }
+                    catch (Exception e)
+                    {
+                        //no token
+                    }
+                    
 
                     if (expirationDiff > TimeSpan.FromHours(1))
                     {

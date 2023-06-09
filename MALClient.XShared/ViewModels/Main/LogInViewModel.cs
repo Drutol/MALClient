@@ -238,6 +238,8 @@ namespace MALClient.XShared.ViewModels.Main
                     var tokens = JsonConvert.DeserializeObject<TokenResponse>(json);
                     Settings.ApiToken = tokens.access_token;
                     Settings.RefreshToken = tokens.refresh_token;
+                    Settings.ApiTokenExpires =
+                        DateTimeOffset.UtcNow.AddSeconds(tokens.expires_in).Subtract(TimeSpan.FromHours(1)).ToUnixTimeSeconds();
 
                     var client = await ResourceLocator.MalHttpContextProvider.GetApiHttpContextAsync();
                     var profileData = JsonConvert.DeserializeObject<AccountResponse>(await client.GetStringAsync("https://api.myanimelist.net/v2/users/@me"));

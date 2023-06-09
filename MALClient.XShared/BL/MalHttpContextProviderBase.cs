@@ -70,18 +70,7 @@ namespace MALClient.XShared.BL
 
                 try
                 {
-                    var expirationDiff = TimeSpan.Zero;
-                    try
-                    {
-                        var cachedJwtData = JsonConvert.DeserializeObject<Root>(Encoding.UTF8.GetString(Convert.FromBase64String(Settings.ApiToken.Split('.')[1])));
-                        expirationDiff = DateTimeOffset.FromUnixTimeSeconds(cachedJwtData.exp) - DateTimeOffset.UtcNow;
-                    }
-                    catch (Exception e)
-                    {
-                        //no token
-                    }
-                    
-
+                    var expirationDiff = DateTimeOffset.FromUnixTimeSeconds(Settings.ApiTokenExpires) - DateTimeOffset.UtcNow;
                     if (expirationDiff > TimeSpan.FromHours(1))
                     {
                         _lastRefresh = DateTime.UtcNow;
@@ -96,11 +85,22 @@ namespace MALClient.XShared.BL
                         var json = await response.Content.ReadAsStringAsync();
                         var tokens = JsonConvert.DeserializeObject<TokenResponse>(json);
 
-                        var jwtData = JsonConvert.DeserializeObject<Root>(Encoding.UTF8.GetString(Convert.FromBase64String(tokens.access_token.Split('.')[1])));
-                        var diff = DateTimeOffset.FromUnixTimeSeconds(jwtData.nbf) - DateTimeOffset.UtcNow;
+                        Settings.ApiTokenExpires =
+                            DateTimeOffset.UtcNow.AddSeconds(tokens.expires_in).Subtract(TimeSpan.FromHours(1)).ToUnixTimeSeconds();
 
-                        if (diff > TimeSpan.Zero)
-                            await Task.Delay(diff);
+                        try
+                        {
+                            var jwtData = JsonConvert.DeserializeObject<Root>(Encoding.UTF8.GetString(Convert.FromBase64String(tokens.access_token.Split('.')[1])));
+                            var diff = DateTimeOffset.FromUnixTimeSeconds(jwtData.nbf) - DateTimeOffset.UtcNow;
+
+                            if (diff > TimeSpan.Zero)
+                                await Task.Delay(diff);
+                        }
+                        catch (Exception e)
+                        {
+                            //unknown format
+                            await Task.Delay(TimeSpan.FromSeconds(10));
+                        }
 
                         Settings.ApiToken = tokens.access_token;
                         Settings.RefreshToken = tokens.refresh_token;

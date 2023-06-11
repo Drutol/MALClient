@@ -50,14 +50,14 @@ namespace MALClient.XShared.BL
 
         public async Task<HttpClient> GetApiHttpContextAsync()
         {
-            if (_apiHttpClient != null && DateTime.UtcNow - _lastRefresh < TimeSpan.FromMinutes(50))
+            if (_apiHttpClient != null && DateTime.UtcNow - _lastRefresh < TimeSpan.FromMinutes(50) && _apiHttpClient?.DefaultRequestHeaders?.Authorization?.Parameter == Settings.ApiToken)
                 return _apiHttpClient;
 
             try
             {
                 await _semaphoreSlim.WaitAsync();
 
-                if (_apiHttpClient != null && DateTime.UtcNow - _lastRefresh < TimeSpan.FromMinutes(50))
+                if (_apiHttpClient != null && DateTime.UtcNow - _lastRefresh < TimeSpan.FromMinutes(50) && _apiHttpClient?.DefaultRequestHeaders?.Authorization?.Parameter == Settings.ApiToken)
                     return _apiHttpClient;
 
                 using var tokenClient = new HttpClient();
@@ -71,7 +71,7 @@ namespace MALClient.XShared.BL
                 try
                 {
                     var expirationDiff = DateTimeOffset.FromUnixTimeSeconds(Settings.ApiTokenExpires) - DateTimeOffset.UtcNow;
-                    if (expirationDiff > TimeSpan.FromHours(1))
+                    if (expirationDiff > TimeSpan.FromHours(1) && (_apiHttpClient == null || _apiHttpClient?.DefaultRequestHeaders?.Authorization.Parameter == Settings.ApiToken))
                     {
                         _lastRefresh = DateTime.UtcNow;
 

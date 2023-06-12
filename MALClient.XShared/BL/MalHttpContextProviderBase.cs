@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -87,20 +88,46 @@ namespace MALClient.XShared.BL
 
                         Settings.ApiTokenExpires =
                             DateTimeOffset.UtcNow.AddSeconds(tokens.expires_in).Subtract(TimeSpan.FromHours(1)).ToUnixTimeSeconds();
+                        await Task.Delay(TimeSpan.FromSeconds(1));
+                        //try
+                        //{
+                        //    var jwtData = JsonConvert.DeserializeObject<Root>(Encoding.UTF8.GetString(Convert.FromBase64String(tokens.access_token.Split('.')[1])));
+                        //    var diff = DateTimeOffset.FromUnixTimeSeconds(jwtData.nbf) - DateTimeOffset.UtcNow;
+                        //    ResourceLocator.MessageDialogProvider.ShowMessageDialog(diff.TotalSeconds.ToString(), "");
+                        //    //if (diff > TimeSpan.Zero)
+                        //    //{
+                        //    //    if(diff < TimeSpan.FromSeconds(1))
+                        //    //        diff = TimeSpan.FromSeconds(1);
 
-                        try
-                        {
-                            var jwtData = JsonConvert.DeserializeObject<Root>(Encoding.UTF8.GetString(Convert.FromBase64String(tokens.access_token.Split('.')[1])));
-                            var diff = DateTimeOffset.FromUnixTimeSeconds(jwtData.nbf) - DateTimeOffset.UtcNow;
+                        //    //    diff = diff.Add(TimeSpan.FromSeconds(1));
 
-                            if (diff > TimeSpan.Zero)
-                                await Task.Delay(diff);
-                        }
-                        catch (Exception e)
-                        {
-                            //unknown format
-                            await Task.Delay(TimeSpan.FromSeconds(10));
-                        }
+                        //    //    ResourceLocator.MessageDialogProvider.ShowLoadingPopup(
+                        //    //        $"Awaiting valid token from MAL... {diff.TotalSeconds:N0}s", "");
+                        //    //    for (int i = 1; i <= (int)diff.TotalSeconds + 1; i++)
+                        //    //    {
+                        //    //        await Task.Delay(TimeSpan.FromSeconds(1));
+                        //    //        ResourceLocator.MessageDialogProvider.UpdateLoadingPopup(
+                        //    //            $"Awaiting valid token from MAL... {(diff.TotalSeconds - i):N0}s", "");
+                        //    //    }
+
+                        //    //    ResourceLocator.MessageDialogProvider.HideLoadingDialog();
+                        //    //}
+                        //}
+                        //catch (Exception e)
+                        //{
+                        //    //unknown format
+                        //    var diff = TimeSpan.FromSeconds(10);
+                        //    ResourceLocator.MessageDialogProvider.ShowLoadingPopup(
+                        //        $"Awaiting valid token from MAL... {diff.TotalSeconds:N0}s", "");
+                        //    for (int i = 1; i <= (int)diff.TotalSeconds; i++)
+                        //    {
+                        //        await Task.Delay(TimeSpan.FromSeconds(1));
+                        //        ResourceLocator.MessageDialogProvider.UpdateLoadingPopup(
+                        //            $"Awaiting valid token from MAL... {(diff.TotalSeconds - i):N0}s", "");
+                        //    }
+
+                        //    ResourceLocator.MessageDialogProvider.HideLoadingDialog();
+                        //}
 
                         Settings.ApiToken = tokens.access_token;
                         Settings.RefreshToken = tokens.refresh_token;

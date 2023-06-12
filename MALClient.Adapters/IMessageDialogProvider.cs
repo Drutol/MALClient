@@ -13,5 +13,9 @@ namespace MALClient.Adapters
 
         void ShowMessageDialogWithInput(string content, string title, string trueCommand, string falseCommand,
             Action callbackOnTrue, Action callBackOnFalse = null);
+
+        void ShowLoadingPopup(string title, string content);
+        void HideLoadingDialog();
+        void UpdateLoadingPopup(string title, string content);
     }
 }

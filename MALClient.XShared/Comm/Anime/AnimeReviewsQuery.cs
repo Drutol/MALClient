@@ -43,12 +43,12 @@ namespace MALClient.XShared.Comm.Anime
                 Root reviews;
                 if (_anime)
                 {
-                    var json = await _client.GetStringAsync($"https://api.jikan.moe/v4/anime/{_targetId}/reviews?page=0");
+                    var json = await _client.GetStringAsync($"https://api.jikan.moe/v4/anime/{_targetId}/reviews?page=1");
                     reviews = JsonSerializer.Deserialize<Root>(json);
                 }
                 else
                 {
-                    var json = await _client.GetStringAsync($"https://api.jikan.moe/v4/manga/{_targetId}/reviews?page=0");
+                    var json = await _client.GetStringAsync($"https://api.jikan.moe/v4/manga/{_targetId}/reviews?page=1");
                     reviews = JsonSerializer.Deserialize<Root>(json);
                 }
 

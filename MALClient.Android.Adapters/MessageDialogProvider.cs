@@ -3,6 +3,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
+using Android.Views;
+using Android.Widget;
 using GalaSoft.MvvmLight.Ioc;
 using GalaSoft.MvvmLight.Views;
 using MALClient.Adapters;
@@ -11,6 +13,8 @@ namespace MALClient.Android.Adapters
 {
     public class MessageDialogProvider : IMessageDialogProvider
     {
+        private AlertDialog _currentLoadingDialog;
+
         class DialogDissmissListener : Java.Lang.Object, IDialogInterfaceOnDismissListener
         {
             private readonly Action _action;
@@ -72,6 +76,51 @@ namespace MALClient.Android.Adapters
             dialog.SetMessage(content);
             dialog.SetCancelable(true);
             dialog.Show();
+        }
+
+        public void UpdateLoadingPopup(string title, string content)
+        {
+            if (_currentLoadingDialog != null)
+            {
+                _currentLoadingDialog.SetTitle(title);
+                _currentLoadingDialog.SetMessage(content);
+            }
+        }
+
+        public void ShowLoadingPopup(string title, string content)
+        {
+            _currentLoadingDialog?.Dismiss();
+            var ctx = SimpleIoc.Default.GetInstance<Activity>();
+
+            var bottomMargin = title == null && content == null ? 16 : 32;
+
+            var layout = new FrameLayout(ctx);
+            var loadingView = new ProgressBar(ctx)
+            {
+                LayoutParameters = new FrameLayout.LayoutParams(
+                    ViewGroup.LayoutParams.WrapContent,
+                    ViewGroup.LayoutParams.WrapContent)
+                {
+                    Gravity = GravityFlags.Center,
+                    TopMargin = (int)(16 * Application.Context.Resources.DisplayMetrics.Density),
+                    BottomMargin = (int)(bottomMargin * Application.Context.Resources.DisplayMetrics.Density),
+                }
+            };
+            layout.AddView(loadingView);
+
+            var dialog = new AlertDialog.Builder(ctx);
+
+            dialog.SetView(layout);
+            dialog.SetTitle(title);
+            dialog.SetMessage(content);
+            dialog.SetCancelable(false);
+            _currentLoadingDialog = dialog.Show();
+        }
+
+        public void HideLoadingDialog()
+        {
+            _currentLoadingDialog?.Dismiss();
+            _currentLoadingDialog = null;
         }
     }
 }

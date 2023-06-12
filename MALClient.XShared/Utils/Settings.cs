@@ -53,7 +53,7 @@ namespace MALClient.XShared.Utils
         
         public static long ApiTokenExpires
         {
-            get => (long)(ApplicationDataService[nameof(ApiTokenExpires)] ?? 0);
+            get => (long)(ApplicationDataService[nameof(ApiTokenExpires)] ?? 0L);
             set => ApplicationDataService[nameof(ApiTokenExpires)] = value;
         }      
         

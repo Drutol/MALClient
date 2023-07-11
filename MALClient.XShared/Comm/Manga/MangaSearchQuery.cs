@@ -33,7 +33,7 @@ namespace MALClient.XShared.Comm.Manga
 
             try
             {
-                var jikan = new Jikan();
+                var jikan = JikanClient.Jikan;
                 var searchResult = await jikan.SearchMangaAsync(_query);
 
                 foreach (var result in searchResult.Data)

@@ -714,7 +714,7 @@ namespace MALClient.XShared.ViewModels.Details
                 {
                     if (Settings.SelectedApiType == ApiType.Mal)
                     {
-                        _clipboardProvider.SetText($"http://www.myanimelist.net/{(AnimeMode ? "anime" : "manga")}/{Id}");
+                        _clipboardProvider.SetText($"https://myanimelist.net/{(AnimeMode ? "anime" : "manga")}/{Id}");
                     }
                     else
                     {

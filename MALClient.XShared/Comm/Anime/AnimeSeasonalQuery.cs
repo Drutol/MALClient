@@ -55,28 +55,40 @@ namespace MALClient.XShared.Comm.Anime
                         }
                     };
 
-                    var season = JsonSerializer.Deserialize<PaginatedJikanResponse<ICollection<JikanDotNet.Anime>>>(
-                        await client.GetStringAsync(
-                            $"https://api.jikan.moe/v4/seasons/{requestedYear}/{requestedSeason}?page={currentPage}"));
-
-                    foreach (var seasonSeasonEntry in season.Data)
+                    try
                     {
-                        output.Add(new SeasonalAnimeData
+                        var season = JsonSerializer.Deserialize<PaginatedJikanResponse<ICollection<JikanDotNet.Anime>>>(
+                            await client.GetStringAsync(
+                                $"https://api.jikan.moe/v4/seasons/{requestedYear}/{requestedSeason}?page={currentPage}"));
+
+                        foreach (var seasonSeasonEntry in season.Data)
                         {
-                            Title = seasonSeasonEntry.Title,
-                            Id = (int)(seasonSeasonEntry.MalId ?? -1),
-                            ImgUrl = seasonSeasonEntry.Images.JPG.ImageUrl,
-                            Episodes = (seasonSeasonEntry.Episodes ?? 0).ToString(),
-                            Score = (float)(seasonSeasonEntry.Score ?? 0),
-                            Genres = seasonSeasonEntry.Genres.Select(item => item.Name).ToList(),
-                            Index = season.Data.FindIndex(seasonSeasonEntry) + (25 * (currentPage - 1)) + 1
-                        });
+                            output.Add(new SeasonalAnimeData
+                            {
+                                Title = seasonSeasonEntry.Title,
+                                Id = (int)(seasonSeasonEntry.MalId ?? -1),
+                                ImgUrl = seasonSeasonEntry.Images.JPG.ImageUrl,
+                                Episodes = (seasonSeasonEntry.Episodes ?? 0).ToString(),
+                                Score = (float)(seasonSeasonEntry.Score ?? 0),
+                                Genres = seasonSeasonEntry.Genres.Select(item => item.Name).ToList(),
+                                Index = season.Data.FindIndex(seasonSeasonEntry) + (25 * (currentPage - 1)) + 1
+                            });
+                        }
+
+                        if (!season.Pagination.HasNextPage)
+                            break;
+
+                        await Task.Delay(TimeSpan.FromMilliseconds(500));
+
+                        currentPage++;
                     }
-
-                    if(!season.Pagination.HasNextPage)
-                        break;
-
-                    currentPage++;
+                    catch (HttpRequestException e)
+                    {
+                        if (e.Message.Contains("429"))
+                            await Task.Delay(TimeSpan.FromSeconds(1));
+                        else
+                            throw;
+                    }
                 }
 
                 DataCache.SaveSeasonalData(output, _season.Name);

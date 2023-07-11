@@ -50,7 +50,7 @@ namespace MALClient.XShared.Comm.Anime
 
             try
             {
-                var jikan = new Jikan();
+                var jikan = JikanClient.Jikan;
                 var searchResult = await jikan.SearchAnimeAsync(_query);
 
                 foreach (var result in searchResult.Data)

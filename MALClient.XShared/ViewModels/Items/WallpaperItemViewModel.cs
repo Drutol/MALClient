@@ -77,7 +77,7 @@ namespace MALClient.XShared.ViewModels.Items
         public ICommand CopyAndWaifuCommand => _copyAndWaifuCommand ?? (_copyAndWaifuCommand = new RelayCommand(() =>
                                                {
                                                    ResourceLocator.ClipboardProvider.SetText(Data.FileUrl);
-                                                   ResourceLocator.SystemControlsLauncherService.LaunchUri(new Uri("http://waifu2x.booru.pics/"));
+                                                   ResourceLocator.SystemControlsLauncherService.LaunchUri(new Uri("https://waifu2x.booru.pics/"));
                                                }));
 
     }

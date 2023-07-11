@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
@@ -39,17 +40,45 @@ namespace MALClient.XShared.Comm.Anime
 
             try
             {
-                var jikan = new Jikan();
-                Root reviews;
-                if (_anime)
+                Root reviews = null;
+
+                while (true)
                 {
-                    var json = await _client.GetStringAsync($"https://api.jikan.moe/v4/anime/{_targetId}/reviews?page=1");
-                    reviews = JsonSerializer.Deserialize<Root>(json);
-                }
-                else
-                {
-                    var json = await _client.GetStringAsync($"https://api.jikan.moe/v4/manga/{_targetId}/reviews?page=1");
-                    reviews = JsonSerializer.Deserialize<Root>(json);
+                    if (_anime)
+                    {
+                        try
+                        {
+                            var json = await _client.GetStringAsync(
+                                $"https://api.jikan.moe/v4/anime/{_targetId}/reviews?page=1");
+                            reviews = JsonSerializer.Deserialize<Root>(json);
+                            break;
+                        }
+                        catch (HttpRequestException e)
+                        {
+                            if (e.Message.Contains("429"))
+                                await Task.Delay(TimeSpan.FromSeconds(1));
+                            else
+                                throw;
+                        }
+
+                    }
+                    else
+                    {
+                        try
+                        {
+                            var json = await _client.GetStringAsync(
+                                $"https://api.jikan.moe/v4/manga/{_targetId}/reviews?page=1");
+                            reviews = JsonSerializer.Deserialize<Root>(json);
+                            break;
+                        }
+                        catch (HttpRequestException e)
+                        {
+                            if (e.Message.Contains("429"))
+                                await Task.Delay(TimeSpan.FromSeconds(1));
+                            else
+                                throw;
+                        }
+                    }
                 }
 
                 foreach (var review in reviews.Data)

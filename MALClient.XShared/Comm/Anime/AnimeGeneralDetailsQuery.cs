@@ -29,7 +29,7 @@ namespace MALClient.XShared.Comm.Anime
 
             var requestedApiType = apiOverride ?? CurrentApiType;
             var response = string.Empty;
-            var jikan = new Jikan();
+            var jikan = JikanClient.Jikan;
             try
             {
                 switch (requestedApiType)

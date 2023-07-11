@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Android.Runtime;
 using JikanDotNet;
+using JikanDotNet.Config;
 using Newtonsoft.Json;
 using AnimeEpisode = MALClient.Models.Models.Anime.AnimeEpisode;
 
@@ -23,7 +24,7 @@ namespace MALClient.XShared.Comm.Anime
             {
                 var result = new List<AnimeEpisode>();
                 int page = 1;
-                var jikan = new Jikan();
+                var jikan = JikanClient.Jikan;
                 while (true)
                 {
                     try

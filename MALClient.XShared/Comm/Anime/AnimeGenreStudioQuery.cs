@@ -53,7 +53,7 @@ namespace MALClient.XShared.Comm.Anime
             if (output.Count > 0)
                 return output;
 
-            var jikan = new Jikan();
+            var jikan = JikanClient.Jikan;
 
             var jikanPage = _page;
             try

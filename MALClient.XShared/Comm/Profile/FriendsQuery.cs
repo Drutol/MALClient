@@ -27,7 +27,7 @@ namespace MALClient.XShared.Comm.Profile
 
             try
             {
-                var jikan = new Jikan();
+                var jikan = JikanClient.Jikan;
                 var result = await jikan.GetUserFriendsAsync(_userName);
 
                 foreach (var friend in result.Data)

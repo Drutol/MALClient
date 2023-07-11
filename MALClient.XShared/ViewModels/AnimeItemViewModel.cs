@@ -689,7 +689,7 @@ namespace MALClient.XShared.ViewModels
                            if (Settings.SelectedApiType == ApiType.Mal)
                            {
                                ResourceLocator.ClipboardProvider.SetText(
-                                   $"http://www.myanimelist.net/{(ParentAbstraction.RepresentsAnime ? "anime" : "manga")}/{Id}");
+                                   $"https://myanimelist.net/{(ParentAbstraction.RepresentsAnime ? "anime" : "manga")}/{Id}");
                            }
                            else
                            {

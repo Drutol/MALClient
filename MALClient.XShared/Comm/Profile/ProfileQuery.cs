@@ -111,7 +111,7 @@ namespace MALClient.XShared.Comm.Profile
 
                 try
                 {
-                    var jikan = new Jikan();
+                    var jikan = JikanClient.Jikan;
                     var favs = await jikan.GetUserFavoritesAsync(_userName);
                     foreach (var favAnime in favs.Data.Anime)
                     {

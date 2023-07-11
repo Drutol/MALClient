@@ -1069,7 +1069,7 @@ namespace MALClient.XShared.ViewModels.Main
                 SeasonSelection.Clear();
                 var i = 0;
                 var currSeasonIndex = -1;
-                var seasons = await new Jikan().GetSeasonArchiveAsync();
+                var seasons = await JikanClient.Jikan.GetSeasonArchiveAsync();
 
                 foreach (var season in seasons.Data.Take(3))
                 {

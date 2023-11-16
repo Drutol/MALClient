@@ -1069,28 +1069,35 @@ namespace MALClient.XShared.ViewModels.Main
                 SeasonSelection.Clear();
                 var i = 0;
                 var currSeasonIndex = -1;
-                var seasons = await JikanClient.Jikan.GetSeasonArchiveAsync();
-
-                foreach (var season in seasons.Data.Take(3))
+                try
                 {
-                    foreach (var yearSeason in season.Season)
+                    var seasons = await JikanClient.Jikan.GetSeasonArchiveAsync();
+
+                    foreach (var season in seasons.Data.Take(3))
                     {
-                        SeasonSelection.Add(new AnimeSeason { Name = $"{yearSeason} {season.Year}", Year = season.Year, Season = yearSeason});
-                        i++;
-                    }
+                        foreach (var yearSeason in season.Season)
+                        {
+                            SeasonSelection.Add(new AnimeSeason { Name = $"{yearSeason} {season.Year}", Year = season.Year, Season = yearSeason});
+                            i++;
+                        }
 
-                    //if (seasonalUrl.Key == CurrentSeason.Name)
-                    //{
-                    //    _seasonalUrlsSelectedIndex = i - 1;
-                    //    RaisePropertyChanged(() => SeasonalUrlsSelectedIndex);
-                    //}
+                        //if (seasonalUrl.Key == CurrentSeason.Name)
+                        //{
+                        //    _seasonalUrlsSelectedIndex = i - 1;
+                        //    RaisePropertyChanged(() => SeasonalUrlsSelectedIndex);
+                        //}
+                    }
+                    //we have set artificial default one because we did not know what lays ahead of us
+                    if (setDefaultSeason && currSeasonIndex != -1)
+                    {
+                        CurrentSeason = SeasonSelection[currSeasonIndex];
+                        _seasonalUrlsSelectedIndex = currSeasonIndex;
+                        RaisePropertyChanged(() => SeasonalUrlsSelectedIndex);
+                    }
                 }
-                //we have set artificial default one because we did not know what lays ahead of us
-                if (setDefaultSeason && currSeasonIndex != -1)
+                catch (Exception e)
                 {
-                    CurrentSeason = SeasonSelection[currSeasonIndex];
-                    _seasonalUrlsSelectedIndex = currSeasonIndex;
-                    RaisePropertyChanged(() => SeasonalUrlsSelectedIndex);
+
                 }
             }
 

@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using Android.App;
-using Android.BillingClient.Api;
 using Android.Content;
 using Android.OS;
 using Android.Runtime;
@@ -57,58 +56,60 @@ namespace MALClient.Android.Fragments.SettingsFragments
 
         private async void AboutPageDonateButtonOnClick(View view)
         {
-            BillingAdapter adapter = null;
-            try
-            {
-                adapter = new BillingAdapter();
-                await adapter.Initialize(Activity);
-
-                //first try to redeem all existing ones
-                var ownedItems = adapter.BillingClient.QueryPurchases("inapp");
-                if (ownedItems.ResponseCode != 0)
-                    throw new Exception();
-
-                // Get the list of purchased items
-                foreach (var purchaseData in ownedItems.PurchasesList)
-                {
-                    await adapter.BillingClient.ConsumeAsync(ConsumeParams.NewBuilder().SetPurchaseToken(purchaseData.PurchaseToken).Build());
-                }
-
-                var sku = await adapter.BillingClient.QuerySkuDetailsAsync(SkuDetailsParams.NewBuilder()
-                    .SetSkusList(new List<string> { GetProductSku() }).SetType("inapp").Build());
-
-                if(sku.Result.ResponseCode != BillingResponseCode.Ok)
-                    throw new Exception();
-
-                var buyIntentBundle = adapter.BillingClient.LaunchBillingFlow(Activity,
-                    BillingFlowParams.NewBuilder().SetSkuDetails(sku.SkuDetails[0]).Build());
-            }
-            catch (Exception e)
-            {
-                ResourceLocator.MessageDialogProvider.ShowMessageDialog(
-                    "Something went wrong, you can always try later ^^", "Something went wrong™");
-            }
-            finally
-            {
-                adapter?.BillingClient?.EndConnection();
-            }
-
-            string GetProductSku()
-            {
-                switch (view.Id)
-                {
-                    case Resource.Id.AboutPageDonate1Button:
-                        return "donation1";
-                    case Resource.Id.AboutPageDonate2Button:
-                        return "donate2";
-                    case Resource.Id.AboutPageDonate3Button:
-                        return "donate3";
-                    case Resource.Id.AboutPageDonate4Button:
-                        return "donate4";
-                    default:
-                        throw new ArgumentOutOfRangeException();
-                }
-            }
+            ResourceLocator.MessageDialogProvider.ShowMessageDialog(
+                "I've stopped accepting donations for this project, thank you for the attempt. Enjoy the app :)", "Thank you!");
+            // BillingAdapter adapter = null;
+            // try
+            // {
+            //     adapter = new BillingAdapter();
+            //     await adapter.Initialize(Activity);
+            //
+            //     //first try to redeem all existing ones
+            //     var ownedItems = adapter.BillingClient.QueryPurchases("inapp");
+            //     if (ownedItems.ResponseCode != 0)
+            //         throw new Exception();
+            //
+            //     // Get the list of purchased items
+            //     foreach (var purchaseData in ownedItems.PurchasesList)
+            //     {
+            //         await adapter.BillingClient.ConsumeAsync(ConsumeParams.NewBuilder().SetPurchaseToken(purchaseData.PurchaseToken).Build());
+            //     }
+            //
+            //     var sku = await adapter.BillingClient.QuerySkuDetailsAsync(SkuDetailsParams.NewBuilder()
+            //         .SetSkusList(new List<string> { GetProductSku() }).SetType("inapp").Build());
+            //
+            //     if(sku.Result.ResponseCode != BillingResponseCode.Ok)
+            //         throw new Exception();
+            //
+            //     var buyIntentBundle = adapter.BillingClient.LaunchBillingFlow(Activity,
+            //         BillingFlowParams.NewBuilder().SetSkuDetails(sku.SkuDetails[0]).Build());
+            // }
+            // catch (Exception e)
+            // {
+            //     ResourceLocator.MessageDialogProvider.ShowMessageDialog(
+            //         "Something went wrong, you can always try later ^^", "Something went wrong™");
+            // }
+            // finally
+            // {
+            //     adapter?.BillingClient?.EndConnection();
+            // }
+            //
+            // string GetProductSku()
+            // {
+            //     switch (view.Id)
+            //     {
+            //         case Resource.Id.AboutPageDonate1Button:
+            //             return "donation1";
+            //         case Resource.Id.AboutPageDonate2Button:
+            //             return "donate2";
+            //         case Resource.Id.AboutPageDonate3Button:
+            //             return "donate3";
+            //         case Resource.Id.AboutPageDonate4Button:
+            //             return "donate4";
+            //         default:
+            //             throw new ArgumentOutOfRangeException();
+            //     }
+            // }
 
         }
 

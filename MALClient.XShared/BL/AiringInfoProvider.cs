@@ -173,7 +173,7 @@ namespace MALClient.XShared.BL
                 else
                 {
                     var currentTimestamp = Utilities.ConvertToUnixTimestamp(DateTime.UtcNow);
-                    var next = data.Episodes.First(ep => ep.Timestamp >= currentTimestamp);
+                    var next = data.Episodes.FirstOrDefault(ep => ep.Timestamp >= currentTimestamp);
                     if (next != null)
                         date = Utilities.ConvertFromUnixTimestamp(next.Timestamp);
                     else if (data.Episodes.Last().Timestamp < currentTimestamp)

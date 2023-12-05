@@ -200,7 +200,7 @@ namespace MALClient.XShared.ViewModels
                 {
                     var diff = airingDate - DateTime.UtcNow;
 
-                    if (diff.TotalDays > 0 && (diff.TotalDays < 1 || diff.TotalDays > 7))
+                    if (diff.TotalDays > 0)
                     {
                         _airDayTillBind = diff.TotalDays < 1
                             ? _airDayTillBind = diff.TotalHours < 1 ? $"{diff.TotalMinutes:N0}m" : $"{diff.TotalHours:N0}h"

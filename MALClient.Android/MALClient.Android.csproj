@@ -387,10 +387,6 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Binding_Facebook\Binding_Facebook.csproj">
-      <Project>{99432b0f-e4f9-45cb-be00-0d0956f47e57}</Project>
-      <Name>Binding_Facebook</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Binding_InMobi\Binding_InMobi.csproj">
       <Project>{ae5be2b1-eb85-402f-a1f2-bce1513a9bb0}</Project>
       <Name>Binding_InMobi</Name>

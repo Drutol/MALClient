@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.drutol.malclient" android:installLocation="auto" android:versionName="1.5.13.7" android:versionCode="163">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.drutol.malclient" 
+		  android:installLocation="auto" android:versionName="1.5.13.9" android:versionCode="165">
 	<uses-permission android:name="com.android.vending.BILLING" />
 	<uses-permission android:name="android.permission.INTERNET" />
 	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -10,7 +11,6 @@
 	<application android:label="MALClient" android:icon="@mipmap/ic_launcher">
 		<uses-library android:name="org.apache.http.legacy" android:required="false" />
 		<meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />
-		<activity android:name="com.inmobi.rendering.InMobiAdActivity" android:configChanges="keyboardHidden|orientation|keyboard|smallestScreenSize|screenSize|screenLayout" android:hardwareAccelerated="true" android:resizeableActivity="false" android:theme="@android:style/Theme.NoTitleBar" />
 		<meta-data android:name="com.google.android.gms.ads.APPLICATION_ID" android:value="ca-app-pub-8220174765620095~3319675764" />
 	</application>
 </manifest>

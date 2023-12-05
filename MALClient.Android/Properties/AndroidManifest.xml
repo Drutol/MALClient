@@ -1,7 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.drutol.malclient" 
-		  android:installLocation="auto" android:versionName="1.5.13.9" android:versionCode="166">
-	<uses-permission android:name="com.android.vending.BILLING" />
+		  android:installLocation="auto" android:versionName="1.5.13.9" android:versionCode="167">
 	<uses-permission android:name="android.permission.INTERNET" />
 	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 	<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -12,6 +11,9 @@
 		<uses-library android:name="org.apache.http.legacy" android:required="false" />
 		<meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />
 		<meta-data android:name="com.google.android.gms.ads.APPLICATION_ID" android:value="ca-app-pub-8220174765620095~3319675764" />
+		<meta-data
+				android:name="com.google.android.play.billingclient.version"
+				android:value="6.0.0" />
 	</application>
 </manifest>
 <!--android:networkSecurityConfig="@xml/debug_ca"-->

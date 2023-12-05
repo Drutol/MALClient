@@ -377,10 +377,10 @@
       <Version>1.7.0.1</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.GooglePlayServices.Ads.Identifier">
-      <Version>118.0.1.2</Version>
+      <Version>118.0.1.7</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.GooglePlayServices.Ads.Lite">
-      <Version>121.2.0</Version>
+      <Version>122.3.0.1</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>

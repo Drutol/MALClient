@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Text.RegularExpressions;
 using Windows.System;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
@@ -17,6 +18,7 @@ namespace MALClient.UWP.Pages.Main
     public sealed partial class LogInPage : Page
     {
         private bool _headerSent;
+        private string _cookies;
 
         public LogInPage()
         {
@@ -62,6 +64,26 @@ namespace MALClient.UWP.Pages.Main
         private void SignInWebViewOnNavigationStarting(WebView sender, WebViewNavigationStartingEventArgs args)
         {
             var targeturl = args.Uri.ToString();
+            
+            
+            if (targeturl.Contains("maloauth"))
+            {
+                try
+                {
+                    var regex = new Regex(".*maloauth\\?code=(.*)\\&.*");
+                    var match = regex.Matches(targeturl);
+                    ViewModelLocator.LogIn.SignIn(_cookies, match[0].Groups[1].Value);
+                    SignInWebView.Visibility = Visibility.Collapsed;
+                    return;
+                }
+                catch
+                {
+                    //error, display the error page?
+                    args.Cancel = false;
+                    return;
+                }
+            }
+            
 
             if (targeturl == "https://myanimelist.net/" ||
                 targeturl == "https://myanimelist.net/#" || //from google signi
@@ -71,9 +93,15 @@ namespace MALClient.UWP.Pages.Main
                 var cookieCollection = filter.CookieManager.GetCookies(new Uri("https://myanimelist.net"));
                 var cookieString = cookieCollection.Aggregate("", (s, cookie) => s += $"{cookie.Name}={cookie.Value};");
 
-                ViewModelLocator.LogIn.SignIn(cookieString);
-
-                SignInWebView.Visibility = Visibility.Collapsed;
+                _cookies = cookieString;
+                var url = "https://myanimelist.net/v1/oauth2/authorize?response_type=code&" +
+                          "client_id=183063f74126e7551b00c3b4de66986c&" +
+                          "state=signin&" +
+                          $"code_challenge={ViewModelLocator.LogIn.PkceChallenge}&" +
+                          "code_challenge_method=plain";
+                Navigate(new Uri(url));
+                
+               
                 return;
             }
 
@@ -96,7 +124,9 @@ namespace MALClient.UWP.Pages.Main
                 targeturl.StartsWith("https://m.facebook") ||
                 targeturl.StartsWith("https://accounts.google") ||
                 targeturl.StartsWith("https://accounts.youtube") ||
-                targeturl.StartsWith("https://myanimelist.net/login.php"))
+                targeturl.StartsWith("https://myanimelist.net/login.php") ||
+                targeturl.StartsWith("https://myanimelist.net/submission/authorization") ||
+                targeturl.StartsWith("https://myanimelist.net/dialog/authorization"))
             {
                 args.Cancel = false;
                 return;

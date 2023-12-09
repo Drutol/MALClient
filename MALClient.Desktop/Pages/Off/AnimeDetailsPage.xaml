@@ -1135,7 +1135,7 @@
                                         </StackPanel>
                                         <MenuFlyoutSeparator Margin="0,5" />
                                         <StackPanel>
-                                            <TextBlock Text="Statisctics" FontWeight="Bold" VerticalAlignment="Top"
+                                            <TextBlock Text="Statistics" FontWeight="Bold" VerticalAlignment="Top"
                                                        HorizontalAlignment="Center" FontSize="17" Margin="0,5,0,5" />
                                             <userControls:AlternatingListView ItemsSource="{Binding Stats}"
                                                                               ItemContainerStyle="{StaticResource DetailsItemStyle}">

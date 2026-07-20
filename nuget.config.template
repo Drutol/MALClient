@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<configuration>
+  <!-- 
+    Temporary package source pointing to a personal fork of JikanDotNet.
+    Used to work around a bug (intermittent 504 Gateway Timeout errors) 
+    not yet fixed in the official NuGet release.
+    Upstream fix PR: https://github.com/Ervie/jikan.net/pull/69
+    Remove this source and revert to the official JikanDotNet NuGet package 
+    once that PR is merged and released.
+  -->
+  <packageSources>
+    <add key="github-jikandotnet-fork" value="https://nuget.pkg.github.com/stefan9999991/index.json" />
+  </packageSources>
+  <packageSourceCredentials>
+    <github-jikandotnet-fork>
+      <!--
+        Requires a GitHub Personal Access Token (classic, scope: read:packages)
+        set as the GITHUB_PACKAGES_PAT environment variable to authenticate
+        against the source above.
+      -->
+      <add key="Username" value="%YOUR_GITHUB_USERNAME%" />
+      <add key="ClearTextPassword" value="%GITHUB_PACKAGES_PAT%" />
+    </github-jikandotnet-fork>
+  </packageSourceCredentials>
+</configuration>

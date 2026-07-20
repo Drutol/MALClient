@@ -228,3 +228,6 @@ MALClient.Desktop/BundleArtifacts/
 MALClient.Dekstop/BundleArtifacts/
 MALClient.Android/Resources/Resource.Designer.cs
 MALClient.XShared/Secrets.cs
+
+# Ignore Nuget file that contains credentials
+nuget.config

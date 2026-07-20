@@ -1,4 +1,13 @@
-﻿using System;
+﻿using Android.Runtime;
+using JikanDotNet;
+using MALClient.Models.Enums;
+using MALClient.Models.Models.Anime;
+using MALClient.XShared.Comm.Manga;
+using MALClient.XShared.JsonModels.MAL;
+using MALClient.XShared.Utils;
+using MALClient.XShared.ViewModels;
+using System.Text.Json;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -7,14 +16,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Linq;
-using Android.Runtime;
-using JikanDotNet;
-using MALClient.Models.Enums;
-using MALClient.Models.Models.Anime;
-using MALClient.XShared.Comm.Manga;
-using MALClient.XShared.Utils;
-using MALClient.XShared.ViewModels;
-using Newtonsoft.Json;
+using static System.Net.WebRequestMethods;
 
 namespace MALClient.XShared.Comm.Anime
 {
@@ -29,6 +31,7 @@ namespace MALClient.XShared.Comm.Anime
 
             var requestedApiType = apiOverride ?? CurrentApiType;
             var response = string.Empty;
+            var client = await ResourceLocator.MalHttpContextProvider.GetApiHttpContextAsync();
             var jikan = JikanClient.Jikan;
             try
             {
@@ -38,23 +41,24 @@ namespace MALClient.XShared.Comm.Anime
 
                             if (animeMode)
                             {
-                                var resultRequest = await jikan.GetAnimeAsync(long.Parse(id));
-                                var result = resultRequest.Data;
+                                var apiUrl = $"https://api.myanimelist.net/v2/anime/{id}?fields=num_episodes,status,media_type,alternative_titles,start_date,end_date,main_picture,pictures,mean,id,synopsis,title";
+                                var result = JsonSerializer.Deserialize<AnimeEntry>(
+                                    await client.GetStringAsync(apiUrl));
                                 output = new AnimeGeneralDetailsData
                                 {
-                                    AllEpisodes = result.Episodes ?? 0,
-                                    Status = result.Status,
-                                    Type = result.Type,
-                                    AlternateTitle = result.TitleJapanese,
-                                    StartDate = result.Aired.From?.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture) ?? "N/A",
-                                    EndDate = result.Aired.To?.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture) ?? "N/A",
-                                    ImgUrl = result.Images.JPG.ImageUrl,
+                                    AllEpisodes = (int)(result.Episodes ?? 0),
+                                    Status = string.Join(" ", result.Status.Split('_').Select(word => char.ToUpper(word[0]) + word.Substring(1).ToLower())),
+                                    Type = result.Type.ToUpper(),
+                                    AlternateTitle = result.AlternativeTitle.Japanese,
+                                    StartDate = result.StartDate ?? "N/A",
+                                    EndDate = result.EndDate ?? "N/A",
+                                    ImgUrl = result.Picture.Medium,
                                     GlobalScore = (float) (result.Score ?? 0),
                                     Id = (int)result.MalId,
                                     MalId = (int)result.MalId,
-                                    Synopsis = WebUtility.HtmlDecode(result.Synopsis),
-                                    Title = WebUtility.HtmlDecode(result.Title),
-                                    Synonyms = result.TitleSynonyms?.ToList() ?? new List<string>(),
+                                    Synopsis = result.Synopsis,
+                                    Title = result.Title,
+                                    Synonyms = result.AlternativeTitle.Synonyms?.ToList() ?? new List<string>(),
                                 };
 
                                 if ((output.Type == "Movie" || output.AllEpisodes == 1) && output.EndDate == "N/A" &&
@@ -64,7 +68,7 @@ namespace MALClient.XShared.Comm.Anime
                                 }
 
                                 ResourceLocator.EnglishTitlesProvider.AddOrUpdate(int.Parse(id), true,
-                                    result.TitleEnglish);
+                                    result.AlternativeTitle.English);
                             }
                             else
                             {

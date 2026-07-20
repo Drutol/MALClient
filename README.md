@@ -84,6 +84,7 @@
 ### Compilation
 You should be able to compile this thing out of the box, you may have to generate certificate for UWP though.
 There's also "Secrets.cs" file with some configs... you will have to make it yourself.
+Furthermore, you should copy `nuget.config.template` to `nuget.config` and edit the Username and the GitHub Personal Access Token (classic, scope: read:packages) in `nuget.config` to retrieve the correct JikanDotNet fork package that works around some entries not loading. Should be removed after [the MR](https://github.com/Ervie/jikan.net/pull/69) gets merged and new version is published.
 ### Code
 Spaghetti landfill.
 Well... there's a metric ton of legacy thingies especially in navigation and pages that were made in the beggining like anime list or anime details. I'm not proud of these but I'm not planning to rewrite them. Stuff that has been added later on is nicer and somewhat decently organised. I started this app when I knew nothing so yeah, works but code is smelly.

@@ -1,16 +1,21 @@
-﻿using System;
+﻿using HtmlAgilityPack;
+using JikanDotNet;
+using JikanDotNet.Config;
+using MALClient.Models.Models.Anime;
+using MALClient.Models.Models.AnimeScrapped;
+using MALClient.XShared.JsonModels.MAL;
+using MALClient.XShared.Utils;
+using MALClient.XShared.ViewModels;
+using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text.Json;
+using System.Text.Json.Nodes;
 using System.Threading.Tasks;
-using HtmlAgilityPack;
-using JikanDotNet;
-using JikanDotNet.Config;
-using MALClient.Models.Models.Anime;
-using MALClient.Models.Models.AnimeScrapped;
-using MALClient.XShared.Utils;
+using VideoLibrary;
 
 namespace MALClient.XShared.Comm.Anime
 {
@@ -31,8 +36,7 @@ namespace MALClient.XShared.Comm.Anime
             //current season without suffix
             if (output.Count != 0) return output;
 
-            using var client = new HttpClient();
-            int currentPage = 1;
+            var client = await ResourceLocator.MalHttpContextProvider.GetApiHttpContextAsync();
             try
             {
                 while (true)
@@ -48,39 +52,39 @@ namespace MALClient.XShared.Comm.Anime
                         true => _season.Season,
                         false => DateTime.UtcNow.Month switch
                         {
-                            > 0 and <= 3 => Season.Winter,
-                            > 3 and <= 6 => Season.Spring,
-                            > 6 and <= 9 => Season.Summer,
-                            > 0 and <= 12 => Season.Fall
+                            > 0 and <= 3 => JikanDotNet.Season.Winter,
+                            > 3 and <= 6 => JikanDotNet.Season.Spring,
+                            > 6 and <= 9 => JikanDotNet.Season.Summer,
+                            > 0 and <= 12 => JikanDotNet.Season.Fall
                         }
                     };
 
                     try
                     {
-                        var season = JsonSerializer.Deserialize<PaginatedJikanResponse<ICollection<JikanDotNet.Anime>>>(
-                            await client.GetStringAsync(
-                                $"https://api.jikan.moe/v4/seasons/{requestedYear}/{requestedSeason}?page={currentPage}"));
+                        var apiUrl = $"https://api.myanimelist.net/v2/anime/season/{requestedYear}/{requestedSeason.ToString().ToLower()}?limit=500&nsfw=true&fields=id,title,main_picture,num_episodes,mean,genres,num_list_users,start_season";
+                        var season = JsonSerializer.Deserialize<PaginatedMALResponse<ICollection<AnimeNode<SeasonEntry>>>>(
+                            await client.GetStringAsync(apiUrl));
+                        var orderedData = season.Data.OrderBy(seasonEntry => 
+                            ((seasonEntry.Node.StartSeason.Name == requestedSeason.ToString().ToLower() 
+                            & seasonEntry.Node.StartSeason.Year == requestedYear) ? 100000000 : 0) 
+                            + seasonEntry.Node.MembersCount)
+                            .Reverse();
 
-                        foreach (var seasonSeasonEntry in season.Data)
+                        foreach (var seasonSeasonEntry in orderedData)
                         {
                             output.Add(new SeasonalAnimeData
                             {
-                                Title = seasonSeasonEntry.Title,
-                                Id = (int)(seasonSeasonEntry.MalId ?? -1),
-                                ImgUrl = seasonSeasonEntry.Images.JPG.ImageUrl,
-                                Episodes = (seasonSeasonEntry.Episodes ?? 0).ToString(),
-                                Score = (float)(seasonSeasonEntry.Score ?? 0),
-                                Genres = seasonSeasonEntry.Genres.Select(item => item.Name).ToList(),
-                                Index = season.Data.FindIndex(seasonSeasonEntry) + (25 * (currentPage - 1)) + 1
+                                Title = seasonSeasonEntry.Node.Title,
+                                Id = (int)(seasonSeasonEntry.Node.MalId ?? -1),
+                                ImgUrl = seasonSeasonEntry.Node.Picture.Medium,
+                                Episodes = (seasonSeasonEntry.Node.Episodes ?? 0).ToString(),
+                                Score = (float)(seasonSeasonEntry.Node.Score ?? 0),
+                                Genres = (seasonSeasonEntry.Node.Genres ?? new List<JsonModels.MAL.Genre>()).Select(item => item.Name).ToList(),
+                                Index = orderedData.FindIndex(seasonSeasonEntry)
                             });
                         }
 
-                        if (!season.Pagination.HasNextPage)
-                            break;
-
-                        await Task.Delay(TimeSpan.FromMilliseconds(500));
-
-                        currentPage++;
+                        break;
                     }
                     catch (HttpRequestException e)
                     {
